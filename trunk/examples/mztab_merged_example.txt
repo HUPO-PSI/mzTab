@@ -6,10 +6,10 @@ MTD	PRIDE_1234-sub[1]-description	Healthy human liver tissue
 MTD	PRIDE_1234-sub[2]-description	Human hepatocellular carcinoma sample.																												
 MTD	PRIDE_1234-sub[3]-description	Heptitis C infected liver tissue																												
 MTD	PRIDE_1234-sub[4]-description	Fatty liver degeneration																												
-MTD	PRIDE_1234-sub[1]-quantitation_reagent	[PRIDE,PRIDE,PRIDE:0000114,iTRAQ reagent 114,]																												
-MTD	PRIDE_1234-sub[2]-quantitation_reagent	[PRIDE,PRIDE,PRIDE:0000115,iTRAQ reagent 115,]																												
-MTD	PRIDE_1234-sub[3]-quantitation_reagent	[PRIDE,PRIDE,PRIDE:0000114,iTRAQ reagent 116,]																												
-MTD	PRIDE_1234-sub[4]-quantitation_reagent	[PRIDE,PRIDE,PRIDE:0000114,iTRAQ reagent 117,]																												
+MTD	PRIDE_1234-sub[1]-quantitation_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]																												
+MTD	PRIDE_1234-sub[2]-quantitation_reagent	[PRIDE,PRIDE:0000115,iTRAQ reagent 115,]																												
+MTD	PRIDE_1234-sub[3]-quantitation_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 116,]																												
+MTD	PRIDE_1234-sub[4]-quantitation_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 117,]																												
 MTD	file_1-title	mzTab SILAC test																												
 MTD	file_1-quantification_method	[MS, MS:100999, SILAC, ]																												
 MTD	 file_1-sub[1]-description	file_1_light																												
