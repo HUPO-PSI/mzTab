@@ -299,13 +299,18 @@ public class MzTabFile {
 			throw new MzTabParsingException("Encountered a protein line before the protein table header line.");
 		
 		// parse the line
-		Map<String, String> parsedLine = proteinTableParser.parseTableLine(line);
-		
-		// create the protein object
-		Protein protein = new Protein(parsedLine);
-		
-		// save the protein
-		saveProtein(protein);
+		try {
+			Map<String, String> parsedLine = proteinTableParser.parseTableLine(line);
+			
+			// create the protein object
+			Protein protein = new Protein(parsedLine);
+			
+			// save the protein
+			saveProtein(protein);
+		}
+		catch (IllegalStateException e) {
+			throw new MzTabParsingException("Failed to parse protein.", e);
+		}
 	}
 	
 	/**
@@ -320,14 +325,19 @@ public class MzTabFile {
 		if (peptideTableParser == null)
 			throw new MzTabParsingException("Encountered a peptide line before the peptide table header line.");
 		
-		// parse the line
-		Map<String, String> parsedLine = peptideTableParser.parseTableLine(line);
-		
-		// create the peptide
-		Peptide peptide = new Peptide(parsedLine, index);
-		
-		// save the peptide
-		savePeptide(peptide);
+		try {
+			// parse the line
+			Map<String, String> parsedLine = peptideTableParser.parseTableLine(line);
+			
+			// create the peptide
+			Peptide peptide = new Peptide(parsedLine, index);
+			
+			// save the peptide
+			savePeptide(peptide);
+		}
+		catch (IllegalStateException e) {
+			throw new MzTabParsingException("Failed to parse peptide line.", e);
+		}
 	}
 	
 	/**
@@ -343,13 +353,18 @@ public class MzTabFile {
 			throw new MzTabParsingException("Encountered a small molecule line before the small molecule table header line.");
 		
 		// parse the line
-		Map<String, String> parsedLine = smallMoleculeTableParser.parseTableLine(line);
-		
-		// create the small molecule
-		SmallMolecule smallMolecule = new SmallMolecule(parsedLine, index);
-		
-		// save it
-		saveSmallMolecule(smallMolecule);
+		try {
+			Map<String, String> parsedLine = smallMoleculeTableParser.parseTableLine(line);
+			
+			// create the small molecule
+			SmallMolecule smallMolecule = new SmallMolecule(parsedLine, index);
+			
+			// save it
+			saveSmallMolecule(smallMolecule);
+		}
+		catch (IllegalStateException e) {
+			throw new MzTabParsingException("Failed to parse small molecule line.", e);
+		}
 	}
 	
 	/**
@@ -1009,7 +1024,6 @@ public class MzTabFile {
 	 */
 	public String toMzTab() {
 		String mzTab = "";
-		String header;
 		
 		// add the units
 		for (Unit unit : units.values())

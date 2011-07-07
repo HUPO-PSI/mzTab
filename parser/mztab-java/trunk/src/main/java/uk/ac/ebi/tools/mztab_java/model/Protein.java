@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.ebi.tools.mztab_java.MzTabParsingException;
 
 /**
@@ -14,6 +16,8 @@ import uk.ac.ebi.tools.mztab_java.MzTabParsingException;
  *
  */
 public class Protein extends TableObject {
+	private static final Logger logger = Logger.getLogger(Protein.class);
+	
 	/**
 	 * Available fields
 	 */
@@ -60,6 +64,11 @@ public class Protein extends TableObject {
 			for (String fieldName : parsedTableLine.keySet()) {
 				ProteinTableField field = ProteinTableField.getField(fieldName);
 				String value 			= parsedTableLine.get(fieldName).trim();
+				
+				if (field == null) {
+					logger.warn("Unknown field <" + fieldName + "> in protein table.");
+					continue;
+				}
 				
 				switch (field) {
 					case ACCESSION:

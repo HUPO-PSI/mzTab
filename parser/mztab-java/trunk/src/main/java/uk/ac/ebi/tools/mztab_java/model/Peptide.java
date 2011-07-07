@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.ebi.tools.mztab_java.MzTabParsingException;
 
 public class Peptide extends TableObject {
+	private final Logger logger = Logger.getLogger(Peptide.class);
 	/**
 	 * The 0-based index of this peptide in the peptide
 	 * table.
@@ -42,7 +45,7 @@ public class Peptide extends TableObject {
 	
 	/**
 	 * Creates a new Peptide object from a parsedTableLine.
-	 * @param parsedTableLine The parsed table line representing this peptide.
+	 * @param parsedTableLine The parsed taclazzble line representing this peptide.
 	 * @throws MzTabParsingException
 	 */
 	public Peptide(Map<String, String> parsedTableLine) throws MzTabParsingException {
@@ -52,6 +55,11 @@ public class Peptide extends TableObject {
 			for (String fieldName : parsedTableLine.keySet()) {
 				PeptideTableField field = PeptideTableField.getField(fieldName);
 				String value 			= parsedTableLine.get(fieldName).trim();
+				
+				if (field == null) {
+					logger.warn("Unknown field <" + fieldName + "> encountered in peptide table.");
+					continue;
+				}
 				
 				switch (field) {
 					case SEQUENCE:

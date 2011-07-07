@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import uk.ac.ebi.tools.mztab_java.MzTabParsingException;
 
 /**
@@ -14,6 +16,7 @@ import uk.ac.ebi.tools.mztab_java.MzTabParsingException;
  *
  */
 public class SmallMolecule extends TableObject {
+	private static final Logger logger = Logger.getLogger(SmallMolecule.class);
 	/**
 	 * The 0-based index of the small molecule
 	 * in the small molecule table.
@@ -60,6 +63,12 @@ public class SmallMolecule extends TableObject {
 			for (String fieldName : parsedTableLine.keySet()) {
 				SmallMoleculeTableField field = SmallMoleculeTableField.getField(fieldName);
 				String value 			= parsedTableLine.get(fieldName).trim();
+				
+				if (field == null) {
+					logger.warn("Unknown field <" + fieldName + "> encountered in small molecule table.");
+					continue;
+				}
+					
 				
 				switch (field) {
 					case IDENTIFIER:
