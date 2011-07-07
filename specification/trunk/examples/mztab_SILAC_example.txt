@@ -35,5 +35,5 @@ PEP	TYASGYAHYEEQEN	IPI00004942	file_1	true	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS
 																								
 																								
 																								
-SMH	identifier	unit_id	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	substructures_identifier	substructures_mass_to_charge	substructures_charge	substructures_retention_time	search_engine	search_engine_score	modifications	smallmolecule_abundance_sub[1]	smallmolecule_abundance_stdev_sub[1]	smallmolecule_abundance_std_error_sub[1]	smallmolecule_abundance_sub[2]	smallmolecule_abundance_stdev_sub[2]	smallmolecule_abundance_std_error_sub[2]
-SML																								
+SMH	identifier	unit_id	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	substructures_identifier	substructures_mass_to_charge	substructures_charge	substructures_retention_time	search_engine	search_engine_score	modifications	smallmolecule_abundance_sub[1]	smallmolecule_abundance_stdev_sub[1]	smallmolecule_abundance_std_error_sub[1]	smallmolecule_abundance_sub[2]	smallmolecule_abundance_stdev_sub[2]	smallmolecule_abundance_std_error_sub[2] asd
+SML	ID_1	file_1	254.4	2	20.7	9606	Homo sapiens (Human)	--	--	2	--	--	--	--	--	[SpectaSt,]	--	--	--	--	--	--	--	--																							
