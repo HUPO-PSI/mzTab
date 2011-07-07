@@ -59,11 +59,20 @@ public class TsvTableParser {
 		if (fields.length != fieldMap.size())
 			throw new IllegalStateException("Invalid table line passed to parseTableLine. The line contains " + fields.length + " fields while the table header defined " + fieldMap.size() + " columns: " + line);
 		
-		// inititialize the return value
+		// initialize the return value
 		HashMap<String, String> mappedFields = new HashMap<String, String>(fields.length);
 		
-		for (String fieldName : fieldMap.keySet())
-			mappedFields.put(fieldName, fields[fieldMap.get(fieldName)].trim());
+		for (String fieldName : fieldMap.keySet()) {
+			// get the field value
+			String value = fields[ fieldMap.get(fieldName) ].trim();
+			
+			// remove possible '"' around the field
+			if (value.startsWith("\"") && value.endsWith("\""))
+				value = value.substring(1, value.length() - 1);
+			
+			// save the value
+			mappedFields.put(fieldName, value);
+		}
 		
 		return mappedFields;
 	}
