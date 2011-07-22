@@ -1,4 +1,4 @@
-package uk.ac.ebi.tools.mztab_java.model;
+package uk.ac.ebi.pride.mztab_java.model;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import uk.ac.ebi.tools.mztab_java.MzTabFile;
-import uk.ac.ebi.tools.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.mztab_java.MzTabFile;
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
 
 public abstract class TableObject {
 	public static final String NA = "NA";
