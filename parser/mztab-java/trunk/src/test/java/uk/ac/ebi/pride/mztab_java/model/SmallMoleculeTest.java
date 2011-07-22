@@ -1,12 +1,13 @@
-package uk.ac.ebi.tools.mztab_java.model;
+package uk.ac.ebi.pride.mztab_java.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 
-import uk.ac.ebi.tools.mztab_java.MzTabParsingException;
-import uk.ac.ebi.tools.mztab_java.util.TsvTableParser;
 import junit.framework.TestCase;
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.mztab_java.model.SmallMolecule;
+import uk.ac.ebi.pride.mztab_java.model.TableObject;
+import uk.ac.ebi.pride.mztab_java.util.TsvTableParser;
 
 public class SmallMoleculeTest extends TestCase {
 	public void testMarshallingUnmarshalling() {

@@ -1,6 +1,7 @@
-package uk.ac.ebi.tools.mztab_java.model;
+package uk.ac.ebi.pride.mztab_java.model;
 
 import junit.framework.TestCase;
+import uk.ac.ebi.pride.mztab_java.model.Modification;
 
 public class ModificationTest extends TestCase {
 

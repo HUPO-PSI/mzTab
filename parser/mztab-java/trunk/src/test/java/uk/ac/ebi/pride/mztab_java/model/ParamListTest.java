@@ -1,6 +1,7 @@
-package uk.ac.ebi.tools.mztab_java.model;
+package uk.ac.ebi.pride.mztab_java.model;
 
 import junit.framework.TestCase;
+import uk.ac.ebi.pride.mztab_java.model.ParamList;
 
 public class ParamListTest extends TestCase {
 	ParamList list;

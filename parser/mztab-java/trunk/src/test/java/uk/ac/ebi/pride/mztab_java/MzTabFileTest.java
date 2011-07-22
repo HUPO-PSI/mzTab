@@ -1,4 +1,4 @@
-package uk.ac.ebi.tools.mztab_java;
+package uk.ac.ebi.pride.mztab_java;
 
 import java.io.File;
 import java.net.URL;
@@ -6,14 +6,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import uk.ac.ebi.tools.mztab_java.model.Peptide;
-import uk.ac.ebi.tools.mztab_java.model.Protein;
-import uk.ac.ebi.tools.mztab_java.model.SmallMolecule;
-import uk.ac.ebi.tools.mztab_java.model.TableObject;
-import uk.ac.ebi.tools.mztab_java.model.Unit;
-import uk.ac.ebi.tools.mztab_java.util.TsvTableParser;
-
 import junit.framework.TestCase;
+import uk.ac.ebi.pride.mztab_java.MzTabFile;
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.mztab_java.model.Peptide;
+import uk.ac.ebi.pride.mztab_java.model.Protein;
+import uk.ac.ebi.pride.mztab_java.model.SmallMolecule;
+import uk.ac.ebi.pride.mztab_java.model.Unit;
+import uk.ac.ebi.pride.mztab_java.util.TsvTableParser;
 
 public class MzTabFileTest extends TestCase {
 	MzTabFile mzTabFile;
