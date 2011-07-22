@@ -1,4 +1,4 @@
-package uk.ac.ebi.tools.mztab_java;
+package uk.ac.ebi.pride.mztab_java;
 
 public class MzTabParsingException extends Exception {
 

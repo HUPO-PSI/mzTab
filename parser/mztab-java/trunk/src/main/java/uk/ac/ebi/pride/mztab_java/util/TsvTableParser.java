@@ -1,4 +1,4 @@
-package uk.ac.ebi.tools.mztab_java.util;
+package uk.ac.ebi.pride.mztab_java.util;
 
 import java.util.HashMap;
 import java.util.Map;

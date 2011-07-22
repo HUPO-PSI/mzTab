@@ -1,8 +1,8 @@
-package uk.ac.ebi.tools.mztab_java.model;
+package uk.ac.ebi.pride.mztab_java.model;
 
 import java.util.ArrayList;
 
-import uk.ac.ebi.tools.mztab_java.MzTabFile;
+import uk.ac.ebi.pride.mztab_java.MzTabFile;
 
 public class Subsample {
 	/**
