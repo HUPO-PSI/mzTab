@@ -1,7 +1,8 @@
-package uk.ac.ebi.tools.mztab_java.model;
+package uk.ac.ebi.pride.mztab_java.model;
 
-import uk.ac.ebi.tools.mztab_java.model.Param.ParamType;
 import junit.framework.TestCase;
+import uk.ac.ebi.pride.mztab_java.model.Param;
+import uk.ac.ebi.pride.mztab_java.model.Param.ParamType;
 
 public class ParamTest extends TestCase {
 	private Param param;

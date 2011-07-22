@@ -1,4 +1,4 @@
-package uk.ac.ebi.tools.mztab_java;
+package uk.ac.ebi.pride.mztab_java;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
