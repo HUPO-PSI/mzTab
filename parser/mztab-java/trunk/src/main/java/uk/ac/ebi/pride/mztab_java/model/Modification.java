@@ -112,6 +112,46 @@ public class Modification {
 		
 		return mzTabString;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((modAccession == null) ? 0 : modAccession.hashCode());
+		result = prime * result
+				+ ((position == null) ? 0 : position.hashCode());
+		result = prime
+				* result
+				+ ((positionReliability == null) ? 0 : positionReliability
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Modification other = (Modification) obj;
+		if (modAccession == null) {
+			if (other.modAccession != null)
+				return false;
+		} else if (!modAccession.equals(other.modAccession))
+			return false;
+		if (position == null) {
+			if (other.position != null)
+				return false;
+		} else if (!position.equals(other.position))
+			return false;
+		if (positionReliability == null) {
+			if (other.positionReliability != null)
+				return false;
+		} else if (!positionReliability.equals(other.positionReliability))
+			return false;
+		return true;
+	}
 }

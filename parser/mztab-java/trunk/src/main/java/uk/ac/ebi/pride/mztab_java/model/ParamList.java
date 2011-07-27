@@ -166,4 +166,30 @@ public class ParamList implements List<Param> {
 	public <T> T[] toArray(T[] arg0) {
 		return internalList.toArray(arg0);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((internalList == null) ? 0 : internalList.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ParamList other = (ParamList) obj;
+		if (internalList == null) {
+			if (other.internalList != null)
+				return false;
+		} else if (!internalList.equals(other.internalList))
+			return false;
+		return true;
+	}
 }

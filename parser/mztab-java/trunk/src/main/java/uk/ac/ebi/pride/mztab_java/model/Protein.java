@@ -472,4 +472,183 @@ public class Protein extends TableObject {
 		
 		return mzTabString;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((accession == null) ? 0 : accession.hashCode());
+		result = prime
+				* result
+				+ ((ambiguityMembers == null) ? 0 : ambiguityMembers.hashCode());
+		result = prime * result + ((custom == null) ? 0 : custom.hashCode());
+		result = prime * result
+				+ ((database == null) ? 0 : database.hashCode());
+		result = prime * result
+				+ ((databaseVersion == null) ? 0 : databaseVersion.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((goTerms == null) ? 0 : goTerms.hashCode());
+		result = prime * result
+				+ ((modifications == null) ? 0 : modifications.hashCode());
+		result = prime * result
+				+ ((numPeptides == null) ? 0 : numPeptides.hashCode());
+		result = prime
+				* result
+				+ ((numPeptidesDistinct == null) ? 0 : numPeptidesDistinct
+						.hashCode());
+		result = prime
+				* result
+				+ ((numPeptidesUnambiguous == null) ? 0
+						: numPeptidesUnambiguous.hashCode());
+		result = prime
+				* result
+				+ ((proteinAbundance == null) ? 0 : proteinAbundance.hashCode());
+		result = prime
+				* result
+				+ ((proteinAbundanceError == null) ? 0 : proteinAbundanceError
+						.hashCode());
+		result = prime
+				* result
+				+ ((proteinAbundanceStd == null) ? 0 : proteinAbundanceStd
+						.hashCode());
+		result = prime * result
+				+ ((proteinCoverage == null) ? 0 : proteinCoverage.hashCode());
+		result = prime * result
+				+ ((reliability == null) ? 0 : reliability.hashCode());
+		result = prime * result
+				+ ((searchEngine == null) ? 0 : searchEngine.hashCode());
+		result = prime
+				* result
+				+ ((searchEngineScore == null) ? 0 : searchEngineScore
+						.hashCode());
+		result = prime * result + ((species == null) ? 0 : species.hashCode());
+		result = prime * result + ((taxid == null) ? 0 : taxid.hashCode());
+		result = prime * result + ((unitId == null) ? 0 : unitId.hashCode());
+		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Protein other = (Protein) obj;
+		if (accession == null) {
+			if (other.accession != null)
+				return false;
+		} else if (!accession.equals(other.accession))
+			return false;
+		if (ambiguityMembers == null) {
+			if (other.ambiguityMembers != null)
+				return false;
+		} else if (!ambiguityMembers.equals(other.ambiguityMembers))
+			return false;
+		if (custom == null) {
+			if (other.custom != null)
+				return false;
+		} else if (!custom.equals(other.custom))
+			return false;
+		if (database == null) {
+			if (other.database != null)
+				return false;
+		} else if (!database.equals(other.database))
+			return false;
+		if (databaseVersion == null) {
+			if (other.databaseVersion != null)
+				return false;
+		} else if (!databaseVersion.equals(other.databaseVersion))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (goTerms == null) {
+			if (other.goTerms != null)
+				return false;
+		} else if (!goTerms.equals(other.goTerms))
+			return false;
+		if (modifications == null) {
+			if (other.modifications != null)
+				return false;
+		} else if (!modifications.equals(other.modifications))
+			return false;
+		if (numPeptides == null) {
+			if (other.numPeptides != null)
+				return false;
+		} else if (!numPeptides.equals(other.numPeptides))
+			return false;
+		if (numPeptidesDistinct == null) {
+			if (other.numPeptidesDistinct != null)
+				return false;
+		} else if (!numPeptidesDistinct.equals(other.numPeptidesDistinct))
+			return false;
+		if (numPeptidesUnambiguous == null) {
+			if (other.numPeptidesUnambiguous != null)
+				return false;
+		} else if (!numPeptidesUnambiguous.equals(other.numPeptidesUnambiguous))
+			return false;
+		if (proteinAbundance == null) {
+			if (other.proteinAbundance != null)
+				return false;
+		} else if (!proteinAbundance.equals(other.proteinAbundance))
+			return false;
+		if (proteinAbundanceError == null) {
+			if (other.proteinAbundanceError != null)
+				return false;
+		} else if (!proteinAbundanceError.equals(other.proteinAbundanceError))
+			return false;
+		if (proteinAbundanceStd == null) {
+			if (other.proteinAbundanceStd != null)
+				return false;
+		} else if (!proteinAbundanceStd.equals(other.proteinAbundanceStd))
+			return false;
+		if (proteinCoverage == null) {
+			if (other.proteinCoverage != null)
+				return false;
+		} else if (!proteinCoverage.equals(other.proteinCoverage))
+			return false;
+		if (reliability == null) {
+			if (other.reliability != null)
+				return false;
+		} else if (!reliability.equals(other.reliability))
+			return false;
+		if (searchEngine == null) {
+			if (other.searchEngine != null)
+				return false;
+		} else if (!searchEngine.equals(other.searchEngine))
+			return false;
+		if (searchEngineScore == null) {
+			if (other.searchEngineScore != null)
+				return false;
+		} else if (!searchEngineScore.equals(other.searchEngineScore))
+			return false;
+		if (species == null) {
+			if (other.species != null)
+				return false;
+		} else if (!species.equals(other.species))
+			return false;
+		if (taxid == null) {
+			if (other.taxid != null)
+				return false;
+		} else if (!taxid.equals(other.taxid))
+			return false;
+		if (unitId == null) {
+			if (other.unitId != null)
+				return false;
+		} else if (!unitId.equals(other.unitId))
+			return false;
+		if (uri == null) {
+			if (other.uri != null)
+				return false;
+		} else if (!uri.equals(other.uri))
+			return false;
+		return true;
+	}
 }

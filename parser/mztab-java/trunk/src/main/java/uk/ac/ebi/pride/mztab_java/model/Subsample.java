@@ -130,4 +130,80 @@ public class Subsample {
 	private String createField(String fieldName, Object value) {
 		return unitId + "-sub[" + subsampleIndex + "]" + MzTabFile.SEPARATOR + value.toString() + MzTabFile.EOL;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((cellType == null) ? 0 : cellType.hashCode());
+		result = prime * result
+				+ ((customParams == null) ? 0 : customParams.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((disease == null) ? 0 : disease.hashCode());
+		result = prime
+				* result
+				+ ((quantitationReagent == null) ? 0 : quantitationReagent
+						.hashCode());
+		result = prime * result + ((species == null) ? 0 : species.hashCode());
+		result = prime * result + subsampleIndex;
+		result = prime * result + ((tissue == null) ? 0 : tissue.hashCode());
+		result = prime * result + ((unitId == null) ? 0 : unitId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Subsample other = (Subsample) obj;
+		if (cellType == null) {
+			if (other.cellType != null)
+				return false;
+		} else if (!cellType.equals(other.cellType))
+			return false;
+		if (customParams == null) {
+			if (other.customParams != null)
+				return false;
+		} else if (!customParams.equals(other.customParams))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (disease == null) {
+			if (other.disease != null)
+				return false;
+		} else if (!disease.equals(other.disease))
+			return false;
+		if (quantitationReagent == null) {
+			if (other.quantitationReagent != null)
+				return false;
+		} else if (!quantitationReagent.equals(other.quantitationReagent))
+			return false;
+		if (species == null) {
+			if (other.species != null)
+				return false;
+		} else if (!species.equals(other.species))
+			return false;
+		if (subsampleIndex != other.subsampleIndex)
+			return false;
+		if (tissue == null) {
+			if (other.tissue != null)
+				return false;
+		} else if (!tissue.equals(other.tissue))
+			return false;
+		if (unitId == null) {
+			if (other.unitId != null)
+				return false;
+		} else if (!unitId.equals(other.unitId))
+			return false;
+		return true;
+	}
 }

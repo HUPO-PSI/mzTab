@@ -443,4 +443,145 @@ public class Peptide extends TableObject {
 		return mzTabString;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((abundance == null) ? 0 : abundance.hashCode());
+		result = prime * result
+				+ ((abundanceError == null) ? 0 : abundanceError.hashCode());
+		result = prime * result
+				+ ((abundanceStd == null) ? 0 : abundanceStd.hashCode());
+		result = prime * result
+				+ ((accession == null) ? 0 : accession.hashCode());
+		result = prime * result + ((charge == null) ? 0 : charge.hashCode());
+		result = prime * result + ((custom == null) ? 0 : custom.hashCode());
+		result = prime * result
+				+ ((database == null) ? 0 : database.hashCode());
+		result = prime * result
+				+ ((databaseVersion == null) ? 0 : databaseVersion.hashCode());
+		result = prime * result
+				+ ((massToCharge == null) ? 0 : massToCharge.hashCode());
+		result = prime * result
+				+ ((modification == null) ? 0 : modification.hashCode());
+		result = prime * result
+				+ ((reliability == null) ? 0 : reliability.hashCode());
+		result = prime * result
+				+ ((retentionTime == null) ? 0 : retentionTime.hashCode());
+		result = prime * result
+				+ ((searchEngine == null) ? 0 : searchEngine.hashCode());
+		result = prime
+				* result
+				+ ((searchEngineScore == null) ? 0 : searchEngineScore
+						.hashCode());
+		result = prime * result
+				+ ((sequence == null) ? 0 : sequence.hashCode());
+		result = prime * result + ((unique == null) ? 0 : unique.hashCode());
+		result = prime * result + ((unitId == null) ? 0 : unitId.hashCode());
+		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Peptide other = (Peptide) obj;
+		if (abundance == null) {
+			if (other.abundance != null)
+				return false;
+		} else if (!abundance.equals(other.abundance))
+			return false;
+		if (abundanceError == null) {
+			if (other.abundanceError != null)
+				return false;
+		} else if (!abundanceError.equals(other.abundanceError))
+			return false;
+		if (abundanceStd == null) {
+			if (other.abundanceStd != null)
+				return false;
+		} else if (!abundanceStd.equals(other.abundanceStd))
+			return false;
+		if (accession == null) {
+			if (other.accession != null)
+				return false;
+		} else if (!accession.equals(other.accession))
+			return false;
+		if (charge == null) {
+			if (other.charge != null)
+				return false;
+		} else if (!charge.equals(other.charge))
+			return false;
+		if (custom == null) {
+			if (other.custom != null)
+				return false;
+		} else if (!custom.equals(other.custom))
+			return false;
+		if (database == null) {
+			if (other.database != null)
+				return false;
+		} else if (!database.equals(other.database))
+			return false;
+		if (databaseVersion == null) {
+			if (other.databaseVersion != null)
+				return false;
+		} else if (!databaseVersion.equals(other.databaseVersion))
+			return false;
+		if (massToCharge == null) {
+			if (other.massToCharge != null)
+				return false;
+		} else if (!massToCharge.equals(other.massToCharge))
+			return false;
+		if (modification == null) {
+			if (other.modification != null)
+				return false;
+		} else if (!modification.equals(other.modification))
+			return false;
+		if (reliability == null) {
+			if (other.reliability != null)
+				return false;
+		} else if (!reliability.equals(other.reliability))
+			return false;
+		if (retentionTime == null) {
+			if (other.retentionTime != null)
+				return false;
+		} else if (!retentionTime.equals(other.retentionTime))
+			return false;
+		if (searchEngine == null) {
+			if (other.searchEngine != null)
+				return false;
+		} else if (!searchEngine.equals(other.searchEngine))
+			return false;
+		if (searchEngineScore == null) {
+			if (other.searchEngineScore != null)
+				return false;
+		} else if (!searchEngineScore.equals(other.searchEngineScore))
+			return false;
+		if (sequence == null) {
+			if (other.sequence != null)
+				return false;
+		} else if (!sequence.equals(other.sequence))
+			return false;
+		if (unique == null) {
+			if (other.unique != null)
+				return false;
+		} else if (!unique.equals(other.unique))
+			return false;
+		if (unitId == null) {
+			if (other.unitId != null)
+				return false;
+		} else if (!unitId.equals(other.unitId))
+			return false;
+		if (uri == null) {
+			if (other.uri != null)
+				return false;
+		} else if (!uri.equals(other.uri))
+			return false;
+		return true;
+	}
 }
