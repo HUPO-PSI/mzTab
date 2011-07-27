@@ -382,10 +382,12 @@ public class MzTabFile {
 		}
 		
 		// set the maximum number of observed protein subsamples
-		Integer maxSubsetId = Collections.max(protein.getSubsampleIndexes());
-		
-		if (maxSubsetId != null && maxProteinSubsamples < maxSubsetId)
-			maxProteinSubsamples = maxSubsetId;
+		if (!protein.getSubsampleIndexes().isEmpty()) {
+			Integer maxSubsetId = Collections.max(protein.getSubsampleIndexes());
+			
+			if (maxSubsetId != null && maxProteinSubsamples < maxSubsetId)
+				maxProteinSubsamples = maxSubsetId;
+		}
 		
 		// save the optional columns
 		proteinCustomColumns.addAll(protein.getCustom().keySet());
@@ -426,10 +428,12 @@ public class MzTabFile {
 			throw new MzTabParsingException("Duplicate peptide encountered for row " + peptide.getIndex() + 1 + ".");
 		
 		// set the maximum number of observed protein subsamples
-		Integer maxSubsetId = Collections.max(peptide.getSubsampleIds());
+		if (!peptide.getSubsampleIds().isEmpty()) {
+			Integer maxSubsetId = Collections.max(peptide.getSubsampleIds());
 		
-		if (maxSubsetId != null && maxPeptideSubsamples < maxSubsetId)
-			maxPeptideSubsamples = maxSubsetId;
+			if (maxSubsetId != null && maxPeptideSubsamples < maxSubsetId)
+				maxPeptideSubsamples = maxSubsetId;
+		}
 		
 		// save the optional columns
 		peptideCustomColumns.addAll(peptide.getCustom().keySet());
@@ -619,6 +623,18 @@ public class MzTabFile {
 	 */
 	public Unit getUnitMetadata(SmallMolecule smallMolecule) {
 		return getUnitMetadata(smallMolecule.getUnitId());
+	}
+	
+	/**
+	 * Set the metadata for a given unit.
+	 * @param unit
+	 */
+	public void setUnit(Unit unit) {
+		// save the unit
+		units.put(unit.getUnitId(), unit);
+		
+		// make sure the unit id is there
+		distinctUnitIds.add(unit.getUnitId());			
 	}
 	
 	/**
@@ -1029,35 +1045,47 @@ public class MzTabFile {
 		for (Unit unit : units.values())
 			mzTab += unit.toMzTab();
 		
-		// add an empty line
-		mzTab += EOL;
+		// if there are proteins, write them
+		if (!proteins.isEmpty()) {
+			// add an empty line
+			mzTab += EOL;
+			
+			// create the protein table header
+			List<String> proteinCustom = new ArrayList<String>(proteinCustomColumns);
+			mzTab += createProteinTableHeader(proteinCustom);
+			
+			// add the proteins
+			for (Protein p : proteins.values())
+				mzTab += p.toMzTab(maxProteinSubsamples, proteinCustom);
+		}
 		
-		// create the protein table header
-		List<String> proteinCustom = new ArrayList<String>(proteinCustomColumns);
-		mzTab += createProteinTableHeader(proteinCustom);
+		// if there are peptides, write them
+		if (!peptides.isEmpty()) {
+			// empty line
+			mzTab += EOL;
+			
+			// write the peptide table header
+			List<String> peptideCustom = new ArrayList<String>(peptideCustomColumns);
+			mzTab += createPeptideHeader(peptideCustom);
+			
+			// add the peptides
+			for (Peptide p : peptides.values())
+				mzTab += p.toMzTab(maxPeptideSubsamples, peptideCustom);
+		}
 		
-		// add the proteins
-		for (Protein p : proteins.values())
-			mzTab += p.toMzTab(maxProteinSubsamples, proteinCustom);
+		// if there are small molecules, write them
+		if (!smallMolecules.isEmpty()) {
+			// empty line
+			mzTab += EOL;
 		
-		// empty line
-		mzTab += EOL;
-		
-		// write the peptide table header
-		List<String> peptideCustom = new ArrayList<String>(peptideCustomColumns);
-		mzTab += createPeptideHeader(peptideCustom);
-		
-		// add the peptides
-		for (Peptide p : peptides.values())
-			mzTab += p.toMzTab(maxPeptideSubsamples, peptideCustom);
-		
-		// write the small molecule table header
-		List<String> smallMoleculeCustom = new ArrayList<String>(smallMoleculeCustomColumns);
-		mzTab += createSmallMoleculesHeader(smallMoleculeCustom);
-		
-		// add the small molecules
-		for (SmallMolecule m : smallMolecules.values())
-			mzTab += m.toMzTab(maxSmallMoleculeSubsamples, smallMoleculeCustom);
+			// write the small molecule table header
+			List<String> smallMoleculeCustom = new ArrayList<String>(smallMoleculeCustomColumns);
+			mzTab += createSmallMoleculesHeader(smallMoleculeCustom);
+			
+			// add the small molecules
+			for (SmallMolecule m : smallMolecules.values())
+				mzTab += m.toMzTab(maxSmallMoleculeSubsamples, smallMoleculeCustom);
+		}
 		
 		return mzTab;
 	}

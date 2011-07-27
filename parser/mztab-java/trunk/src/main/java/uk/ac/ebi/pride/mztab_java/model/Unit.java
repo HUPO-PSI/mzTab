@@ -607,4 +607,175 @@ public class Unit {
 		
 		return unitId + "-" + fieldName + MzTabFile.SEPARATOR + value.toString() + MzTabFile.EOL;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((cellType == null) ? 0 : cellType.hashCode());
+		result = prime * result + ((contact == null) ? 0 : contact.hashCode());
+		result = prime * result
+				+ ((customParams == null) ? 0 : customParams.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((disease == null) ? 0 : disease.hashCode());
+		result = prime
+				* result
+				+ ((falseDiscoveryRate == null) ? 0 : falseDiscoveryRate
+						.hashCode());
+		result = prime * result
+				+ ((instrument == null) ? 0 : instrument.hashCode());
+		result = prime * result + ((mod == null) ? 0 : mod.hashCode());
+		result = prime
+				* result
+				+ ((modProbabilityMethod == null) ? 0 : modProbabilityMethod
+						.hashCode());
+		result = prime
+				* result
+				+ ((peptideQuantificationUnit == null) ? 0
+						: peptideQuantificationUnit.hashCode());
+		result = prime
+				* result
+				+ ((proteinQuantificationUnit == null) ? 0
+						: proteinQuantificationUnit.hashCode());
+		result = prime * result
+				+ ((publication == null) ? 0 : publication.hashCode());
+		result = prime
+				* result
+				+ ((quantificationMethod == null) ? 0 : quantificationMethod
+						.hashCode());
+		result = prime
+				* result
+				+ ((sampleProcessing == null) ? 0 : sampleProcessing.hashCode());
+		result = prime * result
+				+ ((software == null) ? 0 : software.hashCode());
+		result = prime * result + ((species == null) ? 0 : species.hashCode());
+		result = prime * result
+				+ ((subsamples == null) ? 0 : subsamples.hashCode());
+		result = prime * result + ((tissue == null) ? 0 : tissue.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((unitId == null) ? 0 : unitId.hashCode());
+		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Unit other = (Unit) obj;
+		if (cellType == null) {
+			if (other.cellType != null)
+				return false;
+		} else if (!cellType.equals(other.cellType))
+			return false;
+		if (contact == null) {
+			if (other.contact != null)
+				return false;
+		} else if (!contact.equals(other.contact))
+			return false;
+		if (customParams == null) {
+			if (other.customParams != null)
+				return false;
+		} else if (!customParams.equals(other.customParams))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (disease == null) {
+			if (other.disease != null)
+				return false;
+		} else if (!disease.equals(other.disease))
+			return false;
+		if (falseDiscoveryRate == null) {
+			if (other.falseDiscoveryRate != null)
+				return false;
+		} else if (!falseDiscoveryRate.equals(other.falseDiscoveryRate))
+			return false;
+		if (instrument == null) {
+			if (other.instrument != null)
+				return false;
+		} else if (!instrument.equals(other.instrument))
+			return false;
+		if (mod == null) {
+			if (other.mod != null)
+				return false;
+		} else if (!mod.equals(other.mod))
+			return false;
+		if (modProbabilityMethod == null) {
+			if (other.modProbabilityMethod != null)
+				return false;
+		} else if (!modProbabilityMethod.equals(other.modProbabilityMethod))
+			return false;
+		if (peptideQuantificationUnit == null) {
+			if (other.peptideQuantificationUnit != null)
+				return false;
+		} else if (!peptideQuantificationUnit
+				.equals(other.peptideQuantificationUnit))
+			return false;
+		if (proteinQuantificationUnit == null) {
+			if (other.proteinQuantificationUnit != null)
+				return false;
+		} else if (!proteinQuantificationUnit
+				.equals(other.proteinQuantificationUnit))
+			return false;
+		if (publication == null) {
+			if (other.publication != null)
+				return false;
+		} else if (!publication.equals(other.publication))
+			return false;
+		if (quantificationMethod == null) {
+			if (other.quantificationMethod != null)
+				return false;
+		} else if (!quantificationMethod.equals(other.quantificationMethod))
+			return false;
+		if (sampleProcessing == null) {
+			if (other.sampleProcessing != null)
+				return false;
+		} else if (!sampleProcessing.equals(other.sampleProcessing))
+			return false;
+		if (software == null) {
+			if (other.software != null)
+				return false;
+		} else if (!software.equals(other.software))
+			return false;
+		if (species == null) {
+			if (other.species != null)
+				return false;
+		} else if (!species.equals(other.species))
+			return false;
+		if (subsamples == null) {
+			if (other.subsamples != null)
+				return false;
+		} else if (!subsamples.equals(other.subsamples))
+			return false;
+		if (tissue == null) {
+			if (other.tissue != null)
+				return false;
+		} else if (!tissue.equals(other.tissue))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		if (unitId == null) {
+			if (other.unitId != null)
+				return false;
+		} else if (!unitId.equals(other.unitId))
+			return false;
+		if (uri == null) {
+			if (other.uri != null)
+				return false;
+		} else if (!uri.equals(other.uri))
+			return false;
+		return true;
+	}
 }
