@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Exports files to the mzTab format.
 #labels Featured
 
 <wiki:toc max_depth="2" />
