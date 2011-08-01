@@ -1,6 +1,6 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import uk.ac.ebi.pride.mztab_java.MzTabFile;
 
@@ -15,14 +15,14 @@ public class Subsample {
 	 */
 	private String unitId;
 	
-	private ArrayList<Param>		species;
-	private ArrayList<Param>		tissue;
-	private ArrayList<Param>		cellType;
-	private ArrayList<Param>		disease;
+	private List<Param>		species;
+	private List<Param>		tissue;
+	private List<Param>		cellType;
+	private List<Param>		disease;
 	
-	private String 					description;
-	private Param					quantitationReagent;
-	private ArrayList<Param>		customParams;
+	private String 			description;
+	private Param			quantitationReagent;
+	private List<Param>		customParams;
 	
 	/**
 	 * Creates a new subsample.
@@ -46,22 +46,22 @@ public class Subsample {
 	public void setUnitId(String unitId) {
 		this.unitId = unitId;
 	}
-	public ArrayList<Param> getSpecies() {
+	public List<Param> getSpecies() {
 		return species;
 	}
-	public void setSpecies(ArrayList<Param> species) {
+	public void setSpecies(List<Param> species) {
 		this.species = species;
 	}
-	public ArrayList<Param> getTissue() {
+	public List<Param> getTissue() {
 		return tissue;
 	}
-	public void setTissue(ArrayList<Param> tissue) {
+	public void setTissue(List<Param> tissue) {
 		this.tissue = tissue;
 	}
-	public ArrayList<Param> getDisease() {
+	public List<Param> getDisease() {
 		return disease;
 	}
-	public void setDisease(ArrayList<Param> disease) {
+	public void setDisease(List<Param> disease) {
 		this.disease = disease;
 	}
 	public String getDescription() {
@@ -76,16 +76,16 @@ public class Subsample {
 	public void setQuantitationReagent(Param quantitationReagent) {
 		this.quantitationReagent = quantitationReagent;
 	}
-	public ArrayList<Param> getCustomParams() {
+	public List<Param> getCustomParams() {
 		return customParams;
 	}
-	public void setCustomParams(ArrayList<Param> customParams) {
+	public void setCustomParams(List<Param> customParams) {
 		this.customParams = customParams;
 	}
-	public ArrayList<Param> getCellType() {
+	public List<Param> getCellType() {
 		return cellType;
 	}
-	public void setCellType(ArrayList<Param> cellType) {
+	public void setCellType(List<Param> cellType) {
 		this.cellType = cellType;
 	}
 	
