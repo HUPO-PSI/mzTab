@@ -8,6 +8,7 @@
   <packaging>jar</packaging>
 
   <name>mztab-exporter</name>
+  <description>Exporter for various file formats to mzTab. At the moment only PRIDE XML is supported.</description>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -37,6 +38,22 @@
        </pluginRepository>
    </pluginRepositories>
    
+   <developers>
+   	<developer>
+   		<id>jgriss</id>
+   		<name>Johannes Griss</name>
+   		<email>jgriss@ebi.ac.uk</email>
+   		<url>http://www.ebi.ac.uk/pride</url>
+   		<organization>European Bioinformatics Institute</organization>
+   		<organizationUrl>http://www.ebi.ac.uk</organizationUrl>
+   		<roles>
+   		</roles>
+   	</developer>
+   </developers>
+   <organization>
+   	<name>European Bioinformatics Institute</name>
+   	<url>http://www.ebi.ac.uk</url>
+   </organization>
    <build>
   	<resources>
         <resource>
