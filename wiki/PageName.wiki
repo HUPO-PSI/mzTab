@@ -1,0 +1,25 @@
+#summary Information on the developments around the mzTab file format for proteomics results.
+
+= Introduction =
+
+mzTab is a file format for proteomics _results_. It is not meant as a replacement for the PSI standard file formats mzIdentML and mzQuantML. mzTab files are only meant to hold the final results of proteomics experiments but not their evidence.
+
+This Wiki holds information about the mzTab format as well as associated projects and tools that make the use of mzTab easier - for developers as well as end-users.
+
+== File Format ==
+
+mzTab is a tab-delimited text file format to report proteomics results. The mzTab file format is still under development and not yet stable. The current format specification can always be found in the mzTab SVN: 
+ [http://mztab.googlecode.com/svn/specification/trunk/specification-document/mzTab%20format%20specification.doc mzTab format specification.doc].
+
+mzTab example files can also be found in the svn at [http://code.google.com/p/mztab/source/browse/specification/trunk/#trunk%2Fexamples /specification/trunk/examples].
+
+== mzTab parser ==
+
+To make the usage and implementation of mzTab as easy as possible we try to provide parser libraries for various programming languages.
+
+|| *Programming Language* || *Project* ||
+|| Java || [MzTabJava mztab-java] ||
+
+== Tools ==
+
+*mztab-exporter*: The [MzTabExporter mztab-exporter] exports PRIDE XML files to mzTab.
