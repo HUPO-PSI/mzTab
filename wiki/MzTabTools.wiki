@@ -1,0 +1,13 @@
+#summary A collection of tools to work with mzTab.
+
+= Introduction =
+
+To make the use of mzTab easier for end-users as well as developers we created this collection of _tools_.
+
+----
+
+= mztab-exporter =
+
+The *mztab-exporter* is a small program written in Java that allows exporting different file formats to mzTab. The *mztab-exporter* contains an easy-to-use Command Line Interface (CLI) but can also be used as a Java library. More information can be found [MzTabExporter here].
+
+----
