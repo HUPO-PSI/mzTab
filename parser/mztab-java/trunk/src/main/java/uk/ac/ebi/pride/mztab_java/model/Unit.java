@@ -2,6 +2,8 @@ package uk.ac.ebi.pride.mztab_java.model;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,32 +23,32 @@ public class Unit {
 	/**
 	 * Unit attributes
 	 */
-	private String					unitId;
-	private String 					title;
-	private String 					description;
-	private ArrayList<ParamList> 	sampleProcessing;
-	private ArrayList<Instrument> 	instrument;
-	private ArrayList<Param>		software;
-	private ParamList				falseDiscoveryRate;
+	private String				unitId;
+	private String 				title;
+	private String 				description;
+	private List<ParamList> 	sampleProcessing;
+	private List<Instrument> 	instrument;
+	private List<Param>			software;
+	private ParamList			falseDiscoveryRate;
 	/**
 	 * DOIs must be prefixed by "doi:", PubMed ids by "pubmed:"
 	 */
-	private ArrayList<String>		publication;
-	private ArrayList<Contact>		contact;
-	private URI						uri;
-	private ParamList				mod;
-	private Param					modProbabilityMethod;
-	private Param					quantificationMethod;
-	private Param					proteinQuantificationUnit;
-	private Param					peptideQuantificationUnit;
-	private ArrayList<Param>		customParams;
+	private List<String>		publication;
+	private List<Contact>		contact;
+	private URI					uri;
+	private ParamList			mod;
+	private Param				modProbabilityMethod;
+	private Param				quantificationMethod;
+	private Param				proteinQuantificationUnit;
+	private Param				peptideQuantificationUnit;
+	private List<Param>			customParams;
 	
-	private ArrayList<Param>		species;
-	private ArrayList<Param>		tissue;
-	private ArrayList<Param>		cellType;
-	private ArrayList<Param>		disease;
+	private List<Param>			species;
+	private List<Param>			tissue;
+	private List<Param>			cellType;
+	private List<Param>			disease;
 	
-	private ArrayList<Subsample>	subsamples;
+	private List<Subsample>		subsamples;
 	
 	/**
 	 * Constructur constructing an empty Uni.
@@ -340,15 +342,15 @@ public class Unit {
 		return description;
 	}
 
-	public ArrayList<ParamList> getSampleProcessing() {
+	public List<ParamList> getSampleProcessing() {
 		return sampleProcessing;
 	}
 
-	public ArrayList<Instrument> getInstrument() {
+	public List<Instrument> getInstrument() {
 		return instrument;
 	}
 
-	public ArrayList<Param> getSoftware() {
+	public List<Param> getSoftware() {
 		return software;
 	}
 
@@ -356,11 +358,11 @@ public class Unit {
 		return falseDiscoveryRate;
 	}
 
-	public ArrayList<String> getPublication() {
+	public List<String> getPublication() {
 		return publication;
 	}
 
-	public ArrayList<Contact> getContact() {
+	public List<Contact> getContact() {
 		return contact;
 	}
 
@@ -388,27 +390,79 @@ public class Unit {
 		return peptideQuantificationUnit;
 	}
 
-	public ArrayList<Param> getCustomParams() {
+	public List<Param> getCustomParams() {
 		return customParams;
 	}
 
-	public ArrayList<Param> getSpecies() {
+	public List<Param> getSpecies() {
 		return species;
 	}
 
-	public ArrayList<Param> getTissue() {
+	public List<Param> getTissue() {
 		return tissue;
 	}
 
-	public ArrayList<Param> getCellType() {
+	public List<Param> getCellType() {
 		return cellType;
 	}
 
-	public ArrayList<Param> getDisease() {
+	public List<Param> getDisease() {
 		return disease;
 	}
+	
+	/**
+	 * Returns the subsample with the given index. In
+	 * case the subsample doesn't exist, null is returned.
+	 * @param subsampleId The subsamples index.
+	 * @return
+	 */
+	public Subsample getSubsample(Integer subsampleId) {
+		if (subsamples == null)
+			return null;
+		
+		for (Subsample s : subsamples) {
+			if (s.getSubsampleIndex() == subsampleId)
+				return s;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Adds the given subsample. In case a subsample
+	 * with the same index already exists, this subample
+	 * is replaced.
+	 * @param s
+	 */
+	public void setSubsample(Subsample s) {
+		if (subsamples == null)
+			subsamples = new ArrayList<Subsample>(1);
+		
+		// check if the subsample already exists
+		for (int i = 0; i < subsamples.size(); i++) {
+			// if a subsample with the same index already exists, replace it
+			if (subsamples.get(i).getSubsampleIndex() == s.getSubsampleIndex()) {
+				subsamples.set(i, s);
+				return;
+			}
+		}
+		
+		// as the subsample wasn't set, add this one
+		subsamples.add(s);
+	}
 
-	public ArrayList<Subsample> getSubsamples() {
+	/**
+	 * Adds the given subsamples to the unit. In case
+	 * there are multiple subsamples with the same index
+	 * only one of them is being added.
+	 * @param subsamples
+	 */
+	public void setSubsamples(Collection<Subsample> subsamples) {
+		for (Subsample s : subsamples)
+			setSubsample(s);
+	}
+	
+	public List<Subsample> getSubsamples() {
 		return subsamples;
 	}
 
@@ -428,15 +482,15 @@ public class Unit {
 		this.description = description;
 	}
 
-	public void setSampleProcessing(ArrayList<ParamList> sampleProcessing) {
+	public void setSampleProcessing(List<ParamList> sampleProcessing) {
 		this.sampleProcessing = sampleProcessing;
 	}
 
-	public void setInstrument(ArrayList<Instrument> instrument) {
+	public void setInstrument(List<Instrument> instrument) {
 		this.instrument = instrument;
 	}
 
-	public void setSoftware(ArrayList<Param> software) {
+	public void setSoftware(List<Param> software) {
 		this.software = software;
 	}
 
@@ -444,11 +498,11 @@ public class Unit {
 		this.falseDiscoveryRate = falseDiscoveryRate;
 	}
 
-	public void setPublication(ArrayList<String> publication) {
+	public void setPublication(List<String> publication) {
 		this.publication = publication;
 	}
 
-	public void setContact(ArrayList<Contact> contact) {
+	public void setContact(List<Contact> contact) {
 		this.contact = contact;
 	}
 
@@ -476,28 +530,24 @@ public class Unit {
 		this.peptideQuantificationUnit = peptideQuantificationUnit;
 	}
 
-	public void setCustomParams(ArrayList<Param> customParams) {
+	public void setCustomParams(List<Param> customParams) {
 		this.customParams = customParams;
 	}
 
-	public void setSpecies(ArrayList<Param> species) {
+	public void setSpecies(List<Param> species) {
 		this.species = species;
 	}
 
-	public void setTissue(ArrayList<Param> tissue) {
+	public void setTissue(List<Param> tissue) {
 		this.tissue = tissue;
 	}
 
-	public void setCellType(ArrayList<Param> cellType) {
+	public void setCellType(List<Param> cellType) {
 		this.cellType = cellType;
 	}
 
-	public void setDisease(ArrayList<Param> disease) {
+	public void setDisease(List<Param> disease) {
 		this.disease = disease;
-	}
-
-	public void setSubsamples(ArrayList<Subsample> subsamples) {
-		this.subsamples = subsamples;
 	}
 
 	/**
@@ -533,7 +583,7 @@ public class Unit {
 		if (falseDiscoveryRate != null)
 			mzTab += createField("false_discovery_rate", falseDiscoveryRate);
 		// publication
-		if (publication != null) {
+		if (publication != null && publication.size() > 0) {
 			String string = "";
 			
 			for (String p : publication)

@@ -109,7 +109,7 @@ public class Param {
 		if (type == ParamType.USER_PARAM)
 			return "[" + name + "," + value + "]";
 		if (type == ParamType.CV_PARAM)
-			return "[" + cvLabel + "," + accession + "," + name + "," + value + "]";
+			return "[" + cvLabel + "," + accession + "," + name + "," + (value != null ? value : "") + "]";
 		
 		return "";
 	}
