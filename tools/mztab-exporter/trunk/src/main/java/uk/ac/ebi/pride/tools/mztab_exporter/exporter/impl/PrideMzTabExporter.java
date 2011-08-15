@@ -282,7 +282,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		// set the accession as URI if there's one
 		if (reader.getExpAccession() != null) {
 			try {
-				unit.setUri(new URI("http://www.ebi.ac.uk/pride/q.do?accession=" + reader.getExpAccession() + "&username=inspector&password=inspector"));
+				unit.setUri(new URI("http://www.ebi.ac.uk/pride/directLink.do?experimentAccessionNumber=" + reader.getExpAccession()));
 			} catch (URISyntaxException e) {
 				// ignore any problem
 			}
