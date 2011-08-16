@@ -1,9 +1,9 @@
 MTD	file_1-title	mzTab SILAC test																						
-MTD	file_1-quantification_method	[MS, MS:100999, SILAC, ]																						
+MTD	file_1-quantification_method	[PRIDE, PRIDE:0000315, SILAC, ]																						
 MTD	file_1-sub[1]-description	file_1_light																						
 MTD	file_1-sub[2]-description	file_1_heavy																						
-MTD	file_1-sub[1]-quantification_reagent	[MOD, MOD:01234, Light reagent,]																						
-MTD	file_1-sub[2]-quantification_reagent	[MOD,MOD:01235, heavy reagent,]																						
+MTD	file_1-sub[1]-quantification_reagent	[PRIDE,PRIDE:0000325,SILAC heavy,]																						
+MTD	file_1-sub[2]-quantification_reagent	[PRIDE,PRIDE:0000326,SILAC light,]																						
 																								
 PRH	accession	unit_id	description	taxid	species	database	database_version	search_engine	search_engine_score	reliability	num_peptides	num_peptides_distinct	num_peptides_unambiguous	ambiguity_members	modifications	uri	go_terms	protein_coverage	protein_abundance_sub[1]	protein_abundance_stdev_sub[1]	protein_abundance_std_error_sub[1]	protein_abundance_sub[2]	protein_abundance_stdev_sub[2]	protein_abundance_std_error_sub[2]
 PRT	IPI00218319	file_1	Albumin	9606	Homo sapiens	IPI	"3.11"	[MS,MS:12345,Andromeda,]	[MS, MS:100022, Andromeda protein score, 30]	"--"	10	1	"--"	IPI00013991,IPI00220709,CON_00703268,IPI00646748,IPI00910712,IPI00909308,IPI00926427	NA	"--"	GO:0003779,GO:0005198,GO:0005488,GO:0005515,GO:0008092,GO:0008307	3.1	1	"--"	"--"	1.2345	0.123	"--"
