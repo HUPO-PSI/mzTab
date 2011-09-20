@@ -10,27 +10,28 @@ public enum SmallMoleculeTableField {
 	ROW_PREFIX(					"SML", 							0),
 	IDENTIFIER(					"identifier",					1),
 	UNIT_ID(					"unit_id",						2),
-	DESCRIPTION(				"description",					3),
-	MASS_TO_CHARGE(				"mass_to_charge",				4),
-	CHARGE(						"charge",						5),
-	RETENTION_TIME(				"retention_time", 				6),
-	TAXID(						"taxid",						7),
-	SPECIES(					"species", 						8),
-	DATABASE(					"database", 					9),
-	DATABASE_VERSION(			"database_version",				10),
-	RELIABILITY(				"reliability", 					11),
-	URI(						"uri",							12),
-	SEARCH_ENGINE(				"search_engine",				13),
-	SEARCH_ENGINE_SCORE(		"search_engine_score",			14),
-	MODIFICATIONS(				"modifications",				15),
+	CHEMICAL_FORMULA(			"chemical_formula",				3),
+	DESCRIPTION(				"description",					4),
+	MASS_TO_CHARGE(				"mass_to_charge",				5),
+	CHARGE(						"charge",						6),
+	RETENTION_TIME(				"retention_time", 				7),
+	TAXID(						"taxid",						8),
+	SPECIES(					"species", 						9),
+	DATABASE(					"database", 					10),
+	DATABASE_VERSION(			"database_version",				11),
+	RELIABILITY(				"reliability", 					12),
+	URI(						"uri",							13),
+	SEARCH_ENGINE(				"search_engine",				14),
+	SEARCH_ENGINE_SCORE(		"search_engine_score",			15),
+	MODIFICATIONS(				"modifications",				16),
 	// WARNING: the position information of the quantitative fields as well 
 	// as the custom field is not evaluated. To change the order these fields
 	// are marshalled, the respective functions in Protein.java need to be
 	// changed.
-	ABUNDANCE(					"smallmolecule_abundance_sub",	16),
-	ABUNDANCE_STD(				"smallmolecule_abundance_stdev_sub", 17),
-	ABUNDANCE_STD_ERROR(		"smallmolecule_abundance_std_error_sub", 18),
-	CUSTOM(						"opt_",							19);
+	ABUNDANCE(					"smallmolecule_abundance_sub",	17),
+	ABUNDANCE_STD(				"smallmolecule_abundance_stdev_sub", 18),
+	ABUNDANCE_STD_ERROR(		"smallmolecule_abundance_std_error_sub", 19),
+	CUSTOM(						"opt_",							20);
 	
 	private static HashMap<String, SmallMoleculeTableField> fieldMappings = new HashMap<String, SmallMoleculeTableField>();
 	private static ArrayList<SmallMoleculeTableField> orderedTableFields = new ArrayList<SmallMoleculeTableField>();
