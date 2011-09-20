@@ -28,6 +28,7 @@ public class SmallMolecule extends TableObject {
 	 */
 	private List<String>	identifier;
 	private String			unitId;
+	private String			chemicalFormula;
 	private String			description;
 	private Double			massToCharge;
 	private Double			charge;
@@ -76,6 +77,9 @@ public class SmallMolecule extends TableObject {
 						break;
 					case UNIT_ID:
 						unitId = value;
+						break;
+					case CHEMICAL_FORMULA:
+						chemicalFormula = value;
 						break;
 					case DESCRIPTION:
 						description = value;
@@ -183,6 +187,10 @@ public class SmallMolecule extends TableObject {
 	public String getUnitId() {
 		return unitId;
 	}
+	
+	public String getChemicalFormula() {
+		return chemicalFormula;
+	}
 
 	public String getDescription() {
 		return description;
@@ -281,6 +289,10 @@ public class SmallMolecule extends TableObject {
 
 	public void setUnitId(String unitId) {
 		this.unitId = unitId;
+	}
+	
+	public void setChemicalFormula(String chemicalFormula) {
+		this.chemicalFormula = chemicalFormula;
 	}
 
 	public void setDescription(String description) {
@@ -383,6 +395,9 @@ public class SmallMolecule extends TableObject {
 					break;
 				case UNIT_ID:
 					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(unitId);
+					break;
+				case CHEMICAL_FORMULA:
+					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(chemicalFormula);
 					break;
 				case DESCRIPTION:
 					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(description);
@@ -488,6 +503,8 @@ public class SmallMolecule extends TableObject {
 		result = prime * result
 				+ ((identifier == null) ? 0 : identifier.hashCode());
 		result = prime * result
+				+ ((chemicalFormula == null) ? 0 : chemicalFormula.hashCode());
+		result = prime * result
 				+ ((massToCharge == null) ? 0 : massToCharge.hashCode());
 		result = prime * result
 				+ ((modifications == null) ? 0 : modifications.hashCode());
@@ -561,6 +578,11 @@ public class SmallMolecule extends TableObject {
 			if (other.identifier != null)
 				return false;
 		} else if (!identifier.equals(other.identifier))
+			return false;
+		if (chemicalFormula == null) {
+			if (other.chemicalFormula != null)
+				return false;
+		} else if (!chemicalFormula.equals(other.chemicalFormula))
 			return false;
 		if (massToCharge == null) {
 			if (other.massToCharge != null)
