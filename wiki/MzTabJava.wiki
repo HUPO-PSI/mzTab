@@ -31,7 +31,7 @@ The *mztab-java* library can easily be used in Maven projects. You can include t
 <dependency>
    <groupId>uk.ac.ebi.pride</groupId>
    <artifactId>mztab-java</artifactId>
-   <version>1.0-SNAPSHOT</version>
+   <version>1.0.0-SNAPSHOT</version>
 </dependency>
 }}}
 
