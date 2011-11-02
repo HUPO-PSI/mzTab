@@ -2,5 +2,6 @@
   * [FileFormat File Format]
   * [MzTabParser Parser Libraries]
     * [MzTabJava mztab-java]
+      * [MzTabJavaReleaseNotes Release Notes]
   * [MzTabTools Tools] 
     * [MzTabExporter mztab-exporter]
