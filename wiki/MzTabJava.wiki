@@ -9,6 +9,8 @@
 
 mztab-java can read, write and merge mzTab files. mztab-java is free, open-source software written in Java. mztab-java is used by the [MzTabExporter mztab-exporter] as well as the new PRIDE Converter to read and write mzTab files.
 
+For a list of changes in the latest version of mztab-java see the [MzTabJavaReleaseNotes Release Notes].
+
 ----
 
 = Getting mztab-java =
