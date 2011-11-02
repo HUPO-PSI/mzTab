@@ -367,83 +367,83 @@ public class Protein extends TableObject {
 	@Override
 	public String toMzTab(int nSubsamples, List<String> optionalColumns) {
 		// TODO: make sure that the header is written beforehand
-		String mzTabString = "";
+		StringBuffer mzTabString = new StringBuffer();
 		List<ProteinTableField> fields = ProteinTableField.getOrderedFieldList();
 		
 		for (ProteinTableField field : fields) {			
 			switch (field) {
 				case ROW_PREFIX:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + ProteinTableField.ROW_PREFIX;
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + ProteinTableField.ROW_PREFIX);
 					break;
 				case ACCESSION:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(accession);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(accession));
 					break;
 				case UNIT_ID:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(unitId);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(unitId));
 					break;
 				case DESCRIPTION:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(description);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(description));
 					break;
 				case TAXID:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(taxid);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(taxid));
 					break;
 				case SPECIES:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(species);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(species));
 					break;
 				case DATABASE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(database);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(database));
 					break;
 				case DATABASE_VERSION:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(databaseVersion);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(databaseVersion));
 					break;
 				case SEARCH_ENGINE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngine);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngine));
 					break;
 				case SEARCH_ENGINE_SCORE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngineScore);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngineScore));
 					break;
 				case RELIABILITY:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(reliability);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(reliability));
 					break;
 				case NUM_PEPTIDES:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(numPeptides);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(numPeptides));
 					break;
 				case NUM_PEPTIDES_DISTINCT:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(numPeptidesDistinct);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(numPeptidesDistinct));
 					break;
 				case NUM_PEPTIDES_UNAMBIGUOUS:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(numPeptidesUnambiguous);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(numPeptidesUnambiguous));
 					break;
 				case AMBIGUITY_MEMGERS:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(ambiguityMembers, ",");
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(ambiguityMembers, ","));
 					break;
 				case MODIFICATIONS:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(modifications, ",");
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(modifications, ","));
 					break;
 				case URI:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(uri);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(uri));
 					break;
 				case GO_TERMS:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(goTerms, ",");
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(goTerms, ","));
 					break;
 				case PROTEIN_COVERAGE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(proteinCoverage);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(proteinCoverage));
 					break;
 			}
 		}
 		
 		// process the abundance data
-		mzTabString += quantDataToMztab(nSubsamples);
+		mzTabString.append(quantDataToMztab(nSubsamples));
 		
 		// add the optional columns
 		for (String optionalColumn : optionalColumns) {
-			mzTabString += SEPARATOR + (custom.containsKey(optionalColumn) ? custom.get(optionalColumn) : MISSING);
+			mzTabString.append(SEPARATOR + (custom.containsKey(optionalColumn) ? custom.get(optionalColumn) : MISSING));
 		}
 		
 		// add the line terminator
-		mzTabString += EOL;
+		mzTabString.append(EOL);
 		
-		return mzTabString;
+		return mzTabString.toString();
 	}
 	
 	/**
@@ -454,23 +454,23 @@ public class Protein extends TableObject {
 	 * @return The formatted mzTab string.
 	 */
 	private String quantDataToMztab(int nSubsamples) {
-		String mzTabString = "";
+		StringBuffer mzTabString = new StringBuffer();
 		
 		for (Integer subsample = 1; subsample <= nSubsamples; subsample++) {
 			Double abundance 	= proteinAbundance.get(subsample);
 			Double stddev 		= proteinAbundanceStd.get(subsample);
 			Double stderr		= proteinAbundanceError.get(subsample);
 			
-			mzTabString += SEPARATOR +
+			mzTabString.append(SEPARATOR +
 							// abundance
 						   (abundance != null ? abundance : MISSING) + SEPARATOR +
 						   // stdandard dev
 						   (stddev != null ? stddev : MISSING) + SEPARATOR +
 						   // standard error
-						   (stderr != null ? stderr : MISSING);
+						   (stderr != null ? stderr : MISSING));
 		}
 		
-		return mzTabString;
+		return mzTabString.toString();
 	}
 
 	@Override

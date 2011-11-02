@@ -382,77 +382,77 @@ public class SmallMolecule extends TableObject {
 	@Override
 	public String toMzTab(int nSubsamples, List<String> optionalColumns) {
 		// TODO: make sure that the header is written beforehand
-		String mzTabString = "";
+		StringBuffer mzTabString = new StringBuffer();
 		List<SmallMoleculeTableField> fields = SmallMoleculeTableField.getOrderedFieldList();
 		
 		for (SmallMoleculeTableField field : fields) {			
 			switch (field) {
 				case ROW_PREFIX:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + SmallMoleculeTableField.ROW_PREFIX;
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + SmallMoleculeTableField.ROW_PREFIX);
 					break;
 				case IDENTIFIER:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(identifier, "|");
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(identifier, "|"));
 					break;
 				case UNIT_ID:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(unitId);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(unitId));
 					break;
 				case CHEMICAL_FORMULA:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(chemicalFormula);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(chemicalFormula));
 					break;
 				case DESCRIPTION:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(description);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(description));
 					break;
 				case MASS_TO_CHARGE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(massToCharge);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(massToCharge));
 					break;
 				case CHARGE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(charge);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(charge));
 					break;
 				case RETENTION_TIME:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(retentionTime, ",");
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(retentionTime, ","));
 					break;
 				case TAXID:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(taxid);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(taxid));
 					break;
 				case SPECIES:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(species);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(species));
 					break;
 				case DATABASE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(database);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(database));
 					break;
 				case DATABASE_VERSION:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(databaseVersion);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(databaseVersion));
 					break;
 				case RELIABILITY:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(reliability);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(reliability));
 					break;
 				case URI:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(uri);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(uri));
 					break;
 				case SEARCH_ENGINE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngine);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngine));
 					break;
 				case SEARCH_ENGINE_SCORE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngineScore);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngineScore));
 					break;
 				case MODIFICATIONS:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(modifications, ",");
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(modifications, ","));
 					break;
 			}
 		}
 		
 		// process the abundance data
-		mzTabString += quantDataToMztab(nSubsamples);
+		mzTabString.append(quantDataToMztab(nSubsamples));
 		
 		// add the optional columns
 		for (String optionalColumn : optionalColumns) {
-			mzTabString += SEPARATOR + (custom.containsKey(optionalColumn) ? custom.get(optionalColumn) : MISSING);
+			mzTabString.append(SEPARATOR + (custom.containsKey(optionalColumn) ? custom.get(optionalColumn) : MISSING));
 		}
 		
 		// add the line terminator
-		mzTabString += EOL;
+		mzTabString.append(EOL);
 		
-		return mzTabString;
+		return mzTabString.toString();
 	}
 	
 	/**
@@ -463,23 +463,23 @@ public class SmallMolecule extends TableObject {
 	 * @return The formatted mzTab string.
 	 */
 	private String quantDataToMztab(int nSubsamples) {
-		String mzTabString = "";
+		StringBuffer mzTabString = new StringBuffer();
 		
 		for (Integer subsample = 1; subsample <= nSubsamples; subsample++) {
 			Double abundance	= this.abundance.get(subsample);
 			Double stddev 		= this.abundanceStd.get(subsample);
 			Double stderr		= this.abundanceError.get(subsample);
 			
-			mzTabString += SEPARATOR +
+			mzTabString.append(SEPARATOR +
 							// abundance
 						   (abundance != null ? abundance : MISSING) + SEPARATOR +
 						   // stdandard dev
 						   (stddev != null ? stddev : MISSING) + SEPARATOR +
 						   // standard error
-						   (stderr != null ? stderr : MISSING);
+						   (stderr != null ? stderr : MISSING));
 		}
 		
-		return mzTabString;
+		return mzTabString.toString();
 	}
 
 	@Override
