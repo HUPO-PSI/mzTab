@@ -349,71 +349,71 @@ public class Peptide extends TableObject {
 	@Override
 	public String toMzTab(int nSubsamples, List<String> optionalColumns) {
 		// TODO: make sure that the header is written beforehand
-		String mzTabString = "";
+		StringBuffer mzTabString = new StringBuffer();
 		List<PeptideTableField> fields = PeptideTableField.getOrderedFieldList();
 		
 		for (PeptideTableField field : fields) {			
 			switch (field) {
 				case ROW_PREFIX:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + PeptideTableField.ROW_PREFIX;
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + PeptideTableField.ROW_PREFIX);
 					break;
 				case SEQUENCE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(sequence);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(sequence));
 					break;
 				case ACCESSION:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(accession);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(accession));
 					break;
 				case UNIT_ID:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(unitId);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(unitId));
 					break;
 				case UNIQUE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(unique);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(unique));
 					break;
 				case DATABASE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(database);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(database));
 					break;
 				case DATABASE_VERSION:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(databaseVersion);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(databaseVersion));
 					break;
 				case SEARCH_ENGINE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngine);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngine));
 					break;
 				case SEARCH_ENGINE_SCORE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngineScore);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngineScore));
 					break;
 				case RELIABILITY:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(reliability);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(reliability));
 					break;
 				case MODIFICATIONS:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(modification, ",");
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(modification, ","));
 					break;
 				case RETENTION_TIME:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(retentionTime, ",");
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(retentionTime, ","));
 					break;
 				case CHARGE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(charge);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(charge));
 					break;
 				case MASS_TO_CHARGE:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(massToCharge);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(massToCharge));
 					break;
 				case URI:
-					mzTabString += (mzTabString.length() > 1 ? SEPARATOR : "") + toField(uri);
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(uri));
 					break;
 			}
 		}
 		
 		// process the abundance data
-		mzTabString += quantDataToMztab(nSubsamples);
+		mzTabString.append(quantDataToMztab(nSubsamples));
 		
 		// add the optional columns
 		for (String optionalColumn : optionalColumns) {
-			mzTabString += SEPARATOR + (custom.containsKey(optionalColumn) ? custom.get(optionalColumn) : MISSING);
+			mzTabString.append(SEPARATOR + (custom.containsKey(optionalColumn) ? custom.get(optionalColumn) : MISSING));
 		}
 		
 		// add the line terminator
-		mzTabString += EOL;
+		mzTabString.append(EOL);
 		
-		return mzTabString;
+		return mzTabString.toString();
 	}
 	
 	/**
@@ -424,23 +424,23 @@ public class Peptide extends TableObject {
 	 * @return The formatted mzTab string.
 	 */
 	private String quantDataToMztab(int nSubsamples) {
-		String mzTabString = "";
+		StringBuffer mzTabString = new StringBuffer();
 		
 		for (Integer subsample = 1; subsample <= nSubsamples; subsample++) {
 			Double abundance	= this.abundance.get(subsample);
 			Double stddev 		= this.abundanceStd.get(subsample);
 			Double stderr		= this.abundanceError.get(subsample);
 			
-			mzTabString += SEPARATOR +
+			mzTabString.append(SEPARATOR +
 							// abundance
 						   (abundance != null ? abundance : MISSING) + SEPARATOR +
 						   // stdandard dev
 						   (stddev != null ? stddev : MISSING) + SEPARATOR +
 						   // standard error
-						   (stderr != null ? stderr : MISSING);
+						   (stderr != null ? stderr : MISSING));
 		}
 		
-		return mzTabString;
+		return mzTabString.toString();
 	}
 
 	@Override

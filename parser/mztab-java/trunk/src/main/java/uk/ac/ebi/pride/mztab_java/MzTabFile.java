@@ -1039,55 +1039,55 @@ public class MzTabFile {
 	 * @return An mzTab formatted String representing the object.
 	 */
 	public String toMzTab() {
-		String mzTab = "";
+		StringBuffer mzTab = new StringBuffer();
 		
 		// add the units
 		for (Unit unit : units.values())
-			mzTab += unit.toMzTab();
+			mzTab.append(unit.toMzTab());
 		
 		// if there are proteins, write them
 		if (!proteins.isEmpty()) {
 			// add an empty line
-			mzTab += EOL;
+			mzTab.append(EOL);
 			
 			// create the protein table header
 			List<String> proteinCustom = new ArrayList<String>(proteinCustomColumns);
-			mzTab += createProteinTableHeader(proteinCustom);
+			mzTab.append(createProteinTableHeader(proteinCustom));
 			
 			// add the proteins
 			for (Protein p : proteins.values())
-				mzTab += p.toMzTab(maxProteinSubsamples, proteinCustom);
+				mzTab.append(p.toMzTab(maxProteinSubsamples, proteinCustom));
 		}
 		
 		// if there are peptides, write them
 		if (!peptides.isEmpty()) {
 			// empty line
-			mzTab += EOL;
+			mzTab.append(EOL);
 			
 			// write the peptide table header
 			List<String> peptideCustom = new ArrayList<String>(peptideCustomColumns);
-			mzTab += createPeptideHeader(peptideCustom);
+			mzTab.append(createPeptideHeader(peptideCustom));
 			
 			// add the peptides
 			for (Peptide p : peptides.values())
-				mzTab += p.toMzTab(maxPeptideSubsamples, peptideCustom);
+				mzTab.append(p.toMzTab(maxPeptideSubsamples, peptideCustom));
 		}
 		
 		// if there are small molecules, write them
 		if (!smallMolecules.isEmpty()) {
 			// empty line
-			mzTab += EOL;
+			mzTab.append(EOL);
 		
 			// write the small molecule table header
 			List<String> smallMoleculeCustom = new ArrayList<String>(smallMoleculeCustomColumns);
-			mzTab += createSmallMoleculesHeader(smallMoleculeCustom);
+			mzTab.append(createSmallMoleculesHeader(smallMoleculeCustom));
 			
 			// add the small molecules
 			for (SmallMolecule m : smallMolecules.values())
-				mzTab += m.toMzTab(maxSmallMoleculeSubsamples, smallMoleculeCustom);
+				mzTab.append(m.toMzTab(maxSmallMoleculeSubsamples, smallMoleculeCustom));
 		}
 		
-		return mzTab;
+		return mzTab.toString();
 	}
 	
 	/**
@@ -1096,7 +1096,7 @@ public class MzTabFile {
 	 * @return
 	 */
 	private String createProteinTableHeader(List<String> customHeader) {
-		String header = "";
+		StringBuffer header = new StringBuffer();
 		
 		for (ProteinTableField f : ProteinTableField.getOrderedFieldList()) {
 			// ignore quant fields and abundance fields
@@ -1107,23 +1107,23 @@ public class MzTabFile {
 			if (f == ProteinTableField.ROW_PREFIX)
 				f = ProteinTableField.HEADER_PREFIX;
 			
-			header += (header.length() == 0 ? "" : SEPARATOR) + f;
+			header.append((header.length() == 0 ? "" : SEPARATOR) + f);
 		}
 		
 		// add the quant fields
 		for (int i = 1; i <= maxProteinSubsamples; i++) {
-			header += (header.length() == 0 ? "" : SEPARATOR) + ProteinTableField.PROTEIN_ABUNDANCE + "[" + i + "]";
-			header += SEPARATOR + ProteinTableField.PROTEIN_ABUNDANCE_STD + "[" + i + "]";
-			header += SEPARATOR + ProteinTableField.PROTEIN_ABUNDANCE_STD_ERROR + "[" + i + "]";
+			header.append((header.length() == 0 ? "" : SEPARATOR) + ProteinTableField.PROTEIN_ABUNDANCE + "[" + i + "]");
+			header.append(SEPARATOR + ProteinTableField.PROTEIN_ABUNDANCE_STD + "[" + i + "]");
+			header.append(SEPARATOR + ProteinTableField.PROTEIN_ABUNDANCE_STD_ERROR + "[" + i + "]");
 		}
 		
 		// add the custom fields
 		for (String custom : customHeader)
-			header += (header.length() == 0 ? "" : SEPARATOR) + custom;
+			header.append((header.length() == 0 ? "" : SEPARATOR) + custom);
 		
-		header += EOL;
+		header.append(EOL);
 		
-		return header;
+		return header.toString();
 	}
 	
 	/**
@@ -1132,7 +1132,7 @@ public class MzTabFile {
 	 * @return
 	 */
 	private String createPeptideHeader(List<String> customHeader) {
-		String header = "";
+		StringBuffer header = new StringBuffer();
 		
 		for (PeptideTableField f : PeptideTableField.getOrderedFieldList()) {
 			// ignore quant fields and abundance fields
@@ -1143,23 +1143,23 @@ public class MzTabFile {
 			if (f == PeptideTableField.ROW_PREFIX)
 				f = PeptideTableField.HEADER_PREFIX;
 			
-			header += (header.length() == 0 ? "" : SEPARATOR) + f;
+			header.append((header.length() == 0 ? "" : SEPARATOR) + f);
 		}
 		
 		// add the quant fields
 		for (int i = 1; i <= maxPeptideSubsamples; i++) {
-			header += (header.length() == 0 ? "" : SEPARATOR) + PeptideTableField.PEPTIDE_ABUNDANCE + "[" + i + "]";
-			header += SEPARATOR + PeptideTableField.PEPTIDE_ABUNDANCE_STD + "[" + i + "]";
-			header += SEPARATOR + PeptideTableField.PEPTIDE_ABUNDANCE_STD_ERROR + "[" + i + "]";
+			header.append((header.length() == 0 ? "" : SEPARATOR) + PeptideTableField.PEPTIDE_ABUNDANCE + "[" + i + "]");
+			header.append(SEPARATOR + PeptideTableField.PEPTIDE_ABUNDANCE_STD + "[" + i + "]");
+			header.append(SEPARATOR + PeptideTableField.PEPTIDE_ABUNDANCE_STD_ERROR + "[" + i + "]");
 		}
 		
 		// add the custom fields
 		for (String custom : customHeader)
-			header += (header.length() == 0 ? "" : SEPARATOR) + custom;
+			header.append((header.length() == 0 ? "" : SEPARATOR) + custom);
 		
-		header += EOL;
+		header.append(EOL);
 		
-		return header;
+		return header.toString();
 	}
 	
 	/**
@@ -1168,7 +1168,7 @@ public class MzTabFile {
 	 * @return
 	 */
 	private String createSmallMoleculesHeader(List<String> customHeader) {
-		String header = "";
+		StringBuffer header = new StringBuffer();
 		
 		for (SmallMoleculeTableField f : SmallMoleculeTableField.getOrderedFieldList()) {
 			// ignore quant fields and abundance fields
@@ -1179,23 +1179,23 @@ public class MzTabFile {
 			if (f == SmallMoleculeTableField.ROW_PREFIX)
 				f = SmallMoleculeTableField.HEADER_PREFIX;
 			
-			header += (header.length() == 0 ? "" : SEPARATOR) + f;
+			header.append((header.length() == 0 ? "" : SEPARATOR) + f);
 		}
 		
 		// add the quant fields
 		for (int i = 1; i <= maxPeptideSubsamples; i++) {
-			header += (header.length() == 0 ? "" : SEPARATOR) + SmallMoleculeTableField.ABUNDANCE + "[" + i + "]";
-			header += SEPARATOR + SmallMoleculeTableField.ABUNDANCE_STD + "[" + i + "]";
-			header += SEPARATOR + SmallMoleculeTableField.ABUNDANCE_STD_ERROR + "[" + i + "]";
+			header.append((header.length() == 0 ? "" : SEPARATOR) + SmallMoleculeTableField.ABUNDANCE + "[" + i + "]");
+			header.append(SEPARATOR + SmallMoleculeTableField.ABUNDANCE_STD + "[" + i + "]");
+			header.append(SEPARATOR + SmallMoleculeTableField.ABUNDANCE_STD_ERROR + "[" + i + "]");
 		}
 		
 		// add the custom fields
 		for (String custom : customHeader)
-			header += (header.length() == 0 ? "" : SEPARATOR) + custom;
+			header.append((header.length() == 0 ? "" : SEPARATOR) + custom);
 		
-		header += EOL;
+		header.append(EOL);
 		
-		return header;
+		return header.toString();
 	}
 	
 	// TODO: add a function where the user can specify the various subsample numbers + custom columns
