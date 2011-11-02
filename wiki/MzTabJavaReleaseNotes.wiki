@@ -1,7 +1,7 @@
 #summary Short summary of changes in the mztab-java API.
 
 ----
-*mztab-java version 1.0.0 - (2. November 2011)*
+*mztab-java version 1.0.0 - (Release pending)*
 
   * NEW FEATURE: Incorporated changes proposed by Julian Uszkoreit. Changed all toMzTab functions to use StringBuffer for better performance.
   * First stable version of the mztab-java API
