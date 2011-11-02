@@ -26,8 +26,9 @@ public abstract class TableObject {
     abstract public String toMzTab(int nSubsamples, List<String> optionalColumns);
 
     /**
-     * Parses a param list field. In case the field is set to "--" or "NA"
-     * null will be returned.
+     * Parses a param list field. In case the field is set to "--"
+     * null will be returned. In case the field is set to "NA" an
+     * empty ParamList is returned.
      *
      * @param field The field's value to be parsed.
      * @return The ParamList representing the field
@@ -39,7 +40,7 @@ public abstract class TableObject {
         if (MISSING.equals(field))
             return null;
         if (NA.equals(field))
-            return null;
+            return new ParamList();
 
         // return the param list
         return new ParamList(field);
