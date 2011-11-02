@@ -260,7 +260,7 @@ public class SmallMolecule extends TableObject {
 		return abundanceError.get(subsampleIndex);
 	}
 	
-	public Collection<Integer> getSubsampleIds() {
+	public Collection<Integer> getSubsampleIndexes() {
 		return abundance.keySet();
 	}
 	

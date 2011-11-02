@@ -436,8 +436,8 @@ public class MzTabFile {
 			throw new MzTabParsingException("Duplicate peptide encountered for row " + peptide.getIndex() + 1 + ".");
 		
 		// set the maximum number of observed protein subsamples
-		if (!peptide.getSubsampleIds().isEmpty()) {
-			Integer maxSubsetId = Collections.max(peptide.getSubsampleIds());
+		if (!peptide.getSubsampleIndexes().isEmpty()) {
+			Integer maxSubsetId = Collections.max(peptide.getSubsampleIndexes());
 		
 			if (maxSubsetId != null && maxPeptideSubsamples < maxSubsetId)
 				maxPeptideSubsamples = maxSubsetId;
@@ -492,7 +492,7 @@ public class MzTabFile {
 			throw new MzTabParsingException("Duplicate small molecule encountered for row " + smallMolecule.getIndex() + 1 + ".");
 		
 		// set the maximum number of observed protein subsamples
-		Integer maxSubsetId = Collections.max(smallMolecule.getSubsampleIds());
+		Integer maxSubsetId = Collections.max(smallMolecule.getSubsampleIndexes());
 		
 		if (maxSubsetId != null && maxSmallMoleculeSubsamples < maxSubsetId)
 			maxSmallMoleculeSubsamples = maxSubsetId;
@@ -1042,12 +1042,51 @@ public class MzTabFile {
 	}
 	
 	/**
+	 * Updates the maximum subsample index in the
+	 * mzTab file for proteins, peptides, and small
+	 * molecules.
+	 */
+	private void updateMaxSubsampleIndexes() {
+		// update the number of subsamples for the proteins
+		for (Protein protein : proteins.values()) {
+			if (!protein.getSubsampleIndexes().isEmpty()) {
+				Integer maxSubsetId = Collections.max(protein.getSubsampleIndexes());
+				
+				if (maxSubsetId != null && maxProteinSubsamples < maxSubsetId)
+					maxProteinSubsamples = maxSubsetId;
+			}
+		}
+		
+		// update the number of subsamples for the peptides
+		for (Peptide peptide : peptides.values()) {
+			if (!peptide.getSubsampleIndexes().isEmpty()) {
+				Integer maxSubsetId = Collections.max(peptide.getSubsampleIndexes());
+				
+				if (maxSubsetId != null && maxPeptideSubsamples < maxSubsetId)
+					maxPeptideSubsamples = maxSubsetId;
+			}
+		}
+		
+		// update the number of subsamples for the small molecules
+		for (SmallMolecule smallMolecule : smallMolecules.values()) {
+			if (!smallMolecule.getSubsampleIndexes().isEmpty()) {
+				Integer maxSubsetId = Collections.max(smallMolecule.getSubsampleIndexes());
+				
+				if (maxSubsetId != null && maxSmallMoleculeSubsamples < maxSubsetId)
+					maxSmallMoleculeSubsamples = maxSubsetId;
+			}
+		}
+	}
+	
+	/**
 	 * Converts the mzTabFile Object to an mzTab formatted
 	 * String.
 	 * @return An mzTab formatted String representing the object.
 	 */
 	public String toMzTab() {
 		StringBuffer mzTab = new StringBuffer();
+		
+		updateMaxSubsampleIndexes();
 		
 		// add the units
 		for (Unit unit : units.values())
