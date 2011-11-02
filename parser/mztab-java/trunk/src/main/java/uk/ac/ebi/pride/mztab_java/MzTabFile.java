@@ -86,7 +86,7 @@ public class MzTabFile {
 	 * The pattern to extract the UNIT_ID from
 	 * a meta-data line.
 	 */
-	private static final Pattern metadataUnitIdPattern = Pattern.compile("^\\w{3}\t([^-]+)-.*");
+	private static final Pattern metadataUnitIdPattern = Pattern.compile("^\"?\\w{3}\"?\t\"?([^-]+)-.*");
 	/**
 	 * The "central" storage of proteins. The key
 	 * is the PROTEIN_ID created by joining the UNIT_ID 
@@ -225,6 +225,14 @@ public class MzTabFile {
 	 */
 	private void parseMzTabLine(String line) throws MzTabParsingException {
 		line = line.trim();
+		
+		// remove possible " encapsulating fields
+		if (line.startsWith("\""))
+			line = line.substring(1);
+		if (line.endsWith("\""))
+			line = line.substring(0, line.length() - 1);
+		line = line.replace("\"" + SEPARATOR, SEPARATOR);
+		line = line.replace(SEPARATOR + "\"", SEPARATOR);
 		
 		// get the line type
 		LineType type = LineType.getLineType(line);
