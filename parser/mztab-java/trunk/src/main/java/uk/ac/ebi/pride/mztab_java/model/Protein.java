@@ -1,8 +1,6 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
 import java.net.URI;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,10 +37,6 @@ public class Protein extends TableObject {
 	private URI uri;
 	private List<String> goTerms;
 	private Double proteinCoverage;
-	private Map<Integer, Double> proteinAbundance = new HashMap<Integer, Double>();
-	private Map<Integer, Double> proteinAbundanceStd = new HashMap<Integer, Double>();
-	private Map<Integer, Double> proteinAbundanceError = new HashMap<Integer, Double>();
-	private Map<String, String> custom = new HashMap<String, String>();
 	
 	/**
 	 * Creates a new empty protein object
@@ -58,8 +52,6 @@ public class Protein extends TableObject {
 	 * @param parsedTableLine A Map representing a parsed protein table line.
 	 */
 	public Protein(Map<String, String> parsedTableLine) throws MzTabParsingException {
-		// TODO: for "simple" fields there is currently no way to distinguish between NA and MISSING
-		
 		try {
 			for (String fieldName : parsedTableLine.keySet()) {
 				ProteinTableField field = ProteinTableField.getField(fieldName);
@@ -157,13 +149,13 @@ public class Protein extends TableObject {
 		// set the appropriate value
 		switch (field) {
 			case PROTEIN_ABUNDANCE:
-				proteinAbundance.put(subsampleIndex, doubleValue);
+				abundance.put(subsampleIndex, doubleValue);
 				break;
 			case PROTEIN_ABUNDANCE_STD:
-				proteinAbundanceStd.put(subsampleIndex, doubleValue);
+				abundanceStd.put(subsampleIndex, doubleValue);
 				break;
 			case PROTEIN_ABUNDANCE_STD_ERROR:
-				proteinAbundanceError.put(subsampleIndex, doubleValue);
+				abundanceError.put(subsampleIndex, doubleValue);
 				break;
 		}
 	}
@@ -239,27 +231,7 @@ public class Protein extends TableObject {
 	public Double getProteinCoverage() {
 		return proteinCoverage;
 	}
-
-	public Map<String, String> getCustom() {
-		return custom;
-	}
 	
-	public Double getAbundance(int subsampleIndex) {
-		return proteinAbundance.get(subsampleIndex);
-	}
-	
-	public Double getAbundanceStdDev(int subsampleIndex) {
-		return proteinAbundanceStd.get(subsampleIndex);
-	}
-	
-	public Double getAbundanceStdErr(int subsampleIndex) {
-		return proteinAbundanceError.get(subsampleIndex);
-	}
-	
-	public Collection<Integer> getSubsampleIndexes() {
-		return proteinAbundance.keySet();
-	}
-
 	public void setAccession(String accession) {
 		this.accession = accession;
 	}
@@ -331,29 +303,6 @@ public class Protein extends TableObject {
 	public void setProteinCoverage(Double proteinCoverage) {
 		this.proteinCoverage = proteinCoverage;
 	}
-	
-	/**
-	 * Sets the abundance of the given protein for the specified
-	 * subsample.
-	 * @param nSubsample 1-based number of the subsample.
-	 * @param abundance The protein's abundance.
-	 * @param standardDeviation The standard deviation. Set to NULL if missing.
-	 * @param standardError The standard error. Set to NULL if missing.
-	 */
-	public void setProteinAbundance(int nSubsample, Double abundance, Double standardDeviation, Double standardError) {
-		proteinAbundance.put(nSubsample, abundance);
-		proteinAbundanceStd.put(nSubsample, standardDeviation);
-		proteinAbundanceError.put(nSubsample, standardError);
-	}
-
-	/**
-	 * A HashMap of custom columns to be set. The column name
-	 * must be given as key and the value as value.
-	 * @param custom
-	 */
-	public void setCustom(Map<String, String> custom) {
-		this.custom = custom;
-	}
 
 	/**
 	 * Converts the protein object to an mzTab formatted
@@ -366,7 +315,6 @@ public class Protein extends TableObject {
 	 */
 	@Override
 	public String toMzTab(int nSubsamples, List<String> optionalColumns) {
-		// TODO: make sure that the header is written beforehand
 		StringBuffer mzTabString = new StringBuffer();
 		List<ProteinTableField> fields = ProteinTableField.getOrderedFieldList();
 		
@@ -445,33 +393,6 @@ public class Protein extends TableObject {
 		
 		return mzTabString.toString();
 	}
-	
-	/**
-	 * Converts the protein's quantitative data into a
-	 * mzTab formatted string. The quantitative data is
-	 * written in the order "abundance" - "stddev" - "stderror"
-	 * @param nSubsamples
-	 * @return The formatted mzTab string.
-	 */
-	private String quantDataToMztab(int nSubsamples) {
-		StringBuffer mzTabString = new StringBuffer();
-		
-		for (Integer subsample = 1; subsample <= nSubsamples; subsample++) {
-			Double abundance 	= proteinAbundance.get(subsample);
-			Double stddev 		= proteinAbundanceStd.get(subsample);
-			Double stderr		= proteinAbundanceError.get(subsample);
-			
-			mzTabString.append(SEPARATOR +
-							// abundance
-						   (abundance != null ? abundance : MISSING) + SEPARATOR +
-						   // stdandard dev
-						   (stddev != null ? stddev : MISSING) + SEPARATOR +
-						   // standard error
-						   (stderr != null ? stderr : MISSING));
-		}
-		
-		return mzTabString.toString();
-	}
 
 	@Override
 	public int hashCode() {
@@ -504,14 +425,14 @@ public class Protein extends TableObject {
 						: numPeptidesUnambiguous.hashCode());
 		result = prime
 				* result
-				+ ((proteinAbundance == null) ? 0 : proteinAbundance.hashCode());
+				+ ((abundance == null) ? 0 : abundance.hashCode());
 		result = prime
 				* result
-				+ ((proteinAbundanceError == null) ? 0 : proteinAbundanceError
+				+ ((abundanceError == null) ? 0 : abundanceError
 						.hashCode());
 		result = prime
 				* result
-				+ ((proteinAbundanceStd == null) ? 0 : proteinAbundanceStd
+				+ ((abundanceStd == null) ? 0 : abundanceStd
 						.hashCode());
 		result = prime * result
 				+ ((proteinCoverage == null) ? 0 : proteinCoverage.hashCode());
@@ -594,20 +515,20 @@ public class Protein extends TableObject {
 				return false;
 		} else if (!numPeptidesUnambiguous.equals(other.numPeptidesUnambiguous))
 			return false;
-		if (proteinAbundance == null) {
-			if (other.proteinAbundance != null)
+		if (abundance == null) {
+			if (other.abundance != null)
 				return false;
-		} else if (!proteinAbundance.equals(other.proteinAbundance))
+		} else if (!abundance.equals(other.abundance))
 			return false;
-		if (proteinAbundanceError == null) {
-			if (other.proteinAbundanceError != null)
+		if (abundanceError == null) {
+			if (other.abundanceError != null)
 				return false;
-		} else if (!proteinAbundanceError.equals(other.proteinAbundanceError))
+		} else if (!abundanceError.equals(other.abundanceError))
 			return false;
-		if (proteinAbundanceStd == null) {
-			if (other.proteinAbundanceStd != null)
+		if (abundanceStd == null) {
+			if (other.abundanceStd != null)
 				return false;
-		} else if (!proteinAbundanceStd.equals(other.proteinAbundanceStd))
+		} else if (!abundanceStd.equals(other.abundanceStd))
 			return false;
 		if (proteinCoverage == null) {
 			if (other.proteinCoverage != null)

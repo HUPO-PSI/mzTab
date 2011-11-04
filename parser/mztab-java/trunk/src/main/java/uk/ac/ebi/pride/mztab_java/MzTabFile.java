@@ -1079,14 +1079,61 @@ public class MzTabFile {
 	}
 	
 	/**
+	 * Updates the custom column names encountered
+	 * in protein, peptide, and small molecule
+	 * objects.
+	 */
+	private void updateCustomColumnHeaders() {
+		proteinCustomColumns.clear();
+		peptideCustomColumns.clear();
+		smallMoleculeCustomColumns.clear();
+		
+		for (Protein protein : proteins.values()) {
+			proteinCustomColumns.addAll(protein.getCustom().keySet());
+		}
+		
+		for (Peptide peptide : peptides.values()) {
+			peptideCustomColumns.addAll(peptide.getCustom().keySet());
+		}
+		
+		for (SmallMolecule smallMolecule : smallMolecules.values()) {
+			smallMoleculeCustomColumns.addAll(smallMolecule.getCustom().keySet());
+		}
+	}
+	
+	/**
 	 * Converts the mzTabFile Object to an mzTab formatted
 	 * String.
 	 * @return An mzTab formatted String representing the object.
 	 */
-	public String toMzTab() {
-		StringBuffer mzTab = new StringBuffer();
-		
+	public String toMzTab() {		
 		updateMaxSubsampleIndexes();
+		updateCustomColumnHeaders();
+		
+		// get the total maximum number of subsamples
+		int maxNumberOfSubsamples = maxProteinSubsamples;
+		if (maxPeptideSubsamples > maxNumberOfSubsamples)
+			maxNumberOfSubsamples = maxPeptideSubsamples;
+		if (maxSmallMoleculeSubsamples > maxNumberOfSubsamples)
+			maxNumberOfSubsamples = maxSmallMoleculeSubsamples;
+		
+		// create the mzTab string
+		return toMztab(	maxNumberOfSubsamples,
+						new ArrayList<String>(proteinCustomColumns),
+						new ArrayList<String>(peptideCustomColumns), 
+						new ArrayList<String>(smallMoleculeCustomColumns));
+	}
+	
+	/**
+	 * Converts the mzTabFile Object to an mzTab formatted String.
+	 * @param numberOfSubsamples The number of subsamples to be written to the mzTab string. All other possibly present subsamples will be ignored.
+	 * @param proteinCustomColumnNames A list of custom column names to be written to the protein table. All other present custom columns will be ignored.
+	 * @param peptideCustomColumnNames A list of custom column names to be written to the peptide table. All other present custom columns will be ignored.
+	 * @param smallMoleculeCustomColumnNames A list of custom column names to be written to the small molecule table. All other present custom columns will be ignored.
+	 * @return An mzTab formatted String representing the object.
+	 */
+	public String toMztab(int numberOfSubsamples, List<String> proteinCustomColumnNames, List<String> peptideCustomColumnNames, List<String> smallMoleculeCustomColumnNames) {
+		StringBuffer mzTab = new StringBuffer();
 		
 		// add the units
 		for (Unit unit : units.values())
@@ -1098,12 +1145,12 @@ public class MzTabFile {
 			mzTab.append(EOL);
 			
 			// create the protein table header
-			List<String> proteinCustom = new ArrayList<String>(proteinCustomColumns);
-			mzTab.append(createProteinTableHeader(proteinCustom));
+			List<String> proteinCustom = new ArrayList<String>(proteinCustomColumnNames);
+			mzTab.append(createProteinTableHeader(proteinCustomColumnNames, numberOfSubsamples));
 			
 			// add the proteins
 			for (Protein p : proteins.values())
-				mzTab.append(p.toMzTab(maxProteinSubsamples, proteinCustom));
+				mzTab.append(p.toMzTab(numberOfSubsamples, proteinCustom));
 		}
 		
 		// if there are peptides, write them
@@ -1112,8 +1159,8 @@ public class MzTabFile {
 			mzTab.append(EOL);
 			
 			// write the peptide table header
-			List<String> peptideCustom = new ArrayList<String>(peptideCustomColumns);
-			mzTab.append(createPeptideHeader(peptideCustom));
+			List<String> peptideCustom = new ArrayList<String>(peptideCustomColumnNames);
+			mzTab.append(createPeptideHeader(peptideCustom, numberOfSubsamples));
 			
 			// add the peptides
 			for (Peptide p : peptides.values())
@@ -1127,7 +1174,7 @@ public class MzTabFile {
 		
 			// write the small molecule table header
 			List<String> smallMoleculeCustom = new ArrayList<String>(smallMoleculeCustomColumns);
-			mzTab.append(createSmallMoleculesHeader(smallMoleculeCustom));
+			mzTab.append(createSmallMoleculesHeader(smallMoleculeCustom, numberOfSubsamples));
 			
 			// add the small molecules
 			for (SmallMolecule m : smallMolecules.values())
@@ -1140,9 +1187,10 @@ public class MzTabFile {
 	/**
 	 * Creates the protein table header including the EOL.
 	 * @param customHeader
+	 * @param subsampleNumber The number of subsamples to be written to the header.
 	 * @return
 	 */
-	private String createProteinTableHeader(List<String> customHeader) {
+	private String createProteinTableHeader(List<String> customHeader, int subsampleNumber) {
 		StringBuffer header = new StringBuffer();
 		
 		for (ProteinTableField f : ProteinTableField.getOrderedFieldList()) {
@@ -1158,7 +1206,7 @@ public class MzTabFile {
 		}
 		
 		// add the quant fields
-		for (int i = 1; i <= maxProteinSubsamples; i++) {
+		for (int i = 1; i <= subsampleNumber; i++) {
 			header.append((header.length() == 0 ? "" : SEPARATOR) + ProteinTableField.PROTEIN_ABUNDANCE + "[" + i + "]");
 			header.append(SEPARATOR + ProteinTableField.PROTEIN_ABUNDANCE_STD + "[" + i + "]");
 			header.append(SEPARATOR + ProteinTableField.PROTEIN_ABUNDANCE_STD_ERROR + "[" + i + "]");
@@ -1176,9 +1224,10 @@ public class MzTabFile {
 	/**
 	 * Creates the peptide table header including the EOL.
 	 * @param customHeader
+	 * @param subsampleNumber The number of subsamples to be written to the header.
 	 * @return
 	 */
-	private String createPeptideHeader(List<String> customHeader) {
+	private String createPeptideHeader(List<String> customHeader, int subsampleNumber) {
 		StringBuffer header = new StringBuffer();
 		
 		for (PeptideTableField f : PeptideTableField.getOrderedFieldList()) {
@@ -1194,7 +1243,7 @@ public class MzTabFile {
 		}
 		
 		// add the quant fields
-		for (int i = 1; i <= maxPeptideSubsamples; i++) {
+		for (int i = 1; i <= subsampleNumber; i++) {
 			header.append((header.length() == 0 ? "" : SEPARATOR) + PeptideTableField.PEPTIDE_ABUNDANCE + "[" + i + "]");
 			header.append(SEPARATOR + PeptideTableField.PEPTIDE_ABUNDANCE_STD + "[" + i + "]");
 			header.append(SEPARATOR + PeptideTableField.PEPTIDE_ABUNDANCE_STD_ERROR + "[" + i + "]");
@@ -1212,9 +1261,10 @@ public class MzTabFile {
 	/**
 	 * Creates the small molecules table header including the EOL.
 	 * @param customHeader
+	 * @param subsampleNumber The number of subsamples to be written to the header.
 	 * @return
 	 */
-	private String createSmallMoleculesHeader(List<String> customHeader) {
+	private String createSmallMoleculesHeader(List<String> customHeader, int subsampleNumber) {
 		StringBuffer header = new StringBuffer();
 		
 		for (SmallMoleculeTableField f : SmallMoleculeTableField.getOrderedFieldList()) {
@@ -1230,7 +1280,7 @@ public class MzTabFile {
 		}
 		
 		// add the quant fields
-		for (int i = 1; i <= maxPeptideSubsamples; i++) {
+		for (int i = 1; i <= subsampleNumber; i++) {
 			header.append((header.length() == 0 ? "" : SEPARATOR) + SmallMoleculeTableField.ABUNDANCE + "[" + i + "]");
 			header.append(SEPARATOR + SmallMoleculeTableField.ABUNDANCE_STD + "[" + i + "]");
 			header.append(SEPARATOR + SmallMoleculeTableField.ABUNDANCE_STD_ERROR + "[" + i + "]");
@@ -1244,6 +1294,4 @@ public class MzTabFile {
 		
 		return header.toString();
 	}
-	
-	// TODO: add a function where the user can specify the various subsample numbers + custom columns
 }

@@ -1,8 +1,6 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
 import java.net.URI;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +32,7 @@ public class Peptide extends TableObject {
 	private Double		charge;
 	private Double		massToCharge;
 	private URI			uri;
-	private Map<Integer, Double> abundance = new HashMap<Integer, Double>();
-	private Map<Integer, Double> abundanceStd = new HashMap<Integer, Double>();
-	private Map<Integer, Double> abundanceError = new HashMap<Integer, Double>();
-	private Map<String, String> custom = new HashMap<String, String>();
-	
+		
 	public Peptide() {
 		
 	}
@@ -49,8 +43,6 @@ public class Peptide extends TableObject {
 	 * @throws MzTabParsingException
 	 */
 	public Peptide(Map<String, String> parsedTableLine) throws MzTabParsingException {
-		// TODO: for "simple" fields there is currently no way to distinguish between NA and MISSING
-		
 		try {
 			for (String fieldName : parsedTableLine.keySet()) {
 				PeptideTableField field = PeptideTableField.getField(fieldName);
@@ -218,26 +210,6 @@ public class Peptide extends TableObject {
 	public URI getUri() {
 		return uri;
 	}
-
-	public Map<String, String> getCustom() {
-		return custom;
-	}
-	
-	public Double getAbundance(int subsampleIndex) {
-		return abundance.get(subsampleIndex);
-	}
-	
-	public Double getAbundanceStdDev(int subsampleIndex) {
-		return abundanceStd.get(subsampleIndex);
-	}
-	
-	public Double getAbundanceStdErr(int subsampleIndex) {
-		return abundanceError.get(subsampleIndex);
-	}
-	
-	public Collection<Integer> getSubsampleIndexes() {
-		return abundance.keySet();
-	}
 	
 	/**
 	 * Returns the 0-based index of the peptide
@@ -315,29 +287,6 @@ public class Peptide extends TableObject {
 	}
 
 	/**
-	 * A HashMap of custom columns to be set. The column name
-	 * must be given as key and the value as value.
-	 * @param custom
-	 */
-	public void setCustom(Map<String, String> custom) {
-		this.custom = custom;
-	}
-	
-	/**
-	 * Sets the abundance of the given peptide for the specified
-	 * subsample.
-	 * @param nSubsample 1-based number of the subsample.
-	 * @param abundance The peptide's abundance.
-	 * @param standardDeviation The standard deviation. Set to NULL if missing.
-	 * @param standardError The standard error. Set to NULL if missing.
-	 */
-	public void setPeptideAbundance(int nSubsample, Double abundance, Double standardDeviation, Double standardError) {
-		this.abundance.put(nSubsample, abundance);
-		this.abundanceStd.put(nSubsample, standardDeviation);
-		this.abundanceError.put(nSubsample, standardError);
-	}
-
-	/**
 	 * Converts the peptide object to an mzTab formatted
 	 * String. The fields are written in the order defined
 	 * in the PeptideTableFields ENUM. The header is not
@@ -348,7 +297,6 @@ public class Peptide extends TableObject {
 	 */
 	@Override
 	public String toMzTab(int nSubsamples, List<String> optionalColumns) {
-		// TODO: make sure that the header is written beforehand
 		StringBuffer mzTabString = new StringBuffer();
 		List<PeptideTableField> fields = PeptideTableField.getOrderedFieldList();
 		
@@ -412,33 +360,6 @@ public class Peptide extends TableObject {
 		
 		// add the line terminator
 		mzTabString.append(EOL);
-		
-		return mzTabString.toString();
-	}
-	
-	/**
-	 * Converts the protein's quantitative data into a
-	 * mzTab formatted string. The quantitative data is
-	 * written in the order "abundance" - "stddev" - "stderror"
-	 * @param nSubsamples
-	 * @return The formatted mzTab string.
-	 */
-	private String quantDataToMztab(int nSubsamples) {
-		StringBuffer mzTabString = new StringBuffer();
-		
-		for (Integer subsample = 1; subsample <= nSubsamples; subsample++) {
-			Double abundance	= this.abundance.get(subsample);
-			Double stddev 		= this.abundanceStd.get(subsample);
-			Double stderr		= this.abundanceError.get(subsample);
-			
-			mzTabString.append(SEPARATOR +
-							// abundance
-						   (abundance != null ? abundance : MISSING) + SEPARATOR +
-						   // stdandard dev
-						   (stddev != null ? stddev : MISSING) + SEPARATOR +
-						   // standard error
-						   (stderr != null ? stderr : MISSING));
-		}
 		
 		return mzTabString.toString();
 	}
