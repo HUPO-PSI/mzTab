@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.mztab_java;
 
+@SuppressWarnings("serial")
 public class MzTabParsingException extends Exception {
 
 	public MzTabParsingException() {
