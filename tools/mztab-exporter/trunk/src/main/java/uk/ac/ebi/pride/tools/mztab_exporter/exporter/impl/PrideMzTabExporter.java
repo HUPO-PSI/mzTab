@@ -437,44 +437,40 @@ public class PrideMzTabExporter implements MzTabExporter {
 		
 		// process the additional params
 		for (CvParam p : ident.getAdditional().getCvParam()) {
-			// check if there's a quant unit set
-			if (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) ||
-				QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession())) {
-				
-				if (writer.getUnitMetadata(unitId) != null) {
-					if (writer.getUnitMetadata(unitId).getProteinQuantificationUnit() == null)
-						writer.getUnitMetadata(unitId).setProteinQuantificationUnit(convertParam(p));
-					// make sure there aren't different protein units reported
-					else {
-						if (!writer.getUnitMetadata(unitId).getProteinQuantificationUnit().getAccession().equals(p.getAccession()))
-							// TODO: add proper error handling
-							throw new RuntimeException("Different protein quantification units reported");
+			try {
+				// check if there's a quant unit set
+				if (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) ||
+					QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession())) {
+					
+					if (writer.getUnitMetadata(unitId) != null) {
+						if (writer.getUnitMetadata(unitId).getProteinQuantificationUnit() == null)
+							writer.getUnitMetadata(unitId).setProteinQuantificationUnit(convertParam(p));
+						// make sure there aren't different protein units reported
+						else {
+							if (!writer.getUnitMetadata(unitId).getProteinQuantificationUnit().getAccession().equals(p.getAccession()))
+								// TODO: add proper error handling
+								throw new RuntimeException("Different protein quantification units reported");
+						}
+							
 					}
-						
+				}
+				
+				else if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
+					protein.setCustomColumn("opt_empai", p.getValue());
+				}
+				
+				// check if there's gel spot identifier
+				else if (DAOCvParams.GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
+					protein.setCustomColumn("opt_gel_spotidentifier", p.getValue());
+				}
+				
+				// check if there's gel identifier
+				else if (DAOCvParams.GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
+					protein.setCustomColumn("opt_gel_identifier", p.getValue());
 				}
 			}
-			
-			else if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
-				if (protein.getCustom() == null)
-					protein.setCustom(new HashMap<String, String>());
-				
-				protein.getCustom().put("opt_empai", p.getValue());
-			}
-			
-			// check if there's gel spot identifier
-			else if (DAOCvParams.GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
-				if (protein.getCustom() == null)
-					protein.setCustom(new HashMap<String, String>());
-				
-				protein.getCustom().put("opt_gel_spotidentifier", p.getValue());
-			}
-			
-			// check if there's gel identifier
-			else if (DAOCvParams.GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
-				if (protein.getCustom() == null)
-					protein.setCustom(new HashMap<String, String>());
-				
-				protein.getCustom().put("opt_gel_identifier", p.getValue());
+			catch (MzTabParsingException e) {
+				throw new RuntimeException(e.getMessage());
 			}
 		}
 		
@@ -493,7 +489,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std1 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE1.getAccession());
 		
 		if (abundance1 != null)
-			protein.setProteinAbundance(1, Double.parseDouble(abundance1), std1 != null ? Double.parseDouble(std1) : null, error1 != null ? Double.parseDouble(error1) : null);
+			protein.setAbundance(1, Double.parseDouble(abundance1), std1 != null ? Double.parseDouble(std1) : null, error1 != null ? Double.parseDouble(error1) : null);
 		
 		// check subsample 2
 		String abundance2 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession());
@@ -501,7 +497,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std2 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE2.getAccession());
 		
 		if (abundance2 != null)
-			protein.setProteinAbundance(2, Double.parseDouble(abundance2), std2 != null ? Double.parseDouble(std2) : null, error2 != null ? Double.parseDouble(error2) : null);
+			protein.setAbundance(2, Double.parseDouble(abundance2), std2 != null ? Double.parseDouble(std2) : null, error2 != null ? Double.parseDouble(error2) : null);
 		
 		// check subsample 3
 		String abundance3 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession());
@@ -509,7 +505,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std3 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE3.getAccession());
 		
 		if (abundance3 != null)
-			protein.setProteinAbundance(3, Double.parseDouble(abundance3), std3 != null ? Double.parseDouble(std3) : null, error3 != null ? Double.parseDouble(error3) : null);
+			protein.setAbundance(3, Double.parseDouble(abundance3), std3 != null ? Double.parseDouble(std3) : null, error3 != null ? Double.parseDouble(error3) : null);
 		
 		// check subsample 4
 		String abundance4 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession());
@@ -517,7 +513,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std4 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE4.getAccession());
 		
 		if (abundance4 != null)
-			protein.setProteinAbundance(4, Double.parseDouble(abundance4), std4 != null ? Double.parseDouble(std4) : null, error4 != null ? Double.parseDouble(error4) : null);
+			protein.setAbundance(4, Double.parseDouble(abundance4), std4 != null ? Double.parseDouble(std4) : null, error4 != null ? Double.parseDouble(error4) : null);
 		
 		// check subsample 5
 		String abundance5 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession());
@@ -525,7 +521,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std5 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE5.getAccession());
 		
 		if (abundance5 != null)
-			protein.setProteinAbundance(5, Double.parseDouble(abundance5), std5 != null ? Double.parseDouble(std5) : null, error5 != null ? Double.parseDouble(error5) : null);
+			protein.setAbundance(5, Double.parseDouble(abundance5), std5 != null ? Double.parseDouble(std5) : null, error5 != null ? Double.parseDouble(error5) : null);
 		
 		// check subsample 6
 		String abundance6 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession());
@@ -533,7 +529,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std6 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE6.getAccession());
 		
 		if (abundance6 != null)
-			protein.setProteinAbundance(6, Double.parseDouble(abundance6), std6 != null ? Double.parseDouble(std6) : null, error6 != null ? Double.parseDouble(error6) : null);
+			protein.setAbundance(6, Double.parseDouble(abundance6), std6 != null ? Double.parseDouble(std6) : null, error6 != null ? Double.parseDouble(error6) : null);
 		
 		// check subsample 7
 		String abundance7 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession());
@@ -541,7 +537,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std7 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE7.getAccession());
 		
 		if (abundance7 != null)
-			protein.setProteinAbundance(7, Double.parseDouble(abundance7), std7 != null ? Double.parseDouble(std7) : null, error7 != null ? Double.parseDouble(error7) : null);
+			protein.setAbundance(7, Double.parseDouble(abundance7), std7 != null ? Double.parseDouble(std7) : null, error7 != null ? Double.parseDouble(error7) : null);
 		
 		// check subsample 8
 		String abundance8 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession());
@@ -549,7 +545,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std8 = getFirstCvParamValue(ident.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE8.getAccession());
 		
 		if (abundance8 != null)
-			protein.setProteinAbundance(8, Double.parseDouble(abundance8), std8 != null ? Double.parseDouble(std8) : null, error8 != null ? Double.parseDouble(error8) : null);
+			protein.setAbundance(8, Double.parseDouble(abundance8), std8 != null ? Double.parseDouble(std8) : null, error8 != null ? Double.parseDouble(error8) : null);
 	}
 	
 	/**
@@ -564,7 +560,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std1 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE1.getAccession());
 		
 		if (abundance1 != null)
-			peptide.setPeptideAbundance(1, Double.parseDouble(abundance1), std1 != null ? Double.parseDouble(std1) : null, error1 != null ? Double.parseDouble(error1) : null);
+			peptide.setAbundance(1, Double.parseDouble(abundance1), std1 != null ? Double.parseDouble(std1) : null, error1 != null ? Double.parseDouble(error1) : null);
 		
 		// check subsample 2
 		String abundance2 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession());
@@ -572,7 +568,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std2 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE2.getAccession());
 		
 		if (abundance2 != null)
-			peptide.setPeptideAbundance(2, Double.parseDouble(abundance2), std2 != null ? Double.parseDouble(std2) : null, error2 != null ? Double.parseDouble(error2) : null);
+			peptide.setAbundance(2, Double.parseDouble(abundance2), std2 != null ? Double.parseDouble(std2) : null, error2 != null ? Double.parseDouble(error2) : null);
 		
 		// check subsample 3
 		String abundance3 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession());
@@ -580,7 +576,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std3 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE3.getAccession());
 		
 		if (abundance3 != null)
-			peptide.setPeptideAbundance(3, Double.parseDouble(abundance3), std3 != null ? Double.parseDouble(std3) : null, error3 != null ? Double.parseDouble(error3) : null);
+			peptide.setAbundance(3, Double.parseDouble(abundance3), std3 != null ? Double.parseDouble(std3) : null, error3 != null ? Double.parseDouble(error3) : null);
 		
 		// check subsample 4
 		String abundance4 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession());
@@ -588,7 +584,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std4 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE4.getAccession());
 		
 		if (abundance4 != null)
-			peptide.setPeptideAbundance(4, Double.parseDouble(abundance4), std4 != null ? Double.parseDouble(std4) : null, error4 != null ? Double.parseDouble(error4) : null);
+			peptide.setAbundance(4, Double.parseDouble(abundance4), std4 != null ? Double.parseDouble(std4) : null, error4 != null ? Double.parseDouble(error4) : null);
 		
 		// check subsample 5
 		String abundance5 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession());
@@ -596,7 +592,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std5 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE5.getAccession());
 		
 		if (abundance5 != null)
-			peptide.setPeptideAbundance(5, Double.parseDouble(abundance5), std5 != null ? Double.parseDouble(std5) : null, error5 != null ? Double.parseDouble(error5) : null);
+			peptide.setAbundance(5, Double.parseDouble(abundance5), std5 != null ? Double.parseDouble(std5) : null, error5 != null ? Double.parseDouble(error5) : null);
 		
 		// check subsample 6
 		String abundance6 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession());
@@ -604,7 +600,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std6 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE6.getAccession());
 		
 		if (abundance6 != null)
-			peptide.setPeptideAbundance(6, Double.parseDouble(abundance6), std6 != null ? Double.parseDouble(std6) : null, error6 != null ? Double.parseDouble(error6) : null);
+			peptide.setAbundance(6, Double.parseDouble(abundance6), std6 != null ? Double.parseDouble(std6) : null, error6 != null ? Double.parseDouble(error6) : null);
 		
 		// check subsample 7
 		String abundance7 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession());
@@ -612,7 +608,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std7 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE7.getAccession());
 		
 		if (abundance7 != null)
-			peptide.setPeptideAbundance(7, Double.parseDouble(abundance7), std7 != null ? Double.parseDouble(std7) : null, error7 != null ? Double.parseDouble(error7) : null);
+			peptide.setAbundance(7, Double.parseDouble(abundance7), std7 != null ? Double.parseDouble(std7) : null, error7 != null ? Double.parseDouble(error7) : null);
 		
 		// check subsample 8
 		String abundance8 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession());
@@ -620,7 +616,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		String std8 = getFirstCvParamValue(peptideItem.getAdditional(), QuantitationCvParams.INTENSITY_STD_SUBSAMPLE8.getAccession());
 		
 		if (abundance8 != null)
-			peptide.setPeptideAbundance(8, Double.parseDouble(abundance8), std8 != null ? Double.parseDouble(std8) : null, error8 != null ? Double.parseDouble(error8) : null);
+			peptide.setAbundance(8, Double.parseDouble(abundance8), std8 != null ? Double.parseDouble(std8) : null, error8 != null ? Double.parseDouble(error8) : null);
 	}
 
 	/**
