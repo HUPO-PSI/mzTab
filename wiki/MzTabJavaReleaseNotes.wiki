@@ -1,7 +1,7 @@
 #summary Short summary of changes in the mztab-java API.
 
 ----
-*mztab-java version 1.0.0 - (Release pending)*
+*mztab-java version 1.0.0 - (4. November 2011)*
 
   * NEW FEATURE: Added additional function to generate mzTab string with a custom number of subsamples and optional columns.
   * NEW FEATURE: Protein, Peptide, and SmallMolecule function names made more consistent. *WARNING*: Several function names changed. Please do check your code when updating to this version.
