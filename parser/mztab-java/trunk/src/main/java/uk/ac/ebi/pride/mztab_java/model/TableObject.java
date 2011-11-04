@@ -6,14 +6,23 @@ import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class TableObject {
     public static final String NA = "NA";
     public static final String MISSING = "--";
     public static final String SEPARATOR = MzTabFile.SEPARATOR;
     public static final String EOL = MzTabFile.EOL;
+    
+    protected Map<Integer, Double> abundance = new HashMap<Integer, Double>();
+    protected Map<Integer, Double> abundanceStd = new HashMap<Integer, Double>();
+    protected Map<Integer, Double> abundanceError = new HashMap<Integer, Double>();
+    
+    protected Map<String, String> custom = new HashMap<String, String>();
 
     /**
      * Converts the given object to a mzTab formatted string (including
@@ -269,4 +278,80 @@ public abstract class TableObject {
 
         return string;
     }
+    
+    /**
+	 * Converts the quantitative data into a
+	 * mzTab formatted string. The quantitative data is
+	 * written in the order "abundance" - "stddev" - "stderror"
+	 * @param nSubsamples
+	 * @return The formatted mzTab string.
+	 */
+	protected String quantDataToMztab(int nSubsamples) {
+		StringBuffer mzTabString = new StringBuffer();
+		
+		for (Integer subsample = 1; subsample <= nSubsamples; subsample++) {
+			Double abundance	= this.abundance.get(subsample);
+			Double stddev 		= this.abundanceStd.get(subsample);
+			Double stderr		= this.abundanceError.get(subsample);
+			
+			mzTabString.append(SEPARATOR +
+							// abundance
+						   (abundance != null ? abundance : MISSING) + SEPARATOR +
+						   // stdandard dev
+						   (stddev != null ? stddev : MISSING) + SEPARATOR +
+						   // standard error
+						   (stderr != null ? stderr : MISSING));
+		}
+		
+		return mzTabString.toString();
+	}
+	
+	/**
+	 * Sets the abundance of the given object for the specified
+	 * subsample.
+	 * @param nSubsample 1-based number of the subsample.
+	 * @param abundance The peptide's abundance.
+	 * @param standardDeviation The standard deviation. Set to NULL if missing.
+	 * @param standardError The standard error. Set to NULL if missing.
+	 */
+	public void setAbundance(int nSubsample, Double abundance, Double standardDeviation, Double standardError) {
+		this.abundance.put(nSubsample, abundance);
+		this.abundanceStd.put(nSubsample, standardDeviation);
+		this.abundanceError.put(nSubsample, standardError);
+	}
+	
+	public Double getAbundance(int subsampleIndex) {
+		return abundance.get(subsampleIndex);
+	}
+	
+	public Double getAbundanceStdDev(int subsampleIndex) {
+		return abundanceStd.get(subsampleIndex);
+	}
+	
+	public Double getAbundanceStdErr(int subsampleIndex) {
+		return abundanceError.get(subsampleIndex);
+	}
+	
+	public Collection<Integer> getSubsampleIndexes() {
+		return abundance.keySet();
+	}
+	
+	public Map<String, String> getCustom() {
+		return custom;
+	}
+	
+	/**
+	 * Sets a specific custom's column value. The column
+	 * name must start with "opt_" as defined in the
+	 * mzTab specification document.
+	 * @param columnName The column's name to set the value for. Must start with "opt_".
+	 * @param value The new value.
+	 * @throws MzTabParsingException Thrown if an invalid column name is passed.
+	 */
+	public void setCustomColumn(String columnName, String value) throws MzTabParsingException {
+		if (!columnName.startsWith("opt_"))
+			throw new MzTabParsingException("Invalid custom column name. Custom column names must start with \"opt_\".");
+		
+		custom.put(columnName, value);
+	}
 }
