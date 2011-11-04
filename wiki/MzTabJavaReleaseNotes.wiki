@@ -3,6 +3,9 @@
 ----
 *mztab-java version 1.0.0 - (Release pending)*
 
+  * NEW FEATURE: Added additional function to generate mzTab string with a custom number of subsamples and optional columns.
+  * NEW FEATURE: Protein, Peptide, and SmallMolecule function names made more consistent. *WARNING*: Several function names changed. Please do check your code when updating to this version.
+  * BUGFIX: Custom columns were not written to the mzTab file if a custom column was added during editing.
   * BUGFIX: Quantitative values were not written to the mzTab file if a subsample was added during editing.
   * NEW FEATURE: Added support for '"' encapsulated fields.
   * NEW FEATURE: Incorporated changes proposed by Julian Uszkoreit. Changed all toMzTab functions to use StringBuffer for better performance.
