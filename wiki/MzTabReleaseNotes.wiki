@@ -3,5 +3,13 @@
 ----
 *mzTab version 0.6 - (11. November 2011)*
 
-  * NEW FEATURE: Added references to external MS data files (such as mzML). The same approach was followed as in mzIdentML. This update affects the metadata section, the peptide and the small molecules table.
+  * UPDATE: The position information in modifications was set optional. In case no position information is given this means that the position of the modification is unknown.
+
+  * NEW FEATURE: Added references to spectra in external MS data files (such as mzML files). The same approach was followed as in mzIdentML. This update affects the metadata section, the peptide and the small molecules table.
+
+*Added fields / columns:*
+|| metadata fields || [[UNIT_ID]]-ms_file[[1-n]]-format, [[UNIT_ID]]-ms_file[[1-n]]-location, [[UNIT_ID]]-ms_file[[1-n]]-id_format ||
+|| peptide table || spectra_ref (after uri) ||
+|| small molecule table || spectra_ref (after uri) ||
+
 ----
