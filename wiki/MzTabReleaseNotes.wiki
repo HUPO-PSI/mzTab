@@ -1,0 +1,7 @@
+#summary Release notes of the mzTab specification.
+
+----
+*mzTab version 0.6 - (11. November 2011)*
+
+  * NEW FEATURE: Added references to external MS data files (such as mzML). The same approach was followed as in mzIdentML. This update affects the metadata section, the peptide and the small molecules table.
+----
