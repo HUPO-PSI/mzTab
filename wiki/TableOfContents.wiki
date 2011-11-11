@@ -1,5 +1,6 @@
   * [Welcome ↑ Home]
   * [FileFormat File Format]
+    * [MzTabReleaseNotes Changelog]
   * [MzTabParser Parser Libraries]
     * [MzTabJava mztab-java]
       * [MzTabJavaReleaseNotes Release Notes]
