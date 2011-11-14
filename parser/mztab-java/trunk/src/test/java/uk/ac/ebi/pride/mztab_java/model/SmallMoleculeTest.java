@@ -11,9 +11,9 @@ import uk.ac.ebi.pride.mztab_java.util.TsvTableParser;
 
 public class SmallMoleculeTest extends TestCase {
 	public void testMarshallingUnmarshalling() {
-		String line1 = "SML	The molecule	PRIDE_1234	H2O	A molecule that just rocks.	143.45	2	10.0,28.8	9606	Human (Homo sapiens)	--	--	2	--	[SpectraST,]	--	NA	This col is cool!";
+		String line1 = "SML	The molecule	PRIDE_1234	H2O	A molecule that just rocks.	143.45	2	10.0,28.8	9606	Human (Homo sapiens)	--	--	2	--	ms_file[4]:1	[SpectraST,]	--	NA	This col is cool!";
 		
-		TsvTableParser parser = new TsvTableParser("SMH	identifier	unit_id	chemical_formula	description	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	search_engine	search_engine_score	modifications	opt_my_column");
+		TsvTableParser parser = new TsvTableParser("SMH	identifier	unit_id	chemical_formula	description	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	spec_ref	search_engine	search_engine_score	modifications	opt_my_column");
 		Map<String, String> parsedLine1 = parser.parseTableLine(line1);
 		
 		try {
