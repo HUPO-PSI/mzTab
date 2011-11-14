@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -292,6 +293,17 @@ public class Peptide extends TableObject {
 
 	public void setUri(URI uri) {
 		this.uri = uri;
+	}
+	
+	/**
+	 * Add a spectrum reference to the peptide object.
+	 * @param specRef A SpecRef object.
+	 */
+	public void addSpecRef(SpecRef specRef) {
+		if (this.specRef == null)
+			this.specRef = new ArrayList<SpecRef>(1);
+		
+		this.specRef.add(specRef);
 	}
 	
 	public void setSpecRefs(List<SpecRef> specRefs) {

@@ -601,10 +601,13 @@ public class Unit {
 		if (index < 1)
 			throw new MzTabParsingException("MsFile index must be greater or equal to 1.");
 		
+		if (msFiles == null)
+			msFiles = new HashMap<Integer, MsFile>();
+		
 		if (msFile == null)
-			msFiles.remove(index);
+			msFiles.remove(index - 1);
 		else
-			msFiles.put(index, msFile);
+			msFiles.put(index - 1, msFile);
 	}
 
 	/**

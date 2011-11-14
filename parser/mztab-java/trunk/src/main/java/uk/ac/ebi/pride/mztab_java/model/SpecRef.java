@@ -42,6 +42,22 @@ public class SpecRef {
 	
 	/**
 	 * Creates a new SpecRef object.
+	 * 
+	 * @param msFileIndex The ms_file's index. Must be >= 1.
+	 * @param reference The reference to the spectrum in the MS fiile.
+	 * @throws MzTabParsingException Thrown in case an invalid ms_file index is passed.
+	 */
+	public SpecRef(int msFileIndex, String reference) throws MzTabParsingException {
+		if (msFileIndex < 1)
+			throw new MzTabParsingException("Invalid ms_file index passed. ms_file indexes must larger or equal to 1.");
+		
+		this.msFile = String.format("ms_file[%d]", msFileIndex);
+		this.reference = reference;
+		this.msFileIndex = msFileIndex;
+	}
+	
+	/**
+	 * Creates a new SpecRef object.
 	 * @param msFile The ms file (f.e. "ms_file[1]")
 	 * @param reference The reference to the spectrum in the MS file.
 	 * @throws MzTabParsingException Thrown if an invalid ms_file is passed.
