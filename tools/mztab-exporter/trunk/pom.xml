@@ -15,20 +15,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<repositories>
-		<!-- EBI repositories -->
-		<repository>
-			<id>ebi-repo</id>
-			<name>The EBI internal repository</name>
-			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
-		</repository>
-		<repository>
-			<id>ebi-repo-snapshots</id>
-			<name>The EBI internal repository</name>
-			<url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
-		</repository>
-	</repositories>
-
 	<pluginRepositories>
 		<pluginRepository>
 			<id>java.net</id>
@@ -137,7 +123,7 @@
 		<dependency>
 			<groupId>uk.ac.ebi.pride.</groupId>
 			<artifactId>mztab-java</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -168,6 +154,20 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+	
+	<repositories>
+		<!-- EBI repositories -->
+		<repository>
+			<id>ebi-repo</id>
+			<name>The EBI internal repository</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+		</repository>
+		<repository>
+			<id>ebi-repo-snapshots</id>
+			<name>The EBI internal repository</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+		</repository>
+	</repositories>
 
 	<distributionManagement>
 		<repository>
