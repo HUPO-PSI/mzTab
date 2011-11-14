@@ -37,6 +37,7 @@ public class SmallMolecule extends TableObject {
 	private String			databaseVersion;
 	private Integer			reliability;
 	private URI				uri;
+	private List<SpecRef>	specRef;
 	private ParamList		searchEngine;
 	private ParamList		searchEngineScore;
 	private List<Modification> modifications;
@@ -102,6 +103,9 @@ public class SmallMolecule extends TableObject {
 						break;
 					case URI:
 						uri = parseUriField(value);
+						break;
+					case SPEC_REF:
+						specRef = parseSpecRefArray(value);
 						break;
 					case SEARCH_ENGINE:
 						searchEngine = parseParamListField(value);
@@ -223,6 +227,10 @@ public class SmallMolecule extends TableObject {
 	public URI getUri() {
 		return uri;
 	}
+	
+	public List<SpecRef> getSpecRef() {
+		return specRef;
+	}
 
 	public ParamList getSearchEngine() {
 		return searchEngine;
@@ -306,6 +314,10 @@ public class SmallMolecule extends TableObject {
 	public void setUri(URI uri) {
 		this.uri = uri;
 	}
+	
+	public void setSpecRefs(List<SpecRef> specRefs) {
+		this.specRef = specRefs;
+	}
 
 	public void setSearchEngine(ParamList searchEngine) {
 		this.searchEngine = searchEngine;
@@ -377,6 +389,9 @@ public class SmallMolecule extends TableObject {
 				case URI:
 					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(uri));
 					break;
+				case SPEC_REF:
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(specRef, "|"));
+					break;
 				case SEARCH_ENGINE:
 					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(searchEngine));
 					break;
@@ -443,6 +458,7 @@ public class SmallMolecule extends TableObject {
 		result = prime * result + ((taxid == null) ? 0 : taxid.hashCode());
 		result = prime * result + ((unitId == null) ? 0 : unitId.hashCode());
 		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+		result = prime * result + ((specRef == null) ? 0 : specRef.hashCode());
 		return result;
 	}
 
@@ -554,6 +570,11 @@ public class SmallMolecule extends TableObject {
 			if (other.uri != null)
 				return false;
 		} else if (!uri.equals(other.uri))
+			return false;
+		if (specRef == null) {
+			if (other.specRef != null)
+				return false;
+		} else if (!specRef.equals(other.specRef))
 			return false;
 		return true;
 	}

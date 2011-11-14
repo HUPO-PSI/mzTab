@@ -16,14 +16,19 @@ public class Modification {
 	private String modAccession;
 	
 	/**
-	 * Creates a new modification object.
+	 * Creates a new modification object. In case
+	 * the modification's position is unknown the
+	 * position should be set to 0.
 	 * @param modAccession The modification's PSI-MOD accession
 	 * @param position The modification's position.
 	 */
 	public Modification(String modAccession, Integer position) {
 		this.modAccession = modAccession;
-		this.position.add(position);
-		this.positionReliability.add(null);
+		
+		if (position != null) {
+			this.position.add(position);
+			this.positionReliability.add(null);
+		}
 	}
 	
 	/**
@@ -31,9 +36,13 @@ public class Modification {
 	 * @param modAccession The modification's PSI-MOD accession
 	 * @param position The modification's position.
 	 * @param reliability The position's reliability
+	 * @throws MzTabParsingException 
 	 */
-	public Modification(String modAccession, Integer position, Double reliability) {
-		this.modAccession = modAccession;
+	public Modification(String modAccession, Integer position, Double reliability) throws MzTabParsingException {
+		if (position == null)
+			throw new MzTabParsingException("Modification position must not be 0 when a modification reliability is being set.");
+		
+		this.modAccession = modAccession;		
 		this.position.add(position);
 		this.positionReliability.add(reliability);
 	}
@@ -46,6 +55,12 @@ public class Modification {
 	public Modification(String mzTabString) throws MzTabParsingException {
 		// parse the modification
 		Matcher matcher = mzTabModificationPattern.matcher(mzTabString);
+		
+		// check if there is a position set
+		if (!mzTabString.contains("-")) {
+			this.modAccession = mzTabString;
+			return;
+		}
 		
 		if (!matcher.find())
 			throw new MzTabParsingException("Failed to parse modification. Malformatted modification definition passed: <" + mzTabString + ">");
@@ -99,18 +114,21 @@ public class Modification {
 		if (position.size() != positionReliability.size() || position.size() < 1)
 			throw new IllegalStateException("Tried to convert modification object to mzTab not containing any position information.");
 		
-		String mzTabString = "";
+		StringBuilder mzTabString = new StringBuilder();
 		
 		for (int i = 0; i < position.size(); i++) {
-			mzTabString += (mzTabString.length() > 0 ? "|" : "") + position.get(i);
+			mzTabString.append( (mzTabString.length() > 0 ? "|" : "") + position.get(i) );
 			
 			if (positionReliability.get(i) != null)
-				mzTabString += "[" + positionReliability.get(i) + "]";
+				mzTabString.append( "[" + positionReliability.get(i) + "]" );
 		}
 		
-		mzTabString += "-" + modAccession;
+		if (position.size() > 0)
+			mzTabString.append("-");
 		
-		return mzTabString;
+		mzTabString.append( modAccession );
+		
+		return mzTabString.toString();
 	}
 
 	@Override
