@@ -208,6 +208,35 @@ public abstract class TableObject {
 
         return parsedValues;
     }
+    
+    /**
+     * Parses a list of spec_refs and returns them
+     * as a List of SpecRefS objects.
+     * 
+     * @param field
+     * @return
+     * @throws MzTabParsingException
+     */
+    protected List<SpecRef> parseSpecRefArray(String field) throws MzTabParsingException {
+    	field = field.trim();
+    	
+    	// check if the field is available
+        if (MISSING.equals(field))
+            return null;
+        if (NA.equals(field))
+            return Collections.emptyList();
+        
+        // split the field into the refs
+        String refs[] = field.split("\\|");
+        
+        List<SpecRef> specRefs = new ArrayList<SpecRef>(refs.length);
+        
+        for (String ref : refs) {
+        	specRefs.add(new SpecRef(ref));
+        }
+        
+        return specRefs;
+    }
 
     /**
      * Parses a modification string and returns a List of ModificationS.

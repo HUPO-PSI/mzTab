@@ -27,14 +27,15 @@ public enum PeptideTableField {
 	CHARGE(						"charge",						12),
 	MASS_TO_CHARGE(				"mass_to_charge",				13),
 	URI(						"uri",							14),
+	SPEC_REF(					"spec_ref",						15),
 	// WARNING: the position information of the quantitative fields as well 
 	// as the custom field is not evaluated. To change the order these fields
 	// are marshalled, the respective functions in Protein.java need to be
 	// changed.
-	PEPTIDE_ABUNDANCE(			"peptide_abundance_sub",		15),
-	PEPTIDE_ABUNDANCE_STD(		"peptide_abundance_stdev_sub",	16),
-	PEPTIDE_ABUNDANCE_STD_ERROR("peptide_abundance_std_error_sub",17),
-	CUSTOM(						"opt_",							18);
+	PEPTIDE_ABUNDANCE(			"peptide_abundance_sub",		16),
+	PEPTIDE_ABUNDANCE_STD(		"peptide_abundance_stdev_sub",	17),
+	PEPTIDE_ABUNDANCE_STD_ERROR("peptide_abundance_std_error_sub",18),
+	CUSTOM(						"opt_",							19);
 	
 	private static HashMap<String, PeptideTableField> fieldMappings = new HashMap<String, PeptideTableField>();
 	private static ArrayList<PeptideTableField> orderedTableFields = new ArrayList<PeptideTableField>();

@@ -21,17 +21,18 @@ public enum SmallMoleculeTableField {
 	DATABASE_VERSION(			"database_version",				11),
 	RELIABILITY(				"reliability", 					12),
 	URI(						"uri",							13),
-	SEARCH_ENGINE(				"search_engine",				14),
-	SEARCH_ENGINE_SCORE(		"search_engine_score",			15),
-	MODIFICATIONS(				"modifications",				16),
+	SPEC_REF(					"spec_ref",						14),
+	SEARCH_ENGINE(				"search_engine",				15),
+	SEARCH_ENGINE_SCORE(		"search_engine_score",			16),
+	MODIFICATIONS(				"modifications",				17),
 	// WARNING: the position information of the quantitative fields as well 
 	// as the custom field is not evaluated. To change the order these fields
 	// are marshalled, the respective functions in Protein.java need to be
 	// changed.
-	ABUNDANCE(					"smallmolecule_abundance_sub",	17),
-	ABUNDANCE_STD(				"smallmolecule_abundance_stdev_sub", 18),
-	ABUNDANCE_STD_ERROR(		"smallmolecule_abundance_std_error_sub", 19),
-	CUSTOM(						"opt_",							20);
+	ABUNDANCE(					"smallmolecule_abundance_sub",	18),
+	ABUNDANCE_STD(				"smallmolecule_abundance_stdev_sub", 19),
+	ABUNDANCE_STD_ERROR(		"smallmolecule_abundance_std_error_sub", 20),
+	CUSTOM(						"opt_",							21);
 	
 	private static HashMap<String, SmallMoleculeTableField> fieldMappings = new HashMap<String, SmallMoleculeTableField>();
 	private static ArrayList<SmallMoleculeTableField> orderedTableFields = new ArrayList<SmallMoleculeTableField>();

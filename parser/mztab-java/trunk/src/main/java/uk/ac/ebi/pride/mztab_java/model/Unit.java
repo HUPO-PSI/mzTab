@@ -3,7 +3,10 @@ package uk.ac.ebi.pride.mztab_java.model;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +52,7 @@ public class Unit {
 	private List<Param>			disease;
 	
 	private List<Subsample>		subsamples;
+	private Map<Integer, MsFile> msFiles;
 	
 	/**
 	 * Constructur constructing an empty Uni.
@@ -205,6 +209,25 @@ public class Unit {
 					contact.get(contactIndex - 1).setEmail(value.trim());
 				else if (field.endsWith("affiliation"))
 					contact.get(contactIndex - 1).setAffiliation(value.trim());
+			}
+			
+			// ms_file
+			else if (field.startsWith("ms_file")) {
+				// get the instrument's index
+				int msFileIndex = Integer.parseInt( field.substring(8, field.indexOf(']', 8)) );
+				// create the instrument array if necessary
+				if (msFiles == null)
+					msFiles = new HashMap<Integer, MsFile>();
+				// create the instrument if necessary
+				if (msFiles.size() < msFileIndex)
+					msFiles.put(msFileIndex - 1, new MsFile());
+				// check which value is set
+				if (field.endsWith("id_format"))
+					msFiles.get(msFileIndex - 1).setIdFormat(new Param(value));
+				else if (field.endsWith("format"))
+					msFiles.get(msFileIndex - 1).setFormat(new Param(value));
+				else if (field.endsWith("location"))
+					msFiles.get(msFileIndex - 1).setLocation(value.trim());
 			}
 			
 			// TODO: define how -custom params are handled and react on that
@@ -429,6 +452,21 @@ public class Unit {
 	}
 	
 	/**
+	 * Retrieves the MsFile reference with the
+	 * given index. Returns null in case the
+	 * reference does not exist.
+	 * @param index The MsFile's index. Must be >= 1.
+	 * @return The MsFile object representing the reference or null in case it does not exist.
+	 * @throws MzTabParsingException Thrown in case an invalid index is passed.
+	 */
+	public MsFile getMsFile(int index) throws MzTabParsingException {
+		if (index < 1)
+			throw new MzTabParsingException("MsFile indexes must be greater or equal to 1.");
+		
+		return msFiles.get(index - 1);
+	}
+	
+	/**
 	 * Adds the given subsample. In case a subsample
 	 * with the same index already exists, this subample
 	 * is replaced.
@@ -529,7 +567,7 @@ public class Unit {
 	public void setPeptideQuantificationUnit(Param peptideQuantificationUnit) {
 		this.peptideQuantificationUnit = peptideQuantificationUnit;
 	}
-
+	
 	public void setCustomParams(List<Param> customParams) {
 		this.customParams = customParams;
 	}
@@ -548,6 +586,25 @@ public class Unit {
 
 	public void setDisease(List<Param> disease) {
 		this.disease = disease;
+	}
+	
+	/**
+	 * Sets a reference to an external MS file. To unset
+	 * a file reference the MsFile object should be set
+	 * to null.
+	 * 
+	 * @param index The msFile's index. Must be >= 1.
+	 * @param msFile The new ms file object. Null to remove the reference from the file.
+	 * @throws MzTabParsingException 
+	 */
+	public void setMsFile(int index, MsFile msFile) throws MzTabParsingException {
+		if (index < 1)
+			throw new MzTabParsingException("MsFile index must be greater or equal to 1.");
+		
+		if (msFile == null)
+			msFiles.remove(index);
+		else
+			msFiles.put(index, msFile);
 	}
 
 	/**
@@ -617,6 +674,17 @@ public class Unit {
 		// peptide quant unit
 		if (peptideQuantificationUnit != null)
 			mzTab.append(createField("peptide-quantification_unit", peptideQuantificationUnit));
+		// ms files
+		if (msFiles != null) {
+			List<Integer> ids = new ArrayList<Integer>( msFiles.keySet() );
+			Collections.sort(ids);
+			
+			for (Integer index : ids) {
+				mzTab.append(createField(String.format("ms_file[%d]-format", index + 1), msFiles.get(index).getFormat()));
+				mzTab.append(createField(String.format("ms_file[%d]-location", index + 1), msFiles.get(index).getLocation()));
+				mzTab.append(createField(String.format("ms_file[%d]-id_format", index + 1), msFiles.get(index).getIdFormat()));
+			}
+		}
 		// custom
 		if (customParams != null) {
 			for (Param p : customParams)
@@ -707,6 +775,7 @@ public class Unit {
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((unitId == null) ? 0 : unitId.hashCode());
 		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+		result = prime * result + ((msFiles == null) ? 0 : msFiles.hashCode());
 		return result;
 	}
 
@@ -825,6 +894,11 @@ public class Unit {
 			if (other.uri != null)
 				return false;
 		} else if (!uri.equals(other.uri))
+			return false;
+		if (msFiles == null) {
+			if (other.msFiles != null)
+				return false;
+		} else if (!msFiles.equals(other.msFiles))
 			return false;
 		return true;
 	}

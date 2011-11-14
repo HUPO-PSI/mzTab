@@ -32,6 +32,7 @@ public class Peptide extends TableObject {
 	private Double		charge;
 	private Double		massToCharge;
 	private URI			uri;
+	private List<SpecRef> specRef;
 		
 	public Peptide() {
 		
@@ -95,6 +96,9 @@ public class Peptide extends TableObject {
 						break;
 					case URI:
 						uri = parseUriField(value);
+						break;
+					case SPEC_REF:
+						specRef = parseSpecRefArray(value);
 						break;
 					case PEPTIDE_ABUNDANCE:
 					case PEPTIDE_ABUNDANCE_STD:
@@ -211,6 +215,10 @@ public class Peptide extends TableObject {
 		return uri;
 	}
 	
+	public List<SpecRef> getSpecRefs() {
+		return specRef;
+	}
+	
 	/**
 	 * Returns the 0-based index of the peptide
 	 * in the peptide table. Returns -1 if the 
@@ -285,6 +293,10 @@ public class Peptide extends TableObject {
 	public void setUri(URI uri) {
 		this.uri = uri;
 	}
+	
+	public void setSpecRefs(List<SpecRef> specRefs) {
+		this.specRef = specRefs;
+	}
 
 	/**
 	 * Converts the peptide object to an mzTab formatted
@@ -347,6 +359,9 @@ public class Peptide extends TableObject {
 				case URI:
 					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(uri));
 					break;
+				case SPEC_REF:
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + arrayToField(specRef, "|"));
+					break;
 			}
 		}
 		
@@ -401,6 +416,7 @@ public class Peptide extends TableObject {
 		result = prime * result + ((unique == null) ? 0 : unique.hashCode());
 		result = prime * result + ((unitId == null) ? 0 : unitId.hashCode());
 		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+		result = prime * result + ((uri == null) ? 0 : specRef.hashCode());
 		return result;
 	}
 
@@ -502,6 +518,11 @@ public class Peptide extends TableObject {
 			if (other.uri != null)
 				return false;
 		} else if (!uri.equals(other.uri))
+			return false;
+		if (specRef == null) {
+			if (other.specRef != null)
+				return false;
+		} else if (!specRef.equals(other.specRef))
 			return false;
 		return true;
 	}
