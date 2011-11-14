@@ -1,6 +1,13 @@
 #summary Short summary of changes in the mztab-java API.
 
 ----
+*mztab-java version 1.0.2 - (14. November 2011)*
+
+  * NEW FEATURE: Added additional constructor to SpecRef.
+  * NEW FEATURE: Added function addSpecRef to Peptide and SmallMolecule to set spectrum references more easily.
+  * BUGFIX: Fixed a bug in Unit::setMsFile that caused a null pointer exception.
+
+----
 *mztab-java version 1.0.1 - (14. November 2011)*
 
   * NEW FEATURE: Added support for mzTab version 0.6 (ms_file references in Unit, spec_refs in Peptide and SmallMolecule, optional positions in modifications)
