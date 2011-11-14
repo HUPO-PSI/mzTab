@@ -7,8 +7,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import uk.ac.ebi.pride.mztab_java.MzTabFile;
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.mztab_java.model.MsFile;
 import uk.ac.ebi.pride.mztab_java.model.Peptide;
 import uk.ac.ebi.pride.mztab_java.model.Protein;
 import uk.ac.ebi.pride.mztab_java.model.SmallMolecule;
@@ -45,6 +44,18 @@ public class MzTabFileTest extends TestCase {
 		assertEquals(4, pride.getSubsamples().size());
 		
 		assertEquals("Human hepatocellular carcinoma sample.", pride.getSubsamples().get(1).getDescription());
+		
+		try {
+			MsFile msFile = pride.getMsFile(1);
+			
+			assertNotNull(msFile);
+            assertEquals("/some/local/path", msFile.getLocation());
+            assertEquals("MS:1000584", msFile.getFormat().getAccession());
+			
+		} catch (MzTabParsingException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 
 	public void testGetUnitMetadata() {
