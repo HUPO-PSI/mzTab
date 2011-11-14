@@ -23,9 +23,11 @@ import uk.ac.ebi.pride.mztab_java.MzTabFile;
 import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
 import uk.ac.ebi.pride.mztab_java.model.Contact;
 import uk.ac.ebi.pride.mztab_java.model.Modification;
+import uk.ac.ebi.pride.mztab_java.model.MsFile;
 import uk.ac.ebi.pride.mztab_java.model.ParamList;
 import uk.ac.ebi.pride.mztab_java.model.Peptide;
 import uk.ac.ebi.pride.mztab_java.model.Protein;
+import uk.ac.ebi.pride.mztab_java.model.SpecRef;
 import uk.ac.ebi.pride.mztab_java.model.Subsample;
 import uk.ac.ebi.pride.mztab_java.model.Unit;
 import uk.ac.ebi.pride.tools.converter.dao.DAOCvParams;
@@ -50,12 +52,18 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 */
 	private String unitId;
 	/**
+	 * The sourcefile that's being exported.
+	 */
+	private File sourcefile;
+	/**
 	 * Pattern to extract the subsample number from
 	 * a param's value.
 	 */
 	private static final Pattern subsampleNumberPattern = Pattern.compile("subsample(\\d+)");
 
 	public void exportToMzTab(File inputFile, File outputFile) throws Exception {
+		sourcefile = inputFile;
+		
 		// open the PRIDE XML file
 		reader = new PrideXmlReader(inputFile);
 		
@@ -117,6 +125,16 @@ public class PrideMzTabExporter implements MzTabExporter {
 		unit = addSampleInfo(unit);
 		// process the experiment params
 		unit = processExperimentParams(unit);
+		
+		// add the PRIDE XML file as an MS data file
+		try {
+			unit.setMsFile(1, new MsFile(
+					new uk.ac.ebi.pride.mztab_java.model.Param("MS", "MS:1000564", "PSI mzData file", null),
+					new uk.ac.ebi.pride.mztab_java.model.Param("MS", "MS:1000777", "spectrum identifier nativeID format", null), 
+					sourcefile.getAbsolutePath()));
+		} catch (MzTabParsingException e) {
+			throw new IllegalStateException("Failed to generate MsFile object", e);
+		}
 		
 		writer.setUnit(unit);
 	}
@@ -719,6 +737,13 @@ public class PrideMzTabExporter implements MzTabExporter {
 			peptide.setUnitId(unitId);
 			peptide.setDatabase(ident.getDatabase());
 			peptide.setDatabaseVersion(ident.getDatabaseVersion());
+			
+			// set the peptide spectrum reference			
+			try {
+				peptide.addSpecRef(new SpecRef("ms_file[1]", "spectrum=" + peptideItem.getSpectrum().getId()));
+			} catch (MzTabParsingException e) {
+				throw new IllegalStateException("Failed to generate peptide spectrum reference.", e);
+			}
 			
 			// set the search engine - is possible
 			uk.ac.ebi.pride.mztab_java.model.Param searchEngineParam = convertSearchEngine(ident.getSearchEngine());

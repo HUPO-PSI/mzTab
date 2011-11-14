@@ -31,7 +31,7 @@ public class App
         	
         	 if (commandLine.hasOption(CliOptions.OPTIONS.HELP.toString()) || args.length == 0) {
                  printUsage();
-             }
+             }        	 
         	 if (commandLine.hasOption(CliOptions.OPTIONS.CHECK_FILE.toString())) {
         		 checkFile(commandLine.getOptionValue(CliOptions.OPTIONS.CHECK_FILE.toString()));
         	 }
@@ -42,6 +42,9 @@ public class App
         			 throw new Exception("Unknown file format passed.");
         	 }
         	 if (commandLine.hasOption(CliOptions.OPTIONS.CONVERT.toString())) {
+        		 if (inputFormat == null)
+        			 throw new Exception("Missing required parameter \"-format\".");
+        		 
         		 String inputFilePath = commandLine.getOptionValue(CliOptions.OPTIONS.CONVERT.toString());
         		 
         		 convertFile(inputFilePath, inputFormat);
@@ -49,6 +52,7 @@ public class App
         }
         catch (Exception e) {
         	logger.error(e.getMessage());
+        	e.printStackTrace();
         }
     }
 
