@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.tools.mztab_exporter;
 
 import java.io.File;
+import java.io.FileWriter;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -49,6 +50,11 @@ public class App
         		 
         		 convertFile(inputFilePath, inputFormat);
         	 }
+        	 if (commandLine.hasOption(CliOptions.OPTIONS.READ_WRITE.toString())) {
+        		 String inputFilePath = commandLine.getOptionValue(CliOptions.OPTIONS.READ_WRITE.toString());
+        		 
+        		 readWriteFile(inputFilePath);
+        	 }
         }
         catch (Exception e) {
         	logger.error(e.getMessage());
@@ -56,7 +62,27 @@ public class App
         }
     }
 
-    /**
+    private static void readWriteFile(String inputFilePath) throws Exception {
+    	File inputFile = new File(inputFilePath);
+		
+		if (!inputFile.exists())
+			throw new Exception("Input file '" + inputFilePath + " could not be found.");
+		if (!inputFile.canRead())
+			throw new Exception("Missing privilege to read input file '" + inputFilePath + "'.");
+		if (!inputFile.canWrite())
+			throw new Exception("Missing privilege to write mzTab file '" + inputFilePath + "'.");
+		
+		MzTabFile file = new MzTabFile(inputFile);		
+		String mzTabString = file.toMzTab();
+		
+		FileWriter writer = new FileWriter(inputFile);
+		writer.write(mzTabString);
+		writer.close();
+		
+		System.out.println(inputFilePath + " successfully updated.");
+	}
+
+	/**
      * Converts the given file
      * into mzTab format. The output filename
      * will be the name of the input file with

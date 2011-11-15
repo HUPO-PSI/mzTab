@@ -11,7 +11,8 @@ public class CliOptions {
 		CHECK_FILE("check_file"),
 		HELP("help"),
 		CONVERT("convert"),
-		FORMAT("format");
+		FORMAT("format"),
+		READ_WRITE("rw");
 
 		private String value;
 
@@ -51,11 +52,18 @@ public class CliOptions {
 				.hasArg()
 				.withDescription("converts the given PRIDE XML file to an mztab file.")
 				.create(OPTIONS.CONVERT.toString());
+		
+		Option readWrite = OptionBuilder
+				.withArgName("mztab-file")
+				.hasArg()
+				.withDescription("reads in an mzTab file and writes it back using mztab-java. Thereby, must formatting issues should be removed.")
+				.create(OPTIONS.READ_WRITE.toString());
 
 		options.addOption(help);
 		options.addOption(checkFile);
 		options.addOption(format);
 		options.addOption(convert);
+		options.addOption(readWrite);
 	}
 
 	public static Options getOptions() {
