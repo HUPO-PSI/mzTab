@@ -5,9 +5,12 @@ import java.io.FileWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +21,7 @@ import uk.ac.ebi.pride.jaxb.model.Param;
 import uk.ac.ebi.pride.jaxb.model.PeptideItem;
 import uk.ac.ebi.pride.jaxb.model.Reference;
 import uk.ac.ebi.pride.jaxb.model.SampleDescription;
+import uk.ac.ebi.pride.jaxb.model.UserParam;
 import uk.ac.ebi.pride.jaxb.xml.PrideXmlReader;
 import uk.ac.ebi.pride.mztab_java.MzTabFile;
 import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
@@ -306,6 +310,10 @@ public class PrideMzTabExporter implements MzTabExporter {
 			}
 		}
 		
+		// add the subsamples
+		for (Subsample s : subsamples.values())
+			unit.setSubsample(s);
+		
 		return unit;
 	}
 
@@ -379,9 +387,9 @@ public class PrideMzTabExporter implements MzTabExporter {
 
 	/**
 	 * Process the PRIDE XML file's identifications (and peptides).
-	 * @throws MzTabParsingException
+	 * @throws Exception 
 	 */
-	private void processIdentifications() throws MzTabParsingException {
+	private void processIdentifications() throws Exception {
 		// Get a list of Identification ids
 		List<String> ids = reader.getIdentIds();
 
@@ -389,7 +397,11 @@ public class PrideMzTabExporter implements MzTabExporter {
 		for(String id : ids) {
 			Identification ident = reader.getIdentById(id);
 			
-			writer.addProtein(convertIdentification(ident));
+			// ignore any decoy hits
+			if (isDecoyHit(ident))
+				continue;
+			
+			Protein protein = convertIdentification(ident);
 			
 			// convert the identification's peptides
 			List<Peptide> peptides = convertIdentificationPeptides(ident);
@@ -397,7 +409,91 @@ public class PrideMzTabExporter implements MzTabExporter {
 			// add the peptides
 			for (Peptide p : peptides)
 				writer.addPeptide(p);
+			
+			// check if the protein already exists
+			Collection<Protein> existingProteins = writer.getProtein(protein.getAccession());
+			
+			if (existingProteins.size() == 1) {
+				// check if the protein's are identical
+				Protein existingProtein = existingProteins.iterator().next();
+				
+				if (!existingProtein.equals(protein)) {
+					mergeProteins(existingProtein, protein);
+				}
+			}
+			else {
+				writer.addProtein(convertIdentification(ident));
+			}
 		} 
+	}
+
+	/**
+	 * Checks whether the passed identification object
+	 * is a decoy hit. This function only checks for
+	 * the presence of specific cv / user Params.
+	 * 
+	 * @param ident A PRIDE JAXB Identification object.
+	 * @return Boolean indicating whether the passed identification is a decoy hit.
+	 */
+	private boolean isDecoyHit(Identification ident) {
+		for (CvParam param : ident.getAdditional().getCvParam()) { 
+			if (param.getAccession().equals(DAOCvParams.DECOY_HIT.getAccession()))
+				return true;
+		}
+		
+		for (UserParam param : ident.getAdditional().getUserParam()) {
+			if ("Decoy Hit".equals(param.getName()))
+				return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Merges the information from two proteins. This function assumes
+	 * that all peptides found in the two proteins were already added
+	 * to the (mzTab) writer. During the merging the peptide numbers
+	 * and modifications of the existingProtein are adapted based on the
+	 * information retrieved from protein.
+	 * 
+	 * @param existingProtein Protein already added to the mzTab file. This object will be updated.
+	 * @param protein The protein's which information to add to the existing protein.
+	 * @throws Exception
+	 */
+	private void mergeProteins(Protein existingProtein, Protein protein) throws Exception {
+		if (!existingProtein.getAccession().equals(protein.getAccession()))
+			throw new Exception("Cannot merge proteins with different accessions.");
+		if (!existingProtein.getUnitId().equals(protein.getUnitId()))
+			throw new Exception("Cannot merge proteins from different unit ids");
+		
+		// make sure the quant values are the same
+		for (Integer subsambleIndex : existingProtein.getSubsampleIndexes()) {
+			if (!existingProtein.getAbundance(subsambleIndex).equals(protein.getAbundance(subsambleIndex))) {
+				throw new Exception("Cannot merge proteins with different abundance values (subsample " + subsambleIndex + ")");
+			}
+		}
+		
+		System.out.println("Merging entries for " + protein.getAccession());
+		
+		// get all peptides -- retrieves the peptides for both proteins
+		Collection<Peptide> peptides = writer.getProteinPeptides(existingProtein);
+		
+		Set<String> distinctPeptides = new HashSet<String>();
+		
+		for (Peptide p : peptides) {
+			distinctPeptides.add(p.getSequence() + p.getModification().toString());
+		}		
+		
+		existingProtein.setNumPeptidesDistinct(distinctPeptides.size());
+		existingProtein.setNumPeptides(peptides.size());
+		
+		// add the modifications
+		Set<Modification> distinctMods = new HashSet<Modification>(existingProtein.getModifications());
+		distinctMods.addAll(protein.getModifications());
+		
+		existingProtein.setModifications(new ArrayList<Modification>(distinctMods));
+		
+		
 	}
 
 	/**
@@ -443,7 +539,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		}
 		protein.setNumPeptidesDistinct(peptideSequences.size());
 		
-		// add the indistinguishable accessions to the ambiguitiy members
+		// add the indistinguishable accessions to the ambiguity members
 		List<String> indistinguishableAccessions = getCvParamValues(ident.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
 		protein.setAmbiguityMembers(indistinguishableAccessions);
 		
