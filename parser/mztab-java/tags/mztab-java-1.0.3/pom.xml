@@ -1,0 +1,150 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>uk.ac.ebi.pride.</groupId>
+	<artifactId>mztab-java</artifactId>
+	<version>1.0.3</version>
+	<packaging>jar</packaging>
+
+	<name>mztab-java</name>
+	<description>A Java library to read and write mzTab files.</description>
+	<url>http://code.google.com/p/mztab/</url>
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>jgriss</id>
+			<name>Johannes Griss</name>
+			<email>jgriss@ebi.ac.uk</email>
+			<organization>European Bioinformatics Institute</organization>
+			<organizationUrl>http://ebi.ac.uk/pride</organizationUrl>
+		</developer>
+		<developer>
+			<id>rcote</id>
+			<name>Richard Cote</name>
+			<email>rcote@ebi.ac.uk</email>
+			<organization>European Bioinformatics Institute</organization>
+			<organizationUrl>http://ebi.ac.uk/pride</organizationUrl>
+		</developer>
+	</developers>
+	<organization>
+		<name>European Bioinformatics Institute</name>
+		<url>http://www.ebi.ac.uk</url>
+	</organization>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.13</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>ebi-repo</id>
+			<name>The EBI internal repository</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>ebi-snapshot-repo</id>
+			<name>The EBI internal snapshot repository</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>ebi-repo</id>
+			<name>EBI Repository</name>
+			<url>scp://lobster.ebi.ac.uk/homes/maven/public_html/m2repo</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>ebi-repo-snapshots</id>
+			<name>EBI Snapshots Repository</name>
+			<url>scp://lobster.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<scm>
+		<connection>scm:svn:https://mztab.googlecode.com/svn/parser/mztab-java/tags/mztab-java-1.0.3</connection>
+		<developerConnection>scm:svn:https://mztab.googlecode.com/svn/parser/mztab-java/tags/mztab-java-1.0.3</developerConnection>
+		<url>https://mztab.googlecode.com/svn/parser/mztab-java/tags/mztab-java-1.0.3</url>
+	</scm>
+</project>
