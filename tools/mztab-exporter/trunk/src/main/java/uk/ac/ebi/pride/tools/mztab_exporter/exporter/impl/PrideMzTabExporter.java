@@ -272,7 +272,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 					}
 					// check if it's a quantification reagent
 					else if (QuantitationCvParams.isQuantificationReagent(p.getAccession())) {
-						subsamples.get(subsampleIndex).setQuantitationReagent(convertParam(p));
+						subsamples.get(subsampleIndex).setQuantificationReagent(convertParam(p));
 					}
 				}
 			}
