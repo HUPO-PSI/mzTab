@@ -3,13 +3,13 @@ MTD	PRIDE_1234-false_discovery_rate	[MS,MS:1234,pep-fdr,0.5]
 MTD	PRIDE_1234-contact[1]-name	Johannes
 MTD	PRIDE_1234-contact[2]-name	Mathias
 MTD	PRIDE_1234-sub[1]-description	Healthy human liver tissue
-MTD	PRIDE_1234-sub[1]-quantitation_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]
+MTD	PRIDE_1234-sub[1]-quantification_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]
 MTD	PRIDE_1234-sub[2]-description	Human hepatocellular carcinoma sample.
-MTD	PRIDE_1234-sub[2]-quantitation_reagent	[PRIDE,PRIDE:0000115,iTRAQ reagent 115,]
+MTD	PRIDE_1234-sub[2]-quantification_reagent	[PRIDE,PRIDE:0000115,iTRAQ reagent 115,]
 MTD	PRIDE_1234-sub[3]-description	Heptitis C infected liver tissue
-MTD	PRIDE_1234-sub[3]-quantitation_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 116,]
+MTD	PRIDE_1234-sub[3]-quantification_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 116,]
 MTD	PRIDE_1234-sub[4]-description	Fatty liver degeneration
-MTD	PRIDE_1234-sub[4]-quantitation_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 117,]
+MTD	PRIDE_1234-sub[4]-quantification_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 117,]
 
 PRH	accession	unit_id	description	taxid	species	database	database_version	search_engine	search_engine_score	reliability	num_peptides	num_peptides_distinct	num_peptides_unambiguous	ambiguity_members	modifications	uri	go_terms	protein_coverage	protein_abundance_sub[1]	protein_abundance_stdev_sub[1]	protein_abundance_std_error_sub[1]	protein_abundance_sub[2]	protein_abundance_stdev_sub[2]	protein_abundance_std_error_sub[2]	protein_abundance_sub[3]	protein_abundance_stdev_sub[3]	protein_abundance_std_error_sub[3]	protein_abundance_sub[4]	protein_abundance_stdev_sub[4]	protein_abundance_std_error_sub[4]
 PRT	gi|10181184	PRIDE_1234	Albumin	9606	Homo sapiens(Human)	NCBI NR	21.06.2011	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,140]	3	4	2	1		13[0.8]-UNIMOD:35,29[0.2]|35[0.4]-UNIMOD:21	http://ebi.ac.uk/pride/experiment/1234/protein/193ttp://ebi.ac.uk/pride/experiment/1234/protein/193	GO:0008299,GO:0016740	0.2	1.0	--	--	7265.31988	6346.894427	--	7265.31988	6346.894427	--	7265.31988	6346.894427	--
