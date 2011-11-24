@@ -21,7 +21,7 @@ public class Subsample {
     private List<Param> disease;
 
     private String description;
-    private Param quantitationReagent;
+    private Param quantificationReagent;
     private List<Param> customParams;
 
     /**
@@ -83,12 +83,12 @@ public class Subsample {
         this.description = description;
     }
 
-    public Param getQuantitationReagent() {
-        return quantitationReagent;
+    public Param getQuantificationReagent() {
+        return quantificationReagent;
     }
 
-    public void setQuantitationReagent(Param quantitationReagent) {
-        this.quantitationReagent = quantitationReagent;
+    public void setQuantificationReagent(Param quantitationReagent) {
+        this.quantificationReagent = quantitationReagent;
     }
 
     public List<Param> getCustomParams() {
@@ -134,8 +134,8 @@ public class Subsample {
         if (description != null)
             mzTab += createField("description", description);
         // quant reagent
-        if (quantitationReagent != null)
-            mzTab += createField("quantitation_reagent", quantitationReagent);
+        if (quantificationReagent != null)
+            mzTab += createField("quantification_reagent", quantificationReagent);
         // custom
         if (customParams != null) {
             for (Param p : customParams)
@@ -162,7 +162,7 @@ public class Subsample {
         result = prime * result + ((disease == null) ? 0 : disease.hashCode());
         result = prime
                 * result
-                + ((quantitationReagent == null) ? 0 : quantitationReagent
+                + ((quantificationReagent == null) ? 0 : quantificationReagent
                 .hashCode());
         result = prime * result + ((species == null) ? 0 : species.hashCode());
         result = prime * result + subsampleIndex;
@@ -200,10 +200,10 @@ public class Subsample {
                 return false;
         } else if (!disease.equals(other.disease))
             return false;
-        if (quantitationReagent == null) {
-            if (other.quantitationReagent != null)
+        if (quantificationReagent == null) {
+            if (other.quantificationReagent != null)
                 return false;
-        } else if (!quantitationReagent.equals(other.quantitationReagent))
+        } else if (!quantificationReagent.equals(other.quantificationReagent))
             return false;
         if (species == null) {
             if (other.species != null)

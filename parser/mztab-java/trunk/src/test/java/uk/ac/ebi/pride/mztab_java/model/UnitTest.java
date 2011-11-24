@@ -14,9 +14,9 @@ public class UnitTest extends TestCase {
             "MTD	PRIDE_1234-ms_file[1]-location	/tmp/somefile.xml\n" +
             "MTD	PRIDE_1234-ms_file[1]-id_format	[MS,MS:1001530,mzML unique identifier,]\n" +
             "MTD	PRIDE_1234-sub[1]-description	Healthy human liver\n" +
-            "MTD	PRIDE_1234-sub[1]-quantitation_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]\n" +
+            "MTD	PRIDE_1234-sub[1]-quantification_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]\n" +
             "MTD	PRIDE_1234-sub[2]-description	Human hepatocellular carcinoma\n" +
-            "MTD	PRIDE_1234-sub[2]-quantitation_reagent	[PRIDE,PRIDE:0000115,iTRAQ reagent 115,]\n";
+            "MTD	PRIDE_1234-sub[2]-quantification_reagent	[PRIDE,PRIDE:0000115,iTRAQ reagent 115,]\n";
 
     public void testUnmarshall() {
         try {
@@ -30,8 +30,8 @@ public class UnitTest extends TestCase {
             assertEquals(2, unit.getSubsamples().size());
             assertEquals("Healthy human liver", unit.getSubsamples().get(0).getDescription());
             assertEquals("Human hepatocellular carcinoma", unit.getSubsamples().get(1).getDescription());
-            assertEquals("[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]", unit.getSubsamples().get(0).getQuantitationReagent().toString());
-            assertEquals("[PRIDE,PRIDE:0000115,iTRAQ reagent 115,]", unit.getSubsamples().get(1).getQuantitationReagent().toString());
+            assertEquals("[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]", unit.getSubsamples().get(0).getQuantificationReagent().toString());
+            assertEquals("[PRIDE,PRIDE:0000115,iTRAQ reagent 115,]", unit.getSubsamples().get(1).getQuantificationReagent().toString());
 
             assertEquals(1, unit.getSampleProcessing().size());
             assertEquals(2, unit.getSampleProcessing().get(0).size());

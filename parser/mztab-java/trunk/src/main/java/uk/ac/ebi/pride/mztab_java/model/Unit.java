@@ -294,8 +294,8 @@ public class Unit {
 				// parse the field
 				if ("description".equals(field))
 					subsample.setDescription(value.trim());
-				else if ("quantitation_reagent".equals(field))
-					subsample.setQuantitationReagent(new Param(value));
+				else if ("quantification_reagent".equals(field))
+					subsample.setQuantificationReagent(new Param(value));
 				else if ("custom".equals(field)) {
 					if (subsample.getCustomParams() == null)
 						subsample.setCustomParams(new ArrayList<Param>(1));
