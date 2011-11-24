@@ -1,6 +1,11 @@
 #summary Release notes of the mzTab specification.
 
 ----
+*mzTab version 0.7 - (24. November 2011)*
+  * UPDATE: [[UNIT_ID]]-[[SUB_ID]]-quantitation_reagent was renamed to [[UNIT_ID]]-[[SUB_ID]]-quantification_reagent for consistency reasons.
+  * DOCUMENT UPDATE: the placeholders for [[UNIT_ID]] and [[SUB_ID]] were renamed to {UNIT_ID} and {SUB_ID} to have clear distinction between variable names and other fields (such as in contact[[1-n]]).
+
+----
 *mzTab version 0.6 - (11. November 2011)*
 
   * UPDATE: The position information in modifications was set optional. In case no position information is given this means that the position of the modification is unknown.
