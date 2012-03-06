@@ -1,5 +1,12 @@
 #summary Release notes of the mzTab specification.
 
+*mzTab version 0.9 (6. March 2012)*
+  * UPDATE: The whole specification document was rewritten following the guidelines from the PSI document process.
+  * UPDATE: Reliabilities are now only defined as 1(good), 2(medium), and 3(bad)
+  * UPDATE: Missing values are now indicated using "-" instead of "--"
+  * UPDATE: Infinite numbers may be reported using "INF"
+  * UPDATE: A new annotation for unknown modifications was introduced. CHEMMODS allow the reporting of chemical formulas or mass deltas as modifications.
+
 ----
 *mzTab version 0.7 - (24. November 2011)*
   * UPDATE: [[UNIT_ID]]-[[SUB_ID]]-quantitation_reagent was renamed to [[UNIT_ID]]-[[SUB_ID]]-quantification_reagent for consistency reasons.
