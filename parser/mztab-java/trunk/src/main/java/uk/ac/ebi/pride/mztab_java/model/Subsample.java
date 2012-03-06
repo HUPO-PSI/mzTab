@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
 import uk.ac.ebi.pride.mztab_java.MzTabFile;
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
 
 import java.util.List;
 
@@ -29,8 +30,11 @@ public class Subsample {
      *
      * @param unitId         The parent unit's id.
      * @param subsampleIndex The subsample's 1-based index.
+     * @throws MzTabParsingException 
      */
-    public Subsample(String unitId, int subsampleIndex) {
+    public Subsample(String unitId, int subsampleIndex) throws MzTabParsingException {
+    	TableObject.checkUnitId(unitId);
+    	
         this.unitId = unitId;
         this.subsampleIndex = subsampleIndex;
     }
@@ -47,7 +51,8 @@ public class Subsample {
         return unitId;
     }
 
-    public void setUnitId(String unitId) {
+    public void setUnitId(String unitId) throws MzTabParsingException {
+    	TableObject.checkUnitId(unitId);
         this.unitId = unitId;
     }
 
@@ -79,7 +84,8 @@ public class Subsample {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description) throws MzTabParsingException {
+    	TableObject.checkStringValue(description);
         this.description = description;
     }
 

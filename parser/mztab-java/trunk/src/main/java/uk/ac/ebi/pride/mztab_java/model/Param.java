@@ -3,6 +3,8 @@ package uk.ac.ebi.pride.mztab_java.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+
 /**
  * Represents both, cv as well as userParams
  * @author jg
@@ -30,16 +32,23 @@ public class Param {
 	 * Pattern used to parse a Param object from
 	 * a mzTab String.
 	 */
-	private static Pattern mzTabParamPattern = Pattern.compile("\\[([^,]+,)?([^,]+,)?([^,]+),([^,]*)\\]");	
+	private static Pattern mzTabParamPattern = Pattern.compile("\\[([^,]+)?,([^,]+)?,([^,]+),([^,]*)\\]");	
 	/**
 	 * Creates a new cvParam.
 	 * @param cvLabel
 	 * @param accession
 	 * @param name
 	 * @param value
+	 * @throws MzTabParsingException 
 	 */
-	public Param(String cvLabel, String accession, String name, String value) {
+	public Param(String cvLabel, String accession, String name, String value) throws MzTabParsingException {
 		super();
+		
+		TableObject.checkStringValue(cvLabel);
+		TableObject.checkStringValue(accession);
+		TableObject.checkStringValue(name);
+		TableObject.checkStringValue(value);
+		
 		this.cvLabel = cvLabel;
 		this.accession = accession;
 		this.name = name;
@@ -51,9 +60,14 @@ public class Param {
 	 * Creates a new userParam.
 	 * @param name
 	 * @param value
+	 * @throws MzTabParsingException 
 	 */
-	public Param(String name, String value) {
+	public Param(String name, String value) throws MzTabParsingException {
 		super();
+		
+		TableObject.checkStringValue(name);
+		TableObject.checkStringValue(value);
+		
 		this.name = name;
 		this.value = value;
 		this.type = ParamType.USER_PARAM;
@@ -71,15 +85,15 @@ public class Param {
 			throw new RuntimeException("Invalid mzTabString passed to Param constructor: \"" + mzTabString + "\"");
 		
 		// check if it's a user or a cvParam by checking whether a cvLabel is set
-		if (matcher.group(1) == null) {
+		if (matcher.group(1) == null || matcher.group(1).trim().length() < 1) {
 			this.type 	= ParamType.USER_PARAM;
 			this.name 	= matcher.group(3).trim();
 			this.value 	= matcher.group(4).trim();
 		}
 		else {
 			this.type 		= ParamType.CV_PARAM;
-			this.cvLabel 	= matcher.group(1).substring(0, matcher.group(1).length() - 1).trim(); // remove the trailing ","
-			this.accession 	= matcher.group(2).substring(0, matcher.group(2).length() - 1).trim(); // remove the trailing ","
+			this.cvLabel 	= matcher.group(1).substring(0, matcher.group(1).length()).trim();
+			this.accession 	= matcher.group(2).substring(0, matcher.group(2).length()).trim();
 			this.name 		= matcher.group(3).trim();
 			this.value 		= matcher.group(4).trim();
 		}
@@ -107,7 +121,7 @@ public class Param {
 	@Override
 	public String toString() {
 		if (type == ParamType.USER_PARAM)
-			return "[" + name + "," + value + "]";
+			return "[,," + name + "," + (value != null ? value : "") + "]";
 		if (type == ParamType.CV_PARAM)
 			return "[" + cvLabel + "," + accession + "," + name + "," + (value != null ? value : "") + "]";
 		

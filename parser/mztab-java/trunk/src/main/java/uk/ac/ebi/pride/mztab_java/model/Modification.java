@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
 
 public class Modification {
-	private final static Pattern mzTabModificationPattern = Pattern.compile("([^-]+)-(\\w+:\\d+)");
+	private final static Pattern mzTabModificationPattern = Pattern.compile("([^-]+)-(\\w+:[+-]*[A-Z0-9]+)");
 	private final static Pattern mzTabPositionPattern = Pattern.compile("(\\d+)(\\[([\\d.]+)\\])?\\|?");
 	
 	private List<Integer> position = new ArrayList<Integer>();
@@ -18,11 +18,15 @@ public class Modification {
 	/**
 	 * Creates a new modification object. In case
 	 * the modification's position is unknown the
-	 * position should be set to 0.
-	 * @param modAccession The modification's PSI-MOD accession
+	 * position should be set to null.
+	 * @param modAccession The modification's PSI-MOD/UNIMOD accession or CHEMMOD string
 	 * @param position The modification's position.
+	 * @throws MzTabParsingException 
 	 */
-	public Modification(String modAccession, Integer position) {
+	public Modification(String modAccession, Integer position) throws MzTabParsingException {
+		TableObject.checkStringValue(modAccession);
+		if (!modAccession.startsWith("MOD:") && !modAccession.startsWith("UNIMOD:") && !modAccession.startsWith("CHEMMOD:"))
+			throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', or 'CHEMMOD:'.");
 		this.modAccession = modAccession;
 		
 		if (position != null) {
@@ -42,6 +46,9 @@ public class Modification {
 		if (position == null)
 			throw new MzTabParsingException("Modification position must not be 0 when a modification reliability is being set.");
 		
+		TableObject.checkStringValue(modAccession);
+		if (!modAccession.startsWith("MOD:") && !modAccession.startsWith("UNIMOD:") && !modAccession.startsWith("CHEMMOD:"))
+			throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', or 'CHEMMOD:'.");
 		this.modAccession = modAccession;		
 		this.position.add(position);
 		this.positionReliability.add(reliability);
@@ -57,7 +64,7 @@ public class Modification {
 		Matcher matcher = mzTabModificationPattern.matcher(mzTabString);
 		
 		// check if there is a position set
-		if (!mzTabString.contains("-")) {
+		if (!mzTabString.contains("-") || mzTabString.startsWith("CHEMMOD:-")) {
 			this.modAccession = mzTabString;
 			return;
 		}
@@ -111,8 +118,8 @@ public class Modification {
 	@Override
 	public String toString() {
 		// make sure there are as many positions as reliabilities
-		if (position.size() != positionReliability.size() || position.size() < 1)
-			throw new IllegalStateException("Tried to convert modification object to mzTab not containing any position information.");
+		if (position.size() != positionReliability.size())
+			throw new IllegalStateException("Tried to convert modification object to mzTab not containing any position information but reliability information.");
 		
 		StringBuilder mzTabString = new StringBuilder();
 		
@@ -171,5 +178,49 @@ public class Modification {
 		} else if (!positionReliability.equals(other.positionReliability))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Indicates whether the modification is defined
+	 * using the CHEMMOD syntax.
+	 * @return
+	 */
+	public boolean isChemMod() {
+		return modAccession.startsWith("CHEMMOD:");
+	}
+	
+	/**
+	 * Returns the chemmod definition. In case the
+	 * CHEMMOD syntax was not used, NULL is returned.
+	 * @return Returns the definition (either the chemical formula or the m/z delta) specified through the CHEMMOD syntax.
+	 */
+	public String getChemModDefinition() {
+		if (!isChemMod())
+			return null;
+		
+		return modAccession.substring(8);
+	}
+	
+	/**
+	 * Returns the delta mass defined through the
+	 * CHEMMOD. In case the modification is not defined
+	 * using the CHEMMOD syntax or is defined using a
+	 * chemical formula, NULL is returned.
+	 * @return Returns the defined CHEMMOD delta or NULL in case a different syntax was used.
+	 */
+	public Double getChemModDelta() {
+		if (!isChemMod())
+			return null;
+		
+		String definition = getChemModDefinition();
+		Double delta = null;
+		
+		try {
+			delta = Double.parseDouble(definition);
+		} catch (NumberFormatException e) {
+			// ignore this issue, since the delta is set to NULL anyway
+		}
+		
+		return delta;
 	}
 }

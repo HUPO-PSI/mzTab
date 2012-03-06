@@ -94,6 +94,8 @@ public class Unit {
 			String field	= matcher.group(4);
 			String value	= matcher.group(5);
 			
+			TableObject.checkUnitId(unitId);
+			
 			if (subId != null)
 				subId = subId.trim();
 			if (field != null)
@@ -110,6 +112,16 @@ public class Unit {
 			// parse the field
 			parseField(subId, field, value);
 		}
+	}
+	
+	/**
+	 * Checks if the given value is valid for the
+	 * metadata section.
+	 * @param value
+	 */
+	private void checkStringValue(String value) throws MzTabParsingException {
+		if (value.contains("\n") || value.contains("\r"))
+			throw new MzTabParsingException("Invalid field value. Field values must not contain new-line characters.");
 	}
 
 	private void parseField(String subId, String field, String value) throws MzTabParsingException {
@@ -508,15 +520,18 @@ public class Unit {
 		this.logger = logger;
 	}
 
-	public void setUnitId(String unitId) {
+	public void setUnitId(String unitId) throws MzTabParsingException {
+		TableObject.checkUnitId(unitId);
 		this.unitId = unitId;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(String title) throws MzTabParsingException {
+		checkStringValue(title);
 		this.title = title;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description) throws MzTabParsingException {
+		checkStringValue(description);
 		this.description = description;
 	}
 
@@ -536,7 +551,12 @@ public class Unit {
 		this.falseDiscoveryRate = falseDiscoveryRate;
 	}
 
-	public void setPublication(List<String> publication) {
+	public void setPublication(List<String> publication) throws MzTabParsingException {
+		for (String value : publication) {
+			checkStringValue(value);
+			if (!value.startsWith("pubmed:") && !value.startsWith("doi:"))
+				throw new MzTabParsingException("Invalid reference. References must be in the format 'pubmed:[PUBMED ID]' or 'doi:[DOI]'.");
+		}
 		this.publication = publication;
 	}
 

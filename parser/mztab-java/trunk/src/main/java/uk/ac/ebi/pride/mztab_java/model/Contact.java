@@ -1,5 +1,7 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+
 public class Contact {
 	private String name;
 	private String email;
@@ -18,19 +20,22 @@ public class Contact {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public void setName(String name) throws MzTabParsingException {
+		TableObject.checkStringValue(name);
 		this.name = name;
 	}
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
+	public void setEmail(String email) throws MzTabParsingException {
+		TableObject.checkStringValue(email);
 		this.email = email;
 	}
 	public String getAffiliation() {
 		return affiliation;
 	}
-	public void setAffiliation(String affiliation) {
+	public void setAffiliation(String affiliation) throws MzTabParsingException {
+		TableObject.checkStringValue(affiliation);
 		this.affiliation = affiliation;
 	}
 

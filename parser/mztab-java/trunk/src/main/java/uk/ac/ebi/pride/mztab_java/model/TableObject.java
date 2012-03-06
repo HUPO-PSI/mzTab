@@ -11,12 +11,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class TableObject {
     public static final String NA = "NA";
-    public static final String MISSING = "--";
+    public static final String MISSING = "-";
+    public static final String INF = "INF";
     public static final String SEPARATOR = MzTabFile.SEPARATOR;
     public static final String EOL = MzTabFile.EOL;
+    public static final Pattern illegalUnitIdCharacters = Pattern.compile("[^A-Za-z0-9_]");
     
     protected Map<Integer, Double> abundance = new HashMap<Integer, Double>();
     protected Map<Integer, Double> abundanceStd = new HashMap<Integer, Double>();
@@ -57,7 +61,7 @@ public abstract class TableObject {
 
     /**
      * Parses an integer field. Returns null in case the field
-     * is set to missing or na.
+     * is set to missing, infinity or na.
      *
      * @param field The field's value to be parsed.
      * @return The Integer representing the field
@@ -66,7 +70,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (NA.equals(field) || MISSING.equals(field))
+        if (NA.equals(field) || MISSING.equals(field) || INF.equals(field))
             return null;
 
         // return the Integer
@@ -75,7 +79,7 @@ public abstract class TableObject {
 
     /**
      * Parses an double field. Returns null in case the field
-     * is set to missing or na.
+     * is set to missing, infinity or na.
      *
      * @param field The field's value to be parsed.
      * @return The Double representing the field
@@ -84,7 +88,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (NA.equals(field) || MISSING.equals(field))
+        if (NA.equals(field) || MISSING.equals(field) || INF.equals(field))
             return null;
 
         // return the Integer
@@ -93,7 +97,7 @@ public abstract class TableObject {
 
     /**
      * Parses a Param field. Returns null in case the field
-     * is set to missing or na.
+     * is set to missing, infinity or na.
      *
      * @param field The field's value to be parsed.
      * @return The Param representing the field
@@ -102,7 +106,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (NA.equals(field) || MISSING.equals(field))
+        if (NA.equals(field) || MISSING.equals(field) || INF.equals(field))
             return null;
 
         // return the param
@@ -182,7 +186,7 @@ public abstract class TableObject {
 
     /**
      * Parses an array of douobles separated by the passed
-     * deliminator. In case the field is set to missing
+     * deliminator. In case the field is set to missing, infinity
      * or not available, null is returned.
      *
      * @param field       The field's value.
@@ -193,7 +197,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field))
+        if (MISSING.equals(field) || INF.equals(field))
             return null;
         if (NA.equals(field))
             return Collections.emptyList();
@@ -204,7 +208,7 @@ public abstract class TableObject {
         List<Double> parsedValues = new ArrayList<Double>(values.length);
 
         for (String value : values)
-            parsedValues.add(Double.parseDouble(value));
+            parsedValues.add(parseDoubleField(value));
 
         return parsedValues;
     }
@@ -333,6 +337,33 @@ public abstract class TableObject {
 		}
 		
 		return mzTabString.toString();
+	}
+	
+	/**
+	 * Checks whether the given string contains characters
+	 * that must not occur in table fields.
+	 * @param string The string to check.
+	 * @throws MzTabParsingException Thrown in case the value is not valid.
+	 */
+	public static void checkStringValue(String string) throws MzTabParsingException {
+		if (string.contains("\n"))
+			throw new MzTabParsingException("Illegal character found in string value: \\n.");
+		if (string.contains("\t"))
+			throw new MzTabParsingException("Illegal character found in string value: \\t.");
+		if (string.contains("\r"))
+			throw new MzTabParsingException("Illegal character found in string value: \\r.");
+	}
+	
+	/**
+	 * Checks whether the passed UNIT_ID is valid. Otherwise an
+	 * Exception is thrown.
+	 * @param unitId The UNIT_ID to check.
+	 * @throws MzTabParsingException
+	 */
+	public static void checkUnitId(String unitId) throws MzTabParsingException {
+		Matcher matcher = illegalUnitIdCharacters.matcher(unitId);
+		if (matcher.find())
+			throw new MzTabParsingException("Invalid UNIT_ID. UNIT_IDs must only contain the characters ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, and ‘_’.");
 	}
 	
 	/**

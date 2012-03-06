@@ -1,5 +1,7 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+
 /**
  * Represents the reference to an external
  * MS file as defined in a Unit's metadata
@@ -35,8 +37,11 @@ public class MsFile {
 	 * @param format cvParam identifying the used file format.
 	 * @param idFormat cvParam describing the id format used by the file format.
 	 * @param location The file's location.
+	 * @throws MzTabParsingException 
 	 */
-	public MsFile(Param format, Param idFormat, String location) {
+	public MsFile(Param format, Param idFormat, String location) throws MzTabParsingException {
+		TableObject.checkStringValue(location);
+		
 		this.format = format;
 		this.idFormat = idFormat;
 		this.location = location;
@@ -62,7 +67,8 @@ public class MsFile {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(String location) throws MzTabParsingException {
+		TableObject.checkStringValue(location);
 		this.location = location;
 	}
 }

@@ -70,6 +70,7 @@ public class SmallMolecule extends TableObject {
 						identifier = parseStringArray(value, "\\|");
 						break;
 					case UNIT_ID:
+						checkUnitId(value);
 						unitId = value;
 						break;
 					case CHEMICAL_FORMULA:
@@ -101,6 +102,9 @@ public class SmallMolecule extends TableObject {
 						break;
 					case RELIABILITY:
 						reliability = parseIntegerField(value);
+						// make sure the reliability is between 1-3
+						if (reliability != null && (reliability < 1 || reliability > 3))
+							throw new MzTabParsingException("Invalid reliability " + reliability + ". Reliability must only be 1 (good), 2 (medium), and 3 (bad).");
 						break;
 					case URI:
 						uri = parseUriField(value);
@@ -129,7 +133,7 @@ public class SmallMolecule extends TableObject {
 			}
 		}
 		catch (Exception e) {
-			throw new MzTabParsingException("Failed to parse small molecule.", e);
+			throw new MzTabParsingException("Failed to parse small molecule: " + e.getMessage(), e);
 		}
 	}
 	
@@ -264,19 +268,24 @@ public class SmallMolecule extends TableObject {
 		this.index = index;
 	}
 
-	public void setIdentifier(List<String> identifier) {
+	public void setIdentifier(List<String> identifier) throws MzTabParsingException {
+		for (String ident : identifier)
+			checkStringValue(ident);
 		this.identifier = identifier;
 	}
 
-	public void setUnitId(String unitId) {
+	public void setUnitId(String unitId) throws MzTabParsingException {
+		checkUnitId(unitId);
 		this.unitId = unitId;
 	}
 	
-	public void setChemicalFormula(String chemicalFormula) {
+	public void setChemicalFormula(String chemicalFormula) throws MzTabParsingException {
+		checkStringValue(chemicalFormula);
 		this.chemicalFormula = chemicalFormula;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description) throws MzTabParsingException {
+		checkStringValue(description);
 		this.description = description;
 	}
 
@@ -296,19 +305,25 @@ public class SmallMolecule extends TableObject {
 		this.taxid = taxid;
 	}
 
-	public void setSpecies(String species) {
+	public void setSpecies(String species) throws MzTabParsingException {
+		checkStringValue(species);
 		this.species = species;
 	}
 
-	public void setDatabase(String database) {
+	public void setDatabase(String database) throws MzTabParsingException {
+		checkStringValue(database);
 		this.database = database;
 	}
 
-	public void setDatabaseVersion(String databaseVersion) {
+	public void setDatabaseVersion(String databaseVersion) throws MzTabParsingException {
+		checkStringValue(databaseVersion);
 		this.databaseVersion = databaseVersion;
 	}
 
-	public void setReliability(Integer reliability) {
+	public void setReliability(Integer reliability) throws MzTabParsingException {
+		// make sure the reliability is between 1-3
+		if (reliability < 1 || reliability > 3)
+			throw new MzTabParsingException("Invalid reliability " + reliability + ". Reliability must only be 1 (good), 2 (medium), and 3 (bad).");
 		this.reliability = reliability;
 	}
 
