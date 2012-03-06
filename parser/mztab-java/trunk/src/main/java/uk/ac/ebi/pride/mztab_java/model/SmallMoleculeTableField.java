@@ -21,7 +21,7 @@ public enum SmallMoleculeTableField {
 	DATABASE_VERSION(			"database_version",				11),
 	RELIABILITY(				"reliability", 					12),
 	URI(						"uri",							13),
-	SPEC_REF(					"spec_ref",						14),
+	SPEC_REF(					"spectra_ref",					14),
 	SEARCH_ENGINE(				"search_engine",				15),
 	SEARCH_ENGINE_SCORE(		"search_engine_score",			16),
 	MODIFICATIONS(				"modifications",				17),

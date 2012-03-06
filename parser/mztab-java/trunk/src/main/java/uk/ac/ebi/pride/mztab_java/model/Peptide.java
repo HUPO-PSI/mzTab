@@ -63,6 +63,7 @@ public class Peptide extends TableObject {
 						accession = value;
 						break;
 					case UNIT_ID:
+						checkUnitId(value);
 						unitId = value;
 						break;
 					case UNIQUE:
@@ -82,6 +83,9 @@ public class Peptide extends TableObject {
 						break;
 					case RELIABILITY:
 						reliability = parseIntegerField(value);
+						// make sure the reliability is between 1-3
+						if (reliability != null && (reliability < 1 || reliability > 3))
+							throw new MzTabParsingException("Invalid reliability " + reliability + ". Reliability must only be 1 (good), 2 (medium), and 3 (bad).");
 						break;
 					case MODIFICATIONS:
 						modification = parseModifications(value);
@@ -113,7 +117,7 @@ public class Peptide extends TableObject {
 			}
 		}
 		catch (Exception e) {
-			throw new MzTabParsingException("Failed to parse peptide.", e);
+			throw new MzTabParsingException("Failed to parse peptide: " + e.getMessage(), e);
 		}
 	}
 	
@@ -162,6 +166,18 @@ public class Peptide extends TableObject {
 	
 	public String getSequence() {
 		return sequence;
+	}
+	
+	/**
+	 * Returns the peptide's sequence without
+	 * any potential modification definitions.
+	 * @return The peptides sequence without any additional modification specifications.
+	 */
+	public String getCleanSequence() {
+		String cleanSequence = sequence.replaceAll("\\([^)]*\\)", "");
+		cleanSequence = cleanSequence.replaceAll("\\[[^]]*\\]", "");
+		
+		return cleanSequence;
 	}
 
 	public String getAccession() {
@@ -239,15 +255,18 @@ public class Peptide extends TableObject {
 		this.index = index;
 	}
 	
-	public void setSequence(String sequence) {
+	public void setSequence(String sequence) throws MzTabParsingException {
+		checkStringValue(sequence);
 		this.sequence = sequence;
 	}
 
-	public void setAccession(String accession) {
+	public void setAccession(String accession) throws MzTabParsingException {
+		checkStringValue(accession);
 		this.accession = accession;
 	}
 
-	public void setUnitId(String unitId) {
+	public void setUnitId(String unitId) throws MzTabParsingException {
+		checkUnitId(unitId);
 		this.unitId = unitId;
 	}
 
@@ -255,11 +274,13 @@ public class Peptide extends TableObject {
 		this.unique = unique;
 	}
 
-	public void setDatabase(String database) {
+	public void setDatabase(String database) throws MzTabParsingException {
+		checkStringValue(database);
 		this.database = database;
 	}
 
-	public void setDatabaseVersion(String databaseVersion) {
+	public void setDatabaseVersion(String databaseVersion) throws MzTabParsingException {
+		checkStringValue(databaseVersion);
 		this.databaseVersion = databaseVersion;
 	}
 
@@ -271,7 +292,11 @@ public class Peptide extends TableObject {
 		this.searchEngineScore = searchEngineScore;
 	}
 
-	public void setReliability(Integer reliability) {
+	public void setReliability(Integer reliability) throws MzTabParsingException {
+		// make sure the reliability is between 1-3
+		if (reliability < 1 || reliability > 3)
+			throw new MzTabParsingException("Invalid reliability " + reliability + ". Reliability must only be 1 (good), 2 (medium), and 3 (bad).");
+		
 		this.reliability = reliability;
 	}
 

@@ -27,7 +27,7 @@ public enum PeptideTableField {
 	CHARGE(						"charge",						12),
 	MASS_TO_CHARGE(				"mass_to_charge",				13),
 	URI(						"uri",							14),
-	SPEC_REF(					"spec_ref",						15),
+	SPEC_REF(					"spectra_ref",					15),
 	// WARNING: the position information of the quantitative fields as well 
 	// as the custom field is not evaluated. To change the order these fields
 	// are marshalled, the respective functions in Protein.java need to be

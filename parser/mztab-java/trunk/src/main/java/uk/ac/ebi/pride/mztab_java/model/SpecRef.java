@@ -51,6 +51,8 @@ public class SpecRef {
 		if (msFileIndex < 1)
 			throw new MzTabParsingException("Invalid ms_file index passed. ms_file indexes must larger or equal to 1.");
 		
+		TableObject.checkStringValue(reference);
+		
 		this.msFile = String.format("ms_file[%d]", msFileIndex);
 		this.reference = reference;
 		this.msFileIndex = msFileIndex;
@@ -63,6 +65,8 @@ public class SpecRef {
 	 * @throws MzTabParsingException Thrown if an invalid ms_file is passed.
 	 */
 	public SpecRef(String msFile, String reference) throws MzTabParsingException {
+		TableObject.checkStringValue(reference);
+		
 		this.msFile = msFile;
 		this.reference = reference;
 		
@@ -76,6 +80,7 @@ public class SpecRef {
 	 * @throws MzTabParsingException 
 	 */
 	public SpecRef(String mzTab) throws MzTabParsingException {
+		TableObject.checkStringValue(mzTab);
 		int index = mzTab.indexOf(':');
 		
 		if (index < 0)
@@ -117,6 +122,7 @@ public class SpecRef {
 	 * @throws MzTabParsingException Thrown in case an invalid ms file id is passed.
 	 */
 	public void setMsFile(String msFile) throws MzTabParsingException {
+		TableObject.checkStringValue(msFile);
 		this.msFile = msFile;
 		
 		updateMsFileIndex();
@@ -128,8 +134,10 @@ public class SpecRef {
 	/**
 	 * Set's the spectrum's reference in the ms file.
 	 * @param reference The spectrum's reference (f.e. index) in the ms file.
+	 * @throws MzTabParsingException 
 	 */
-	public void setReference(String reference) {
+	public void setReference(String reference) throws MzTabParsingException {
+		TableObject.checkStringValue(reference);
 		this.reference = reference;
 	}
 	

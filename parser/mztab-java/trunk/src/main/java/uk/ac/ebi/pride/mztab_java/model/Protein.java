@@ -67,6 +67,7 @@ public class Protein extends TableObject {
 						accession = value;
 						break;
 					case UNIT_ID:
+						checkUnitId(value);
 						unitId = value;
 						break;
 					case DESCRIPTION:
@@ -92,6 +93,9 @@ public class Protein extends TableObject {
 						break;
 					case RELIABILITY:
 						reliability = parseIntegerField(value);
+						// make sure the reliability is between 1-3
+						if (reliability != null && (reliability < 1 || reliability > 3))
+							throw new MzTabParsingException("Invalid reliability " + reliability + ". Reliability must only be 1 (good), 2 (medium), and 3 (bad).");
 						break;
 					case NUM_PEPTIDES:
 						numPeptides = parseIntegerField(value);
@@ -129,7 +133,7 @@ public class Protein extends TableObject {
 			}
 		}
 		catch (Exception e) {
-			throw new MzTabParsingException("Failed to parse protein.", e);
+			throw new MzTabParsingException("Failed to parse protein: " + e.getMessage(), e);
 		}
 	}
 
@@ -232,31 +236,38 @@ public class Protein extends TableObject {
 		return proteinCoverage;
 	}
 	
-	public void setAccession(String accession) {
+	public void setAccession(String accession) throws MzTabParsingException {
+		checkStringValue(accession);
 		this.accession = accession;
 	}
 
-	public void setUnitId(String unitId) {
+	public void setUnitId(String unitId) throws MzTabParsingException {
+		checkUnitId(unitId);
 		this.unitId = unitId;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description) throws MzTabParsingException {
+		checkStringValue(description);
 		this.description = description;
 	}
 
-	public void setTaxid(String taxid) {
+	public void setTaxid(String taxid) throws MzTabParsingException {
+		checkStringValue(taxid);
 		this.taxid = taxid;
 	}
 
-	public void setSpecies(String species) {
+	public void setSpecies(String species) throws MzTabParsingException {
+		checkStringValue(species);
 		this.species = species;
 	}
 
-	public void setDatabase(String database) {
+	public void setDatabase(String database) throws MzTabParsingException {
+		checkStringValue(database);
 		this.database = database;
 	}
 
-	public void setDatabaseVersion(String databaseVersion) {
+	public void setDatabaseVersion(String databaseVersion) throws MzTabParsingException {
+		checkStringValue(databaseVersion);
 		this.databaseVersion = databaseVersion;
 	}
 
@@ -268,7 +279,10 @@ public class Protein extends TableObject {
 		this.searchEngineScore = searchEngineScore;
 	}
 
-	public void setReliability(Integer reliability) {
+	public void setReliability(Integer reliability) throws MzTabParsingException {
+		// make sure the reliability is between 1-3
+		if (reliability < 1 || reliability > 3)
+			throw new MzTabParsingException("Invalid reliability " + reliability + ". Reliability must only be 1 (good), 2 (medium), and 3 (bad).");
 		this.reliability = reliability;
 	}
 
@@ -284,7 +298,9 @@ public class Protein extends TableObject {
 		this.numPeptidesUnambiguous = numPeptidesUnambiguous;
 	}
 
-	public void setAmbiguityMembers(List<String> ambiguityMembers) {
+	public void setAmbiguityMembers(List<String> ambiguityMembers) throws MzTabParsingException {
+		for (String string : ambiguityMembers)
+			checkStringValue(string);
 		this.ambiguityMembers = ambiguityMembers;
 	}
 
@@ -296,7 +312,9 @@ public class Protein extends TableObject {
 		this.uri = uri;
 	}
 
-	public void setGoTerms(List<String> goTerms) {
+	public void setGoTerms(List<String> goTerms) throws MzTabParsingException {
+		for (String value : goTerms)
+			checkStringValue(value);
 		this.goTerms = goTerms;
 	}
 

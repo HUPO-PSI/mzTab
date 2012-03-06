@@ -75,14 +75,14 @@ public class EditedMzTabFileTest extends TestCase {
 		assertEquals(1, proteins.size());
 		Protein p = proteins.iterator().next();
 		
-		assertEquals("PRT	IPI00002824	file_1	Thyroxin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	--	1	1	--	IPI00793531,IPI00791139	NA	--	GO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	5.1	1.0	--	--	2.3456	0.12	--	--	--	--	--	--	--\n", p.toMzTab(4, Collections.EMPTY_LIST));
+		assertEquals("PRT	IPI00002824	file_1	Thyroxin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	-	1	1	-	IPI00793531,IPI00791139	NA	-	GO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	5.1	1.0	-	-	2.3456	0.12	-	-	-	-	-	-	-\n", p.toMzTab(4, Collections.EMPTY_LIST));
 	}
 
 	public void testGetProteinStringString() {
 		Protein p = mzTabFile.getProtein("IPI00002824", "file_1");
 		
 		assertNotNull(p);
-		assertEquals("PRT	IPI00002824	file_1	Thyroxin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	--	1	1	--	IPI00793531,IPI00791139	NA	--	GO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	5.1	1.0	--	--	2.3456	0.12	--	--	--	--	--	--	--\n", p.toMzTab(4, Collections.EMPTY_LIST));
+		assertEquals("PRT	IPI00002824	file_1	Thyroxin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	-	1	1	-	IPI00793531,IPI00791139	NA	-	GO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	5.1	1.0	-	-	2.3456	0.12	-	-	-	-	-	-	-\n", p.toMzTab(4, Collections.EMPTY_LIST));
 	}
 
 	public void testGetUnitProteins() {
@@ -158,7 +158,7 @@ public class EditedMzTabFileTest extends TestCase {
 	}
 
 	public void testAddProtein() {
-		String line1 = "PRT	IPI00004942	NEW_UNIT	Albumin	9606	Homo sapiens(Human)	NCBI NR	21.06.2011	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,140]	3	4	2	1		13[0.8]-UNIMOD:35,29[0.2]|35[0.4]-UNIMOD:21	http://ebi.ac.uk/pride/experiment/1234/protein/193ttp://ebi.ac.uk/pride/experiment/1234/protein/193	GO:0008299,GO:0016740	0.2	1.0	--	--	7265.31988	6346.894427	--	7265.31988	6346.894427	--	7265.31988	6346.894427	--";
+		String line1 = "PRT	IPI00004942	NEW_UNIT	Albumin	9606	Homo sapiens(Human)	NCBI NR	21.06.2011	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,140]	3	4	2	1		13[0.8]-UNIMOD:35,29[0.2]|35[0.4]-UNIMOD:21	http://ebi.ac.uk/pride/experiment/1234/protein/193ttp://ebi.ac.uk/pride/experiment/1234/protein/193	GO:0008299,GO:0016740	0.2	1.0	-	-	7265.31988	6346.894427	-	7265.31988	6346.894427	-	7265.31988	6346.894427	-";
 		
 		TsvTableParser parser = new TsvTableParser("PRH	accession	unit_id	description	taxid	species	database	database_version	search_engine	search_engine_score	reliability	num_peptides	num_peptides_distinct	num_peptides_unambiguous	ambiguity_members	modifications	uri	go_terms	protein_coverage	protein_abundance_sub[1]	protein_abundance_stdev_sub[1]	protein_abundance_std_error_sub[1]	protein_abundance_sub[2]	protein_abundance_stdev_sub[2]	protein_abundance_std_error_sub[2]	protein_abundance_sub[3]	protein_abundance_stdev_sub[3]	protein_abundance_std_error_sub[3]	protein_abundance_sub[4]	protein_abundance_stdev_sub[4]	protein_abundance_std_error_sub[4]");
 		Map<String, String> parsedLine1 = parser.parseTableLine(line1);
@@ -183,7 +183,7 @@ public class EditedMzTabFileTest extends TestCase {
 	}
 	
 	public void testAddPeptide() {
-		String line1 = "PEP	NILNELFQR	gi|10181184	NEW_UNIT	true	NCBI NR	21.06.2011	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,35]	3	1[0.8]-UNIMOD:35	20.8	2	500	--	1.0	--	--	4491.221363	--	--	4491.221363	--	--	4491.221363	--	--				";
+		String line1 = "PEP	NILNELFQR	gi|10181184	NEW_UNIT	true	NCBI NR	21.06.2011	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,35]	3	1[0.8]-UNIMOD:35	20.8	2	500	-	1.0	-	-	4491.221363	-	-	4491.221363	-	-	4491.221363	-	-				";
 		
 		TsvTableParser parser = new TsvTableParser("PEH	sequence	accession	unit_id	unique	database	database_version	search_engine	search_engine_score	reliability	modifications	retention_time	charge	mass_to_charge	uri	peptide_abundance_sub[1]	peptide_abundance_stdev_sub[1]	peptide_abundance_std_error_sub[1]	peptide_abundance_sub[2]	peptide_abundance_stdev_sub[2]	peptide_abundance_std_error_sub[2]	peptide_abundance_sub[3]	peptide_abundance_stdev_sub[3]	peptide_abundance_std_error_sub[3]	peptide_abundance_sub[4]	peptide_abundance_stdev_sub[4]	peptide_abundance_std_error_sub[4]				");
 		Map<String, String> parsedLine1 = parser.parseTableLine(line1);
