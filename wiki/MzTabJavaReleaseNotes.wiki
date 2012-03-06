@@ -1,9 +1,13 @@
 #summary Short summary of changes in the mztab-java API.
 
 ----
+*mztab-java version 1.0.4 - (6. March 2012)*
+  * NEW FEATURE: Updated to support mzTab version 0.8.
+  * NEW FEATURE: Added additional checks to make sure the set values are valid.
+----
 *mztab-java version 1.0.3 - (24. November 2011)*
 
-  * NEW FATURE: Updated to support mzTab version 0.7. Renamed Subsample get/setQuantitationReagent to get/setQuantificationReagent.
+  * NEW FEATURE: Updated to support mzTab version 0.7. Renamed Subsample get/setQuantitationReagent to get/setQuantificationReagent.
 
 ----
 *mztab-java version 1.0.2 - (14. November 2011)*
