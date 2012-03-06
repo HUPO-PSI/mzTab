@@ -11,7 +11,7 @@ This Wiki holds information about the mzTab format as well as associated project
 mzTab is a tab-delimited text file format to report proteomics results. The mzTab file format is still under development and not yet stable. The current format specification can always be found in the mzTab SVN: 
  [http://mztab.googlecode.com/svn/specification/trunk/specification-document/mzTab%20format%20specification.doc mzTab format specification.doc].
 
-mzTab example files can also be found in the svn at [http://code.google.com/p/mztab/source/browse/specification/trunk/#trunk%2Fexamples /specification/trunk/examples].
+mzTab example files can also be found in the svn (see [ExampleFiles Example files]).
 
 == mzTab parser ==
 
