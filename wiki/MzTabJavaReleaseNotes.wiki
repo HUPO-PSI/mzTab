@@ -1,6 +1,10 @@
 #summary Short summary of changes in the mztab-java API.
 
 ----
+*mztab-java version 1.0.5 - (7. March 2012)*
+  * BUGFIX: Fixed two bugs that cause NULL pointer exceptions in case string values were set to NULL.
+
+----
 *mztab-java version 1.0.4 - (6. March 2012)*
   * NEW FEATURE: Updated to support mzTab version 0.8.
   * NEW FEATURE: Added additional checks to make sure the set values are valid.
