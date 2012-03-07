@@ -120,6 +120,9 @@ public class Unit {
 	 * @param value
 	 */
 	private void checkStringValue(String value) throws MzTabParsingException {
+		if (value == null)
+			return;
+		
 		if (value.contains("\n") || value.contains("\r"))
 			throw new MzTabParsingException("Invalid field value. Field values must not contain new-line characters.");
 	}
