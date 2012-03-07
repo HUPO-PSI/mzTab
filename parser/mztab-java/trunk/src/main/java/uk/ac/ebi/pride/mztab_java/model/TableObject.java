@@ -346,6 +346,8 @@ public abstract class TableObject {
 	 * @throws MzTabParsingException Thrown in case the value is not valid.
 	 */
 	public static void checkStringValue(String string) throws MzTabParsingException {
+		if (string == null)
+			return;
 		if (string.contains("\n"))
 			throw new MzTabParsingException("Illegal character found in string value: \\n.");
 		if (string.contains("\t"))
