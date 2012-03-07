@@ -1,30 +1,34 @@
 MTD	file_1-title	mzTab SILAC test
 MTD	file_1-quantification_method	[PRIDE,PRIDE:0000315,SILAC,]
-MTD	file_1-sub[1]-description	file_1_light
-MTD	file_1-sub[2]-description	file_1_heavy
+MTD	file_1-protein-quantification_unit	[PRIDE,PRIDE:0000395,Ratio,]
+MTD	file_1-peptide-quantification_unit	[PRIDE,PRIDE:0000395,Ratio,]
+MTD	file_1-sub[1]-description	file_1_heavy
+MTD	file_1-sub[1]-quantification_reagent	[PRIDE,PRIDE:0000325,SILAC heavy,]
+MTD	file_1-sub[2]-description	file_1_light
+MTD	file_1-sub[2]-quantification_reagent	[PRIDE,PRIDE:0000326,SILAC light,]
 
 PRH	accession	unit_id	description	taxid	species	database	database_version	search_engine	search_engine_score	reliability	num_peptides	num_peptides_distinct	num_peptides_unambiguous	ambiguity_members	modifications	uri	go_terms	protein_coverage	protein_abundance_sub[1]	protein_abundance_stdev_sub[1]	protein_abundance_std_error_sub[1]	protein_abundance_sub[2]	protein_abundance_stdev_sub[2]	protein_abundance_std_error_sub[2]
-PRT	IPI00004942	file_1	Name4	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	--	1	1	--	NA	NA	--	GO:0005488,GO:0005515,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	9	1.0	--	--	5.6789	1.2	--
-PRT	IPI00003501	file_1	Retikulin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	--	1	1	--	NA	NA	--	GO:0001619,GO:0004871,GO:0004872,GO:0004888,GO:0004930,GO:0005488,GO:0008289,GO:0045125,GO:0060089	2.7	1.0	--	--	0.3456	0.34	--
-PRT	IPI00218319	file_1	Albumin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	--	10	1	--	IPI00013991,IPI00220709,CON_00703268,IPI00646748,IPI00910712,IPI00909308,IPI00926427	NA	--	GO:0003779,GO:0005198,GO:0005488,GO:0005515,GO:0008092,GO:0008307	3.1	1.0	--	--	1.2345	0.123	--
-PRT	IPI00000980	file_1	Dickkopf1	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	--	1	1	--	IPI00893222	53[68.0]-MOD:00016	--	GO:0005215,GO:0005488,GO:0005515,GO:0008320,GO:0008565,GO:0015399,GO:0015405,GO:0015450,GO:0022804,GO:0022857,GO:0022884,GO:0022891,GO:0022892	4.2	1.0	--	--	0.5678	0.05	--
-PRT	IPI00002824	file_1	Thyroxin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	--	1	1	--	IPI00793531,IPI00791139	NA	--	GO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	5.1	1.0	--	--	2.3456	0.12	--
+PRT	IPI00004942	file_1	Name4	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	-	1	1	-	NA	NA	-	GO:0005488,GO:0005515,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	9	1.0	-	-	5.6789	1.2	-
+PRT	IPI00003501	file_1	Retikulin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	-	1	1	-	NA	NA	-	GO:0001619,GO:0004871,GO:0004872,GO:0004888,GO:0004930,GO:0005488,GO:0008289,GO:0045125,GO:0060089	2.7	1.0	-	-	0.3456	0.34	-
+PRT	IPI00218319	file_1	Albumin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	-	10	1	-	IPI00013991,IPI00220709,CON_00703268,IPI00646748,IPI00910712,IPI00909308,IPI00926427	NA	-	GO:0003779,GO:0005198,GO:0005488,GO:0005515,GO:0008092,GO:0008307	3.1	1.0	-	-	1.2345	0.123	-
+PRT	IPI00000980	file_1	Dickkopf1	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	-	1	1	-	IPI00893222	53[68.0]-MOD:00016	-	GO:0005215,GO:0005488,GO:0005515,GO:0008320,GO:0008565,GO:0015399,GO:0015405,GO:0015450,GO:0022804,GO:0022857,GO:0022884,GO:0022891,GO:0022892	4.2	1.0	-	-	0.5678	0.05	-
+PRT	IPI00002824	file_1	Thyroxin	9606	Homo sapiens	IPI	3.11	[MS,MS:12345,Andromeda,]	[MS,MS:100022,Andromeda protein score,30]	-	1	1	-	IPI00793531,IPI00791139	NA	-	GO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	5.1	1.0	-	-	2.3456	0.12	-
 
-PEH	sequence	accession	unit_id	unique	database	database_version	search_engine	search_engine_score	reliability	modifications	retention_time	charge	mass_to_charge	uri	spec_ref	peptide_abundance_sub[1]	peptide_abundance_stdev_sub[1]	peptide_abundance_std_error_sub[1]	peptide_abundance_sub[2]	peptide_abundance_stdev_sub[2]	peptide_abundance_std_error_sub[2]
-PEP	IQLVEEELDR	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,30]	--	NA	--	--	1242.6456	--	--	1.0	--	--	1.2345	0.123	--
-PEP	IQLVEEELDRAQER	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,35]	--	NA	--	--	1726.885	--	--	1.0	--	--	0.5678	0.05	--
-PEP	KLVILEGELER	IPI00010779	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,46]	--	NA	--	--	1297.7606	--	--	1.0	--	--	2.3456	0.12	--
-PEP	KQAEDRCK	IPI00513698	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,100]	--	NA	--	--	1033.4975	--	--	1.0	--	--	0.3456	0.34	--
-PEP	LATALQK	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,120]	--	NA	--	--	743.45414	--	--	1.0	--	--	5.6789	1.2	--
-PEP	LATALQKLEEAEK	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,30]	--	NA	--	--	1442.7981	--	--	1.0	--	--	1.2345	0.123	--
-PEP	LEEAEKAADESER	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,35]	--	NA	--	--	1475.674	--	--	1.0	--	--	0.5678	0.05	--
-PEP	LVILEGELER	IPI00010779	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,46]	--	NA	--	--	1169.6656	--	--	1.0	--	--	2.3456	0.12	--
-PEP	RIQLVEEELDR	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,100]	--	NA	--	--	1398.7467	--	--	1.0	--	--	0.3456	0.34	--
-PEP	RIQLVEEELDRAQER	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,120]	--	6[68.0]-MOD:00016	--	--	1882.9861	--	--	1.0	--	--	5.6789	1.2	--
-PEP	GADPGM(Oxydation)PEPTVLSLLWG	IPI00000980	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,30]	--	NA	--	--	1738.86	--	--	1.0	--	--	1.2345	0.123	--
-PEP	GFGYGQGAGALVHAQ	IPI00002824	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,35]	--	NA	--	--	1431.6895	--	--	1.0	--	--	0.5678	0.05	--
-PEP	GMHMPTSPTFLEGNTVV	IPI00003501	file_1	true	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,46]	--	NA	--	--	1816.8488	--	--	1.0	--	--	2.3456	0.12	--
-PEP	TYASGYAHYEEQEN	IPI00004942	file_1	true	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,100]	--	NA	--	--	1660.6641	--	--	1.0	--	--	0.3456	0.34	--
+PEH	sequence	accession	unit_id	unique	database	database_version	search_engine	search_engine_score	reliability	modifications	retention_time	charge	mass_to_charge	uri	spectra_ref	peptide_abundance_sub[1]	peptide_abundance_stdev_sub[1]	peptide_abundance_std_error_sub[1]	peptide_abundance_sub[2]	peptide_abundance_stdev_sub[2]	peptide_abundance_std_error_sub[2]
+PEP	IQLVEEELDR	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,30]	-	NA	-	-	1242.6456	-	-	1.0	-	-	1.2345	0.123	-
+PEP	IQLVEEELDRAQER	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,35]	-	NA	-	-	1726.885	-	-	1.0	-	-	0.5678	0.05	-
+PEP	KLVILEGELER	IPI00010779	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,46]	-	NA	-	-	1297.7606	-	-	1.0	-	-	2.3456	0.12	-
+PEP	KQAEDRCK	IPI00513698	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,100]	-	NA	-	-	1033.4975	-	-	1.0	-	-	0.3456	0.34	-
+PEP	LATALQK	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,120]	-	NA	-	-	743.45414	-	-	1.0	-	-	5.6789	1.2	-
+PEP	LATALQKLEEAEK	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,30]	-	NA	-	-	1442.7981	-	-	1.0	-	-	1.2345	0.123	-
+PEP	LEEAEKAADESER	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,35]	-	NA	-	-	1475.674	-	-	1.0	-	-	0.5678	0.05	-
+PEP	LVILEGELER	IPI00010779	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,46]	-	NA	-	-	1169.6656	-	-	1.0	-	-	2.3456	0.12	-
+PEP	RIQLVEEELDR	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,100]	-	NA	-	-	1398.7467	-	-	1.0	-	-	0.3456	0.34	-
+PEP	RIQLVEEELDRAQER	IPI00218319	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,120]	-	6[68.0]-MOD:00016	-	-	1882.9861	-	-	1.0	-	-	5.6789	1.2	-
+PEP	GADPGM(Oxydation)PEPTVLSLLWG	IPI00000980	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,30]	-	NA	-	-	1738.86	-	-	1.0	-	-	1.2345	0.123	-
+PEP	GFGYGQGAGALVHAQ	IPI00002824	file_1	false	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,35]	-	NA	-	-	1431.6895	-	-	1.0	-	-	0.5678	0.05	-
+PEP	GMHMPTSPTFLEGNTVV	IPI00003501	file_1	true	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,46]	-	NA	-	-	1816.8488	-	-	1.0	-	-	2.3456	0.12	-
+PEP	TYASGYAHYEEQEN	IPI00004942	file_1	true	IPI	3,11	[MS,MS:12345,Andromeda,]	[MS,MS:100023,Andromeda peptide score,100]	-	NA	-	-	1660.6641	-	-	1.0	-	-	0.3456	0.34	-
 
-SMH	identifier	unit_id	chemical_formula	description	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	spec_ref	search_engine	search_engine_score	modifications	smallmolecule_abundance_sub[1]	smallmolecule_abundance_stdev_sub[1]	smallmolecule_abundance_std_error_sub[1]	smallmolecule_abundance_sub[2]	smallmolecule_abundance_stdev_sub[2]	smallmolecule_abundance_std_error_sub[2]
-SML	ID_1	file_1	--	--	254.4	2	20.7	9606	Homo sapiens (Human)	--	--	2	--	--	[SpectaSt,]	--	--	--	--	--	--	--	--
+SMH	identifier	unit_id	chemical_formula	description	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	spectra_ref	search_engine	search_engine_score	modifications	smallmolecule_abundance_sub[1]	smallmolecule_abundance_stdev_sub[1]	smallmolecule_abundance_std_error_sub[1]	smallmolecule_abundance_sub[2]	smallmolecule_abundance_stdev_sub[2]	smallmolecule_abundance_std_error_sub[2]
+SML	ID_1	file_1	-	-	254.4	2	20.7	9606	Homo sapiens (Human)	-	-	2	-	-	[,,SpectaSt,]	-	-	-	-	-	-	-	-
