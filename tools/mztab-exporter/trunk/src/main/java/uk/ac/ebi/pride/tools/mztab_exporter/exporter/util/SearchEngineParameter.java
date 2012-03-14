@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.tools.mztab_exporter.exporter.util;
 
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
 import uk.ac.ebi.pride.mztab_java.model.Param;
 
 public enum SearchEngineParameter {
@@ -62,7 +63,7 @@ public enum SearchEngineParameter {
 		return name;
 	}
 	
-	public Param toMzTabParam() {
+	public Param toMzTabParam() throws MzTabParsingException {
 		return new Param(cvLabel, accession, name, null);
 	}
 }

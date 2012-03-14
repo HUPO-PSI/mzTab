@@ -12,7 +12,8 @@ public class CliOptions {
 		HELP("help"),
 		CONVERT("convert"),
 		FORMAT("format"),
-		READ_WRITE("rw");
+		READ_WRITE("rw"),
+		LOGGING_LEVEL("logging_level");
 
 		private String value;
 
@@ -58,12 +59,18 @@ public class CliOptions {
 				.hasArg()
 				.withDescription("reads in an mzTab file and writes it back using mztab-java. Thereby, must formatting issues should be removed.")
 				.create(OPTIONS.READ_WRITE.toString());
+		
+		Option logginLevel = OptionBuilder
+				.hasArg()
+				.withDescription("sets the logging level. Allowed values are \"DEBUG\", \"INFO\", \"WARN\", and \"ERROR\".")
+				.create(OPTIONS.LOGGING_LEVEL.toString());
 
 		options.addOption(help);
 		options.addOption(checkFile);
 		options.addOption(format);
 		options.addOption(convert);
 		options.addOption(readWrite);
+		options.addOption(logginLevel);
 	}
 
 	public static Options getOptions() {
