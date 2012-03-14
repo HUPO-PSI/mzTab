@@ -7,7 +7,9 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 
 import uk.ac.ebi.pride.mztab_java.MzTabFile;
 import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
@@ -32,7 +34,27 @@ public class App
         	
         	 if (commandLine.hasOption(CliOptions.OPTIONS.HELP.toString()) || args.length == 0) {
                  printUsage();
-             }        	 
+             }
+        	// logging level
+ 			if (commandLine.hasOption(CliOptions.OPTIONS.LOGGING_LEVEL.toString())) {
+ 				String level = commandLine.getOptionValue(CliOptions.OPTIONS.LOGGING_LEVEL.toString());
+ 				
+ 				Logger logger = Logger.getRootLogger();
+ 				Level logLevel = null;
+ 				
+ 				if ("debug".equals(level))
+ 					logLevel = Level.DEBUG;
+ 				else if ("info".equals(level))
+ 					logLevel = Level.INFO;
+ 				else if ("warn".equals(level))
+ 					logLevel = Level.WARN;
+ 				else if ("error".equals(level))
+ 					logLevel = Level.ERROR;
+ 				else
+ 					throw new Exception("Invalid logging level '" + level + "' set.");
+ 				
+ 				logger.setLevel(logLevel);
+ 			}
         	 if (commandLine.hasOption(CliOptions.OPTIONS.CHECK_FILE.toString())) {
         		 checkFile(commandLine.getOptionValue(CliOptions.OPTIONS.CHECK_FILE.toString()));
         	 }

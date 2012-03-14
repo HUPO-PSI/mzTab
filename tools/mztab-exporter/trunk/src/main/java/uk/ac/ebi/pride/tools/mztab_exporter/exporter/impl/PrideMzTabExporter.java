@@ -113,34 +113,38 @@ public class PrideMzTabExporter implements MzTabExporter {
 			return "PRIDEFILE_" + System.currentTimeMillis();
 	}
 	
-	private void processMetadata() {
+	private void processMetadata() throws Exception {
 		// create a new unit
 		Unit unit = new Unit();
-		unit.setUnitId(unitId);
-		
-		// set the description (in case there isn't any NULL is returned anyway)
-		unit.setDescription(getFirstCvParamValue(reader.getAdditionalParams(), DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession()));
-		
-		// process the references
-		unit.setPublication(convertReferences(reader.getReferences()));
-		// process the contacts
-		unit.setContact(convertContacts(reader.getAdmin().getContact()));
-		// process the species info
-		unit = addSampleInfo(unit);
-		// process the experiment params
-		unit = processExperimentParams(unit);
-		
-		// add the PRIDE XML file as an MS data file
 		try {
-			unit.setMsFile(1, new MsFile(
-					new uk.ac.ebi.pride.mztab_java.model.Param("MS", "MS:1000564", "PSI mzData file", null),
-					new uk.ac.ebi.pride.mztab_java.model.Param("MS", "MS:1000777", "spectrum identifier nativeID format", null), 
-					sourcefile.getAbsolutePath()));
+			unit.setUnitId(unitId);
+			
+			// set the description (in case there isn't any NULL is returned anyway)
+			unit.setDescription(getFirstCvParamValue(reader.getAdditionalParams(), DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession()));
+			
+			// process the references
+			unit.setPublication(convertReferences(reader.getReferences()));
+			// process the contacts
+			unit.setContact(convertContacts(reader.getAdmin().getContact()));
+			// process the species info
+			unit = addSampleInfo(unit);
+			// process the experiment params
+			unit = processExperimentParams(unit);
+			
+			// add the PRIDE XML file as an MS data file
+			try {
+				unit.setMsFile(1, new MsFile(
+						new uk.ac.ebi.pride.mztab_java.model.Param("MS", "MS:1000564", "PSI mzData file", null),
+						new uk.ac.ebi.pride.mztab_java.model.Param("MS", "MS:1000777", "spectrum identifier nativeID format", null), 
+						sourcefile.getAbsolutePath()));
+			} catch (MzTabParsingException e) {
+				throw new IllegalStateException("Failed to generate MsFile object", e);
+			}
+			
+			writer.setUnit(unit);
 		} catch (MzTabParsingException e) {
-			throw new IllegalStateException("Failed to generate MsFile object", e);
+			throw new Exception("Failed to create mzTab file. " + e.getMessage());
 		}
-		
-		writer.setUnit(unit);
 	}
 
 	/**
@@ -148,8 +152,9 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * (f.e. quant method, description...).
 	 * @param unit
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
-	private Unit processExperimentParams(Unit unit) {
+	private Unit processExperimentParams(Unit unit) throws MzTabParsingException {
 		// process the experiment additional params
 		for (CvParam p : reader.getAdditionalParams().getCvParam()) {
 			if (DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession().equals(p.getAccession()))
@@ -171,8 +176,9 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * disease) to the unit and the various subsamples.
 	 * @param unit
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
-	private Unit addSampleInfo(Unit unit) {
+	private Unit addSampleInfo(Unit unit) throws MzTabParsingException {
 		SampleDescription sampleDescription = reader.getAdmin().getSampleDescription();
 		
 		// create a hashmap to store potential subsamples
@@ -317,7 +323,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		return unit;
 	}
 
-	private uk.ac.ebi.pride.mztab_java.model.Param convertParam(CvParam p) {
+	private uk.ac.ebi.pride.mztab_java.model.Param convertParam(CvParam p) throws MzTabParsingException {
 		return new uk.ac.ebi.pride.mztab_java.model.Param(p.getCvLabel(), p.getAccession(), p.getName(), p.getValue());
 	}
 
@@ -360,9 +366,10 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * into an ArrayList of mzTab Contacts.
 	 * @param contact
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
 	private ArrayList<Contact> convertContacts(
-			List<uk.ac.ebi.pride.jaxb.model.Contact> contact) {
+			List<uk.ac.ebi.pride.jaxb.model.Contact> contact) throws MzTabParsingException {
 		// make sure there are contacts to be processed
 		if (contact == null || contact.size() == 0)
 			return null;
@@ -501,8 +508,9 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * MzTab protein.
 	 * @param ident
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
-	private Protein convertIdentification(Identification ident) {
+	private Protein convertIdentification(Identification ident) throws MzTabParsingException {
 		// create the protein object
 		Protein protein = new Protein();
 		
@@ -739,9 +747,10 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * returns them as a list.
 	 * @param identification
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
 	private List<Modification> getIdentificationModifications(
-			Identification identification) {
+			Identification identification) throws MzTabParsingException {
 		HashSet<Modification> modifications = new HashSet<Modification>();
 		
 		for (PeptideItem p : identification.getPeptideItem()) {
@@ -765,9 +774,10 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * Tries to convert the passed search engine to a cvParam.
 	 * @param searchEngine
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
 	private uk.ac.ebi.pride.mztab_java.model.Param convertSearchEngine(
-			String searchEngine) {
+			String searchEngine) throws MzTabParsingException {
 		SearchEngineParameter searchEngineParam = SearchEngineParameter.getParam(searchEngine);
 		
 		if (searchEngineParam != null)
@@ -781,8 +791,9 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * of mzTab Modifications.
 	 * @param p
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
-	private List<Modification> getPeptideModifications(PeptideItem p) {
+	private List<Modification> getPeptideModifications(PeptideItem p) throws MzTabParsingException {
 		ArrayList<Modification> modifications = new ArrayList<Modification>();
 		
 		for (ModificationItem ptm : p.getModificationItem()) {
@@ -802,8 +813,9 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * mzTab ParamS.
 	 * @param peptide
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
-	private ParamList getPeptideSearchEngineScores(PeptideItem peptide) {
+	private ParamList getPeptideSearchEngineScores(PeptideItem peptide) throws MzTabParsingException {
 		ParamList scoreParams = new ParamList();
 		
 		for (CvParam param : peptide.getAdditional().getCvParam()) {
@@ -820,8 +832,9 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * of mzTab Peptides.
 	 * @param ident
 	 * @return
+	 * @throws MzTabParsingException 
 	 */
-	private List<Peptide> convertIdentificationPeptides(Identification ident) {
+	private List<Peptide> convertIdentificationPeptides(Identification ident) throws MzTabParsingException {
 		List<Peptide> convertedPeptides = new ArrayList<Peptide>(ident.getPeptideItem().size());
 		
 		for (PeptideItem peptideItem : ident.getPeptideItem()) {
