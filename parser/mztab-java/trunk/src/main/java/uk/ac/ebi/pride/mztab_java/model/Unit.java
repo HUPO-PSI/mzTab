@@ -354,6 +354,9 @@ public class Unit {
 				}
 					
 			}
+			else {
+				logger.warn("Unknown unit field encountered: " + field);
+			}
 		}
 		catch (Exception e) {
 			throw new MzTabParsingException("Failed to parse mztab metadata field.", e);
