@@ -1,6 +1,10 @@
 #summary Short summary of changes in the mztab-java API.
 
 ----
+*mztab-java version 1.0.6 - (24. April 2012)*
+  * BUGFIX: Test cases contained strings where the Tab character was not escaped.
+
+----
 *mztab-java version 1.0.5 - (7. March 2012)*
   * BUGFIX: Fixed two bugs that cause NULL pointer exceptions in case string values were set to NULL.
 
