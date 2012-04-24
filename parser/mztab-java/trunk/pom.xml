@@ -3,7 +3,7 @@
 
 	<groupId>uk.ac.ebi.pride.</groupId>
 	<artifactId>mztab-java</artifactId>
-	<version>1.0.6-SNAPSHOT</version>
+	<version>1.0.6</version>
 	<packaging>jar</packaging>
 
 	<name>mztab-java</name>
@@ -143,8 +143,8 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<scm>
-		<connection>scm:svn:https://mztab.googlecode.com/svn/parser/mztab-java/trunk</connection>
-		<developerConnection>scm:svn:https://mztab.googlecode.com/svn/parser/mztab-java/trunk</developerConnection>
-		<url>https://mztab.googlecode.com/svn/parser/mztab-java/trunk</url>
+		<connection>scm:svn:https://mztab.googlecode.com/svn/parser/mztab-java/tags/mztab-java-1.0.6</connection>
+		<developerConnection>scm:svn:https://mztab.googlecode.com/svn/parser/mztab-java/tags/mztab-java-1.0.6</developerConnection>
+		<url>https://mztab.googlecode.com/svn/parser/mztab-java/tags/mztab-java-1.0.6</url>
 	</scm>
 </project>
