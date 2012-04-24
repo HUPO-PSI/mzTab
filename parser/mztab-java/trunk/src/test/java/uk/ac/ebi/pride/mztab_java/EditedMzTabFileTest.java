@@ -75,14 +75,14 @@ public class EditedMzTabFileTest extends TestCase {
 		assertEquals(1, proteins.size());
 		Protein p = proteins.iterator().next();
 		
-		assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\t-\t1\t1\t-\tIPI00793531,IPI00791139\tNA\t-\tGO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t5.1\t1.0\t-\t-\t2.3456\t0.12\t-\t-\t-\t-\t-\t-\t-\n", p.toMzTab(4, Collections.EMPTY_LIST));
+		assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\t-\t1\t1\t-\tIPI00793531,IPI00791139\tNA\t-\tGO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t5.1\t1.0\t-\t-\t2.3456\t0.12\t-\t-\t-\t-\t-\t-\t-" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
 	}
 
 	public void testGetProteinStringString() {
 		Protein p = mzTabFile.getProtein("IPI00002824", "file_1");
 		
 		assertNotNull(p);
-		assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\t-\t1\t1\t-\tIPI00793531,IPI00791139\tNA\t-\tGO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t5.1\t1.0\t-\t-\t2.3456\t0.12\t-\t-\t-\t-\t-\t-\t-\n", p.toMzTab(4, Collections.EMPTY_LIST));
+		assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\t-\t1\t1\t-\tIPI00793531,IPI00791139\tNA\t-\tGO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t5.1\t1.0\t-\t-\t2.3456\t0.12\t-\t-\t-\t-\t-\t-\t-" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
 	}
 
 	public void testGetUnitProteins() {
