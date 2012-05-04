@@ -6,13 +6,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import uk.ac.ebi.pride.jmzTab.MzTabFile;
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
-import uk.ac.ebi.pride.jmzTab.model.Peptide;
-import uk.ac.ebi.pride.jmzTab.model.Protein;
-import uk.ac.ebi.pride.jmzTab.model.SmallMolecule;
-import uk.ac.ebi.pride.jmzTab.model.Unit;
-import uk.ac.ebi.pride.jmzTab.util.TsvTableParser;
+import uk.ac.ebi.pride.jmztab.MzTabFile;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.Peptide;
+import uk.ac.ebi.pride.jmztab.model.Protein;
+import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
+import uk.ac.ebi.pride.jmztab.model.Unit;
+import uk.ac.ebi.pride.jmztab.util.TsvTableParser;
 
 import junit.framework.TestCase;
 

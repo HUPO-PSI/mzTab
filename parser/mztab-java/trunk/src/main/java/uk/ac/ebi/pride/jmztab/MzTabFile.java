@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.jmzTab;
+package uk.ac.ebi.pride.jmztab;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,15 +16,15 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.ebi.pride.jmzTab.model.LineType;
-import uk.ac.ebi.pride.jmzTab.model.Peptide;
-import uk.ac.ebi.pride.jmzTab.model.PeptideTableField;
-import uk.ac.ebi.pride.jmzTab.model.Protein;
-import uk.ac.ebi.pride.jmzTab.model.ProteinTableField;
-import uk.ac.ebi.pride.jmzTab.model.SmallMolecule;
-import uk.ac.ebi.pride.jmzTab.model.SmallMoleculeTableField;
-import uk.ac.ebi.pride.jmzTab.model.Unit;
-import uk.ac.ebi.pride.jmzTab.util.TsvTableParser;
+import uk.ac.ebi.pride.jmztab.model.LineType;
+import uk.ac.ebi.pride.jmztab.model.Peptide;
+import uk.ac.ebi.pride.jmztab.model.PeptideTableField;
+import uk.ac.ebi.pride.jmztab.model.Protein;
+import uk.ac.ebi.pride.jmztab.model.ProteinTableField;
+import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
+import uk.ac.ebi.pride.jmztab.model.SmallMoleculeTableField;
+import uk.ac.ebi.pride.jmztab.model.Unit;
+import uk.ac.ebi.pride.jmztab.util.TsvTableParser;
 
 /**
  * Represents a mzTab file.

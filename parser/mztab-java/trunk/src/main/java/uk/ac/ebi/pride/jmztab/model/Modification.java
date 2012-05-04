@@ -1,11 +1,11 @@
-package uk.ac.ebi.pride.jmzTab.model;
+package uk.ac.ebi.pride.jmztab.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 public class Modification {
 	private final static Pattern mzTabModificationPattern = Pattern.compile("([^-]+)-(\\w+:[+-]*[A-Z0-9]+)");

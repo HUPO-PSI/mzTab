@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.jmzTab.model;
+package uk.ac.ebi.pride.jmztab.model;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.ebi.pride.jmzTab.MzTabFile;
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.MzTabFile;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 public class Unit {
 	private Logger logger = Logger.getLogger(Unit.class);

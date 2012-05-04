@@ -3,7 +3,7 @@ package uk.ac.ebi.pride.mztab_java.util;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import uk.ac.ebi.pride.jmzTab.util.TsvTableParser;
+import uk.ac.ebi.pride.jmztab.util.TsvTableParser;
 
 public class TsvTableParserTest extends TestCase {
 	private TsvTableParser parser;

@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
-import uk.ac.ebi.pride.jmzTab.MzTabFile;
-import uk.ac.ebi.pride.jmzTab.model.Modification;
-import uk.ac.ebi.pride.jmzTab.model.SmallMolecule;
+import uk.ac.ebi.pride.jmztab.MzTabFile;
+import uk.ac.ebi.pride.jmztab.model.Modification;
+import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
 
 public class MzTabSmallMoleculeTest extends TestCase {
 	MzTabFile mzTabFile;
