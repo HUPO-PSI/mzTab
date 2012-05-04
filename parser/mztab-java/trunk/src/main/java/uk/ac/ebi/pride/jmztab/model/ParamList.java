@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.jmzTab.model;
+package uk.ac.ebi.pride.jmztab.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.jmzTab;
+package uk.ac.ebi.pride.jmztab;
 
 @SuppressWarnings("serial")
 public class MzTabParsingException extends Exception {

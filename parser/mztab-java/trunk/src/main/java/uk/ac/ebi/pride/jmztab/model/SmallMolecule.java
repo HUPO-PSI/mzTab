@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.jmzTab.model;
+package uk.ac.ebi.pride.jmztab.model;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 /**
  * A SmallMolecule in a mzTab file.

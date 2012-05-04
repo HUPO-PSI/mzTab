@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.jmzTab.model;
+package uk.ac.ebi.pride.jmztab.model;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.ebi.pride.jmzTab.MzTabFile;
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.MzTabFile;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 public abstract class TableObject {
     public static final String MISSING = "NA";

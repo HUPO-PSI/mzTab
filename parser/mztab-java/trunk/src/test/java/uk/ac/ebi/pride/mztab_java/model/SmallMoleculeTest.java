@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
-import uk.ac.ebi.pride.jmzTab.model.SmallMolecule;
-import uk.ac.ebi.pride.jmzTab.model.TableObject;
-import uk.ac.ebi.pride.jmzTab.util.TsvTableParser;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
+import uk.ac.ebi.pride.jmztab.model.TableObject;
+import uk.ac.ebi.pride.jmztab.util.TsvTableParser;
 
 public class SmallMoleculeTest extends TestCase {
 	public void testMarshallingUnmarshalling() {

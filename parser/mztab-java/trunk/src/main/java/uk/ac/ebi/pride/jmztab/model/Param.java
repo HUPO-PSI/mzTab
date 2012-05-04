@@ -1,9 +1,9 @@
-package uk.ac.ebi.pride.jmzTab.model;
+package uk.ac.ebi.pride.jmztab.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 /**
  * Represents both, cv as well as userParams

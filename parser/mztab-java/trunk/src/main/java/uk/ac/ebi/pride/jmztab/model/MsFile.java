@@ -1,6 +1,6 @@
-package uk.ac.ebi.pride.jmzTab.model;
+package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 /**
  * Represents the reference to an external

@@ -1,8 +1,8 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
 import junit.framework.TestCase;
-import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
-import uk.ac.ebi.pride.jmzTab.model.Modification;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.Modification;
 
 public class ModificationTest extends TestCase {
 
