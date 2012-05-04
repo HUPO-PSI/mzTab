@@ -143,8 +143,8 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<scm>
-		<connection>scm:svn:https://mztab.googlecode.com/svn/parser/mztab-java/trunk</connection>
-		<developerConnection>scm:svn:https://mztab.googlecode.com/svn/parser/mztab-java/trunk</developerConnection>
-		<url>https://mztab.googlecode.com/svn/parser/mztab-java/trunk</url>
+		<connection>scm:svn:https://mztab.googlecode.com/svn/parser/jmztab/trunk</connection>
+		<developerConnection>scm:svn:https://mztab.googlecode.com/svn/parser/jmztab/trunk</developerConnection>
+		<url>https://mztab.googlecode.com/svn/parser/jmztab/trunk</url>
 	</scm>
 </project>
