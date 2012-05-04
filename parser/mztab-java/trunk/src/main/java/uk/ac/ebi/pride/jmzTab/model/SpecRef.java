@@ -1,9 +1,9 @@
-package uk.ac.ebi.pride.mztab_java.model;
+package uk.ac.ebi.pride.jmzTab.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
 
 /**
  * Represents a reference to an external

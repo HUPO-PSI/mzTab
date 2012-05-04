@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.mztab_java.model;
+package uk.ac.ebi.pride.jmzTab.model;
 
 import java.net.URI;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
 
 /**
  * A protein in a mzTab file.

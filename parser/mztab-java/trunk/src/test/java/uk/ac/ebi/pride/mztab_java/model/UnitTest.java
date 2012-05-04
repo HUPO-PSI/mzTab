@@ -1,8 +1,10 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
 import junit.framework.TestCase;
-import uk.ac.ebi.pride.mztab_java.MzTabFile;
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.jmzTab.MzTabFile;
+import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
+import uk.ac.ebi.pride.jmzTab.model.MsFile;
+import uk.ac.ebi.pride.jmzTab.model.Unit;
 
 public class UnitTest extends TestCase {
     private Unit unit = new Unit();
