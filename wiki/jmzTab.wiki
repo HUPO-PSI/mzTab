@@ -17,7 +17,7 @@ For a list of changes in the latest version of jmzTab see the [jmzTabReleaseNote
 
 == SVN ==
 
-The *latest version* of jmzTab can always be found in the SVN at [http://code.google.com/p/mztab/source/browse/#svn%2Fparser%2Fjmztab%2Ftrunk%2Fsrc /parser/jmztab/trunk].
+The *latest version* of jmzTab can always be found in the SVN at [http://code.google.com/p/mztab/source/browse/#svn%2Fparser%2Fjmztab%2Ftrunk /parser/jmztab/trunk].
 
 To check out the latest version of jmzTab using SVN use:
 
