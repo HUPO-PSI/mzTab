@@ -3,7 +3,7 @@
     * [ExampleFiles Example files]
     * [MzTabReleaseNotes Changelog]
   * [MzTabParser Parser Libraries]
-    * [MzTabJava mztab-java]
-      * [MzTabJavaReleaseNotes Release Notes]
+    * jmzTab
+      * [jmzTabReleaseNotes Release Notes]
   * [MzTabTools Tools] 
     * [MzTabExporter mztab-exporter]
