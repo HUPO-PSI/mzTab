@@ -1,22 +1,20 @@
 package uk.ac.ebi.pride.mztab_java.model;
 
-import uk.ac.ebi.pride.mztab_java.MzTabFile;
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import uk.ac.ebi.pride.mztab_java.MzTabFile;
+import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+
 public abstract class TableObject {
-    public static final String NA = "NA";
-    public static final String MISSING = "-";
+    public static final String MISSING = "NA";
     public static final String INF = "INF";
     public static final String SEPARATOR = MzTabFile.SEPARATOR;
     public static final String EOL = MzTabFile.EOL;
@@ -52,8 +50,6 @@ public abstract class TableObject {
         // check if the field is available
         if (MISSING.equals(field))
             return null;
-        if (NA.equals(field))
-            return new ParamList();
 
         // return the param list
         return new ParamList(field);
@@ -70,7 +66,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (NA.equals(field) || MISSING.equals(field) || INF.equals(field))
+        if (MISSING.equals(field) || INF.equals(field))
             return null;
 
         // return the Integer
@@ -88,7 +84,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (NA.equals(field) || MISSING.equals(field) || INF.equals(field))
+        if (MISSING.equals(field) || INF.equals(field))
             return null;
 
         // return the Integer
@@ -106,7 +102,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (NA.equals(field) || MISSING.equals(field) || INF.equals(field))
+        if (MISSING.equals(field) || INF.equals(field))
             return null;
 
         // return the param
@@ -124,7 +120,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (NA.equals(field) || MISSING.equals(field))
+        if (MISSING.equals(field))
             return null;
 
         // return the param
@@ -142,7 +138,7 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (NA.equals(field) || MISSING.equals(field))
+        if (MISSING.equals(field))
             return null;
 
         // take numbers into consideration
@@ -170,8 +166,6 @@ public abstract class TableObject {
         // check if the field is available
         if (MISSING.equals(field))
             return null;
-        if (NA.equals(field))
-            return Collections.emptyList();
 
         // return the Integer
         String[] values = field.split(deliminator);
@@ -199,8 +193,6 @@ public abstract class TableObject {
         // check if the field is available
         if (MISSING.equals(field) || INF.equals(field))
             return null;
-        if (NA.equals(field))
-            return Collections.emptyList();
 
         // return the Integer
         String[] values = field.split(deliminator);
@@ -227,8 +219,6 @@ public abstract class TableObject {
     	// check if the field is available
         if (MISSING.equals(field))
             return null;
-        if (NA.equals(field))
-            return Collections.emptyList();
         
         // split the field into the refs
         String refs[] = field.split("\\|");
@@ -253,8 +243,6 @@ public abstract class TableObject {
         // return if nothing is set
         if (MISSING.equals(string))
             return null;
-        if (NA.equals(string))
-            return Collections.emptyList();
 
         // split the modification string
         String[] modificationStrings = string.split(",");
@@ -279,7 +267,7 @@ public abstract class TableObject {
         String string = value.toString();
 
         if ("".equals(string))
-            return NA;
+            return MISSING;
 
         // if it's a double remove a possible .0
         if (value instanceof Double)
@@ -298,18 +286,18 @@ public abstract class TableObject {
      */
     @SuppressWarnings("rawtypes")
     protected String arrayToField(List array, String separator) {
-        if (array == null)
+        if (array == null || array.size() < 1)
             return MISSING;
-
-        if (array.size() < 1)
-            return NA;
 
         String string = "";
 
         for (Object value : array)
             string += (string.length() > 1 ? separator : "") + value.toString();
+        
+        if (string.trim().length() < 1)
+        	return MISSING;
 
-        return string;
+        return string.trim();
     }
     
     /**
