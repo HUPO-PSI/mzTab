@@ -1,5 +1,5 @@
 SMH	identifier	unit_id	chemical_formula	description	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	spec_ref	search_engine	search_engine_score	modifications	smallmolecule_abundance_sub[1]	smallmolecule_abundance_stdev_sub[1]	smallmolecule_abundance_std_error_sub[1]
-SML	TG46:0	LDA_4	C49H94O6	-	796.7388305664062	1	-	-	-	-	-	3	-	-	[,,LipidDataAnalyzer,2.0]	-	14-CHEMMOD:+NH4	472425.125	-	-
-SML	TG46:0	LDA_4	C49H94O6	-	796.7388305664062	2	-	-	-	-	-	3	-	-	[,,LipidDataAnalyzer,2.0]	-	CHEMMOD:-NH4	472425.125	-	-
-SML	TG48:0	LDA_4	C51H98O6	-	824.7701416015625	1	-	-	-	-	-	3	-	-	[,,LipidDataAnalyzer,2.0]	-	-	3.7254814E7	-	-
-SML	TG48:1	LDA_4	C51H96O6	-	822.7544555664062	1	-	-	-	-	-	3	-	-	[,,LipidDataAnalyzer,2.0]	-	-	1.0252041E8	-	-
+SML	TG46:0	LDA_4	C49H94O6	NA	796.7388305664062	1	NA	NA	NA	NA	NA	3	NA	NA	[,,LipidDataAnalyzer,2.0]	NA	14-CHEMMOD:+NH4	472425.125	NA	NA
+SML	TG46:0	LDA_4	C49H94O6	NA	796.7388305664062	2	NA	NA	NA	NA	NA	3	NA	NA	[,,LipidDataAnalyzer,2.0]	NA	CHEMMOD:-NH4	472425.125	NA	NA
+SML	TG48:0	LDA_4	C51H98O6	NA	824.7701416015625	1	NA	NA	NA	NA	NA	3	NA	NA	[,,LipidDataAnalyzer,2.0]	NA	NA	3.7254814E7	NA	NA
+SML	TG48:1	LDA_4	C51H96O6	NA	822.7544555664062	1	NA	NA	NA	NA	NA	3	NA	NA	[,,LipidDataAnalyzer,2.0]	NA	NA	1.0252041E8	NA	NA
