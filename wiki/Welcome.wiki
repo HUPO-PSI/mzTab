@@ -21,7 +21,7 @@ A quick introduction to the mzTab format is the *10 minute guide to mzTab* ([htt
 To make the usage and implementation of mzTab as easy as possible we try to provide parser libraries for various programming languages.
 
 || *Programming Language* || *Project* ||
-|| Java || [MzTabJava mztab-java] ||
+|| Java || jmzTab ||
 
 == Tools ==
 
