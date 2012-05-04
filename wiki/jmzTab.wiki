@@ -5,43 +5,43 @@
 
 ----
 
-= About mztab-java =
+= About jmzTab =
 
-mztab-java can read, write and merge mzTab files. mztab-java is free, open-source software written in Java. mztab-java is used by the [MzTabExporter mztab-exporter] as well as the new PRIDE Converter to read and write mzTab files.
+jmzTab can read, write and merge mzTab files. jmzTab is free, open-source software written in Java. jmzTab is used by the [MzTabExporter mztab-exporter] as well as the new PRIDE Converter to read and write mzTab files.
 
-For a list of changes in the latest version of mztab-java see the [MzTabJavaReleaseNotes Release Notes].
+For a list of changes in the latest version of jmzTab see the [jmzTabReleaseNotes Release Notes].
 
 ----
 
-= Getting mztab-java =
+= Getting jmzTab =
 
 == SVN ==
 
-The latest version of *mztab-java* can always be found in the SVN at [http://code.google.com/p/mztab/source/browse/#svn%2Fparser%2Fmztab-java%2Ftrunk%2Fsrc /parser/mztab-java/trunk].
+The *latest version* of jmzTab can always be found in the SVN at [http://code.google.com/p/mztab/source/browse/#svn%2Fparser%2Fjmztab%2Ftrunk%2Fsrc /parser/jmztab/trunk].
 
-To check out the latest version of mzTab using SVN use:
+To check out the latest version of jmzTab using SVN use:
 
 <code language="xml">
 # Non-members may check out a read-only working copy anonymously over HTTP.
-svn checkout http://mztab.googlecode.com/svn/parser/mztab-java/trunk mztab-java-read-only 
+svn checkout http://mztab.googlecode.com/svn/parser/jmztab/trunk jmztab-read-only 
 </code>
 
 == Maven ==
 
-The *mztab-java* library can easily be used in Maven projects. You can include the following snippets in your Maven pom file.
+The jmzTab library can easily be used *in Maven projects*. You can include the following snippets in your Maven pom file.
 {{{
 <dependency>
    <groupId>uk.ac.ebi.pride</groupId>
-   <artifactId>mztab-java</artifactId>
-   <version>1.0.6</version>
+   <artifactId>jmztab</artifactId>
+   <version>1.0.7</version>
 </dependency>
 }}}
 
-The *mztab-java* library can currently only be found in the [http://www.ebi.ac.uk EBI]'s maven repository:
+The jmzTab library can currently only be found in the [http://www.ebi.ac.uk EBI]'s *maven repository*:
 
 {{{
 <repository>
-   <id>ebi-repo-snapshots</id>
+   <id>ebi-repo</id>
    <name>The EBI internal repository</name>
    <url>http://www.ebi.ac.uk/~maven/m2repo</url>
 </repository>
@@ -49,7 +49,7 @@ The *mztab-java* library can currently only be found in the [http://www.ebi.ac.u
 
 ----
 
-= Reading mzTab Files using mztab-java =
+= Reading mzTab Files using jmzTab =
 
 == Opening mzTab files ==
 
