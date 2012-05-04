@@ -7,12 +7,14 @@ import java.util.Collections;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import uk.ac.ebi.pride.mztab_java.model.MsFile;
-import uk.ac.ebi.pride.mztab_java.model.Peptide;
-import uk.ac.ebi.pride.mztab_java.model.Protein;
-import uk.ac.ebi.pride.mztab_java.model.SmallMolecule;
-import uk.ac.ebi.pride.mztab_java.model.Unit;
-import uk.ac.ebi.pride.mztab_java.util.TsvTableParser;
+import uk.ac.ebi.pride.jmzTab.MzTabFile;
+import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
+import uk.ac.ebi.pride.jmzTab.model.MsFile;
+import uk.ac.ebi.pride.jmzTab.model.Peptide;
+import uk.ac.ebi.pride.jmzTab.model.Protein;
+import uk.ac.ebi.pride.jmzTab.model.SmallMolecule;
+import uk.ac.ebi.pride.jmzTab.model.Unit;
+import uk.ac.ebi.pride.jmzTab.util.TsvTableParser;
 
 public class MzTabFileTest extends TestCase {
 	MzTabFile mzTabFile;

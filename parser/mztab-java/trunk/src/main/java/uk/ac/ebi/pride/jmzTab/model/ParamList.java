@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.mztab_java.model;
+package uk.ac.ebi.pride.jmzTab.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

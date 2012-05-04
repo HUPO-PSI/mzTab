@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.mztab_java.model;
+package uk.ac.ebi.pride.jmzTab.model;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
 
 public class Peptide extends TableObject {
 	private final Logger logger = Logger.getLogger(Peptide.class);

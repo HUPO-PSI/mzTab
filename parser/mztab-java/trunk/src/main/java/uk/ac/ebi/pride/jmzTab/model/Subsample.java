@@ -1,7 +1,7 @@
-package uk.ac.ebi.pride.mztab_java.model;
+package uk.ac.ebi.pride.jmzTab.model;
 
-import uk.ac.ebi.pride.mztab_java.MzTabFile;
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.jmzTab.MzTabFile;
+import uk.ac.ebi.pride.jmzTab.MzTabParsingException;
 
 import java.util.List;
 
