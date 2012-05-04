@@ -28,6 +28,8 @@ public class SmallMolecule extends TableObject {
 	private List<String>	identifier;
 	private String			unitId;
 	private String			chemicalFormula;
+	private String			smiles;
+	private String			inchiKey;
 	private String			description;
 	private Double			massToCharge;
 	private Double			charge;
@@ -75,6 +77,12 @@ public class SmallMolecule extends TableObject {
 						break;
 					case CHEMICAL_FORMULA:
 						chemicalFormula = value;
+						break;
+					case SMILES:
+						smiles = value;
+						break;
+					case INCHI_KEY:
+						inchiKey = value;
 						break;
 					case DESCRIPTION:
 						description = value;
@@ -193,6 +201,14 @@ public class SmallMolecule extends TableObject {
 		return chemicalFormula;
 	}
 
+	public String getSmiles() {
+		return smiles;
+	}
+
+	public String getInchiKey() {
+		return inchiKey;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -282,6 +298,16 @@ public class SmallMolecule extends TableObject {
 	public void setChemicalFormula(String chemicalFormula) throws MzTabParsingException {
 		checkStringValue(chemicalFormula);
 		this.chemicalFormula = chemicalFormula;
+	}
+
+	public void setSmiles(String smiles) throws MzTabParsingException {
+		checkStringValue(smiles);
+		this.smiles = smiles;
+	}
+
+	public void setInchiKey(String inchiKey) throws MzTabParsingException {
+		checkStringValue(inchiKey);
+		this.inchiKey = inchiKey;
 	}
 
 	public void setDescription(String description) throws MzTabParsingException {
@@ -388,6 +414,12 @@ public class SmallMolecule extends TableObject {
 					break;
 				case DESCRIPTION:
 					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(description));
+					break;
+				case SMILES:
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(smiles));
+					break;
+				case INCHI_KEY:
+					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(inchiKey));
 					break;
 				case MASS_TO_CHARGE:
 					mzTabString.append((mzTabString.length() > 1 ? SEPARATOR : "") + toField(massToCharge));
