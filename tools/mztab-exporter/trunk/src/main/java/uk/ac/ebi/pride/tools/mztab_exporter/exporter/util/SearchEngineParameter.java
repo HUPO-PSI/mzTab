@@ -1,7 +1,7 @@
 package uk.ac.ebi.pride.tools.mztab_exporter.exporter.util;
 
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
-import uk.ac.ebi.pride.mztab_java.model.Param;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.Param;
 
 public enum SearchEngineParameter {
 	MASCOT("mascot", "MS", "MS:1001207", "Mascot"),
