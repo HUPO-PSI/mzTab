@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,17 +22,17 @@ import uk.ac.ebi.pride.jaxb.model.Reference;
 import uk.ac.ebi.pride.jaxb.model.SampleDescription;
 import uk.ac.ebi.pride.jaxb.model.UserParam;
 import uk.ac.ebi.pride.jaxb.xml.PrideXmlReader;
-import uk.ac.ebi.pride.mztab_java.MzTabFile;
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
-import uk.ac.ebi.pride.mztab_java.model.Contact;
-import uk.ac.ebi.pride.mztab_java.model.Modification;
-import uk.ac.ebi.pride.mztab_java.model.MsFile;
-import uk.ac.ebi.pride.mztab_java.model.ParamList;
-import uk.ac.ebi.pride.mztab_java.model.Peptide;
-import uk.ac.ebi.pride.mztab_java.model.Protein;
-import uk.ac.ebi.pride.mztab_java.model.SpecRef;
-import uk.ac.ebi.pride.mztab_java.model.Subsample;
-import uk.ac.ebi.pride.mztab_java.model.Unit;
+import uk.ac.ebi.pride.jmztab.MzTabFile;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.model.Contact;
+import uk.ac.ebi.pride.jmztab.model.Modification;
+import uk.ac.ebi.pride.jmztab.model.MsFile;
+import uk.ac.ebi.pride.jmztab.model.ParamList;
+import uk.ac.ebi.pride.jmztab.model.Peptide;
+import uk.ac.ebi.pride.jmztab.model.Protein;
+import uk.ac.ebi.pride.jmztab.model.SpecRef;
+import uk.ac.ebi.pride.jmztab.model.Subsample;
+import uk.ac.ebi.pride.jmztab.model.Unit;
 import uk.ac.ebi.pride.tools.converter.dao.DAOCvParams;
 import uk.ac.ebi.pride.tools.converter.dao.Utils;
 import uk.ac.ebi.pride.tools.converter.dao.handler.QuantitationCvParams;
@@ -134,8 +133,8 @@ public class PrideMzTabExporter implements MzTabExporter {
 			// add the PRIDE XML file as an MS data file
 			try {
 				unit.setMsFile(1, new MsFile(
-						new uk.ac.ebi.pride.mztab_java.model.Param("MS", "MS:1000564", "PSI mzData file", null),
-						new uk.ac.ebi.pride.mztab_java.model.Param("MS", "MS:1000777", "spectrum identifier nativeID format", null), 
+						new uk.ac.ebi.pride.jmztab.model.Param("MS", "MS:1000564", "PSI mzData file", null),
+						new uk.ac.ebi.pride.jmztab.model.Param("MS", "MS:1000777", "spectrum identifier nativeID format", null), 
 						sourcefile.getAbsolutePath()));
 			} catch (MzTabParsingException e) {
 				throw new IllegalStateException("Failed to generate MsFile object", e);
@@ -164,7 +163,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 				unit.setQuantificationMethod(convertParam(p));
 			else if (DAOCvParams.GEL_BASED_EXPERIMENT.getAccession().equals(p.getAccession())) {
 				if (unit.getCustomParams() == null)
-					unit.setCustomParams(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>(1));
+					unit.setCustomParams(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>(1));
 				unit.getCustomParams().add(convertParam(p));
 			}
 		}
@@ -254,25 +253,25 @@ public class PrideMzTabExporter implements MzTabExporter {
 					// add the param depending on the type
 					if ("NEWT".equals(p.getCvLabel())) {
 						if (subsamples.get(subsampleIndex).getSpecies() == null)
-							subsamples.get(subsampleIndex).setSpecies(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>());
+							subsamples.get(subsampleIndex).setSpecies(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>());
 						
 						subsamples.get(subsampleIndex).getSpecies().add(convertParam(p));
 					}
 					else if ("BRENDA".equals(p.getCvLabel())) {
 						if (subsamples.get(subsampleIndex).getTissue() == null)
-							subsamples.get(subsampleIndex).setTissue(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>());
+							subsamples.get(subsampleIndex).setTissue(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>());
 						
 						subsamples.get(subsampleIndex).getTissue().add(convertParam(p));
 					}
 					else if ("CL".equals(p.getCvLabel())) {
 						if (subsamples.get(subsampleIndex).getCellType() == null)
-							subsamples.get(subsampleIndex).setCellType(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>());
+							subsamples.get(subsampleIndex).setCellType(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>());
 						
 						subsamples.get(subsampleIndex).getCellType().add(convertParam(p));
 					}
 					else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
 						if (subsamples.get(subsampleIndex).getDisease() == null)
-							subsamples.get(subsampleIndex).setDisease(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>());
+							subsamples.get(subsampleIndex).setDisease(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>());
 						
 						subsamples.get(subsampleIndex).getDisease().add(convertParam(p));
 					}
@@ -286,22 +285,22 @@ public class PrideMzTabExporter implements MzTabExporter {
 			else {
 				if ("NEWT".equals(p.getCvLabel())) {
 					if (unit.getSpecies() == null)
-						unit.setSpecies(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>(1));
+						unit.setSpecies(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>(1));
 					unit.getSpecies().add(convertParam(p));
 				}
 				else if ("BRENDA".equals(p.getCvLabel())) {
 					if (unit.getTissue() == null)
-						unit.setTissue(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>(1));
+						unit.setTissue(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>(1));
 					unit.getTissue().add(convertParam(p));
 				}
 				else if ("CL".equals(p.getCvLabel())) {
 					if (unit.getCellType() == null)
-						unit.setCellType(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>(1));
+						unit.setCellType(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>(1));
 					unit.getCellType().add(convertParam(p));
 				}
 				else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
 					if (unit.getDisease() == null)
-						unit.setDisease(new ArrayList<uk.ac.ebi.pride.mztab_java.model.Param>(1));
+						unit.setDisease(new ArrayList<uk.ac.ebi.pride.jmztab.model.Param>(1));
 					unit.getDisease().add(convertParam(p));
 				}
 			}
@@ -323,8 +322,8 @@ public class PrideMzTabExporter implements MzTabExporter {
 		return unit;
 	}
 
-	private uk.ac.ebi.pride.mztab_java.model.Param convertParam(CvParam p) throws MzTabParsingException {
-		return new uk.ac.ebi.pride.mztab_java.model.Param(p.getCvLabel(), p.getAccession(), p.getName(), p.getValue());
+	private uk.ac.ebi.pride.jmztab.model.Param convertParam(CvParam p) throws MzTabParsingException {
+		return new uk.ac.ebi.pride.jmztab.model.Param(p.getCvLabel(), p.getAccession(), p.getName(), p.getValue());
 	}
 
 	/**
@@ -520,7 +519,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 		protein.setDatabaseVersion(ident.getDatabaseVersion());
 		
 		// set the search engine
-		uk.ac.ebi.pride.mztab_java.model.Param searchEngineParam = convertSearchEngine(ident.getSearchEngine());
+		uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = convertSearchEngine(ident.getSearchEngine());
 		if (searchEngineParam != null) {
 			protein.setSearchEngine(new ParamList(1));
 			protein.getSearchEngine().add(searchEngineParam);
@@ -776,7 +775,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 	 * @return
 	 * @throws MzTabParsingException 
 	 */
-	private uk.ac.ebi.pride.mztab_java.model.Param convertSearchEngine(
+	private uk.ac.ebi.pride.jmztab.model.Param convertSearchEngine(
 			String searchEngine) throws MzTabParsingException {
 		SearchEngineParameter searchEngineParam = SearchEngineParameter.getParam(searchEngine);
 		
@@ -855,7 +854,7 @@ public class PrideMzTabExporter implements MzTabExporter {
 			}
 			
 			// set the search engine - is possible
-			uk.ac.ebi.pride.mztab_java.model.Param searchEngineParam = convertSearchEngine(ident.getSearchEngine());
+			uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = convertSearchEngine(ident.getSearchEngine());
 			if (searchEngineParam != null)
 				peptide.setSearchEngine(searchEngineParam);
 			

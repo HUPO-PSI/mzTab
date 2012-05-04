@@ -121,9 +121,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>uk.ac.ebi.pride.</groupId>
-			<artifactId>mztab-java</artifactId>
-			<version>1.0.6-SNAPSHOT</version>
+			<groupId>uk.ac.ebi.pride</groupId>
+			<artifactId>jmztab</artifactId>
+			<version>1.0.7</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

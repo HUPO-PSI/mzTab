@@ -1,6 +1,8 @@
 package uk.ac.ebi.pride.tools.mztab_exporter;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 
 import org.apache.commons.cli.CommandLine;
@@ -9,10 +11,9 @@ import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
 
-import uk.ac.ebi.pride.mztab_java.MzTabFile;
-import uk.ac.ebi.pride.mztab_java.MzTabParsingException;
+import uk.ac.ebi.pride.jmztab.MzTabFile;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 import uk.ac.ebi.pride.tools.mztab_exporter.exporter.ExporterFactory;
 import uk.ac.ebi.pride.tools.mztab_exporter.exporter.MzTabExporter;
 
@@ -94,7 +95,21 @@ public class App
 		if (!inputFile.canWrite())
 			throw new Exception("Missing privilege to write mzTab file '" + inputFilePath + "'.");
 		
-		MzTabFile file = new MzTabFile(inputFile);		
+		// read the file into memory and replace all "-" with NA
+		BufferedReader in = new BufferedReader(new FileReader(inputFile));
+		String line;
+		StringBuffer fileContent = new StringBuffer();
+		// read and parse the file line by line
+		while ((line = in.readLine()) != null) {
+			line = line.replaceAll("\t-\t", "\tNA\t");
+			line = line.replaceAll("\t-\t", "\tNA\t");
+			if (line.endsWith("-"))
+				line = line.substring(0, line.length() - 1) + "NA";
+			fileContent.append(line + MzTabFile.EOL);
+		}
+		in.close();
+		
+		MzTabFile file = new MzTabFile(fileContent.toString());		
 		String mzTabString = file.toMzTab();
 		
 		FileWriter writer = new FileWriter(inputFile);
