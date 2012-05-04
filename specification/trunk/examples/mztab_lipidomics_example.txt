@@ -3,14 +3,14 @@ MTD	LDA_13-software[1]	[,,LipidDataAnalyzer,2.0_SNAPSHOT]
 MTD	LDA_13-publication	pubmed:21169379
 MTD	LDA_13-quantification_method	[,,LDA quantification,]
 
-SMH	identifier	unit_id	chemical_formula	description	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	spectra_ref	search_engine	search_engine_score	modifications	smallmolecule_abundance_sub[1]	smallmolecule_abundance_stdev_sub[1]	smallmolecule_abundance_std_error_sub[1]
-SML	TG54:0	LDA_13	H110O6C57	-	949.8916	1	1799.5	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H7C2N2	1.9858248E8	-	-
-SML	TG54:0	LDA_13	H110O6C57	-	908.865	1	1799.5	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H4N1	9.807138E7	-	-
-SML	TG54:1	LDA_13	H108O6C57	-	947.8769	1	1707.9	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H7C2N2	1.98663424E8	-	-
-SML	TG54:1	LDA_13	H108O6C57	-	906.8494	1	1707.9	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H4N1	9.5616226E7	-	-
-SML	TG54:2	LDA_13	H106O6C57	-	945.8612	1	1627.4	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H7C2N2	2.0103587E8	-	-
-SML	TG54:2	LDA_13	H106O6C57	-	904.8347	1	1627.4	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H4N1	9.6263318E7	-	-
-SML	TG54:3	LDA_13	H104O6C57	-	943.8466	1	1563.1	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H7C2N2	1.07830718E8	-	-
-SML	TG54:3	LDA_13	H104O6C57	-	902.819	1	1563.1	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H4N1	1.5395887E8	-	-
-SML	ES_TG48:0	LDA_13	H98O6C51	-	865.7987	1	1563.1	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H7C2N2	2.91644264E8	-	-
-SML	ES_TG48:0	LDA_13	H98O6C51	-	824.7711	1	1563.1	-	-	-	-	-	-	-	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	-	CHEMMOD:+H4N1	3.11633328E8	-	-
+SMH	identifier	unit_id	chemical_formula	smiles	inchi_key	description	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	spectra_ref	search_engine	search_engine_score	modifications	smallmolecule_abundance_sub[1]	smallmolecule_abundance_stdev_sub[1]	smallmolecule_abundance_std_error_sub[1]
+SML	TG54:0	LDA_13	H110O6C57	NA	NA	NA	949.8916	1	1799.5	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H7C2N2	1.9858248E8	NA	NA
+SML	TG54:0	LDA_13	H110O6C57	NA	NA	NA	908.865	1	1799.5	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H4N1	9.807138E7	NA	NA
+SML	TG54:1	LDA_13	H108O6C57	NA	NA	NA	947.8769	1	1707.9	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H7C2N2	1.98663424E8	NA	NA
+SML	TG54:1	LDA_13	H108O6C57	NA	NA	NA	906.8494	1	1707.9	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H4N1	9.5616226E7	NA	NA
+SML	TG54:2	LDA_13	H106O6C57	NA	NA	NA	945.8612	1	1627.4	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H7C2N2	2.0103587E8	NA	NA
+SML	TG54:2	LDA_13	H106O6C57	NA	NA	NA	904.8347	1	1627.4	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H4N1	9.6263318E7	NA	NA
+SML	TG54:3	LDA_13	H104O6C57	NA	NA	NA	943.8466	1	1563.1	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H7C2N2	1.07830718E8	NA	NA
+SML	TG54:3	LDA_13	H104O6C57	NA	NA	NA	902.819	1	1563.1	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H4N1	1.5395887E8	NA	NA
+SML	ES_TG48:0	LDA_13	H98O6C51	NA	NA	NA	865.7987	1	1563.1	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H7C2N2	2.91644264E8	NA	NA
+SML	ES_TG48:0	LDA_13	H98O6C51	NA	NA	NA	824.7711	1	1563.1	NA	NA	NA	NA	NA	NA	NA	[,,LipidDataAnalyzer,2.0_SNAPSHOT]	NA	CHEMMOD:+H4N1	3.11633328E8	NA	NA
