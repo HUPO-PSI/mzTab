@@ -1,19 +1,13 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
-
 import uk.ac.ebi.pride.jmztab.MzTabFile;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+
+import java.net.URI;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Unit {
 	private Logger logger = Logger.getLogger(Unit.class);
@@ -558,11 +552,13 @@ public class Unit {
 	}
 
 	public void setPublication(List<String> publication) throws MzTabParsingException {
-		for (String value : publication) {
-			checkStringValue(value);
-			if (!value.startsWith("pubmed:") && !value.startsWith("doi:"))
-				throw new MzTabParsingException("Invalid reference. References must be in the format 'pubmed:[PUBMED ID]' or 'doi:[DOI]'.");
-		}
+        if (publication != null) {
+		    for (String value : publication) {
+			    checkStringValue(value);
+			    if (!value.startsWith("pubmed:") && !value.startsWith("doi:"))
+			    	throw new MzTabParsingException("Invalid reference. References must be in the format 'pubmed:[PUBMED ID]' or 'doi:[DOI]'.");
+		    }
+        }
 		this.publication = publication;
 	}
 
