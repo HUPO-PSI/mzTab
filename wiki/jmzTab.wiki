@@ -33,7 +33,7 @@ The jmzTab library can easily be used *in Maven projects*. You can include the f
 <dependency>
    <groupId>uk.ac.ebi.pride</groupId>
    <artifactId>jmztab</artifactId>
-   <version>1.0.7</version>
+   <version>1.0.8</version>
 </dependency>
 }}}
 
