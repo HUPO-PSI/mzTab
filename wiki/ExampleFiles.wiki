@@ -15,7 +15,7 @@
 ----
 
 || *Name*: || Merging example ||
-|| *Description*: || This file was manually created and contains the data from the SILAC and the iTRAQ example (see above). It shows how data from multiple mzTab files can be merged in a single file. ||
+|| *Description*: || This file was manually created and contains the data from the SILAC and the iTRAQ example (see above). It shows how data from multiple mzTab files can be merged in a single file.||
 || *Link*: || [http://mztab.googlecode.com/svn/specification/trunk/examples/mztab_merged_example.txt mztab_merged_example.txt] ||
 
 ----
@@ -29,5 +29,11 @@
 || *Name*: || Lipidomics example ||
 || *Description*: || This file was generated using the Lipid Data Analyzer (http://genome.tugraz.at/lda/lda_download.shtml). The file contains lipidomics data and shows how small molecules can be reported in mzTab ||
 || *Link*: || [http://mztab.googlecode.com/svn/specification/trunk/examples/mztab_lipidomics_example.txt mztab_lipidomics_example.txt] ||
+
+----
+
+|| *Name*: || ProteomeXchange submission PXD000002 ||
+|| *Description*: || This file contains the results of ProteomeXchange submission PXD000002. Every ProteomeXchange submission is now also available as a single mzTab file. The complete list of files can be found at ftp://ftp.pride.ebi.ac.uk/2012/03/PXD000002/.||
+|| *Link*: || [https://mztab.googlecode.com/svn/specification/trunk/examples/PXD000002_mztab.txt.gz PXD000002_mztab.txt.gz] ||
 
 ----
