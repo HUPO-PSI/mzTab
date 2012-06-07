@@ -1,5 +1,9 @@
 #summary Release notes of the mzTab specification.
 
+*mzTab version 1.0 (7. June 2012)*
+  * UPDATE: Only allow "NA" for missing values
+  * UPDATE: Added inchi_key and smiles column to Small Molecules table.
+
 *mzTab version 0.9 (6. March 2012)*
   * UPDATE: The whole specification document was rewritten following the guidelines from the PSI document process.
   * UPDATE: Reliabilities are now only defined as 1(good), 2(medium), and 3(bad)
