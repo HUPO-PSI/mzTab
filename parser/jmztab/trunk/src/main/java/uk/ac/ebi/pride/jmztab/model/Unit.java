@@ -291,6 +291,11 @@ public class Unit {
 			else if (subId != null) {
 				// extract the index
 				int subIndex = Integer.parseInt( subId.substring(4, subId.length() - 1));
+                // make sure the index is greater than 0
+                // (it should be a 1 based index, and the code will break if this is not the case)
+                if (subIndex < 1) {
+                    throw new MzTabParsingException("Found sub sample index smaller than 1!");
+                }
 				// make sure the subsample array exists
 				if (subsamples == null)
 					subsamples = new ArrayList<Subsample>();
