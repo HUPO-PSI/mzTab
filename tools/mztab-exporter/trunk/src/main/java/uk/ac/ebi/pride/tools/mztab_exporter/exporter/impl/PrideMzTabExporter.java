@@ -13,14 +13,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.ebi.pride.jaxb.model.CvParam;
-import uk.ac.ebi.pride.jaxb.model.Identification;
-import uk.ac.ebi.pride.jaxb.model.ModificationItem;
-import uk.ac.ebi.pride.jaxb.model.Param;
-import uk.ac.ebi.pride.jaxb.model.PeptideItem;
-import uk.ac.ebi.pride.jaxb.model.Reference;
-import uk.ac.ebi.pride.jaxb.model.SampleDescription;
-import uk.ac.ebi.pride.jaxb.model.UserParam;
+import uk.ac.ebi.pride.jaxb.model.*;
 import uk.ac.ebi.pride.jaxb.xml.PrideXmlReader;
 import uk.ac.ebi.pride.jmztab.MzTabFile;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
@@ -846,9 +839,13 @@ public class PrideMzTabExporter implements MzTabExporter {
 			peptide.setDatabase(ident.getDatabase());
 			peptide.setDatabaseVersion(ident.getDatabaseVersion());
 			
-			// set the peptide spectrum reference			
+			// set the peptide spectrum reference
+            if (peptideItem.getSpectrum() != null) {
+
+            }
 			try {
-				peptide.addSpecRef(new SpecRef("ms_file[1]", "spectrum=" + peptideItem.getSpectrum().getId()));
+                String spectrumReference = ( peptideItem.getSpectrum() == null ? "null" : Integer.toString(peptideItem.getSpectrum().getId()) );
+				peptide.addSpecRef( new SpecRef("ms_file[1]", "spectrum=" + spectrumReference) );
 			} catch (MzTabParsingException e) {
 				throw new IllegalStateException("Failed to generate peptide spectrum reference.", e);
 			}
