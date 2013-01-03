@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import uk.ac.ebi.pride.jmztab.MzTabFile;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 public abstract class TableObject {
-    public static final String MISSING = "NA";
+    public static final String MISSING = "null";
     public static final String INF = "INF";
+    public static final String NAN = "NaN";
     public static final String SEPARATOR = MzTabFile.SEPARATOR;
     public static final String EOL = MzTabFile.EOL;
     public static final Pattern illegalUnitIdCharacters = Pattern.compile("[^A-Za-z0-9_]");
@@ -48,8 +48,9 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field))
-            return null;
+        if (MISSING.equals(field)) {
+	    return null;
+	}
 
         // return the param list
         return new ParamList(field);
@@ -66,8 +67,9 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field) || INF.equals(field))
-            return null;
+        if (MISSING.equals(field) || INF.equalsIgnoreCase(field) || NAN.equalsIgnoreCase(field)) {
+	    return null;
+	}
 
         // return the Integer
         return Integer.parseInt(field);
@@ -84,8 +86,9 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field) || INF.equals(field))
+        if (MISSING.equals(field) || INF.equalsIgnoreCase(field) || NAN.equalsIgnoreCase(field)) {
             return null;
+	}
 
         // return the Integer
         return Double.parseDouble(field);
@@ -102,8 +105,9 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field) || INF.equals(field))
+        if (MISSING.equals(field) || INF.equals(field) || NAN.equalsIgnoreCase(field)) {
             return null;
+	}
 
         // return the param
         return new Param(field);
@@ -120,8 +124,9 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field))
-            return null;
+        if (MISSING.equals(field)) {
+	    return null;
+	}
 
         // return the param
         return new URI(field);
@@ -138,14 +143,17 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field))
-            return null;
+        if (MISSING.equals(field)) {
+	    return null;
+	}
 
         // take numbers into consideration
-        if ("1".equals(field))
-            return true;
-        if ("0".equals(field))
-            return false;
+        if ("1".equals(field)) {
+	    return true;
+	}
+        if ("0".equals(field)) {
+	    return false;
+	}
 
         // return the Integer
         return Boolean.parseBoolean(field);
@@ -164,16 +172,18 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field))
-            return null;
+        if (MISSING.equals(field)) {
+	    return null;
+	}
 
         // return the Integer
         String[] values = field.split(deliminator);
 
         List<String> parsedValues = new ArrayList<String>(values.length);
 
-        for (String value : values)
-            parsedValues.add(value.trim());
+        for (String value : values) {
+	    parsedValues.add(value.trim());
+	}
 
         return parsedValues;
     }
@@ -191,16 +201,18 @@ public abstract class TableObject {
         field = field.trim();
 
         // check if the field is available
-        if (MISSING.equals(field) || INF.equals(field))
+        if (MISSING.equals(field) || INF.equalsIgnoreCase(field) || NAN.equalsIgnoreCase(field)) {
             return null;
+	}
 
         // return the Integer
         String[] values = field.split(deliminator);
 
         List<Double> parsedValues = new ArrayList<Double>(values.length);
 
-        for (String value : values)
-            parsedValues.add(parseDoubleField(value));
+        for (String value : values) {
+	    parsedValues.add(parseDoubleField(value));
+	}
 
         return parsedValues;
     }
@@ -217,8 +229,9 @@ public abstract class TableObject {
     	field = field.trim();
     	
     	// check if the field is available
-        if (MISSING.equals(field))
-            return null;
+        if (MISSING.equals(field)) {
+	    return null;
+	}
         
         // split the field into the refs
         String refs[] = field.split("\\|");
@@ -241,15 +254,17 @@ public abstract class TableObject {
      */
     protected List<Modification> parseModifications(String string) throws MzTabParsingException {
         // return if nothing is set
-        if (MISSING.equals(string))
-            return null;
+        if (MISSING.equals(string)) {
+	    return null;
+	}
 
         // split the modification string
         String[] modificationStrings = string.split(",");
         ArrayList<Modification> modifications = new ArrayList<Modification>(modificationStrings.length);
 
-        for (String modString : modificationStrings)
-            modifications.add(new Modification(modString));
+        for (String modString : modificationStrings) {
+	    modifications.add(new Modification(modString));
+	}
 
         return modifications;
     }
@@ -261,17 +276,20 @@ public abstract class TableObject {
      * @return
      */
     protected String toField(Object value) {
-        if (value == null)
-            return MISSING;
+        if (value == null) {
+	    return MISSING;
+	}
 
         String string = value.toString();
 
-        if ("".equals(string))
-            return MISSING;
+        if ("".equals(string)) {
+	    return MISSING;
+	}
 
         // if it's a double remove a possible .0
-        if (value instanceof Double)
-            string = string.replaceAll("\\.0$", "");
+        if (value instanceof Double) {
+	    string = string.replaceAll("\\.0$", "");
+	}
 
         return string;
     }
@@ -286,16 +304,19 @@ public abstract class TableObject {
      */
     @SuppressWarnings("rawtypes")
     protected String arrayToField(List array, String separator) {
-        if (array == null || array.size() < 1)
-            return MISSING;
+        if (array == null || array.size() < 1) {
+	    return MISSING;
+	}
 
         String string = "";
 
-        for (Object value : array)
-            string += (string.length() > 1 ? separator : "") + value.toString();
+        for (Object value : array) {
+	    string += (string.length() > 1 ? separator : "") + value.toString();
+	}
         
-        if (string.trim().length() < 1)
-        	return MISSING;
+        if (string.trim().length() < 1) {
+	    return MISSING;
+	}
 
         return string.trim();
     }
@@ -308,20 +329,16 @@ public abstract class TableObject {
 	 * @return The formatted mzTab string.
 	 */
 	protected String quantDataToMztab(int nSubsamples) {
-		StringBuffer mzTabString = new StringBuffer();
+		StringBuilder mzTabString = new StringBuilder();
 		
 		for (Integer subsample = 1; subsample <= nSubsamples; subsample++) {
-			Double abundance	= this.abundance.get(subsample);
+			Double theAbundance	= this.abundance.get(subsample);
 			Double stddev 		= this.abundanceStd.get(subsample);
 			Double stderr		= this.abundanceError.get(subsample);
 			
-			mzTabString.append(SEPARATOR +
-							// abundance
-						   (abundance != null ? abundance : MISSING) + SEPARATOR +
-						   // stdandard dev
-						   (stddev != null ? stddev : MISSING) + SEPARATOR +
-						   // standard error
-						   (stderr != null ? stderr : MISSING));
+			mzTabString .append(SEPARATOR).append(theAbundance != null ? theAbundance : MISSING)
+				    .append(SEPARATOR).append(stddev != null ? stddev : MISSING)
+				    .append(SEPARATOR).append(stderr != null ? stderr : MISSING);
 		}
 		
 		return mzTabString.toString();
@@ -334,14 +351,18 @@ public abstract class TableObject {
 	 * @throws MzTabParsingException Thrown in case the value is not valid.
 	 */
 	public static void checkStringValue(String string) throws MzTabParsingException {
-		if (string == null)
-			return;
-		if (string.contains("\n"))
-			throw new MzTabParsingException("Illegal character found in string value: \\n.");
-		if (string.contains("\t"))
-			throw new MzTabParsingException("Illegal character found in string value: \\t.");
-		if (string.contains("\r"))
-			throw new MzTabParsingException("Illegal character found in string value: \\r.");
+	    if (string == null) {
+		return;
+	    }
+	    if (string.contains("\n")) {
+		throw new MzTabParsingException("Illegal character found in string value: \\n.");
+	    }
+	    if (string.contains("\t")) {
+		throw new MzTabParsingException("Illegal character found in string value: \\t.");
+	    }
+	    if (string.contains("\r")) {
+		throw new MzTabParsingException("Illegal character found in string value: \\r.");
+	    }
 	}
 	
 	/**
@@ -351,9 +372,10 @@ public abstract class TableObject {
 	 * @throws MzTabParsingException
 	 */
 	public static void checkUnitId(String unitId) throws MzTabParsingException {
-		Matcher matcher = illegalUnitIdCharacters.matcher(unitId);
-		if (matcher.find())
-			throw new MzTabParsingException("Invalid UNIT_ID. UNIT_IDs must only contain the characters ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, and ‘_’.");
+	    Matcher matcher = illegalUnitIdCharacters.matcher(unitId);
+	    if (matcher.find()) {
+		throw new MzTabParsingException("Invalid UNIT_ID. UNIT_IDs must only contain the characters ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, and ‘_’.");
+	    }
 	}
 	
 	/**
@@ -365,29 +387,29 @@ public abstract class TableObject {
 	 * @param standardError The standard error. Set to NULL if missing.
 	 */
 	public void setAbundance(int nSubsample, Double abundance, Double standardDeviation, Double standardError) {
-		this.abundance.put(nSubsample, abundance);
-		this.abundanceStd.put(nSubsample, standardDeviation);
-		this.abundanceError.put(nSubsample, standardError);
+	    this.abundance.put(nSubsample, abundance);
+	    this.abundanceStd.put(nSubsample, standardDeviation);
+	    this.abundanceError.put(nSubsample, standardError);
 	}
 	
 	public Double getAbundance(int subsampleIndex) {
-		return abundance.get(subsampleIndex);
+	    return abundance.get(subsampleIndex);
 	}
 	
 	public Double getAbundanceStdDev(int subsampleIndex) {
-		return abundanceStd.get(subsampleIndex);
+	    return abundanceStd.get(subsampleIndex);
 	}
 	
 	public Double getAbundanceStdErr(int subsampleIndex) {
-		return abundanceError.get(subsampleIndex);
+	    return abundanceError.get(subsampleIndex);
 	}
 	
 	public Collection<Integer> getSubsampleIndexes() {
-		return abundance.keySet();
+	    return abundance.keySet();
 	}
 	
 	public Map<String, String> getCustom() {
-		return custom;
+	    return custom;
 	}
 	
 	/**
@@ -399,9 +421,10 @@ public abstract class TableObject {
 	 * @throws MzTabParsingException Thrown if an invalid column name is passed.
 	 */
 	public void setCustomColumn(String columnName, String value) throws MzTabParsingException {
-		if (!columnName.startsWith("opt_"))
-			throw new MzTabParsingException("Invalid custom column name. Custom column names must start with \"opt_\".");
+	    if (!columnName.startsWith("opt_")) {
+		throw new MzTabParsingException("Invalid custom column name. Custom column names must start with \"opt_\".");
+	    }
 		
-		custom.put(columnName, value);
+	    custom.put(columnName, value);
 	}
 }
