@@ -11,8 +11,8 @@ import uk.ac.ebi.pride.jmztab.util.TsvTableParser;
 
 public class PeptideTest extends TestCase {
 	public void testMarshallingUnmarshalling() {
-		String line1 = "PEP\tNILN[14]ELFQR\tgi|10181184\tPRIDE_1234\ttrue\tNCBI NR\t21.06.2011\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,35]\t3\t1[0.8]-UNIMOD:35\t20.8\t2\t500\tNA\tms_file[1]:index=4\t1.0\tNA\tNA\t4491.221363\tNA\tNA\t4491.221363\tNA\tNA\t4491.221363\tNA\tNA\t\t\t\t";
-		String line2 = "PEP\tQG(my mod)IFQVVISR\tgi|10181184\tPRIDE_1234\tfalse\tNCBI NR\t21.06.2011\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,40]\t1\t6[0.4]-UNIMOD:21\t10.2\t3\t200\tNA\tms_file[2]:index=5\t1.0\tNA\tNA\t16500.75069\tNA\tNA\t16500.75069\tNA\tNA\t16500.75069\tNA\tNA\t\t\t\t";
+		String line1 = "PEP\tNILN[14]ELFQR\tgi|10181184\tPRIDE_1234\ttrue\tNCBI NR\t21.06.2011\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,35]\t3\t1[0.8]-UNIMOD:35\t20.8\t2\t500\tnull\tms_file[1]:index=4\t1.0\tnull\tnull\t4491.221363\tnull\tnull\t4491.221363\tnull\tnull\t4491.221363\tnull\tnull\t\t\t\t";
+		String line2 = "PEP\tQG(my mod)IFQVVISR\tgi|10181184\tPRIDE_1234\tfalse\tNCBI NR\t21.06.2011\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,40]\t1\t6[0.4]-UNIMOD:21\t10.2\t3\t200\tnull\tms_file[2]:index=5\t1.0\tnull\tnull\t16500.75069\tnull\tnull\t16500.75069\tnull\tnull\t16500.75069\tnull\tnull\t\t\t\t";
 
 		TsvTableParser parser = new TsvTableParser("PEH\tsequence\taccession\tunit_id\tunique\tdatabase\tdatabase_version\tsearch_engine\tsearch_engine_score\treliability\tmodifications\tretention_time\tcharge\tmass_to_charge\turi\tspectra_ref\tpeptide_abundance_sub[1]\tpeptide_abundance_stdev_sub[1]\tpeptide_abundance_std_error_sub[1]\tpeptide_abundance_sub[2]\tpeptide_abundance_stdev_sub[2]\tpeptide_abundance_std_error_sub[2]\tpeptide_abundance_sub[3]\tpeptide_abundance_stdev_sub[3]\tpeptide_abundance_std_error_sub[3]\tpeptide_abundance_sub[4]\tpeptide_abundance_stdev_sub[4]\tpeptide_abundance_std_error_sub[4]\t\t\t\t");
 		Map<String, String> parsedLine1 = parser.parseTableLine(line1);

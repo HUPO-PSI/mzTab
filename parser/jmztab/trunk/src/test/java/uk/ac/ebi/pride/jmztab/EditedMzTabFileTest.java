@@ -17,7 +17,7 @@ import uk.ac.ebi.pride.jmztab.util.TsvTableParser;
 import junit.framework.TestCase;
 
 /**
- * Tests mztabNAjava against an mzTab file
+ * Tests mztab java against an mzTab file
  * after it was edited using OpenOffice.
  * @author jg
  *
@@ -77,14 +77,14 @@ public class EditedMzTabFileTest extends TestCase {
 		assertEquals(1, proteins.size());
 		Protein p = proteins.iterator().next();
 		
-		assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\tNA\t1\t1\tNA\tIPI00793531,IPI00791139\tNA\tNA\tGO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t5.1\t1.0\tNA\tNA\t2.3456\t0.12\tNA\tNA\tNA\tNA\tNA\tNA\tNA" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
+		assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\tnull\t1\t1\tnull\tIPI00793531,IPI00791139\tnull\tnull\tGO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t5.1\t1.0\tnull\tnull\t2.3456\t0.12\tnull\tnull\tnull\tnull\tnull\tnull\tnull" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
 	}
 
 	public void testGetProteinStringString() {
 		Protein p = mzTabFile.getProtein("IPI00002824", "file_1");
 		
 		assertNotNull(p);
-		assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\tNA\t1\t1\tNA\tIPI00793531,IPI00791139\tNA\tNA\tGO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t5.1\t1.0\tNA\tNA\t2.3456\t0.12\tNA\tNA\tNA\tNA\tNA\tNA\tNA" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
+		assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\tnull\t1\t1\tnull\tIPI00793531,IPI00791139\tnull\tnull\tGO:0005488,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t5.1\t1.0\tnull\tnull\t2.3456\t0.12\tnull\tnull\tnull\tnull\tnull\tnull\tnull" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
 	}
 
 	public void testGetUnitProteins() {
@@ -160,7 +160,7 @@ public class EditedMzTabFileTest extends TestCase {
 	}
 
 	public void testAddProtein() {
-		String line1 = "PRT\tIPI00004942\tNEW_UNIT\tAlbumin\t9606\tHomo sapiens(Human)\tNCBI NR\t21.06.2011\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,140]\t3\t4\t2\t1\t\t13[0.8]NAUNIMOD:35,29[0.2]|35[0.4]NAUNIMOD:21\thttp://ebi.ac.uk/pride/experiment/1234/protein/193ttp://ebi.ac.uk/pride/experiment/1234/protein/193\tGO:0008299,GO:0016740\t0.2\t1.0\tNA\tNA\t7265.31988\t6346.894427\tNA\t7265.31988\t6346.894427\tNA\t7265.31988\t6346.894427\tNA";
+		String line1 = "PRT\tIPI00004942\tNEW_UNIT\tAlbumin\t9606\tHomo sapiens(Human)\tNCBI NR\t21.06.2011\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,140]\t3\t4\t2\t1\t\t13[0.8]nullUNIMOD:35,29[0.2]|35[0.4]nullUNIMOD:21\thttp://ebi.ac.uk/pride/experiment/1234/protein/193ttp://ebi.ac.uk/pride/experiment/1234/protein/193\tGO:0008299,GO:0016740\t0.2\t1.0\tnull\tnull\t7265.31988\t6346.894427\tnull\t7265.31988\t6346.894427\tnull\t7265.31988\t6346.894427\tnull";
 		
 		TsvTableParser parser = new TsvTableParser("PRH\taccession\tunit_id\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\tsearch_engine\tsearch_engine_score\treliability\tnum_peptides\tnum_peptides_distinct\tnum_peptides_unambiguous\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage\tprotein_abundance_sub[1]\tprotein_abundance_stdev_sub[1]\tprotein_abundance_std_error_sub[1]\tprotein_abundance_sub[2]\tprotein_abundance_stdev_sub[2]\tprotein_abundance_std_error_sub[2]\tprotein_abundance_sub[3]\tprotein_abundance_stdev_sub[3]\tprotein_abundance_std_error_sub[3]\tprotein_abundance_sub[4]\tprotein_abundance_stdev_sub[4]\tprotein_abundance_std_error_sub[4]");
 		Map<String, String> parsedLine1 = parser.parseTableLine(line1);
@@ -185,7 +185,7 @@ public class EditedMzTabFileTest extends TestCase {
 	}
 	
 	public void testAddPeptide() {
-		String line1 = "PEP\tNILNELFQR\tgi|10181184\tNEW_UNIT\ttrue\tNCBI NR\t21.06.2011\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,35]\t3\t1[0.8]NAUNIMOD:35\t20.8\t2\t500\tNA\t1.0\tNA\tNA\t4491.221363\tNA\tNA\t4491.221363\tNA\tNA\t4491.221363\tNA\tNA\t\t\t\t";
+		String line1 = "PEP\tNILNELFQR\tgi|10181184\tNEW_UNIT\ttrue\tNCBI NR\t21.06.2011\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,35]\t3\t1[0.8]nullUNIMOD:35\t20.8\t2\t500\tnull\t1.0\tnull\tnull\t4491.221363\tnull\tnull\t4491.221363\tnull\tnull\t4491.221363\tnull\tnull\t\t\t\t";
 		
 		TsvTableParser parser = new TsvTableParser("PEH\tsequence\taccession\tunit_id\tunique\tdatabase\tdatabase_version\tsearch_engine\tsearch_engine_score\treliability\tmodifications\tretention_time\tcharge\tmass_to_charge\turi\tpeptide_abundance_sub[1]\tpeptide_abundance_stdev_sub[1]\tpeptide_abundance_std_error_sub[1]\tpeptide_abundance_sub[2]\tpeptide_abundance_stdev_sub[2]\tpeptide_abundance_std_error_sub[2]\tpeptide_abundance_sub[3]\tpeptide_abundance_stdev_sub[3]\tpeptide_abundance_std_error_sub[3]\tpeptide_abundance_sub[4]\tpeptide_abundance_stdev_sub[4]\tpeptide_abundance_std_error_sub[4]");
 		Map<String, String> parsedLine1 = parser.parseTableLine(line1);
