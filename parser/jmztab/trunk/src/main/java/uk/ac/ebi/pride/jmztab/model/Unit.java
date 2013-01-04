@@ -26,6 +26,7 @@ public class Unit {
 	private List<ParamList> 	sampleProcessing;
 	private List<Instrument> 	instrument;
 	private List<Param>			software;
+	private Map<Integer, List<String>>	softwareSetting;
 	private ParamList			falseDiscoveryRate;
 	/**
 	 * DOIs must be prefixed by "doi:", PubMed ids by "pubmed:"
@@ -83,12 +84,12 @@ public class Unit {
 				throw new MzTabParsingException("Invalid meta-data line encountered: <" + line + ">");
 			
 			// get the various fields
-			String unitId 	= matcher.group(2).trim();
+			String theUnitId 	= matcher.group(2).trim();
 			String subId 	= matcher.group(3);
 			String field	= matcher.group(4);
 			String value	= matcher.group(5);
 			
-			TableObject.checkUnitId(unitId);
+			TableObject.checkUnitId(theUnitId);
 			
 			if (subId != null)
 				subId = subId.trim();
@@ -99,9 +100,9 @@ public class Unit {
 			
 			// check that the unitId didn't change - if it wasn't set yet, set it
 			if (this.unitId == null)
-				this.unitId = unitId;
-			else if (!this.unitId.equals(unitId))
-				throw new MzTabParsingException("Metadata line passed to Unit object (id = " + this.unitId + ") with a different UNIT_ID (" + unitId + ")");
+				this.unitId = theUnitId;
+			else if (!this.unitId.equals(theUnitId))
+				throw new MzTabParsingException("Metadata line passed to Unit object (id = " + this.unitId + ") with a different UNIT_ID (" + theUnitId + ")");
 			
 			// parse the field
 			parseField(subId, field, value);
@@ -180,13 +181,29 @@ public class Unit {
 			
 			// software
 			else if (field.startsWith("software")) {
-				// get the software's 1-based index
-				int softwareIndex = Integer.parseInt( field.substring(9, field.length() - 1) );
-				// create the software array if necessary
-				if (software == null)
-					software = new ArrayList<Param>();
-				// add the software
-				software.add(softwareIndex - 1, new Param(value));
+			    // get the software's 1-based index
+			    int softwareIndex = Integer.parseInt( field.substring(9, field.length() - 1) );
+			    // create the software array if necessary
+			    if (software == null)
+				    software = new ArrayList<Param>();
+			    // add the software
+			    software.add(softwareIndex - 1, new Param(value));
+			}
+			
+			// software[1-n]-setting
+			else if (field.startsWith("software") && field.contains("]-setting")) {
+			    // get the software's 1-based index
+			    int softwareIndex = Integer.parseInt( field.substring(9, field.length() - 1) );
+			    // create the software map if necessary
+			    if (softwareSetting == null)
+				    softwareSetting = new HashMap<Integer, List<String>>();			    
+			    
+			    // create the list for this software
+			    if (!softwareSetting.containsKey(softwareIndex)) {
+				softwareSetting.put(softwareIndex, new ArrayList<String>());
+			    }
+			    // add the setting
+			    softwareSetting.get(softwareIndex).add(value);
 			}
 			
 			// publication
@@ -393,6 +410,14 @@ public class Unit {
 	public List<Param> getSoftware() {
 		return software;
 	}
+	
+	public List<String> getSoftwareSettings(int softwareIndex) {
+	    if (!softwareSetting.containsKey(softwareIndex)) {
+		return Collections.EMPTY_LIST;
+	    }
+	    
+	    return softwareSetting.get(softwareIndex);
+	}
 
 	public ParamList getFalseDiscoveryRate() {
 		return falseDiscoveryRate;
@@ -550,6 +575,60 @@ public class Unit {
 
 	public void setSoftware(List<Param> software) {
 		this.software = software;
+	}
+	
+	/**
+	 * Removes all settings for the specified software.
+	 * @param softwareIndex The software's 1-based index.
+	 */
+	public void removeSoftwareSettings(int softwareIndex) {
+	    if (softwareIndex < 1) {
+		throw new IllegalArgumentException("Software index must be 1-based.");
+	    }
+	    
+	    if (softwareSetting.containsKey(softwareIndex)) {
+		softwareSetting.remove(softwareIndex);
+	    }
+	}
+	
+	/**
+	 * Sets the software setting(s) for the specified software item. To
+	 * remove all settings from a software item, either null or an empty
+	 * list must be passed as parameter.
+	 * @param softwareIndex The 1-based index of the software.
+	 * @param settings List of strings representing the software's settings.
+	 */
+	public void setSoftwareSettings(int softwareIndex, List<String> settings) {
+	    if (softwareIndex < 1) {
+		throw new IllegalArgumentException("Software index must be 1-based.");
+	    }
+	    
+	    if (softwareSetting == null) {
+		softwareSetting = new HashMap<Integer, List<String>>();
+	    }
+	    
+	    softwareSetting.put(softwareIndex, settings);
+	}
+	
+	/**
+	 * Adds a setting to the specified software.
+	 * @param softwareIndex The 1-based index of the software.
+	 * @param setting The setting to add.
+	 */
+	public void addSoftwareSetting(int softwareIndex, String setting) {
+	    if (softwareIndex < 1) {
+		throw new IllegalArgumentException("Software index must be 1-based.");
+	    }
+	    
+	    if (softwareSetting == null) {
+		softwareSetting = new HashMap<Integer, List<String>>();
+	    }
+	    
+	    if (!softwareSetting.containsKey(softwareIndex)) {
+		softwareSetting.put(softwareIndex, new ArrayList<String>());
+	    }
+	    
+	    softwareSetting.get(softwareIndex).add(setting);
 	}
 
 	public void setFalseDiscoveryRate(ParamList falseDiscoveryRate) {
