@@ -75,10 +75,73 @@ public class ModificationTest extends TestCase {
 			assertEquals(mod.getPosition().size(), 2);
 			assertEquals(new Integer(5), mod.getPosition().get(1));
 			assertEquals(new Double(0.2), mod.getPositionReliability().get(1));
+			
+			mod = new Modification("1|5[0.2]-MOD:12345|[MS, MS:1001524, fragment neutral loss, 63.998285]");
+			assertEquals(mod.getAccession(), "MOD:12345");
+			assertEquals(mod.getPosition().size(), 2);
+			assertEquals(new Integer(5), mod.getPosition().get(1));
+			assertEquals(new Double(0.2), mod.getPositionReliability().get(1));
+			assertNotNull(mod.getNeutralLoss());
+			assertEquals(mod.getNeutralLoss().getValue(), "63.998285");
 		} catch (MzTabParsingException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
+	}
+	
+	public void testRegionModFromMzTab() {
+	    try {
+		Modification mod = new Modification("[3-8,2]-MOD:00412");
+		
+		assertTrue(mod.hasRegionDefined());
+		assertEquals((int) mod.getRegionStart(), 3);
+		assertEquals((int) mod.getRegionEnd(), 8);
+		assertEquals((int) mod.getNumberOfModificationsInRegion(), 2);
+		assertEquals(mod.getAccession(), "MOD:00412");
+		assertNull(mod.getRegionReliability());
+		
+		mod = new Modification("[3-8,2][0.8]-MOD:00412");
+		assertTrue(mod.hasRegionDefined());
+		assertEquals((int) mod.getRegionStart(), 3);
+		assertEquals((int) mod.getRegionEnd(), 8);
+		assertEquals((int) mod.getNumberOfModificationsInRegion(), 2);
+		assertEquals(mod.getAccession(), "MOD:00412");
+		assertEquals(mod.getRegionReliability(), 0.8);
+		
+		mod = new Modification("[3-8,2][0.8]-MOD:00412|[MS, MS:1001524, fragment neutral loss, 63.998285]");
+		assertTrue(mod.hasRegionDefined());
+		assertEquals((int) mod.getRegionStart(), 3);
+		assertEquals((int) mod.getRegionEnd(), 8);
+		assertEquals((int) mod.getNumberOfModificationsInRegion(), 2);
+		assertEquals(mod.getAccession(), "MOD:00412");
+		assertEquals(mod.getRegionReliability(), 0.8);
+		assertNotNull(mod.getNeutralLoss());
+		assertEquals(mod.getNeutralLoss().getValue(), "63.998285");
+		
+		assertEquals(mod.toString(), "[3-8,2][0.8]-MOD:00412|[MS,MS:1001524,fragment neutral loss,63.998285]");
+	    } catch (MzTabParsingException e) {
+		e.printStackTrace();
+		fail(e.getMessage());
+	    }
+	}
+	
+	public void testNeutralLoss() {
+	    try {
+		Param param = new Param("[MS, MS:1001524, fragment neutral loss, 63.998285]");
+		Modification mod = new Modification(param);
+		assertNull(mod.getAccession());
+		assertEquals(param, mod.getNeutralLoss());
+		assertEquals("[MS,MS:1001524,fragment neutral loss,63.998285]", mod.toString());
+		
+		mod = new Modification("[MS, MS:1001524, fragment neutral loss, 63.998285]");
+		assertNull(mod.getAccession());
+		assertEquals(param, mod.getNeutralLoss());
+		assertEquals("[MS,MS:1001524,fragment neutral loss,63.998285]", mod.toString());
+	    }
+	    catch (MzTabParsingException e) {
+		e.printStackTrace();
+		fail(e.getMessage());
+	    }
 	}
 	
 	public void testChemModModification() {

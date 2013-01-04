@@ -59,7 +59,7 @@ public class MzTabSmallMoleculeTest extends TestCase {
 		
 		assertNotNull(sm);
 		
-		assertEquals(1, sm.getCharge().intValue());
+		assertEquals(1, (int) sm.getCharge());
 		assertEquals(1, sm.getModifications().size());
 		Modification mod = sm.getModifications().get(0);
 		assertEquals(14, mod.getPosition().get(0).intValue());

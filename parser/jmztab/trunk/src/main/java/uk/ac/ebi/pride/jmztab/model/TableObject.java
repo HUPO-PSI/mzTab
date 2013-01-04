@@ -19,6 +19,7 @@ public abstract class TableObject {
     public static final String SEPARATOR = MzTabFile.SEPARATOR;
     public static final String EOL = MzTabFile.EOL;
     public static final Pattern illegalUnitIdCharacters = Pattern.compile("[^A-Za-z0-9_]");
+    private static final Pattern optionalCvParameterColumn = Pattern.compile("opt_cv_([^_]+)_(.*)");
     
     protected Map<Integer, Double> abundance = new HashMap<Integer, Double>();
     protected Map<Integer, Double> abundanceStd = new HashMap<Integer, Double>();
@@ -279,6 +280,11 @@ public abstract class TableObject {
         if (value == null) {
 	    return MISSING;
 	}
+	
+	// if it's a Boolean only return "0" / "1"
+	if (value instanceof Boolean) {
+	    return ((Boolean) value ? "1" : "0");
+	}
 
         String string = value.toString();
 
@@ -410,6 +416,39 @@ public abstract class TableObject {
 	
 	public Map<String, String> getCustom() {
 	    return custom;
+	}
+	
+	public boolean isCvColumn(String columnName) {
+	    return columnName.startsWith("opt_cv_");
+	}
+	
+	public Param getCvParamForCvColumn(String columnName) throws MzTabParsingException {
+	    if (!isCvColumn(columnName)) {
+		return null;
+	    }
+	    
+	    Matcher matcher = optionalCvParameterColumn.matcher(columnName);
+	    
+	    if (!matcher.find()) {
+		throw new MzTabParsingException("Optional column name '" + columnName + "' is malformatted.");
+	    }
+	    
+	    String accession = matcher.group(1);
+	    
+	    // extract the cv label from the accession
+	    String cvLabel;
+	    int offset = accession.indexOf(":");
+	    if (offset >= 0) {
+		cvLabel = accession.substring(0, offset);
+	    }
+	    else {
+		cvLabel = "NEWT"; // NEWT is the only CV without the XXX: prefix
+	    }
+	    
+	    String name = matcher.group(2);
+	    name = name.replaceAll("_", " ");
+	    
+	    return new Param(cvLabel, accession, name, "");
 	}
 	
 	/**

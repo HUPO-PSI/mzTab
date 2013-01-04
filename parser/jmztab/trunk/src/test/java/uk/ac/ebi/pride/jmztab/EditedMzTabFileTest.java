@@ -5,16 +5,12 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-
-import uk.ac.ebi.pride.jmztab.MzTabFile;
-import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+import junit.framework.TestCase;
 import uk.ac.ebi.pride.jmztab.model.Peptide;
 import uk.ac.ebi.pride.jmztab.model.Protein;
 import uk.ac.ebi.pride.jmztab.model.SmallMolecule;
 import uk.ac.ebi.pride.jmztab.model.Unit;
 import uk.ac.ebi.pride.jmztab.util.TsvTableParser;
-
-import junit.framework.TestCase;
 
 /**
  * Tests mztab java against an mzTab file
@@ -26,6 +22,7 @@ public class EditedMzTabFileTest extends TestCase {
 	MzTabFile mzTabFile;
 	File sourceFile;	
 	
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		
