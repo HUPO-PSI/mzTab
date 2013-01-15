@@ -1,10 +1,11 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 public class Modification {
 	private final static Pattern mzTabModificationPattern = Pattern.compile("([^-]+)-(\\w+:[+-]*[A-Z0-9]+)");
@@ -43,7 +44,7 @@ public class Modification {
 	public Modification(String modAccession, Integer position) throws MzTabParsingException {
 	    TableObject.checkStringValue(modAccession);
 	    if (!modAccession.startsWith("MOD:") && !modAccession.startsWith("UNIMOD:") && !modAccession.startsWith("CHEMMOD:") && !modAccession.startsWith("SUBST:")) {
-		throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'.");
+		    throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'. " + modAccession);
 	    }
 	    this.modAccession = modAccession;
 		
@@ -67,7 +68,7 @@ public class Modification {
 		
 	    TableObject.checkStringValue(modAccession);
 	    if (!modAccession.startsWith("MOD:") && !modAccession.startsWith("UNIMOD:") && !modAccession.startsWith("CHEMMOD:") && !modAccession.startsWith("SUBST:")) {
-		throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'.");
+		throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'. " + modAccession);
 	    }
 	    this.modAccession = modAccession;		
 	    this.position.add(position);
@@ -100,7 +101,7 @@ public class Modification {
 	    
 	    TableObject.checkStringValue(modAccession);
 	    if (!modAccession.startsWith("MOD:") && !modAccession.startsWith("UNIMOD:") && !modAccession.startsWith("CHEMMOD:") && !modAccession.startsWith("SUBST:")) {
-		throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'.");
+		throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'. " + modAccession);
 	    }
 	    
 	    this.modAccession = modAccession;
@@ -125,19 +126,19 @@ public class Modification {
 		throw new MzTabParsingException("Modification region's start and end positions must be set");
 	    }
 	    if (regionEnd < regionStart) {
-		throw new MzTabParsingException("A modification region's end must not be before its start.");
+		    throw new MzTabParsingException("A modification region's end must not be before its start.");
 	    }
 	    
 	    if (occurrence == null) {
-		throw new MzTabParsingException("A modification's occurrence must be set");
+		    throw new MzTabParsingException("A modification's occurrence must be set");
 	    }
 	    if (occurrence < 1) {
-		throw new MzTabParsingException("There must at least exist one modification within a specified region");
+		    throw new MzTabParsingException("There must at least exist one modification within a specified region");
 	    }
 	    
 	    TableObject.checkStringValue(modAccession);
 	    if (!modAccession.startsWith("MOD:") && !modAccession.startsWith("UNIMOD:") && !modAccession.startsWith("CHEMMOD:") && !modAccession.startsWith("SUBST:")) {
-		throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'.");
+		    throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'. " + modAccession);
 	    }
 	    
 	    this.modAccession = modAccession;
@@ -183,7 +184,7 @@ public class Modification {
 	    Matcher matcher = mzTabModificationPattern.matcher(mzTabString);
 
 	    if (!matcher.find()) {
-		throw new MzTabParsingException("Failed to parse modification. Malformatted modification definition passed: <" + mzTabString + ">");
+		    throw new MzTabParsingException("Failed to parse modification. Malformatted modification definition passed: <" + mzTabString + ">");
 	    }
 
 	    String positions 	= matcher.group(1);
@@ -209,12 +210,12 @@ public class Modification {
 
 	    // make sure at least one position was found
 	    if (this.position.size() < 1) {
-		throw new MzTabParsingException("Failed to parse modification position. Malformatted modification position passed: <" + positions + ">");
+		    throw new MzTabParsingException("Failed to parse modification position. Malformatted modification position passed: <" + positions + ">");
 	    }
 	    
 	    // check the mod accession at the end
 	    if (!modAccession.startsWith("MOD:") && !modAccession.startsWith("UNIMOD:") && !modAccession.startsWith("CHEMMOD:") && !modAccession.startsWith("SUBST:")) {
-		throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'.");
+		    throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'. " + modAccession);
 	    }
 	}
 	
@@ -244,16 +245,16 @@ public class Modification {
 
 	    // make sure the end is not before the start
 	    if (this.regionEnd < this.regionStart) {
-		throw new MzTabParsingException("Malformatted modification region. The region's end is before the region's start: '" + mzTabString + "'");
+		    throw new MzTabParsingException("Malformatted modification region. The region's end is before the region's start: '" + mzTabString + "'");
 	    }
 	    // make sure the occurrence is larger than 0
 	    if (this.numberOfModificationsInRegion < 1) {
-		throw new MzTabParsingException("Malformatted modification region. The occurrence of the modification must at least be 1: '" + mzTabString + "'");
+		    throw new MzTabParsingException("Malformatted modification region. The occurrence of the modification must at least be 1: '" + mzTabString + "'");
 	    }
 	    
 	    // check the mod accession at the end
 	    if (!modAccession.startsWith("MOD:") && !modAccession.startsWith("UNIMOD:") && !modAccession.startsWith("CHEMMOD:") && !modAccession.startsWith("SUBST:")) {
-		throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'.");
+		    throw new MzTabParsingException("Invalid modification accession used. Modification accessions must start with 'MOD:', 'UNIMOD:', 'CHEMMOD:', or 'SUBST:'. " + modAccession);
 	    }
 	}
 	
