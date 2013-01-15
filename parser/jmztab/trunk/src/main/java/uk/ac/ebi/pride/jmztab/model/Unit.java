@@ -114,16 +114,18 @@ public class Unit {
     /**
      * Checks if the given value is valid for the metadata section.
      *
+     * ToDo: should perhaps be a public static utilities method.
+     *
      * @param value
      */
     private void checkStringValue(String value) throws MzTabParsingException {
-	if (value == null) {
-	    return;
-	}
+        if (value == null) {
+            return;
+        }
 
-	if (value.contains("\n") || value.contains("\r")) {
-	    throw new MzTabParsingException("Invalid field value. Field values must not contain new-line characters.");
-	}
+        if (value.contains("\n") || value.contains("\r")) {
+            throw new MzTabParsingException("Invalid field value. Field values must not contain new-line characters.");
+        }
     }
 
     private void parseField(String subId, String field, String value) throws MzTabParsingException {
@@ -564,13 +566,15 @@ public class Unit {
     }
 
     public void setTitle(String title) throws MzTabParsingException {
-	checkStringValue(title);
-	this.title = title;
+        if (title == null) return;
+        checkStringValue(title);
+        this.title = title;
     }
 
     public void setDescription(String description) throws MzTabParsingException {
-	checkStringValue(description);
-	this.description = description;
+        if (description == null) return;
+        checkStringValue(description);
+        this.description = description;
     }
 
     public void setSampleProcessing(List<ParamList> sampleProcessing) {
@@ -647,15 +651,20 @@ public class Unit {
     }
 
     public void setPublication(List<String> publication) throws MzTabParsingException {
-	if (publication != null) {
-	    for (String value : publication) {
-		checkStringValue(value);
-		if (!value.startsWith("pubmed:") && !value.startsWith("doi:")) {
-		    throw new MzTabParsingException("Invalid reference. References must be in the format 'pubmed:[PUBMED ID]' or 'doi:[DOI]'.");
-		}
-	    }
-	}
-	this.publication = publication;
+        if (publication == null || publication.isEmpty()) { return; }
+        List<String> publications = new ArrayList<String>();
+        for (String value : publication) {
+            if (value != null) {
+                checkStringValue(value);
+                if (!value.startsWith("pubmed:") && !value.startsWith("doi:")) {
+                    throw new MzTabParsingException("Invalid reference. References must be in the format 'pubmed:[PUBMED ID]' or 'doi:[DOI]'.");
+                }
+                // only add a publication if it passed the checks
+                // e.g. not null, valid format (see checkStringValue method) and starts with pubmed: or doi:
+                publications.add(value);
+            }
+        }
+        this.publication = publications;
     }
 
     public void setContact(List<Contact> contact) {
