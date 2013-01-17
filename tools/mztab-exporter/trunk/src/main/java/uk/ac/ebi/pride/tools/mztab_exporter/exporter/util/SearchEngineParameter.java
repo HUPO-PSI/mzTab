@@ -37,6 +37,8 @@ public enum SearchEngineParameter {
 	 * @return
 	 */
 	public static SearchEngineParameter getParam(String searchEngineName) {
+        if (searchEngineName == null) { return null; }
+
 		searchEngineName = searchEngineName.toLowerCase();
 		
 		for (SearchEngineParameter p : values()) {

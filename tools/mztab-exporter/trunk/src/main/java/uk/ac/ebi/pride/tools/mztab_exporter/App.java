@@ -1,21 +1,20 @@
 package uk.ac.ebi.pride.tools.mztab_exporter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
 import uk.ac.ebi.pride.jmztab.MzTabFile;
 import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 import uk.ac.ebi.pride.tools.mztab_exporter.exporter.ExporterFactory;
 import uk.ac.ebi.pride.tools.mztab_exporter.exporter.MzTabExporter;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 
 /**
  * Hello world!
@@ -145,7 +144,7 @@ public class App
 		System.out.println("Converting " + inputFilePath + " to mzTab...");
 		exporter.exportToMzTab(inputFile, outputFile);
 		
-		System.out.println("Success. MzTab file written to " + outputFile.getAbsolutePath());
+		System.out.println("Conversion complete.");
 	}
 
 	private static void printUsage() {
