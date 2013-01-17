@@ -123,7 +123,7 @@
 		<dependency>
 			<groupId>uk.ac.ebi.pride</groupId>
 			<artifactId>jmztab</artifactId>
-			<version>1.0.7</version>
+			<version>1.0.9-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
