@@ -442,7 +442,7 @@ public abstract class TableObject {
 		cvLabel = accession.substring(0, offset);
 	    }
 	    else {
-		cvLabel = "NEWT"; // NEWT is the only CV without the XXX: prefix
+		cvLabel = "NEWT"; // NEWT is the only CV without the XX: prefix
 	    }
 	    
 	    String name = matcher.group(2);
