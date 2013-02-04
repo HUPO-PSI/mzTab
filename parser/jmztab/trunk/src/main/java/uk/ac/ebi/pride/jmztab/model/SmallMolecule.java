@@ -26,8 +26,8 @@ public class SmallMolecule extends TableObject {
     private List<String> identifier;
     private String unitId;
     private String chemicalFormula;
-    private String smiles;
-    private String inchiKey;
+    private List<String> smiles;
+    private List<String> inchiKey;
     private String description;
     private Double massToCharge;
     private Integer charge;
@@ -77,10 +77,10 @@ public class SmallMolecule extends TableObject {
 			chemicalFormula = value;
 			break;
 		    case SMILES:
-			smiles = value;
+			smiles = parseStringArray(value, "\\|");
 			break;
 		    case INCHI_KEY:
-			inchiKey = value;
+			inchiKey = parseStringArray(value, "\\|");
 			break;
 		    case DESCRIPTION:
 			description = value;
@@ -200,12 +200,12 @@ public class SmallMolecule extends TableObject {
 	return chemicalFormula;
     }
 
-    public String getSmiles() {
-	return smiles;
+    public List<String> getSmiles() {
+	return new ArrayList<String>(smiles);
     }
 
-    public String getInchiKey() {
-	return inchiKey;
+    public List<String> getInchiKey() {
+	return new ArrayList<String>(inchiKey);
     }
 
     public String getDescription() {
@@ -302,13 +302,17 @@ public class SmallMolecule extends TableObject {
 	this.chemicalFormula = chemicalFormula;
     }
 
-    public void setSmiles(String smiles) throws MzTabParsingException {
-	checkStringValue(smiles);
+    public void setSmiles(List<String> smiles) throws MzTabParsingException {
+	for (String value : smiles) {
+	    checkStringValue(value);
+	}
 	this.smiles = smiles;
     }
 
-    public void setInchiKey(String inchiKey) throws MzTabParsingException {
-	checkStringValue(inchiKey);
+    public void setInchiKey(List<String> inchiKey) throws MzTabParsingException {
+	for (String value : inchiKey) {
+	    checkStringValue(value);
+	}
 	this.inchiKey = inchiKey;
     }
 
@@ -425,10 +429,10 @@ public class SmallMolecule extends TableObject {
 		    mzTabString.append(mzTabString.length() > 1 ? SEPARATOR : "").append(toField(description));
 		    break;
 		case SMILES:
-		    mzTabString.append(mzTabString.length() > 1 ? SEPARATOR : "").append(toField(smiles));
+		    mzTabString.append(mzTabString.length() > 1 ? SEPARATOR : "").append(arrayToField(smiles, "\\|"));
 		    break;
 		case INCHI_KEY:
-		    mzTabString.append(mzTabString.length() > 1 ? SEPARATOR : "").append(toField(inchiKey));
+		    mzTabString.append(mzTabString.length() > 1 ? SEPARATOR : "").append(arrayToField(inchiKey, "\\|"));
 		    break;
 		case MASS_TO_CHARGE:
 		    mzTabString.append(mzTabString.length() > 1 ? SEPARATOR : "").append(toField(massToCharge));
