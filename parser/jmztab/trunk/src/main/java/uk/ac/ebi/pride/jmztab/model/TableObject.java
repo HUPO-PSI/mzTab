@@ -260,8 +260,31 @@ public abstract class TableObject {
 	}
 
         // split the modification string
-        String[] modificationStrings = string.split(",");
-        ArrayList<Modification> modifications = new ArrayList<Modification>(modificationStrings.length);
+	List<String> modificationStrings = new ArrayList<String>();
+	StringBuilder buffer = new StringBuilder();
+	boolean inBrackets = false; // indicates whether the current position is within square brackets
+	
+	for (int index = 0; index < string.length(); index++) {
+	    char c = string.charAt(index);
+	    
+	    if (c == '[') {
+		inBrackets = true;
+	    }
+	    if (c == ']') {
+		inBrackets = false;
+	    }
+	    // check if a modification separator is encountered
+	    if (!inBrackets && c == ',') {
+		modificationStrings.add(buffer.toString());
+		buffer = new StringBuilder();
+	    }
+	    else {
+		// add the current character to the buffer
+		buffer.append(c);
+	    }
+	}
+
+        ArrayList<Modification> modifications = new ArrayList<Modification>(modificationStrings.size());
 
         for (String modString : modificationStrings) {
 	    modifications.add(new Modification(modString));
