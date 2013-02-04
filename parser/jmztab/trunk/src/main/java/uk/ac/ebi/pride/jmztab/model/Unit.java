@@ -35,7 +35,6 @@ public class Unit {
     private List<Contact> contact;
     private URI uri;
     private ParamList mod;
-    private Param modProbabilityMethod;
     private Param quantificationMethod;
     private Param proteinQuantificationUnit;
     private Param peptideQuantificationUnit;
@@ -119,13 +118,13 @@ public class Unit {
      * @param value
      */
     private void checkStringValue(String value) throws MzTabParsingException {
-        if (value == null) {
-            return;
-        }
+	if (value == null) {
+	    return;
+	}
 
-        if (value.contains("\n") || value.contains("\r")) {
-            throw new MzTabParsingException("Invalid field value. Field values must not contain new-line characters.");
-        }
+	if (value.contains("\n") || value.contains("\r")) {
+	    throw new MzTabParsingException("Invalid field value. Field values must not contain new-line characters.");
+	}
     }
 
     private void parseField(String subId, String field, String value) throws MzTabParsingException {
@@ -143,8 +142,6 @@ public class Unit {
 		uri = new URI(value);
 	    } else if ("mod".equals(field)) {
 		mod = new ParamList(value);
-	    } else if ("mod-probability_method".equals(field)) {
-		modProbabilityMethod = new Param(value);
 	    } else if ("quantification_method".equals(field)) {
 		quantificationMethod = new Param(value);
 	    } else if ("protein-quantification_unit".equals(field)) {
@@ -176,7 +173,9 @@ public class Unit {
 		    instrument.add(instrumentIndex - 1, new Instrument());
 		}
 		// check which value is set
-		if (field.endsWith("source")) {
+		if (field.endsWith("name")) {
+		    instrument.get(instrumentIndex - 1).setName(new Param(value));
+		} else if (field.endsWith("source")) {
 		    instrument.get(instrumentIndex - 1).setSource(new Param(value));
 		} else if (field.endsWith("analyzer")) {
 		    instrument.get(instrumentIndex - 1).setAnalyzer(new Param(value));
@@ -442,10 +441,6 @@ public class Unit {
 	return mod;
     }
 
-    public Param getModProbabilityMethod() {
-	return modProbabilityMethod;
-    }
-
     public Param getQuantificationMethod() {
 	return quantificationMethod;
     }
@@ -566,15 +561,19 @@ public class Unit {
     }
 
     public void setTitle(String title) throws MzTabParsingException {
-        if (title == null) return;
-        checkStringValue(title);
-        this.title = title;
+	if (title == null) {
+	    return;
+	}
+	checkStringValue(title);
+	this.title = title;
     }
 
     public void setDescription(String description) throws MzTabParsingException {
-        if (description == null) return;
-        checkStringValue(description);
-        this.description = description;
+	if (description == null) {
+	    return;
+	}
+	checkStringValue(description);
+	this.description = description;
     }
 
     public void setSampleProcessing(List<ParamList> sampleProcessing) {
@@ -651,20 +650,22 @@ public class Unit {
     }
 
     public void setPublication(List<String> publication) throws MzTabParsingException {
-        if (publication == null || publication.isEmpty()) { return; }
-        List<String> publications = new ArrayList<String>();
-        for (String value : publication) {
-            if (value != null) {
-                checkStringValue(value);
-                if (!value.startsWith("pubmed:") && !value.startsWith("doi:")) {
-                    throw new MzTabParsingException("Invalid reference. References must be in the format 'pubmed:[PUBMED ID]' or 'doi:[DOI]'.");
-                }
-                // only add a publication if it passed the checks
-                // e.g. not null, valid format (see checkStringValue method) and starts with pubmed: or doi:
-                publications.add(value);
-            }
-        }
-        this.publication = publications;
+	if (publication == null || publication.isEmpty()) {
+	    return;
+	}
+	List<String> publications = new ArrayList<String>();
+	for (String value : publication) {
+	    if (value != null) {
+		checkStringValue(value);
+		if (!value.startsWith("pubmed:") && !value.startsWith("doi:")) {
+		    throw new MzTabParsingException("Invalid reference. References must be in the format 'pubmed:[PUBMED ID]' or 'doi:[DOI]'.");
+		}
+		// only add a publication if it passed the checks
+		// e.g. not null, valid format (see checkStringValue method) and starts with pubmed: or doi:
+		publications.add(value);
+	    }
+	}
+	this.publication = publications;
     }
 
     public void setContact(List<Contact> contact) {
@@ -677,10 +678,6 @@ public class Unit {
 
     public void setMod(ParamList mod) {
 	this.mod = mod;
-    }
-
-    public void setModProbabilityMethod(Param modProbabilityMethod) {
-	this.modProbabilityMethod = modProbabilityMethod;
     }
 
     public void setQuantificationMethod(Param quantificationMethod) {
@@ -746,7 +743,7 @@ public class Unit {
      * @return
      */
     public String toMzTab() {
-	StringBuffer mzTab = new StringBuffer();
+	StringBuilder mzTab = new StringBuilder();
 
 	if (title != null) {
 	    mzTab.append(createField("title", title));
@@ -763,6 +760,7 @@ public class Unit {
 	// instrument
 	if (instrument != null) {
 	    for (Integer i = 1; i <= instrument.size(); i++) {
+		mzTab.append(createField(String.format("instrument[%d]-source", i), instrument.get(i - 1).getName()));
 		mzTab.append(createField(String.format("instrument[%d]-source", i), instrument.get(i - 1).getSource()));
 		mzTab.append(createField(String.format("instrument[%d]-analyzer", i), instrument.get(i - 1).getAnalyzer()));
 		mzTab.append(createField(String.format("instrument[%d]-detector", i), instrument.get(i - 1).getDetector()));
@@ -772,7 +770,7 @@ public class Unit {
 	if (software != null) {
 	    for (Integer i = 1; i <= software.size(); i++) {
 		mzTab.append(createField(String.format("software[%d]", i), software.get(i - 1)));
-		
+
 		// write out the settings for the specified software
 		if (softwareSetting != null && softwareSetting.get(i) != null) {
 		    List<String> settings = softwareSetting.get(i);
@@ -813,10 +811,6 @@ public class Unit {
 	// mods
 	if (mod != null) {
 	    mzTab.append(createField("mod", mod));
-	}
-	// mod probability method
-	if (modProbabilityMethod != null) {
-	    mzTab.append(createField("mod-probability_method", modProbabilityMethod));
 	}
 	// quantification method
 	if (quantificationMethod != null) {
@@ -891,223 +885,109 @@ public class Unit {
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result
-		+ ((cellType == null) ? 0 : cellType.hashCode());
-	result = prime * result + ((contact == null) ? 0 : contact.hashCode());
-	result = prime * result
-		+ ((customParams == null) ? 0 : customParams.hashCode());
-	result = prime * result
-		+ ((description == null) ? 0 : description.hashCode());
-	result = prime * result + ((disease == null) ? 0 : disease.hashCode());
-	result = prime
-		* result
-		+ ((falseDiscoveryRate == null) ? 0 : falseDiscoveryRate
-		.hashCode());
-	result = prime * result
-		+ ((instrument == null) ? 0 : instrument.hashCode());
-	result = prime * result + ((mod == null) ? 0 : mod.hashCode());
-	result = prime
-		* result
-		+ ((modProbabilityMethod == null) ? 0 : modProbabilityMethod
-		.hashCode());
-	result = prime
-		* result
-		+ ((peptideQuantificationUnit == null) ? 0
-		: peptideQuantificationUnit.hashCode());
-	result = prime
-		* result
-		+ ((proteinQuantificationUnit == null) ? 0
-		: proteinQuantificationUnit.hashCode());
-	result = prime * result
-		+ ((publication == null) ? 0 : publication.hashCode());
-	result = prime
-		* result
-		+ ((quantificationMethod == null) ? 0 : quantificationMethod
-		.hashCode());
-	result = prime
-		* result
-		+ ((sampleProcessing == null) ? 0 : sampleProcessing.hashCode());
-	result = prime * result
-		+ ((software == null) ? 0 : software.hashCode());
-	result = prime * result + ((species == null) ? 0 : species.hashCode());
-	result = prime * result
-		+ ((subsamples == null) ? 0 : subsamples.hashCode());
-	result = prime * result + ((tissue == null) ? 0 : tissue.hashCode());
-	result = prime * result + ((title == null) ? 0 : title.hashCode());
-	result = prime * result + ((unitId == null) ? 0 : unitId.hashCode());
-	result = prime * result + ((uri == null) ? 0 : uri.hashCode());
-	result = prime * result + ((msFiles == null) ? 0 : msFiles.hashCode());
-	return result;
+	int hash = 7;
+	hash = 13 * hash + (this.logger != null ? this.logger.hashCode() : 0);
+	hash = 13 * hash + (this.unitId != null ? this.unitId.hashCode() : 0);
+	hash = 13 * hash + (this.title != null ? this.title.hashCode() : 0);
+	hash = 13 * hash + (this.description != null ? this.description.hashCode() : 0);
+	hash = 13 * hash + (this.sampleProcessing != null ? this.sampleProcessing.hashCode() : 0);
+	hash = 13 * hash + (this.instrument != null ? this.instrument.hashCode() : 0);
+	hash = 13 * hash + (this.software != null ? this.software.hashCode() : 0);
+	hash = 13 * hash + (this.softwareSetting != null ? this.softwareSetting.hashCode() : 0);
+	hash = 13 * hash + (this.falseDiscoveryRate != null ? this.falseDiscoveryRate.hashCode() : 0);
+	hash = 13 * hash + (this.publication != null ? this.publication.hashCode() : 0);
+	hash = 13 * hash + (this.contact != null ? this.contact.hashCode() : 0);
+	hash = 13 * hash + (this.uri != null ? this.uri.hashCode() : 0);
+	hash = 13 * hash + (this.mod != null ? this.mod.hashCode() : 0);
+	hash = 13 * hash + (this.quantificationMethod != null ? this.quantificationMethod.hashCode() : 0);
+	hash = 13 * hash + (this.proteinQuantificationUnit != null ? this.proteinQuantificationUnit.hashCode() : 0);
+	hash = 13 * hash + (this.peptideQuantificationUnit != null ? this.peptideQuantificationUnit.hashCode() : 0);
+	hash = 13 * hash + (this.customParams != null ? this.customParams.hashCode() : 0);
+	hash = 13 * hash + (this.species != null ? this.species.hashCode() : 0);
+	hash = 13 * hash + (this.tissue != null ? this.tissue.hashCode() : 0);
+	hash = 13 * hash + (this.cellType != null ? this.cellType.hashCode() : 0);
+	hash = 13 * hash + (this.disease != null ? this.disease.hashCode() : 0);
+	hash = 13 * hash + (this.subsamples != null ? this.subsamples.hashCode() : 0);
+	hash = 13 * hash + (this.msFiles != null ? this.msFiles.hashCode() : 0);
+	return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj) {
-	    return true;
-	}
 	if (obj == null) {
 	    return false;
 	}
 	if (getClass() != obj.getClass()) {
 	    return false;
 	}
-	Unit other = (Unit) obj;
-	if (cellType == null) {
-	    if (other.cellType != null) {
-		return false;
-	    }
-	} else if (!cellType.equals(other.cellType)) {
+	final Unit other = (Unit) obj;
+	if (this.logger != other.logger && (this.logger == null || !this.logger.equals(other.logger))) {
 	    return false;
 	}
-	if (contact == null) {
-	    if (other.contact != null) {
-		return false;
-	    }
-	} else if (!contact.equals(other.contact)) {
+	if ((this.unitId == null) ? (other.unitId != null) : !this.unitId.equals(other.unitId)) {
 	    return false;
 	}
-	if (customParams == null) {
-	    if (other.customParams != null) {
-		return false;
-	    }
-	} else if (!customParams.equals(other.customParams)) {
+	if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
 	    return false;
 	}
-	if (description == null) {
-	    if (other.description != null) {
-		return false;
-	    }
-	} else if (!description.equals(other.description)) {
+	if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
 	    return false;
 	}
-	if (disease == null) {
-	    if (other.disease != null) {
-		return false;
-	    }
-	} else if (!disease.equals(other.disease)) {
+	if (this.sampleProcessing != other.sampleProcessing && (this.sampleProcessing == null || !this.sampleProcessing.equals(other.sampleProcessing))) {
 	    return false;
 	}
-	if (falseDiscoveryRate == null) {
-	    if (other.falseDiscoveryRate != null) {
-		return false;
-	    }
-	} else if (!falseDiscoveryRate.equals(other.falseDiscoveryRate)) {
+	if (this.instrument != other.instrument && (this.instrument == null || !this.instrument.equals(other.instrument))) {
 	    return false;
 	}
-	if (instrument == null) {
-	    if (other.instrument != null) {
-		return false;
-	    }
-	} else if (!instrument.equals(other.instrument)) {
+	if (this.software != other.software && (this.software == null || !this.software.equals(other.software))) {
 	    return false;
 	}
-	if (mod == null) {
-	    if (other.mod != null) {
-		return false;
-	    }
-	} else if (!mod.equals(other.mod)) {
+	if (this.softwareSetting != other.softwareSetting && (this.softwareSetting == null || !this.softwareSetting.equals(other.softwareSetting))) {
 	    return false;
 	}
-	if (modProbabilityMethod == null) {
-	    if (other.modProbabilityMethod != null) {
-		return false;
-	    }
-	} else if (!modProbabilityMethod.equals(other.modProbabilityMethod)) {
+	if (this.falseDiscoveryRate != other.falseDiscoveryRate && (this.falseDiscoveryRate == null || !this.falseDiscoveryRate.equals(other.falseDiscoveryRate))) {
 	    return false;
 	}
-	if (peptideQuantificationUnit == null) {
-	    if (other.peptideQuantificationUnit != null) {
-		return false;
-	    }
-	} else if (!peptideQuantificationUnit
-		.equals(other.peptideQuantificationUnit)) {
+	if (this.publication != other.publication && (this.publication == null || !this.publication.equals(other.publication))) {
 	    return false;
 	}
-	if (proteinQuantificationUnit == null) {
-	    if (other.proteinQuantificationUnit != null) {
-		return false;
-	    }
-	} else if (!proteinQuantificationUnit
-		.equals(other.proteinQuantificationUnit)) {
+	if (this.contact != other.contact && (this.contact == null || !this.contact.equals(other.contact))) {
 	    return false;
 	}
-	if (publication == null) {
-	    if (other.publication != null) {
-		return false;
-	    }
-	} else if (!publication.equals(other.publication)) {
+	if (this.uri != other.uri && (this.uri == null || !this.uri.equals(other.uri))) {
 	    return false;
 	}
-	if (quantificationMethod == null) {
-	    if (other.quantificationMethod != null) {
-		return false;
-	    }
-	} else if (!quantificationMethod.equals(other.quantificationMethod)) {
+	if (this.mod != other.mod && (this.mod == null || !this.mod.equals(other.mod))) {
 	    return false;
 	}
-	if (sampleProcessing == null) {
-	    if (other.sampleProcessing != null) {
-		return false;
-	    }
-	} else if (!sampleProcessing.equals(other.sampleProcessing)) {
+	if (this.quantificationMethod != other.quantificationMethod && (this.quantificationMethod == null || !this.quantificationMethod.equals(other.quantificationMethod))) {
 	    return false;
 	}
-	if (software == null) {
-	    if (other.software != null) {
-		return false;
-	    }
-	} else if (!software.equals(other.software)) {
+	if (this.proteinQuantificationUnit != other.proteinQuantificationUnit && (this.proteinQuantificationUnit == null || !this.proteinQuantificationUnit.equals(other.proteinQuantificationUnit))) {
 	    return false;
 	}
-	if (species == null) {
-	    if (other.species != null) {
-		return false;
-	    }
-	} else if (!species.equals(other.species)) {
+	if (this.peptideQuantificationUnit != other.peptideQuantificationUnit && (this.peptideQuantificationUnit == null || !this.peptideQuantificationUnit.equals(other.peptideQuantificationUnit))) {
 	    return false;
 	}
-	if (subsamples == null) {
-	    if (other.subsamples != null) {
-		return false;
-	    }
-	} else if (!subsamples.equals(other.subsamples)) {
+	if (this.customParams != other.customParams && (this.customParams == null || !this.customParams.equals(other.customParams))) {
 	    return false;
 	}
-	if (tissue == null) {
-	    if (other.tissue != null) {
-		return false;
-	    }
-	} else if (!tissue.equals(other.tissue)) {
+	if (this.species != other.species && (this.species == null || !this.species.equals(other.species))) {
 	    return false;
 	}
-	if (title == null) {
-	    if (other.title != null) {
-		return false;
-	    }
-	} else if (!title.equals(other.title)) {
+	if (this.tissue != other.tissue && (this.tissue == null || !this.tissue.equals(other.tissue))) {
 	    return false;
 	}
-	if (unitId == null) {
-	    if (other.unitId != null) {
-		return false;
-	    }
-	} else if (!unitId.equals(other.unitId)) {
+	if (this.cellType != other.cellType && (this.cellType == null || !this.cellType.equals(other.cellType))) {
 	    return false;
 	}
-	if (uri == null) {
-	    if (other.uri != null) {
-		return false;
-	    }
-	} else if (!uri.equals(other.uri)) {
+	if (this.disease != other.disease && (this.disease == null || !this.disease.equals(other.disease))) {
 	    return false;
 	}
-	if (msFiles == null) {
-	    if (other.msFiles != null) {
-		return false;
-	    }
-	} else if (!msFiles.equals(other.msFiles)) {
+	if (this.subsamples != other.subsamples && (this.subsamples == null || !this.subsamples.equals(other.subsamples))) {
+	    return false;
+	}
+	if (this.msFiles != other.msFiles && (this.msFiles == null || !this.msFiles.equals(other.msFiles))) {
 	    return false;
 	}
 	return true;
