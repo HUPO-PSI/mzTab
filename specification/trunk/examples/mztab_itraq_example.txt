@@ -1,5 +1,4 @@
 MTD	PRIDE_1234-title	mzTab iTRAQ test
-MTD	PRIDE_1234-false_discovery_rate	[MS,MS:1001250,local FDR,0.5]
 MTD	PRIDE_1234-contact[1]-name	Johannes
 MTD	PRIDE_1234-contact[2]-name	Mathias
 MTD	PRIDE_1234-quantification_method	[MS,MS:1001837,iTraq quantitation analysis,]
