@@ -24,7 +24,7 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.TAB;
  * Date: 07/02/13
  */
 public class ReplicateUnit extends Unit {
-    private final static String REP = "rep";
+    public final static String REP = "rep";
 
     private int repId;
     private String comment;
@@ -44,7 +44,7 @@ public class ReplicateUnit extends Unit {
      * @return {Unit_id}-rep[repId]
      */
     @Override
-    protected String getIdentifier() {
+    public String getIdentifier() {
         StringBuilder sb = new StringBuilder();
 
         sb.append(getUnitId()).append(MZTabConstants.MINUS).append(REP);

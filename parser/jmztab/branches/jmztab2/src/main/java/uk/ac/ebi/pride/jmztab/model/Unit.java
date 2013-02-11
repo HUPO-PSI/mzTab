@@ -58,7 +58,7 @@ public class Unit {
      * identifier is unique id in Unit class and sub-class (such as SubUnit, ReplicateUnit).
      * @return {unit_id}
      */
-    protected String getIdentifier() {
+    public String getIdentifier() {
         return unitId;
     }
 

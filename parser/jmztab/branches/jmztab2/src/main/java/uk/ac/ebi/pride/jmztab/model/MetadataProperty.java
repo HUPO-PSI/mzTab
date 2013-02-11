@@ -16,9 +16,9 @@ public enum MetadataProperty {
     CONTACT_AFFILIATION(MetadataElement.CONTACT, "affiliation"),
     CONTACT_EMAIL(MetadataElement.CONTACT, "email"),
 
-    MSFILE_FORMAT(MetadataElement.MS_FILE, "format"),
-    MSFILE_LOCATION(MetadataElement.MS_FILE, "location"),
-    MSFILE_ID_FORMAT(MetadataElement.MS_FILE, "id_format");
+    MS_FILE_FORMAT(MetadataElement.MS_FILE, "format"),
+    MS_FILE_LOCATION(MetadataElement.MS_FILE, "location"),
+    MS_FILE_ID_FORMAT(MetadataElement.MS_FILE, "id_format");
 
     private String name;
     private MetadataElement element;

@@ -2,6 +2,9 @@ package uk.ac.ebi.pride.jmztab.parser;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * User: Qingwei
  * Date: 10/02/13

@@ -75,13 +75,13 @@ public class MsFile extends UnitElement {
         StringBuilder sb = new StringBuilder();
 
         if (format != null) {
-            sb.append(printProperty(MSFILE_FORMAT, format)).append(NEW_LINE);
+            sb.append(printProperty(MS_FILE_FORMAT, format)).append(NEW_LINE);
         }
         if (location != null) {
-            sb.append(printProperty(MSFILE_LOCATION, location)).append(NEW_LINE);
+            sb.append(printProperty(MS_FILE_LOCATION, location)).append(NEW_LINE);
         }
         if (idFormat != null) {
-            sb.append(printProperty(MSFILE_ID_FORMAT, idFormat)).append(NEW_LINE);
+            sb.append(printProperty(MS_FILE_ID_FORMAT, idFormat)).append(NEW_LINE);
         }
 
         return sb.toString();
