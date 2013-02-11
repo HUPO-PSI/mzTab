@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class MZTabErrorTest {
     @Test
     public void testError() throws Exception {
-        MZTabError error = new MZTabError(FormatErrorType.Error_NULL, "1", "5");
+        MZTabError error = new MZTabError(LogicalErrorType.NULL, "1", "5");
         assertTrue(error.getType().getCode().equals(1000));
         System.out.println(error.getMessage());
     }

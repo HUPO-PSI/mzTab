@@ -14,7 +14,6 @@ import java.util.Map;
  */
 public class MZTabErrorType {
     protected enum Category {
-        Normal,                // Non-mzTab error, which are used by MZTabException and not record in errorList.
         Format,                // single field format error
         Logical,               // exists logical error among fields value.
         CrossCheck             // multiple documents cross check error.
@@ -73,9 +72,6 @@ public class MZTabErrorType {
 
         String prefix = null;
         switch (category) {
-            case Normal:
-                prefix = "n_";
-                break;
             case Format:
                 prefix = "f_";
                 break;

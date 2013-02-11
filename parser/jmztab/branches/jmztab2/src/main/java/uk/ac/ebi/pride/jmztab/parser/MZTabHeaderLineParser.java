@@ -1,8 +1,8 @@
 package uk.ac.ebi.pride.jmztab.parser;
 
+import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.errors.MZTabException;
-import uk.ac.ebi.pride.jmztab.errors.NormalErrorType;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumn;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
 
@@ -57,7 +57,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             match = header.equals(items[i]);
             if (! match) {
                 MZTabError error = new MZTabError(
-                        NormalErrorType.StableColumn,
+                        FormatErrorType.StableColumn,
                         factory.getSection().getName(),
                         header, "" + factory.getColumn(header).getPosition(),
                         items[i], "" + i

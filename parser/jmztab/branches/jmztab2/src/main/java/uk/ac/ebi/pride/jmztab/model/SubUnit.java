@@ -51,7 +51,7 @@ public class SubUnit extends Unit {
     }
 
     @Override
-    protected String getIdentifier() {
+    public String getIdentifier() {
         StringBuilder sb = new StringBuilder();
 
         sb.append(getUnitId());
