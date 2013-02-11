@@ -10,6 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Unit {
+    
+    // TODO: add support for column units
 
     private Logger logger = Logger.getLogger(Unit.class);
     /**
@@ -760,7 +762,7 @@ public class Unit {
 	// instrument
 	if (instrument != null) {
 	    for (Integer i = 1; i <= instrument.size(); i++) {
-		mzTab.append(createField(String.format("instrument[%d]-source", i), instrument.get(i - 1).getName()));
+		mzTab.append(createField(String.format("instrument[%d]-name", i), instrument.get(i - 1).getName()));
 		mzTab.append(createField(String.format("instrument[%d]-source", i), instrument.get(i - 1).getSource()));
 		mzTab.append(createField(String.format("instrument[%d]-analyzer", i), instrument.get(i - 1).getAnalyzer()));
 		mzTab.append(createField(String.format("instrument[%d]-detector", i), instrument.get(i - 1).getDetector()));
