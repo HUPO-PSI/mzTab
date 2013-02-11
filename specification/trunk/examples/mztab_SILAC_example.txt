@@ -1,11 +1,11 @@
 MTD	file_1-title	mzTab SILAC test
-MTD	file_1-quantification_method	[PRIDE,PRIDE:0000315,SILAC,]
-MTD	file_1-protein-quantification_unit	[PRIDE,PRIDE:0000395,Ratio,]
-MTD	file_1-peptide-quantification_unit	[PRIDE,PRIDE:0000395,Ratio,]
+MTD	file_1-quantification_method	[MS,MS:1001837,SILAC quantitation analysis,]
+MTD	file_1-protein-quantification_unit	[MS,MS:1001134,protein ratio,]
+MTD	file_1-peptide-quantification_unit	[MS,MS:1001132,peptide ratio,]
 MTD	file_1-sub[1]-description	file_1_heavy
-MTD	file_1-sub[1]-quantification_reagent	[PRIDE,PRIDE:0000325,SILAC heavy,]
+MTD	file_1-sub[1]-quantification_reagent	[MOD,MOD:00544,6x(13)C labeled residue,]
 MTD	file_1-sub[2]-description	file_1_light
-MTD	file_1-sub[2]-quantification_reagent	[PRIDE,PRIDE:0000326,SILAC light,]
+MTD	file_1-sub[2]-quantification_reagent	[MS,MS:1002038,unlabeled sample,]
 
 PRH	accession	unit_id	description	taxid	species	database	database_version	search_engine	search_engine_score	reliability	num_peptides	num_peptides_distinct	num_peptides_unambiguous	ambiguity_members	modifications	uri	go_terms	protein_coverage	protein_abundance_sub[1]	protein_abundance_stdev_sub[1]	protein_abundance_std_error_sub[1]	protein_abundance_sub[2]	protein_abundance_stdev_sub[2]	protein_abundance_std_error_sub[2]
 PRT	IPI00004942	file_1	Name4	9606	Homo sapiens	IPI	3.11	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,30]	NA	1	1	NA	NA	NA	NA	GO:0005488,GO:0005515,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914	9	1.0	NA	NA	5.6789	1.2	NA
