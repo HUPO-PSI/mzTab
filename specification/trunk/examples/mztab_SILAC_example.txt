@@ -31,4 +31,4 @@ PEP	GMHMPTSPTFLEGNTVV	IPI00003501	file_1	true	IPI	3,11	[MS,MS:1001207,Mascot,]	[
 PEP	TYASGYAHYEEQEN	IPI00004942	file_1	true	IPI	3,11	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,100]	null	null	null	null	null	null	null	1.0	null	null	0.3456	0.34	null
 
 SMH	identifier	unit_id	chemical_formula	smiles	inchi_key	description	mass_to_charge	charge	retention_time	taxid	species	database	database_version	reliability	uri	spectra_ref	search_engine	search_engine_score	modifications	smallmolecule_abundance_sub[1]	smallmolecule_abundance_stdev_sub[1]	smallmolecule_abundance_std_error_sub[1]	smallmolecule_abundance_sub[2]	smallmolecule_abundance_stdev_sub[2]	smallmolecule_abundance_std_error_sub[2]
-SML	ID_1	file_1	null	null	null	null	254.4	2	20.7	9606	Homo sapiens (Human)	null	null	2	null	null	[,,SpectaSt,]	null	null	null	null	null	null	null	null
+SML	ID_1	file_1	null	null	null	null	254.4	2	20.7	9606	Homo sapiens (Human)	null	null	2	null	null	[,,SpectraSt,]	null	null	null	null	null	null	null	null
