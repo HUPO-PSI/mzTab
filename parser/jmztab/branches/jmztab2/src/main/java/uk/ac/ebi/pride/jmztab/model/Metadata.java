@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,10 @@ public class Metadata {
 
     public boolean contains(String identifier) {
         return unitMap.containsKey(identifier);
+    }
+
+    public Collection<Unit> values() {
+        return unitMap.values();
     }
 
     @Override

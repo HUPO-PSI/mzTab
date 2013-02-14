@@ -5,20 +5,20 @@ package uk.ac.ebi.pride.jmztab.model;
  * Date: 09/02/13
  */
 public enum MetadataProperty {
-    INSTRUMENT_NAME(MetadataElement.INSTRUMENT, "name"),
-    INSTRUMENT_SOURCE(MetadataElement.INSTRUMENT, "source"),
-    INSTRUMENT_ANALYZER(MetadataElement.INSTRUMENT, "analyzer"),
-    INSTRUMENT_DETECTOR(MetadataElement.INSTRUMENT, "detector"),
+    INSTRUMENT_NAME                (MetadataElement.INSTRUMENT,     "name"),
+    INSTRUMENT_SOURCE              (MetadataElement.INSTRUMENT,     "source"),
+    INSTRUMENT_ANALYZER            (MetadataElement.INSTRUMENT,     "analyzer"),
+    INSTRUMENT_DETECTOR            (MetadataElement.INSTRUMENT,     "detector"),
 
-    SOFTWARE_SETTING(MetadataElement.SOFTWARE, "setting"),
+    SOFTWARE_SETTING               (MetadataElement.SOFTWARE,       "setting"),
 
-    CONTACT_NAME(MetadataElement.CONTACT, "name"),
-    CONTACT_AFFILIATION(MetadataElement.CONTACT, "affiliation"),
-    CONTACT_EMAIL(MetadataElement.CONTACT, "email"),
+    CONTACT_NAME                   (MetadataElement.CONTACT,        "name"),
+    CONTACT_AFFILIATION            (MetadataElement.CONTACT,        "affiliation"),
+    CONTACT_EMAIL                  (MetadataElement.CONTACT,        "email"),
 
-    MS_FILE_FORMAT(MetadataElement.MS_FILE, "format"),
-    MS_FILE_LOCATION(MetadataElement.MS_FILE, "location"),
-    MS_FILE_ID_FORMAT(MetadataElement.MS_FILE, "id_format");
+    MS_FILE_FORMAT                 (MetadataElement.MS_FILE,        "format"),
+    MS_FILE_LOCATION               (MetadataElement.MS_FILE,        "location"),
+    MS_FILE_ID_FORMAT              (MetadataElement.MS_FILE,        "id_format");
 
     private String name;
     private MetadataElement element;
@@ -39,5 +39,20 @@ public enum MetadataProperty {
     @Override
     public String toString() {
         return name;
+    }
+
+    public static MetadataProperty findProperty(String elementName, String propertyName) {
+        if (elementName == null || propertyName == null) {
+            return null;
+        }
+
+        MetadataProperty property;
+        try {
+            property = MetadataProperty.valueOf((elementName + "_" + propertyName).trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            property = null;
+        }
+
+        return property;
     }
 }

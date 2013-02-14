@@ -1,15 +1,17 @@
 package uk.ac.ebi.pride.jmztab.parser;
 
+import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
+import uk.ac.ebi.pride.jmztab.errors.MZTabError;
+import uk.ac.ebi.pride.jmztab.model.Section;
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * User: Qingwei
  * Date: 10/02/13
  */
 public abstract class MZTabLineParser {
+    protected Section section;
+
     /**
      * based on TAB char to split raw line into String array.
      */
@@ -20,6 +22,18 @@ public abstract class MZTabLineParser {
      * is not empty line and start with section prefix.
      */
     protected MZTabLineParser(String line) {
-        items = line.split(MZTabConstants.TAB);
+        this.items = line.split("\\s*" + MZTabConstants.TAB + "\\s*");
+        items[0] = items[0].trim();
+        items[items.length - 1] = items[items.length - 1].trim();
+
+        section = Section.findSection(items[0]);
+
+        if (section == null) {
+            new MZTabError(FormatErrorType.LinePrefix, line);
+        }
+    }
+
+    protected Section getSection() {
+        return section;
     }
 }

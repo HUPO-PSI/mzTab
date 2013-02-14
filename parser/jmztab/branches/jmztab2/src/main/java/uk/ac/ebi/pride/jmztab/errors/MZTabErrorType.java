@@ -1,7 +1,7 @@
 package uk.ac.ebi.pride.jmztab.errors;
 
+import uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils;
 import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
-import uk.ac.ebi.pride.jmztab.utils.StringUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -66,7 +66,7 @@ public class MZTabErrorType {
      *  stable format. Thus, this method used to load these properties and create a error.
      */
     private static MZTabErrorType createMZTabError(Category category, Level level, String keyword) {
-        if (StringUtils.isEmpty(keyword)) {
+        if (MZTabParserUtils.isEmpty(keyword)) {
             throw new NullPointerException(keyword + " can not empty!");
         }
 

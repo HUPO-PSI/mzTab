@@ -1,7 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-import uk.ac.ebi.pride.jmztab.utils.StringUtils;
 
 /**
  * Peptides and small molecules MAY be linked to the source spectrum (in an external file)
@@ -34,8 +33,8 @@ public class SpecRef {
         if (msFile == null) {
             throw new NullPointerException("msFile can not null!");
         }
-        if (StringUtils.isEmpty(reference)) {
-            throw new IllegalArgumentException("msFile reference can not empty!");
+        if (reference == null) {
+            throw new NullPointerException("msFile reference can not empty!");
         }
 
         this.msFile = msFile;

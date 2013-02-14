@@ -1,13 +1,11 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.StringUtils;
-
 import java.net.URI;
 import java.net.URL;
 import java.util.*;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
 import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
+import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
 
 /**
  * using {UNIT_ID} to identifier a unit.
@@ -37,7 +35,7 @@ public class Unit {
     private List<SmallMoleculeColUnit> smallMoleculeColUnitList = new ArrayList<SmallMoleculeColUnit>();
 
     public Unit(String unitId) {
-        if (StringUtils.isEmpty(unitId)) {
+        if (unitId == null) {
             throw new NullPointerException("Unit_IDs can not empty.");
         }
 
@@ -149,6 +147,78 @@ public class Unit {
 
     public String getUnitId() {
         return unitId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Map<Integer, SplitList<Param>> getSampleProcessingMap() {
+        return sampleProcessingMap;
+    }
+
+    public Map<Integer, Instrument> getInstrumentMap() {
+        return instrumentMap;
+    }
+
+    public Map<Integer, Software> getSoftwareMap() {
+        return softwareMap;
+    }
+
+    public SplitList<Param> getFalseDiscoveryRate() {
+        return falseDiscoveryRate;
+    }
+
+    public List<Publication> getPublicationList() {
+        return publicationList;
+    }
+
+    public Map<Integer, Contact> getContactMap() {
+        return contactMap;
+    }
+
+    public List<URI> getUriList() {
+        return uriList;
+    }
+
+    public SplitList<Param> getMod() {
+        return mod;
+    }
+
+    public Param getModProbabilityMethod() {
+        return modProbabilityMethod;
+    }
+
+    public Param getQuantificationMethod() {
+        return quantificationMethod;
+    }
+
+    public Param getProteinQuantificationUnit() {
+        return proteinQuantificationUnit;
+    }
+
+    public Param getPeptideQuantificationUnit() {
+        return peptideQuantificationUnit;
+    }
+
+    public Map<Integer, MsFile> getMsFileMap() {
+        return msFileMap;
+    }
+
+    public List<ProteinColUnit> getProteinColUnitList() {
+        return proteinColUnitList;
+    }
+
+    public List<PeptideColUnit> getPeptideColUnitList() {
+        return peptideColUnitList;
+    }
+
+    public List<SmallMoleculeColUnit> getSmallMoleculeColUnitList() {
+        return smallMoleculeColUnitList;
     }
 
     public void setTitle(String title) {

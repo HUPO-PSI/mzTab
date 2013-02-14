@@ -15,11 +15,6 @@ public class CellType extends SubUnitElement {
 
     public CellType(int id, SubUnit subUnit, Param param) {
         super(id, subUnit);
-
-        if (param == null) {
-            throw new NullPointerException("Cell type param value can not set null!");
-        }
-
         this.param = param;
     }
 

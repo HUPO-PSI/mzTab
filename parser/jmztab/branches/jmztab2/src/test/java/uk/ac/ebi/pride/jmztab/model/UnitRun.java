@@ -38,11 +38,11 @@ public class UnitRun {
         unit.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001214", "pep:global FDR", "0.08"));
 
         Publication p1 = new Publication();
-        p1.addPublication(Publication.Type.Pubmed, "21063943");
-        p1.addPublication(Publication.Type.DOIs, "10.1007/978-1-60761-987-1_6");
+        p1.addPublication(Publication.Type.PUBMED, "21063943");
+        p1.addPublication(Publication.Type.DOI, "10.1007/978-1-60761-987-1_6");
         Publication p2 = new Publication();
-        p2.addPublication(Publication.Type.Pubmed, "20615486");
-        p2.addPublication(Publication.Type.DOIs, "10.1016/j.jprot.2010.06.008");
+        p2.addPublication(Publication.Type.PUBMED, "20615486");
+        p2.addPublication(Publication.Type.DOI, "10.1016/j.jprot.2010.06.008");
         unit.addPublication(p1);
         unit.addPublication(p2);
 
@@ -72,7 +72,7 @@ public class UnitRun {
         unit.addMsFileLocation(3, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
         unit.addMsFileIdFormat(2, new CVParam("MS", "MS:1000774", "multiple peak list", "nativeID format"));
 
-        MZTabColumnFactory peptideFactory = MZTabColumnFactory.getInstance(Section.Peptide_Header);
+        MZTabColumnFactory peptideFactory = MZTabColumnFactory.getInstance(Section.Peptide);
         PeptideColumn peptideColumn = (PeptideColumn) peptideFactory.getColumn("retention_time");
         unit.addPeptideColUnit(peptideColumn, new CVParam("UO", "UO:0000031", "minute", null));
 
@@ -120,7 +120,8 @@ public class UnitRun {
     }
 
     private void printRepUnit() {
-        ReplicateUnit repUnit = new ReplicateUnit("EXP_1", 1, "Replicate 1 of experiment 1");
+        ReplicateUnit repUnit = new ReplicateUnit("EXP_1", 1);
+        repUnit.setComment("Replicate 1 of experiment 1");
 
         repUnit.setDescription("Replicate 1 of experiment 1");
         repUnit.addInstrumentName(1, new CVParam("MS", "MS:100049", "LTQ Orbitrap", null));

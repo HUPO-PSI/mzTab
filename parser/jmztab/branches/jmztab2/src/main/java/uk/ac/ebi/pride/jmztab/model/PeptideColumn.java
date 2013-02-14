@@ -51,4 +51,19 @@ public enum PeptideColumn implements MZTabColumn {
     public Class getColumnType() {
         return columnType;
     }
+
+    public static PeptideColumn findColumn(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        PeptideColumn column;
+        try {
+            column = PeptideColumn.valueOf(name.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            column = null;
+        }
+
+        return column;
+    }
 }

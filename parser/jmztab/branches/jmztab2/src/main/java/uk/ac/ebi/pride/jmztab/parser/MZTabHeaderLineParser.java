@@ -27,8 +27,6 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         super(line);
         this.factory = factory;
 
-        matchStableColumns();
-
         SortedMap<Integer, MZTabColumn> mapping = this.factory.getColumnMapping();
         int offset = mapping.lastKey();
         if (offset == items.length - 1) {
@@ -36,11 +34,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             return;
         }
 
-        String optionalHeader = items[offset + 1];
-    }
-
-    public MZTabColumnFactory getFactory() {
-        return factory;
+        matchStableColumns();
+        matchOptionalColumns(offset);
     }
 
     /**
@@ -57,10 +52,9 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             match = header.equals(items[i]);
             if (! match) {
                 MZTabError error = new MZTabError(
-                        FormatErrorType.StableColumn,
-                        factory.getSection().getName(),
+                        FormatErrorType.StableColumn, false,
                         header, "" + factory.getColumn(header).getPosition(),
-                        items[i], "" + i
+                       "" + i,  items[i]
                 );
                 throw new MZTabException(error);
             }
@@ -69,7 +63,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         return match;
     }
 
-    public boolean matchAbundanceColumns() throws MZTabException {
+    public boolean matchOptionalColumns(int offset) throws MZTabException {
         return true;
     }
+
 }

@@ -45,16 +45,12 @@ public class AbundanceColumn implements MZTabColumn {
      * right of table. {@link #offset} is the position of the last column of table.
      */
     public static TreeMap<Integer, AbundanceColumn> getInstance(Section section, int offset, SubUnit subUnit) {
-        if (section == null) {
-            throw new NullPointerException("Section can not set null!");
-        }
-
         if (! section.isData()) {
             throw new IllegalArgumentException("Section should use Protein, Peptide or SmallMolecule.");
         }
 
         if (subUnit == null) {
-            throw new NullPointerException("Sub Unit should be setting first");
+            throw new NullPointerException("SubUnit should be setting first");
         }
 
         TreeMap<Integer, AbundanceColumn> columnMap = new TreeMap<Integer, AbundanceColumn>();
@@ -95,5 +91,20 @@ public class AbundanceColumn implements MZTabColumn {
     @Override
     public int getPosition() {
         return offset + field.position;
+    }
+
+    public static Field findField(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        Field field;
+        try {
+            field = Field.valueOf(name.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            field = null;
+        }
+
+        return field;
     }
 }

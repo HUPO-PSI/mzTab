@@ -29,15 +29,13 @@ public class ReplicateUnit extends Unit {
     private int repId;
     private String comment;
 
-    public ReplicateUnit(String unitId, int repId, String comment) {
+    public ReplicateUnit(String unitId, int repId) {
         super(unitId);
 
         if (repId < 1) {
             throw new IllegalArgumentException("Replicate ID should great than 0!");
         }
         this.repId = repId;
-
-        this.comment = comment;
     }
 
     /**
@@ -55,6 +53,10 @@ public class ReplicateUnit extends Unit {
 
     public String getComment() {
         return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String toString() {

@@ -34,4 +34,29 @@ public enum Reliability {
     public String toString() {
         return "" + getLevel();
     }
+
+    /**
+     * @param reliabilityLabel 1, 2, 3
+     */
+    public static Reliability findReliability(String reliabilityLabel) {
+        reliabilityLabel = reliabilityLabel.trim();
+        try {
+            Integer id = new Integer(reliabilityLabel);
+            Reliability reliability = null;
+            switch (id) {
+                case 1:
+                    reliability = Reliability.High;
+                    break;
+                case 2:
+                    reliability = Reliability.Medium;
+                    break;
+                case 3:
+                    reliability = Reliability.Poor;
+                    break;
+            }
+            return reliability;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
 }

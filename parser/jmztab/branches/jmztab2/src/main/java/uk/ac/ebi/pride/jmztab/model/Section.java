@@ -62,4 +62,30 @@ public enum Section {
     public boolean isData() {
         return this == Protein || this == Peptide || this == Small_Molecule;
     }
+
+    public static Section findSection(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (name.equals(Comment.getName())) {
+            return Comment;
+        } else if (name.equals(Metadata.getName())) {
+            return Metadata;
+        } else if (name.equals(Peptide_Header.getName())) {
+            return Peptide_Header;
+        } else if (name.equals(Peptide.getName())) {
+            return Peptide;
+        } else if (name.equals(Protein_Header.getName())) {
+            return Protein_Header;
+        } else if (name.equals(Protein.getName())) {
+            return Protein;
+        } else if (name.equals(Small_Molecule_Header.getName())) {
+            return Small_Molecule_Header;
+        } else if (name.equals(Small_Molecule.getName())) {
+            return Small_Molecule;
+        } else {
+            return null;
+        }
+    }
 }

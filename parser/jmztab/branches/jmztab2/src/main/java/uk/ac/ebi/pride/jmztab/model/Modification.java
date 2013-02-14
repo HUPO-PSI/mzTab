@@ -2,76 +2,79 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- *
+ * {position}{Parameter}-{Type:accession}|{neutral loss}
  *
  * User: Qingwei
  * Date: 30/01/13
  */
 public class Modification {
-    public final static String PSI_MOD_PREFIX = "MOD";
-    public final static String UNIMOD_PREFIX = "UNIMOD";
-    public final static String CHEMMODS_PREFIX = "CHEMMODS";
-    public final static String SUBST_PREFIX = "SUBST";
+    public enum Type {
+        MOD,             //PSI-MOD
+        UNIMOD,
+        CHEMMOD,
+        SUBST            //Substitution identifier
+    }
 
-    public enum Type {PSI_MOD, UNIMOD, CHEMMOD, SUBST}
+    private Map<Integer, CVParam> positionMap = new TreeMap<Integer, CVParam>();
+    private Section section;
+    private Type type;
+    private String accession;
+    private CVParam neutralLoss;
 
-    private class Mod {
-        Type type;
-        String access;
+    /**
+     * {position}{Parameter}-{Type:accession}|{neutral loss}
+     */
+    public Modification(Section section, Type type, String accession) {
+        if (! section.isData()) {
+            throw new IllegalArgumentException("Section should use Protein, Peptide or SmallMolecule.");
+        }
+        this.section = section;
 
-        public Mod(Type type, String access) {
-            this.type = type;
-            this.access = access;
+        if (section == Section.Small_Molecule && (type == Type.MOD || type == Type.UNIMOD)) {
+            throw new IllegalArgumentException("UNIMOD or PSI-MOD ontologies are not applicable to small molecules");
+        }
+        this.type = type;
+
+        if (accession == null) {
+            throw new NullPointerException("Modification accession can not null!");
+        }
+        this.accession = accession;
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void addPosition(Integer id, CVParam param) {
+        if (positionMap.containsKey(id)) {
+            throw new IllegalArgumentException("one modification can not assigned to the same position.");
         }
 
-        @Override
-        public String toString() {
-            String prefix;
-            switch (type) {
-                case PSI_MOD:
-                    prefix = PSI_MOD_PREFIX;
-                    break;
-                case UNIMOD:
-                    prefix = UNIMOD_PREFIX;
-                    break;
-                case CHEMMOD:
-                    prefix = CHEMMODS_PREFIX;
-                    break;
-                case SUBST:
-                    prefix = SUBST_PREFIX;
-                    break;
-                default:
-                    prefix = "";
-            }
-
-            return prefix + ":" + access;
-        }
+        this.positionMap.put(id, param);
     }
 
-    private Map<Integer, Param> position = new TreeMap<Integer, Param>();
-    private Mod mod = null;
-    private Param neutralLoss = null;
-
-    public Map<Integer, Param> getPosition() {
-        return position;
+    public Map<Integer, CVParam> getPositionMap() {
+        return positionMap;
     }
 
-    public void addPosition(Integer id, Param param) {
-        this.position.put(id, param);
+    public Type getType() {
+        return type;
     }
 
-    public void setMod(Type type, String access) {
-        this.mod = new Mod(type, access);
+    public String getAccession() {
+        return accession;
     }
 
-    public Param getNeutralLoss() {
+    public CVParam getNeutralLoss() {
         return neutralLoss;
     }
 
-    public void setNeutralLoss(Param neutralLoss) {
+    public void setNeutralLoss(CVParam neutralLoss) {
         this.neutralLoss = neutralLoss;
     }
 
@@ -83,11 +86,11 @@ public class Modification {
         Param param;
         Iterator<Integer> it;
         int count = 0;
-        if (! position.isEmpty()) {
-            it = position.keySet().iterator();
+        if (! positionMap.isEmpty()) {
+            it = positionMap.keySet().iterator();
             while (it.hasNext()) {
                 id = it.next();
-                param = position.get(id);
+                param = positionMap.get(id);
                 if (count++ == 0) {
                     sb.append(id);
                 } else {
@@ -99,17 +102,30 @@ public class Modification {
             }
         }
 
-        if (mod != null) {
-            if (! position.isEmpty()) {
-                sb.append(MZTabConstants.MINUS);
-            }
-            sb.append(mod);
+        if (positionMap.size() > 0) {
+            sb.append(MZTabConstants.MINUS);
         }
+        sb.append(type).append(MZTabConstants.COLON).append(accession);
 
         if (neutralLoss != null) {
             sb.append(MZTabConstants.BAR).append(neutralLoss);
         }
 
         return sb.toString();
+    }
+
+    public static Type findType(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        Type type;
+        try {
+            type = Type.valueOf(name.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            type = null;
+        }
+
+        return type;
     }
 }

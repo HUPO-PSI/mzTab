@@ -9,9 +9,9 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 /**
- * User: Qingwei
- * Date: 11/02/13
- */
+* User: Qingwei
+* Date: 11/02/13
+*/
 public class MTDLineParserTest {
     private static Logger logger = Logger.getLogger(MTDLineParserTest.class);
 
@@ -31,7 +31,7 @@ public class MTDLineParserTest {
         assertTrue(parser.getProperty().getName().equals("name"));
         assertTrue(parser.getId() == 1);
 
-        parser = new MTDLineParser("MTD\tPRIDE_1234-sub[1]-description\tHealthy human liver tissue");
+        parser = new MTDLineParser(" MTD \t PRIDE_1234-sub[1]-description \t  Healthy human liver tissue  ");
         assertTrue(parser.getUnit().getIdentifier().equals("PRIDE_1234-sub[1]"));
         assertTrue(parser.getElement().getName().equals("description"));
         assertTrue(parser.getProperty() == null);
@@ -56,16 +56,16 @@ public class MTDLineParserTest {
         assertTrue(parser.getId() == 1);
     }
 
-    @Test
-    public void testDefineLabelException() throws Exception {
-        MTDLineParser parser;
-
-        try {
-            parser = new MTDLineParser("MTD\t1234-title\tmzTab iTRAQ test");
-            fail();
-        } catch (MZTabException e) {
-            assertTrue(e.getMessage().contains(FormatErrorType.UnitID.getCode().toString()));
-            logger.debug(e.getMessage());
-        }
-    }
+//    @Test
+//    public void testDefineLabelException() throws Exception {
+//        MTDLineParser parser;
+//
+//        try {
+//            parser = new MTDLineParser("MTD\t1234-title\tmzTab iTRAQ test");
+//            fail();
+//        } catch (MZTabException e) {
+//            assertTrue(e.getMessage().contains(FormatErrorType.UnitID.getCode().toString()));
+//            logger.debug(e.getMessage());
+//        }
+//    }
 }
