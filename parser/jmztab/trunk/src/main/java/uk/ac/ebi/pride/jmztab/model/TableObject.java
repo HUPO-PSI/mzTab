@@ -283,6 +283,10 @@ public abstract class TableObject {
 		buffer.append(c);
 	    }
 	}
+	
+	if (buffer.length() > 0) {
+	    modificationStrings.add(buffer.toString());
+	}
 
         ArrayList<Modification> modifications = new ArrayList<Modification>(modificationStrings.size());
 
