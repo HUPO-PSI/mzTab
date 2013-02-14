@@ -56,4 +56,19 @@ public enum ProteinColumn implements MZTabColumn {
     public Class getColumnType() {
         return columnType;
     }
+
+    public static ProteinColumn findColumn(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        ProteinColumn column;
+        try {
+            column = ProteinColumn.valueOf(name.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            column = null;
+        }
+
+        return column;
+    }
 }

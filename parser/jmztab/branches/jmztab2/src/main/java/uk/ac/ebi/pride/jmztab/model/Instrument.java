@@ -1,8 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.NEW_LINE;
-import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
 import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
+import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.NEW_LINE;
 
 /**
  * The name of the instrument used in the experiment. Multiple instruments are numbered 1..n

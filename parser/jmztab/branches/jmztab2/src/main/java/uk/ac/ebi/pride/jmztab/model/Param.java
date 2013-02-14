@@ -1,7 +1,5 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.StringUtils;
-
 /**
  * mzTab makes use of CV parameters. As mzTab is expected to be used in several experimental environments
  * where parameters might not yet be available for the generated scores etc. all parameters can either
@@ -22,7 +20,7 @@ public class Param {
     protected String value;
 
     protected Param(String cvLabel, String accession, String name, String value) {
-        if (StringUtils.isEmpty(name)) {
+        if (name == null || name.trim().length() == 0) {
             throw new IllegalArgumentException(CV_PARAM + "'s name can not set empty!");
         }
 
@@ -33,7 +31,7 @@ public class Param {
     }
 
     protected Param(String name, String value) {
-        if (StringUtils.isEmpty(name)) {
+        if (name == null || name.trim().length() == 0) {
             throw new IllegalArgumentException(USER_PARAM + "'s name can not set empty!");
         }
 

@@ -58,6 +58,21 @@ public enum SmallMoleculeColumn implements MZTabColumn {
     public int getPosition() {
         return position;
     }
+
+    public static SmallMoleculeColumn findColumn(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        SmallMoleculeColumn column;
+        try {
+            column = SmallMoleculeColumn.valueOf(name.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            column = null;
+        }
+
+        return column;
+    }
 }
 
 

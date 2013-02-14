@@ -1,24 +1,22 @@
 package uk.ac.ebi.pride.jmztab.parser;
 
 import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
-import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.errors.MZTabException;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-import uk.ac.ebi.pride.jmztab.utils.StringUtils;
 
-import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * Metadata Element start with MTD, and structure like:
- * MTD  {unit}-{element}([{id}])-{property} value
- *
- * In metadata section, every line is a Metadata Element Object.
- *
- * User: Qingwei
- * Date: 08/02/13
- */
+* Metadata Element start with MTD, and structure like:
+* MTD  {unit}-{element}([{id}])-{property} value
+*
+* In metadata section, every line is a Metadata Element Object.
+*
+* User: Qingwei
+* Date: 08/02/13
+*/
 public class MTDLineParser extends MZTabLineParser {
     private String defineLabel;
     private String valueLabel;
@@ -29,10 +27,14 @@ public class MTDLineParser extends MZTabLineParser {
     private MetadataProperty property;
     private Object value;
 
-    protected MTDLineParser(String mtdLine) {
+    /**
+     *
+     * @param mtdLine
+     */
+    protected MTDLineParser(String mtdLine) throws MZTabException {
         super(mtdLine);
 
-        if (items.length != 3 || StringUtils.isEmpty(items[2])) {
+        if (items.length != 3 || MZTabParserUtils.isEmpty(items[2])) {
             MZTabError error = new MZTabError(FormatErrorType.MTDLine, mtdLine);
             throw new MZTabException(error);
         }
@@ -51,105 +53,57 @@ public class MTDLineParser extends MZTabLineParser {
      * parse label and generate Unit, MetadataElement, id, MetadataProperty objects.
      * If optional item not exists, return null.
      *
-     * Notice:
-     * In replicate unit, MetadataElement maybe null. For example:
-     * Exp_1-rep[1].
+     * Notice 1:
+     * In replicate unit, MetadataElement maybe null. For example: Exp_1-rep[1].
+     *
+     * Notice 2:
+     * ColUnit structure is: {Unit_ID}-colunit-{XXXX}, need operate separately.
      */
     private void parseDefineLabel() {
-        String[] items = defineLabel.split(MZTabConstants.MINUS);
-        String unitId;
-        String subIdLabel;
-        Integer subId;
-        String repIdLabel;
-        Integer repId;
-        String elementLabel;
-        String propertyLabel;
+        String regexp = "([A-Za-z]{1}[\\w_]*)(-(rep|sub)\\[(\\d+)\\])?(-((\\w+)(\\[(\\d+)\\])?)?(-(\\w+))?)?";
 
-        MZTabError error;
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(defineLabel);
 
-        if (items.length < 2 || items.length > 4) {
-            error = new MZTabError(FormatErrorType.MTDDefineLabel, defineLabel);
-            throw new MZTabException(error);
-        }
+        if (matcher.find()) {
+            // Stage 1: create Unit.
+            String unitId = matcher.group(1);
+            // group[3] value is sub or rep.
+            String type = matcher.group(3);
 
-        // Stage 1: create Unit.
-        int offset = 0;
-        unitId = items[0];
-        if (! StringUtils.parseUnitId(unitId)) {
-            error = new MZTabError(FormatErrorType.UnitID, unitId);
-            throw new MZTabException(error);
-        }
-        offset++;
-
-        if (items[offset].startsWith(SubUnit.SUB)) {
-            subIdLabel = items[1];
-            subId = StringUtils.parseId(subIdLabel);
-            if (subId == null) {
-                error = new MZTabError(LogicalErrorType.MTDDefineIDLabel, defineLabel, subIdLabel);
-                throw new MZTabException(error);
+            if (type == null) {
+                unit = new Unit(unitId);
+            } else if (type.equals(SubUnit.SUB)) {
+                unit = new SubUnit(unitId, new Integer(matcher.group(4)));
+            } else if (type.equals(ReplicateUnit.REP)) {
+                unit = new ReplicateUnit(unitId, new Integer(matcher.group(4)));
             }
-            this.unit = new SubUnit(unitId, subId);
-            offset++;
-        } else if (items[offset].startsWith(ReplicateUnit.REP)) {
-            repIdLabel = items[1];
-            repId = StringUtils.parseId(repIdLabel);
-            if (repId == null) {
-                error = new MZTabError(LogicalErrorType.MTDDefineIDLabel, defineLabel, repIdLabel);
-                throw new MZTabException(error);
-            }
-            this.unit = new ReplicateUnit(unitId,  repId, valueLabel);
-            offset++;
-            if (offset == items.length) {
-                // In replicate unit, MetadataElement maybe null.
-                return;
-            }
-        } else {
-            // no sub[id] or rep[id]
-            this.unit = new Unit(unitId);
-        }
 
-        // Stage 2: create MetadataElement.
-        elementLabel = items[offset];
-        id = StringUtils.parseId(elementLabel);
-        if (id != null) {
-            int endIndex = elementLabel.indexOf("[");
-            elementLabel = elementLabel.substring(0, endIndex);
-        }
-        try {
-            element = MetadataElement.valueOf(elementLabel.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            // can not get MetadataElement.
-            error = new MZTabError(
-                    LogicalErrorType.MTDElementLabel,
-                    defineLabel,
-                    elementLabel,
-                    Arrays.toString(MetadataElement.values())
-            );
-            throw new MZTabException(error);
-        }
-        offset++;
-        if (offset == items.length) {
-            return;
-        }
+            // Stage 2: create MetadataElement and MetaProperty
+            String elementLabel = matcher.group(7);
+            element = MetadataElement.findElement(elementLabel);
 
-        // Stage 3: create MetadataProperty.
-        propertyLabel = items[offset];
-        try {
-            property = MetadataProperty.valueOf((elementLabel + "_" + propertyLabel).toUpperCase());
-        } catch (IllegalArgumentException e) {
-            // can not get MetadataProperty
-            error = new MZTabError(
-                    LogicalErrorType.MTDPropertyLabel,
-                    defineLabel,
-                    propertyLabel,
-                    Arrays.toString(MetadataProperty.values())
-            );
-            throw new MZTabException(error);
+            // Stage 3: create id
+            String idLabel = matcher.group(9);
+            if (idLabel != null) {
+                this.id = new Integer(idLabel);
+            }
+
+            // Stage 4: create MetadataProperty
+            String propertyLabel = matcher.group(11);
+            property = MetadataProperty.findProperty(elementLabel, propertyLabel);
         }
     }
 
     private void parseValueLabel() {
+        String regexp = "";
 
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(defineLabel);
+
+        if (matcher.find()) {
+
+        }
     }
 
     /**

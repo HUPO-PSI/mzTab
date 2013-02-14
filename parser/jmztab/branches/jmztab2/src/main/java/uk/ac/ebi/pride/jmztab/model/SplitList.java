@@ -1,8 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * This is list which each item split by a split char.
@@ -10,49 +8,32 @@ import java.util.List;
  * User: Qingwei
  * Date: 31/01/13
  */
-public class SplitList<E> {
-    private String splitChar;
-    private List<E> strList = new ArrayList<E>();
+public class SplitList<E> extends ArrayList<E> {
+    private char splitChar;
 
-    public SplitList(String splitChar) {
-        if (splitChar == null) {
-            splitChar = " ";
-        }
-
+    public SplitList(char splitChar) {
         this.splitChar = splitChar;
     }
 
-    public String getSplitChar() {
+    public char getSplitChar() {
         return splitChar;
     }
 
-    public void setSplitChar(String splitChar) {
+    public void setSplitChar(char splitChar) {
         this.splitChar = splitChar;
-    }
-
-    public boolean add(E e) {
-        return strList.add(e);
-    }
-
-    public boolean addAll(Collection<E> c) {
-        return strList.addAll(c);
-    }
-
-    public boolean isEmpty() {
-        return strList.isEmpty();
     }
 
     @Override
     public String toString() {
-        if (strList.isEmpty()) {
+        if (isEmpty()) {
             return "";
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(strList.get(0));
+        sb.append(get(0));
 
-        for (int i = 1; i < strList.size(); i++) {
-            sb.append(splitChar).append(strList.get(i));
+        for (int i = 1; i < size(); i++) {
+            sb.append(splitChar).append(get(i));
         }
 
         return sb.toString();

@@ -1,7 +1,5 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.StringUtils;
-
 /**
  * Additional columns can be added to the end of the protein table.
  * These column headers MUST start with the prefix “opt_”.
@@ -26,12 +24,12 @@ public class OptionalColumn implements MZTabColumn {
      * @see AbstractMZTabRecord#isMatch(int, Class)
      */
     protected OptionalColumn(String name, Class columnType, int offset) {
-        if (StringUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("Optional Column's name can not empty!");
+        if (name == null) {
+            throw new NullPointerException("Optional Column's name can not set null!");
         }
 
         if (columnType == null) {
-            throw new NullPointerException("Column Type can not set null!");
+            throw new NullPointerException("Optional Column Type can not set null!");
         }
 
         this.name = name;

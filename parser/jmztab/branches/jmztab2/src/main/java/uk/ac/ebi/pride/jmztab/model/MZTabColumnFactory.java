@@ -1,7 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-import uk.ac.ebi.pride.jmztab.utils.StringUtils;
 
 import java.util.Collections;
 import java.util.SortedMap;
@@ -50,29 +49,25 @@ public class MZTabColumnFactory {
     public static MZTabColumnFactory getInstance(Section section) {
         MZTabColumnFactory factory = new MZTabColumnFactory();
 
-        if (section == null) {
-            throw new NullPointerException("Section can not set Null!");
-        }
-
         switch (section) {
-            case Peptide_Header:
+            case Peptide:
                 for (PeptideColumn column : PeptideColumn.values()) {
                     factory.columnMapping.put(column.getPosition(), column);
                 }
                 break;
-            case Protein_Header:
+            case Protein:
                 for (ProteinColumn column : ProteinColumn.values()) {
                     factory.columnMapping.put(column.getPosition(), column);
                 }
                 break;
-            case Small_Molecule_Header:
+            case Small_Molecule:
                 for (SmallMoleculeColumn column : SmallMoleculeColumn.values()) {
                     factory.columnMapping.put(column.getPosition(), column);
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Section should be Protein_Header, Peptide_Header or " +
-                        "Small_Molecule_Header. Others can not setting. ");
+                throw new IllegalArgumentException("Section should be Protein, Peptide or " +
+                        "Small_Molecule. Others can not setting. ");
 
         }
 
@@ -136,7 +131,7 @@ public class MZTabColumnFactory {
     }
 
     public MZTabColumn getColumn(String header) {
-        if (StringUtils.isEmpty(header)) {
+        if (header == null) {
             return null;
         }
 

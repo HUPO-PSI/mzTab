@@ -40,7 +40,6 @@ public class UnitElement {
         StringBuilder sb = new StringBuilder();
 
         sb = unit.printPrefix(sb);
-
         sb.append(element).append("[").append(id).append("]");
 
         if (value != null) {
@@ -59,10 +58,7 @@ public class UnitElement {
         sb = unit.printPrefix(sb);
 
         sb.append(property.getElement()).append("[").append(id).append("]");
-
-        if (property != null) {
-            sb.append(MINUS).append(property);
-        }
+        sb.append(MINUS).append(property);
 
         if (value != null) {
             sb.append(TAB).append(value);

@@ -22,4 +22,23 @@ public enum MZBoolean {
     public String toString() {
         return value;
     }
+
+    public static MZBoolean findBoolean(String booleanLabel) {
+        booleanLabel = booleanLabel.trim();
+        try {
+            Integer id = new Integer(booleanLabel);
+            MZBoolean mzBoolean = null;
+            switch (id) {
+                case 0:
+                    mzBoolean = MZBoolean.False;
+                    break;
+                case 1:
+                    mzBoolean = MZBoolean.True;
+                    break;
+            }
+            return mzBoolean;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
 }
