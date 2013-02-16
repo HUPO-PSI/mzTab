@@ -12,6 +12,8 @@ import uk.ac.ebi.pride.jmztab.MzTabParsingException;
  *
  */
 public class Param {
+    public static String SEPARATOR = ",";
+    public static String SEPARATOR_ESCAPED = "&#44;";
 
     /**
      * Possible param types.
@@ -54,10 +56,10 @@ public class Param {
 	TableObject.checkStringValue(name);
 	TableObject.checkStringValue(value);
 
-	this.cvLabel = cvLabel;
-	this.accession = accession;
-	this.name = name;
-	this.value = value;
+	this.cvLabel = escapeSpecialCharacters(cvLabel);
+	this.accession = escapeSpecialCharacters(accession);
+	this.name = escapeSpecialCharacters(name);
+	this.value = escapeSpecialCharacters(value);
 
 	if (cvLabel == null && accession == null) {
 	    this.type = ParamType.USER_PARAM;
@@ -113,31 +115,47 @@ public class Param {
     }
 
     public String getCvLabel() {
-	return cvLabel;
+	return decodeSpecialCharacters(cvLabel);
     }
 
     public String getAccession() {
-	return accession;
+	return decodeSpecialCharacters(accession);
     }
 
     public String getName() {
-	return name;
+	return decodeSpecialCharacters(name);
     }
 
     public String getValue() {
-	return value;
+	return decodeSpecialCharacters(value);
+    }
+    
+    private String escapeSpecialCharacters(String value) {
+	if (value == null) {
+	    return null;
+	}
+	
+	String escapedValue = value.replaceAll(SEPARATOR, SEPARATOR_ESCAPED);
+	
+	return escapedValue;
+    }
+    
+    private String decodeSpecialCharacters(String value) {
+	if (value == null) {
+	    return null;
+	}
+	
+	return value.replaceAll(SEPARATOR_ESCAPED, SEPARATOR);
     }
 
     @Override
     public String toString() {
-	if (type == ParamType.USER_PARAM) {
-	    return "[,," + name + "," + (value != null ? value : "") + "]";
-	}
-	if (type == ParamType.CV_PARAM) {
-	    return "[" + cvLabel + "," + accession + "," + name + "," + (value != null ? value : "") + "]";
-	}
-
-	return "";
+	String theCvLabel = (cvLabel == null) ? "" : escapeSpecialCharacters(cvLabel);
+	String theAccession = (accession == null) ? "" : escapeSpecialCharacters(accession);
+	String theName = (name == null) ? "" : escapeSpecialCharacters(name);
+	String theValue = (value == null) ? "" : escapeSpecialCharacters(value);
+	
+	return "[" + theCvLabel + "," + theAccession + "," + theName + "," + theValue + "]";
     }
 
     @Override
