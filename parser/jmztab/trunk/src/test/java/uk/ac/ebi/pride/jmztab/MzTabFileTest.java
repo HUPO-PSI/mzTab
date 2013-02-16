@@ -79,14 +79,14 @@ public class MzTabFileTest extends TestCase {
 	assertEquals(1, proteins.size());
 	Protein p = proteins.iterator().next();
 
-	assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\tnull\t1\t1\tnull\tIPI00793531,IPI00791139\tnull\tnull\tGO:0005488|GO:0008270|GO:0043167|GO:0043169|GO:0046872|GO:0046914\t5.1\t1.0\tnull\tnull\t2.3456\t0.12\tnull\tnull\tnull\tnull\tnull\tnull\tnull" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
+	assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,30]\tnull\t1\t1\tnull\tIPI00793531,IPI00791139\tnull\tnull\tGO:0005488|GO:0008270|GO:0043167|GO:0043169|GO:0046872|GO:0046914\t5.1\t1.0\tnull\tnull\t2.3456\t0.12\tnull\tnull\tnull\tnull\tnull\tnull\tnull" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
     }
 
     public void testGetProteinStringString() {
 	Protein p = mzTabFile.getProtein("IPI00002824", "file_1");
 
 	assertNotNull(p);
-	assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:12345,Andromeda,]\t[MS,MS:100022,Andromeda protein score,30]\tnull\t1\t1\tnull\tIPI00793531,IPI00791139\tnull\tnull\tGO:0005488|GO:0008270|GO:0043167|GO:0043169|GO:0046872|GO:0046914\t5.1\t1.0\tnull\tnull\t2.3456\t0.12\tnull\tnull\tnull\tnull\tnull\tnull\tnull" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
+	assertEquals("PRT\tIPI00002824\tfile_1\tThyroxin\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:1001207,Mascot,]\t[MS,MS:1001171,Mascot:score,30]\tnull\t1\t1\tnull\tIPI00793531,IPI00791139\tnull\tnull\tGO:0005488|GO:0008270|GO:0043167|GO:0043169|GO:0046872|GO:0046914\t5.1\t1.0\tnull\tnull\t2.3456\t0.12\tnull\tnull\tnull\tnull\tnull\tnull\tnull" + MzTabFile.EOL, p.toMzTab(4, Collections.EMPTY_LIST));
     }
 
     public void testGetUnitProteins() {
@@ -150,7 +150,7 @@ public class MzTabFileTest extends TestCase {
     public void testGetSmallMolecules() {
 	Collection<SmallMolecule> smallMolecules = mzTabFile.getSmallMolecules();
 
-	assertEquals(0, smallMolecules.size());
+	assertEquals(1, smallMolecules.size());
     }
 
     public void testGetSmallMoleculesString() {

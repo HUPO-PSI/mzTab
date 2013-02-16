@@ -1,24 +1,26 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import org.apache.log4j.Logger;
-import uk.ac.ebi.pride.jmztab.MzTabFile;
-import uk.ac.ebi.pride.jmztab.MzTabParsingException;
-
 import java.net.URI;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.log4j.Logger;
+import uk.ac.ebi.pride.jmztab.MzTabFile;
+import uk.ac.ebi.pride.jmztab.MzTabParsingException;
 
 public class Unit {
-    
-    // TODO: add support for column units
 
+    // TODO: add support for column units
     private Logger logger = Logger.getLogger(Unit.class);
     /**
      * Pattern to parse meta-data lines. It extracts the line type, UNIT_ID,
      * SUB_ID (null if not present), and the field name and value.
      */
     private static final Pattern MZTAB_LINE_PATTERN = Pattern.compile("^(\\w{3})\t([^-]+)-(sub\\[\\d+\\])?-?([^\t]+)\t(.+)");
+    /**
+     * Pattern to extract a colunit descipriton.
+     */
+    private static final Pattern COLUNIT_PATTERN = Pattern.compile("([^=]+)\\s*=\\s*(.*)");
     /**
      * Unit attributes
      */
@@ -47,6 +49,9 @@ public class Unit {
     private List<Param> disease;
     private List<Subsample> subsamples;
     private Map<Integer, MsFile> msFiles;
+    private Map<String, Param> colunitProtein;
+    private Map<String, Param> colunitPeptide;
+    private Map<String, Param> colunitSmallMolecule;
 
     /**
      * Constructur constructing an empty Uni.
@@ -217,10 +222,7 @@ public class Unit {
 		if (publication == null) {
 		    publication = new ArrayList<String>(publications.length);
 		}
-		// add the publications
-		for (String pub : publications) {
-		    publication.add(pub);
-		}
+		publication.addAll(Arrays.asList(publications));
 	    } // contact
 	    else if (field.startsWith("contact")) {
 		// get the instrument's index
@@ -268,6 +270,35 @@ public class Unit {
 		}
 
 		customParams.add(new Param(value));
+	    } // colunits
+	    else if (field.startsWith("colunit-")) {
+		Matcher matcher = COLUNIT_PATTERN.matcher(value);
+		if (!matcher.find()) {
+		    throw new MzTabParsingException("Invalid colunit definition: '" + value + "'.");
+		}
+
+		String column = matcher.group(1);
+		Param unit = new Param(matcher.group(2));
+
+		if (field.equals("colunit-protein")) {
+		    if (colunitProtein == null) {
+			colunitProtein = new HashMap<String, Param>();
+		    }
+
+		    colunitProtein.put(column, unit);
+		} else if (field.equals("colunit-peptide")) {
+		    if (colunitPeptide == null) {
+			colunitPeptide = new HashMap<String, Param>();
+		    }
+
+		    colunitPeptide.put(column, unit);
+		} else if (field.equals("colunit-small_molecule")) {
+		    if (colunitSmallMolecule == null) {
+			colunitSmallMolecule = new HashMap<String, Param>();
+		    }
+
+		    colunitSmallMolecule.put(column, unit);
+		}
 	    } // species, tissue, cell type, disease - on the unit level
 	    else if (subId == null && field.startsWith("species")) {
 		// get the instrument's index
@@ -379,7 +410,7 @@ public class Unit {
 		logger.warn("Unknown unit field encountered: " + field);
 	    }
 	} catch (Exception e) {
-	    throw new MzTabParsingException("Failed to parse mztab metadata field.", e);
+	    throw new MzTabParsingException("Failed to parse mztab metadata field: " + e.getMessage(), e);
 	}
     }
 
@@ -475,6 +506,69 @@ public class Unit {
 	return disease;
     }
 
+    public Param getColunitProtein(String column) {
+	if (colunitProtein == null) {
+	    return null;
+	}
+
+	return colunitProtein.get(column);
+    }
+
+    public Param getColunitProtein(ProteinTableField column) throws MzTabParsingException {
+	if (column == ProteinTableField.PROTEIN_ABUNDANCE
+		|| column == ProteinTableField.PROTEIN_ABUNDANCE_STD
+		|| column == ProteinTableField.PROTEIN_ABUNDANCE_STD_ERROR) {
+	    throw new MzTabParsingException("The colunit field cannot be used to store units for abundance columns. Please use getProteinQuantificationUnit");
+	}
+
+	if (column == ProteinTableField.CUSTOM) {
+	    throw new MzTabParsingException("This function cannot be used to retrieve units for optional columns");
+	}
+	return getColunitProtein(column.toString());
+    }
+
+    public Param getColunitPeptide(String column) {
+	if (colunitPeptide == null) {
+	    return null;
+	}
+
+	return colunitPeptide.get(column);
+    }
+
+    public Param getColunitPeptide(PeptideTableField column) throws MzTabParsingException {
+	if (column == PeptideTableField.PEPTIDE_ABUNDANCE
+		|| column == PeptideTableField.PEPTIDE_ABUNDANCE_STD
+		|| column == PeptideTableField.PEPTIDE_ABUNDANCE_STD_ERROR) {
+	    throw new MzTabParsingException("The colunit field cannot be used to store units for abundance columns. Please use getPeptideQuantificationUnit");
+	}
+
+	if (column == PeptideTableField.CUSTOM) {
+	    throw new MzTabParsingException("This function cannot be used to retrieve units for optional columns");
+	}
+	return getColunitPeptide(column.toString());
+    }
+
+    public Param getColunitSmallMolecule(String column) {
+	if (colunitSmallMolecule == null) {
+	    return null;
+	}
+
+	return colunitSmallMolecule.get(column);
+    }
+    
+    public Param getColunitSmallMolecule(SmallMoleculeTableField column) throws MzTabParsingException {
+	if (column == SmallMoleculeTableField.ABUNDANCE ||
+		column == SmallMoleculeTableField.ABUNDANCE_STD ||
+		column == SmallMoleculeTableField.ABUNDANCE_STD_ERROR) {
+	    throw new MzTabParsingException("The colunit field cannot be used to store units for abundance columns. Please use getSmallMoleculeQuantificationUnit");
+	}
+	
+	if (column == SmallMoleculeTableField.CUSTOM) {
+	    throw new MzTabParsingException("This function cannot be used to retrieve units for optional columns");
+	}
+	return getColunitSmallMolecule(column.toString());
+    }
+
     /**
      * Returns the subsample with the given index. In case the subsample doesn't
      * exist, null is returned.
@@ -508,6 +602,9 @@ public class Unit {
     public MsFile getMsFile(int index) throws MzTabParsingException {
 	if (index < 1) {
 	    throw new MzTabParsingException("MsFile indexes must be greater or equal to 1.");
+	}
+	if (msFiles == null) {
+	    return null;
 	}
 
 	return msFiles.get(index - 1);
@@ -740,6 +837,92 @@ public class Unit {
     }
 
     /**
+     * Sets the unit for the specified column.
+     *
+     * @param column
+     * @param unit
+     * @throws MzTabParsingException Thrown if the unit is set for a column that
+     * is not supported.
+     */
+    public void setColunitProtein(ProteinTableField column, Param unit) throws MzTabParsingException {
+	if (column == ProteinTableField.PROTEIN_ABUNDANCE
+		|| column == ProteinTableField.PROTEIN_ABUNDANCE_STD
+		|| column == ProteinTableField.PROTEIN_ABUNDANCE_STD_ERROR) {
+	    throw new MzTabParsingException("Colunits must not be set for abundance columns.");
+	}
+
+	if (column == ProteinTableField.CUSTOM) {
+	    throw new MzTabParsingException("This function cannot be used to set custom column units");
+	}
+
+	if (column == ProteinTableField.HEADER_PREFIX || column == ProteinTableField.ROW_PREFIX) {
+	    throw new MzTabParsingException("ROW_PREFIX and HEADER_PREFIX are not valid columns.");
+	}
+
+	setColunitProtein(column.toString(), unit);
+    }
+
+    public void setColunitProtein(String column, Param unit) {
+	if (colunitProtein == null) {
+	    colunitProtein = new HashMap<String, Param>();
+	}
+
+	colunitProtein.put(column, unit);
+    }
+
+    public void setColunitPeptide(PeptideTableField column, Param unit) throws MzTabParsingException {
+	if (column == PeptideTableField.PEPTIDE_ABUNDANCE
+		|| column == PeptideTableField.PEPTIDE_ABUNDANCE_STD
+		|| column == PeptideTableField.PEPTIDE_ABUNDANCE_STD_ERROR) {
+	    throw new MzTabParsingException("Colunits must not be set for columns specifying abundance.");
+	}
+
+	if (column == PeptideTableField.CUSTOM) {
+	    throw new MzTabParsingException("This function cannot be used to set custom column units.");
+	}
+
+	if (column == PeptideTableField.ROW_PREFIX || column == PeptideTableField.HEADER_PREFIX) {
+	    throw new MzTabParsingException("ROW_PREFIX and HEADER_PREFIX are not valid columns.");
+	}
+
+	setColunitPeptide(column.toString(), unit);
+    }
+
+    public void setColunitPeptide(String column, Param unit) {
+	if (colunitPeptide == null) {
+	    colunitPeptide = new HashMap<String, Param>();
+	}
+
+	colunitPeptide.put(column, unit);
+    }
+
+    public void setColunitSmallMolecule(SmallMoleculeTableField column, Param unit) throws MzTabParsingException {
+	if (column == SmallMoleculeTableField.ABUNDANCE
+		|| column == SmallMoleculeTableField.ABUNDANCE_STD
+		|| column == SmallMoleculeTableField.ABUNDANCE_STD_ERROR) {
+	    throw new MzTabParsingException("Colunits must not be set for columns specifying abundance.");
+	}
+
+	if (column == SmallMoleculeTableField.CUSTOM) {
+	    throw new MzTabParsingException("This function cannot be used to set custom column units.");
+	}
+
+	if (column == SmallMoleculeTableField.ROW_PREFIX || column == SmallMoleculeTableField.HEADER_PREFIX) {
+	    throw new MzTabParsingException("ROW_PREFIX and HEADER_PREFIX are not valid columns.");
+	}
+
+	setColunitPeptide(column.toString(), unit);
+    }
+
+    public void setColunitSmallMolecule(String column, Param unit) {
+	if (colunitSmallMolecule == null) {
+	    colunitSmallMolecule = new HashMap<String, Param>();
+	}
+
+	colunitSmallMolecule.put(column, unit);
+    }
+
+    /**
      * Converts the given meta-data to an mzTab formatted string.
      *
      * @return
@@ -837,6 +1020,23 @@ public class Unit {
 		mzTab.append(createField(String.format("ms_file[%d]-id_format", index + 1), msFiles.get(index).getIdFormat()));
 	    }
 	}
+	// colunits
+	if (colunitProtein != null) {
+	    for (String column : colunitProtein.keySet()) {
+		mzTab.append(createField("colunit-protein", String.format("%s=%s", column, colunitProtein.get(column).toString())));
+	    }
+	}
+	if (colunitPeptide != null) {
+	    for (String column : colunitPeptide.keySet()) {
+		mzTab.append(createField("colunit-peptide", String.format("%s=%s", column, colunitPeptide.get(column).toString())));
+	    }
+	}
+	if (colunitSmallMolecule != null) {
+	    for (String column : colunitSmallMolecule.keySet()) {
+		mzTab.append(createField("colunit-small_molecule", String.format("%s=%s", column, colunitSmallMolecule.get(column).toString())));
+	    }
+	}
+
 	// custom
 	if (customParams != null) {
 	    for (Param p : customParams) {
