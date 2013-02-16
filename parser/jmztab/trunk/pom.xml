@@ -3,7 +3,7 @@
 
 	<groupId>uk.ac.ebi.pride</groupId>
 	<artifactId>jmztab</artifactId>
-	<version>1.0.9-SNAPSHOT</version>
+	<version>1.0.9</version>
 	<packaging>jar</packaging>
 
 	<name>jmzTab</name>
@@ -144,8 +144,8 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<scm>
-		<connection>scm:svn:https://mztab.googlecode.com/svn/parser/jmztab/trunk</connection>
-		<developerConnection>scm:svn:https://mztab.googlecode.com/svn/parser/jmztab/trunk</developerConnection>
-		<url>https://mztab.googlecode.com/svn/parser/jmztab/trunk</url>
+		<connection>scm:svn:https://mztab.googlecode.com/svn/parser/jmztab/tags/jmztab-1.0.9</connection>
+		<developerConnection>scm:svn:https://mztab.googlecode.com/svn/parser/jmztab/tags/jmztab-1.0.9</developerConnection>
+		<url>https://mztab.googlecode.com/svn/parser/jmztab/tags/jmztab-1.0.9</url>
 	</scm>
 </project>
