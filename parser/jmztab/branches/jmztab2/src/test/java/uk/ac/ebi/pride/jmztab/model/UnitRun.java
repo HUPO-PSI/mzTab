@@ -46,11 +46,7 @@ public class UnitRun {
         unit.addPublication(p1);
         unit.addPublication(p2);
 
-        ContactName name = new ContactName();
-        name.setFirstName("James");
-        name.setInitials("D.");
-        name.setLastName("Watson");
-        unit.addContactName(1, name);
+        unit.addContactName(1, "James D. Watson");
         unit.addContactAffiliation(1, "Cambridge University, UK");
         unit.addContactAffiliation(2, "Cambridge University, UK");
         unit.addContactEmail(1, "watson@cam.ac.uk");
@@ -72,12 +68,12 @@ public class UnitRun {
         unit.addMsFileLocation(3, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
         unit.addMsFileIdFormat(2, new CVParam("MS", "MS:1000774", "multiple peak list", "nativeID format"));
 
+        unit.addCustom(new UserParam("MS operator", "Florian"));
+
         MZTabColumnFactory peptideFactory = MZTabColumnFactory.getInstance(Section.Peptide);
         PeptideColumn peptideColumn = (PeptideColumn) peptideFactory.getColumn("retention_time");
         unit.addPeptideColUnit(peptideColumn, new CVParam("UO", "UO:0000031", "minute", null));
-
         unit.addProteinColUnit(ProteinColumn.RELIABILITY, new CVParam("MS", "MS:00001231", "PeptideProphet:Score", null));
-
         unit.addSmallMoleculeColUnit(SmallMoleculeColumn.RETENTION_TIME, new CVParam("UO", "UO:0000031", "minute", null));
 
         System.out.println(unit);

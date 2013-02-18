@@ -13,15 +13,17 @@ import java.util.regex.Pattern;
  * Date: 06/02/13
  */
 public class MZTabError {
+    private int lineNumber;
     private MZTabErrorType type;
     private String message;
 
-    public MZTabError(MZTabErrorType type, String... values) {
-        this(type, true, values);
+    public MZTabError(MZTabErrorType type, int lineNumber, String... values) {
+        this(type, lineNumber, true, values);
     }
 
-    public MZTabError(MZTabErrorType type, boolean record, String... values) {
+    public MZTabError(MZTabErrorType type, int lineNumber, boolean record, String... values) {
         this.type = type;
+        this.lineNumber = lineNumber;
 
         List<String> valueList = new ArrayList<String>();
         Collections.addAll(valueList, values);
@@ -60,6 +62,7 @@ public class MZTabError {
         StringBuilder sb = new StringBuilder();
 
         sb.append("[").append(type.getLevel()).append("-").append(type.getCode()).append("] ");
+        sb.append("line ").append(lineNumber).append(": ");
         sb.append(message).append(MZTabConstants.NEW_LINE);
 
         return sb.toString();

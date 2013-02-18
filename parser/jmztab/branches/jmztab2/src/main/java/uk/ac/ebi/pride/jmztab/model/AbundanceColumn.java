@@ -50,7 +50,7 @@ public class AbundanceColumn implements MZTabColumn {
         }
 
         if (subUnit == null) {
-            throw new NullPointerException("SubUnit should be setting first");
+            throw new NullPointerException("Sub Unit should be setting first");
         }
 
         TreeMap<Integer, AbundanceColumn> columnMap = new TreeMap<Integer, AbundanceColumn>();
