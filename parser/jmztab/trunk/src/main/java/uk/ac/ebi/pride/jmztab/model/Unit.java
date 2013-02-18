@@ -176,7 +176,7 @@ public class Unit {
 		    instrument = new ArrayList<Instrument>();
 		}
 		// create the instrument if necessary
-		if (instrument.get(instrumentIndex - 1) == null) {
+		if (instrument.size() < instrumentIndex || instrument.get(instrumentIndex - 1) == null) {
 		    instrument.add(instrumentIndex - 1, new Instrument());
 		}
 		// check which value is set
