@@ -230,39 +230,7 @@ public class MZTabParserUtils {
         }
     }
 
-    /**
-     * opt_nameLabel
-     */
-    public static boolean checkOptColumnName(String nameLabel) {
-        if (isEmpty(nameLabel)) {
-            return false;
-        }
 
-        String regexp = "opt_[A-Za-z0-9_\\-\\[\\]:\\.]+";
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(nameLabel);
-
-        return matcher.find() && matcher.end() == nameLabel.length();
-    }
-
-    /**
-     * opt_cv_{accession}_{parameter name}
-     */
-    public static CVParam parseCVParamOptColumnName(String nameLabel) {
-        if (isEmpty(nameLabel)) {
-            return null;
-        }
-
-        String regexp = "opt_cv(_([A-Za-z0-9\\-\\[\\]:\\.]+))?(_([A-Za-z0-9_\\-\\[\\]:\\.]+)*)";
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(nameLabel);
-
-        if (! matcher.find() || matcher.end() != nameLabel.length()) {
-            return null;
-        } else {
-            return new CVParam(null, matcher.group(2), matcher.group(4), null);
-        }
-    }
 
     private static SpecRef createSpecRef(Unit unit, Integer ms_file_id, String reference) {
         MsFile msFile = unit.getMsFileMap().get(ms_file_id);

@@ -68,21 +68,21 @@ public enum Section {
             return null;
         }
 
-        if (name.equals(Comment.getName())) {
+        if (name.equals(Comment.getName()) || name.equals(Comment.getPrefix())) {
             return Comment;
-        } else if (name.equals(Metadata.getName())) {
+        } else if (name.equals(Metadata.getName()) || name.equals(Metadata.getPrefix())) {
             return Metadata;
-        } else if (name.equals(Peptide_Header.getName())) {
+        } else if (name.equals(Peptide_Header.getName()) || name.equals(Peptide_Header.getPrefix())) {
             return Peptide_Header;
-        } else if (name.equals(Peptide.getName())) {
+        } else if (name.equals(Peptide.getName()) || name.equals(Peptide.getPrefix())) {
             return Peptide;
-        } else if (name.equals(Protein_Header.getName())) {
+        } else if (name.equals(Protein_Header.getName()) || name.equals(Protein_Header.getPrefix())) {
             return Protein_Header;
-        } else if (name.equals(Protein.getName())) {
+        } else if (name.equals(Protein.getName()) || name.equals(Protein.getPrefix())) {
             return Protein;
-        } else if (name.equals(Small_Molecule_Header.getName())) {
+        } else if (name.equals(Small_Molecule_Header.getName()) || name.equals(Small_Molecule_Header.getPrefix())) {
             return Small_Molecule_Header;
-        } else if (name.equals(Small_Molecule.getName())) {
+        } else if (name.equals(Small_Molecule.getName()) || name.equals(Small_Molecule.getPrefix())) {
             return Small_Molecule;
         } else {
             return null;

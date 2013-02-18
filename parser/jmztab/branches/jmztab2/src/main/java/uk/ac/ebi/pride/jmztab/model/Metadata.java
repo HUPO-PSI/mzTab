@@ -3,6 +3,7 @@ package uk.ac.ebi.pride.jmztab.model;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * User: Qingwei
@@ -23,6 +24,12 @@ public class Metadata {
         }
     }
 
+    public void addUnit(String identifier, Unit unit) {
+        if (unit != null) {
+            unitMap.put(identifier, unit);
+        }
+    }
+
     public Unit getUnit(String identifier) {
         return unitMap.get(identifier);
     }
@@ -33,6 +40,10 @@ public class Metadata {
 
     public Collection<Unit> values() {
         return unitMap.values();
+    }
+
+    public Set<String> keySet() {
+        return unitMap.keySet();
     }
 
     @Override

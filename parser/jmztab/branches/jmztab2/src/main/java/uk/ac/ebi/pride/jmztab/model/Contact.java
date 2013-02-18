@@ -8,7 +8,7 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.NEW_LINE;
  * Date: 01/02/13
  */
 public class Contact extends UnitElement {
-	private ContactName name;
+	private String name;
 	private String email;
 	private String affiliation;
 	
@@ -16,11 +16,11 @@ public class Contact extends UnitElement {
         super(id, unit);
 	}
 
-    public ContactName getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(ContactName name) {
+    public void setName(String name) {
         this.name = name;
     }
 

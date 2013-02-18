@@ -10,10 +10,10 @@ package uk.ac.ebi.pride.jmztab.model;
  * Date: 31/01/13
  */
 public class SmallMoleculeColUnit {
-    private SmallMoleculeColumn column;
+    private MZTabColumn column;
     private Param value;
 
-    public SmallMoleculeColUnit(SmallMoleculeColumn column, Param value) {
+    public SmallMoleculeColUnit(MZTabColumn column, Param value) {
         if (column == null) {
             throw new NullPointerException("Small Molecule Column can not set null");
         }
@@ -33,7 +33,7 @@ public class SmallMoleculeColUnit {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(column).append("=").append(value.toString());
+        sb.append(column.getHeader()).append("=").append(value.toString());
 
         return sb.toString();
     }

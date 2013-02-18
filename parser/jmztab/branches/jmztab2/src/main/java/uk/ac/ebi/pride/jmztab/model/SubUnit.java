@@ -85,6 +85,26 @@ public class SubUnit extends Unit {
         return sb.toString();
     }
 
+    public Map<Integer, Species> getSpeciesMap() {
+        return speciesMap;
+    }
+
+    public Map<Integer, Tissue> getTissueMap() {
+        return tissueMap;
+    }
+
+    public Map<Integer, CellType> getCellTypeMap() {
+        return cellTypeMap;
+    }
+
+    public Map<Integer, Disease> getDiseaseMap() {
+        return diseaseMap;
+    }
+
+    public List<Param> getCustomList() {
+        return customList;
+    }
+
     public boolean addSpecies(Integer id, Param param) {
         Species species;
         if (speciesMap.containsKey(id)) {
@@ -129,8 +149,13 @@ public class SubUnit extends Unit {
         }
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public boolean setDescription(String description) {
+        if (this.description != null) {
+            return false;
+        } else {
+            this.description = description;
+            return true;
+        }
     }
 
     public void setQuantificationReagent(Param quantificationReagent) {
@@ -141,8 +166,16 @@ public class SubUnit extends Unit {
         this.customList.add(custom);
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public Param getQuantificationReagent() {
+        return quantificationReagent;
+    }
+
     @Deprecated
-    public void setTitle(String title) {
+    public boolean setTitle(String title) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
@@ -152,32 +185,27 @@ public class SubUnit extends Unit {
     }
 
     @Deprecated
-    public void addSampleProcessingParam(Integer id, Param param) {
+    public boolean addInstrumentName(Integer id, Param name) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
     @Deprecated
-    public void addInstrumentName(Integer id, Param name) {
+    public boolean addInstrumentSource(Integer id, Param source) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
     @Deprecated
-    public void addInstrumentSource(Integer id, Param source) {
+    public boolean addInstrumentAnalyzer(Integer id, Param analyzer) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
     @Deprecated
-    public void addInstrumentAnalyzer(Integer id, Param analyzer) {
+    public boolean addInstrumentDetector(Integer id, Param detector) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
     @Deprecated
-    public void addInstrumentDetector(Integer id, Param detector) {
-        throw new UnsupportedOperationException("This operation not support in SubUnit");
-    }
-
-    @Deprecated
-    public void addSoftwareParam(Integer id, Param param) {
+    public boolean addSoftwareParam(Integer id, Param param) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
@@ -197,17 +225,12 @@ public class SubUnit extends Unit {
     }
 
     @Deprecated
-    public void addContactName(Integer id, ContactName name) {
+    public boolean addContactAffiliation(Integer id, String affiliation) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
     @Deprecated
-    public void addContactAffiliation(Integer id, String affiliation) {
-        throw new UnsupportedOperationException("This operation not support in SubUnit");
-    }
-
-    @Deprecated
-    public void addContactEmail(Integer id, String email) {
+    public boolean addContactEmail(Integer id, String email) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
@@ -242,17 +265,17 @@ public class SubUnit extends Unit {
     }
 
     @Deprecated
-    public void addMsFileFormat(Integer id, CVParam format) {
+    public boolean addMsFileFormat(Integer id, CVParam format) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
     @Deprecated
-    public void addMsFileLocation(Integer id, URL location) {
+    public boolean addMsFileLocation(Integer id, URL location) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 
     @Deprecated
-    public void addMsFileIdFormat(Integer id, CVParam idFormat) {
+    public boolean addMsFileIdFormat(Integer id, CVParam idFormat) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 }

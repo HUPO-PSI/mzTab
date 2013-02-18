@@ -14,26 +14,24 @@ import java.util.TreeMap;
  * Date: 14/02/13
  */
 public abstract class MZTabDataLineParser extends MZTabLineParser {
-    private String number;
     private SortedMap<Integer, MZTabColumn> mapping;
     private Metadata metadata;
 
     private static SortedMap<Integer, String> errorLines = new TreeMap<Integer, String>();
 
-    /**
-     * @param number line number.
-     */
-    protected MZTabDataLineParser(String number, String line, MZTabColumnFactory factory, Metadata metadata) {
-        super(line);
-
-        this.number = number;
+    protected MZTabDataLineParser(MZTabColumnFactory factory, Metadata metadata) {
         this.mapping = factory.getColumnMapping();
 
         if (metadata == null) {
             throw new NullPointerException("Metadata should be parser first.");
         }
         this.metadata = metadata;
+    }
 
+
+
+    public void parse(int lineNumber, String line) {
+        super.parse(lineNumber, line);
         checkCount();
     }
 
@@ -42,7 +40,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         int dataCount = items.length - 1;
 
         if (headerCount != dataCount) {
-            new MZTabError(FormatErrorType.CountMatch, number, "" + dataCount, "" + headerCount);
+            new MZTabError(FormatErrorType.CountMatch, lineNumber, "" + dataCount, "" + headerCount);
         }
     }
 

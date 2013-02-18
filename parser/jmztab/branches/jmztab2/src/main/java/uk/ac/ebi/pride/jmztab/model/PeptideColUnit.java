@@ -10,14 +10,14 @@ package uk.ac.ebi.pride.jmztab.model;
  * Date: 31/01/13
  */
 public class PeptideColUnit {
-    private PeptideColumn column;
+    private MZTabColumn column;
     private Param value;
 
     /**
      * Defines the used unit for a column in the peptide section.
      * The format of the value has to be {column name}={Parameter defining the unit}
      */
-    public PeptideColUnit(PeptideColumn column, Param value) {
+    public PeptideColUnit(MZTabColumn column, Param value) {
         if (column == null) {
             throw new NullPointerException("Peptide Column can not set null");
         }
@@ -37,7 +37,7 @@ public class PeptideColUnit {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(column).append("=").append(value.toString());
+        sb.append(column.getHeader()).append("=").append(value.toString());
 
         return sb.toString();
     }

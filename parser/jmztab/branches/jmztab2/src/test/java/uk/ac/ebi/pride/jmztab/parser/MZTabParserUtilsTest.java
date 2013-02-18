@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.*;
 
 /**
@@ -133,25 +132,25 @@ public class MZTabParserUtilsTest {
         assertTrue(publication.size() == 0);
     }
 
-    @Test
-    public void testOptColumnName() throws Exception {
-        assertTrue(checkOptColumnName("opt_my_value"));
-        assertFalse(checkOptColumnName("op_my_value"));
-        assertFalse(checkOptColumnName("opt_my value"));
-    }
-
-    @Test
-    public void testCVParamOptColumnName() throws Exception {
-        CVParam param;
-
-        param = parseCVParamOptColumnName("opt_cv_MS:1001208_TOM");
-        assertTrue(param.getAccession().equals("MS:1001208"));
-        assertTrue(param.getName().equals("TOM"));
-
-        param = parseCVParamOptColumnName("opt_cv_TOM_MS:1001208_DD");
-        assertTrue(param.getAccession().equals("TOM"));
-        assertTrue(param.getName().equals("MS:1001208_DD"));
-    }
+//    @Test
+//    public void testOptColumnName() throws Exception {
+//        assertTrue(checkOptColumnName("opt_my_value"));
+//        assertFalse(checkOptColumnName("op_my_value"));
+//        assertFalse(checkOptColumnName("opt_my value"));
+//    }
+//
+//    @Test
+//    public void testCVParamOptColumnName() throws Exception {
+//        CVParam param;
+//
+//        param = parseCVParamOptColumnName("opt_cv_MS:1001208_TOM");
+//        assertTrue(param.getAccession().equals("MS:1001208"));
+//        assertTrue(param.getName().equals("TOM"));
+//
+//        param = parseCVParamOptColumnName("opt_cv_TOM_MS:1001208_DD");
+//        assertTrue(param.getAccession().equals("TOM"));
+//        assertTrue(param.getName().equals("MS:1001208_DD"));
+//    }
 
     @Test
     public void testModification() throws Exception {

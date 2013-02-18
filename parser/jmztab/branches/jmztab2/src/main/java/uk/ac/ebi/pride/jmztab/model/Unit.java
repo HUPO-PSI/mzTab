@@ -30,9 +30,11 @@ public class Unit {
     private Param proteinQuantificationUnit;
     private Param peptideQuantificationUnit;
     private Map<Integer, MsFile> msFileMap = new TreeMap<Integer, MsFile>();
+    private List<Param> customList = new ArrayList<Param>();
     private List<ProteinColUnit> proteinColUnitList = new ArrayList<ProteinColUnit>();
     private List<PeptideColUnit> peptideColUnitList = new ArrayList<PeptideColUnit>();
     private List<SmallMoleculeColUnit> smallMoleculeColUnitList = new ArrayList<SmallMoleculeColUnit>();
+
 
     public Unit(String unitId) {
         if (unitId == null) {
@@ -141,6 +143,9 @@ public class Unit {
         for (SmallMoleculeColUnit colUnit : smallMoleculeColUnitList) {
             printPrefix(sb).append(COLUNIT_SMALL_MOLECULE).append(TAB).append(colUnit).append(NEW_LINE);
         }
+        for (Param custom : customList) {
+            printPrefix(sb).append(CUSTOM).append(TAB).append(custom).append(NEW_LINE);
+        }
 
         return sb.toString();
     }
@@ -209,6 +214,10 @@ public class Unit {
         return msFileMap;
     }
 
+    public List<Param> getCustomList() {
+        return customList;
+    }
+
     public List<ProteinColUnit> getProteinColUnitList() {
         return proteinColUnitList;
     }
@@ -221,12 +230,22 @@ public class Unit {
         return smallMoleculeColUnitList;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public boolean setTitle(String title) {
+        if (this.title != null) {
+            return false;
+        } else {
+            this.title = title;
+            return true;
+        }
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public boolean setDescription(String description) {
+        if (this.description != null) {
+            return false;
+        } else {
+            this.description = description;
+            return true;
+        }
     }
 
     public boolean addSampleProcessing(Integer id, SplitList<Param> sampleProcessing) {
@@ -239,70 +258,78 @@ public class Unit {
         }
     }
 
-    public void addSampleProcessingParam(Integer id, Param param) {
-        SplitList<Param> sampleProcessing;
-        if (sampleProcessingMap.containsKey(id)) {
-            sampleProcessing = sampleProcessingMap.get(id);
-            sampleProcessing.add(param);
-        } else {
-            sampleProcessing = new SplitList<Param>(TAB);
-            sampleProcessing.add(param);
-            sampleProcessingMap.put(id, sampleProcessing);
-        }
-    }
-
-    public void addInstrumentName(Integer id, Param name) {
+    public boolean addInstrumentName(Integer id, Param name) {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id, this);
             instrument.setName(name);
             instrumentMap.put(id, instrument);
+            return true;
+        } else if (instrument.getName() != null) {
+            return false;
         } else {
             instrument.setName(name);
+            return true;
         }
     }
 
-    public void addInstrumentSource(Integer id, Param source) {
+    public boolean addInstrumentSource(Integer id, Param source) {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id, this);
             instrument.setSource(source);
             instrumentMap.put(id, instrument);
+            return true;
+        } else if (instrument.getSource() != null) {
+            return false;
         } else {
             instrument.setSource(source);
+            return true;
         }
     }
 
-    public void addInstrumentAnalyzer(Integer id, Param analyzer) {
+    public boolean addInstrumentAnalyzer(Integer id, Param analyzer) {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id, this);
             instrument.setAnalyzer(analyzer);
             instrumentMap.put(id, instrument);
+            return true;
+        } else if (instrument.getAnalyzer() != null) {
+            return false;
         } else {
             instrument.setAnalyzer(analyzer);
+            return true;
         }
     }
 
-    public void addInstrumentDetector(Integer id, Param detector) {
+    public boolean addInstrumentDetector(Integer id, Param detector) {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id, this);
             instrument.setDetector(detector);
             instrumentMap.put(id, instrument);
+            return true;
+        } else if (instrument.getDetector() != null) {
+            return false;
         } else {
             instrument.setDetector(detector);
+            return true;
         }
     }
 
-    public void addSoftwareParam(Integer id, Param param) {
+    public boolean addSoftwareParam(Integer id, Param param) {
         Software software = softwareMap.get(id);
         if (software == null) {
             software = new Software(id, this);
             software.setParam(param);
             softwareMap.put(id, software);
+            return true;
+        } else if (software.getParam() != null) {
+            return false;
         } else {
             software.setParam(param);
+            return true;
         }
     }
 
@@ -312,7 +339,7 @@ public class Unit {
             software = new Software(id, this);
             software.addSetting(setting);
             softwareMap.put(id, software);
-        } else {
+        } else  {
             software.addSetting(setting);
         }
     }
@@ -321,40 +348,56 @@ public class Unit {
         this.falseDiscoveryRate.add(param);
     }
 
+    public void setFalseDiscoveryRate(SplitList<Param> paramList) {
+        this.falseDiscoveryRate = paramList;
+    }
+
     public void addPublication(Publication publication) {
         this.publicationList.add(publication);
     }
 
-    public void addContactName(Integer id, ContactName name) {
+    public boolean addContactName(Integer id, String name) {
         Contact contact = contactMap.get(id);
         if (contact == null) {
             contact = new Contact(id, this);
             contact.setName(name);
             contactMap.put(id, contact);
+            return true;
+        } else if (contact.getName() != null) {
+            return false;
         } else {
             contact.setName(name);
+            return true;
         }
     }
 
-    public void addContactAffiliation(Integer id, String affiliation) {
+    public boolean addContactAffiliation(Integer id, String affiliation) {
         Contact contact = contactMap.get(id);
         if (contact == null) {
             contact = new Contact(id, this);
             contact.setAffiliation(affiliation);
             contactMap.put(id, contact);
+            return true;
+        } else if (contact.getAffiliation() != null) {
+            return false;
         } else {
             contact.setAffiliation(affiliation);
+            return true;
         }
     }
 
-    public void addContactEmail(Integer id, String email) {
+    public boolean addContactEmail(Integer id, String email) {
         Contact contact = contactMap.get(id);
         if (contact == null) {
             contact = new Contact(id, this);
             contact.setEmail(email);
             contactMap.put(id, contact);
+            return true;
+        } else if (contact.getEmail() != null) {
+            return false;
         } else {
             contact.setEmail(email);
+            return true;
         }
     }
 
@@ -364,6 +407,10 @@ public class Unit {
 
     public void addModParam(Param param) {
         this.mod.add(param);
+    }
+
+    public void setMod(SplitList<Param> mod) {
+        this.mod = mod;
     }
 
     public void setModProbabilityMethod(Param modProbabilityMethod) {
@@ -382,48 +429,64 @@ public class Unit {
         this.peptideQuantificationUnit = peptideQuantificationUnit;
     }
 
-    public void addMsFileFormat(Integer id, CVParam format) {
+    public boolean addMsFileFormat(Integer id, CVParam format) {
         MsFile msFile = msFileMap.get(id);
         if (msFile == null) {
             msFile = new MsFile(id, this);
             msFile.setFormat(format);
             msFileMap.put(id, msFile);
+            return true;
+        } else if (msFile.getFormat() != null) {
+            return false;
         } else {
             msFile.setFormat(format);
+            return true;
         }
     }
 
-    public void addMsFileLocation(Integer id, URL location) {
+    public boolean addMsFileLocation(Integer id, URL location) {
         MsFile msFile = msFileMap.get(id);
         if (msFile == null) {
             msFile = new MsFile(id, this);
             msFile.setLocation(location);
             msFileMap.put(id, msFile);
+            return true;
+        } else if (msFile.getLocation() != null) {
+            return false;
         } else {
             msFile.setLocation(location);
+            return true;
         }
     }
 
-    public void addMsFileIdFormat(Integer id, CVParam idFormat) {
+    public boolean addMsFileIdFormat(Integer id, CVParam idFormat) {
         MsFile msFile = msFileMap.get(id);
         if (msFile == null) {
             msFile = new MsFile(id, this);
             msFile.setIdFormat(idFormat);
             msFileMap.put(id, msFile);
+            return true;
+        } else if (msFile.getIdFormat() != null) {
+            return false;
         } else {
             msFile.setIdFormat(idFormat);
+            return true;
         }
     }
 
-    public void addProteinColUnit(ProteinColumn column, Param param) {
+    public void addProteinColUnit(MZTabColumn column, Param param) {
         this.proteinColUnitList.add(new ProteinColUnit(column, param));
     }
 
-    public void addPeptideColUnit(PeptideColumn column, Param param) {
+    public void addPeptideColUnit(MZTabColumn column, Param param) {
         this.peptideColUnitList.add(new PeptideColUnit(column, param));
     }
 
-    public void addSmallMoleculeColUnit(SmallMoleculeColumn column, Param param) {
+    public void addSmallMoleculeColUnit(MZTabColumn column, Param param) {
         this.smallMoleculeColUnitList.add(new SmallMoleculeColUnit(column, param));
+    }
+
+    public void addCustom(Param custom) {
+        this.customList.add(custom);
     }
 }
