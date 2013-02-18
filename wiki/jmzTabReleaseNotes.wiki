@@ -1,6 +1,11 @@
 #summary Short summary of changes in the jmzTab API.
 
 ----
+*jmzTab version 1.0.9 - (18. February 2013)*
+  * Added support for the latest version of the mzTab specification:
+  * BUGFIX: Fixed null pointer exception when accessing msFiles in a file that doesn't contain any.
+
+----
 *jmzTab version 1.0.8 - (21. May 2012)*
   * BUGFIX: Unit.setPublication() checks null values now.
 
