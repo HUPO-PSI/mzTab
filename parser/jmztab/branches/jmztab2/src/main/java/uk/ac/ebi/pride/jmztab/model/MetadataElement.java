@@ -15,10 +15,9 @@ public enum MetadataElement {
     CONTACT                           ("contact"),
     URI                               ("uri"),
     MOD                               ("mod"),
-    MOD_PROBABILITY_METHOD            ("mod_probability_method"),
     QUANTIFICATION_METHOD             ("quantification_method"),
-    PROTEIN_QUANTIFICATION_UNIT       ("protein_quantification_unit"),
-    PEPTIDE_QUANTIFICATION_UNIT       ("peptide_quantification_unit"),
+    PROTEIN                           ("protein"),
+    PEPTIDE                           ("peptide"),
     MS_FILE                           ("ms_file"),
     CUSTOM                            ("custom"),
     SPECIES                           ("species"),
@@ -26,9 +25,7 @@ public enum MetadataElement {
     CELL_TYPE                         ("cell_type"),
     DISEASE                           ("disease"),
     QUANTIFICATION_REAGENT            ("quantification_reagent"),
-    COLUNIT_PROTEIN                   ("colunit-protein"),
-    COLUNIT_PEPTIDE                   ("colunit-peptide"),
-    COLUNIT_SMALL_MOLECULE            ("colunit-small_molecule");
+    COLUNIT                           ("colunit");
 
     private String name;
 

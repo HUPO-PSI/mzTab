@@ -60,7 +60,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
      */
     private void matchStableColumns() throws MZTabException {
         String header;
-        for (int i = 1; i < items.length; i++) {
+        for (int i = 1; i <= factory.getHeaderList().size(); i++) {
             header = factory.getColumn(i).getHeader();
             if (! header.equals(items[i])) {
                 MZTabError error = new MZTabError(
@@ -76,23 +76,27 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
     private void matchOptionalColumns(int offset) throws MZTabException {
         String columnName = items[offset].trim();
 
-        if (columnName.startsWith("opt_cv") && parseCVParamOptColumnName(columnName) == null) {
-            MZTabError error = new MZTabError(
-                    FormatErrorType.Optional, lineNumber, false,
-                    columnName
-            );
-            throw new MZTabException(error);
-        } else if (columnName.startsWith("opt_") && ! checkOptColumnName(columnName)) {
-            MZTabError error = new MZTabError(
-                    FormatErrorType.Optional, lineNumber, false,
-                    columnName
-            );
-            throw new MZTabException(error);
+        if (columnName.startsWith("opt_cv")) {
+            if (parseCVParamOptColumnName(columnName) == null) {
+                MZTabError error = new MZTabError(
+                        FormatErrorType.OptionalColumn, lineNumber, false,
+                        columnName
+                );
+                throw new MZTabException(error);
+            }
+        } else if (columnName.startsWith("opt_")) {
+            if (! checkOptColumnName(columnName)) {
+                MZTabError error = new MZTabError(
+                        FormatErrorType.OptionalColumn, lineNumber, false,
+                        columnName
+                );
+                throw new MZTabException(error);
+            }
         } else if (columnName.contains("abundance")) {
             offset = checkAbundanceColumns(offset);
         } else {
             MZTabError error = new MZTabError(
-                    FormatErrorType.Optional, lineNumber, false,
+                    FormatErrorType.OptionalColumn, lineNumber, false,
                     columnName
             );
             throw new MZTabException(error);
@@ -156,7 +160,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             abundanceStdErrorHeader = items[offset];
         } catch (ArrayIndexOutOfBoundsException e) {
             error = new MZTabError(
-                    FormatErrorType.Abundance, lineNumber, false,
+                    FormatErrorType.AbundanceColumn, lineNumber, false,
                     abundanceHeader, abundanceStdevHeader, abundanceStdErrorHeader
             );
             throw new MZTabException(error);
@@ -164,7 +168,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
 
         if (! validAbundanceColumns(abundanceHeader, abundanceStdevHeader, abundanceStdErrorHeader)) {
             error = new MZTabError(
-                    FormatErrorType.Abundance, lineNumber, false,
+                    FormatErrorType.AbundanceColumn, lineNumber, false,
                     abundanceHeader, abundanceStdevHeader, abundanceStdErrorHeader
             );
             throw new MZTabException(error);
@@ -174,12 +178,10 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
     }
 
     private boolean validAbundanceSection(String sectionName) {
-        Section currentSection = Section.findSection(sectionName);
-
-        return currentSection != null &&
-                !(currentSection == Section.Protein && section != Section.Protein_Header) &&
-                !(currentSection == Section.Peptide && section != Section.Peptide_Header) &&
-                !(currentSection == Section.Small_Molecule && section != Section.Small_Molecule_Header);
+        return sectionName != null &&
+               !(sectionName.equals(Section.Protein.getName()) && section != Section.Protein_Header) &&
+               !(sectionName.equals(Section.Peptide.getName()) && section != Section.Peptide_Header) &&
+               !(sectionName.equals(Section.Small_Molecule.getName()) && section != Section.Small_Molecule_Header);
     }
 
     /**
@@ -201,7 +203,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         String sectionName;
         SubUnit subUnit;
         Integer group_id;
-        pattern = Pattern.compile("(protein|peptide|smallmolecule)_abundance_(sub\\[(\\d+)\\])");
+        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_(sub\\[(\\d+)\\])");
         matcher = pattern.matcher(abundanceHeader);
         if (matcher.find()) {
             sectionName = matcher.group(1);
@@ -218,7 +220,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             return false;
         }
 
-        pattern = Pattern.compile("(protein|peptide|smallmolecule)_abundance_stdev_(sub\\[(\\d+)\\])");
+        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_stdev_(sub\\[(\\d+)\\])");
         matcher = pattern.matcher(abundanceStdevHeader);
         if (matcher.find()) {
             sectionName = matcher.group(1);
@@ -238,7 +240,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             return false;
         }
 
-        pattern = Pattern.compile("(protein|peptide|smallmolecule)_abundance_std_error_(sub\\[(\\d+)\\])");
+        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_std_error_(sub\\[(\\d+)\\])");
         matcher = pattern.matcher(abundanceStdErrorHeader);
         if (matcher.find()) {
             sectionName = matcher.group(1);

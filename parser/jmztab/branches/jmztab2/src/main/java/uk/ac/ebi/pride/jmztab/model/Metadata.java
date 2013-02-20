@@ -15,6 +15,11 @@ public class Metadata {
      * @see uk.ac.ebi.pride.jmztab.model.Unit#getIdentifier()
      * @see uk.ac.ebi.pride.jmztab.model.SubUnit#getIdentifier()
      * @see uk.ac.ebi.pride.jmztab.model.ReplicateUnit#getIdentifier()
+     *
+     * For SubUnit, there exists one special situation:
+     * PRIDE_1234-species[1]
+     * That is no "sub[id]" information.
+     * In our system, we this kind of SubUnit's identifier is PRIDE_1234-sub
      */
     private Map<String, Unit> unitMap = new HashMap<String, Unit>();
 

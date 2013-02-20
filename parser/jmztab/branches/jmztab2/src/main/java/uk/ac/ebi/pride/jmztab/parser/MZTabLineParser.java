@@ -10,7 +10,7 @@ import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
  * User: Qingwei
  * Date: 10/02/13
  */
-public abstract class MZTabLineParser {
+public class MZTabLineParser {
     protected int lineNumber;
 
     protected Section section;
@@ -37,9 +37,5 @@ public abstract class MZTabLineParser {
             MZTabError error = new MZTabError(FormatErrorType.LinePrefix, lineNumber, items[0]);
             throw new MZTabException(error);
         }
-    }
-
-    protected Section getSection() {
-        return section;
     }
 }

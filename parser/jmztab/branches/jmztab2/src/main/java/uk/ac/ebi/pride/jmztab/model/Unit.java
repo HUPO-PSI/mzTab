@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.*;
 
 import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
+import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
 import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
 
 /**
@@ -25,7 +26,6 @@ public class Unit {
     private Map<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
     private List<URI> uriList = new ArrayList<java.net.URI>();
     private SplitList<Param> mod = new SplitList<Param>(BAR);
-    private Param modProbabilityMethod;
     private Param quantificationMethod;
     private Param proteinQuantificationUnit;
     private Param peptideQuantificationUnit;
@@ -119,9 +119,6 @@ public class Unit {
             printPrefix(sb).append(MOD).append(TAB).append(mod).append(NEW_LINE);
         }
 
-        if (modProbabilityMethod != null) {
-            printPrefix(sb).append(MOD_PROBABILITY_METHOD).append(TAB).append(modProbabilityMethod).append(NEW_LINE);
-        }
         if (quantificationMethod != null) {
             printPrefix(sb).append(QUANTIFICATION_METHOD).append(TAB).append(quantificationMethod).append(NEW_LINE);
         }
@@ -192,10 +189,6 @@ public class Unit {
 
     public SplitList<Param> getMod() {
         return mod;
-    }
-
-    public Param getModProbabilityMethod() {
-        return modProbabilityMethod;
     }
 
     public Param getQuantificationMethod() {
@@ -411,10 +404,6 @@ public class Unit {
 
     public void setMod(SplitList<Param> mod) {
         this.mod = mod;
-    }
-
-    public void setModProbabilityMethod(Param modProbabilityMethod) {
-        this.modProbabilityMethod = modProbabilityMethod;
     }
 
     public void setQuantificationMethod(Param quantificationMethod) {
