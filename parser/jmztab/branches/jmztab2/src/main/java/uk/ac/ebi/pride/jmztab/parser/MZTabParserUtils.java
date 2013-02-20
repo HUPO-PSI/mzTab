@@ -24,17 +24,6 @@ public class MZTabParserUtils {
         return s == null || s.trim().length() == 0;
     }
 
-    /**
-     * if target is "null", return null; otherwise, return target.
-     */
-    public static String checkNull(String target) {
-        if (target.equals(NULL)) {
-            return null;
-        } else {
-            return target;
-        }
-    }
-
     public static Param parseParam(String target) {
         target = target.trim();
 

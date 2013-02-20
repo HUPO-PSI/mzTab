@@ -10,7 +10,7 @@ import uk.ac.ebi.pride.jmztab.model.Section;
  */
 public class PEHLineParser extends MZTabHeaderLineParser {
     public PEHLineParser(Metadata metadata) {
-        super(MZTabColumnFactory.getInstance(Section.Peptide_Header), metadata);
+        super(MZTabColumnFactory.getInstance(Section.Peptide), metadata);
     }
 
     public void parse(int lineNumber, String line) {

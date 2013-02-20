@@ -16,9 +16,16 @@ public enum MetadataProperty {
     CONTACT_AFFILIATION            (MetadataElement.CONTACT,        "affiliation"),
     CONTACT_EMAIL                  (MetadataElement.CONTACT,        "email"),
 
+    PROTEIN_QUANTIFICATION_UNIT    (MetadataElement.PROTEIN,        "quantification_unit"),
+    PEPTIDE_QUANTIFICATION_UNIT    (MetadataElement.PEPTIDE,        "quantification_unit"),
+
     MS_FILE_FORMAT                 (MetadataElement.MS_FILE,        "format"),
     MS_FILE_LOCATION               (MetadataElement.MS_FILE,        "location"),
-    MS_FILE_ID_FORMAT              (MetadataElement.MS_FILE,        "id_format");
+    MS_FILE_ID_FORMAT              (MetadataElement.MS_FILE,        "id_format"),
+
+    COLUNIT_PROTEIN                (MetadataElement.COLUNIT,        "protein"),
+    COLUNIT_PEPTIDE                (MetadataElement.COLUNIT,        "peptide"),
+    COLUNIT_SMALL_MOLECULE         (MetadataElement.COLUNIT,        "small_molecule");
 
     private String name;
     private MetadataElement element;

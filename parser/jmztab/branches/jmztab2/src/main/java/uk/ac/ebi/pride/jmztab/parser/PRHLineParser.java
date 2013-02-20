@@ -10,7 +10,7 @@ import uk.ac.ebi.pride.jmztab.model.Section;
  */
 public class PRHLineParser extends MZTabHeaderLineParser {
     public PRHLineParser(Metadata metadata) {
-        super(MZTabColumnFactory.getInstance(Section.Protein_Header), metadata);
+        super(MZTabColumnFactory.getInstance(Section.Protein), metadata);
     }
 
     public void parse(int lineNumber, String line) {

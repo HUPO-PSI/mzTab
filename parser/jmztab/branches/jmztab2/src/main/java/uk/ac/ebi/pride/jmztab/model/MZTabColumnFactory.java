@@ -47,20 +47,38 @@ public class MZTabColumnFactory {
      *
      */
     public static MZTabColumnFactory getInstance(Section section) {
+        if (section.isData()) {
+            switch (section) {
+                case Peptide:
+                    section = Section.Peptide_Header;
+                    break;
+                case Protein:
+                    section = Section.Protein_Header;
+                    break;
+                case Small_Molecule:
+                    section = Section.Small_Molecule_Header;
+                    break;
+            }
+        }
+
+        if (! section.isHeader()) {
+            throw new IllegalArgumentException("Section should use Protein_Header, Peptide_Header or Small_Molecule_Header.");
+        }
+
         MZTabColumnFactory factory = new MZTabColumnFactory();
 
         switch (section) {
-            case Peptide:
+            case Peptide_Header:
                 for (PeptideColumn column : PeptideColumn.values()) {
                     factory.columnMapping.put(column.getPosition(), column);
                 }
                 break;
-            case Protein:
+            case Protein_Header:
                 for (ProteinColumn column : ProteinColumn.values()) {
                     factory.columnMapping.put(column.getPosition(), column);
                 }
                 break;
-            case Small_Molecule:
+            case Small_Molecule_Header:
                 for (SmallMoleculeColumn column : SmallMoleculeColumn.values()) {
                     factory.columnMapping.put(column.getPosition(), column);
                 }
@@ -76,10 +94,6 @@ public class MZTabColumnFactory {
         return factory;
     }
 
-    public Section getSection() {
-        return section;
-    }
-
     /**
      * Add three optional abundance columns (_abundance_, _abundance_stdev_, _abundance_std_error_) to the
      * rightest of the table.
@@ -88,7 +102,22 @@ public class MZTabColumnFactory {
     public void addAbundanceColumn(SubUnit subUnit) {
         int offset = columnMapping.lastKey();
 
-        TreeMap<Integer, AbundanceColumn> abundanceColumnList = AbundanceColumn.getInstance(section, offset, subUnit);
+        Section dataSection;
+        switch (section) {
+            case Protein_Header:
+                dataSection = Section.Protein;
+                break;
+            case Peptide_Header:
+                dataSection = Section.Peptide;
+                break;
+            case Small_Molecule_Header:
+                dataSection = Section.Small_Molecule;
+                break;
+            default:
+                dataSection = null;
+        }
+
+        TreeMap<Integer, AbundanceColumn> abundanceColumnList = AbundanceColumn.getInstance(dataSection, offset, subUnit);
         columnMapping.putAll(abundanceColumnList);
     }
 

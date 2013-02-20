@@ -6,7 +6,6 @@ import uk.ac.ebi.pride.jmztab.errors.MZTabException;
 import uk.ac.ebi.pride.jmztab.model.*;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
@@ -91,14 +90,12 @@ public class MTDLineParserTest {
         assertTrue(pride1234.getUriList().size() == 2);
 
         parser.parse(1, "MTD\tPRIDE_1234-mod\t[MOD, MOD:00397, iodoacetamide derivatized residue, ]|[MOD, MOD:00675, oxidized residue, ]");
-        parser.parse(1, "MTD\tPRIDE_1234-mod_probability_method\t[MS, MS:1001837, iTraq, ]");
         parser.parse(1, "MTD\tPRIDE_1234-quantification_method\t[MS, MS:1001837, iTraq, ]");
         assertTrue(pride1234.getMod().size() == 2);
-        assertTrue(pride1234.getModProbabilityMethod() != null);
         assertTrue(pride1234.getQuantificationMethod() != null);
 
-        parser.parse(1, "MTD\tPRIDE_1234-protein_quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]");
-        parser.parse(1, "MTD\tPRIDE_1234-peptide_quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]");
+        parser.parse(1, "MTD\tPRIDE_1234-protein-quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]");
+        parser.parse(1, "MTD\tPRIDE_1234-peptide-quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]");
         assertTrue(pride1234.getProteinQuantificationUnit() != null);
         assertTrue(pride1234.getPeptideQuantificationUnit() != null);
 
@@ -194,7 +191,7 @@ public class MTDLineParserTest {
         assertTrue(repUnit.getComment().equals("Replicate 1 of experiment 1."));
     }
 
-    private void parseMetadata(String mtdFile) throws Exception {
+    public Metadata parseMetadata(String mtdFile) throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader(mtdFile));
         MTDLineParser parser = new MTDLineParser();
 
@@ -210,13 +207,12 @@ public class MTDLineParserTest {
         }
 
         reader.close();
+
+        return parser.getMetadata();
     }
 
     @Test
     public void testCreateMetadata() throws Exception {
-        parseMetadata("testset/mtdFile1.txt");
-        parseMetadata("testset/mztab_SILAC_example_metadata.txt");
-        parseMetadata("testset/mztab_itraq_example_metadata.txt");
-
+        parseMetadata("testset/mtdFile.txt");
     }
 }

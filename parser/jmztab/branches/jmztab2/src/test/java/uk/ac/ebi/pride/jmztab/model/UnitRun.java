@@ -58,7 +58,6 @@ public class UnitRun {
         unit.addModParam(new CVParam("MOD", "MOD:00397", "iodoacetamide derivatized residue", null));
         unit.addModParam(new CVParam("MOD", "MOD:00675", "oxidized residue", null));
 
-        unit.setModProbabilityMethod(new CVParam("MS", "MS:1001837", "iTraq", null));
         unit.setQuantificationMethod(new CVParam("MS", "MS:1001837", "iTraq", null));
         unit.setProteinQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000395", "Ratio", null));
         unit.setPeptideQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000395", "Ratio", null));

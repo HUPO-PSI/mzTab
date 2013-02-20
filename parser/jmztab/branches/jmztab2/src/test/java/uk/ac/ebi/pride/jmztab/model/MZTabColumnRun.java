@@ -13,6 +13,6 @@ public class MZTabColumnRun {
         factory.addOptionColumn("my_value", String.class);
         factory.addCVParamOptionColumn(param);
 
-        System.out.println(factory.getHeaderList());
+        System.out.println(factory.toString());
     }
 }

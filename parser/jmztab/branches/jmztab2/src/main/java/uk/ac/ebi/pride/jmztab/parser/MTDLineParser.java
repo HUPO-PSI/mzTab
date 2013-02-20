@@ -323,13 +323,6 @@ public class MTDLineParser extends MZTabLineParser {
                             }
                             unit.setMod(paramList);
                             break;
-                        case MOD_PROBABILITY_METHOD:
-                            param = parseParam(valueLabel);
-                            if (param == null) {
-                                return Result.param_format_error;
-                            }
-                            unit.setModProbabilityMethod(param);
-                            break;
                         case QUANTIFICATION_METHOD:
                             param = parseParam(valueLabel);
                             if (param == null) {
@@ -337,19 +330,31 @@ public class MTDLineParser extends MZTabLineParser {
                             }
                             unit.setQuantificationMethod(param);
                             break;
-                        case PROTEIN_QUANTIFICATION_UNIT:
-                            param = parseParam(valueLabel);
-                            if (param == null) {
-                                return Result.param_format_error;
+                        case PROTEIN:
+                            switch (property) {
+                                case PROTEIN_QUANTIFICATION_UNIT:
+                                    param = parseParam(valueLabel);
+                                    if (param == null) {
+                                        return Result.param_format_error;
+                                    }
+                                    unit.setProteinQuantificationUnit(param);
+                                    break;
+                                default:
+                                    return Result.format_error;
                             }
-                            unit.setProteinQuantificationUnit(param);
                             break;
-                        case PEPTIDE_QUANTIFICATION_UNIT:
-                            param = parseParam(valueLabel);
-                            if (param == null) {
-                                return Result.param_format_error;
+                        case PEPTIDE:
+                            switch (property) {
+                                case PEPTIDE_QUANTIFICATION_UNIT:
+                                    param = parseParam(valueLabel);
+                                    if (param == null) {
+                                        return Result.param_format_error;
+                                    }
+                                    unit.setPeptideQuantificationUnit(param);
+                                    break;
+                                default:
+                                    return Result.format_error;
                             }
-                            unit.setPeptideQuantificationUnit(param);
                             break;
                         case MS_FILE:
                             switch (property) {
@@ -591,8 +596,7 @@ public class MTDLineParser extends MZTabLineParser {
             MZTabColumn column = factory.getColumn(items[0].trim());
             if (column == null) {
                 // column_name not exists in the factory.
-                error = new MZTabError(LogicalErrorType.ColUnit, lineNumber,  false, defineLabel + TAB + valueLabel, items[0]);
-                throw new MZTabException(error);
+                new MZTabError(LogicalErrorType.ColUnit, lineNumber,  true, defineLabel + TAB + valueLabel, items[0]);
             } else {
                 Param param = parseParam(items[1].trim());
                 if (param == null) {
