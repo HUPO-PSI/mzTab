@@ -31,7 +31,9 @@ public class MZTabError {
         this.message = fill(0, valueList, type.getOriginal());
 
         if (record) {
-            MZTabErrorList.add(this);
+            if (! MZTabErrorList.add(this)) {
+                throw new MZTabErrorOverflowException();
+            }
         }
     }
 
@@ -53,6 +55,7 @@ public class MZTabError {
     public MZTabErrorType getType() {
         return type;
     }
+
     public String getMessage() {
         return message;
     }

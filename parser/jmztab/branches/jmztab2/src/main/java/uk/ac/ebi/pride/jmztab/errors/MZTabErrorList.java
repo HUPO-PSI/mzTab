@@ -29,19 +29,27 @@ public class MZTabErrorList {
 
     }
 
-    public static void print(OutputStream out, MZTabErrorType.Level level) throws IOException {
-        for (MZTabError e : errorList) {
-            if (e.getType().getLevel().compareTo(level) >= 0) {
-                out.write(e.toString().getBytes());
+    public static void print(OutputStream out, MZTabErrorType.Level level) {
+        try {
+            for (MZTabError e : errorList) {
+                if (e.getType().getLevel().compareTo(level) >= 0) {
+                    out.write(e.toString().getBytes());
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void print(Writer writer, MZTabErrorType.Level level) throws IOException {
-        for (MZTabError e : errorList) {
-            if (e.getType().getLevel().compareTo(level) >= 0) {
-                writer.write(e.toString());
+    public static void print(Writer writer, MZTabErrorType.Level level) {
+        try {
+            for (MZTabError e : errorList) {
+                if (e.getType().getLevel().compareTo(level) >= 0) {
+                    writer.write(e.toString());
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

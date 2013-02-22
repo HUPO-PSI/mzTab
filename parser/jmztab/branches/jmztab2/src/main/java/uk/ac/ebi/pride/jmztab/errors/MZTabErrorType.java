@@ -42,9 +42,7 @@ public class MZTabErrorType {
         }
         this.category = category;
 
-        if (level == null) {
-            this.level = Level.Error;
-        }
+        this.level = level == null ? Level.Error : level;
 
         if (original == null || original.trim().length() == 0) {
             throw new IllegalArgumentException("Original " + original + " is empty!");
@@ -125,5 +123,16 @@ public class MZTabErrorType {
                 "    Field:\t" + category + "\r\n" +
                 "Original:\t" + original + "\r\n" +
                 "   Cause:\t" + (cause == null ? "" : cause) + "\r\n";
+    }
+
+    public static Level findLevel(String target) {
+        Level level;
+        try {
+            level = Level.valueOf(target);
+        } catch (IllegalArgumentException e) {
+            level = null;
+        }
+
+        return level;
     }
 }

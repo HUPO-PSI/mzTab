@@ -1,12 +1,18 @@
 package uk.ac.ebi.pride.jmztab.parser;
 
+import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
 import uk.ac.ebi.pride.jmztab.model.Metadata;
+import uk.ac.ebi.pride.jmztab.model.Modification;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.parseModificationList;
+import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.parseSubstitutionIdentifier;
 
 /**
  * User: Qingwei
@@ -19,8 +25,8 @@ public class PRTLineParser extends MZTabDataLineParser {
 
     @Override
     protected int checkStableData() {
-        checkAccession(items[1], items[2]);
-        checkUnitId(items[2]);
+        String unit_id = checkUnitId(items[2]);
+        checkAccession(items[1], unit_id);
         checkDescription(items[3]);
         checkTaxid(items[4]);
         checkSpecies(items[5]);
@@ -42,7 +48,7 @@ public class PRTLineParser extends MZTabDataLineParser {
     }
 
     // accession + unitId should be unique.
-    private static Set<String> accessionSet = new HashSet<String>();
+    public static Set<String> accessionSet = new HashSet<String>();
 
     /**
      * accession should not null.
@@ -51,6 +57,10 @@ public class PRTLineParser extends MZTabDataLineParser {
      * If check error return null, else return accession String.
      */
     protected String checkAccession(String accession, String unitId) {
+        if (unitId == null) {
+            return null;
+        }
+
         String result_accession = checkData(accession, false);
 
         if (result_accession == null) {
@@ -64,5 +74,33 @@ public class PRTLineParser extends MZTabDataLineParser {
         }
 
         return result_accession;
+    }
+
+    /**
+     * For proteins and peptides modifications SHOULD be reported using either UNIMOD or PSI-MOD accessions.
+     * As these two ontologies are not applicable to small molecules, so-called CHEMMODs can also be defined.
+     */
+    protected String checkModifications(String modifications) {
+        String result_modifications = super.checkModifications(modifications);
+
+        List<Modification> modificationList = parseModificationList(section, result_modifications);
+        if (modificationList.size() == 0) {
+            new MZTabError(FormatErrorType.ModificationList, lineNumber, result_modifications);
+            return null;
+        }
+
+        for (Modification mod: modificationList) {
+            if (mod.getType() == Modification.Type.CHEMMOD) {
+                new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, mod.toString());
+                return null;
+            }
+
+            if (mod.getType() == Modification.Type.SUBST && parseSubstitutionIdentifier(mod.getAccession()) != null) {
+                new MZTabError(LogicalErrorType.SubstituteIdentifier, lineNumber, mod.toString());
+                return null;
+            }
+        }
+
+        return result_modifications;
     }
 }

@@ -34,10 +34,6 @@ public class Modification {
             throw new IllegalArgumentException("Section should use Protein, Peptide or SmallMolecule.");
         }
         this.section = section;
-
-        if (section == Section.Small_Molecule && (type == Type.MOD || type == Type.UNIMOD)) {
-            throw new IllegalArgumentException("UNIMOD or PSI-MOD ontologies are not applicable to small molecules");
-        }
         this.type = type;
 
         if (accession == null) {

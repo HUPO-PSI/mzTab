@@ -3,6 +3,7 @@ package uk.ac.ebi.pride.jmztab.parser;
 import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
+import uk.ac.ebi.pride.jmztab.errors.MZTabException;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
@@ -31,7 +32,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         this.metadata = metadata;
     }
 
-    protected void parse(int lineNumber, String line) {
+    protected void parse(int lineNumber, String line) throws MZTabException {
         super.parse(lineNumber, line);
         checkCount();
 
@@ -82,7 +83,22 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     private void checkCVParamOptData(int offset) {
-        checkData(items[offset], true);
+        String data = checkData(items[offset], true);
+
+        MZTabColumn column = mapping.get(offset);
+        String header = column.getHeader();
+
+        if (header.contains("MS:1002217") && checkMZBoolean(data) == null) {
+            new MZTabError(LogicalErrorType.CVParamOptionalColumn, lineNumber, header, "Boolean(0/1)", data);
+        } else if (header.contains("MS:1001905") && checkDouble(data) == null) {
+            new MZTabError(LogicalErrorType.CVParamOptionalColumn, lineNumber, header, "value-type:xsd:double", data);
+        }
+
+        // using web service to cross check cv param definition matches data type.
+        if (MZTabConstants.CVPARAM_CHECK) {
+
+
+        }
     }
 
     private void checkOptData(int offset) {
@@ -128,7 +144,8 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected String checkInteger(String target) {
         String result = checkData(target, true);
 
-        if (result == null || result.endsWith(MZTabConstants.NULL)) {
+        if (result == null ||
+                result.equals(MZTabConstants.NULL)) {
             return result;
         }
 
@@ -144,7 +161,10 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected String checkDouble(String target) {
         String result = checkData(target, true);
 
-        if (result == null || result.endsWith(MZTabConstants.NULL)) {
+        if (result == null ||
+                result.endsWith(MZTabConstants.NULL)||
+                result.equals(MZTabConstants.CALCULATE_ERROR) ||
+                result.equals(MZTabConstants.INFINITY)) {
             return result;
         }
 
@@ -286,17 +306,15 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         return checkStringList(ambiguityMembers, MZTabConstants.COMMA);
     }
 
+    /**
+     * protein, peptide, small_molecule have different check strategy.
+     * need overwrite!
+     */
     protected String checkModifications(String modifications) {
         String result_modifications = checkData(modifications, true);
 
         if (result_modifications == null || result_modifications.equals(MZTabConstants.NULL)) {
             return result_modifications;
-        }
-
-        List<Modification> modificationList = parseModificationList(section, result_modifications);
-        if (modificationList.size() == 0) {
-            new MZTabError(FormatErrorType.ModificationList, lineNumber, result_modifications);
-            return null;
         }
 
         return result_modifications;
@@ -319,6 +337,10 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     protected String checkSpectraRef(String unitId, String spectraRef) {
+        if (unitId == null) {
+            return null;
+        }
+
         String result_spectraRef = checkData(spectraRef, true);
 
         if (result_spectraRef == null || result_spectraRef.equals(MZTabConstants.NULL)) {
