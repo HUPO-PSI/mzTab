@@ -37,7 +37,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
      * We assume that user before call this method, have check the raw line
      * is not empty line and start with section prefix.
      */
-    public void parse(int lineNumber, String line) {
+    public void parse(int lineNumber, String line) throws MZTabException {
         super.parse(lineNumber, line);
 
         matchStableColumns();
@@ -79,7 +79,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         if (columnName.startsWith("opt_cv")) {
             if (parseCVParamOptColumnName(columnName) == null) {
                 MZTabError error = new MZTabError(
-                        FormatErrorType.OptionalColumn, lineNumber, false,
+                        FormatErrorType.OptionalCVParamColumn, lineNumber, false,
                         columnName
                 );
                 throw new MZTabException(error);
@@ -203,7 +203,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         String sectionName;
         SubUnit subUnit;
         Integer group_id;
-        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_(sub\\[(\\d+)\\])");
+//        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_(sub\\[(\\d+)\\])");
+        pattern = Pattern.compile("(protein|peptide|smallmolecule)_abundance_(sub\\[(\\d+)\\])");
         matcher = pattern.matcher(abundanceHeader);
         if (matcher.find()) {
             sectionName = matcher.group(1);
@@ -220,7 +221,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             return false;
         }
 
-        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_stdev_(sub\\[(\\d+)\\])");
+        pattern = Pattern.compile("(protein|peptide|smallmolecule)_abundance_stdev_(sub\\[(\\d+)\\])");
+//        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_stdev_(sub\\[(\\d+)\\])");
         matcher = pattern.matcher(abundanceStdevHeader);
         if (matcher.find()) {
             sectionName = matcher.group(1);
@@ -240,7 +242,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             return false;
         }
 
-        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_std_error_(sub\\[(\\d+)\\])");
+        pattern = Pattern.compile("(protein|peptide|smallmolecule)_abundance_std_error_(sub\\[(\\d+)\\])");
+//        pattern = Pattern.compile("(protein|peptide|small_molecule)_abundance_std_error_(sub\\[(\\d+)\\])");
         matcher = pattern.matcher(abundanceStdErrorHeader);
         if (matcher.find()) {
             sectionName = matcher.group(1);

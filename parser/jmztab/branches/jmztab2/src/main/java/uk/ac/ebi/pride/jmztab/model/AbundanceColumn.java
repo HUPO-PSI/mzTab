@@ -80,7 +80,9 @@ public class AbundanceColumn implements MZTabColumn {
 
     @Override
     public String getHeader() {
-        return section.getName() + "_" + field.name + "_sub[" + subUnit.getSubId() + "]";
+        String name = section == Section.Small_Molecule ? "smallmolecule" : section.getName();
+
+        return name + "_" + field.name + "_sub[" + subUnit.getSubId() + "]";
     }
 
     @Override
@@ -96,6 +98,11 @@ public class AbundanceColumn implements MZTabColumn {
     public static Field findField(String name) {
         if (name == null) {
             return null;
+        }
+
+        // temporary operator. Currently specification using smallmolecule, maybe change in the future.
+        if (name.equalsIgnoreCase("smallmolecule")) {
+            name = "small_molecule";
         }
 
         Field field;

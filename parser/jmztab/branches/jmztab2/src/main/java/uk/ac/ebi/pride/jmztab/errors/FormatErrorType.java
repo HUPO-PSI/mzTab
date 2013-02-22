@@ -11,8 +11,10 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType CountMatch = createError(Format, "CountMatch");
 
 
+    public static MZTabErrorType UnitID = createError(Format, "UnitID");
     public static MZTabErrorType AbundanceColumn = createError(Format, "AbundanceColumn");
     public static MZTabErrorType OptionalColumn = createError(Format, "OptionalColumn");
+    public static MZTabErrorType OptionalCVParamColumn = createError(Format, "OptionalCVParamColumn");
     public static MZTabErrorType StableColumn = createError(Format, "StableColumn");
 
     public static MZTabErrorType MTDLine = createError(Format, "MTDLine");
@@ -32,6 +34,7 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType GOTermList = createError(Format, "GOTermList");
     public static MZTabErrorType MZBoolean = createError(Format, "MZBoolean");
     public static MZTabErrorType SpectraRef = createError(Format, "SpectraRef");
+    public static MZTabErrorType CHEMMODSAccession = createError(Format, "CHEMMODSAccession");
 
     public static MZTabErrorType ColUnit = createError(Format, "ColUnit");
 

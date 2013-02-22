@@ -31,6 +31,8 @@ public class MTDLineParser extends MZTabLineParser {
 
     private enum Result {
         ok,
+        unitId_format_error,
+        id_number_error,
         format_error,
         param_format_error,
         paramList_format_error,
@@ -93,6 +95,10 @@ public class MTDLineParser extends MZTabLineParser {
         if (matcher.find()) {
             // Stage 1: create Unit.
             String unitId = matcher.group(1);
+            if (parseUnitId(unitId) == null) {
+                return Result.unitId_format_error;
+            }
+
             // group[3] value is sub or rep.
             String type = matcher.group(3);
 
@@ -105,6 +111,9 @@ public class MTDLineParser extends MZTabLineParser {
             Integer id = null;
             if (idLabel != null) {
                 id = new Integer(idLabel);
+                if (id < 1) {
+                    return Result.id_number_error;
+                }
             }
 
             // Stage 4: create MetadataProperty
@@ -521,6 +530,12 @@ public class MTDLineParser extends MZTabLineParser {
 
         MZTabError error = null;
         switch (result) {
+            case unitId_format_error:
+                error = new MZTabError(FormatErrorType.UnitID, lineNumber, false, defineLabel);
+                break;
+            case id_number_error:
+                error = new MZTabError(LogicalErrorType.IdNumber, lineNumber, false, defineLabel);
+                break;
             case format_error:
                 error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, false, defineLabel);
                 break;

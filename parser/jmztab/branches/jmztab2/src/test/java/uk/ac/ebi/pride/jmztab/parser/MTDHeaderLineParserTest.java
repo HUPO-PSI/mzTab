@@ -82,8 +82,8 @@ public class MTDHeaderLineParserTest {
         parser.parse(1, header);
 
         // parse abundance columns
-        header += "\tsmall_molecule_abundance_sub[1]\tsmall_molecule_abundance_stdev_sub[1]\tsmall_molecule_abundance_std_error_sub[1]" +
-                  "\tsmall_molecule_abundance_sub[2]\tsmall_molecule_abundance_stdev_sub[2]\tsmall_molecule_abundance_std_error_sub[2]";
+        header += "\tsmallmolecule_abundance_sub[1]\tsmallmolecule_abundance_stdev_sub[1]\tsmallmolecule_abundance_std_error_sub[1]" +
+                  "\tsmallmolecule_abundance_sub[2]\tsmallmolecule_abundance_stdev_sub[2]\tsmallmolecule_abundance_std_error_sub[2]";
         parser.parse(1, header);
 
         // parse Optional Column

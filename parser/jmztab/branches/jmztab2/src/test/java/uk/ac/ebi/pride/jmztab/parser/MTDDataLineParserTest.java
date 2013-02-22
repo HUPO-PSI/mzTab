@@ -73,8 +73,8 @@ public class MTDDataLineParserTest {
         String header = "SMH\tidentifier\tunit_id\tchemical_formula\tsmiles\tinchi_key\tdescription\tmass_to_charge" +
                 "\tcharge\tretention_time\ttaxid\tspecies\tdatabase\tdatabase_version\treliability\turi\tspectra_ref" +
                 "\tsearch_engine\tsearch_engine_score\tmodifications" +
-                "\tsmall_molecule_abundance_sub[1]\tsmall_molecule_abundance_stdev_sub[1]\tsmall_molecule_abundance_std_error_sub[1]" +
-                "\tsmall_molecule_abundance_sub[2]\tsmall_molecule_abundance_stdev_sub[2]\tsmall_molecule_abundance_std_error_sub[2]";
+                "\tsmallmolecule_abundance_sub[1]\tsmallmolecule_abundance_stdev_sub[1]\tsmallmolecule_abundance_std_error_sub[1]" +
+                "\tsmallmolecule_abundance_sub[2]\tsmallmolecule_abundance_stdev_sub[2]\tsmallmolecule_abundance_std_error_sub[2]";
 
         // parse stable columns
         SMHLineParser headerParser = new SMHLineParser(metadata);

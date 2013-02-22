@@ -159,6 +159,28 @@ public class MZTabParserUtils {
         return decimalList;
     }
 
+    /**
+     * UNIT_IDs MUST only contain the following characters: 'A'-'Z', 'a'-'z', '0'-'9', and '_'.
+     * UNIT_IDs SHOULD consist of the resource identifier plus the resources internal unit id.
+     * A resource is anything that is generating mzTab files.
+     */
+    public static String parseUnitId(String target) {
+        if (isEmpty(target)) {
+            return null;
+        }
+
+        target = target.trim();
+
+        Pattern pattern = Pattern.compile("[A-Za-z_][A-Za-z0-9_]*");
+        Matcher matcher = pattern.matcher(target);
+
+        if (matcher.find() && matcher.start() == 0 && matcher.end() == target.length()) {
+            return target;
+        } else {
+            return null;
+        }
+    }
+
     public static URL parseURL(String target) {
         URL url;
 
@@ -329,5 +351,39 @@ public class MZTabParserUtils {
         }
 
         return modList;
+    }
+
+    public static String parseChemmodAccession(String accession) {
+        if (isEmpty(accession)) {
+            return null;
+        }
+
+        accession = accession.trim();
+
+        Pattern pattern = Pattern.compile("[+-](\\d+(.\\d+)?)?|(([A-Z][a-z]*)(\\d*))?");
+        Matcher matcher = pattern.matcher(accession);
+
+        if (matcher.find()) {
+            return accession;
+        } else {
+            return null;
+        }
+    }
+
+    public static String parseSubstitutionIdentifier(String identifier) {
+        if (isEmpty(identifier)) {
+            return null;
+        }
+
+        identifier = identifier.trim();
+
+        Pattern pattern = Pattern.compile("\"[A-Z]+\"");
+        Matcher matcher = pattern.matcher(identifier);
+
+        if (matcher.find() && matcher.start() == 0 && matcher.end() == identifier.length()) {
+            return identifier;
+        } else {
+            return null;
+        }
     }
 }

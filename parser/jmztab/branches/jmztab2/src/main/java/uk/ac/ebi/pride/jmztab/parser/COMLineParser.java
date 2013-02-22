@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.parser;
 
+import uk.ac.ebi.pride.jmztab.errors.MZTabException;
 import uk.ac.ebi.pride.jmztab.model.Comment;
 
 /**
@@ -7,7 +8,7 @@ import uk.ac.ebi.pride.jmztab.model.Comment;
  * Date: 10/02/13
  */
 public class COMLineParser extends MZTabLineParser {
-    public void parse(int lineNumber, String line) {
+    public void parse(int lineNumber, String line) throws MZTabException {
         super.parse(lineNumber, line);
     }
 
