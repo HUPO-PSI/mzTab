@@ -16,6 +16,8 @@ public class MZTabFileParser {
             throw new IllegalArgumentException("MZTab File not exists!");
         }
 
+        MZTabErrorList.clear();
+
         BufferedReader reader = null;
         MTDLineParser mtdParser = new MTDLineParser();
         PRHLineParser prhParser = null;

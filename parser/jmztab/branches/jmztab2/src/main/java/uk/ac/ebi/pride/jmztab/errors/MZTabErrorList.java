@@ -24,9 +24,8 @@ public class MZTabErrorList {
         return errorList.size() < MAX_ERROR_COUNT && errorList.add(o);
     }
 
-    public static boolean addAll(Collection<MZTabError> c) {
-        return errorList.size() + c.size() <= MAX_ERROR_COUNT && errorList.addAll(c);
-
+    public static void clear() {
+        errorList.clear();
     }
 
     public static void print(OutputStream out, MZTabErrorType.Level level) {

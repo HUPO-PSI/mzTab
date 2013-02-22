@@ -18,8 +18,6 @@ public class MZTabFileParserTest {
         System.out.println("check " + fileName);
         tabFile = new File("example/" + fileName);
         MZTabFileParser.parse(tabFile, System.out);
-        System.out.println();
-        System.out.println();
     }
 
     @Test
@@ -28,8 +26,6 @@ public class MZTabFileParserTest {
         System.out.println("check " + fileName);
         tabFile = new File("example/" + fileName);
         MZTabFileParser.parse(tabFile, System.out);
-        System.out.println();
-        System.out.println();
     }
 
     @Test
@@ -38,8 +34,6 @@ public class MZTabFileParserTest {
         System.out.println("check " + fileName);
         tabFile = new File("example/" + fileName);
         MZTabFileParser.parse(tabFile, System.out);
-        System.out.println();
-        System.out.println();
     }
 
     @Test
@@ -48,8 +42,6 @@ public class MZTabFileParserTest {
         System.out.println("check " + fileName);
         tabFile = new File("example/" + fileName);
         MZTabFileParser.parse(tabFile, System.out);
-        System.out.println();
-        System.out.println();
     }
 
     @Test
@@ -58,8 +50,6 @@ public class MZTabFileParserTest {
         System.out.println("check " + fileName);
         tabFile = new File("example/" + fileName);
         MZTabFileParser.parse(tabFile, System.out);
-        System.out.println();
-        System.out.println();
     }
 
     @Test
@@ -68,8 +58,6 @@ public class MZTabFileParserTest {
         System.out.println("check " + fileName);
         tabFile = new File("example/" + fileName);
         MZTabFileParser.parse(tabFile, System.out);
-        System.out.println();
-        System.out.println();
     }
 
     @Test
@@ -78,7 +66,5 @@ public class MZTabFileParserTest {
         System.out.println("check " + fileName);
         tabFile = new File("example/" + fileName);
         MZTabFileParser.parse(tabFile, System.out);
-        System.out.println();
-        System.out.println();
     }
 }
