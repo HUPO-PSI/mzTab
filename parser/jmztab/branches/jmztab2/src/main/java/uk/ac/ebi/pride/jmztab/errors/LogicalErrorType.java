@@ -25,4 +25,7 @@ public class LogicalErrorType extends MZTabErrorType {
     public static MZTabErrorType SubstituteIdentifier = createError(Category.Logical, "SubstituteIdentifier");
     public static MZTabErrorType CVParamOptionalColumn = createError(Category.Logical, "CVParamOptionalColumn");
 
+    public static MZTabErrorType AbundanceColumnId = createError(Category.Logical, "AbundanceColumnId");
+    public static MZTabErrorType AbundanceColumnSameId = createError(Category.Logical, "AbundanceColumnSameId");
+
 }

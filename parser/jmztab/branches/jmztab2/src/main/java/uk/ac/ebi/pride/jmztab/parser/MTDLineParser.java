@@ -531,7 +531,7 @@ public class MTDLineParser extends MZTabLineParser {
         MZTabError error = null;
         switch (result) {
             case unitId_format_error:
-                error = new MZTabError(FormatErrorType.UnitID, lineNumber, false, defineLabel);
+                error = new MZTabError(FormatErrorType.UnitID, lineNumber, false, "", defineLabel);
                 break;
             case id_number_error:
                 error = new MZTabError(LogicalErrorType.IdNumber, lineNumber, false, defineLabel);
@@ -540,22 +540,22 @@ public class MTDLineParser extends MZTabLineParser {
                 error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, false, defineLabel);
                 break;
             case param_format_error:
-                error = new MZTabError(FormatErrorType.Param, lineNumber, false, valueLabel);
+                error = new MZTabError(FormatErrorType.Param, lineNumber, false, defineLabel, valueLabel);
                 break;
             case paramList_format_error:
-                error = new MZTabError(FormatErrorType.ParamList, lineNumber, false, valueLabel);
+                error = new MZTabError(FormatErrorType.ParamList, lineNumber, false, defineLabel, valueLabel);
                 break;
             case publication_format_error:
-                error = new MZTabError(FormatErrorType.Publication, lineNumber, false, valueLabel);
+                error = new MZTabError(FormatErrorType.Publication, lineNumber, false, defineLabel, valueLabel);
                 break;
             case uri_format_error:
-                error = new MZTabError(FormatErrorType.URI, lineNumber, false, valueLabel);
+                error = new MZTabError(FormatErrorType.URI, lineNumber, false, defineLabel, valueLabel);
                 break;
             case url_format_error:
-                error = new MZTabError(FormatErrorType.URL, lineNumber, false, valueLabel);
+                error = new MZTabError(FormatErrorType.URL, lineNumber, false, defineLabel, valueLabel);
                 break;
             case email_format_error:
-                error = new MZTabError(FormatErrorType.Email, lineNumber, false, valueLabel);
+                error = new MZTabError(FormatErrorType.Email, lineNumber, false, defineLabel, valueLabel);
                 break;
             case duplicate_error:
                 error = new MZTabError(LogicalErrorType.Duplication, lineNumber, false, defineLabel + TAB + valueLabel);
