@@ -39,19 +39,19 @@ public class Param {
         this.value = value;
     }
 
-    protected String getCvLabel() {
+    public String getCvLabel() {
         return cvLabel;
     }
 
-    protected String getAccession() {
+    public String getAccession() {
         return accession;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected String getValue() {
+    public String getValue() {
         return value;
     }
 

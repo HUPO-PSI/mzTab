@@ -65,7 +65,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             header = factory.getColumn(i).getHeader();
             if (! header.equals(items[i])) {
                 MZTabError error = new MZTabError(
-                        FormatErrorType.StableColumn, lineNumber, false,
+                        FormatErrorType.StableColumn, lineNumber,
                         header, "" + factory.getColumn(header).getPosition(),
                        "" + i,  items[i]
                 );
@@ -80,7 +80,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         if (columnName.startsWith("opt_cv")) {
             if (parseCVParamOptColumnName(columnName) == null) {
                 MZTabError error = new MZTabError(
-                        FormatErrorType.OptionalCVParamColumn, lineNumber, false,
+                        FormatErrorType.OptionalCVParamColumn, lineNumber,
                         columnName
                 );
                 throw new MZTabException(error);
@@ -88,7 +88,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         } else if (columnName.startsWith("opt_")) {
             if (! checkOptColumnName(columnName)) {
                 MZTabError error = new MZTabError(
-                        FormatErrorType.OptionalColumn, lineNumber, false,
+                        FormatErrorType.OptionalColumn, lineNumber,
                         columnName
                 );
                 throw new MZTabException(error);
@@ -97,7 +97,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             offset = checkAbundanceColumns(offset);
         } else {
             MZTabError error = new MZTabError(
-                    FormatErrorType.OptionalColumn, lineNumber, false,
+                    FormatErrorType.OptionalColumn, lineNumber,
                     columnName
             );
             throw new MZTabException(error);
@@ -170,7 +170,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             }
 
             error = new MZTabError(
-                    FormatErrorType.AbundanceColumn, lineNumber, false, header);
+                    FormatErrorType.AbundanceColumn, lineNumber, header);
             throw new MZTabException(error);
         }
 
@@ -215,14 +215,14 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             sectionName = matcher.group(1);
             if (! validAbundanceSection(sectionName)) {
                 error = new MZTabError(
-                        FormatErrorType.AbundanceColumn, lineNumber, false,
+                        FormatErrorType.AbundanceColumn, lineNumber,
                         AbundanceColumn.Field.ABUNDANCE.toString(), abundanceHeader);
                 throw new MZTabException(error);
             }
 
             if (validAbundanceSubId(matcher.group(2)) == null) {
                 error = new MZTabError(
-                        LogicalErrorType.AbundanceColumnId, lineNumber, false,
+                        LogicalErrorType.AbundanceColumnId, lineNumber,
                         AbundanceColumn.Field.ABUNDANCE.toString(), abundanceHeader);
                 throw new MZTabException(error);
             }
@@ -230,7 +230,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             group_id = new Integer(matcher.group(3));
         } else {
             error = new MZTabError(
-                    FormatErrorType.AbundanceColumn, lineNumber, false,
+                    FormatErrorType.AbundanceColumn, lineNumber,
                     AbundanceColumn.Field.ABUNDANCE.toString(), abundanceHeader);
             throw new MZTabException(error);
         }
@@ -242,14 +242,14 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             sectionName = matcher.group(1);
             if (! validAbundanceSection(sectionName)) {
                 error = new MZTabError(
-                        FormatErrorType.AbundanceColumn, lineNumber, false,
+                        FormatErrorType.AbundanceColumn, lineNumber,
                         AbundanceColumn.Field.ABUNDANCE_STDEV.toString(), abundanceStdevHeader);
                 throw new MZTabException(error);
             }
 
             if (validAbundanceSubId(matcher.group(2)) == null) {
                 error = new MZTabError(
-                        LogicalErrorType.AbundanceColumnId, lineNumber, false,
+                        LogicalErrorType.AbundanceColumnId, lineNumber,
                         AbundanceColumn.Field.ABUNDANCE_STDEV.toString(), abundanceStdevHeader);
                 throw new MZTabException(error);
             }
@@ -257,13 +257,13 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             // abundance_stdev should have same subid with abundance.
             if (! group_id.toString().equals(matcher.group(3))) {
                 error = new MZTabError(
-                        LogicalErrorType.AbundanceColumnSameId, lineNumber, false,
+                        LogicalErrorType.AbundanceColumnSameId, lineNumber,
                         abundanceHeader, abundanceStdevHeader, abundanceStdErrorHeader);
                 throw new MZTabException(error);
             }
         } else {
             error = new MZTabError(
-                    FormatErrorType.AbundanceColumn, lineNumber, false,
+                    FormatErrorType.AbundanceColumn, lineNumber,
                     AbundanceColumn.Field.ABUNDANCE_STDEV.toString(), abundanceStdevHeader);
             throw new MZTabException(error);
         }
@@ -275,14 +275,14 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             sectionName = matcher.group(1);
             if (! validAbundanceSection(sectionName)) {
                 error = new MZTabError(
-                        FormatErrorType.AbundanceColumn, lineNumber, false,
+                        FormatErrorType.AbundanceColumn, lineNumber,
                         AbundanceColumn.Field.ABUNDANCE_STD_ERROR.toString(), abundanceStdErrorHeader);
                 throw new MZTabException(error);
             }
 
             if ((subUnit = validAbundanceSubId(matcher.group(2))) == null) {
                 error = new MZTabError(
-                        LogicalErrorType.AbundanceColumnId, lineNumber, false,
+                        LogicalErrorType.AbundanceColumnId, lineNumber,
                         AbundanceColumn.Field.ABUNDANCE_STD_ERROR.toString(), abundanceStdErrorHeader);
                 throw new MZTabException(error);
             }
@@ -290,13 +290,13 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             // abundance_std_error should have same subid with abundance.
             if (! group_id.toString().equals(matcher.group(3))) {
                 error = new MZTabError(
-                        LogicalErrorType.AbundanceColumnSameId, lineNumber, false,
+                        LogicalErrorType.AbundanceColumnSameId, lineNumber,
                         abundanceHeader, abundanceStdevHeader, abundanceStdErrorHeader);
                 throw new MZTabException(error);
             }
         } else {
             error = new MZTabError(
-                    FormatErrorType.AbundanceColumn, lineNumber, false,
+                    FormatErrorType.AbundanceColumn, lineNumber,
                     AbundanceColumn.Field.ABUNDANCE_STD_ERROR.toString(), abundanceStdErrorHeader);
             throw new MZTabException(error);
         }

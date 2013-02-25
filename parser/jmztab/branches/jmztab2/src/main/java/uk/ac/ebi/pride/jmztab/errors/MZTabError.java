@@ -18,10 +18,6 @@ public class MZTabError {
     private String message;
 
     public MZTabError(MZTabErrorType type, int lineNumber, String... values) {
-        this(type, lineNumber, true, values);
-    }
-
-    public MZTabError(MZTabErrorType type, int lineNumber, boolean record, String... values) {
         this.type = type;
         this.lineNumber = lineNumber;
 
@@ -29,12 +25,7 @@ public class MZTabError {
         Collections.addAll(valueList, values);
 
         this.message = fill(0, valueList, type.getOriginal());
-
-        if (record) {
-            if (! MZTabErrorList.add(this)) {
-                throw new MZTabErrorOverflowException();
-            }
-        }
+        MZTabErrorList.add(this);
     }
 
     private String fill(int count, List<String> values, String message) {

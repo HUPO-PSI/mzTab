@@ -33,6 +33,7 @@ public class MTDLineParser extends MZTabLineParser {
         ok,
         unitId_format_error,
         id_number_error,
+        software_error,
         format_error,
         param_format_error,
         paramList_format_error,
@@ -271,6 +272,9 @@ public class MTDLineParser extends MZTabLineParser {
                                 param = parseParam(valueLabel);
                                 if (param == null) {
                                     return Result.param_format_error;
+                                }
+                                if (isEmpty(param.getValue())) {
+                                    return Result.software_error;
                                 }
                                 if (! unit.addSoftwareParam(id, parseParam(valueLabel))) {
                                     return Result.duplicate_error;
@@ -531,34 +535,37 @@ public class MTDLineParser extends MZTabLineParser {
         MZTabError error = null;
         switch (result) {
             case unitId_format_error:
-                error = new MZTabError(FormatErrorType.UnitID, lineNumber, false, "", defineLabel);
+                error = new MZTabError(FormatErrorType.UnitID, lineNumber, "", defineLabel);
                 break;
             case id_number_error:
-                error = new MZTabError(LogicalErrorType.IdNumber, lineNumber, false, defineLabel);
+                error = new MZTabError(LogicalErrorType.IdNumber, lineNumber, defineLabel);
                 break;
             case format_error:
-                error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, false, defineLabel);
+                error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, defineLabel);
+                break;
+            case software_error:
+                error = new MZTabError(LogicalErrorType.Software, lineNumber, valueLabel);
                 break;
             case param_format_error:
-                error = new MZTabError(FormatErrorType.Param, lineNumber, false, defineLabel, valueLabel);
+                error = new MZTabError(FormatErrorType.Param, lineNumber, defineLabel, valueLabel);
                 break;
             case paramList_format_error:
-                error = new MZTabError(FormatErrorType.ParamList, lineNumber, false, defineLabel, valueLabel);
+                error = new MZTabError(FormatErrorType.ParamList, lineNumber, defineLabel, valueLabel);
                 break;
             case publication_format_error:
-                error = new MZTabError(FormatErrorType.Publication, lineNumber, false, defineLabel, valueLabel);
+                error = new MZTabError(FormatErrorType.Publication, lineNumber, defineLabel, valueLabel);
                 break;
             case uri_format_error:
-                error = new MZTabError(FormatErrorType.URI, lineNumber, false, defineLabel, valueLabel);
+                error = new MZTabError(FormatErrorType.URI, lineNumber, defineLabel, valueLabel);
                 break;
             case url_format_error:
-                error = new MZTabError(FormatErrorType.URL, lineNumber, false, defineLabel, valueLabel);
+                error = new MZTabError(FormatErrorType.URL, lineNumber, defineLabel, valueLabel);
                 break;
             case email_format_error:
-                error = new MZTabError(FormatErrorType.Email, lineNumber, false, defineLabel, valueLabel);
+                error = new MZTabError(FormatErrorType.Email, lineNumber, defineLabel, valueLabel);
                 break;
             case duplicate_error:
-                error = new MZTabError(LogicalErrorType.Duplication, lineNumber, false, defineLabel + TAB + valueLabel);
+                error = new MZTabError(LogicalErrorType.Duplication, lineNumber, defineLabel + TAB + valueLabel);
                 break;
         }
 
@@ -582,26 +589,26 @@ public class MTDLineParser extends MZTabLineParser {
         Unit unit;
         MZTabColumnFactory factory;
 
-                // Stage 1: parse define label
+        // Stage 1: parse define label
         pattern = Pattern.compile("(\\w+)-colunit-(protein|peptide|small_molecule)");
         matcher = pattern.matcher(defineLabel);
         if (matcher.find()) {
             String identifier = matcher.group(1);
             unit = metadata.getUnit(identifier);
             if (unit == null) {
-                error = new MZTabError(LogicalErrorType.UnitID, lineNumber, false, identifier);
+                error = new MZTabError(LogicalErrorType.UnitID, lineNumber, identifier);
                 throw new MZTabException(error);
             }
 
             colSection = Section.findSection(matcher.group(2));
             if (colSection == null) {
-                error = new MZTabError(FormatErrorType.ColUnit, lineNumber, false, defineLabel);
+                error = new MZTabError(FormatErrorType.ColUnit, lineNumber, defineLabel);
                 throw new MZTabException(error);
             }
 
             factory = MZTabColumnFactory.getInstance(colSection);
         } else {
-            error = new MZTabError(FormatErrorType.ColUnit, lineNumber, false, defineLabel);
+            error = new MZTabError(FormatErrorType.ColUnit, lineNumber, defineLabel);
             throw new MZTabException(error);
         }
 
@@ -611,11 +618,11 @@ public class MTDLineParser extends MZTabLineParser {
             MZTabColumn column = factory.getColumn(items[0].trim());
             if (column == null) {
                 // column_name not exists in the factory.
-                new MZTabError(LogicalErrorType.ColUnit, lineNumber,  true, defineLabel + TAB + valueLabel, items[0]);
+                new MZTabError(LogicalErrorType.ColUnit, lineNumber, defineLabel + TAB + valueLabel, items[0]);
             } else {
                 Param param = parseParam(items[1].trim());
                 if (param == null) {
-                    error = new MZTabError(FormatErrorType.Param, lineNumber, false, items[1]);
+                    error = new MZTabError(FormatErrorType.Param, lineNumber, items[1]);
                     throw new MZTabException(error);
                 }
 

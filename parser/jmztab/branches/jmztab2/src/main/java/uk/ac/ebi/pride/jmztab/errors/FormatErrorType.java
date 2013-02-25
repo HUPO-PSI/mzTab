@@ -35,6 +35,7 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType MZBoolean = createError(Format, "MZBoolean");
     public static MZTabErrorType SpectraRef = createError(Format, "SpectraRef");
     public static MZTabErrorType CHEMMODSAccession = createError(Format, "CHEMMODSAccession");
+    public static MZTabErrorType SearchEngineScore = createError(Format, "SearchEngineScore");
 
     public static MZTabErrorType ColUnit = createError(Format, "ColUnit");
 
