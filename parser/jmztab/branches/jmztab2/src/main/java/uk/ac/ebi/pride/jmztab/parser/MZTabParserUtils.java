@@ -282,6 +282,7 @@ public class MZTabParserUtils {
     }
 
     private static void parsePosition(String target, Modification modification) {
+        target = translateTabToComma(target);
         SplitList<String> list = parseStringList(BAR, target);
 
         Pattern pattern = Pattern.compile("(\\d+)(\\[([^,]+)?,([^,]+)?,([^,]+),([^,]*)\\])?");
@@ -298,7 +299,8 @@ public class MZTabParserUtils {
         }
     }
 
-    public static Modification parseModification(Section section, String target) {
+    private static Modification parseModification(Section section, String target) {
+        target = translateTabToComma(target);
         String[] items = target.split("\\-");
         String modLabel;
         String positionLabel;
@@ -335,7 +337,51 @@ public class MZTabParserUtils {
         return modification;
     }
 
+    /**
+     * locate param label [label, accession, name, value], translate ',' to '\t'
+     * which used to identified
+     */
+    private static String translateCommaToTab(String target) {
+        Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
+        Matcher matcher = pattern.matcher(target);
+
+        StringBuilder sb = new StringBuilder();
+
+        int start = 0;
+        int end;
+        while (matcher.find()) {
+            end = matcher.start(1);
+            sb.append(target.substring(start, end));
+            sb.append(matcher.group(1).replaceAll(",", "\t"));
+            start = matcher.end(1);
+        }
+        sb.append(target.substring(start, target.length()));
+
+        return sb.toString();
+    }
+
+    private static String translateTabToComma(String target) {
+        Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
+        Matcher matcher = pattern.matcher(target);
+
+        StringBuilder sb = new StringBuilder();
+
+        int start = 0;
+        int end;
+        while (matcher.find()) {
+            end = matcher.start(1);
+            sb.append(target.substring(start, end));
+            sb.append(matcher.group(1).replaceAll("\t", ","));
+            start = matcher.end(1);
+        }
+        sb.append(target.substring(start, target.length()));
+
+        return sb.toString();
+    }
+
     public static List<Modification> parseModificationList(Section section, String target) {
+        target = translateCommaToTab(target);
+
         SplitList<String> list = parseStringList(COMMA, target);
         List<Modification> modList = new ArrayList<Modification>(list.size());
 

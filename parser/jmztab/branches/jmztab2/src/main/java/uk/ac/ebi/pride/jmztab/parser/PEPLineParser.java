@@ -45,7 +45,7 @@ public class PEPLineParser extends MZTabDataLineParser {
 
     /**
      * accession should not null.
-     * accession MUST be unique within one Unit.
+     * accession should be found in the protein accession set.
      *
      * If check error return null, else return accession String.
      */

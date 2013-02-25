@@ -132,52 +132,34 @@ public class MZTabParserUtilsTest {
         assertTrue(publication.size() == 0);
     }
 
-//    @Test
-//    public void testOptColumnName() throws Exception {
-//        assertTrue(checkOptColumnName("opt_my_value"));
-//        assertFalse(checkOptColumnName("op_my_value"));
-//        assertFalse(checkOptColumnName("opt_my value"));
-//    }
-//
-//    @Test
-//    public void testCVParamOptColumnName() throws Exception {
-//        CVParam param;
-//
-//        param = parseCVParamOptColumnName("opt_cv_MS:1001208_TOM");
-//        assertTrue(param.getAccession().equals("MS:1001208"));
-//        assertTrue(param.getName().equals("TOM"));
-//
-//        param = parseCVParamOptColumnName("opt_cv_TOM_MS:1001208_DD");
-//        assertTrue(param.getAccession().equals("TOM"));
-//        assertTrue(param.getName().equals("MS:1001208_DD"));
-//    }
-
     @Test
     public void testModification() throws Exception {
+        List<Modification> modList;
         Modification modification;
 
-        modification = parseModification(Section.Protein, "3-MOD:00412");
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("3-MOD:00412");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 1);
+        modification = modList.get(0);
         assertTrue(modification.getPositionMap().containsKey(3));
         assertTrue(modification.getType().name().equals("MOD"));
         assertTrue(modification.getAccession().equals("00412"));
 
-        modification = parseModification(Section.Protein, "3|4-UNIMOD:00412");
+        sb.append(", 3|4-UNIMOD:00412");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 2);
+        modification = modList.get(1);
         assertTrue(modification.getPositionMap().containsKey(3));
         assertTrue(modification.getPositionMap().containsKey(4));
         assertTrue(modification.getType().name().equals("UNIMOD"));
         assertTrue(modification.getAccession().equals("00412"));
 
-        modification = parseModification(Section.Protein, "CHEMMOD:+159.93");
-        assertTrue(modification.getPositionMap().isEmpty());
-        assertTrue(modification.getType().name().equals("CHEMMOD"));
-        assertTrue(modification.getAccession().equals("+159.93"));
-
-        modification = parseModification(Section.Protein, "3-SUBST:R");
-        assertTrue(modification.getPositionMap().containsKey(3));
-        assertTrue(modification.getType().name().equals("SUBST"));
-        assertTrue(modification.getAccession().equals("R"));
-
-        modification = parseModification(Section.Protein, "3[MS, MS:100xxxx, Probability Score Y, 0.8]|4[MS, MS:100xxxx, Probability Score Y, 0.2]-MOD:00412|[MS, MS:1001524, fragment neutral loss, 63.998285]");
+        sb.append(", 3[MS, MS:100xxxx, Probability Score Y, 0.8]|4[MS, MS:100xxxx, Probability Score Y, 0.2]-MOD:00412|[MS, MS:1001524, fragment neutral loss, 63.998285]");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 3);
+        modification = modList.get(2);
         assertTrue(modification.getPositionMap().containsKey(3));
         assertTrue(modification.getPositionMap().get(3).getValue().contains("0.8"));
         assertTrue(modification.getPositionMap().containsKey(4));
@@ -186,7 +168,28 @@ public class MZTabParserUtilsTest {
         assertTrue(modification.getAccession().equals("00412"));
         assertTrue(modification.getNeutralLoss().getName().contains("fragment neutral loss"));
 
-        List<Modification> modList = parseModificationList(Section.Protein, "3|4|8-MOD:00412, 3|4|8-MOD:00412");
-        assertTrue(modList.size() == 2);
+        sb.append(", CHEMMOD:+159.93");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 4);
+        modification = modList.get(3);
+        assertTrue(modification.getPositionMap().isEmpty());
+        assertTrue(modification.getType().name().equals("CHEMMOD"));
+        assertTrue(modification.getAccession().equals("+159.93"));
+
+        sb.append(", 3-SUBST:R");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 5);
+        modification = modList.get(4);
+        assertTrue(modification.getPositionMap().containsKey(3));
+        assertTrue(modification.getType().name().equals("SUBST"));
+        assertTrue(modification.getAccession().equals("R"));
+
+        sb.append(", 3-MOD:00412");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 6);
+
+        sb.append(", 3|4-UNIMOD:00412");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 7);
     }
 }

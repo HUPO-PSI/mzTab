@@ -5,13 +5,22 @@ import uk.ac.ebi.pride.jmztab.model.Section;
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
 import java.io.*;
+import java.util.zip.GZIPInputStream;
 
 /**
  * User: Qingwei
  * Date: 21/02/13
  */
 public class MZTabFileParser {
-    public static void parse(File tabFile, OutputStream out) {
+    private static BufferedReader readFile(File tabFile) throws IOException {
+        if (tabFile.getName().endsWith(".gz")) {
+            return new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(tabFile)), MZTabConstants.ENCODE));
+        } else {
+            return new BufferedReader(new InputStreamReader(new FileInputStream(tabFile), MZTabConstants.ENCODE));
+        }
+    }
+
+    public static void parse(File tabFile, OutputStream out) throws IOException {
         if (tabFile == null || ! tabFile.exists()) {
             throw new IllegalArgumentException("MZTab File not exists!");
         }
@@ -27,7 +36,7 @@ public class MZTabFileParser {
         SMHLineParser smhParser = null;
         SMLLineParser smlParser = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(tabFile), MZTabConstants.ENCODE));
+            reader = readFile(tabFile);
             MZTabError error;
             String line;
             int highWaterMark = 1;
@@ -42,7 +51,7 @@ public class MZTabFileParser {
 
                 section = getSection(line);
                 if (section.getLevel() < highWaterMark) {
-                    error = new MZTabError(LogicalErrorType.LineOrder, lineNumber, false, section.getName());
+                    error = new MZTabError(LogicalErrorType.LineOrder, lineNumber, section.getName());
                     throw new MZTabException(error);
                 }
 
@@ -56,7 +65,7 @@ public class MZTabFileParser {
                     case 2:
                         if (prhParser != null) {
                             // header line only display once!
-                            error = new MZTabError(LogicalErrorType.HeaderLine, lineNumber, false, section.getName());
+                            error = new MZTabError(LogicalErrorType.HeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
 
@@ -70,7 +79,7 @@ public class MZTabFileParser {
                     case 3:
                         if (prhParser == null) {
                             // header line should be parse first.
-                            error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, false, section.getName());
+                            error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
 
@@ -82,7 +91,7 @@ public class MZTabFileParser {
                     case 4:
                         if (pehParser != null) {
                             // header line only display once!
-                            error = new MZTabError(LogicalErrorType.HeaderLine, lineNumber, false, section.getName());
+                            error = new MZTabError(LogicalErrorType.HeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
 
@@ -96,7 +105,7 @@ public class MZTabFileParser {
                     case 5:
                         if (pehParser == null) {
                             // header line should be parse first.
-                            error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, false, section.getName());
+                            error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
 
@@ -108,7 +117,7 @@ public class MZTabFileParser {
                     case 6:
                         if (smhParser != null) {
                             // header line only display once!
-                            error = new MZTabError(LogicalErrorType.HeaderLine, lineNumber, false, section.getName());
+                            error = new MZTabError(LogicalErrorType.HeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
 
@@ -122,7 +131,7 @@ public class MZTabFileParser {
                     case 7:
                         if (smhParser == null) {
                             // header line should be parse first.
-                            error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, false, section.getName());
+                            error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
 
@@ -132,27 +141,24 @@ public class MZTabFileParser {
                         smlParser.parse(lineNumber, line);
                         break;
                 }
-
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (MZTabException e) {
-            System.err.println(e.getMessage());
+            out.write("There exists errors in parsing metadata, protein/peptide/small_molecule header!".getBytes());
+            out.write(MZTabConstants.NEW_LINE.getBytes());
         } catch (MZTabErrorOverflowException e) {
-            System.err.println("System error queue overflow");
+            out.write("System error queue overflow".getBytes());
+            out.write(MZTabConstants.NEW_LINE.getBytes());
         }  finally {
             if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                reader.close();
             }
 
-            MZTabErrorList.print(out, MZTabConstants.LEVEL);
+        }
+
+        MZTabErrorList.print(out, MZTabConstants.LEVEL);
+        if (MZTabErrorList.isEmpty()) {
+            out.write(("not errors in " + tabFile + " file!" + MZTabConstants.NEW_LINE).getBytes());
         }
     }
 

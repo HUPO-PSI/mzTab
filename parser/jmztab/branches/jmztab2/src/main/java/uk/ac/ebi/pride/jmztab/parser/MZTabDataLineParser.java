@@ -179,11 +179,11 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         return result;
     }
 
-    protected String checkParamList(MZTabColumn column, String target) {
+    protected SplitList<Param> checkParamList(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
         if (result == null || result.equals(MZTabConstants.NULL)) {
-            return result;
+            return new SplitList<Param>(MZTabConstants.BAR);
         }
 
         SplitList<Param> paramList = parseParamList(result);
@@ -192,7 +192,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             return null;
         }
 
-        return result;
+        return paramList;
     }
 
     protected String checkStringList(MZTabColumn column, String target, char splitChar) {
@@ -268,12 +268,22 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         return checkData(column, databaseVersion, true);
     }
 
-    protected String checkSearchEngine(MZTabColumn column, String searchEngine) {
+    protected SplitList<Param> checkSearchEngine(MZTabColumn column, String searchEngine) {
         return checkParamList(column, searchEngine);
     }
 
-    protected String checkSearchEngineScore(MZTabColumn column, String searchEngineScore) {
-        return checkParamList(column, searchEngineScore);
+    protected SplitList<Param> checkSearchEngineScore(MZTabColumn column, String searchEngineScore) {
+        SplitList<Param> paramList = checkParamList(column, searchEngineScore);
+
+        for (Param param : paramList) {
+            if (! (param instanceof CVParam)) {
+                new MZTabError(FormatErrorType.SearchEngineScore, lineNumber, column.getHeader(), searchEngineScore, section.getName());
+                paramList.clear();
+                return paramList;
+            }
+        }
+
+        return paramList;
     }
 
     protected String checkReliability(MZTabColumn column, String reliability) {

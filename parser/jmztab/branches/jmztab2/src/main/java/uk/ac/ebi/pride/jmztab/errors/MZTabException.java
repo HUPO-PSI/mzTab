@@ -11,12 +11,12 @@ public class MZTabException extends Exception {
     }
 
     public MZTabException(MZTabError error) {
-        super(error.getMessage());
+        super(error.toString());
         this.error = error;
     }
 
     public MZTabException(MZTabError error, Throwable cause) {
-        super(error.getMessage(), cause);
+        super(error.toString(), cause);
         this.error = error;
     }
 
