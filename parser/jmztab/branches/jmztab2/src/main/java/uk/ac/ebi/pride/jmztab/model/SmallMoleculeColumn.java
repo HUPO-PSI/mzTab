@@ -20,7 +20,7 @@ public enum SmallMoleculeColumn implements MZTabColumn {
 	SMILES(						"smiles",						SplitList.class,              4),
 	INCHI_KEY(					"inchi_key",					SplitList.class,              5),
 	DESCRIPTION(				"description",					String.class,                 6),
-	MASS_TO_CHARGE(				"mass_to_charge",               BigDecimal.class,             7),
+	MASS_TO_CHARGE(				"mass_to_charge",               Double.class,                 7),
 	CHARGE(						"charge",						Integer.class,                8),
 	RETENTION_TIME(				"retention_time", 				SplitList.class,              9),
 	TAXID(						"taxid",						Integer.class,               10),

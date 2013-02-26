@@ -50,8 +50,8 @@ public class MTDLineParser extends MZTabLineParser {
         }
     }
 
-    public void parse(int lineNumber, String mtdLine) throws MZTabException {
-        super.parse(lineNumber, mtdLine);
+    public void check(int lineNumber, String mtdLine) throws MZTabException {
+        super.check(lineNumber, mtdLine);
 
         if (items.length != 3) {
             MZTabError error = new MZTabError(FormatErrorType.MTDLine, lineNumber, mtdLine);
@@ -523,7 +523,7 @@ public class MTDLineParser extends MZTabLineParser {
      * {unitID}(-SUB_ID|-REP_ID)-{element}([{id}])-{property}
      *
      * The (-SUB_ID|-REP_ID), ([{id}]) and {property} are optional.
-     * parse label and generate Unit, MetadataElement, id, MetadataProperty objects.
+     * check label and generate Unit, MetadataElement, id, MetadataProperty objects.
      * If optional item not exists, return null.
      *
      * Notice 1:
@@ -589,7 +589,7 @@ public class MTDLineParser extends MZTabLineParser {
         Unit unit;
         MZTabColumnFactory factory;
 
-        // Stage 1: parse define label
+        // Stage 1: check define label
         pattern = Pattern.compile("(\\w+)-colunit-(protein|peptide|small_molecule)");
         matcher = pattern.matcher(defineLabel);
         if (matcher.find()) {

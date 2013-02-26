@@ -11,6 +11,9 @@ public class SmallMoleculeRecord extends AbstractMZTabRecord {
         super(MZTabColumnFactory.getInstance(Section.Small_Molecule));
     }
 
+    public SmallMoleculeRecord(MZTabColumnFactory factory) {
+        super(factory);
+    }
 
     /**
      * SML  value1  value2  value3  ...

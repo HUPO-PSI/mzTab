@@ -1,19 +1,13 @@
 package uk.ac.ebi.pride.jmztab.parser;
 
-import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
-import uk.ac.ebi.pride.jmztab.model.MZTabColumn;
-import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
-import uk.ac.ebi.pride.jmztab.model.Metadata;
-import uk.ac.ebi.pride.jmztab.model.Modification;
+import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.parseModificationList;
 import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.parseSubstitutionIdentifier;
 
 /**
@@ -27,7 +21,7 @@ public class PRTLineParser extends MZTabDataLineParser {
 
     @Override
     protected int checkStableData() {
-        String unit_id = checkUnitId(mapping.get(2), items[2]);
+        String unit_id = checkUnitId(mapping.get(2), items[2]).getUnitId();
         checkAccession(mapping.get(1), items[1], unit_id);
         checkDescription(mapping.get(3), items[3]);
         checkTaxid(mapping.get(4), items[4]);
@@ -47,6 +41,41 @@ public class PRTLineParser extends MZTabDataLineParser {
         checkProteinCoverage(mapping.get(18), items[18]);
 
         return 18;
+    }
+
+    @Override
+    protected int loadStableData(AbstractMZTabRecord record, String line) {
+        if (items == null) {
+            items = line.split("\\s*" + MZTabConstants.TAB + "\\s*");
+            items[items.length - 1] = items[items.length - 1].trim();
+        }
+
+        String unit_id = checkUnitId(mapping.get(2), items[2]).getUnitId();
+        record.addValue(2, unit_id);
+
+        record.addValue(1, checkAccession(mapping.get(1), items[1], unit_id));
+        record.addValue(3, checkDescription(mapping.get(3), items[3]));
+        record.addValue(4, checkTaxid(mapping.get(4), items[4]));
+        record.addValue(5, checkSpecies(mapping.get(5), items[5]));
+        record.addValue(6, checkDatabase(mapping.get(6), items[6]));
+        record.addValue(7, checkDatabaseVersion(mapping.get(7), items[7]));
+        record.addValue(8, checkSearchEngine(mapping.get(8), items[8]));
+        record.addValue(9, checkSearchEngineScore(mapping.get(9), items[9]));
+        record.addValue(10, checkReliability(mapping.get(10), items[10]));
+        record.addValue(11, checkNumPeptides(mapping.get(11), items[11]));
+        record.addValue(12, checkNumPeptidesDistinct(mapping.get(12), items[12]));
+        record.addValue(13, checkNumPeptidesUnambiguous(mapping.get(13), items[13]));
+        record.addValue(14, checkAmbiguityMembers(mapping.get(14), items[14]));
+        record.addValue(15, checkModifications(mapping.get(15), items[15]));
+        record.addValue(16, checkURI(mapping.get(16), items[16]));
+        record.addValue(17, checkGOTerms(mapping.get(17), items[17]));
+        record.addValue(18, checkProteinCoverage(mapping.get(18), items[18]));
+
+        return 18;
+    }
+
+    public ProteinRecord getRecord(String line) {
+        return (ProteinRecord) super.getRecord(Section.Protein, line);
     }
 
     // accession + unitId should be unique.
@@ -82,18 +111,8 @@ public class PRTLineParser extends MZTabDataLineParser {
      * For proteins and peptides modifications SHOULD be reported using either UNIMOD or PSI-MOD accessions.
      * As these two ontologies are not applicable to small molecules, so-called CHEMMODs can also be defined.
      */
-    protected String checkModifications(MZTabColumn column, String modifications) {
-        String result_modifications = super.checkModifications(column, modifications);
-
-        if (result_modifications == null || result_modifications.equals(MZTabConstants.NULL)) {
-            return result_modifications;
-        }
-
-        List<Modification> modificationList = parseModificationList(section, result_modifications);
-        if (modificationList.size() == 0) {
-            new MZTabError(FormatErrorType.ModificationList, lineNumber, column.getHeader(), result_modifications);
-            return null;
-        }
+    protected SplitList<Modification> checkModifications(MZTabColumn column, String target) {
+        SplitList<Modification> modificationList = super.checkModifications(section, column, target);
 
         for (Modification mod: modificationList) {
             if (mod.getType() == Modification.Type.CHEMMOD) {
@@ -107,6 +126,6 @@ public class PRTLineParser extends MZTabDataLineParser {
             }
         }
 
-        return result_modifications;
+        return modificationList;
     }
 }

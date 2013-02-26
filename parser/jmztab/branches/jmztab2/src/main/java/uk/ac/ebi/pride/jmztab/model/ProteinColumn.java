@@ -31,7 +31,7 @@ public enum ProteinColumn implements MZTabColumn {
 	MODIFICATIONS(				"modifications",				SplitList.class,    15),
 	URI(						"uri",							java.net.URI.class, 16),
 	GO_TERMS(					"go_terms",						SplitList.class,    17),
-	PROTEIN_COVERAGE(			"protein_coverage",             BigDecimal.class,   18);
+	PROTEIN_COVERAGE(			"protein_coverage",             Double.class,       18);
 
     private String name;
     private Class columnType;

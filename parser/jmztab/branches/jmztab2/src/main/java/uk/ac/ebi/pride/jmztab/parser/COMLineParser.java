@@ -8,8 +8,8 @@ import uk.ac.ebi.pride.jmztab.model.Comment;
  * Date: 10/02/13
  */
 public class COMLineParser extends MZTabLineParser {
-    public void parse(int lineNumber, String line) throws MZTabException {
-        super.parse(lineNumber, line);
+    public void check(int lineNumber, String line) throws MZTabException {
+        super.check(lineNumber, line);
     }
 
     public Comment getComment() {

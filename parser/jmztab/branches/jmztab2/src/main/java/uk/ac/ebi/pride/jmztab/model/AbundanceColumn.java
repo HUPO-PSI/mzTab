@@ -1,6 +1,5 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import java.math.BigDecimal;
 import java.util.TreeMap;
 
 /**
@@ -9,9 +8,9 @@ import java.util.TreeMap;
  */
 public class AbundanceColumn implements MZTabColumn {
     public enum Field {
-        ABUNDANCE          ("abundance",              BigDecimal.class,    1),
-        ABUNDANCE_STDEV    ("abundance_stdev",        BigDecimal.class,    2),
-        ABUNDANCE_STD_ERROR("abundance_std_error",    BigDecimal.class,    3);
+        ABUNDANCE          ("abundance",              Double.class,    1),
+        ABUNDANCE_STDEV    ("abundance_stdev",        Double.class,    2),
+        ABUNDANCE_STD_ERROR("abundance_std_error",    Double.class,    3);
 
         private String name;
         private Class columnType;
@@ -83,6 +82,11 @@ public class AbundanceColumn implements MZTabColumn {
         String name = section == Section.Small_Molecule ? "smallmolecule" : section.getName();
 
         return name + "_" + field.name + "_sub[" + subUnit.getSubId() + "]";
+    }
+
+    @Override
+    public String toString() {
+        return getHeader();
     }
 
     @Override

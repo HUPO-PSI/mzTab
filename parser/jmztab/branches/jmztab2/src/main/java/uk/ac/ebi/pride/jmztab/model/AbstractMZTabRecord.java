@@ -6,8 +6,10 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedMap;
 import java.util.TreeMap;
+
+import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.CALCULATE_ERROR;
+import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.INFINITY;
 
 /**
  * Used to store a row record of table.
@@ -26,36 +28,12 @@ public class AbstractMZTabRecord implements MZTabRecord {
 
     private TreeMap<Integer, Object> record = new TreeMap<Integer, Object>();
 
-    protected AbstractMZTabRecord(MZTabColumnFactory factory) {
+    public AbstractMZTabRecord(MZTabColumnFactory factory) {
         if (factory == null) {
             throw new NullPointerException("Not create MZTabColumn by using MZTabColumnFactory yet.");
         }
 
         this.factory = factory;
-    }
-
-    public void addAbundanceColumn(SubUnit subUnit) {
-        factory.addAbundanceColumn(subUnit);
-    }
-
-    public void addOptionColumn(String name, Class dataType) {
-        factory.addOptionColumn(name, dataType);
-    }
-
-    public void addCVParamOptionColumn(CVParam param) {
-        factory.addCVParamOptionColumn(param);
-    }
-
-    public SplitList<String> getHeaderList() {
-        return factory.getHeaderList();
-    }
-
-    public MZTabColumn getColumn(Integer position) {
-        return factory.getColumn(position);
-    }
-
-    public SortedMap<Integer, MZTabColumn> getColumnMapping() {
-        return factory.getColumnMapping();
     }
 
     /**
@@ -74,6 +52,11 @@ public class AbstractMZTabRecord implements MZTabRecord {
     }
 
     public boolean addValue(int position, Object value) {
+        if (value == null) {
+            record.put(position, value);
+            return true;
+        }
+
         if (isMatch(position, value.getClass())) {
             record.put(position, value);
             return true;
@@ -96,6 +79,28 @@ public class AbstractMZTabRecord implements MZTabRecord {
         return success;
     }
 
+    private Object translateValue(Object value) {
+        if (value == null) {
+            return MZTabConstants.NULL;
+        } else if (value instanceof List) {
+            if (((List)value).isEmpty()) {
+                return MZTabConstants.NULL;
+            } else {
+                return value;
+            }
+        } else if (value instanceof Double) {
+            if (value.equals(Double.NaN)) {
+                return CALCULATE_ERROR;
+            } else if (value.equals(Double.POSITIVE_INFINITY)) {
+                return INFINITY;
+            } else {
+                return value;
+            }
+        } else {
+            return value;
+        }
+    }
+
     /**
      * Tab split string.
      * value1   value2  value3  ...
@@ -105,10 +110,13 @@ public class AbstractMZTabRecord implements MZTabRecord {
         StringBuilder sb = new StringBuilder();
 
         Iterator it = record.values().iterator();
+        Object value;
         if (it.hasNext()) {
-            sb.append(it.next());
+            value = translateValue(it.next());
+            sb.append(value);
+
             while (it.hasNext()) {
-                sb.append(MZTabConstants.TAB).append(it.next());
+                sb.append(MZTabConstants.TAB).append(translateValue(it.next()));
             }
         }
 

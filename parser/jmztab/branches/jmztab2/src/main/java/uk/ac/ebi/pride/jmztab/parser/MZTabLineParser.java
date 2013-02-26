@@ -24,7 +24,7 @@ public class MZTabLineParser {
      * We assume that user before call this method, have check the raw line
      * is not empty line and start with section prefix.
      */
-    protected void parse(int lineNumber, String line) throws MZTabException {
+    protected void check(int lineNumber, String line) throws MZTabException {
         this.lineNumber = lineNumber;
 
         this.items = line.split("\\s*" + MZTabConstants.TAB + "\\s*");

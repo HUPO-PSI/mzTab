@@ -11,6 +11,10 @@ public class ProteinRecord extends AbstractMZTabRecord {
         super(MZTabColumnFactory.getInstance(Section.Protein));
     }
 
+    public ProteinRecord(MZTabColumnFactory factory) {
+        super(factory);
+    }
+
     /**
      * PRT  value1  value2  value3  ...
      */

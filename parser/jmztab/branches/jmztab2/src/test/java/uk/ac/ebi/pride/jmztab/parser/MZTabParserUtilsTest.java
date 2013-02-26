@@ -3,7 +3,6 @@ package uk.ac.ebi.pride.jmztab.parser;
 import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
@@ -87,28 +86,28 @@ public class MZTabParserUtilsTest {
     }
 
     @Test
-    public void testBigDecimalList() throws Exception {
-        SplitList<BigDecimal> decimalList;
+    public void testDoubleList() throws Exception {
+        SplitList<Double> valueList;
 
         StringBuilder sb = new StringBuilder();
-        decimalList = parseBigDecimalList(sb.toString());
-        assertTrue(decimalList.size() == 0);
+        valueList = parseDoubleList(sb.toString());
+        assertTrue(valueList.size() == 0);
 
         sb.append("2.3");
-        decimalList = parseBigDecimalList(sb.toString());
-        assertTrue(decimalList.size() == 1);
+        valueList = parseDoubleList(sb.toString());
+        assertTrue(valueList.size() == 1);
 
         sb.append("| 10.2|11.5");
-        decimalList = parseBigDecimalList(sb.toString());
-        assertTrue(decimalList.size() == 3);
+        valueList = parseDoubleList(sb.toString());
+        assertTrue(valueList.size() == 3);
 
         sb.append("|1|2|3");
-        decimalList = parseBigDecimalList(sb.toString());
-        assertTrue(decimalList.size() == 6);
+        valueList = parseDoubleList(sb.toString());
+        assertTrue(valueList.size() == 6);
 
         sb.append("1000,100");
-        decimalList = parseBigDecimalList(sb.toString());
-        assertTrue(decimalList.size() == 0);
+        valueList = parseDoubleList(sb.toString());
+        assertTrue(valueList.size() == 0);
     }
 
     @Test

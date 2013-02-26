@@ -1,17 +1,9 @@
 package uk.ac.ebi.pride.jmztab.parser;
 
-import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
-import uk.ac.ebi.pride.jmztab.model.MZTabColumn;
-import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
-import uk.ac.ebi.pride.jmztab.model.Metadata;
-import uk.ac.ebi.pride.jmztab.model.Modification;
+import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
-import java.util.List;
-
-import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.parseModificationList;
 
 /**
  * User: Qingwei
@@ -25,8 +17,8 @@ public class PEPLineParser extends MZTabDataLineParser {
     @Override
     protected int checkStableData() {
         String sequence = checkSequence(mapping.get(1), items[1]);
-        String unitId = checkUnitId(mapping.get(3), items[3]);
-        checkAccession(mapping.get(2), items[2], unitId);
+        Unit unit = checkUnitId(mapping.get(3), items[3]);
+        checkAccession(mapping.get(2), items[2], unit);
         checkUnique(mapping.get(4), items[4]);
         checkDatabase(mapping.get(5), items[5]);
         checkDatabaseVersion(mapping.get(6), items[6]);
@@ -38,9 +30,42 @@ public class PEPLineParser extends MZTabDataLineParser {
         checkCharge(mapping.get(12), items[12]);
         checkMassToCharge(mapping.get(13), items[13]);
         checkURI(mapping.get(14), items[14]);
-        checkSpectraRef(mapping.get(15), unitId, items[15]);
+        checkSpectraRef(mapping.get(15), unit, items[15]);
 
         return 15;
+    }
+
+    @Override
+    protected int loadStableData(AbstractMZTabRecord record, String line) {
+        if (items == null) {
+            items = line.split("\\s*" + MZTabConstants.TAB + "\\s*");
+            items[items.length - 1] = items[items.length - 1].trim();
+        }
+
+        String sequence = checkSequence(mapping.get(1), items[1]);
+        record.addValue(1, sequence);
+        Unit unit = checkUnitId(mapping.get(3), items[3]);
+        record.addValue(3, unit.getUnitId());
+
+        record.addValue(2, checkAccession(mapping.get(2), items[2], unit));
+        record.addValue(4, checkUnique(mapping.get(4), items[4]));
+        record.addValue(5, checkDatabase(mapping.get(5), items[5]));
+        record.addValue(6, checkDatabaseVersion(mapping.get(6), items[6]));
+        record.addValue(7, checkSearchEngine(mapping.get(7), items[7]));
+        record.addValue(8, checkSearchEngineScore(mapping.get(8), items[8]));
+        record.addValue(9, checkReliability(mapping.get(9), items[9]));
+        record.addValue(10, checkModifications(mapping.get(10), sequence, items[10]));
+        record.addValue(11, checkRetentionTime(mapping.get(11), items[11]));
+        record.addValue(12, checkCharge(mapping.get(12), items[12]));
+        record.addValue(13, checkMassToCharge(mapping.get(13), items[13]));
+        record.addValue(14, checkURI(mapping.get(14), items[14]));
+        record.addValue(15, checkSpectraRef(mapping.get(15), unit, items[15]));
+
+        return 15;
+    }
+
+    public PeptideRecord getRecord(String line) {
+        return (PeptideRecord) super.getRecord(Section.Peptide, line);
     }
 
     /**
@@ -49,18 +74,14 @@ public class PEPLineParser extends MZTabDataLineParser {
      *
      * If check error return null, else return accession String.
      */
-    protected String checkAccession(MZTabColumn column, String accession, String unitId) {
-        if (unitId == null) {
-            return null;
-        }
-
+    protected String checkAccession(MZTabColumn column, String accession, Unit unit) {
         String result_accession = checkData(column, accession, false);
 
         if (result_accession == null) {
             return result_accession;
         }
 
-        String unitId_accession = unitId + result_accession;
+        String unitId_accession = unit.getUnitId() + result_accession;
         if (! PRTLineParser.accessionSet.contains(unitId_accession)) {
             new MZTabError(LogicalErrorType.PeptideAccession, lineNumber, column.getHeader(), accession);
             return null;
@@ -73,18 +94,8 @@ public class PEPLineParser extends MZTabDataLineParser {
      * For proteins and peptides modifications SHOULD be reported using either UNIMOD or PSI-MOD accessions.
      * As these two ontologies are not applicable to small molecules, so-called CHEMMODs can also be defined.
      */
-    protected String checkModifications(MZTabColumn column, String sequence, String modifications) {
-        String result_modifications = super.checkModifications(column, modifications);
-
-        if (result_modifications == null || result_modifications.equals(MZTabConstants.NULL)) {
-            return result_modifications;
-        }
-
-        List<Modification> modificationList = parseModificationList(section, result_modifications);
-        if (modificationList.size() == 0) {
-            new MZTabError(FormatErrorType.ModificationList, lineNumber, column.getHeader(), result_modifications);
-            return null;
-        }
+    protected SplitList<Modification> checkModifications(MZTabColumn column, String sequence, String target) {
+        SplitList<Modification> modificationList = super.checkModifications(section, column, target);
 
         int terminal_position = sequence.length() + 1;
         for (Modification mod: modificationList) {
@@ -101,6 +112,6 @@ public class PEPLineParser extends MZTabDataLineParser {
             }
         }
 
-        return result_modifications;
+        return modificationList;
     }
 }
