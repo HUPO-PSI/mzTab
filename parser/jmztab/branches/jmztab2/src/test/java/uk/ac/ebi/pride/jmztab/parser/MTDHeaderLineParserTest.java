@@ -25,21 +25,21 @@ public class MTDHeaderLineParserTest {
 
         PRHLineParser parser = new PRHLineParser(metadata);
 
-        // parse stable columns
-        parser.parse(1, header);
+        // check stable columns
+        parser.check(1, header);
 
-        // parse abundance columns
+        // check abundance columns
         header += "\tprotein_abundance_sub[1]\tprotein_abundance_stdev_sub[1]\tprotein_abundance_std_error_sub[1]" +
                 "\tprotein_abundance_sub[2]\tprotein_abundance_stdev_sub[2]\tprotein_abundance_std_error_sub[2]";
-        parser.parse(1, header);
+        parser.check(1, header);
 
-        // parse Optional Column
+        // check Optional Column
         header += "\topt_my_value";
-        parser.parse(1, header);
+        parser.check(1, header);
 
-        // parse Optional CVParam Column
+        // check Optional CVParam Column
         header += "\topt_cv_MS:1001905_emPAI-value";
-        parser.parse(1, header);
+        parser.check(1, header);
 
 //        System.out.println(parser.getFactory().toString());
     }
@@ -51,21 +51,21 @@ public class MTDHeaderLineParserTest {
 
         PEHLineParser parser = new PEHLineParser(metadata);
 
-        // parse stable columns
-        parser.parse(1, header);
+        // check stable columns
+        parser.check(1, header);
 
-        // parse abundance columns
+        // check abundance columns
         header += "\tpeptide_abundance_sub[1]\tpeptide_abundance_stdev_sub[1]\tpeptide_abundance_std_error_sub[1]" +
                 "\tpeptide_abundance_sub[2]\tpeptide_abundance_stdev_sub[2]\tpeptide_abundance_std_error_sub[2]";
-        parser.parse(1, header);
+        parser.check(1, header);
 
-        // parse Optional Column
+        // check Optional Column
         header += "\topt_my_value";
-        parser.parse(1, header);
+        parser.check(1, header);
 
-        // parse Optional CVParam Column
+        // check Optional CVParam Column
         header += "\topt_cv_MS:1001905_emPAI-value";
-        parser.parse(1, header);
+        parser.check(1, header);
 
 //        System.out.println(parser.getFactory().toString());
     }
@@ -78,21 +78,21 @@ public class MTDHeaderLineParserTest {
 
         SMHLineParser parser = new SMHLineParser(metadata);
 
-        // parse stable columns
-        parser.parse(1, header);
+        // check stable columns
+        parser.check(1, header);
 
-        // parse abundance columns
+        // check abundance columns
         header += "\tsmallmolecule_abundance_sub[1]\tsmallmolecule_abundance_stdev_sub[1]\tsmallmolecule_abundance_std_error_sub[1]" +
                   "\tsmallmolecule_abundance_sub[2]\tsmallmolecule_abundance_stdev_sub[2]\tsmallmolecule_abundance_std_error_sub[2]";
-        parser.parse(1, header);
+        parser.check(1, header);
 
-        // parse Optional Column
+        // check Optional Column
         header += "\topt_my_value";
-        parser.parse(1, header);
+        parser.check(1, header);
 
-        // parse Optional CVParam Column
+        // check Optional CVParam Column
         header += "\topt_cv_MS:1001905_emPAI-value";
-        parser.parse(1, header);
+        parser.check(1, header);
 
 //        System.out.println(parser.getFactory().toString());
     }

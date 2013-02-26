@@ -20,7 +20,7 @@ public class MZTabFileParser {
         }
     }
 
-    public static void parse(File tabFile, OutputStream out) throws IOException {
+    public static void check(File tabFile, OutputStream out) throws IOException {
         if (tabFile == null || ! tabFile.exists()) {
             throw new IllegalArgumentException("MZTab File not exists!");
         }
@@ -49,6 +49,10 @@ public class MZTabFileParser {
                     continue;
                 }
 
+                if (line.startsWith(Section.Comment.getPrefix())) {
+                    continue;
+                }
+
                 section = getSection(line);
                 if (section.getLevel() < highWaterMark) {
                     error = new MZTabError(LogicalErrorType.LineOrder, lineNumber, section.getName());
@@ -60,7 +64,7 @@ public class MZTabFileParser {
                 switch (highWaterMark) {
                     case 1:
                         // metadata section.
-                        mtdParser.parse(lineNumber, line);
+                        mtdParser.check(lineNumber, line);
                         break;
                     case 2:
                         if (prhParser != null) {
@@ -71,14 +75,14 @@ public class MZTabFileParser {
 
                         // protein header section
                         prhParser = new PRHLineParser(mtdParser.getMetadata());
-                        prhParser.parse(lineNumber, line);
+                        prhParser.check(lineNumber, line);
 
-                        // tell system to continue parse protein data line.
+                        // tell system to continue check protein data line.
                         highWaterMark = 3;
                         break;
                     case 3:
                         if (prhParser == null) {
-                            // header line should be parse first.
+                            // header line should be check first.
                             error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
@@ -86,7 +90,7 @@ public class MZTabFileParser {
                         if (prtParser == null) {
                             prtParser = new PRTLineParser(prhParser.getFactory(), mtdParser.getMetadata());
                         }
-                        prtParser.parse(lineNumber, line);
+                        prtParser.check(lineNumber, line);
                         break;
                     case 4:
                         if (pehParser != null) {
@@ -97,14 +101,14 @@ public class MZTabFileParser {
 
                         // peptide header section
                         pehParser = new PEHLineParser(mtdParser.getMetadata());
-                        pehParser.parse(lineNumber, line);
+                        pehParser.check(lineNumber, line);
 
-                        // tell system to continue parse peptide data line.
+                        // tell system to continue check peptide data line.
                         highWaterMark = 5;
                         break;
                     case 5:
                         if (pehParser == null) {
-                            // header line should be parse first.
+                            // header line should be check first.
                             error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
@@ -112,7 +116,7 @@ public class MZTabFileParser {
                         if (pepParser == null) {
                             pepParser = new PEPLineParser(pehParser.getFactory(), mtdParser.getMetadata());
                         }
-                        pepParser.parse(lineNumber, line);
+                        pepParser.check(lineNumber, line);
                         break;
                     case 6:
                         if (smhParser != null) {
@@ -123,14 +127,14 @@ public class MZTabFileParser {
 
                         // small molecule header section
                         smhParser = new SMHLineParser(mtdParser.getMetadata());
-                        smhParser.parse(lineNumber, line);
+                        smhParser.check(lineNumber, line);
 
-                        // tell system to continue parse small molecule data line.
+                        // tell system to continue check small molecule data line.
                         highWaterMark = 7;
                         break;
                     case 7:
                         if (smhParser == null) {
-                            // header line should be parse first.
+                            // header line should be check first.
                             error = new MZTabError(LogicalErrorType.NoHeaderLine, lineNumber, section.getName());
                             throw new MZTabException(error);
                         }
@@ -138,16 +142,16 @@ public class MZTabFileParser {
                         if (smlParser == null) {
                             smlParser = new SMLLineParser(smhParser.getFactory(), mtdParser.getMetadata());
                         }
-                        smlParser.parse(lineNumber, line);
+                        smlParser.check(lineNumber, line);
                         break;
                 }
             }
 
         } catch (MZTabException e) {
-            out.write("There exists errors in parsing metadata, protein/peptide/small_molecule header!".getBytes());
+            out.write("There exists errors in the metadata section or protein/peptide/small_molecule header section!".getBytes());
             out.write(MZTabConstants.NEW_LINE.getBytes());
         } catch (MZTabErrorOverflowException e) {
-            out.write("System error queue overflow".getBytes());
+            out.write("System error queue overflow!".getBytes());
             out.write(MZTabConstants.NEW_LINE.getBytes());
         }  finally {
             if (reader != null) {

@@ -24,7 +24,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
 
     protected MZTabHeaderLineParser(MZTabColumnFactory factory, Metadata metadata) {
         if (factory == null) {
-            throw new NullPointerException("Header line should be parse first!");
+            throw new NullPointerException("Header line should be check first!");
         }
         this.factory = factory;
 
@@ -38,8 +38,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
      * We assume that user before call this method, have check the raw line
      * is not empty line and start with section prefix.
      */
-    public void parse(int lineNumber, String line) throws MZTabException {
-        super.parse(lineNumber, line);
+    protected void check(int lineNumber, String line) throws MZTabException {
+        super.check(lineNumber, line);
 
         matchStableColumns();
 

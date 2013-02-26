@@ -11,6 +11,10 @@ public class PeptideRecord extends AbstractMZTabRecord {
         super(MZTabColumnFactory.getInstance(Section.Peptide));
     }
 
+    public PeptideRecord(MZTabColumnFactory factory) {
+        super(factory);
+    }
+
     /**
      * PEP  value1  value2  value3  ...
      */

@@ -14,7 +14,7 @@ public class SMHLineParser extends MZTabHeaderLineParser {
         super(MZTabColumnFactory.getInstance(Section.Small_Molecule), metadata);
     }
 
-    public void parse(int lineNumber, String line) throws MZTabException {
-        super.parse(lineNumber, line);
+    public void check(int lineNumber, String line) throws MZTabException {
+        super.check(lineNumber, line);
     }
 }

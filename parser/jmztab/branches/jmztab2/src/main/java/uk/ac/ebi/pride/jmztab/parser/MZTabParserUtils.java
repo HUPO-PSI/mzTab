@@ -2,7 +2,6 @@ package uk.ac.ebi.pride.jmztab.parser;
 
 import uk.ac.ebi.pride.jmztab.model.*;
 
-import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,6 +21,18 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
 public class MZTabParserUtils {
     public static boolean isEmpty(String s) {
         return s == null || s.trim().length() == 0;
+    }
+
+    public static String printDouble(Double value) {
+        if (value == null) {
+            return NULL;
+        } else if (value.equals(Double.NaN)) {
+            return CALCULATE_ERROR;
+        } else if (value.equals(Double.POSITIVE_INFINITY)) {
+            return INFINITY;
+        } else {
+            return value.toString();
+        }
     }
 
     public static Param parseParam(String target) {
@@ -130,33 +141,33 @@ public class MZTabParserUtils {
         return integer;
     }
 
-    public static BigDecimal parseBigDecimal(String target) {
-        BigDecimal decimal;
+    public static Double parseDouble(String target) {
+        Double value;
         try {
-            decimal = new BigDecimal(target);
+            value = new Double(target);
         } catch (NumberFormatException e) {
-            decimal = null;
+            value = null;
         }
 
-        return decimal;
+        return value;
     }
 
-    public static SplitList<BigDecimal> parseBigDecimalList(String target) {
+    public static SplitList<Double> parseDoubleList(String target) {
         SplitList<String> list = parseStringList(BAR, target);
 
-        BigDecimal decimal;
-        SplitList<BigDecimal> decimalList = new SplitList<BigDecimal>(BAR);
+        Double value;
+        SplitList<Double> valueList = new SplitList<Double>(BAR);
         for (String item : list) {
-            decimal = parseBigDecimal(item.trim());
-            if (decimal == null) {
-                decimalList.clear();
+            value = parseDouble(item.trim());
+            if (value == null) {
+                valueList.clear();
                 break;
             } else {
-                decimalList.add(decimal);
+                valueList.add(value);
             }
         }
 
-        return decimalList;
+        return valueList;
     }
 
     /**
@@ -379,11 +390,11 @@ public class MZTabParserUtils {
         return sb.toString();
     }
 
-    public static List<Modification> parseModificationList(Section section, String target) {
+    public static SplitList<Modification> parseModificationList(Section section, String target) {
         target = translateCommaToTab(target);
 
         SplitList<String> list = parseStringList(COMMA, target);
-        List<Modification> modList = new ArrayList<Modification>(list.size());
+        SplitList<Modification> modList = new SplitList<Modification>(COMMA);
 
         Modification mod;
         for (String item : list) {

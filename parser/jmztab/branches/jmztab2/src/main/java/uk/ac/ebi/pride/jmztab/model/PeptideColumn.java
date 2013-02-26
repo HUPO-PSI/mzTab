@@ -1,7 +1,5 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import java.math.BigDecimal;
-
 /**
  * The peptide section is table based. The peptide section must always come after the metadata section
  * and or protein section if these are present in the file. All table columns MUST be Tab separated.
@@ -24,7 +22,7 @@ public enum PeptideColumn implements MZTabColumn {
     MODIFICATIONS(              "modifications",           SplitList.class,        10),
     RETENTION_TIME(             "retention_time",          SplitList.class,        11),
     CHARGE(                     "charge",                  Integer.class,          12),
-    MASS_TO_CHARGE(             "mass_to_charge",          BigDecimal.class,       13),
+    MASS_TO_CHARGE(             "mass_to_charge",          Double.class,           13),
     URI(                        "uri",                     java.net.URI.class,     14),
     SPEC_REF(                   "spectra_ref",             SplitList.class,        15);
 

@@ -14,7 +14,7 @@ public class PEHLineParser extends MZTabHeaderLineParser {
         super(MZTabColumnFactory.getInstance(Section.Peptide), metadata);
     }
 
-    public void parse(int lineNumber, String line) throws MZTabException {
-        super.parse(lineNumber, line);
+    public void check(int lineNumber, String line) throws MZTabException {
+        super.check(lineNumber, line);
     }
 }
