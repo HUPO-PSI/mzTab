@@ -151,7 +151,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
     private int checkAbundanceColumns(int offset) throws MZTabException {
         String abundanceHeader = null;
         String abundanceStdevHeader = null;
-        String abundanceStdErrorHeader = null;
+        String abundanceStdErrorHeader;
 
         MZTabError error;
 

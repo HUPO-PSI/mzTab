@@ -1,14 +1,10 @@
-package uk.ac.ebi.pride.jmztab.parser;
-
-import uk.ac.ebi.pride.jmztab.model.*;
+package uk.ac.ebi.pride.jmztab.model;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,9 +14,13 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
  * User: Qingwei
  * Date: 30/01/13
  */
-public class MZTabParserUtils {
+public class MZTabUtils {
     public static boolean isEmpty(String s) {
         return s == null || s.trim().length() == 0;
+    }
+
+    public static String parseString(String target) {
+        return target == null ? null : target.trim();
     }
 
     public static String printDouble(Double value) {
@@ -237,23 +237,6 @@ public class MZTabParserUtils {
         return publication;
     }
 
-    private static boolean check(String regexp, String target) {
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(target);
-        return matcher.find();
-    }
-
-    public static String parseEmail(String emailLabel) {
-        String regexp = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
-        if (check(regexp, emailLabel)) {
-            return emailLabel;
-        } else {
-            return null;
-        }
-    }
-
-
-
     private static SpecRef createSpecRef(Unit unit, Integer ms_file_id, String reference) {
         MsFile msFile = unit.getMsFileMap().get(ms_file_id);
 
@@ -265,9 +248,9 @@ public class MZTabParserUtils {
         return new SpecRef(msFile, reference);
     }
 
-    public static List<SpecRef> parseSepcRefList(Unit unit, String target) {
+    public static SplitList<SpecRef> parseSpecRefList(Unit unit, String target) {
         SplitList<String> list = parseStringList(BAR, target);
-        List<SpecRef> refList = new ArrayList<SpecRef>(list.size());
+        SplitList<SpecRef> refList = new SplitList<SpecRef>(BAR);
 
         Pattern pattern = Pattern.compile("ms_file\\[(\\d+)\\]:(.*)");
         Matcher matcher;

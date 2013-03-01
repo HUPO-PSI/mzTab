@@ -2,7 +2,6 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
@@ -142,12 +141,12 @@ public class AbstractMZTabRecord implements MZTabRecord {
     }
 
     @Override
-    public BigDecimal getBigDecimal(int position) {
-        if (! isMatch(position, BigDecimal.class)) {
+    public Double getDouble(int position) {
+        if (! isMatch(position, Double.class)) {
             return null;
         }
 
-        return (BigDecimal) record.get(position);
+        return (Double) record.get(position);
     }
 
     @Override
@@ -175,6 +174,15 @@ public class AbstractMZTabRecord implements MZTabRecord {
         }
 
         return (Reliability) record.get(position);
+    }
+
+    @Override
+    public MZBoolean getMZBoolean(int position) {
+        if (! isMatch(position, MZBoolean.class)) {
+            return null;
+        }
+
+        return (MZBoolean) record.get(position);
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 import static uk.ac.ebi.pride.jmztab.model.ReplicateUnit.REP;
 import static uk.ac.ebi.pride.jmztab.model.SubUnit.SUB;
-import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.MINUS;
 import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.TAB;
 
@@ -33,14 +33,12 @@ public class MTDLineParser extends MZTabLineParser {
         ok,
         unitId_format_error,
         id_number_error,
-        software_error,
         format_error,
         param_format_error,
         paramList_format_error,
         publication_format_error,
         uri_format_error,
         url_format_error,
-        email_format_error,
         duplicate_error,
     }
 
@@ -85,6 +83,18 @@ public class MTDLineParser extends MZTabLineParser {
             default:
                 return false;
         }
+    }
+
+    private String checkEmail(String defineLabel, String valueLabel) {
+        String regexp = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(valueLabel);
+
+        if (! matcher.find()) {
+            new MZTabError(FormatErrorType.Email, lineNumber, defineLabel, valueLabel);
+        }
+
+        return valueLabel;
     }
 
     private Result checkNormalMetadata(String defineLabel, String valueLabel) {
@@ -274,7 +284,7 @@ public class MTDLineParser extends MZTabLineParser {
                                     return Result.param_format_error;
                                 }
                                 if (isEmpty(param.getValue())) {
-                                    return Result.software_error;
+                                    new MZTabError(LogicalErrorType.Software, lineNumber, valueLabel);
                                 }
                                 if (! unit.addSoftwareParam(id, parseParam(valueLabel))) {
                                     return Result.duplicate_error;
@@ -312,10 +322,7 @@ public class MTDLineParser extends MZTabLineParser {
                                     unit.addContactAffiliation(id, valueLabel);
                                     break;
                                 case CONTACT_EMAIL:
-                                    String email = parseEmail(valueLabel);
-                                    if (email == null) {
-                                        return Result.email_format_error;
-                                    }
+                                    String email = checkEmail(defineLabel, valueLabel);
                                     unit.addContactEmail(id, email);
                                     break;
                                 default:
@@ -543,9 +550,6 @@ public class MTDLineParser extends MZTabLineParser {
             case format_error:
                 error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, defineLabel);
                 break;
-            case software_error:
-                error = new MZTabError(LogicalErrorType.Software, lineNumber, valueLabel);
-                break;
             case param_format_error:
                 error = new MZTabError(FormatErrorType.Param, lineNumber, defineLabel, valueLabel);
                 break;
@@ -560,9 +564,6 @@ public class MTDLineParser extends MZTabLineParser {
                 break;
             case url_format_error:
                 error = new MZTabError(FormatErrorType.URL, lineNumber, defineLabel, valueLabel);
-                break;
-            case email_format_error:
-                error = new MZTabError(FormatErrorType.Email, lineNumber, defineLabel, valueLabel);
                 break;
             case duplicate_error:
                 error = new MZTabError(LogicalErrorType.Duplication, lineNumber, defineLabel + TAB + valueLabel);

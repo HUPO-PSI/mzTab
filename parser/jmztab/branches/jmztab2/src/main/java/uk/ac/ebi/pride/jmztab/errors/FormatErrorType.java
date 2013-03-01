@@ -24,7 +24,7 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType Publication = createError(Format, "Publication");
     public static MZTabErrorType URI = createError(Format, "URI");
     public static MZTabErrorType URL = createError(Format, "URL");
-    public static MZTabErrorType Email = createError(Format, "Email");
+    public static MZTabErrorType Email = createWarn(Format, "Email");
     public static MZTabErrorType Integer = createError(Format, "Integer");
     public static MZTabErrorType Double = createError(Format, "Double");
     public static MZTabErrorType Reliability = createError(Format, "Reliability");
@@ -35,15 +35,7 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType MZBoolean = createError(Format, "MZBoolean");
     public static MZTabErrorType SpectraRef = createError(Format, "SpectraRef");
     public static MZTabErrorType CHEMMODSAccession = createError(Format, "CHEMMODSAccession");
-    public static MZTabErrorType SearchEngineScore = createError(Format, "SearchEngineScore");
+    public static MZTabErrorType SearchEngineScore = createWarn(Format, "SearchEngineScore");
 
     public static MZTabErrorType ColUnit = createError(Format, "ColUnit");
-
-
-
-//    public static MZTabErrorType UnitID = createError(Format, "UnitID");
-//
-//
-//    public static MZTabErrorType DataType = createError(Format, "DataType");
-
 }

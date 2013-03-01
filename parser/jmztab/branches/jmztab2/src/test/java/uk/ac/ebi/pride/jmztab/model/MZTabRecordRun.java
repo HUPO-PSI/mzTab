@@ -2,20 +2,27 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 /**
  * User: Qingwei
  * Date: 05/02/13
  */
 public class MZTabRecordRun {
     public static void main(String[] args) {
-        PeptideRecord record = new PeptideRecord();
-        record.addValue(1, "EIEILACEIR");
-        record.addValue(4, 1);
+        Peptide record = new Peptide();
+
+        String sequence = "EIEILACEIR";
+        record.addValue(1, sequence);
+        record.addValue(4, MZBoolean.True);
         SplitList<Param> searchEngineScore = new SplitList<Param>(MZTabConstants.BAR);
         searchEngineScore.add(new CVParam("MS", "MS:1001155", "Sequest:xorr", "2"));
         searchEngineScore.add(new CVParam("MS", "MS:1001171", "Mascot score", "47.2"));
-        record.addValue(7, searchEngineScore);
+        record.addValue(8, searchEngineScore);
 
-        System.out.println(record);
+        assertEquals(record.getSequence(), sequence);
+        assertEquals(record.getUnique(), MZBoolean.True);
+        assertTrue(record.getSearchEngineScore().size() == 2);
     }
 }

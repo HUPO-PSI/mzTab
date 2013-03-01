@@ -1,27 +1,17 @@
-package uk.ac.ebi.pride.jmztab.parser;
+package uk.ac.ebi.pride.jmztab.model;
 
 import org.junit.Test;
-import uk.ac.ebi.pride.jmztab.model.*;
 
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
-import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
  * User: Qingwei
  * Date: 11/02/13
  */
-public class MZTabParserUtilsTest {
-    @Test
-    public void testEmail() throws Exception {
-        assertTrue(parseEmail("watson@cam.ac.uk").equals("watson@cam.ac.uk"));
-        assertTrue(parseEmail("crick@cam.ac.uk").equals("crick@cam.ac.uk"));
-
-        assertTrue(parseEmail("11@11") == null);
-        assertTrue(parseEmail("null") == null);
-    }
-
+public class MZTabUtilsTest {
     @Test
     public void testParam() throws Exception {
         assertTrue(parseParam("[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]") instanceof CVParam);

@@ -35,7 +35,7 @@ public class MTDLineParserTest {
         assertTrue(param instanceof CVParam);
         CVParam cvParam = (CVParam) param;
         assertTrue(cvParam.getName().contains("SDS PAGE"));
-        assertTrue(MZTabParserUtils.isEmpty(cvParam.getValue()));
+        assertTrue(MZTabUtils.isEmpty(cvParam.getValue()));
 
         parser.check(1, "MTD\tPRIDE_1234-sample_processing[2]\t[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, Trypsin, ]");
         assertTrue(pride1234.getSampleProcessingMap().size() == 2);
@@ -43,12 +43,12 @@ public class MTDLineParserTest {
         assertTrue(param instanceof CVParam);
         cvParam = (CVParam) param;
         assertTrue(cvParam.getName().contains("enzyme digestion"));
-        assertTrue(MZTabParserUtils.isEmpty(cvParam.getValue()));
+        assertTrue(MZTabUtils.isEmpty(cvParam.getValue()));
         param = pride1234.getSampleProcessingMap().get(2).get(1);
         assertTrue(param instanceof CVParam);
         cvParam = (CVParam) param;
         assertTrue(cvParam.getName().contains("Trypsin"));
-        assertTrue(MZTabParserUtils.isEmpty(cvParam.getValue()));
+        assertTrue(MZTabUtils.isEmpty(cvParam.getValue()));
 
         parser.check(1, "MTD\tPRIDE_1234-instrument[1]-name\t[MS, MS:100049, LTQ Orbitrap, ]");
         parser.check(1, "MTD\tPRIDE_1234-instrument[1]-analyzer\t[MS, MS:1000291, linear ion trap, ]");
