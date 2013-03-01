@@ -1,9 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: Qingwei
@@ -21,7 +18,7 @@ public class Metadata {
      * That is no "sub[id]" information.
      * In our system, we this kind of SubUnit's identifier is PRIDE_1234-sub
      */
-    private Map<String, Unit> unitMap = new HashMap<String, Unit>();
+    private Map<String, Unit> unitMap = new TreeMap<String, Unit>();
 
     public void addUnit(Unit unit) {
         if (unit != null) {

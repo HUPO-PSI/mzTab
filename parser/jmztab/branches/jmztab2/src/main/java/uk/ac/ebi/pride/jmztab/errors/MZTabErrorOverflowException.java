@@ -5,6 +5,10 @@ package uk.ac.ebi.pride.jmztab.errors;
  * Date: 21/02/13
  */
 public class MZTabErrorOverflowException extends RuntimeException {
+    /**
+     * If error count great than {@link uk.ac.ebi.pride.jmztab.utils.MZTabConstants#MAX_ERROR_COUNT}
+     * System will stop validate and throw overflow exception.
+     */
     public MZTabErrorOverflowException() {
     }
 }

@@ -2,7 +2,6 @@ package uk.ac.ebi.pride.jmztab.errors;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +38,6 @@ public class MZTabErrorList {
         for (MZTabError e : errorList) {
             if (e.getType().getLevel().compareTo(level) >= 0) {
                 out.write(e.toString().getBytes());
-            }
-        }
-    }
-
-    public static void print(Writer writer, MZTabErrorType.Level level) throws IOException {
-        for (MZTabError e : errorList) {
-            if (e.getType().getLevel().compareTo(level) >= 0) {
-                writer.write(e.toString());
             }
         }
     }

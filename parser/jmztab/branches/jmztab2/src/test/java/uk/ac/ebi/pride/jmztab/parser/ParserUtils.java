@@ -12,7 +12,7 @@ public class ParserUtils {
 //    public static List<String> getMTDLineList(File testFile) throws IOException{
 //        BufferedReader reader = new BufferedReader(new FileReader(testFile));
 //        String line;
-//        while (! MZTabParserUtils.isEmpty(line = reader.readLine())) {
+//        while (! MZTabUtils.isEmpty(line = reader.readLine())) {
 //            list.add(line);
 //        }
 //    }

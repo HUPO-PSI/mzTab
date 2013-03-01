@@ -1,12 +1,7 @@
 package uk.ac.ebi.pride.jmztab.errors;
 
-import uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils;
+import uk.ac.ebi.pride.jmztab.model.MZTabUtils;
 import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * User: Qingwei
@@ -23,8 +18,6 @@ public class MZTabErrorType {
         Warn,
         Error
     }
-
-    public static Map<Integer, MZTabErrorType> typeMap = new HashMap<Integer, MZTabErrorType>();
 
     private Integer code;
     private Category category;
@@ -64,7 +57,7 @@ public class MZTabErrorType {
      *  stable format. Thus, this method used to load these properties and create a error.
      */
     private static MZTabErrorType createMZTabError(Category category, Level level, String keyword) {
-        if (MZTabParserUtils.isEmpty(keyword)) {
+        if (MZTabUtils.isEmpty(keyword)) {
             throw new NullPointerException(keyword + " can not empty!");
         }
 
@@ -85,10 +78,7 @@ public class MZTabErrorType {
         String original = MZTabProperties.getProperty(prefix + "original_" + keyword);
         String cause = MZTabProperties.getProperty(prefix + "cause_" + keyword);
 
-        MZTabErrorType type = new MZTabErrorType(code, category, level, original, cause);
-        typeMap.put(code, type);
-
-        return type;
+        return new MZTabErrorType(code, category, level, original, cause);
     }
 
     public Integer getCode() {
@@ -111,16 +101,9 @@ public class MZTabErrorType {
         return cause;
     }
 
-    public void printMZTabErrorType(int code, OutputStream out) throws IOException {
-        MZTabErrorType type = typeMap.get(code);
-        if (type != null) {
-            out.write(type.toString().getBytes());
-        }
-    }
-
     public String toString() {
         return  "    Code:\t" + code + "\r\n" +
-                "    Field:\t" + category + "\r\n" +
+                "Category:\t" + category + "\r\n" +
                 "Original:\t" + original + "\r\n" +
                 "   Cause:\t" + (cause == null ? "" : cause) + "\r\n";
     }

@@ -42,30 +42,30 @@ public class PEPLineParser extends MZTabDataLineParser {
             items[items.length - 1] = items[items.length - 1].trim();
         }
 
-        String sequence = checkSequence(mapping.get(1), items[1]);
-        record.addValue(1, sequence);
-        Unit unit = checkUnitId(mapping.get(3), items[3]);
-        record.addValue(3, unit.getUnitId());
+        Peptide peptide = (Peptide) record;
 
-        record.addValue(2, checkAccession(mapping.get(2), items[2], unit));
-        record.addValue(4, checkUnique(mapping.get(4), items[4]));
-        record.addValue(5, checkDatabase(mapping.get(5), items[5]));
-        record.addValue(6, checkDatabaseVersion(mapping.get(6), items[6]));
-        record.addValue(7, checkSearchEngine(mapping.get(7), items[7]));
-        record.addValue(8, checkSearchEngineScore(mapping.get(8), items[8]));
-        record.addValue(9, checkReliability(mapping.get(9), items[9]));
-        record.addValue(10, checkModifications(mapping.get(10), sequence, items[10]));
-        record.addValue(11, checkRetentionTime(mapping.get(11), items[11]));
-        record.addValue(12, checkCharge(mapping.get(12), items[12]));
-        record.addValue(13, checkMassToCharge(mapping.get(13), items[13]));
-        record.addValue(14, checkURI(mapping.get(14), items[14]));
-        record.addValue(15, checkSpectraRef(mapping.get(15), unit, items[15]));
+        peptide.setSequence(items[1]);
+        peptide.setAccession(items[2]);
+        peptide.setUnitId(items[3]);
+        peptide.setUnique(items[4]);
+        peptide.setDatabase(items[5]);
+        peptide.setDatabaseVersion(items[6]);
+        peptide.setSearchEngine(items[7]);
+        peptide.setSearchEngineScore(items[8]);
+        peptide.setReliability(items[9]);
+        peptide.setModifications(items[10]);
+        peptide.setRetentionTime(items[11]);
+        peptide.setCharge(items[12]);
+        peptide.setMassToCharge(items[13]);
+        peptide.setURI(items[14]);
+        Unit unit = metadata.getUnit(peptide.getUnitId());
+        peptide.setSpectraRef(unit, items[15]);
 
         return 15;
     }
 
-    public PeptideRecord getRecord(String line) {
-        return (PeptideRecord) super.getRecord(Section.Peptide, line);
+    public Peptide getRecord(String line) {
+        return (Peptide) super.getRecord(Section.Peptide, line);
     }
 
     /**

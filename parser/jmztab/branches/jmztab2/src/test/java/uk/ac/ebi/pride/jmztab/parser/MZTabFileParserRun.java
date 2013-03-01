@@ -10,7 +10,7 @@ public class MZTabFileParserRun {
     public void check(String fileName) throws Exception {
         System.out.println("check " + fileName);
         File tabFile = new File("example/" + fileName);
-        MZTabFileParser.check(tabFile, System.out);
+        new MZTabFileParser(tabFile, System.out);
         System.out.println();
         System.out.println();
     }

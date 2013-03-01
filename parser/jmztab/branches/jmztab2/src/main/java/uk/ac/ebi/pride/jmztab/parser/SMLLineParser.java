@@ -6,7 +6,7 @@ import uk.ac.ebi.pride.jmztab.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
-import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.parseChemmodAccession;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
  * User: Qingwei
@@ -49,33 +49,33 @@ public class SMLLineParser extends MZTabDataLineParser {
             items[items.length - 1] = items[items.length - 1].trim();
         }
 
-        record.addValue(1, checkIdentifier(mapping.get(1), items[1]));
-        Unit unit = checkUnitId(mapping.get(2), items[2]);
-        record.addValue(2, unit.getUnitId());
-
-        record.addValue(3, checkChemicalFormula(mapping.get(3), items[3]));
-        record.addValue(4, checkSmiles(mapping.get(4), items[4]));
-        record.addValue(5, checkInchiKey(mapping.get(5), items[5]));
-        record.addValue(6, checkDescription(mapping.get(6), items[6]));
-        record.addValue(7, checkMassToCharge(mapping.get(7), items[7]));
-        record.addValue(8, checkCharge(mapping.get(8), items[8]));
-        record.addValue(9, checkRetentionTime(mapping.get(9), items[9]));
-        record.addValue(10, checkTaxid(mapping.get(10), items[10]));
-        record.addValue(11, checkSpecies(mapping.get(11), items[11]));
-        record.addValue(12, checkDatabase(mapping.get(12), items[12]));
-        record.addValue(13, checkDatabaseVersion(mapping.get(13), items[13]));
-        record.addValue(14, checkReliability(mapping.get(14), items[14]));
-        record.addValue(15, checkURI(mapping.get(15), items[15]));
-        record.addValue(16, checkSpectraRef(mapping.get(16), unit, items[16]));
-        record.addValue(17, checkSearchEngine(mapping.get(17), items[17]));
-        record.addValue(18, checkSearchEngineScore(mapping.get(18), items[18]));
-        record.addValue(19, checkModifications(mapping.get(19), items[19]));
+        SmallMolecule smallMolecule = (SmallMolecule) record;
+        smallMolecule.setIdentifier(items[1]);
+        smallMolecule.setUnitId(items[2]);
+        smallMolecule.setChemicalFormula(items[3]);
+        smallMolecule.setSmiles(items[4]);
+        smallMolecule.setInchiKey(items[5]);
+        smallMolecule.setDescription(items[6]);
+        smallMolecule.setMassToCharge(items[7]);
+        smallMolecule.setCharge(items[8]);
+        smallMolecule.setRetentionTime(items[9]);
+        smallMolecule.setTaxid(items[10]);
+        smallMolecule.setSpecies(items[11]);
+        smallMolecule.setDatabase(items[12]);
+        smallMolecule.setDatabaseVersion(items[13]);
+        smallMolecule.setReliability(items[14]);
+        smallMolecule.setURI(items[15]);
+        Unit unit = metadata.getUnit(smallMolecule.getUnitId());
+        smallMolecule.setSpectraRef(unit, items[16]);
+        smallMolecule.setSearchEngine(items[17]);
+        smallMolecule.setSearchEngineScore(items[18]);
+        smallMolecule.setModifications(items[19]);
 
         return 19;
     }
 
-    public SmallMoleculeRecord getRecord(String line) {
-        return (SmallMoleculeRecord) super.getRecord(Section.Small_Molecule, line);
+    public SmallMolecule getRecord(String line) {
+        return (SmallMolecule) super.getRecord(Section.Small_Molecule, line);
     }
 
     @Override

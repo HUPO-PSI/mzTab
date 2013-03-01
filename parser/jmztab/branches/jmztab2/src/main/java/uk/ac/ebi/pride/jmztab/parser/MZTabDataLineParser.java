@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 
-import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.COMMA;
 
 /**
@@ -56,13 +56,13 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         switch (section) {
             case Protein:
-                record = new ProteinRecord(factory);
+                record = new Protein(factory);
                 break;
             case Peptide:
-                record = new PeptideRecord(factory);
+                record = new Peptide(factory);
                 break;
             case Small_Molecule:
-                record = new SmallMoleculeRecord(factory);
+                record = new SmallMolecule(factory);
                 break;
         }
 
@@ -137,19 +137,9 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     private int loadAbundanceData(AbstractMZTabRecord record, int offset) {
-        String abundance = items[offset];
-        MZTabColumn abundance_column = mapping.get(offset);
-        record.addValue(offset, checkDouble(abundance_column, abundance));
-
-        offset++;
-        String abundance_stdev = items[offset];
-        MZTabColumn abundance_stdev_column = mapping.get(offset);
-        record.addValue(offset, checkDouble(abundance_stdev_column, abundance_stdev));
-
-        offset++;
-        String abundance_std_error = items[offset];
-        MZTabColumn abundance_std_error_column = mapping.get(offset);
-        record.addValue(offset, checkDouble(abundance_std_error_column, abundance_std_error));
+        record.addValue(offset, parseDouble(items[offset++]));
+        record.addValue(offset, parseDouble(items[offset++]));
+        record.addValue(offset, parseDouble(items[offset]));
 
         return offset;
     }
@@ -177,9 +167,9 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         String header = column.getHeader();
 
         if (header.contains("MS:1002217")) {
-            record.addValue(offset, checkMZBoolean(column, data));
+            record.addValue(offset, MZBoolean.findBoolean(data));
         } else if (header.contains("MS:1001905")) {
-            record.addValue(offset, checkDouble(column, data));
+            record.addValue(offset, parseDouble(data));
         } else {
             record.addValue(offset, data);
         }
@@ -190,7 +180,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     private void loadOptData(AbstractMZTabRecord record, int offset) {
-        record.addValue(offset, checkData(mapping.get(offset), items[offset], true));
+        record.addValue(offset, items[offset]);
     }
 
     private void checkCount() {
@@ -362,11 +352,11 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         SplitList<Param> paramList = checkParamList(column, searchEngineScore);
 
         for (Param param : paramList) {
-            if (! (param instanceof CVParam)) {
+            if (! (param instanceof CVParam) || (isEmpty(param.getValue()))) {
                 new MZTabError(FormatErrorType.SearchEngineScore, lineNumber, column.getHeader(), searchEngineScore, section.getName());
-                paramList.clear();
-                return paramList;
             }
+
+
         }
 
         return paramList;
@@ -444,7 +434,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             return new ArrayList<SpecRef>();
         }
 
-        List<SpecRef> refList = parseSepcRefList(unit, result_spectraRef);
+        List<SpecRef> refList = parseSpecRefList(unit, result_spectraRef);
         if (refList.size() == 0) {
             new MZTabError(FormatErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef);
         }

@@ -8,7 +8,7 @@ import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 import java.util.HashSet;
 import java.util.Set;
 
-import static uk.ac.ebi.pride.jmztab.parser.MZTabParserUtils.parseSubstitutionIdentifier;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
  * User: Qingwei
@@ -50,32 +50,31 @@ public class PRTLineParser extends MZTabDataLineParser {
             items[items.length - 1] = items[items.length - 1].trim();
         }
 
-        String unit_id = checkUnitId(mapping.get(2), items[2]).getUnitId();
-        record.addValue(2, unit_id);
-
-        record.addValue(1, checkAccession(mapping.get(1), items[1], unit_id));
-        record.addValue(3, checkDescription(mapping.get(3), items[3]));
-        record.addValue(4, checkTaxid(mapping.get(4), items[4]));
-        record.addValue(5, checkSpecies(mapping.get(5), items[5]));
-        record.addValue(6, checkDatabase(mapping.get(6), items[6]));
-        record.addValue(7, checkDatabaseVersion(mapping.get(7), items[7]));
-        record.addValue(8, checkSearchEngine(mapping.get(8), items[8]));
-        record.addValue(9, checkSearchEngineScore(mapping.get(9), items[9]));
-        record.addValue(10, checkReliability(mapping.get(10), items[10]));
-        record.addValue(11, checkNumPeptides(mapping.get(11), items[11]));
-        record.addValue(12, checkNumPeptidesDistinct(mapping.get(12), items[12]));
-        record.addValue(13, checkNumPeptidesUnambiguous(mapping.get(13), items[13]));
-        record.addValue(14, checkAmbiguityMembers(mapping.get(14), items[14]));
-        record.addValue(15, checkModifications(mapping.get(15), items[15]));
-        record.addValue(16, checkURI(mapping.get(16), items[16]));
-        record.addValue(17, checkGOTerms(mapping.get(17), items[17]));
-        record.addValue(18, checkProteinCoverage(mapping.get(18), items[18]));
+        Protein protein = (Protein) record;
+        protein.setAccession(items[1]);
+        protein.setUnitId(items[2]);
+        protein.setDescription(items[3]);
+        protein.setTaxid(items[4]);
+        protein.setSpecies(items[5]);
+        protein.setDatabase(items[6]);
+        protein.setDatabaseVersion(items[7]);
+        protein.setSearchEngine(items[8]);
+        protein.setSearchEngineScore(items[9]);
+        protein.setReliability(items[10]);
+        protein.setNumPeptides(items[11]);
+        protein.setNumPeptideDistinct(items[12]);
+        protein.setNumPeptidesUnambiguous(items[13]);
+        protein.setAmbiguityMembers(items[14]);
+        protein.setModifications(items[15]);
+        protein.setURI(items[16]);
+        protein.setGOTerms(items[17]);
+        protein.setProteinConverage(items[18]);
 
         return 18;
     }
 
-    public ProteinRecord getRecord(String line) {
-        return (ProteinRecord) super.getRecord(Section.Protein, line);
+    public Protein getRecord(String line) {
+        return (Protein) super.getRecord(Section.Protein, line);
     }
 
     // accession + unitId should be unique.
