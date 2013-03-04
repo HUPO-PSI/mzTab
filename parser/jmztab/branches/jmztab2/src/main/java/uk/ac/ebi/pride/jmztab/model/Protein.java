@@ -87,8 +87,16 @@ public class Protein extends AbstractMZTabRecord {
         addValue(8, searchEngine);
     }
 
-    public void setSearchEngine(String searchEngine) {
-        setSearchEngine(parseParamList(searchEngine));
+    public boolean addSearchEngineParam(Param param) {
+        return getSearchEngine().add(param);
+    }
+
+    public boolean addSearchEngineParam(String paramLabel) {
+        return addSearchEngineParam(parseParam(paramLabel));
+    }
+
+    public void setSearchEngine(String searchEngineLabel) {
+        setSearchEngine(parseParamList(searchEngineLabel));
     }
 
     public SplitList<Param> getSearchEngineScore() {
@@ -99,8 +107,16 @@ public class Protein extends AbstractMZTabRecord {
         addValue(9, searchEngineScore);
     }
 
-    public void setSearchEngineScore(String searchEngineScore) {
-        setSearchEngineScore(parseParamList(searchEngineScore));
+    public boolean addSearchEngineSocreParam(Param param) {
+        return getSearchEngineScore().add(param);
+    }
+
+    public boolean addSearchEngineSocreParam(String paramLabel) {
+        return addSearchEngineSocreParam(parseParam(paramLabel));
+    }
+
+    public void setSearchEngineScore(String searchEngineScoreLabel) {
+        setSearchEngineScore(parseParamList(searchEngineScoreLabel));
     }
 
     public Reliability getReliability() {
@@ -111,8 +127,8 @@ public class Protein extends AbstractMZTabRecord {
         addValue(10, reliability);
     }
 
-    public void setReliability(String reliability) {
-        setReliability(Reliability.findReliability(reliability));
+    public void setReliability(String reliabilityLabel) {
+        setReliability(Reliability.findReliability(reliabilityLabel));
     }
 
     public Integer getNumPeptides() {
@@ -123,8 +139,8 @@ public class Protein extends AbstractMZTabRecord {
         addValue(11, numPeptides);
     }
 
-    public void setNumPeptides(String numPeptides) {
-        setNumPeptides(parseInteger(numPeptides));
+    public void setNumPeptides(String numPeptidesLabel) {
+        setNumPeptides(parseInteger(numPeptidesLabel));
     }
 
     public Integer getNumPeptidesDistinct() {
@@ -135,8 +151,8 @@ public class Protein extends AbstractMZTabRecord {
         addValue(12, numPeptideDistinct);
     }
 
-    public void setNumPeptideDistinct(String numPeptideDistinct) {
-        setNumPeptideDistinct(parseInteger(numPeptideDistinct));
+    public void setNumPeptideDistinct(String numPeptideDistinctLabel) {
+        setNumPeptideDistinct(parseInteger(numPeptideDistinctLabel));
     }
 
     public Integer getNumPeptidesUnambiguous() {
@@ -147,32 +163,40 @@ public class Protein extends AbstractMZTabRecord {
         addValue(13, numPeptidesUnambiguous);
     }
 
-    public void setNumPeptidesUnambiguous(String numPeptidesUnambiguous) {
-        setNumPeptidesUnambiguous(parseInteger(numPeptidesUnambiguous));
+    public void setNumPeptidesUnambiguous(String numPeptidesUnambiguousLabel) {
+        setNumPeptidesUnambiguous(parseInteger(numPeptidesUnambiguousLabel));
     }
 
     public SplitList<String> getAmbiguityMembers() {
         return getSplitList(14);
     }
 
+    public boolean addAmbiguityMembers(String member) {
+        return getAmbiguityMembers().add(member);
+    }
+
     public void setAmbiguityMembers(SplitList<String> ambiguityMembers) {
         addValue(14, ambiguityMembers);
     }
 
-    public void setAmbiguityMembers(String ambiguityMembers) {
-        setAmbiguityMembers(parseStringList(MZTabConstants.COMMA, ambiguityMembers));
+    public void setAmbiguityMembers(String ambiguityMembersLabel) {
+        setAmbiguityMembers(parseStringList(MZTabConstants.COMMA, ambiguityMembersLabel));
     }
 
     public SplitList<Modification> getModifications() {
         return getSplitList(15);
     }
 
+    public boolean addModification(Modification modification) {
+        return getModifications().add(modification);
+    }
+
     public void setModifications(SplitList<Modification> modifications) {
         addValue(15, modifications);
     }
 
-    public void setModifications(String modifications) {
-        setModifications(parseModificationList(Section.Protein, modifications));
+    public void setModifications(String modificationsLabel) {
+        setModifications(parseModificationList(Section.Protein, modificationsLabel));
     }
 
     public URI getURI() {
@@ -183,20 +207,24 @@ public class Protein extends AbstractMZTabRecord {
         addValue(16, uri);
     }
 
-    public void setURI(String uri) {
-        setURI(parseURI(uri));
+    public void setURI(String uriLabel) {
+        setURI(parseURI(uriLabel));
     }
 
     public SplitList<String> getGOTerms() {
         return getSplitList(17);
     }
 
+    public boolean addGOTerm(String term) {
+        return getGOTerms().add(term);
+    }
+
     public void setGOTerms(SplitList<String> goTerms) {
         addValue(17, goTerms);
     }
 
-    public void setGOTerms(String goTerms) {
-        setGOTerms(parseStringList(MZTabConstants.BAR, goTerms));
+    public void setGOTerms(String goTermsLabel) {
+        setGOTerms(parseStringList(MZTabConstants.BAR, goTermsLabel));
     }
 
     public Double getProteinCoverage() {
@@ -207,8 +235,8 @@ public class Protein extends AbstractMZTabRecord {
         addValue(18, proteinConverage);
     }
 
-    public void setProteinConverage(String proteinConverage) {
-        setProteinConverage(parseDouble(proteinConverage));
+    public void setProteinConverage(String proteinConverageLabel) {
+        setProteinConverage(parseDouble(proteinConverageLabel));
     }
 
     /**

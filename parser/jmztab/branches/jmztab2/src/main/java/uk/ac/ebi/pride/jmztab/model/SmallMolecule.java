@@ -23,12 +23,16 @@ public class SmallMolecule extends AbstractMZTabRecord {
         return getSplitList(1);
     }
 
+    public boolean addIdentifier(String identifier) {
+        return getIdentifier().add(identifier);
+    }
+
     public void setIdentifier(SplitList<String> identifier) {
         addValue(1, identifier);
     }
 
-    public void setIdentifier(String identifier) {
-        setIdentifier(parseStringList(MZTabConstants.BAR, identifier));
+    public void setIdentifier(String identifierLabel) {
+        setIdentifier(parseStringList(MZTabConstants.BAR, identifierLabel));
     }
 
     public String getUnitId() {
@@ -79,8 +83,8 @@ public class SmallMolecule extends AbstractMZTabRecord {
         addValue(7, massToCharge);
     }
 
-    public void setMassToCharge(String massToCharge) {
-        setMassToCharge(parseDouble(massToCharge));
+    public void setMassToCharge(String massToChargeLabel) {
+        setMassToCharge(parseDouble(massToChargeLabel));
     }
 
     public Integer getCharge() {
@@ -91,20 +95,28 @@ public class SmallMolecule extends AbstractMZTabRecord {
         addValue(8, charge);
     }
 
-    public void setCharge(String charge) {
-        setCharge(parseInteger(charge));
+    public void setCharge(String chargeLabel) {
+        setCharge(parseInteger(chargeLabel));
     }
 
     public SplitList<Double> getRetentionTime() {
         return getSplitList(9);
     }
 
+    public boolean addRetentionTime(Double rt) {
+        return getRetentionTime().add(rt);
+    }
+
+    public boolean addRetentionTime(String rtLabel) {
+        return addRetentionTime(parseDouble(rtLabel));
+    }
+
     public void setRetentionTime(SplitList<Double> retentionTime) {
         addValue(9, retentionTime);
     }
 
-    public void setRetentionTime(String retentionTime) {
-        setRetentionTime(parseDoubleList(retentionTime));
+    public void setRetentionTime(String retentionTimeLabel) {
+        setRetentionTime(parseDoubleList(retentionTimeLabel));
     }
 
     public Integer getTaxid() {
@@ -115,8 +127,8 @@ public class SmallMolecule extends AbstractMZTabRecord {
         addValue(10, taxid);
     }
 
-    public void setTaxid(String taxid) {
-        setTaxid(parseInteger(taxid));
+    public void setTaxid(String taxidLabel) {
+        setTaxid(parseInteger(taxidLabel));
     }
 
     public String getSpecies() {
@@ -151,8 +163,8 @@ public class SmallMolecule extends AbstractMZTabRecord {
         addValue(14, reliability);
     }
 
-    public void setReliability(String reliability) {
-        setReliability(Reliability.findReliability(reliability));
+    public void setReliability(String reliabilityLabel) {
+        setReliability(Reliability.findReliability(reliabilityLabel));
     }
 
     public URI getURI() {
@@ -163,12 +175,16 @@ public class SmallMolecule extends AbstractMZTabRecord {
         addValue(15, uri);
     }
 
-    public void setURI(String uri) {
-        setURI(parseURI(uri));
+    public void setURI(String uriLabel) {
+        setURI(parseURI(uriLabel));
     }
 
     public SplitList<SpecRef> getSpectraRef() {
         return getSplitList(16);
+    }
+
+    public boolean addSpectraRef(SpecRef specRef) {
+        return getSpectraRef().add(specRef);
     }
 
     public void setSpectraRef(SplitList<SpecRef> spectraRef) {
@@ -183,36 +199,56 @@ public class SmallMolecule extends AbstractMZTabRecord {
         return getSplitList(17);
     }
 
+    public boolean addSearchEngineParam(Param param) {
+        return getSearchEngine().add(param);
+    }
+
+    public boolean addSearchEngineParam(String paramLabel) {
+        return addSearchEngineParam(parseParam(paramLabel));
+    }
+
     public void setSearchEngine(SplitList<Param> searchEngine) {
         addValue(17, searchEngine);
     }
 
-    public void setSearchEngine(String searchEngine) {
-        setSearchEngine(parseParamList(searchEngine));
+    public void setSearchEngine(String searchEngineLabel) {
+        setSearchEngine(parseParamList(searchEngineLabel));
     }
 
     public SplitList<Param> getSearchEngineScore() {
         return getSplitList(18);
     }
 
+    public boolean addSearchEngineSocreParam(Param param) {
+        return getSearchEngineScore().add(param);
+    }
+
+    public boolean addSearchEngineSocreParam(String paramLabel) {
+        return addSearchEngineSocreParam(parseParam(paramLabel));
+    }
+
     public void setSearchEngineScore(SplitList<Param> searchEngineScore) {
         addValue(18, searchEngineScore);
     }
 
-    public void setSearchEngineScore(String searchEngineScore) {
-        setSearchEngineScore(parseParamList(searchEngineScore));
+    public void setSearchEngineScore(String searchEngineScoreLabel) {
+        setSearchEngineScore(parseParamList(searchEngineScoreLabel));
     }
 
     public SplitList<Modification> getModifications() {
         return getSplitList(19);
     }
 
+    public boolean addModification(Modification modification) {
+        return getModifications().add(modification);
+    }
+
     public void setModifications(SplitList<Modification> modifications) {
         addValue(19, modifications);
     }
 
-    public void setModifications(String modifications) {
-        setModifications(parseModificationList(Section.Small_Molecule, modifications));
+    public void setModifications(String modificationsLabel) {
+        setModifications(parseModificationList(Section.Small_Molecule, modificationsLabel));
     }
 
     /**

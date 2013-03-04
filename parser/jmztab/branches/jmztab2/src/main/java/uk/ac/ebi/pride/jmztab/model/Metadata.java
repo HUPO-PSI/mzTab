@@ -32,6 +32,10 @@ public class Metadata {
         }
     }
 
+    public Unit removeUnit(String identifier) {
+        return unitMap.remove(identifier);
+    }
+
     public Unit getUnit(String identifier) {
         return unitMap.get(identifier);
     }
