@@ -51,8 +51,8 @@ public class Peptide extends AbstractMZTabRecord {
         addValue(4, unique);
     }
 
-    public void setUnique(String unique) {
-        setUnique(MZBoolean.findBoolean(unique));
+    public void setUnique(String uniqueLabel) {
+        setUnique(MZBoolean.findBoolean(uniqueLabel));
     }
 
     public String getDatabase() {
@@ -75,24 +75,40 @@ public class Peptide extends AbstractMZTabRecord {
         return getSplitList(7);
     }
 
+    public boolean addSearchEngineParam(Param param) {
+        return getSearchEngine().add(param);
+    }
+
+    public boolean addSearchEngineParam(String paramLabel) {
+        return addSearchEngineParam(parseParam(paramLabel));
+    }
+
     public void setSearchEngine(SplitList<Param> searchEngine) {
         addValue(7, searchEngine);
     }
 
-    public void setSearchEngine(String searchEngine) {
-        setSearchEngine(parseParamList(searchEngine));
+    public void setSearchEngine(String searchEngineLabel) {
+        setSearchEngine(parseParamList(searchEngineLabel));
     }
 
     public SplitList<Param> getSearchEngineScore() {
         return getSplitList(8);
     }
 
+    public boolean addSearchEngineSocreParam(Param param) {
+        return getSearchEngineScore().add(param);
+    }
+
+    public boolean addSearchEngineSocreParam(String paramLabel) {
+        return addSearchEngineSocreParam(parseParam(paramLabel));
+    }
+
     public void setSearchEngineScore(SplitList<Param> searchEngineScore) {
         addValue(8, searchEngineScore);
     }
 
-    public void setSearchEngineScore(String searchEngineScore) {
-        setSearchEngineScore(parseParamList(searchEngineScore));
+    public void setSearchEngineScore(String searchEngineScoreLabel) {
+        setSearchEngineScore(parseParamList(searchEngineScoreLabel));
     }
 
     public Reliability getReliability() {
@@ -103,32 +119,44 @@ public class Peptide extends AbstractMZTabRecord {
         addValue(9, reliability);
     }
 
-    public void setReliability(String reliability) {
-        setReliability(Reliability.findReliability(reliability));
+    public void setReliability(String reliabilityLabel) {
+        setReliability(Reliability.findReliability(reliabilityLabel));
     }
 
     public SplitList<Modification> getModifications() {
         return getSplitList(10);
     }
 
+    public boolean addModification(Modification modification) {
+        return getModifications().add(modification);
+    }
+
     public void setModifications(SplitList<Modification> modifications) {
         addValue(10, modifications);
     }
 
-    public void setModifications(String modifications) {
-        setModifications(parseModificationList(Section.Peptide, modifications));
+    public void setModifications(String modificationsLabel) {
+        setModifications(parseModificationList(Section.Peptide, modificationsLabel));
     }
 
     public SplitList<Double> getRetentionTime() {
         return getSplitList(11);
     }
 
+    public boolean addRetentionTime(Double rt) {
+        return getRetentionTime().add(rt);
+    }
+
+    public boolean addRetentionTime(String rtLabel) {
+        return addRetentionTime(parseDouble(rtLabel));
+    }
+
     public void setRetentionTime(SplitList<Double> retentionTime) {
         addValue(11, retentionTime);
     }
 
-    public void setRetentionTime(String retentionTime) {
-        setRetentionTime(parseDoubleList(retentionTime));
+    public void setRetentionTime(String retentionTimeLabel) {
+        setRetentionTime(parseDoubleList(retentionTimeLabel));
     }
 
     public Integer getCharge() {
@@ -139,8 +167,8 @@ public class Peptide extends AbstractMZTabRecord {
         addValue(12, charge);
     }
 
-    public void setCharge(String charge) {
-        setCharge(parseInteger(charge));
+    public void setCharge(String chargeLabel) {
+        setCharge(parseInteger(chargeLabel));
     }
 
     public Double getMassToCharge() {
@@ -151,8 +179,8 @@ public class Peptide extends AbstractMZTabRecord {
         addValue(13, massToCharge);
     }
 
-    public void setMassToCharge(String massToCharge) {
-        setMassToCharge(parseDouble(massToCharge));
+    public void setMassToCharge(String massToChargeLabel) {
+        setMassToCharge(parseDouble(massToChargeLabel));
     }
 
     public URI getURI() {
@@ -163,20 +191,24 @@ public class Peptide extends AbstractMZTabRecord {
         addValue(14, uri);
     }
 
-    public void setURI(String uri) {
-        setURI(parseURI(uri));
+    public void setURI(String uriLabel) {
+        setURI(parseURI(uriLabel));
     }
 
     public SplitList<SpecRef> getSpectraRef() {
         return getSplitList(15);
     }
 
+    public boolean addSpectraRef(SpecRef specRef) {
+        return getSpectraRef().add(specRef);
+    }
+
     public void setSpectraRef(SplitList<SpecRef> spectraRef) {
         addValue(15, spectraRef);
     }
 
-    public void setSpectraRef(Unit unit, String spectraRef) {
-        setSpectraRef(parseSpecRefList(unit, spectraRef));
+    public void setSpectraRef(Unit unit, String spectraRefLabel) {
+        setSpectraRef(parseSpecRefList(unit, spectraRefLabel));
     }
 
     /**
