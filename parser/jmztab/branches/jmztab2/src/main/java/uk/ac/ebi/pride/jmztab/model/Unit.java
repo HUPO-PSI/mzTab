@@ -14,7 +14,7 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
  * User: Qingwei
  * Date: 30/01/13
  */
-public class Unit {
+public class Unit extends OperationCenter {
     private String unitId;
     private String title;
     private String description;
@@ -60,6 +60,10 @@ public class Unit {
      */
     public String getIdentifier() {
         return unitId;
+    }
+
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
     }
 
     /**

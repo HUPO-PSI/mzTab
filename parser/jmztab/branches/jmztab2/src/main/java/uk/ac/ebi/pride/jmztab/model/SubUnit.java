@@ -50,16 +50,40 @@ public class SubUnit extends Unit {
         return subId;
     }
 
+    public void setSubId(Integer subId) {
+        Integer oldSubId = this.subId;
+        this.subId = subId;
+        firePropertyChange(OperationCenter.SUB_UNIT_ID, oldSubId, subId);
+    }
+
     @Override
     public String getIdentifier() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(getUnitId());
+        sb.append(getUnitId()).append(MINUS).append(SUB);
         if (subId != null) {
-            sb.append(MINUS).append(SUB).append("[").append(subId).append("]");
+            sb.append("[").append(subId).append("]");
         }
 
         return sb.toString();
+    }
+
+    /**
+     * temporary function.
+     * if identifier like {Unit_id}-sub, remove -sub
+     * if identifier like {Unit_id}-sub[id], do nothing.
+     */
+    protected StringBuilder printPrefix(StringBuilder sb) {
+        sb.append(Section.Metadata.getPrefix()).append(TAB);
+
+        String identifier = getIdentifier();
+        if (! identifier.contains("[")) {
+            identifier = identifier.substring(0, identifier.indexOf("-"));
+        }
+
+        sb.append(identifier).append(MINUS);
+
+        return sb;
     }
 
     public String toString() {
@@ -241,11 +265,6 @@ public class SubUnit extends Unit {
 
     @Deprecated
     public void addModParam(Param param) {
-        throw new UnsupportedOperationException("This operation not support in SubUnit");
-    }
-
-    @Deprecated
-    public void setModProbabilityMethod(Param modProbabilityMethod) {
         throw new UnsupportedOperationException("This operation not support in SubUnit");
     }
 

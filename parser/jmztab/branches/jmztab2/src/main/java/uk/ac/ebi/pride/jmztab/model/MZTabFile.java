@@ -1,9 +1,7 @@
-package uk.ac.ebi.pride.jmztab.utils;
+package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.parser.MZTabFileParser;
+import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
@@ -29,13 +27,7 @@ public class MZTabFile {
     private SortedMap<Integer, Peptide> peptides;
     private SortedMap<Integer, SmallMolecule> smallMolecules;
 
-    public MZTabFile(File tabFile) throws IOException {
-        this(tabFile, MZTabConstants.BUFFERED);
-    }
-
-    public MZTabFile(File tabFile, boolean buffered) throws IOException {
-        MZTabFileParser parser = new MZTabFileParser(tabFile, System.out, buffered);
-
+    public MZTabFile(MZTabFileParser parser) {
         this.proteinColumnFactory = parser.getProteinColumnFactory();
         this.peptideColumnFactory = parser.getPeptideColumnFactory();
         this.smallMoleculeColumnFactory = parser.getSmallMoleculeColumnFactory();
@@ -46,10 +38,49 @@ public class MZTabFile {
         this.proteins = parser.getProteins();
         this.peptides = parser.getPeptides();
         this.smallMolecules = parser.getSmallMolecules();
+
+        // create listener connection.
+        if (proteinColumnFactory != null) {
+            for (AbundanceColumn column : proteinColumnFactory.getAbundanceColumnMapping().values()) {
+                column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+            }
+        }
+        if (peptideColumnFactory != null) {
+            for (AbundanceColumn column : peptideColumnFactory.getAbundanceColumnMapping().values()) {
+                column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+            }
+        }
+        if (smallMoleculeColumnFactory != null) {
+            for (AbundanceColumn column : smallMoleculeColumnFactory.getAbundanceColumnMapping().values()) {
+                column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+            }
+        }
+        if (proteins != null) {
+            for (Protein protein : proteins.values()) {
+                this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, protein);
+                this.proteinColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, protein);
+            }
+        }
+        if (peptides != null) {
+            for (Peptide peptide : peptides.values()) {
+                this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, peptide);
+                this.peptideColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, peptide);
+            }
+        }
+        if (smallMolecules != null) {
+            for (SmallMolecule smallMolecule : smallMolecules.values()) {
+                this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, smallMolecule);
+                this.smallMoleculeColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, smallMolecule);
+            }
+        }
     }
 
-    public SortedMap<Integer, Comment> getComments() {
-        return comments;
+    public MZTabFile(Metadata metadata) {
+        this.metadata = metadata;
+    }
+
+    public Collection<Comment> getComments() {
+        return Collections.unmodifiableCollection(comments.values());
     }
 
     public Metadata getMetadata() {
@@ -68,15 +99,105 @@ public class MZTabFile {
         return smallMoleculeColumnFactory;
     }
 
+    public void setProteinColumnFactory(MZTabColumnFactory proteinColumnFactory) {
+        if (proteinColumnFactory == null) {
+            this.proteinColumnFactory = null;
+            this.proteins = null;
+            return;
+        }
+
+        this.proteinColumnFactory = proteinColumnFactory;
+        this.proteins = new TreeMap<Integer, Protein>();
+
+        for (AbundanceColumn column : proteinColumnFactory.getAbundanceColumnMapping().values()) {
+            column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+        }
+    }
+
+    public void setPeptideColumnFactory(MZTabColumnFactory peptideColumnFactory) {
+        if (peptideColumnFactory == null) {
+            this.peptideColumnFactory = null;
+            this.peptides = null;
+            return;
+        }
+
+        this.peptideColumnFactory = peptideColumnFactory;
+        this.peptides = new TreeMap<Integer, Peptide>();
+
+        for (AbundanceColumn column : peptideColumnFactory.getAbundanceColumnMapping().values()) {
+            column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+        }
+    }
+
+    public void setSmallMoleculeColumnFactory(MZTabColumnFactory smallMoleculeColumnFactory) {
+        if (smallMoleculeColumnFactory == null) {
+            this.smallMoleculeColumnFactory = null;
+            this.smallMolecules = null;
+            return;
+        }
+
+        this.smallMoleculeColumnFactory = smallMoleculeColumnFactory;
+        this.smallMolecules = new TreeMap<Integer, SmallMolecule>();
+
+        for (AbundanceColumn column : smallMoleculeColumnFactory.getAbundanceColumnMapping().values()) {
+            column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+        }
+    }
+
+    public void addProtein(Protein protein) {
+        if (protein == null) {
+            throw new NullPointerException("Protein record is null!");
+        }
+
+        Integer position = this.proteins.isEmpty() ? 1 : this.proteins.lastKey() + 1;
+        this.proteins.put(position, protein);
+        this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, protein);
+        this.proteinColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, protein);
+    }
+
+    public void addPeptide(Peptide peptide) {
+        if (peptide == null) {
+            throw new NullPointerException("Peptide record is null!");
+        }
+
+        Integer position = this.peptides.isEmpty() ? 1 : this.peptides.lastKey() + 1;
+        this.peptides.put(position, peptide);
+        this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, peptide);
+        this.peptideColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, peptide);
+    }
+
+    public void addSmallMolecule(SmallMolecule smallMolecule) {
+        if (smallMolecule == null) {
+            throw new NullPointerException("Small Molecule record is null!");
+        }
+
+        Integer position = this.smallMolecules.isEmpty() ? 1 : this.smallMolecules.lastKey() + 1;
+        this.smallMolecules.put(position, smallMolecule);
+        metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, smallMolecule);
+        this.smallMoleculeColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, smallMolecule);
+    }
+
+    public Collection<Unit> getUnits(String unitId) {
+        Collection<Unit> units = new ArrayList<Unit>();
+
+        for (Unit unit : getUnits()) {
+            if (unit.getUnitId().equals(unitId)) {
+                units.add(unit);
+            }
+        }
+
+        return units;
+    }
+
     /**
      * Returns the metadata for the given unit as a Unit object. Returns null in
      * case the unit does not exist.
      *
-     * @param unitId The unit'd id.
+     * @param identifier The unit'd id.
      * @return A Unit object or null in case the unit doesn't exist.
      */
-    public Unit getUnitMetadata(String unitId) {
-        return metadata.getUnit(unitId);
+    public Unit getUnit(String identifier) {
+        return metadata.getUnit(identifier);
     }
 
     /**
@@ -86,8 +207,8 @@ public class MZTabFile {
      * @param protein The protein object to get the metadata for.
      * @return A Unit object or null in case no metadata was specified.
      */
-    public Unit getUnitMetadata(Protein protein) {
-        return getUnitMetadata(protein.getUnitId());
+    public Unit getUnit(Protein protein) {
+        return getUnit(protein.getUnitId());
     }
 
     /**
@@ -97,8 +218,8 @@ public class MZTabFile {
      * @param peptide The peptide object to get the metadata for.
      * @return A Unit object or null in case no metadata was specified.
      */
-    public Unit getUnitMetadata(Peptide peptide) {
-        return getUnitMetadata(peptide.getUnitId());
+    public Unit getUnit(Peptide peptide) {
+        return getUnit(peptide.getUnitId());
     }
 
     /**
@@ -108,8 +229,8 @@ public class MZTabFile {
      * @param smallMolecule The small molecule object to get the metadata for.
      * @return A Unit object or null in case no metadata was specified.
      */
-    public Unit getUnitMetadata(SmallMolecule smallMolecule) {
-        return getUnitMetadata(smallMolecule.getUnitId());
+    public Unit getUnit(SmallMolecule smallMolecule) {
+        return getUnit(smallMolecule.getUnitId());
     }
 
     /**
@@ -117,8 +238,8 @@ public class MZTabFile {
      *
      * @return A list of Unit objects.
      */
-    public Collection<Unit> getUnitMetadata() {
-        return metadata.values();
+    public Collection<Unit> getUnits() {
+        return Collections.unmodifiableCollection(metadata.values());
     }
 
     /**
@@ -127,18 +248,14 @@ public class MZTabFile {
      * @return A collection of unit ids.
      */
     public Set<String> getUnitIds() {
-        Collection<Unit> units = getUnitMetadata();
+        Collection<Unit> units = getUnits();
 
         HashSet<String> unitIds = new HashSet<String>();
-        String identifier;
         for (Unit unit : units) {
-            identifier = unit.getIdentifier();
-            if (! identifier.contains("sub")) {
-                unitIds.add(identifier);
-            }
+            unitIds.add(unit.getUnitId());
         }
 
-        return unitIds;
+        return Collections.unmodifiableSet(unitIds);
     }
 
     /**
@@ -156,7 +273,7 @@ public class MZTabFile {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -185,7 +302,7 @@ public class MZTabFile {
      * @return A Collection of ProteinS identified in this unit or null in case
      * the unit does not exist.
      */
-    public Collection<Protein> getUnitProteins(String unitId) {
+    public Collection<Protein> getProteins(String unitId) {
         Collection<Protein> result = new ArrayList<Protein>();
 
         for (Protein record : proteins.values()) {
@@ -194,7 +311,7 @@ public class MZTabFile {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -203,7 +320,11 @@ public class MZTabFile {
      * @return A Collection of ProteinS
      */
     public Collection<Protein> getProteins() {
-        return proteins.values();
+        return Collections.unmodifiableCollection(proteins.values());
+    }
+
+    public SortedMap<Integer, Protein> getProteinsWithLineNumber() {
+        return Collections.unmodifiableSortedMap(proteins);
     }
 
     /**
@@ -234,7 +355,7 @@ public class MZTabFile {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -254,7 +375,7 @@ public class MZTabFile {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -273,7 +394,7 @@ public class MZTabFile {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -282,7 +403,11 @@ public class MZTabFile {
      * @return A Collection of peptides.
      */
     public Collection<Peptide> getPeptides() {
-        return peptides.values();
+        return Collections.unmodifiableCollection(peptides.values());
+    }
+
+    public SortedMap<Integer, Peptide> getPeptidesWithLineNumber() {
+        return Collections.unmodifiableSortedMap(peptides);
     }
 
     /**
@@ -301,7 +426,7 @@ public class MZTabFile {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
     }
 
     /**
@@ -310,7 +435,11 @@ public class MZTabFile {
      * @return A Collection of SmallMoleculeS
      */
     public Collection<SmallMolecule> getSmallMolecules() {
-        return smallMolecules.values();
+        return Collections.unmodifiableCollection(smallMolecules.values());
+    }
+
+    public SortedMap<Integer, SmallMolecule> getSmallMoleculesWithLineNumber() {
+        return Collections.unmodifiableSortedMap(smallMolecules);
     }
 
     /**
@@ -329,7 +458,71 @@ public class MZTabFile {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
+    }
+
+    public void modifyUnitId(String oldUnitId, String newUnitId) {
+        metadata.modifyUnitId(oldUnitId, newUnitId);
+    }
+
+    public void modifyProteinColumnPosition(int oldPosition, int newPosition) {
+        proteinColumnFactory.modifyColumnPosition(oldPosition, newPosition);
+    }
+
+    public void modifyPeptideColumnPosition(int oldPosition, int newPosition) {
+        peptideColumnFactory.modifyColumnPosition(oldPosition, newPosition);
+    }
+
+    public void modifySmallMoleculeColumnPosition(int oldPosition, int newPosition) {
+        smallMoleculeColumnFactory.modifyColumnPosition(oldPosition, newPosition);
+    }
+
+    public void modifySubUnitId(SubUnit subUnit, int newSubId) {
+        subUnit.setSubId(newSubId);
+    }
+
+    /**
+     * During move optional column and data to a new position, some other data table record not fill null
+     * value as default. This method will used to maintain data cell integrity.
+     */
+    public void fillNull() {
+        Object value;
+        if (proteinColumnFactory != null) {
+            for (Protein protein : proteins.values()) {
+                for (Integer position : proteinColumnFactory.getAbundanceColumnMapping().keySet()) {
+                    value = protein.getValue(position);
+                    protein.addValue(position, value);
+                }
+                for (Integer position : proteinColumnFactory.getOptionalColumnMapping().keySet()) {
+                    value = protein.getValue(position);
+                    protein.addValue(position, value);
+                }
+            }
+        }
+        if (peptideColumnFactory != null) {
+            for (Peptide peptide : peptides.values()) {
+                for (Integer position : peptideColumnFactory.getAbundanceColumnMapping().keySet()) {
+                    value = peptide.getValue(position);
+                    peptide.addValue(position, value);
+                }
+                for (Integer position : peptideColumnFactory.getOptionalColumnMapping().keySet()) {
+                    value = peptide.getValue(position);
+                    peptide.addValue(position, value);
+                }
+            }
+        }
+        if (smallMoleculeColumnFactory != null) {
+            for (SmallMolecule smallMolecule : smallMolecules.values()) {
+                for (Integer position : smallMoleculeColumnFactory.getAbundanceColumnMapping().keySet()) {
+                    value = smallMolecule.getValue(position);
+                    smallMolecule.addValue(position, value);
+                }
+                for (Integer position : smallMoleculeColumnFactory.getOptionalColumnMapping().keySet()) {
+                    value = smallMolecule.getValue(position);
+                    smallMolecule.addValue(position, value);
+                }
+            }
+        }
     }
 
     /**
@@ -348,10 +541,12 @@ public class MZTabFile {
             }
         }
 
-        return result;
+        return Collections.unmodifiableCollection(result);
     }
 
-    public void print(OutputStream out) throws IOException {
+    public void printMZTab(OutputStream out) throws IOException {
+        fillNull();
+
         out.write(metadata.toString().getBytes());
         out.write(NEW_LINE.getBytes());
 

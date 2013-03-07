@@ -69,7 +69,7 @@ public class MTDLineParser extends MZTabLineParser {
      * PRIDE_1234-cell_type[1]
      * PRIDE_1234-sub[1]-cell_type[1]
      */
-    private boolean isSubSampleElement(MetadataElement element) {
+    public boolean isSubSampleElement(MetadataElement element) {
         if (element == null) {
             return false;
         }

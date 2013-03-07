@@ -2,6 +2,7 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
+import java.beans.PropertyChangeEvent;
 import java.net.URI;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
@@ -13,6 +14,20 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 public class SmallMolecule extends AbstractMZTabRecord {
     public SmallMolecule() {
         super(MZTabColumnFactory.getInstance(Section.Small_Molecule));
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(OperationCenter.UNIT_ID)) {
+            setUnitId((String) evt.getNewValue());
+        } else if (evt.getPropertyName().equals(OperationCenter.POSITION)) {
+            // move data to new position, old position set null.
+            int oldPosition = (Integer) evt.getOldValue();
+            int newPosition = (Integer) evt.getNewValue();
+            Object value = getValue(oldPosition);
+            addValue(oldPosition, null);
+            addValue(newPosition, value);
+        }
     }
 
     public SmallMolecule(MZTabColumnFactory factory) {

@@ -2,8 +2,6 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.TAB;
-
 /**
  * Reporting replicates within experimental designs.
  *
@@ -26,16 +24,24 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.TAB;
 public class ReplicateUnit extends Unit {
     public final static String REP = "rep";
 
-    private int repId;
+    private Integer repId;
     private String comment;
 
-    public ReplicateUnit(String unitId, int repId) {
+    public ReplicateUnit(String unitId, Integer repId) {
         super(unitId);
 
         if (repId < 1) {
             throw new IllegalArgumentException("Replicate ID should great than 0!");
         }
         this.repId = repId;
+    }
+
+    public void setRepId(Integer repId) {
+        this.repId = repId;
+    }
+
+    public Integer getRepId() {
+        return repId;
     }
 
     /**

@@ -37,7 +37,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         this.metadata = metadata;
     }
 
-    protected void check(int lineNumber, String line) throws MZTabException {
+    public void check(int lineNumber, String line) throws MZTabException {
         super.check(lineNumber, line);
         checkCount();
 

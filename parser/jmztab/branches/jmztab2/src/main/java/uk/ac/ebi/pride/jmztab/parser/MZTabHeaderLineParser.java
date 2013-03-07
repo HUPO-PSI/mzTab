@@ -301,7 +301,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             throw new MZTabException(error);
         }
 
-        factory.addAbundanceColumn(subUnit);
+        factory.addAbundanceColumns(subUnit);
 
         return true;
     }
