@@ -7,7 +7,8 @@ package uk.ac.ebi.pride.jmztab.errors;
 public class MZTabException extends Exception {
     private MZTabError error;
 
-    public MZTabException() {
+    public MZTabException(String message) {
+        super(message);
     }
 
     public MZTabException(MZTabError error) {

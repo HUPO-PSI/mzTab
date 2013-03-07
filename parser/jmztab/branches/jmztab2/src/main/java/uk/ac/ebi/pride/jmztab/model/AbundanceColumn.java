@@ -1,12 +1,14 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.TreeMap;
 
 /**
  * User: Qingwei, Johannes Griss
  * Date: 31/01/13
  */
-public class AbundanceColumn implements MZTabColumn {
+public class AbundanceColumn implements MZTabColumn, PropertyChangeListener {
     public enum Field {
         ABUNDANCE          ("abundance",              Double.class,    1),
         ABUNDANCE_STDEV    ("abundance_stdev",        Double.class,    2),
@@ -29,19 +31,23 @@ public class AbundanceColumn implements MZTabColumn {
 
     private Section section;
     private Field field;
-    private int offset;
     private SubUnit subUnit;
+
+    private int position;
 
     private AbundanceColumn(Section section, Field field, int offset, SubUnit subUnit) {
         this.section = section;
         this.field = field;
-        this.offset = offset;
         this.subUnit = subUnit;
+
+        this.position = offset + field.position;
+
+        subUnit.addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, this);
     }
 
     /**
      * Create three {section}_[abundance|abundance_stdev|abundance_std_error]_{subUnit} columns at the
-     * right of table. {@link #offset} is the position of the last column of table.
+     * right of table. {@param offset} is the position of the last column of table.
      */
     public static TreeMap<Integer, AbundanceColumn> getInstance(Section section, int offset, SubUnit subUnit) {
         if (! section.isData()) {
@@ -63,6 +69,15 @@ public class AbundanceColumn implements MZTabColumn {
         columnMap.put(column.getPosition(), column);
 
         return columnMap;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(OperationCenter.SUB_UNIT_ID)) {
+            if (subUnit.getSubId().equals(evt.getOldValue())) {
+                subUnit.setSubId((Integer) evt.getNewValue());
+            }
+        }
     }
 
     public SubUnit getSubUnit() {
@@ -96,7 +111,11 @@ public class AbundanceColumn implements MZTabColumn {
 
     @Override
     public int getPosition() {
-        return offset + field.position;
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public static Field findField(String name) {

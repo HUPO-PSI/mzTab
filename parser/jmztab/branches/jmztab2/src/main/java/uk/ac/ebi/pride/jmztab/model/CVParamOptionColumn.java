@@ -57,7 +57,7 @@ public class CVParamOptionColumn extends OptionalColumn {
         return new CVParamOptionColumn(param, MZBoolean.class, offset);
     }
 
-    public Param getParam() {
+    public CVParam getParam() {
         return param;
     }
 }

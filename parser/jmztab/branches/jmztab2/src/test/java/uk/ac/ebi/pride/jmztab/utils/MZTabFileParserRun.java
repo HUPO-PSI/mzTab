@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.jmztab.parser;
+package uk.ac.ebi.pride.jmztab.utils;
 
 import java.io.File;
 

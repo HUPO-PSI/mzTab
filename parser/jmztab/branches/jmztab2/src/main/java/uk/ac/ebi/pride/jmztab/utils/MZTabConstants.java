@@ -18,11 +18,15 @@ public class MZTabConstants {
     public final static char COLON = ':';
     public final static char COMMA = ',';
 
+    public final static String MZTabExceptionMessage = "There exists errors in the metadata section or " +
+            "protein/peptide/small_molecule header section! Validation will stop, and ignore data table check!" + NEW_LINE;
+    public final static String MZTabErrorOverflowExceptionMessage = "System error queue overflow!" + NEW_LINE;
+
     public final static String Version = MZTabProperties.getProperty("mztab.version");
     public final static String ENCODE = MZTabProperties.getProperty("mztab.encode");
     public final static int MAX_ERROR_COUNT = Integer.parseInt(MZTabProperties.getProperty("mztab.max_error_count"));
     public final static LogicalErrorType.Level LEVEL = LogicalErrorType.findLevel(MZTabProperties.getProperty("mztab.level"));
-    public final static boolean CVPARAM_CHECK = new Boolean(MZTabProperties.getProperty("mztab.cvparam_webservice"));
+    public final static boolean CVPARAM_CHECK = Boolean.parseBoolean(MZTabProperties.getProperty("mztab.cvparam_webservice"));
 
-    public final static boolean BUFFERED = new Boolean(MZTabProperties.getProperty("mztab.buffered"));
+    public final static boolean BUFFERED = Boolean.parseBoolean(MZTabProperties.getProperty("mztab.buffered"));
 }

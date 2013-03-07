@@ -2,6 +2,7 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
+import java.beans.PropertyChangeListener;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
@@ -16,10 +17,10 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.INFINITY;
  * User: Qingwei, Johannes Griss
  * Date: 05/02/13
  */
-public class AbstractMZTabRecord implements MZTabRecord {
+public abstract class AbstractMZTabRecord implements MZTabRecord, PropertyChangeListener {
     /**
      * Inherit AbstractMZTabRecord class can use this MZTabColumnFactory to add optional columns.
-     * @see MZTabColumnFactory#addAbundanceColumn(SubUnit)
+     * @see MZTabColumnFactory#addAbundanceColumns(SubUnit)
      * @see MZTabColumnFactory#addOptionColumn(String, Class)
      * @see MZTabColumnFactory#addCVParamOptionColumn(CVParam)
      */
@@ -33,6 +34,9 @@ public class AbstractMZTabRecord implements MZTabRecord {
         }
 
         this.factory = factory;
+        for (Integer position : factory.getColumnMapping().keySet()) {
+            addValue(position,  null);
+        }
     }
 
     /**
@@ -64,18 +68,8 @@ public class AbstractMZTabRecord implements MZTabRecord {
         }
     }
 
-    /**
-     * add a couple of values into record. Position start with 1.
-     */
-    public boolean addAllValues(List<Object> values) {
-        boolean success = true;
-        for (int i = 0; i < values.size(); i++) {
-            success = addValue(i + 1, values.get(i));
-            if (! success) {
-                break;
-            }
-        }
-        return success;
+    public Object getValue(Integer position) {
+        return record.get(position);
     }
 
     private Object translateValue(Object value) {

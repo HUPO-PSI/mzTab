@@ -14,10 +14,10 @@ public class OptionalColumn implements MZTabColumn {
 
     private String name;
     private Class columnType;
-    private int offset;
+    private int position;
 
     /**
-     * create optional opt_{name} column at the end of table. {@link #offset} is the position
+     * create optional opt_{name} column at the end of table. {@param offset} is the position
      * of the rightest column of table. {@link #columnType} is the value type which allow user
      * to set for this optional column. When user add value for this column, system will execute
      * value type match operation first.
@@ -34,11 +34,11 @@ public class OptionalColumn implements MZTabColumn {
 
         this.name = name;
         this.columnType = columnType;
-        this.offset = offset;
+        this.position = offset + 1;
     }
 
     /**
-     * create optional opt_{name} column at the end of table. {@link #offset} is the position
+     * create optional opt_{name} column at the end of table. {@param offset} is the position
      * of the rightest column of table. {@link #columnType} is the value type which allow user
      * to set for this optional column. When user add value for this column, system will execute
      * value type match operation first.
@@ -53,6 +53,10 @@ public class OptionalColumn implements MZTabColumn {
         return OPT + name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public Class getColumnType() {
         return columnType;
@@ -60,6 +64,10 @@ public class OptionalColumn implements MZTabColumn {
 
     @Override
     public int getPosition() {
-        return offset + 1;
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

@@ -6,7 +6,7 @@ import java.util.*;
  * User: Qingwei
  * Date: 30/01/13
  */
-public class Metadata {
+public class Metadata extends OperationCenter {
     /**
      * the <identifier, unit> pair, identifier is unique of Unit object.
      * @see uk.ac.ebi.pride.jmztab.model.Unit#getIdentifier()
@@ -20,20 +20,35 @@ public class Metadata {
      */
     private Map<String, Unit> unitMap = new TreeMap<String, Unit>();
 
-    public void addUnit(Unit unit) {
-        if (unit != null) {
-            unitMap.put(unit.getIdentifier(), unit);
-        }
+    public boolean addUnit(Unit unit) {
+        return addUnit(unit.getIdentifier(), unit);
     }
 
-    public void addUnit(String identifier, Unit unit) {
-        if (unit != null) {
-            unitMap.put(identifier, unit);
+    public boolean addUnit(String identifier, Unit unit) {
+        if (unit == null) {
+            return false;
         }
+
+        if (unitMap.containsKey(identifier)) {
+            return false;
+        }
+
+        unitMap.put(identifier, unit);
+        return true;
     }
 
-    public Unit removeUnit(String identifier) {
-        return unitMap.remove(identifier);
+    public void modifyUnitId(String oldUnitId, String newUnitId) {
+        Map<String, Unit> newUnitMap = new TreeMap<String, Unit>();
+
+        for (Unit unit : values()) {
+            if (unit.getUnitId().equals(oldUnitId)) {
+                unit.setUnitId(newUnitId);
+            }
+            newUnitMap.put(unit.getIdentifier(), unit);
+        }
+        this.unitMap = newUnitMap;
+
+        firePropertyChange(OperationCenter.UNIT_ID, oldUnitId, newUnitId);
     }
 
     public Unit getUnit(String identifier) {
@@ -50,6 +65,29 @@ public class Metadata {
 
     public Set<String> keySet() {
         return unitMap.keySet();
+    }
+
+    public Set<String> getUnitIds() {
+        Set<String> unitIds = new TreeSet<String>();
+
+        for (Unit unit : values()) {
+            unitIds.add(unit.getUnitId());
+        }
+
+        return unitIds;
+    }
+
+    public SortedMap<Integer, SubUnit> getSubUnits() {
+        SortedMap<Integer, SubUnit> units = new TreeMap<Integer, SubUnit>();
+
+        for (Unit unit : values()) {
+            if (unit instanceof SubUnit) {
+                SubUnit subUnit = (SubUnit) unit;
+                units.put(subUnit.getSubId(), subUnit);
+            }
+        }
+
+        return Collections.unmodifiableSortedMap(units);
     }
 
     @Override

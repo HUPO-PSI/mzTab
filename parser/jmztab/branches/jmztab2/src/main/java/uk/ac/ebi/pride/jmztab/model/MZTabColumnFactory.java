@@ -2,6 +2,7 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -28,11 +29,17 @@ import java.util.TreeMap;
  * User: Qingwei
  * Date: 04/02/13
  */
-public class MZTabColumnFactory {
+public class MZTabColumnFactory extends OperationCenter {
     /**
      * maintain the position and MZTabColumn ordered pairs. Notice: the position start with 1.
      */
-    private TreeMap<Integer, MZTabColumn> columnMapping  = new TreeMap<Integer, MZTabColumn>();
+    private TreeMap<Integer, MZTabColumn> stableColumnMapping = new TreeMap<Integer, MZTabColumn>();
+
+    private TreeMap<Integer, OptionalColumn> optionalColumnMapping = new TreeMap<Integer, OptionalColumn>();
+
+    private TreeMap<Integer, AbundanceColumn> abundanceColumnMapping = new TreeMap<Integer, AbundanceColumn>();
+
+    private TreeMap<Integer, MZTabColumn> columnMapping = new TreeMap<Integer, MZTabColumn>();
 
     /**
      * There are three type of table: protein, peptide or small molecular.
@@ -70,17 +77,17 @@ public class MZTabColumnFactory {
         switch (section) {
             case Peptide_Header:
                 for (PeptideColumn column : PeptideColumn.values()) {
-                    factory.columnMapping.put(column.getPosition(), column);
+                    factory.stableColumnMapping.put(column.getPosition(), column);
                 }
                 break;
             case Protein_Header:
                 for (ProteinColumn column : ProteinColumn.values()) {
-                    factory.columnMapping.put(column.getPosition(), column);
+                    factory.stableColumnMapping.put(column.getPosition(), column);
                 }
                 break;
             case Small_Molecule_Header:
                 for (SmallMoleculeColumn column : SmallMoleculeColumn.values()) {
-                    factory.columnMapping.put(column.getPosition(), column);
+                    factory.stableColumnMapping.put(column.getPosition(), column);
                 }
                 break;
             default:
@@ -88,6 +95,7 @@ public class MZTabColumnFactory {
                         "Small_Molecule. Others can not setting. ");
 
         }
+        factory.columnMapping.putAll(factory.stableColumnMapping);
 
         factory.section = section;
 
@@ -99,7 +107,7 @@ public class MZTabColumnFactory {
      * rightest of the table.
      * @see AbundanceColumn
      */
-    public void addAbundanceColumn(SubUnit subUnit) {
+    public void addAbundanceColumns(SubUnit subUnit) {
         int offset = columnMapping.lastKey();
 
         Section dataSection;
@@ -117,8 +125,21 @@ public class MZTabColumnFactory {
                 dataSection = null;
         }
 
-        TreeMap<Integer, AbundanceColumn> abundanceColumnList = AbundanceColumn.getInstance(dataSection, offset, subUnit);
-        columnMapping.putAll(abundanceColumnList);
+        TreeMap<Integer, AbundanceColumn> abundanceColumnMap = AbundanceColumn.getInstance(dataSection, offset, subUnit);
+        for (AbundanceColumn column : abundanceColumnMap.values()) {
+            addAbundanceColumn(column);
+        }
+    }
+
+    public void addAbundanceColumn(AbundanceColumn column) {
+        abundanceColumnMapping.put(column.getPosition(), column);
+        columnMapping.put(column.getPosition(), column);
+    }
+
+    public void addAllAbundanceColumn(Collection<AbundanceColumn> columns) {
+        for (AbundanceColumn column : columns) {
+            addAbundanceColumn(column);
+        }
     }
 
     /**
@@ -128,7 +149,7 @@ public class MZTabColumnFactory {
     public void addOptionColumn(String name, Class dataType) {
         int offset = columnMapping.lastKey();
         OptionalColumn column = OptionalColumn.getInstance(name, dataType, offset);
-        columnMapping.put(column.getPosition(), column);
+        addOptionColumn(column);
     }
 
     /**
@@ -138,9 +159,52 @@ public class MZTabColumnFactory {
     public void addCVParamOptionColumn(CVParam param) {
         int offset = columnMapping.lastKey();
         CVParamOptionColumn column = CVParamOptionColumn.getInstance(param, offset);
+        addOptionColumn(column);
+    }
+
+    public void addOptionColumn(OptionalColumn column) {
+        stableColumnMapping.put(column.getPosition(), column);
         columnMapping.put(column.getPosition(), column);
     }
 
+    public void addAllOptionColumn(Collection<OptionalColumn> columns) {
+        for (OptionalColumn column : columns) {
+            addOptionColumn(column);
+        }
+    }
+
+    public void modifyColumnPosition(int oldPosition, int newPosition) {
+        if (oldPosition <= stableColumnMapping.lastKey()) {
+            throw new IllegalArgumentException("The column in position " + oldPosition + " is not optional column.");
+        }
+
+        if (columnMapping.containsKey(newPosition)) {
+            throw new IllegalArgumentException("The new position " + newPosition + " has exists a column, can not overwrite.");
+        }
+
+        MZTabColumn column = columnMapping.get(oldPosition);
+        if (column == null) {
+            throw new IllegalArgumentException("The column in position " + oldPosition + " is not exists.");
+        }
+
+        if (column instanceof AbundanceColumn) {
+            AbundanceColumn abundanceColumn = (AbundanceColumn) column;
+            abundanceColumn.setPosition(newPosition);
+            abundanceColumnMapping.remove(oldPosition);
+            columnMapping.remove(oldPosition);
+            abundanceColumnMapping.put(newPosition, abundanceColumn);
+            columnMapping.put(newPosition, abundanceColumn);
+        } else if (column instanceof OptionalColumn) {
+            OptionalColumn optionalColumn = (OptionalColumn) column;
+            optionalColumn.setPosition(newPosition);
+            optionalColumnMapping.remove(oldPosition);
+            columnMapping.remove(oldPosition);
+            optionalColumnMapping.put(newPosition, optionalColumn);
+            columnMapping.put(newPosition, optionalColumn);
+        }
+
+        firePropertyChange(OperationCenter.POSITION, oldPosition, newPosition);
+    }
 
     /**
      * @return tab split column header string list.
@@ -177,6 +241,27 @@ public class MZTabColumnFactory {
      */
     public SortedMap<Integer, MZTabColumn> getColumnMapping() {
         return Collections.unmodifiableSortedMap(columnMapping);
+    }
+
+    /**
+     * @return a readonly sorted <Position, MZTabColumn> map.
+     */
+    public SortedMap<Integer, MZTabColumn> getStableColumnMapping() {
+        return Collections.unmodifiableSortedMap(stableColumnMapping);
+    }
+
+    /**
+     * @return a readonly sorted <Position, MZTabColumn> map.
+     */
+    public SortedMap<Integer, AbundanceColumn> getAbundanceColumnMapping() {
+        return Collections.unmodifiableSortedMap(abundanceColumnMapping);
+    }
+
+    /**
+     * @return a readonly sorted <Position, MZTabColumn> map.
+     */
+    public SortedMap<Integer, OptionalColumn> getOptionalColumnMapping() {
+        return Collections.unmodifiableSortedMap(optionalColumnMapping);
     }
 
     /**

@@ -3,9 +3,9 @@ package uk.ac.ebi.pride.jmztab;
 import org.apache.commons.cli.*;
 import uk.ac.ebi.pride.jmztab.errors.MZTabErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabErrorTypeMap;
-import uk.ac.ebi.pride.jmztab.parser.MZTabFileParser;
+import uk.ac.ebi.pride.jmztab.utils.MZTabFileMerger;
+import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
 import uk.ac.ebi.pride.jmztab.utils.MZTabConverter;
-import uk.ac.ebi.pride.jmztab.utils.MZTabMerger;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -106,7 +106,8 @@ public class MZTabCommandLine {
             for (String fileName : fileNameList) {
                 tabFileList.add(new File(dir, fileName.trim()));
             }
-            MZTabMerger.merge(tabFileList, out);
+            MZTabFileMerger merger = new MZTabFileMerger(tabFileList);
+            merger.printMZTab(out);
         }
 
         out.close();
