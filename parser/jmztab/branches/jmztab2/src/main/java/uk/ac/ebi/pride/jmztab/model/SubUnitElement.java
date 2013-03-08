@@ -1,7 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.MINUS;
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.TAB;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
  * {Unit_ID}-sub[id]-{element}[id]-

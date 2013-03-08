@@ -15,5 +15,4 @@ public interface MZTabRecord {
     public java.net.URI getURI(int position);
     public Reliability getReliability(int position);
     public MZBoolean getMZBoolean(int position);
-    public Object getOptional(int position);
 }

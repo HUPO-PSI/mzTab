@@ -1,10 +1,9 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
 import java.beans.PropertyChangeEvent;
 import java.net.URI;
 
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
@@ -231,6 +230,6 @@ public class Peptide extends AbstractMZTabRecord {
      */
     @Override
     public String toString() {
-        return Section.Peptide.getPrefix() + MZTabConstants.TAB + super.toString();
+        return Section.Peptide.getPrefix() + TAB + super.toString();
     }
 }

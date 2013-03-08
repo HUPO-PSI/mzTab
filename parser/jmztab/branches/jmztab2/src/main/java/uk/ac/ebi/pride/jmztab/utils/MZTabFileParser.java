@@ -9,6 +9,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.zip.GZIPInputStream;
 
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
+import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.*;
+
 /**
  * User: Qingwei
  * Date: 21/02/13
@@ -32,7 +36,7 @@ public class MZTabFileParser {
     private SortedMap<Integer, SmallMolecule> smallMoleculeMap = new TreeMap<Integer, SmallMolecule>();
 
     public MZTabFileParser(File tabFile) throws IOException, MZTabException, MZTabErrorOverflowException {
-        this(tabFile, MZTabConstants.BUFFERED);
+        this(tabFile, BUFFERED);
     }
 
     public MZTabFileParser(File tabFile, boolean buffered) throws IOException, MZTabException, MZTabErrorOverflowException {
@@ -45,7 +49,7 @@ public class MZTabFileParser {
     }
 
     public MZTabFileParser(File tabFile, OutputStream out) throws IOException {
-        this(tabFile, out, MZTabConstants.BUFFERED);
+        this(tabFile, out, BUFFERED);
     }
 
     public MZTabFileParser(File tabFile, OutputStream out, boolean buffered) throws IOException {
@@ -62,19 +66,19 @@ public class MZTabFileParser {
         try {
             check();
         } catch (MZTabException e) {
-            out.write(MZTabConstants.MZTabExceptionMessage.getBytes());
+            out.write(MZTabExceptionMessage.getBytes());
         } catch (MZTabErrorOverflowException e) {
-            out.write(MZTabConstants.MZTabErrorOverflowExceptionMessage.getBytes());
+            out.write(MZTabErrorOverflowExceptionMessage.getBytes());
         }
 
-        MZTabErrorList.print(out, MZTabConstants.LEVEL);
+        MZTabErrorList.print(out, LEVEL);
         if (MZTabErrorList.isEmpty()) {
-            out.write(("not errors in " + tabFile + " file!" + MZTabConstants.NEW_LINE).getBytes());
+            out.write(("not errors in " + tabFile + " file!" + NEW_LINE).getBytes());
         }
     }
 
     private Section getSection(String line) {
-        String[] items = line.split("\\s*" + MZTabConstants.TAB + "\\s*");
+        String[] items = line.split("\\s*" + TAB + "\\s*");
         String section = items[0].trim();
         return Section.findSection(section);
     }
@@ -83,9 +87,9 @@ public class MZTabFileParser {
         BufferedReader reader;
 
         if (tabFile.getName().endsWith(".gz")) {
-            reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(tabFile)), MZTabConstants.ENCODE));
+            reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(tabFile)), ENCODE));
         } else {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(tabFile), MZTabConstants.ENCODE));
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(tabFile), ENCODE));
         }
 
         return reader;

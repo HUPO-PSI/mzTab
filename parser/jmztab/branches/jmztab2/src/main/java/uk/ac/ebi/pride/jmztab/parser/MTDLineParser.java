@@ -14,8 +14,7 @@ import java.util.regex.Pattern;
 import static uk.ac.ebi.pride.jmztab.model.ReplicateUnit.REP;
 import static uk.ac.ebi.pride.jmztab.model.SubUnit.SUB;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.MINUS;
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.TAB;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
 * Metadata Element start with MTD, and structure like:

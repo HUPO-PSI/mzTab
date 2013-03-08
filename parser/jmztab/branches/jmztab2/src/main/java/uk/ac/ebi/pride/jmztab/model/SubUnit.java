@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
 import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
  * If there were multiple subsamples analyzed in the respective unit these species should be

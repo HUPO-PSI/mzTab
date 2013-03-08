@@ -1,9 +1,9 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
 import java.net.URI;
 import java.net.URL;
+
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
 
 /**
  * User: Qingwei
@@ -16,9 +16,9 @@ public class UnitRun {
         unit.setTitle("mzTab iTRAQ test");
         unit.setDescription("This is a PRIDE test.");
 
-        SplitList<Param> sampleProcessing1 = new SplitList<Param>(MZTabConstants.BAR);
+        SplitList<Param> sampleProcessing1 = new SplitList<Param>(BAR);
         sampleProcessing1.add(new CVParam("SEP", "SEP:00173", "SDS PAGE", null));
-        SplitList<Param> sampleProcessing2 = new SplitList<Param>(MZTabConstants.BAR);
+        SplitList<Param> sampleProcessing2 = new SplitList<Param>(BAR);
         sampleProcessing2.add(new CVParam("SEP", "SEP:00142", "enzyme digestion", null));
         sampleProcessing2.add(new CVParam("MS", "MS:1001251", "Trypsin", null));
         unit.addSampleProcessing(1, sampleProcessing1);

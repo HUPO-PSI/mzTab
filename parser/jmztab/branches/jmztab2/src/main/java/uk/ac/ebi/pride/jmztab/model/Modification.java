@@ -1,6 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -90,7 +90,7 @@ public class Modification {
                 if (count++ == 0) {
                     sb.append(id);
                 } else {
-                    sb.append(MZTabConstants.BAR).append(id);
+                    sb.append(BAR).append(id);
                 }
                 if (param != null) {
                     sb.append(param);
@@ -99,12 +99,12 @@ public class Modification {
         }
 
         if (positionMap.size() > 0) {
-            sb.append(MZTabConstants.MINUS);
+            sb.append(MINUS);
         }
-        sb.append(type).append(MZTabConstants.COLON).append(accession);
+        sb.append(type).append(COLON).append(accession);
 
         if (neutralLoss != null) {
-            sb.append(MZTabConstants.BAR).append(neutralLoss);
+            sb.append(BAR).append(neutralLoss);
         }
 
         return sb.toString();

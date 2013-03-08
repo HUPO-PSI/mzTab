@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.COLON;
 
 /**
  * A publication on this unit. PubMed ids must be prefixed by “pubmed:”, DOIs by “doi:”.
@@ -23,7 +24,7 @@ public class Publication {
         }
     }
 
-    private SplitList<String> itemList = new SplitList<String>(MZTabConstants.BAR);
+    private SplitList<String> itemList = new SplitList<String>(BAR);
 
     public void addPublication(Type type, String accession) {
         if (type == null) {
@@ -33,7 +34,7 @@ public class Publication {
             throw new IllegalArgumentException("Publication accession can not empty!");
         }
 
-        itemList.add(type.getName() + MZTabConstants.COLON + accession);
+        itemList.add(type.getName() + COLON + accession);
     }
 
     public int size() {

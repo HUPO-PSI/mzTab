@@ -1,12 +1,12 @@
 package uk.ac.ebi.pride.jmztab.errors;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
 /**
  * User: Qingwei
@@ -28,6 +28,9 @@ public class MZTabError {
         MZTabErrorList.add(this);
     }
 
+    /**
+     * fill "{id}" parameter list one by one.
+     */
     private String fill(int count, List<String> values, String message) {
         String regexp = "\\{\\w\\}";
         Pattern pattern = Pattern.compile(regexp);
@@ -57,7 +60,7 @@ public class MZTabError {
 
         sb.append("[").append(type.getLevel()).append("-").append(type.getCode()).append("] ");
         sb.append("line ").append(lineNumber).append(": ");
-        sb.append(message).append(MZTabConstants.NEW_LINE);
+        sb.append(message).append(NEW_LINE);
 
         return sb.toString();
     }

@@ -1,6 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.COLON;
 
 /**
  * Peptides and small molecules MAY be linked to the source spectrum (in an external file)
@@ -45,7 +45,7 @@ public class SpecRef {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(msFile.getReference()).append(MZTabConstants.COLON).append(reference);
+        sb.append(msFile.getReference()).append(COLON).append(reference);
 
         return sb.toString();
     }

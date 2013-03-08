@@ -1,6 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 
 /**
  * Comment lines can be placed anywhere in an mzTab file. These lines must start with
@@ -17,6 +17,6 @@ public class Comment {
     }
 
     public String toString() {
-        return Section.Comment.getPrefix() + MZTabConstants.TAB + msg;
+        return Section.Comment.getPrefix() + TAB + msg;
     }
 }

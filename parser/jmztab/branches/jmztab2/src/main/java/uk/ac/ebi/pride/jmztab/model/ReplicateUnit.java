@@ -1,6 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
  * Reporting replicates within experimental designs.
@@ -51,7 +51,7 @@ public class ReplicateUnit extends Unit {
     public String getIdentifier() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(getUnitId()).append(MZTabConstants.MINUS).append(REP);
+        sb.append(getUnitId()).append(MINUS).append(REP);
         sb.append("[").append(repId).append("]");
 
         return sb.toString();
@@ -68,11 +68,11 @@ public class ReplicateUnit extends Unit {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Section.Metadata.getPrefix()).append(MZTabConstants.TAB).append(getIdentifier());
+        sb.append(Section.Metadata.getPrefix()).append(TAB).append(getIdentifier());
         if (comment != null) {
-            sb.append(MZTabConstants.TAB).append(comment);
+            sb.append(TAB).append(comment);
         }
-        sb.append(MZTabConstants.NEW_LINE);
+        sb.append(NEW_LINE);
 
         /**
          * replicateUnit can set the same values with Unit.

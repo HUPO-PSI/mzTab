@@ -77,10 +77,10 @@ public class MZTabFileMerger {
         try {
             success = addFile(tabFile);
         } catch (MZTabException e) {
-            out.write(MZTabConstants.MZTabExceptionMessage.getBytes());
+            out.write(MZTabProperties.MZTabExceptionMessage.getBytes());
             success = false;
         } catch (MZTabErrorOverflowException e) {
-            out.write(MZTabConstants.MZTabErrorOverflowExceptionMessage.getBytes());
+            out.write(MZTabProperties.MZTabErrorOverflowExceptionMessage.getBytes());
             success = false;
         }
 
@@ -161,7 +161,7 @@ public class MZTabFileMerger {
         if (tarProteinColumnFactory != null) {
             proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
             proteinColumnFactory.addAllAbundanceColumn(tarProteinColumnFactory.getAbundanceColumnMapping().values());
-            proteinColumnFactory.addAllOptionColumn(tarProteinColumnFactory.getOptionalColumnMapping().values());
+            proteinColumnFactory.addAllOptionalColumn(tarProteinColumnFactory.getOptionalColumnMapping().values());
 
             if (srcProteinColumnFactory != null) {
                 // combine two protein header columns. move srcTabFile optional columns to the left.
@@ -177,12 +177,12 @@ public class MZTabFileMerger {
                 }
 
                 proteinColumnFactory.addAllAbundanceColumn(srcProteinColumnFactory.getAbundanceColumnMapping().values());
-                proteinColumnFactory.addAllOptionColumn(srcProteinColumnFactory.getOptionalColumnMapping().values());
+                proteinColumnFactory.addAllOptionalColumn(srcProteinColumnFactory.getOptionalColumnMapping().values());
             }
         } else if (srcProteinColumnFactory != null) {
             proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
             proteinColumnFactory.addAllAbundanceColumn(srcProteinColumnFactory.getAbundanceColumnMapping().values());
-            proteinColumnFactory.addAllOptionColumn(srcProteinColumnFactory.getOptionalColumnMapping().values());
+            proteinColumnFactory.addAllOptionalColumn(srcProteinColumnFactory.getOptionalColumnMapping().values());
         } else {
             proteinColumnFactory = null;
         }
@@ -218,7 +218,7 @@ public class MZTabFileMerger {
         if (tarPeptideColumnFactory != null) {
             peptideColumnFactory = MZTabColumnFactory.getInstance(Section.Peptide);
             peptideColumnFactory.addAllAbundanceColumn(tarPeptideColumnFactory.getAbundanceColumnMapping().values());
-            peptideColumnFactory.addAllOptionColumn(tarPeptideColumnFactory.getOptionalColumnMapping().values());
+            peptideColumnFactory.addAllOptionalColumn(tarPeptideColumnFactory.getOptionalColumnMapping().values());
 
             if (srcPeptideColumnFactory != null) {
                 // combine two peptide header columns. move srcTabFile optional columns to the left.
@@ -234,12 +234,12 @@ public class MZTabFileMerger {
                 }
 
                 peptideColumnFactory.addAllAbundanceColumn(srcPeptideColumnFactory.getAbundanceColumnMapping().values());
-                peptideColumnFactory.addAllOptionColumn(srcPeptideColumnFactory.getOptionalColumnMapping().values());
+                peptideColumnFactory.addAllOptionalColumn(srcPeptideColumnFactory.getOptionalColumnMapping().values());
             }
         } else if (srcPeptideColumnFactory != null) {
             peptideColumnFactory = MZTabColumnFactory.getInstance(Section.Peptide);
             peptideColumnFactory.addAllAbundanceColumn(srcPeptideColumnFactory.getAbundanceColumnMapping().values());
-            peptideColumnFactory.addAllOptionColumn(srcPeptideColumnFactory.getOptionalColumnMapping().values());
+            peptideColumnFactory.addAllOptionalColumn(srcPeptideColumnFactory.getOptionalColumnMapping().values());
         } else {
             peptideColumnFactory = null;
         }
@@ -264,7 +264,7 @@ public class MZTabFileMerger {
         if (tarSmallMoleculeColumnFactory != null) {
             smallMoleculeColumnFactory = MZTabColumnFactory.getInstance(Section.Small_Molecule);
             smallMoleculeColumnFactory.addAllAbundanceColumn(tarSmallMoleculeColumnFactory.getAbundanceColumnMapping().values());
-            smallMoleculeColumnFactory.addAllOptionColumn(tarSmallMoleculeColumnFactory.getOptionalColumnMapping().values());
+            smallMoleculeColumnFactory.addAllOptionalColumn(tarSmallMoleculeColumnFactory.getOptionalColumnMapping().values());
 
             if (srcSmallMoleculeColumnFactory != null) {
                 // combine two small molecule header columns. move srcTabFile optional columns to the left.
@@ -280,12 +280,12 @@ public class MZTabFileMerger {
                 }
 
                 smallMoleculeColumnFactory.addAllAbundanceColumn(srcSmallMoleculeColumnFactory.getAbundanceColumnMapping().values());
-                smallMoleculeColumnFactory.addAllOptionColumn(srcSmallMoleculeColumnFactory.getOptionalColumnMapping().values());
+                smallMoleculeColumnFactory.addAllOptionalColumn(srcSmallMoleculeColumnFactory.getOptionalColumnMapping().values());
             }
         } else if (srcSmallMoleculeColumnFactory != null) {
             smallMoleculeColumnFactory = MZTabColumnFactory.getInstance(Section.Small_Molecule);
             smallMoleculeColumnFactory.addAllAbundanceColumn(srcSmallMoleculeColumnFactory.getAbundanceColumnMapping().values());
-            smallMoleculeColumnFactory.addAllOptionColumn(srcSmallMoleculeColumnFactory.getOptionalColumnMapping().values());
+            smallMoleculeColumnFactory.addAllOptionalColumn(srcSmallMoleculeColumnFactory.getOptionalColumnMapping().values());
         } else {
             smallMoleculeColumnFactory = null;
         }
@@ -335,7 +335,7 @@ public class MZTabFileMerger {
         } catch (MZTabException e) {
             out.write(e.getMessage().getBytes());
         } catch (MZTabErrorOverflowException e) {
-            out.write(MZTabConstants.MZTabErrorOverflowExceptionMessage.getBytes());
+            out.write(MZTabProperties.MZTabErrorOverflowExceptionMessage.getBytes());
         }
     }
 }

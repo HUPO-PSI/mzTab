@@ -118,7 +118,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         Matcher matcher = pattern.matcher(nameLabel);
 
         if (matcher.find() && matcher.end() == nameLabel.length()) {
-            factory.addOptionColumn(matcher.group(1), String.class);
+            factory.addOptionalColumn(matcher.group(1), String.class);
             return true;
         } else {
             return false;
@@ -138,7 +138,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
             param = null;
         } else {
             param = matcher.group(4) == null ? null : new CVParam(null, matcher.group(2), matcher.group(4), null);
-            factory.addCVParamOptionColumn(param);
+            factory.addCVParamOptionalColumn(param);
         }
 
         return param;

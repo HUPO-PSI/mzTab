@@ -21,6 +21,13 @@ public class MZTabUtilsTest {
     }
 
     @Test
+    public void testDouble() throws Exception {
+        Double value;
+        value = parseDouble("NaN");
+        assertTrue(value.equals(Double.NaN));
+    }
+
+    @Test
     public void testParamList() throws Exception {
         SplitList<Param> paramList;
 

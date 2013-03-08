@@ -1,10 +1,9 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
 import java.beans.PropertyChangeEvent;
 import java.net.URI;
 
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
@@ -195,7 +194,7 @@ public class Protein extends AbstractMZTabRecord {
     }
 
     public void setAmbiguityMembers(String ambiguityMembersLabel) {
-        setAmbiguityMembers(parseStringList(MZTabConstants.COMMA, ambiguityMembersLabel));
+        setAmbiguityMembers(parseStringList(COMMA, ambiguityMembersLabel));
     }
 
     public SplitList<Modification> getModifications() {
@@ -239,7 +238,7 @@ public class Protein extends AbstractMZTabRecord {
     }
 
     public void setGOTerms(String goTermsLabel) {
-        setGOTerms(parseStringList(MZTabConstants.BAR, goTermsLabel));
+        setGOTerms(parseStringList(BAR, goTermsLabel));
     }
 
     public Double getProteinCoverage() {
@@ -259,6 +258,6 @@ public class Protein extends AbstractMZTabRecord {
      */
     @Override
     public String toString() {
-        return Section.Protein.getPrefix() + MZTabConstants.TAB + super.toString();
+        return Section.Protein.getPrefix() + TAB + super.toString();
     }
 }

@@ -37,6 +37,19 @@ public class Metadata extends OperationCenter {
         return true;
     }
 
+    /**
+     * Modify UnitId in Unit, cascade modify the Protein, Peptide, SmallMolecule data table.
+     * Metadata fire <-----listen-----Peptide, Protein, SmallMolecule
+     *
+     * @see Peptide#propertyChange(java.beans.PropertyChangeEvent)
+     * @see Protein#propertyChange(java.beans.PropertyChangeEvent)
+     * @see  SmallMolecule#propertyChange(java.beans.PropertyChangeEvent)
+     *
+     * These methods used to register listener.
+     * @see MZTabFile#addPeptide(Peptide)
+     * @see MZTabFile#addProtein(Protein)
+     * @see MZTabFile#addSmallMolecule(SmallMolecule)
+     */
     public void modifyUnitId(String oldUnitId, String newUnitId) {
         Map<String, Unit> newUnitMap = new TreeMap<String, Unit>();
 
