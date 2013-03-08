@@ -2,9 +2,9 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import java.net.URL;
 
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
+import static uk.ac.ebi.pride.jmztab.model.MetadataElement.MS_FILE;
 import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.NEW_LINE;
-import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
 
 /**
  * The external MS data file.

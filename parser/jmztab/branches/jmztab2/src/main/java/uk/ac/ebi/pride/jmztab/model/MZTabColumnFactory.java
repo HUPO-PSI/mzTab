@@ -1,11 +1,11 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 
 /**
  * This is a static factory class which used to generate a couple of MZTabColumn, and organized them
@@ -146,33 +146,49 @@ public class MZTabColumnFactory extends OperationCenter {
      * Add a Optional Column {opt_} to the rightest of the table.
      * @see OptionalColumn
      */
-    public void addOptionColumn(String name, Class dataType) {
+    public void addOptionalColumn(String name, Class dataType) {
         int offset = columnMapping.lastKey();
         OptionalColumn column = OptionalColumn.getInstance(name, dataType, offset);
-        addOptionColumn(column);
+        addOptionalColumn(column);
     }
 
     /**
      * Add a CVParam Optional Column {opt_cv_{accession}_{parameter name}} to the rightest of the table.
      * @see CVParamOptionColumn
      */
-    public void addCVParamOptionColumn(CVParam param) {
+    public void addCVParamOptionalColumn(CVParam param) {
         int offset = columnMapping.lastKey();
         CVParamOptionColumn column = CVParamOptionColumn.getInstance(param, offset);
-        addOptionColumn(column);
+        addOptionalColumn(column);
     }
 
-    public void addOptionColumn(OptionalColumn column) {
+    public void addOptionalColumn(OptionalColumn column) {
         stableColumnMapping.put(column.getPosition(), column);
         columnMapping.put(column.getPosition(), column);
     }
 
-    public void addAllOptionColumn(Collection<OptionalColumn> columns) {
+    public void addAllOptionalColumn(Collection<OptionalColumn> columns) {
         for (OptionalColumn column : columns) {
-            addOptionColumn(column);
+            addOptionalColumn(column);
         }
     }
 
+    /**
+     * Move optional and abundance column and data to new position.
+     * Notice: alter move, maybe exists some column, the data become empty. Need fill "null".
+     *
+     * @see uk.ac.ebi.pride.jmztab.model.MZTabFile#fillNull()
+     *
+     * MZTabColumnFactory fire <-----listen-----Protein, Peptide, SmallMolecule
+     * @see Protein#propertyChange(java.beans.PropertyChangeEvent) ;
+     * @see Peptide#propertyChange(java.beans.PropertyChangeEvent) ;
+     * @see SmallMolecule#propertyChange(java.beans.PropertyChangeEvent) ;
+     *
+     * In MZTabFile register listener.
+     * @see MZTabFile#addPeptide(Peptide)
+     * @see MZTabFile#addProtein(Protein)
+     * @see MZTabFile#addSmallMolecule(SmallMolecule)
+     */
     public void modifyColumnPosition(int oldPosition, int newPosition) {
         if (oldPosition <= stableColumnMapping.lastKey()) {
             throw new IllegalArgumentException("The column in position " + oldPosition + " is not optional column.");
@@ -210,7 +226,7 @@ public class MZTabColumnFactory extends OperationCenter {
      * @return tab split column header string list.
      */
     public SplitList<String> getHeaderList() {
-        SplitList<String> headerList = new SplitList<String>(MZTabConstants.TAB);
+        SplitList<String> headerList = new SplitList<String>(TAB);
 
         for (MZTabColumn mzTabColumn : columnMapping.values()) {
             headerList.add(mzTabColumn.getHeader());
@@ -269,6 +285,6 @@ public class MZTabColumnFactory extends OperationCenter {
      */
     @Override
     public String toString() {
-        return section.getPrefix() + MZTabConstants.TAB + getHeaderList().toString();
+        return section.getPrefix() + TAB + getHeaderList().toString();
     }
 }

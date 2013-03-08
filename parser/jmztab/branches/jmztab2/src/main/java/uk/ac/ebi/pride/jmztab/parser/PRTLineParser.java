@@ -3,12 +3,14 @@ package uk.ac.ebi.pride.jmztab.parser;
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
 
 /**
  * User: Qingwei
@@ -46,7 +48,7 @@ public class PRTLineParser extends MZTabDataLineParser {
     @Override
     protected int loadStableData(AbstractMZTabRecord record, String line) {
         if (items == null) {
-            items = line.split("\\s*" + MZTabConstants.TAB + "\\s*");
+            items = line.split("\\s*" + TAB + "\\s*");
             items[items.length - 1] = items[items.length - 1].trim();
         }
 
@@ -126,5 +128,21 @@ public class PRTLineParser extends MZTabDataLineParser {
         }
 
         return modificationList;
+    }
+
+    private String parseSubstitutionIdentifier(String identifier) {
+        identifier = parseString(identifier);
+        if (identifier == null) {
+            return null;
+        }
+
+        Pattern pattern = Pattern.compile("\"[A-Z]+\"");
+        Matcher matcher = pattern.matcher(identifier);
+
+        if (matcher.find() && matcher.start() == 0 && matcher.end() == identifier.length()) {
+            return identifier;
+        } else {
+            return null;
+        }
     }
 }

@@ -1,6 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
 /**
  * The respective species. Multiple species can be supplied. If there were multiple subsamples
@@ -30,6 +30,6 @@ public class Species extends SubUnitElement {
      * MTD  {Unit_ID}-sub[id]-{element}[id]-{property}    {value.toString}
      */
     public String toString() {
-        return printElement(MetadataElement.SPECIES, null, param) + MZTabConstants.NEW_LINE;
+        return printElement(MetadataElement.SPECIES, null, param) + NEW_LINE;
     }
 }

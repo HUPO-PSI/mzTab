@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.NEW_LINE;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
 /**
  * User: qingwei
@@ -461,18 +461,67 @@ public class MZTabFile {
         return Collections.unmodifiableCollection(result);
     }
 
+    /**
+     * Modify UnitId in Unit, cascade modify the Protein, Peptide, SmallMolecule data table.
+     * Metadata fire <-----listen-----Peptide, Protein, SmallMolecule
+     *
+     * @see Peptide#propertyChange(java.beans.PropertyChangeEvent)
+     * @see Protein#propertyChange(java.beans.PropertyChangeEvent)
+     * @see  SmallMolecule#propertyChange(java.beans.PropertyChangeEvent)
+     *
+     * These methods used to register listener.
+     * @see MZTabFile#addPeptide(Peptide)
+     * @see MZTabFile#addProtein(Protein)
+     * @see MZTabFile#addSmallMolecule(SmallMolecule)
+     */
     public void modifyUnitId(String oldUnitId, String newUnitId) {
         metadata.modifyUnitId(oldUnitId, newUnitId);
     }
 
+    /**
+     * Move optional and abundance column and data to new position.
+     * Notice: alter move, maybe exists some column, the data become empty. Need fill "null".
+     *
+     * @see uk.ac.ebi.pride.jmztab.model.MZTabFile#fillNull()
+     *
+     * ProteinColumnFactory fire <-----listen-----Protein
+     * @see Protein#propertyChange(java.beans.PropertyChangeEvent) ;
+     *
+     * In MZTabFile register listener.
+     * @see MZTabFile#addProtein(Protein)
+     */
     public void modifyProteinColumnPosition(int oldPosition, int newPosition) {
         proteinColumnFactory.modifyColumnPosition(oldPosition, newPosition);
     }
 
+    /**
+     * Move optional and abundance column and data to new position.
+     * Notice: alter move, maybe exists some column, the data become empty. Need fill "null".
+     *
+     * @see uk.ac.ebi.pride.jmztab.model.MZTabFile#fillNull()
+     *
+     * PeptideColumnFactory fire <-----listen-----Peptide
+     * @see Peptide#propertyChange(java.beans.PropertyChangeEvent) ;
+     *
+     * In MZTabFile register listener.
+     * @see MZTabFile#addPeptide(Peptide)
+     */
     public void modifyPeptideColumnPosition(int oldPosition, int newPosition) {
         peptideColumnFactory.modifyColumnPosition(oldPosition, newPosition);
     }
 
+    /**
+     * Move optional and abundance column and data to new position.
+     * Notice: alter move, maybe exists some column, the data become empty. Need fill "null".
+     *
+     * @see uk.ac.ebi.pride.jmztab.model.MZTabFile#fillNull()
+     *
+     * SmallMoleculeColumnFactory fire <-----listen-----SmallMolecule
+     * @see SmallMolecule#propertyChange(java.beans.PropertyChangeEvent) ;
+     *
+     * In MZTabFile register listener.
+     * @see MZTabFile#addSmallMolecule(SmallMolecule)
+     */
     public void modifySmallMoleculeColumnPosition(int oldPosition, int newPosition) {
         smallMoleculeColumnFactory.modifyColumnPosition(oldPosition, newPosition);
     }

@@ -1,10 +1,10 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
 import java.beans.PropertyChangeEvent;
 import java.net.URI;
 
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
@@ -47,7 +47,7 @@ public class SmallMolecule extends AbstractMZTabRecord {
     }
 
     public void setIdentifier(String identifierLabel) {
-        setIdentifier(parseStringList(MZTabConstants.BAR, identifierLabel));
+        setIdentifier(parseStringList(BAR, identifierLabel));
     }
 
     public String getUnitId() {
@@ -271,6 +271,6 @@ public class SmallMolecule extends AbstractMZTabRecord {
      */
     @Override
     public String toString() {
-        return Section.Small_Molecule.getPrefix() + MZTabConstants.TAB + super.toString();
+        return Section.Small_Molecule.getPrefix() + TAB + super.toString();
     }
 }

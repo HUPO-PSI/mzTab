@@ -1,15 +1,12 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
 import java.beans.PropertyChangeListener;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.CALCULATE_ERROR;
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.INFINITY;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
  * Used to store a row record of table.
@@ -21,8 +18,8 @@ public abstract class AbstractMZTabRecord implements MZTabRecord, PropertyChange
     /**
      * Inherit AbstractMZTabRecord class can use this MZTabColumnFactory to add optional columns.
      * @see MZTabColumnFactory#addAbundanceColumns(SubUnit)
-     * @see MZTabColumnFactory#addOptionColumn(String, Class)
-     * @see MZTabColumnFactory#addCVParamOptionColumn(CVParam)
+     * @see MZTabColumnFactory#addOptionalColumn(String, Class)
+     * @see MZTabColumnFactory#addCVParamOptionalColumn(CVParam)
      */
     protected MZTabColumnFactory factory;
 
@@ -74,10 +71,10 @@ public abstract class AbstractMZTabRecord implements MZTabRecord, PropertyChange
 
     private Object translateValue(Object value) {
         if (value == null) {
-            return MZTabConstants.NULL;
+            return NULL;
         } else if (value instanceof List) {
             if (((List)value).isEmpty()) {
-                return MZTabConstants.NULL;
+                return NULL;
             } else {
                 return value;
             }
@@ -109,7 +106,7 @@ public abstract class AbstractMZTabRecord implements MZTabRecord, PropertyChange
             sb.append(value);
 
             while (it.hasNext()) {
-                sb.append(MZTabConstants.TAB).append(translateValue(it.next()));
+                sb.append(TAB).append(translateValue(it.next()));
             }
         }
 
@@ -177,10 +174,5 @@ public abstract class AbstractMZTabRecord implements MZTabRecord, PropertyChange
         }
 
         return (MZBoolean) record.get(position);
-    }
-
-    @Override
-    public Object getOptional(int position) {
-        return record.get(position);
     }
 }

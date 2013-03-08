@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
  * User: Qingwei
@@ -19,10 +19,21 @@ public class MZTabUtils {
         return s == null || s.trim().length() == 0;
     }
 
+    /**
+     * Pre-process the String object. If object is null, return null; otherwise
+     * remove heading and tailing white space.
+     */
     public static String parseString(String target) {
         return target == null ? null : target.trim();
     }
 
+    /**
+     * If ratios are included and the denominator is zero, the “INF” value MUST be used.
+     * If the result leads to calculation errors (for example 0/0), this MUST be reported
+     * as “not a number” (“NaN”).
+     *
+     * @see #parseDouble(String)
+     */
     public static String printDouble(Double value) {
         if (value == null) {
             return NULL;
@@ -35,8 +46,17 @@ public class MZTabUtils {
         }
     }
 
+    /**
+     * Parameters are always reported as [CV label, accession, name, value].
+     * Any field that is not available MUST be left empty.
+     *
+     * Notice: name cell never set null.
+     */
     public static Param parseParam(String target) {
-        target = target.trim();
+        target = parseString(target);
+        if (target == null) {
+            return null;
+        }
 
         String regexp = "\\[([^,]+)?,([^,]+)?,([^,]+),([^,]*)\\]";
         Pattern pattern = Pattern.compile(regexp);
@@ -62,8 +82,16 @@ public class MZTabUtils {
         }
     }
 
+    /**
+     * Multiple identifiers MUST be separated by splitChar.
+     */
     public static SplitList<String> parseStringList(char splitChar, String target) {
         SplitList<String> list = new SplitList<String>(splitChar);
+
+        target = parseString(target);
+        if (target == null) {
+            return list;
+        }
 
         // regular express reserved keywords escape
         StringBuilder sb = new StringBuilder();
@@ -94,13 +122,16 @@ public class MZTabUtils {
         return list;
     }
 
+    /**
+     * A list of '|' separated parameters
+     */
     public static SplitList<Param> parseParamList(String target) {
         SplitList<String> list = parseStringList(BAR, target);
 
         Param param;
         SplitList<Param> paramList = new SplitList<Param>(BAR);
         for (String item : list) {
-            param = parseParam(item.trim());
+            param = parseParam(item);
             if (param == null) {
                 paramList.clear();
                 return paramList;
@@ -112,12 +143,15 @@ public class MZTabUtils {
         return paramList;
     }
 
+    /**
+     * A '|' delimited list of GO accessions
+     */
     public static SplitList<String> parseGOTermList(String target) {
         SplitList<String> list = parseStringList(COMMA, target);
 
         SplitList<String> goList = new SplitList<String>(COMMA);
         for (String item : list) {
-            item = item.trim();
+            item = parseString(item);
             if (item.startsWith("GO:")) {
                 goList.add(item);
             } else {
@@ -130,6 +164,11 @@ public class MZTabUtils {
     }
 
     public static Integer parseInteger(String target) {
+        target = parseString(target);
+        if (target == null) {
+            return null;
+        }
+
         Integer integer;
 
         try {
@@ -142,11 +181,22 @@ public class MZTabUtils {
     }
 
     public static Double parseDouble(String target) {
+        target = parseString(target);
+        if (target == null) {
+            return null;
+        }
+
         Double value;
         try {
             value = new Double(target);
         } catch (NumberFormatException e) {
-            value = null;
+            if (target.equals(CALCULATE_ERROR)) {
+                value = Double.NaN;
+            } else if (target.equals(INFINITY)) {
+                value = Double.POSITIVE_INFINITY;
+            } else {
+                value = null;
+            }
         }
 
         return value;
@@ -158,7 +208,7 @@ public class MZTabUtils {
         Double value;
         SplitList<Double> valueList = new SplitList<Double>(BAR);
         for (String item : list) {
-            value = parseDouble(item.trim());
+            value = parseDouble(item);
             if (value == null) {
                 valueList.clear();
                 break;
@@ -176,11 +226,10 @@ public class MZTabUtils {
      * A resource is anything that is generating mzTab files.
      */
     public static String parseUnitId(String target) {
-        if (isEmpty(target)) {
+        target = parseString(target);
+        if (target == null) {
             return null;
         }
-
-        target = target.trim();
 
         Pattern pattern = Pattern.compile("[A-Za-z_][A-Za-z0-9_]*");
         Matcher matcher = pattern.matcher(target);
@@ -193,6 +242,11 @@ public class MZTabUtils {
     }
 
     public static URL parseURL(String target) {
+        target = parseString(target);
+        if (target == null) {
+            return null;
+        }
+
         URL url;
 
         try {
@@ -205,6 +259,11 @@ public class MZTabUtils {
     }
 
     public static URI parseURI(String target) {
+        target = parseString(target);
+        if (target == null) {
+            return null;
+        }
+
         URI uri;
 
         try {
@@ -216,6 +275,10 @@ public class MZTabUtils {
         return uri;
     }
 
+    /**
+     * A publication on this unit. PubMed ids must be prefixed by “pubmed:”,
+     * DOIs by “doi:”. Multiple identifiers MUST be separated by “|”.
+     */
     public static Publication parsePublication(String target) {
         SplitList<String> list = parseStringList(BAR, target);
 
@@ -223,7 +286,11 @@ public class MZTabUtils {
         Publication.Type type;
         String accession;
         for (String pub : list) {
-            pub = pub.trim();
+            pub = parseString(pub);
+            if (pub == null) {
+                publication.clear();
+                break;
+            }
             String[] items = pub.split("" + COLON);
             if (items.length != 2 || (type = Publication.findType(items[0].trim())) == null) {
                 publication.clear();
@@ -249,6 +316,10 @@ public class MZTabUtils {
     }
 
     public static SplitList<SpecRef> parseSpecRefList(Unit unit, String target) {
+        if (unit == null) {
+            throw new NullPointerException("Unit is null!");
+        }
+
         SplitList<String> list = parseStringList(BAR, target);
         SplitList<SpecRef> refList = new SplitList<SpecRef>(BAR);
 
@@ -393,37 +464,5 @@ public class MZTabUtils {
         return modList;
     }
 
-    public static String parseChemmodAccession(String accession) {
-        if (isEmpty(accession)) {
-            return null;
-        }
 
-        accession = accession.trim();
-
-        Pattern pattern = Pattern.compile("[+-](\\d+(.\\d+)?)?|(([A-Z][a-z]*)(\\d*))?");
-        Matcher matcher = pattern.matcher(accession);
-
-        if (matcher.find()) {
-            return accession;
-        } else {
-            return null;
-        }
-    }
-
-    public static String parseSubstitutionIdentifier(String identifier) {
-        if (isEmpty(identifier)) {
-            return null;
-        }
-
-        identifier = identifier.trim();
-
-        Pattern pattern = Pattern.compile("\"[A-Z]+\"");
-        Matcher matcher = pattern.matcher(identifier);
-
-        if (matcher.find() && matcher.start() == 0 && matcher.end() == identifier.length()) {
-            return identifier;
-        } else {
-            return null;
-        }
-    }
 }

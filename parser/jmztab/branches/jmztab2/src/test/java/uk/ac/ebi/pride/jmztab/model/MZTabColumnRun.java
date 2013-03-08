@@ -10,8 +10,8 @@ public class MZTabColumnRun {
         SubUnit subUnit = new SubUnit("PRIDE_1234", 1);
         factory.addAbundanceColumns(subUnit);
         CVParam param = new CVParam("MS", "MS:1001208", "TOM", null);
-        factory.addOptionColumn("my_value", String.class);
-        factory.addCVParamOptionColumn(param);
+        factory.addOptionalColumn("my_value", String.class);
+        factory.addCVParamOptionalColumn(param);
 
         System.out.println(factory.toString());
     }

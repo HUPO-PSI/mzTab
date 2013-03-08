@@ -5,14 +5,14 @@ import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.errors.MZTabException;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
+import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.COMMA;
 
 /**
  * For data line validation, not raise MZTabException, just record error/warn message
@@ -156,7 +156,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         }
 
         // using web service to cross check cv param definition matches data type.
-        if (MZTabConstants.CVPARAM_CHECK) {
+        if (MZTabProperties.CVPARAM_CHECK) {
 
         }
     }
@@ -208,9 +208,9 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             return null;
         }
 
-        if (target.equals(MZTabConstants.NULL)) {
+        if (target.equals(NULL)) {
             if (allowNull) {
-                return MZTabConstants.NULL;
+                return NULL;
             } else {
                 new MZTabError(LogicalErrorType.NotNULL, lineNumber, column.getHeader(), target);
             }
@@ -222,7 +222,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected Integer checkInteger(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(MZTabConstants.NULL)) {
+        if (result == null || result.equals(NULL)) {
             return null;
         }
 
@@ -237,16 +237,8 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected Double checkDouble(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(MZTabConstants.NULL)) {
+        if (result == null || result.equals(NULL)) {
             return null;
-        }
-
-        if (result.equals(MZTabConstants.CALCULATE_ERROR)) {
-            return Double.NaN;
-        }
-
-        if (result.equals(MZTabConstants.INFINITY)) {
-            return Double.POSITIVE_INFINITY;
         }
 
         Double value = parseDouble(result);
@@ -261,8 +253,8 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<Param> checkParamList(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(MZTabConstants.NULL)) {
-            return new SplitList<Param>(MZTabConstants.BAR);
+        if (result == null || result.equals(NULL)) {
+            return new SplitList<Param>(BAR);
         }
 
         SplitList<Param> paramList = parseParamList(result);
@@ -277,7 +269,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<String> checkStringList(MZTabColumn column, String target, char splitChar) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(MZTabConstants.NULL)) {
+        if (result == null || result.equals(NULL)) {
             return new SplitList<String>(splitChar);
         }
 
@@ -292,7 +284,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected MZBoolean checkMZBoolean(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(MZTabConstants.NULL)) {
+        if (result == null || result.equals(NULL)) {
             return null;
         }
 
@@ -365,7 +357,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected Reliability checkReliability(MZTabColumn column, String reliability) {
         String result_reliaility = checkData(column, reliability, true);
 
-        if (result_reliaility == null || result_reliaility.equals(MZTabConstants.NULL)) {
+        if (result_reliaility == null || result_reliaility.equals(NULL)) {
             return null;
         }
 
@@ -390,7 +382,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     protected SplitList<String> checkAmbiguityMembers(MZTabColumn column, String ambiguityMembers) {
-        return checkStringList(column, ambiguityMembers, MZTabConstants.COMMA);
+        return checkStringList(column, ambiguityMembers, COMMA);
     }
 
     /**
@@ -400,8 +392,8 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<Modification> checkModifications(Section section, MZTabColumn column, String target) {
         String result_modifications = checkData(column, target, true);
 
-        if (result_modifications == null || result_modifications.equals(MZTabConstants.NULL)) {
-            return new SplitList<Modification>(MZTabConstants.COMMA);
+        if (result_modifications == null || result_modifications.equals(NULL)) {
+            return new SplitList<Modification>(COMMA);
         }
 
         SplitList<Modification> modificationList = parseModificationList(section, target);
@@ -415,7 +407,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected java.net.URI checkURI(MZTabColumn column, String uri) {
         String result_uri = checkData(column, uri, true);
 
-        if (result_uri == null || result_uri.equals(MZTabConstants.NULL)) {
+        if (result_uri == null || result_uri.equals(NULL)) {
             return null;
         }
 
@@ -430,7 +422,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected List<SpecRef> checkSpectraRef(MZTabColumn column, Unit unit, String spectraRef) {
         String result_spectraRef = checkData(column, spectraRef, true);
 
-        if (result_spectraRef == null || result_spectraRef.equals(MZTabConstants.NULL)) {
+        if (result_spectraRef == null || result_spectraRef.equals(NULL)) {
             return new ArrayList<SpecRef>();
         }
 
@@ -445,7 +437,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<String> checkGOTerms(MZTabColumn column, String go_terms) {
         String result_go_terms = checkData(column, go_terms, true);
 
-        if (result_go_terms == null || result_go_terms.equals(MZTabConstants.NULL)) {
+        if (result_go_terms == null || result_go_terms.equals(NULL)) {
             return new SplitList<String>(COMMA);
         }
 
@@ -490,7 +482,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     protected SplitList<String> checkIdentifier(MZTabColumn column, String identifier) {
-        return checkStringList(column, identifier, MZTabConstants.BAR);
+        return checkStringList(column, identifier, BAR);
     }
 
     protected String checkChemicalFormula(MZTabColumn column, String chemical_formula) {
@@ -498,23 +490,23 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     protected SplitList<String> checkSmiles(MZTabColumn column, String smiles) {
-        return checkStringList(column, smiles, MZTabConstants.BAR);
+        return checkStringList(column, smiles, BAR);
     }
 
     protected SplitList<String> checkInchiKey(MZTabColumn column, String inchi_key) {
-        return checkStringList(column, inchi_key, MZTabConstants.BAR);
+        return checkStringList(column, inchi_key, BAR);
     }
 
     protected SplitList<Double> checkRetentionTime(MZTabColumn column, String retention_time) {
         String result = checkData(column, retention_time, true);
 
-        if (result == null || result.equals(MZTabConstants.NULL)) {
-            return new SplitList<Double>(MZTabConstants.BAR);
+        if (result == null || result.equals(NULL)) {
+            return new SplitList<Double>(BAR);
         }
 
         SplitList<Double> valueList = parseDoubleList(result);
         if (valueList.size() == 0) {
-            new MZTabError(FormatErrorType.DoubleList, lineNumber, column.getHeader(), result, "" + MZTabConstants.BAR);
+            new MZTabError(FormatErrorType.DoubleList, lineNumber, column.getHeader(), result, "" + BAR);
         }
 
         return valueList;

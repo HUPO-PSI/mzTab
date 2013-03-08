@@ -6,7 +6,7 @@ import java.util.*;
 
 import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
 import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
  * using {UNIT_ID} to identifier a unit.

@@ -4,9 +4,12 @@ import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
 
-import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
 
 /**
  * User: Qingwei
@@ -45,7 +48,7 @@ public class SMLLineParser extends MZTabDataLineParser {
     @Override
     protected int loadStableData(AbstractMZTabRecord record, String line) {
         if (items == null) {
-            items = line.split("\\s*" + MZTabConstants.TAB + "\\s*");
+            items = line.split("\\s*" + TAB + "\\s*");
             items[items.length - 1] = items[items.length - 1].trim();
         }
 
@@ -107,4 +110,19 @@ public class SMLLineParser extends MZTabDataLineParser {
 
         return modificationList;
     }
+
+   private String parseChemmodAccession(String accession) {
+        accession = parseString(accession);
+
+        Pattern pattern = Pattern.compile("[+-](\\d+(.\\d+)?)?|(([A-Z][a-z]*)(\\d*))?");
+        Matcher matcher = pattern.matcher(accession);
+
+        if (matcher.find()) {
+            return accession;
+        } else {
+            return null;
+        }
+    }
+
+
 }

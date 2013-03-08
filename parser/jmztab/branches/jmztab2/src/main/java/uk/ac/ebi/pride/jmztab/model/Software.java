@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabConstants.NEW_LINE;
-import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
+import static uk.ac.ebi.pride.jmztab.model.MetadataElement.SOFTWARE;
 
 /**
  * Software used to analyze the data and obtain the results reported.

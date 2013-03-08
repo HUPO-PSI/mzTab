@@ -1,7 +1,5 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
-
 /**
  * The respective tissue. Multiple species can be supplied. If there were multiple subsamples
  * analyzed in the respective unit these species should be given using the additional “–{SUB_ID}” part.

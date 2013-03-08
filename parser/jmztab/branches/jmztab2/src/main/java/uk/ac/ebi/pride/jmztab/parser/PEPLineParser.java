@@ -3,7 +3,8 @@ package uk.ac.ebi.pride.jmztab.parser;
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.utils.MZTabConstants;
+
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 
 /**
  * User: Qingwei
@@ -38,7 +39,7 @@ public class PEPLineParser extends MZTabDataLineParser {
     @Override
     protected int loadStableData(AbstractMZTabRecord record, String line) {
         if (items == null) {
-            items = line.split("\\s*" + MZTabConstants.TAB + "\\s*");
+            items = line.split("\\s*" + TAB + "\\s*");
             items[items.length - 1] = items[items.length - 1].trim();
         }
 
