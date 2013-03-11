@@ -15,15 +15,16 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * User: qingwei
- * Date: 01/03/13
- */
+* User: qingwei
+* Date: 01/03/13
+*/
 public class MZTabFileTest {
     private MZTabFile tabFile;
 
     @Before
     public void setUp() throws Exception {
-        tabFile = new MZTabFile(new MZTabFileParser(new File("example/mztab_itraq_example.txt"), true));
+        MZTabFileParser parser = new MZTabFileParser(new File("example/mztab_itraq_example.txt"), true);
+        tabFile = parser.getMZTabFile();
     }
 
     @Test

@@ -64,7 +64,7 @@ public class MZTabFileMerger {
 
         MZTabFileParser parser = new MZTabFileParser(tabFile);
         if (MZTabErrorList.isEmpty()) {
-            mzTabFileList.add(new MZTabFile(parser));
+            mzTabFileList.add(parser.getMZTabFile());
             return true;
         } else {
             return false;

@@ -1,7 +1,5 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
@@ -22,58 +20,10 @@ public class MZTabFile {
     /**
      * Integer: line number
      */
-    private SortedMap<Integer, Comment> comments;
+    private SortedMap<Integer, Comment> comments = new TreeMap<Integer, Comment>();
     private SortedMap<Integer, Protein> proteins;
     private SortedMap<Integer, Peptide> peptides;
     private SortedMap<Integer, SmallMolecule> smallMolecules;
-
-    public MZTabFile(MZTabFileParser parser) {
-        this.proteinColumnFactory = parser.getProteinColumnFactory();
-        this.peptideColumnFactory = parser.getPeptideColumnFactory();
-        this.smallMoleculeColumnFactory = parser.getSmallMoleculeColumnFactory();
-
-        this.metadata = parser.getMetadata();
-
-        this.comments = parser.getComments();
-        this.proteins = parser.getProteins();
-        this.peptides = parser.getPeptides();
-        this.smallMolecules = parser.getSmallMolecules();
-
-        // create listener connection.
-        if (proteinColumnFactory != null) {
-            for (AbundanceColumn column : proteinColumnFactory.getAbundanceColumnMapping().values()) {
-                column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
-            }
-        }
-        if (peptideColumnFactory != null) {
-            for (AbundanceColumn column : peptideColumnFactory.getAbundanceColumnMapping().values()) {
-                column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
-            }
-        }
-        if (smallMoleculeColumnFactory != null) {
-            for (AbundanceColumn column : smallMoleculeColumnFactory.getAbundanceColumnMapping().values()) {
-                column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
-            }
-        }
-        if (proteins != null) {
-            for (Protein protein : proteins.values()) {
-                this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, protein);
-                this.proteinColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, protein);
-            }
-        }
-        if (peptides != null) {
-            for (Peptide peptide : peptides.values()) {
-                this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, peptide);
-                this.peptideColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, peptide);
-            }
-        }
-        if (smallMolecules != null) {
-            for (SmallMolecule smallMolecule : smallMolecules.values()) {
-                this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, smallMolecule);
-                this.smallMoleculeColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, smallMolecule);
-            }
-        }
-    }
 
     public MZTabFile(Metadata metadata) {
         this.metadata = metadata;
@@ -149,8 +99,22 @@ public class MZTabFile {
             throw new NullPointerException("Protein record is null!");
         }
 
-        Integer position = this.proteins.isEmpty() ? 1 : this.proteins.lastKey() + 1;
-        this.proteins.put(position, protein);
+        Integer lineNumber = this.proteins.isEmpty() ? 1 : this.proteins.lastKey() + 1;
+        this.proteins.put(lineNumber, protein);
+        this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, protein);
+        this.proteinColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, protein);
+    }
+
+    public void addProtein(Integer lineNumber, Protein protein) {
+        if (protein == null) {
+            throw new NullPointerException("Protein record is null!");
+        }
+
+        if (proteins.containsKey(lineNumber)) {
+            throw new IllegalArgumentException("There already exist protein record in line number " + lineNumber);
+        }
+
+        this.proteins.put(lineNumber, protein);
         this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, protein);
         this.proteinColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, protein);
     }
@@ -166,6 +130,20 @@ public class MZTabFile {
         this.peptideColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, peptide);
     }
 
+    public void addPeptide(Integer lineNumber, Peptide peptide) {
+        if (peptide == null) {
+            throw new NullPointerException("Peptide record is null!");
+        }
+
+        if (peptides.containsKey(lineNumber)) {
+            throw new IllegalArgumentException("There already exist peptide record in line number " + lineNumber);
+        }
+
+        this.peptides.put(lineNumber, peptide);
+        this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, peptide);
+        this.peptideColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, peptide);
+    }
+
     public void addSmallMolecule(SmallMolecule smallMolecule) {
         if (smallMolecule == null) {
             throw new NullPointerException("Small Molecule record is null!");
@@ -175,6 +153,32 @@ public class MZTabFile {
         this.smallMolecules.put(position, smallMolecule);
         metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, smallMolecule);
         this.smallMoleculeColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, smallMolecule);
+    }
+
+    public void addSmallMolecule(Integer lineNumber, SmallMolecule smallMolecule) {
+        if (smallMolecule == null) {
+            throw new NullPointerException("Small Molecule record is null!");
+        }
+
+        if (smallMolecules.containsKey(lineNumber)) {
+            throw new IllegalArgumentException("There already exist small molecule record in line number " + lineNumber);
+        }
+
+        this.smallMolecules.put(lineNumber, smallMolecule);
+        this.metadata.addPropertyChangeListener(OperationCenter.UNIT_ID, smallMolecule);
+        this.smallMoleculeColumnFactory.addPropertyChangeListener(OperationCenter.POSITION, smallMolecule);
+    }
+
+    public void addComment(Integer lineNumber, Comment comment) {
+        if (comment == null) {
+            throw new NullPointerException("Comment record is null!");
+        }
+
+        if (comments.containsKey(lineNumber)) {
+            throw new IllegalArgumentException("There already exist comment in line number " + lineNumber);
+        }
+
+        this.comments.put(lineNumber, comment);
     }
 
     public Collection<Unit> getUnits(String unitId) {
