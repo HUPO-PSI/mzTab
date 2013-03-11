@@ -3,9 +3,9 @@ package uk.ac.ebi.pride.jmztab;
 import org.apache.commons.cli.*;
 import uk.ac.ebi.pride.jmztab.errors.MZTabErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabErrorTypeMap;
+import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileMerger;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
-import uk.ac.ebi.pride.jmztab.utils.MZTabConverter;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -98,8 +98,8 @@ public class MZTabCommandLine {
             new MZTabFileParser(tabFile, out);
         } else if (line.hasOption(convertOpt)) {
             File convertFile = new File(dir, line.getOptionValue(convertOpt));
-            MZTabConverter.Format format = MZTabConverter.findFormat(line.getOptionValue(formatOpt));
-            MZTabConverter.convert(convertFile, format, out);
+            MZTabFileConverter.Format format = MZTabFileConverter.findFormat(line.getOptionValue(formatOpt));
+            MZTabFileConverter.convert(convertFile, format, out);
         } else if (line.hasOption(mergeOpt)) {
             String[] fileNameList = line.getOptionValue(mergeOpt).split(",");
             List<File> tabFileList = new ArrayList<File>();

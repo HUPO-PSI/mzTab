@@ -20,39 +20,19 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.*;
 public class MZTabFileParser {
     private boolean buffered = true;
 
-    private COMLineParser comParser = new COMLineParser();
-    private MTDLineParser mtdParser = new MTDLineParser();
-    private PRHLineParser prhParser = null;
-    private PRTLineParser prtParser = null;
-    private PEHLineParser pehParser = null;
-    private PEPLineParser pepParser = null;
-    private SMHLineParser smhParser = null;
-    private SMLLineParser smlParser = null;
-
+    private MZTabFile mzTabFile;
     private File tabFile;
-    private SortedMap<Integer, Comment> commentMap = new TreeMap<Integer, Comment>();
-    private SortedMap<Integer, Protein> proteinMap = new TreeMap<Integer, Protein>();
-    private SortedMap<Integer, Peptide> peptideMap = new TreeMap<Integer, Peptide>();
-    private SortedMap<Integer, SmallMolecule> smallMoleculeMap = new TreeMap<Integer, SmallMolecule>();
+
 
     public MZTabFileParser(File tabFile) throws IOException, MZTabException, MZTabErrorOverflowException {
         this(tabFile, BUFFERED);
-    }
-
-    public MZTabFileParser(File tabFile, boolean buffered) throws IOException, MZTabException, MZTabErrorOverflowException {
-        this.tabFile = tabFile;
-        this.buffered = buffered;
-
-        MZTabErrorList.clear();
-        PRTLineParser.accessionSet.clear();
-        check();
     }
 
     public MZTabFileParser(File tabFile, OutputStream out) throws IOException {
         this(tabFile, out, BUFFERED);
     }
 
-    public MZTabFileParser(File tabFile, OutputStream out, boolean buffered) throws IOException {
+    private void init(File tabFile, boolean buffered) {
         if (tabFile == null || ! tabFile.exists()) {
             throw new IllegalArgumentException("MZTab File not exists!");
         }
@@ -62,6 +42,15 @@ public class MZTabFileParser {
 
         MZTabErrorList.clear();
         PRTLineParser.accessionSet.clear();
+    }
+
+    public MZTabFileParser(File tabFile, boolean buffered) throws IOException, MZTabException, MZTabErrorOverflowException {
+        init(tabFile, buffered);
+        check();
+    }
+
+    public MZTabFileParser(File tabFile, OutputStream out, boolean buffered) throws IOException {
+        init(tabFile, buffered);
 
         try {
             check();
@@ -103,6 +92,21 @@ public class MZTabFileParser {
      */
     private void check() throws IOException, MZTabException, MZTabErrorOverflowException {
         BufferedReader reader = readFile(tabFile);
+
+        COMLineParser comParser = new COMLineParser();
+        MTDLineParser mtdParser = new MTDLineParser();
+        PRHLineParser prhParser = null;
+        PRTLineParser prtParser = null;
+        PEHLineParser pehParser = null;
+        PEPLineParser pepParser = null;
+        SMHLineParser smhParser = null;
+        SMLLineParser smlParser = null;
+
+
+        SortedMap<Integer, Comment> commentMap = new TreeMap<Integer, Comment>();
+        SortedMap<Integer, Protein> proteinMap = new TreeMap<Integer, Protein>();
+        SortedMap<Integer, Peptide> peptideMap = new TreeMap<Integer, Peptide>();
+        SortedMap<Integer, SmallMolecule> smallMoleculeMap = new TreeMap<Integer, SmallMolecule>();
 
         MZTabError error;
         String line;
@@ -235,80 +239,57 @@ public class MZTabFileParser {
         if (reader != null) {
             reader.close();
         }
-    }
 
-    private void checkErrors() {
-        if (! MZTabErrorList.isEmpty()) {
-            throw new IllegalArgumentException("There exits some errors in the " + tabFile);
+        if (MZTabErrorList.isEmpty()) {
+            mzTabFile = new MZTabFile(mtdParser.getMetadata());
+            for (Integer id : commentMap.keySet()) {
+                mzTabFile.addComment(id, commentMap.get(id));
+            }
+
+            if (prhParser != null) {
+                MZTabColumnFactory proteinColumnFactory = prhParser.getFactory();
+                mzTabFile.setProteinColumnFactory(proteinColumnFactory);
+                for (AbundanceColumn column : proteinColumnFactory.getAbundanceColumnMapping().values()) {
+                    column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+                }
+                for (Integer id : proteinMap.keySet()) {
+                    mzTabFile.addProtein(id, proteinMap.get(id));
+                }
+            }
+
+            if (pehParser != null) {
+                MZTabColumnFactory peptideColumnFactory = pehParser.getFactory();
+                mzTabFile.setPeptideColumnFactory(peptideColumnFactory);
+                for (AbundanceColumn column : peptideColumnFactory.getAbundanceColumnMapping().values()) {
+                    column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+                }
+                for (Integer id : peptideMap.keySet()) {
+                    mzTabFile.addPeptide(id, peptideMap.get(id));
+                }
+            }
+
+            if (smhParser != null) {
+                MZTabColumnFactory smallMoleculeColumnFactory = smhParser.getFactory();
+                mzTabFile.setSmallMoleculeColumnFactory(smallMoleculeColumnFactory);
+                for (AbundanceColumn column : smallMoleculeColumnFactory.getAbundanceColumnMapping().values()) {
+                    column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
+                }
+                for (Integer id : smallMoleculeMap.keySet()) {
+                    mzTabFile.addSmallMolecule(id, smallMoleculeMap.get(id));
+                }
+            }
         }
     }
 
-    public Metadata getMetadata() {
-        checkErrors();
-        return mtdParser.getMetadata();
+    public MZTabFile getMZTabFile() {
+        return mzTabFile;
     }
 
-    public MZTabColumnFactory getProteinColumnFactory() {
-        checkErrors();
-
-        if (prhParser == null) {
-            return null;
-        }
-
-        return prhParser.getFactory();
+    public boolean isBuffered() {
+        return buffered;
     }
 
-    public MZTabColumnFactory getPeptideColumnFactory() {
-        checkErrors();
-
-        if (pehParser == null) {
-            return null;
-        }
-
-        return pehParser.getFactory();
-    }
-
-    public MZTabColumnFactory getSmallMoleculeColumnFactory() {
-        checkErrors();
-
-        if (smhParser == null) {
-            return null;
-        }
-
-        return smhParser.getFactory();
-    }
-
-    private void checkBuffered() {
-        if (! buffered) {
-            throw new UnsupportedOperationException("not buffered comment/peptide/protein/small_molecule data into memory!");
-        }
-    }
-
-    public SortedMap<Integer, Comment> getComments() {
-        checkErrors();
-        checkBuffered();
-
-        return commentMap;
-    }
-
-    public SortedMap<Integer, Protein> getProteins() {
-        checkErrors();
-        checkBuffered();
-
-        return proteinMap;
-    }
-
-    public SortedMap<Integer, Peptide> getPeptides() {
-        checkErrors();
-        checkBuffered();
-
-        return peptideMap;
-    }
-
-    public SortedMap<Integer, SmallMolecule> getSmallMolecules() {
-        checkErrors();
-        checkBuffered();
-
-        return smallMoleculeMap;
+    public File getTabFile() {
+        return tabFile;
     }
 }

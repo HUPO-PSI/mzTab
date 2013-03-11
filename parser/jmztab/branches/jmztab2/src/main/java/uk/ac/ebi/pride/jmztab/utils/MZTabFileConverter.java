@@ -8,11 +8,11 @@ import java.io.OutputStream;
  * User: qingwei
  * Date: 27/02/13
  */
-public class MZTabConverter {
+public class MZTabFileConverter {
     public enum Format {
-        PRIDE("PRIDE", "2.1"),            // Pride XML
-        mzIdentML("mzIdentML", "1.1.0"),
-        mzQuantML("mzQuantML", "1.0.0");
+        PRIDE_210("PRIDE-XML", "2.1"),            // Pride XML
+        mzIdentML_110("mzIdentML", "1.1.0"),
+        mzTab_100("mzTab", "1.0");
 
         private String type;
         private String verstion;
@@ -21,13 +21,11 @@ public class MZTabConverter {
             this.type = type;
             this.verstion = verstion;
         }
-
-
     }
 
     public static void convert(File inFile, Format format, OutputStream out) throws IOException {
         if (format == null) {
-            format = Format.PRIDE;
+            format = Format.PRIDE_210;
         }
     }
 
