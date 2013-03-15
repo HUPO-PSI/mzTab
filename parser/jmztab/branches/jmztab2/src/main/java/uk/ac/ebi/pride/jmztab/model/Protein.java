@@ -102,11 +102,21 @@ public class Protein extends AbstractMZTabRecord {
     }
 
     public boolean addSearchEngineParam(Param param) {
-        return getSearchEngine().add(param);
+        if (param == null) {
+            return false;
+        }
+
+        SplitList<Param> params = getSearchEngine();
+        if (params == null) {
+            params = new SplitList<Param>(BAR);
+            setSearchEngine(params);
+        }
+
+        return params.add(param);
     }
 
     public boolean addSearchEngineParam(String paramLabel) {
-        return addSearchEngineParam(parseParam(paramLabel));
+        return !isEmpty(paramLabel) && addSearchEngineParam(parseParam(paramLabel));
     }
 
     public void setSearchEngine(String searchEngineLabel) {
@@ -122,11 +132,21 @@ public class Protein extends AbstractMZTabRecord {
     }
 
     public boolean addSearchEngineSocreParam(Param param) {
-        return getSearchEngineScore().add(param);
+        if (param == null) {
+            return false;
+        }
+
+        SplitList<Param> params = getSearchEngineScore();
+        if (params == null) {
+            params = new SplitList<Param>(BAR);
+            setSearchEngineScore(params);
+        }
+
+        return params.add(param);
     }
 
     public boolean addSearchEngineSocreParam(String paramLabel) {
-        return addSearchEngineSocreParam(parseParam(paramLabel));
+        return !isEmpty(paramLabel) && addSearchEngineSocreParam(parseParam(paramLabel));
     }
 
     public void setSearchEngineScore(String searchEngineScoreLabel) {
@@ -186,7 +206,17 @@ public class Protein extends AbstractMZTabRecord {
     }
 
     public boolean addAmbiguityMembers(String member) {
-        return getAmbiguityMembers().add(member);
+        if (isEmpty(member)) {
+            return false;
+        }
+
+        SplitList<String> ambiguityMembers = getAmbiguityMembers();
+        if (ambiguityMembers == null) {
+            ambiguityMembers = new SplitList<String>(COMMA);
+            setAmbiguityMembers(ambiguityMembers);
+        }
+
+        return ambiguityMembers.add(member);
     }
 
     public void setAmbiguityMembers(SplitList<String> ambiguityMembers) {
@@ -202,7 +232,17 @@ public class Protein extends AbstractMZTabRecord {
     }
 
     public boolean addModification(Modification modification) {
-        return getModifications().add(modification);
+        if (modification == null) {
+            return false;
+        }
+
+        SplitList<Modification> modList = getModifications();
+        if (modList == null) {
+            modList = new SplitList<Modification>(COMMA);
+            setModifications(modList);
+        }
+
+        return modList.add(modification);
     }
 
     public void setModifications(SplitList<Modification> modifications) {
@@ -230,7 +270,17 @@ public class Protein extends AbstractMZTabRecord {
     }
 
     public boolean addGOTerm(String term) {
-        return getGOTerms().add(term);
+        if (isEmpty(term)) {
+            return false;
+        }
+
+        SplitList<String> goTerms = getGOTerms();
+        if (goTerms == null) {
+            goTerms = new SplitList<String>(BAR);
+            setGOTerms(goTerms);
+        }
+
+        return goTerms.add(term);
     }
 
     public void setGOTerms(SplitList<String> goTerms) {

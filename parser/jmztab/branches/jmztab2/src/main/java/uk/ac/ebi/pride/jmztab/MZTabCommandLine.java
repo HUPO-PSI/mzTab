@@ -6,6 +6,7 @@ import uk.ac.ebi.pride.jmztab.errors.MZTabErrorTypeMap;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileMerger;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -31,25 +32,38 @@ public class MZTabCommandLine {
         String codeOpt = "code";
         options.addOption(codeOpt, true, "Get Error/Warn detail message based on code number");
 
-        String dirOpt = "d";
-        String dirLongOpt = "directory";
-        options.addOption(dirOpt, dirLongOpt, true, "Setting file directory.");
+        String inDirOpt = "inDir";
+        String inDirLongOpt = "input_directory";
+        options.addOption(inDirOpt, inDirLongOpt, true, "Setting input file directory.");
 
         String checkOpt = "check_file";
         options.addOption(checkOpt, true, "Tries to parse the given mzTab file.");
 
+        String outDirOpt = "outDir";
+        String outDirLongOpt = "output_directory";
+        options.addOption(outDirOpt, outDirLongOpt, true, "Setting output file directory.");
+
         String mergeOpt = "merge";
         options.addOption(mergeOpt, true, "Merge multiple mztab files, a comma-delimited list of files");
+
+        String combineOpt = "combine";
+        String defaultCombineOpt = "false";
+        Option combineOption = OptionBuilder.withArgName(combineOpt + "=true/false")
+                .hasArgs(2)
+                .withValueSeparator()
+                .withDescription("Combine sub-sample abundance columns or not. Default value is " + defaultCombineOpt)
+                .create(combineOpt);
+        options.addOption(combineOption);
 
         String convertOpt = "convert";
         options.addOption(convertOpt, true, "Converts the given file to an mztab file");
 
         String formatOpt = "format";
-        String defaultType = "PRIDE";
+        String defaultFormatOpt = MZTabFileConverter.PRIDE;
         Option formatOption = OptionBuilder.withArgName(formatOpt + "=value")
                                            .hasArgs(2)
                                            .withValueSeparator()
-                                           .withDescription("Specifies the input file format. Default values are " + defaultType)
+                                           .withDescription("Specifies the input file format. Default values are " + defaultFormatOpt)
                                            .create(convertOpt);
         options.addOption(formatOption);
 
@@ -78,35 +92,51 @@ public class MZTabCommandLine {
             System.exit(0);
         }
 
-        File dir = null;
-        if (line.hasOption(dirOpt)) {
-            dir = new File(line.getOptionValue(dirOpt));
-            if (! dir.isDirectory()) {
-                dir = null;
+        // if no
+        File inDir = null;
+        if (line.hasOption(inDirOpt)) {
+            inDir = new File(line.getOptionValue(inDirOpt));
+            if (! inDir.isDirectory()) {
+                throw new IllegalArgumentException("input file directory not exists!");
             }
+        }
+
+        // if not provide output directory, default use input directory.
+        File outDir = null;
+        if (line.hasOption(outDirOpt)) {
+            outDir = new File(line.getOptionValue(outDirOpt));
+        }
+        if (outDir == null || !outDir.isDirectory()) {
+            outDir = inDir;
         }
 
         File outFile = null;
         OutputStream out;
         if (line.hasOption(outOpt)) {
-            outFile = new File(dir, line.getOptionValue(outOpt));
+            outFile = new File(outDir, line.getOptionValue(outOpt));
         }
         out = outFile == null ? System.out : new BufferedOutputStream(new FileOutputStream(outFile));
 
         if (line.hasOption(checkOpt)) {
-            File tabFile = new File(dir, line.getOptionValue(checkOpt));
+            File tabFile = new File(inDir, line.getOptionValue(checkOpt));
             new MZTabFileParser(tabFile, out);
         } else if (line.hasOption(convertOpt)) {
-            File convertFile = new File(dir, line.getOptionValue(convertOpt));
-            MZTabFileConverter.Format format = MZTabFileConverter.findFormat(line.getOptionValue(formatOpt));
-            MZTabFileConverter.convert(convertFile, format, out);
+            File inFile = new File(inDir, line.getOptionValue(convertOpt));
+
+            ConvertFile.Format format = MZTabFileConverter.findFormat(line.getOptionValue(formatOpt, defaultFormatOpt));
+            MZTabFileConverter converter = new MZTabFileConverter(inFile, format);
+            converter.getMZTabFile().printMZTab(out);
         } else if (line.hasOption(mergeOpt)) {
+            String combineLabel = line.getOptionValue(combineOpt, defaultCombineOpt);
+            boolean combine = combineLabel.equals("true");
+
             String[] fileNameList = line.getOptionValue(mergeOpt).split(",");
             List<File> tabFileList = new ArrayList<File>();
             for (String fileName : fileNameList) {
-                tabFileList.add(new File(dir, fileName.trim()));
+                tabFileList.add(new File(inDir, fileName.trim()));
             }
             MZTabFileMerger merger = new MZTabFileMerger(tabFileList);
+            merger.setCombine(combine);
             merger.printMZTab(out);
         }
 

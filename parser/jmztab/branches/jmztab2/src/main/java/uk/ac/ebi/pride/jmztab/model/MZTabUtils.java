@@ -364,7 +364,7 @@ public class MZTabUtils {
         }
     }
 
-    private static Modification parseModification(Section section, String target) {
+    public static Modification parseModification(Section section, String target) {
         target = translateTabToComma(target);
         String[] items = target.split("\\-");
         String modLabel;

@@ -1,45 +1,60 @@
 package uk.ac.ebi.pride.jmztab.utils;
 
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorOverflowException;
+import uk.ac.ebi.pride.jmztab.errors.MZTabException;
+import uk.ac.ebi.pride.jmztab.model.MZTabFile;
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertMzIndentMLFile;
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertPrideXMLFile;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * User: qingwei
  * Date: 27/02/13
  */
 public class MZTabFileConverter {
-    public enum Format {
-        PRIDE_210("PRIDE-XML", "2.1"),            // Pride XML
-        mzIdentML_110("mzIdentML", "1.1.0"),
-        mzTab_100("mzTab", "1.0");
+    public final static String PRIDE = "PRIDE_XML";
+    public final static String mzIdentML = "mzIndenML";
 
-        private String type;
-        private String verstion;
+    private MZTabFile mzTabFile;
 
-        private Format(String type, String verstion) {
-            this.type = type;
-            this.verstion = verstion;
-        }
-    }
-
-    public static void convert(File inFile, Format format, OutputStream out) throws IOException {
+    public MZTabFileConverter(File inFile, ConvertFile.Format format) throws IOException, MZTabException, MZTabErrorOverflowException {
         if (format == null) {
-            format = Format.PRIDE_210;
+            throw new NullPointerException("Source file format is null");
         }
+
+        ConvertFile convertFile;
+        switch (format) {
+            case PRIDE:
+                convertFile = new ConvertPrideXMLFile(inFile);
+                break;
+            case mzIdentML:
+                convertFile = new ConvertMzIndentMLFile(inFile);
+                break;
+            default:
+                convertFile = null;
+        }
+
+        mzTabFile = convertFile.getMZTabFile();
     }
 
-    public static Format findFormat(String type) {
-        if (type == null) {
+    public MZTabFile getMZTabFile() {
+        return mzTabFile;
+    }
+
+    public static ConvertFile.Format findFormat(String formatLabel) {
+        if (formatLabel == null) {
             return null;
         }
 
-        for (Format format : Format.values()) {
-            if (format.type.equals(type)) {
-                return format;
-            }
+        if (formatLabel.equals(PRIDE)) {
+            return ConvertFile.Format.PRIDE;
+        } else if (formatLabel.equals(mzIdentML)) {
+            return ConvertFile.Format.mzIdentML;
+        } else {
+            return null;
         }
-
-        return null;
     }
 }

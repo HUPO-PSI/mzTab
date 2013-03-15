@@ -47,10 +47,6 @@ public class Modification {
     }
 
     public void addPosition(Integer id, CVParam param) {
-        if (positionMap.containsKey(id)) {
-            throw new IllegalArgumentException("one modification can not assigned to the same position.");
-        }
-
         this.positionMap.put(id, param);
     }
 
