@@ -3,11 +3,11 @@ package uk.ac.ebi.pride.jmztab.model;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
+import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
 
 /**
  * If there were multiple subsamples analyzed in the respective unit these species should be
@@ -24,10 +24,10 @@ public class SubUnit extends Unit {
 
     private Integer subId;
 
-    private Map<Integer, Species> speciesMap = new TreeMap<Integer, Species>();
-    private Map<Integer, Tissue> tissueMap = new TreeMap<Integer, Tissue>();
-    private Map<Integer, CellType> cellTypeMap = new TreeMap<Integer, CellType>();
-    private Map<Integer, Disease> diseaseMap = new TreeMap<Integer, Disease>();
+    private SortedMap<Integer, Species> speciesMap = new TreeMap<Integer, Species>();
+    private SortedMap<Integer, Tissue> tissueMap = new TreeMap<Integer, Tissue>();
+    private SortedMap<Integer, CellType> cellTypeMap = new TreeMap<Integer, CellType>();
+    private SortedMap<Integer, Disease> diseaseMap = new TreeMap<Integer, Disease>();
 
     private String description;
     private Param quantificationReagent;
@@ -109,19 +109,19 @@ public class SubUnit extends Unit {
         return sb.toString();
     }
 
-    public Map<Integer, Species> getSpeciesMap() {
+    public SortedMap<Integer, Species> getSpeciesMap() {
         return speciesMap;
     }
 
-    public Map<Integer, Tissue> getTissueMap() {
+    public SortedMap<Integer, Tissue> getTissueMap() {
         return tissueMap;
     }
 
-    public Map<Integer, CellType> getCellTypeMap() {
+    public SortedMap<Integer, CellType> getCellTypeMap() {
         return cellTypeMap;
     }
 
-    public Map<Integer, Disease> getDiseaseMap() {
+    public SortedMap<Integer, Disease> getDiseaseMap() {
         return diseaseMap;
     }
 

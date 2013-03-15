@@ -12,7 +12,7 @@ public class MZTabFileMergerRun {
         File file2 = new File("example/CPTAC_Progenesis_label_free_mzq.txt");
 
         MZTabFileMerger merger = new MZTabFileMerger(file1, file2);
-        merger.setMerge(true);
+        merger.setCombine(true);
 
         merger.printMZTab(System.out);
     }

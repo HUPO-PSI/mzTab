@@ -17,9 +17,9 @@ public class MZTabFileMerger {
     private List<MZTabFile> mzTabFileList = new ArrayList<MZTabFile>();
 
     /**
-     * Whether merge abundance columns and metadata which has same SubSample.
+     * Whether combine abundance columns and metadata which has same SubSample.
      */
-    private boolean merge = false;
+    private boolean combine = false;
 
     public MZTabFileMerger() {
 
@@ -48,14 +48,14 @@ public class MZTabFileMerger {
     }
 
     /**
-     * Whether merge abundance columns and metadata which has same SubSample
+     * Whether combine abundance columns and metadata which has same SubSample
      */
-    public boolean isMerge() {
-        return merge;
+    public boolean isCombine() {
+        return combine;
     }
 
-    public void setMerge(boolean merge) {
-        this.merge = merge;
+    public void setCombine(boolean combine) {
+        this.combine = combine;
     }
 
     public boolean addFile(File tabFile) throws IOException, MZTabException, MZTabErrorOverflowException {
@@ -144,7 +144,7 @@ public class MZTabFileMerger {
             if (srcUnit instanceof SubUnit) {
                 subUnit = (SubUnit) srcUnit;
                 int subId = metadata.getSubUnits().lastKey();
-                if (subUnit.getSubId() <= subId && ! merge) {
+                if (subUnit.getSubId() <= subId && !combine) {
                     subUnit.setSubId(subId + 1);
                 }
             }
@@ -165,7 +165,7 @@ public class MZTabFileMerger {
 
             if (srcProteinColumnFactory != null) {
                 // combine two protein header columns. move srcTabFile optional columns to the left.
-                if (! merge) {
+                if (!combine) {
                     int offset = tarProteinColumnFactory.getColumnMapping().lastKey() - tarProteinColumnFactory.getStableColumnMapping().lastKey();
                     Integer position;
                     while ((position = overlap(srcProteinColumnFactory.getAbundanceColumnMapping().keySet(), tarProteinColumnFactory.getAbundanceColumnMapping().keySet())) != null) {
@@ -222,7 +222,7 @@ public class MZTabFileMerger {
 
             if (srcPeptideColumnFactory != null) {
                 // combine two peptide header columns. move srcTabFile optional columns to the left.
-                if (! merge) {
+                if (!combine) {
                     int offset = tarPeptideColumnFactory.getColumnMapping().lastKey() - tarPeptideColumnFactory.getStableColumnMapping().lastKey();
                     Integer position;
                     while ((position = overlap(srcPeptideColumnFactory.getAbundanceColumnMapping().keySet(), tarPeptideColumnFactory.getAbundanceColumnMapping().keySet())) != null) {
@@ -268,7 +268,7 @@ public class MZTabFileMerger {
 
             if (srcSmallMoleculeColumnFactory != null) {
                 // combine two small molecule header columns. move srcTabFile optional columns to the left.
-                if (! merge) {
+                if (!combine) {
                     int offset = tarSmallMoleculeColumnFactory.getColumnMapping().lastKey() - tarSmallMoleculeColumnFactory.getStableColumnMapping().lastKey();
                     Integer position;
                     while ((position = overlap(srcSmallMoleculeColumnFactory.getAbundanceColumnMapping().keySet(), tarSmallMoleculeColumnFactory.getAbundanceColumnMapping().keySet())) != null) {

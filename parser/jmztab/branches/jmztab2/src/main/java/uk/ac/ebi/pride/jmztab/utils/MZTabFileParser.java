@@ -18,39 +18,27 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.*;
  * Date: 21/02/13
  */
 public class MZTabFileParser {
-    private boolean buffered = true;
-
     private MZTabFile mzTabFile;
     private File tabFile;
 
-
-    public MZTabFileParser(File tabFile) throws IOException, MZTabException, MZTabErrorOverflowException {
-        this(tabFile, BUFFERED);
-    }
-
-    public MZTabFileParser(File tabFile, OutputStream out) throws IOException {
-        this(tabFile, out, BUFFERED);
-    }
-
-    private void init(File tabFile, boolean buffered) {
+    private void init(File tabFile) {
         if (tabFile == null || ! tabFile.exists()) {
             throw new IllegalArgumentException("MZTab File not exists!");
         }
 
         this.tabFile = tabFile;
-        this.buffered = buffered;
 
         MZTabErrorList.clear();
         PRTLineParser.accessionSet.clear();
     }
 
-    public MZTabFileParser(File tabFile, boolean buffered) throws IOException, MZTabException, MZTabErrorOverflowException {
-        init(tabFile, buffered);
+    public MZTabFileParser(File tabFile) throws IOException, MZTabException, MZTabErrorOverflowException {
+        init(tabFile);
         check();
     }
 
-    public MZTabFileParser(File tabFile, OutputStream out, boolean buffered) throws IOException {
-        init(tabFile, buffered);
+    public MZTabFileParser(File tabFile, OutputStream out) throws IOException {
+        init(tabFile);
 
         try {
             check();
@@ -121,13 +109,9 @@ public class MZTabFileParser {
             }
 
             if (line.startsWith(Section.Comment.getPrefix())) {
-                if (buffered) {
-                    comParser.check(lineNumber, line);
-                    commentMap.put(lineNumber, comParser.getComment());
-                    continue;
-                } else {
-                    continue;
-                }
+                comParser.check(lineNumber, line);
+                commentMap.put(lineNumber, comParser.getComment());
+                continue;
             }
 
             section = getSection(line);
@@ -168,9 +152,7 @@ public class MZTabFileParser {
                         prtParser = new PRTLineParser(prhParser.getFactory(), mtdParser.getMetadata());
                     }
                     prtParser.check(lineNumber, line);
-                    if (buffered) {
-                        proteinMap.put(lineNumber, prtParser.getRecord(line));
-                    }
+                    proteinMap.put(lineNumber, prtParser.getRecord(line));
 
                     break;
                 case 4:
@@ -198,9 +180,7 @@ public class MZTabFileParser {
                         pepParser = new PEPLineParser(pehParser.getFactory(), mtdParser.getMetadata());
                     }
                     pepParser.check(lineNumber, line);
-                    if (buffered) {
-                        peptideMap.put(lineNumber, pepParser.getRecord(line));
-                    }
+                    peptideMap.put(lineNumber, pepParser.getRecord(line));
 
                     break;
                 case 6:
@@ -228,9 +208,7 @@ public class MZTabFileParser {
                         smlParser = new SMLLineParser(smhParser.getFactory(), mtdParser.getMetadata());
                     }
                     smlParser.check(lineNumber, line);
-                    if (buffered) {
-                        smallMoleculeMap.put(lineNumber, smlParser.getRecord(line));
-                    }
+                    smallMoleculeMap.put(lineNumber, smlParser.getRecord(line));
 
                     break;
             }
@@ -283,13 +261,5 @@ public class MZTabFileParser {
 
     public MZTabFile getMZTabFile() {
         return mzTabFile;
-    }
-
-    public boolean isBuffered() {
-        return buffered;
-    }
-
-    public File getTabFile() {
-        return tabFile;
     }
 }

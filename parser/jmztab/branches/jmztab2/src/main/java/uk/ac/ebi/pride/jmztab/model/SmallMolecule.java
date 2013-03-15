@@ -3,8 +3,7 @@ package uk.ac.ebi.pride.jmztab.model;
 import java.beans.PropertyChangeEvent;
 import java.net.URI;
 
-import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
-import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
@@ -39,7 +38,16 @@ public class SmallMolecule extends AbstractMZTabRecord {
     }
 
     public boolean addIdentifier(String identifier) {
-        return getIdentifier().add(identifier);
+        if (isEmpty(identifier)) {
+            return false;
+        }
+
+        SplitList<String> identifierList = getIdentifier();
+        if (identifierList == null) {
+            identifierList = new SplitList<String>(BAR);
+            setIdentifier(identifierList);
+        }
+        return identifierList.add(identifier);
     }
 
     public void setIdentifier(SplitList<String> identifier) {
@@ -119,11 +127,21 @@ public class SmallMolecule extends AbstractMZTabRecord {
     }
 
     public boolean addRetentionTime(Double rt) {
-        return getRetentionTime().add(rt);
+        if (rt == null) {
+            return false;
+        }
+
+        SplitList<Double> rtList = getRetentionTime();
+        if (rtList == null) {
+            rtList = new SplitList<Double>(BAR);
+            setRetentionTime(rtList);
+        }
+
+        return rtList.add(rt);
     }
 
     public boolean addRetentionTime(String rtLabel) {
-        return addRetentionTime(parseDouble(rtLabel));
+        return !isEmpty(rtLabel) && addRetentionTime(parseDouble(rtLabel));
     }
 
     public void setRetentionTime(SplitList<Double> retentionTime) {
@@ -199,7 +217,17 @@ public class SmallMolecule extends AbstractMZTabRecord {
     }
 
     public boolean addSpectraRef(SpecRef specRef) {
-        return getSpectraRef().add(specRef);
+        if (specRef == null) {
+            return false;
+        }
+
+        SplitList<SpecRef> specRefs = getSpectraRef();
+        if (specRefs == null) {
+            specRefs = new SplitList<SpecRef>(BAR);
+            setSpectraRef(specRefs);
+        }
+
+        return specRefs.add(specRef);
     }
 
     public void setSpectraRef(SplitList<SpecRef> spectraRef) {
@@ -215,11 +243,21 @@ public class SmallMolecule extends AbstractMZTabRecord {
     }
 
     public boolean addSearchEngineParam(Param param) {
-        return getSearchEngine().add(param);
+        if (param == null) {
+            return false;
+        }
+
+        SplitList<Param> params = getSearchEngine();
+        if (params == null) {
+            params = new SplitList<Param>(BAR);
+            setSearchEngine(params);
+        }
+
+        return params.add(param);
     }
 
     public boolean addSearchEngineParam(String paramLabel) {
-        return addSearchEngineParam(parseParam(paramLabel));
+        return !isEmpty(paramLabel) && addSearchEngineParam(parseParam(paramLabel));
     }
 
     public void setSearchEngine(SplitList<Param> searchEngine) {
@@ -235,11 +273,21 @@ public class SmallMolecule extends AbstractMZTabRecord {
     }
 
     public boolean addSearchEngineSocreParam(Param param) {
-        return getSearchEngineScore().add(param);
+        if (param == null) {
+            return false;
+        }
+
+        SplitList<Param> params = getSearchEngineScore();
+        if (params == null) {
+            params = new SplitList<Param>(BAR);
+            setSearchEngineScore(params);
+        }
+
+        return params.add(param);
     }
 
     public boolean addSearchEngineSocreParam(String paramLabel) {
-        return addSearchEngineSocreParam(parseParam(paramLabel));
+        return !isEmpty(paramLabel) && addSearchEngineSocreParam(parseParam(paramLabel));
     }
 
     public void setSearchEngineScore(SplitList<Param> searchEngineScore) {
@@ -255,7 +303,17 @@ public class SmallMolecule extends AbstractMZTabRecord {
     }
 
     public boolean addModification(Modification modification) {
-        return getModifications().add(modification);
+        if (modification == null) {
+            return false;
+        }
+
+        SplitList<Modification> modList = getModifications();
+        if (modList == null) {
+            modList = new SplitList<Modification>(COMMA);
+            setModifications(modList);
+        }
+
+        return modList.add(modification);
     }
 
     public void setModifications(SplitList<Modification> modifications) {

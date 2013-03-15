@@ -1,11 +1,9 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
 
 /**
  * This is a static factory class which used to generate a couple of MZTabColumn, and organized them
@@ -146,25 +144,28 @@ public class MZTabColumnFactory extends OperationCenter {
      * Add a Optional Column {opt_} to the rightest of the table.
      * @see OptionalColumn
      */
-    public void addOptionalColumn(String name, Class dataType) {
+    public Integer addOptionalColumn(String name, Class dataType) {
         int offset = columnMapping.lastKey();
         OptionalColumn column = OptionalColumn.getInstance(name, dataType, offset);
         addOptionalColumn(column);
+        return column.getPosition();
     }
 
     /**
      * Add a CVParam Optional Column {opt_cv_{accession}_{parameter name}} to the rightest of the table.
      * @see CVParamOptionColumn
      */
-    public void addCVParamOptionalColumn(CVParam param) {
+    public Integer addCVParamOptionalColumn(CVParam param) {
         int offset = columnMapping.lastKey();
         CVParamOptionColumn column = CVParamOptionColumn.getInstance(param, offset);
         addOptionalColumn(column);
+        return column.getPosition();
     }
 
-    public void addOptionalColumn(OptionalColumn column) {
+    public Integer addOptionalColumn(OptionalColumn column) {
         stableColumnMapping.put(column.getPosition(), column);
         columnMapping.put(column.getPosition(), column);
+        return column.getPosition();
     }
 
     public void addAllOptionalColumn(Collection<OptionalColumn> columns) {
@@ -278,6 +279,20 @@ public class MZTabColumnFactory extends OperationCenter {
      */
     public SortedMap<Integer, OptionalColumn> getOptionalColumnMapping() {
         return Collections.unmodifiableSortedMap(optionalColumnMapping);
+    }
+
+    public Integer containOptionalColumn(String name) {
+        if (isEmpty(name)) {
+            return null;
+        }
+
+        for (Integer position : optionalColumnMapping.keySet()) {
+            if (optionalColumnMapping.get(position).getName().equals(name)) {
+                return position;
+            }
+        }
+
+        return null;
     }
 
     /**

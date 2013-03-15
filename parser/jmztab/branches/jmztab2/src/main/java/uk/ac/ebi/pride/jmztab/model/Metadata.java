@@ -96,7 +96,9 @@ public class Metadata extends OperationCenter {
         for (Unit unit : values()) {
             if (unit instanceof SubUnit) {
                 SubUnit subUnit = (SubUnit) unit;
-                units.put(subUnit.getSubId(), subUnit);
+                if (subUnit.getSubId() != null) {
+                    units.put(subUnit.getSubId(), subUnit);
+                }
             }
         }
 
