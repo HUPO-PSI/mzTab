@@ -46,6 +46,7 @@ public abstract class ConvertFile {
         }
 
         this.format = format;
+        this.inFile = inFile;
     }
 
     /**

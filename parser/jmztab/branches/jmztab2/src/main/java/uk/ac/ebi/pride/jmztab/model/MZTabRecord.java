@@ -8,6 +8,7 @@ package uk.ac.ebi.pride.jmztab.model;
  * Date: 05/02/13
  */
 public interface MZTabRecord {
+    public Object getValue(Integer position);
     public String getString(int position);
     public Integer getInteger(int position);
     public Double getDouble(int position);

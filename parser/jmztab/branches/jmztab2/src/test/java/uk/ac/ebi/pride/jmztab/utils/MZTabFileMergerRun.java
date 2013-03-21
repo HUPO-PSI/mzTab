@@ -8,8 +8,8 @@ import java.io.File;
  */
 public class MZTabFileMergerRun {
     public static void main(String[] args) throws Exception {
-        File file1 = new File("example/mztab_itraq_example.txt");
-        File file2 = new File("example/CPTAC_Progenesis_label_free_mzq.txt");
+        File file1 = new File("testset/mztab_itraq_example.txt");
+        File file2 = new File("testset/CPTAC_Progenesis_label_free_mzq.txt");
 
         MZTabFileMerger merger = new MZTabFileMerger(file1, file2);
         merger.setCombine(true);

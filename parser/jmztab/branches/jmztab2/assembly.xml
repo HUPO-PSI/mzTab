@@ -30,8 +30,8 @@
             </excludes>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/ontology</directory>
-            <outputDirectory>${assembly.dir}/ontology</outputDirectory>
+            <directory>${project.basedir}/testset</directory>
+            <outputDirectory>${assembly.dir}/testset</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>${project.basedir}/conf</directory>

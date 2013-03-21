@@ -9,7 +9,7 @@ import java.io.File;
 public class MZTabFileParserRun {
     public void check(String fileName) throws Exception {
         System.out.println("check " + fileName);
-        File tabFile = new File("example/" + fileName);
+        File tabFile = new File("testset/" + fileName);
         new MZTabFileParser(tabFile, System.out);
         System.out.println();
         System.out.println();
