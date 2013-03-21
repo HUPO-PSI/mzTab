@@ -123,7 +123,7 @@
                     </excludes>
                     <archive>
                         <manifest>
-                            <mainClass>uk.ac.ebi.pride.prideq.browser.ProteomeBrowser</mainClass>
+                            <mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>
                             <!--use this if want to extract metadata from public mysql instance-->
                             <!--<mainClass>uk.ac.ebi.pride.data.io.db.DBMetadataExtractor</mainClass>-->
                             <!--use this if want to run batch dbtest-->

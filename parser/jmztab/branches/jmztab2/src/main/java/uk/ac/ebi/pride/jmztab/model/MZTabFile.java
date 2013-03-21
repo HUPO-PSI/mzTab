@@ -21,9 +21,9 @@ public class MZTabFile {
      * Integer: line number
      */
     private SortedMap<Integer, Comment> comments = new TreeMap<Integer, Comment>();
-    private SortedMap<Integer, Protein> proteins;
-    private SortedMap<Integer, Peptide> peptides;
-    private SortedMap<Integer, SmallMolecule> smallMolecules;
+    private SortedMap<Integer, Protein> proteins = new TreeMap<Integer, Protein>();
+    private SortedMap<Integer, Peptide> peptides = new TreeMap<Integer, Peptide>();
+    private SortedMap<Integer, SmallMolecule> smallMolecules = new TreeMap<Integer, SmallMolecule>();
 
     public MZTabFile(Metadata metadata) {
         this.metadata = metadata;
@@ -52,12 +52,10 @@ public class MZTabFile {
     public void setProteinColumnFactory(MZTabColumnFactory proteinColumnFactory) {
         if (proteinColumnFactory == null) {
             this.proteinColumnFactory = null;
-            this.proteins = null;
             return;
         }
 
         this.proteinColumnFactory = proteinColumnFactory;
-        this.proteins = new TreeMap<Integer, Protein>();
 
         for (AbundanceColumn column : proteinColumnFactory.getAbundanceColumnMapping().values()) {
             column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
@@ -67,12 +65,9 @@ public class MZTabFile {
     public void setPeptideColumnFactory(MZTabColumnFactory peptideColumnFactory) {
         if (peptideColumnFactory == null) {
             this.peptideColumnFactory = null;
-            this.peptides = null;
             return;
         }
-
         this.peptideColumnFactory = peptideColumnFactory;
-        this.peptides = new TreeMap<Integer, Peptide>();
 
         for (AbundanceColumn column : peptideColumnFactory.getAbundanceColumnMapping().values()) {
             column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
@@ -82,12 +77,10 @@ public class MZTabFile {
     public void setSmallMoleculeColumnFactory(MZTabColumnFactory smallMoleculeColumnFactory) {
         if (smallMoleculeColumnFactory == null) {
             this.smallMoleculeColumnFactory = null;
-            this.smallMolecules = null;
             return;
         }
 
         this.smallMoleculeColumnFactory = smallMoleculeColumnFactory;
-        this.smallMolecules = new TreeMap<Integer, SmallMolecule>();
 
         for (AbundanceColumn column : smallMoleculeColumnFactory.getAbundanceColumnMapping().values()) {
             column.getSubUnit().addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, column);
@@ -639,5 +632,38 @@ public class MZTabFile {
         }
 
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(metadata).append(NEW_LINE);
+
+        if (proteinColumnFactory != null) {
+            sb.append(proteinColumnFactory).append(NEW_LINE);
+            for (Protein protein : proteins.values()) {
+                sb.append(protein).append(NEW_LINE);
+            }
+            sb.append(NEW_LINE);
+        }
+
+        if (peptideColumnFactory != null) {
+            sb.append(peptideColumnFactory).append(NEW_LINE);
+            for (Peptide peptide : peptides.values()) {
+                sb.append(peptide).append(NEW_LINE);
+            }
+            sb.append(NEW_LINE);
+        }
+
+        if (smallMoleculeColumnFactory != null) {
+            sb.append(smallMoleculeColumnFactory).append(NEW_LINE);
+            for (SmallMolecule smallMolecule : smallMolecules.values()) {
+                sb.append(smallMolecule).append(NEW_LINE);
+            }
+            sb.append(NEW_LINE);
+        }
+
+        return sb.toString();
+    }
+
 
 }

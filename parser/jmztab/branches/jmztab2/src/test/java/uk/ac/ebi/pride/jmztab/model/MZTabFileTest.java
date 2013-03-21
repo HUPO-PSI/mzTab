@@ -23,7 +23,7 @@ public class MZTabFileTest {
 
     @Before
     public void setUp() throws Exception {
-        MZTabFileParser parser = new MZTabFileParser(new File("example/mztab_itraq_example.txt"));
+        MZTabFileParser parser = new MZTabFileParser(new File("testset/mztab_itraq_example.txt"));
         tabFile = parser.getMZTabFile();
     }
 

@@ -295,6 +295,10 @@ public class MZTabColumnFactory extends OperationCenter {
         return null;
     }
 
+    public Section getSection() {
+        return section;
+    }
+
     /**
      * [PRH|PEH/SMH]    header1 header2 ...
      */

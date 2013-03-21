@@ -15,7 +15,7 @@ import java.io.IOException;
  * Date: 27/02/13
  */
 public class MZTabFileConverter {
-    public final static String PRIDE = "PRIDE_XML";
+    public final static String PRIDE = "PRIDE";
     public final static String mzIdentML = "mzIndenML";
 
     private MZTabFile mzTabFile;
