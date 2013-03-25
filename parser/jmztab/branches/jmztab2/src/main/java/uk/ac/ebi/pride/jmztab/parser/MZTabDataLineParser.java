@@ -1,9 +1,6 @@
 package uk.ac.ebi.pride.jmztab.parser;
 
-import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
-import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
-import uk.ac.ebi.pride.jmztab.errors.MZTabError;
-import uk.ac.ebi.pride.jmztab.errors.MZTabException;
+import uk.ac.ebi.pride.jmztab.errors.*;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
 
@@ -23,11 +20,12 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  */
 public abstract class MZTabDataLineParser extends MZTabLineParser {
     private MZTabColumnFactory factory;
+    protected MZTabErrorList errorList;
 
     protected SortedMap<Integer, MZTabColumn> mapping;
     protected Metadata metadata;
 
-    protected MZTabDataLineParser(MZTabColumnFactory factory, Metadata metadata) {
+    protected MZTabDataLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
         this.factory = factory;
         this.mapping = factory.getColumnMapping();
 
@@ -35,6 +33,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             throw new NullPointerException("Metadata should be parser first.");
         }
         this.metadata = metadata;
+        this.errorList = errorList;
     }
 
     public void check(int lineNumber, String line) throws MZTabException {
@@ -150,9 +149,9 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         String header = column.getHeader();
 
         if (header.contains("MS:1002217") && checkMZBoolean(column, data) == null) {
-            new MZTabError(LogicalErrorType.CVParamOptionalColumn, lineNumber, column.getHeader(), "Boolean(0/1)", data);
+            this.errorList.add(new MZTabError(LogicalErrorType.CVParamOptionalColumn, lineNumber, column.getHeader(), "Boolean(0/1)", data));
         } else if (header.contains("MS:1001905") && checkDouble(column, data) == null) {
-            new MZTabError(LogicalErrorType.CVParamOptionalColumn, lineNumber, column.getHeader(), "value-type:xsd:double", data);
+            this.errorList.add(new MZTabError(LogicalErrorType.CVParamOptionalColumn, lineNumber, column.getHeader(), "value-type:xsd:double", data));
         }
 
         // using web service to cross check cv param definition matches data type.
@@ -188,7 +187,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         int dataCount = items.length - 1;
 
         if (headerCount != dataCount) {
-            new MZTabError(FormatErrorType.CountMatch, lineNumber, "" + dataCount, "" + headerCount);
+            this.errorList.add(new MZTabError(FormatErrorType.CountMatch, lineNumber, "" + dataCount, "" + headerCount));
         }
     }
 
@@ -198,13 +197,13 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      */
     protected String checkData(MZTabColumn column, String target, boolean allowNull) {
         if (target == null) {
-            new MZTabError(LogicalErrorType.NULL, lineNumber, column.getHeader());
+            this.errorList.add(new MZTabError(LogicalErrorType.NULL, lineNumber, column.getHeader()));
             return null;
         }
 
         target = target.trim();
         if (target.isEmpty()) {
-            new MZTabError(LogicalErrorType.NULL, lineNumber, column.getHeader());
+            this.errorList.add(new MZTabError(LogicalErrorType.NULL, lineNumber, column.getHeader()));
             return null;
         }
 
@@ -212,7 +211,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             if (allowNull) {
                 return NULL;
             } else {
-                new MZTabError(LogicalErrorType.NotNULL, lineNumber, column.getHeader(), target);
+                this.errorList.add(new MZTabError(LogicalErrorType.NotNULL, lineNumber, column.getHeader(), target));
             }
         }
 
@@ -228,7 +227,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         Integer value = parseInteger(result);
         if (value == null) {
-            new MZTabError(FormatErrorType.Integer, lineNumber, column.getHeader(), target);
+            this.errorList.add(new MZTabError(FormatErrorType.Integer, lineNumber, column.getHeader(), target));
         }
 
         return value;
@@ -243,7 +242,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         Double value = parseDouble(result);
         if (value == null) {
-            new MZTabError(FormatErrorType.Double, lineNumber, column.getHeader(), target);
+            this.errorList.add(new MZTabError(FormatErrorType.Double, lineNumber, column.getHeader(), target));
             return null;
         }
 
@@ -259,7 +258,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         SplitList<Param> paramList = parseParamList(result);
         if (paramList.size() == 0) {
-            new MZTabError(FormatErrorType.ParamList, lineNumber, column.getHeader(), target);
+            this.errorList.add(new MZTabError(FormatErrorType.ParamList, lineNumber, column.getHeader(), target));
             return null;
         }
 
@@ -275,7 +274,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         SplitList<String> stringList = parseStringList(splitChar, result);
         if (stringList.size() == 0) {
-            new MZTabError(FormatErrorType.StringList, lineNumber, column.getHeader(), result, "" + splitChar);
+            this.errorList.add(new MZTabError(FormatErrorType.StringList, lineNumber, column.getHeader(), result, "" + splitChar));
         }
 
         return stringList;
@@ -290,7 +289,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         MZBoolean value = MZBoolean.findBoolean(result);
         if (value == null) {
-            new MZTabError(FormatErrorType.MZBoolean, lineNumber, column.getHeader(), result);
+            this.errorList.add(new MZTabError(FormatErrorType.MZBoolean, lineNumber, column.getHeader(), result));
         }
 
         return value;
@@ -310,7 +309,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         Unit unit = metadata.getUnit(result_unitId);
         if (unit == null) {
-            new MZTabError(LogicalErrorType.UnitID, lineNumber, column.getHeader(), result_unitId);
+            this.errorList.add(new MZTabError(LogicalErrorType.UnitID, lineNumber, column.getHeader(), result_unitId));
         }
 
         return unit;
@@ -345,7 +344,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         for (Param param : paramList) {
             if (! (param instanceof CVParam) || (isEmpty(param.getValue()))) {
-                new MZTabError(FormatErrorType.SearchEngineScore, lineNumber, column.getHeader(), searchEngineScore, section.getName());
+                this.errorList.add(new MZTabError(FormatErrorType.SearchEngineScore, lineNumber, column.getHeader(), searchEngineScore, section.getName()));
             }
 
 
@@ -363,7 +362,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         Reliability result = Reliability.findReliability(result_reliaility);
         if (result == null) {
-            new MZTabError(FormatErrorType.Reliability, lineNumber, column.getHeader(), result_reliaility);
+            this.errorList.add(new MZTabError(FormatErrorType.Reliability, lineNumber, column.getHeader(), result_reliaility));
         }
 
         return result;
@@ -398,7 +397,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         SplitList<Modification> modificationList = parseModificationList(section, target);
         if (modificationList.size() == 0) {
-            new MZTabError(FormatErrorType.ModificationList, lineNumber, column.getHeader(), result_modifications);
+            this.errorList.add(new MZTabError(FormatErrorType.ModificationList, lineNumber, column.getHeader(), result_modifications));
         }
 
         return modificationList;
@@ -413,7 +412,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         java.net.URI result = parseURI(result_uri);
         if (result == null) {
-            new MZTabError(FormatErrorType.URI, lineNumber, column.getHeader(), result_uri);
+            this.errorList.add(new MZTabError(FormatErrorType.URI, lineNumber, column.getHeader(), result_uri));
         }
 
         return result;
@@ -428,7 +427,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         List<SpecRef> refList = parseSpecRefList(unit, result_spectraRef);
         if (refList.size() == 0) {
-            new MZTabError(FormatErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef);
+            this.errorList.add(new MZTabError(FormatErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef));
         }
 
         return refList;
@@ -444,7 +443,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         SplitList<String> stringList = parseGOTermList(result_go_terms);
         if (stringList.size() == 0) {
-            new MZTabError(FormatErrorType.GOTermList, lineNumber, column.getHeader(), result_go_terms);
+            this.errorList.add(new MZTabError(FormatErrorType.GOTermList, lineNumber, column.getHeader(), result_go_terms));
         }
 
         return stringList;
@@ -458,7 +457,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         }
 
         if (result < 0 || result > 1) {
-            new MZTabError(LogicalErrorType.ProteinCoverage, lineNumber, column.getHeader(), printDouble(result));
+            this.errorList.add(new MZTabError(LogicalErrorType.ProteinCoverage, lineNumber, column.getHeader(), printDouble(result)));
             return null;
         }
 
@@ -506,7 +505,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
         SplitList<Double> valueList = parseDoubleList(result);
         if (valueList.size() == 0) {
-            new MZTabError(FormatErrorType.DoubleList, lineNumber, column.getHeader(), result, "" + BAR);
+            this.errorList.add(new MZTabError(FormatErrorType.DoubleList, lineNumber, column.getHeader(), result, "" + BAR));
         }
 
         return valueList;

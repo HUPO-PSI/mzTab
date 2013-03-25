@@ -2,16 +2,12 @@ package uk.ac.ebi.pride.jmztab.utils.convert;
 
 import uk.ac.ebi.pride.jaxb.model.*;
 import uk.ac.ebi.pride.jaxb.xml.PrideXmlReader;
-import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
-import uk.ac.ebi.pride.jmztab.errors.MZTabError;
-import uk.ac.ebi.pride.jmztab.errors.MZTabErrorOverflowException;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.tools.converter.dao.DAOCvParams;
 import uk.ac.ebi.pride.tools.converter.dao.Utils;
 import uk.ac.ebi.pride.tools.converter.dao.handler.QuantitationCvParams;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,9 +27,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
     private PrideXmlReader reader;
     private Unit unit;
 
-    private Set<String> accessionSet = new HashSet<String>();
-
-    public ConvertPrideXMLFile(File inFile) throws IOException, MZTabErrorOverflowException {
+    public ConvertPrideXMLFile(File inFile) {
         super(inFile, Format.PRIDE);
         this.reader = new PrideXmlReader(inFile);
         createArchitecture();
@@ -118,11 +112,8 @@ public class ConvertPrideXMLFile extends ConvertFile {
             Identification identification = reader.getIdentById(id);
 
             // ignore any decoy hits
-            if (isDecoyHit(identification))
+            if (isDecoyHit(identification)) {
                 continue;
-
-            if (! accessionSet.add(identification.getAccession())) {
-                new MZTabError(LogicalErrorType.DuplicationAccession, -1, "accession", identification.getAccession(), unit.getUnitId());
             }
 
             Protein protein = loadProtein(identification);

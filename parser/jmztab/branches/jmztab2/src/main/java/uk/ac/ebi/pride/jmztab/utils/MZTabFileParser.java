@@ -21,15 +21,14 @@ public class MZTabFileParser {
     private MZTabFile mzTabFile;
     private File tabFile;
 
+    private MZTabErrorList errorList = new MZTabErrorList();
+
     private void init(File tabFile) {
         if (tabFile == null || ! tabFile.exists()) {
             throw new IllegalArgumentException("MZTab File not exists!");
         }
 
         this.tabFile = tabFile;
-
-        MZTabErrorList.clear();
-        PRTLineParser.accessionSet.clear();
     }
 
     public MZTabFileParser(File tabFile) throws IOException, MZTabException, MZTabErrorOverflowException {
@@ -44,12 +43,13 @@ public class MZTabFileParser {
             check();
         } catch (MZTabException e) {
             out.write(MZTabExceptionMessage.getBytes());
+            errorList.add(e.getError());
         } catch (MZTabErrorOverflowException e) {
             out.write(MZTabErrorOverflowExceptionMessage.getBytes());
         }
 
-        MZTabErrorList.print(out, LEVEL);
-        if (MZTabErrorList.isEmpty()) {
+        errorList.print(out, LEVEL);
+        if (errorList.isEmpty()) {
             out.write(("not errors in " + tabFile + " file!" + NEW_LINE).getBytes());
         }
     }
@@ -149,7 +149,7 @@ public class MZTabFileParser {
                     }
 
                     if (prtParser == null) {
-                        prtParser = new PRTLineParser(prhParser.getFactory(), mtdParser.getMetadata());
+                        prtParser = new PRTLineParser(prhParser.getFactory(), mtdParser.getMetadata(), errorList);
                     }
                     prtParser.check(lineNumber, line);
                     proteinMap.put(lineNumber, prtParser.getRecord(line));
@@ -177,7 +177,7 @@ public class MZTabFileParser {
                     }
 
                     if (pepParser == null) {
-                        pepParser = new PEPLineParser(pehParser.getFactory(), mtdParser.getMetadata());
+                        pepParser = new PEPLineParser(pehParser.getFactory(), mtdParser.getMetadata(), errorList);
                     }
                     pepParser.check(lineNumber, line);
                     peptideMap.put(lineNumber, pepParser.getRecord(line));
@@ -205,7 +205,7 @@ public class MZTabFileParser {
                     }
 
                     if (smlParser == null) {
-                        smlParser = new SMLLineParser(smhParser.getFactory(), mtdParser.getMetadata());
+                        smlParser = new SMLLineParser(smhParser.getFactory(), mtdParser.getMetadata(), errorList);
                     }
                     smlParser.check(lineNumber, line);
                     smallMoleculeMap.put(lineNumber, smlParser.getRecord(line));
@@ -218,7 +218,7 @@ public class MZTabFileParser {
             reader.close();
         }
 
-        if (MZTabErrorList.isEmpty()) {
+        if (errorList.isEmpty()) {
             mzTabFile = new MZTabFile(mtdParser.getMetadata());
             for (Integer id : commentMap.keySet()) {
                 mzTabFile.addComment(id, commentMap.get(id));
@@ -257,6 +257,9 @@ public class MZTabFileParser {
                 }
             }
         }
+
+        MZTabFileChecker checker = new MZTabFileChecker(errorList);
+        checker.check(mzTabFile);
     }
 
     public MZTabFile getMZTabFile() {

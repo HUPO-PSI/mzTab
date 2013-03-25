@@ -3,6 +3,7 @@ package uk.ac.ebi.pride.jmztab.parser;
 import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.model.*;
 
 import java.util.regex.Matcher;
@@ -16,8 +17,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
  * Date: 10/02/13
  */
 public class SMLLineParser extends MZTabDataLineParser {
-    public SMLLineParser(MZTabColumnFactory factory, Metadata metadata) {
-        super(factory, metadata);
+    public SMLLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
+        super(factory, metadata, errorList);
     }
 
     @Override
@@ -97,12 +98,12 @@ public class SMLLineParser extends MZTabDataLineParser {
         for (Modification mod: modificationList) {
             if (mod.getType() == Modification.Type.CHEMMOD) {
                 if (target.contains("-MOD:") || target.contains("-UNIMOD:")) {
-                    new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString());
+                    errorList.add(new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString()));
                     return null;
                 }
 
                 if (parseChemmodAccession(mod.getAccession()) == null) {
-                    new MZTabError(FormatErrorType.CHEMMODSAccession, lineNumber, column.getHeader(), mod.toString());
+                    errorList.add(new MZTabError(FormatErrorType.CHEMMODSAccession, lineNumber, column.getHeader(), mod.toString()));
                     return null;
                 }
             }

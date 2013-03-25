@@ -1,14 +1,11 @@
 package uk.ac.ebi.pride.jmztab.utils;
 
-import uk.ac.ebi.pride.jmztab.errors.MZTabErrorOverflowException;
-import uk.ac.ebi.pride.jmztab.errors.MZTabException;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertMzIndentMLFile;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertPrideXMLFile;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * User: qingwei
@@ -20,7 +17,7 @@ public class MZTabFileConverter {
 
     private MZTabFile mzTabFile;
 
-    public MZTabFileConverter(File inFile, ConvertFile.Format format) throws IOException, MZTabException, MZTabErrorOverflowException {
+    public MZTabFileConverter(File inFile, ConvertFile.Format format) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
