@@ -1,10 +1,13 @@
 package uk.ac.ebi.pride.jmztab.errors;
 
+import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.LEVEL;
 import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.MAX_ERROR_COUNT;
 
 /**
@@ -12,13 +15,9 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.MAX_ERROR_COUNT;
  * Date: 29/01/13
  */
 public class MZTabErrorList {
-    private static List<MZTabError> errorList;
+    private List<MZTabError> errorList = new ArrayList<MZTabError>(MAX_ERROR_COUNT);
 
-    static {
-        errorList = new ArrayList<MZTabError>(MAX_ERROR_COUNT);
-    }
-
-    public static boolean add(MZTabError o) throws MZTabErrorOverflowException {
+    public boolean add(MZTabError o) throws MZTabErrorOverflowException {
         if (errorList.size() >= MAX_ERROR_COUNT) {
             throw new MZTabErrorOverflowException();
         }
@@ -26,19 +25,33 @@ public class MZTabErrorList {
         return errorList.add(o);
     }
 
-    public static void clear() {
+    public void clear() {
         errorList.clear();
     }
 
-    public static boolean isEmpty() {
-        return errorList.isEmpty();
+    public boolean isEmpty() {
+        if (LEVEL.equals(MZTabErrorType.Level.Warn)) {
+            return errorList.isEmpty();
+        } else {
+            for (MZTabError error : errorList) {
+                if (error.getType().getLevel().equals(MZTabErrorType.Level.Error)) {
+                    return false;
+                }
+            }
+            // all errors' level are Warn.
+            return true;
+        }
     }
 
-    public static void print(OutputStream out, MZTabErrorType.Level level) throws IOException {
+    public void print(OutputStream out, MZTabErrorType.Level level) throws IOException {
         for (MZTabError e : errorList) {
             if (e.getType().getLevel().compareTo(level) >= 0) {
                 out.write(e.toString().getBytes());
             }
         }
+    }
+
+    public void print(OutputStream out) throws IOException {
+        print(out, MZTabProperties.LEVEL);
     }
 }

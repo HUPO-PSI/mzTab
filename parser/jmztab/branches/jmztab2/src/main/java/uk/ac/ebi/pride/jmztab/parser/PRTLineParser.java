@@ -2,10 +2,9 @@ package uk.ac.ebi.pride.jmztab.parser;
 
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.model.*;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,14 +16,13 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
  * Date: 10/02/13
  */
 public class PRTLineParser extends MZTabDataLineParser {
-    public PRTLineParser(MZTabColumnFactory factory, Metadata metadata) {
-        super(factory, metadata);
+    public PRTLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
+        super(factory, metadata, errorList);
     }
 
     @Override
     protected int checkStableData() {
-        String unit_id = checkUnitId(mapping.get(2), items[2]).getUnitId();
-        checkAccession(mapping.get(1), items[1], unit_id);
+        checkUnitId(mapping.get(2), items[2]).getUnitId();
         checkDescription(mapping.get(3), items[3]);
         checkTaxid(mapping.get(4), items[4]);
         checkSpecies(mapping.get(5), items[5]);
@@ -79,34 +77,31 @@ public class PRTLineParser extends MZTabDataLineParser {
         return (Protein) super.getRecord(Section.Protein, line);
     }
 
-    // accession + unitId should be unique.
-    public static Set<String> accessionSet = new HashSet<String>();
-
-    /**
-     * accession should not null.
-     * accession MUST be unique within one Unit.
-     *
-     * If check error return null, else return accession String.
-     */
-    protected String checkAccession(MZTabColumn column, String accession, String unitId) {
-        if (unitId == null) {
-            return null;
-        }
-
-        String result_accession = checkData(column, accession, false);
-
-        if (result_accession == null) {
-            return result_accession;
-        }
-
-        String unitId_accession = unitId + result_accession;
-        if (! accessionSet.add(unitId_accession)) {
-            new MZTabError(LogicalErrorType.DuplicationAccession, lineNumber, column.getHeader(), result_accession, unitId);
-            return null;
-        }
-
-        return result_accession;
-    }
+//    /**
+//     * accession should not null.
+//     * accession MUST be unique within one Unit.
+//     *
+//     * If check error return null, else return accession String.
+//     */
+//    protected String checkAccession(MZTabColumn column, String accession, String unitId) {
+//        if (unitId == null) {
+//            return null;
+//        }
+//
+//        String result_accession = checkData(column, accession, false);
+//
+//        if (result_accession == null) {
+//            return result_accession;
+//        }
+//
+//        String unitId_accession = unitId + result_accession;
+//        if (! accessionSet.add(unitId_accession)) {
+//            errorList.add(new MZTabError(LogicalErrorType.DuplicationAccession, lineNumber, column.getHeader(), result_accession, unitId));
+//            return null;
+//        }
+//
+//        return result_accession;
+//    }
 
     /**
      * For proteins and peptides modifications SHOULD be reported using either UNIMOD or PSI-MOD accessions.
@@ -117,12 +112,12 @@ public class PRTLineParser extends MZTabDataLineParser {
 
         for (Modification mod: modificationList) {
             if (mod.getType() == Modification.Type.CHEMMOD) {
-                new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString());
+                errorList.add(new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString()));
                 return null;
             }
 
             if (mod.getType() == Modification.Type.SUBST && parseSubstitutionIdentifier(mod.getAccession()) != null) {
-                new MZTabError(LogicalErrorType.SubstituteIdentifier, lineNumber, column.getHeader(), mod.toString());
+                errorList.add(new MZTabError(LogicalErrorType.SubstituteIdentifier, lineNumber, column.getHeader(), mod.toString()));
                 return null;
             }
         }

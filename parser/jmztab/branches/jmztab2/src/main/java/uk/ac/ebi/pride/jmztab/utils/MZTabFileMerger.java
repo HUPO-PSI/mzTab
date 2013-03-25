@@ -1,12 +1,7 @@
 package uk.ac.ebi.pride.jmztab.utils;
 
-import uk.ac.ebi.pride.jmztab.errors.*;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.parser.PRTLineParser;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -21,30 +16,18 @@ public class MZTabFileMerger {
      */
     private boolean combine = false;
 
-    public MZTabFileMerger() {
+    public MZTabFileMerger() {}
 
+    public void addAllTabFiles(Collection<MZTabFile> tabFileList) {
+        mzTabFileList.addAll(tabFileList);
     }
 
-    public MZTabFileMerger(File... tabFileList) throws IOException, MZTabException, MZTabErrorOverflowException {
-        for (File tabFile : tabFileList) {
-            if (! addFile(tabFile)) {
-                throw new MZTabException("There exists errors using add tabFile. Check Error List");
-            }
-        }
+    public void addTabFile(MZTabFile tabFile) {
+        mzTabFileList.add(tabFile);
     }
 
-    public MZTabFileMerger(List<File> tabFileList) throws IOException, MZTabException, MZTabErrorOverflowException {
-        for (File tabFile : tabFileList) {
-            if (! addFile(tabFile)) {
-                throw new MZTabException("There exists errors using add tabFile. Check Error List");
-            }
-        }
-    }
-
-    public MZTabFileMerger(List<File> tabFileList, OutputStream out) throws IOException {
-        for (File tabFile : tabFileList) {
-            addFile(tabFile, out);
-        }
+    public List<MZTabFile> getMzTabFileList() {
+        return Collections.unmodifiableList(mzTabFileList);
     }
 
     /**
@@ -56,35 +39,6 @@ public class MZTabFileMerger {
 
     public void setCombine(boolean combine) {
         this.combine = combine;
-    }
-
-    public boolean addFile(File tabFile) throws IOException, MZTabException, MZTabErrorOverflowException {
-        MZTabErrorList.clear();
-        PRTLineParser.accessionSet.clear();
-
-        MZTabFileParser parser = new MZTabFileParser(tabFile);
-        if (MZTabErrorList.isEmpty()) {
-            mzTabFileList.add(parser.getMZTabFile());
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean addFile(File tabFile, OutputStream out) throws IOException {
-        boolean success;
-
-        try {
-            success = addFile(tabFile);
-        } catch (MZTabException e) {
-            out.write(MZTabProperties.MZTabExceptionMessage.getBytes());
-            success = false;
-        } catch (MZTabErrorOverflowException e) {
-            out.write(MZTabProperties.MZTabErrorOverflowExceptionMessage.getBytes());
-            success = false;
-        }
-
-        return success;
     }
 
     /**
@@ -121,7 +75,7 @@ public class MZTabFileMerger {
      * merge srcFile into tarFile. In new MZTabFile, all tarFile metadata, header section, data section not change.
      * srcFile metadata, optional header columns, data position maybe changed, if there exists conflict.
      */
-    private MZTabFile mergeFile(MZTabFile srcFile, MZTabFile tarFile) throws MZTabException, MZTabErrorOverflowException {
+    private MZTabFile mergeFile(MZTabFile srcFile, MZTabFile tarFile) {
         // Step 1: combine metadata
         Metadata metadata = new Metadata();
         Metadata tarMetadata = tarFile.getMetadata();
@@ -191,21 +145,10 @@ public class MZTabFileMerger {
 
         // combine protein data table.
         if (proteinColumnFactory != null) {
-            // protein record accession should be unique.
-            Set<String> accessionSet = new HashSet<String>();
             for (Protein protein : tarFile.getProteins()) {
                 tabFile.addProtein(protein);
-                accessionSet.add(protein.getAccession());
             }
-
-            Protein protein;
-            SortedMap<Integer, Protein> proteins = srcFile.getProteinsWithLineNumber();
-            for (Integer lineNumber : proteins.keySet()) {
-                protein = proteins.get(lineNumber);
-                if (accessionSet.contains(protein.getAccession())) {
-                    MZTabError error = new MZTabError(LogicalErrorType.DuplicationAccession, lineNumber, "accession", protein.getAccession(), protein.getUnitId());
-                    throw new MZTabException(error);
-                }
+            for (Protein protein : srcFile.getProteins()) {
                 tabFile.addProtein(protein);
             }
         }
@@ -306,7 +249,7 @@ public class MZTabFileMerger {
         return tabFile;
     }
 
-    public MZTabFile merge() throws IOException, MZTabException, MZTabErrorOverflowException {
+    public MZTabFile merge() {
         if (mzTabFileList.isEmpty()) {
             return null;
         }
@@ -319,23 +262,8 @@ public class MZTabFileMerger {
 
         for (MZTabFile tabFile : mzTabFileList) {
             mainTabFile = mergeFile(tabFile, mainTabFile);
-            if (! MZTabErrorList.isEmpty()) {
-                return null;
-            }
         }
 
         return mainTabFile;
-    }
-
-    public void printMZTab(OutputStream out) throws IOException {
-        MZTabFile tabFile;
-        try {
-            tabFile = merge();
-            tabFile.printMZTab(out);
-        } catch (MZTabException e) {
-            out.write(e.getMessage().getBytes());
-        } catch (MZTabErrorOverflowException e) {
-            out.write(MZTabProperties.MZTabErrorOverflowExceptionMessage.getBytes());
-        }
     }
 }

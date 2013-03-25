@@ -1,12 +1,40 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User: Qingwei
  * Date: 30/01/13
  */
 public class Metadata extends OperationCenter {
+    private Comparator<String> idComparator = new Comparator<String>() {
+        /**
+         * if exists subId or repId which more than 9, the identifier comparator
+         * compared based on character order, not based on integer order. It is
+         * not good.
+         *
+         * This method overwrite the String comparator, add subId comparator.
+         */
+        @Override
+        public int compare(String o1, String o2) {
+            Pattern pattern = Pattern.compile("(.*)(sub|rep)\\[(\\d+)\\]");
+            Matcher matcher1 = pattern.matcher(o1);
+            Matcher matcher2 = pattern.matcher(o2);
+
+            if (matcher1.matches() && matcher2.matches() &&
+                    matcher1.group(1).equals(matcher2.group(1)) &&
+                    matcher1.group(2).equals(matcher2.group(2))) {
+                Integer id1 = new Integer(matcher1.group(3));
+                Integer id2 = new Integer(matcher2.group(3));
+                return id1.compareTo(id2);
+            } else {
+                return o1.compareTo(o2);
+            }
+        }
+    };
+
     /**
      * the <identifier, unit> pair, identifier is unique of Unit object.
      * @see uk.ac.ebi.pride.jmztab.model.Unit#getIdentifier()
@@ -18,7 +46,11 @@ public class Metadata extends OperationCenter {
      * That is no "sub[id]" information.
      * In our system, we this kind of SubUnit's identifier is PRIDE_1234-sub
      */
-    private Map<String, Unit> unitMap = new TreeMap<String, Unit>();
+    private SortedMap<String, Unit> unitMap;
+
+    public Metadata() {
+        unitMap = new TreeMap<String, Unit>(idComparator);
+    }
 
     public boolean addUnit(Unit unit) {
         return addUnit(unit.getIdentifier(), unit);
@@ -51,7 +83,7 @@ public class Metadata extends OperationCenter {
      * @see MZTabFile#addSmallMolecule(SmallMolecule)
      */
     public void modifyUnitId(String oldUnitId, String newUnitId) {
-        Map<String, Unit> newUnitMap = new TreeMap<String, Unit>();
+        SortedMap<String, Unit> newUnitMap = new TreeMap<String, Unit>(idComparator);
 
         for (Unit unit : values()) {
             if (unit.getUnitId().equals(oldUnitId)) {

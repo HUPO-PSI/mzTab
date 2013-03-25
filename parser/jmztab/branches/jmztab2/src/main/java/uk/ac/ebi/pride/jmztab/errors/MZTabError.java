@@ -25,7 +25,6 @@ public class MZTabError {
         Collections.addAll(valueList, values);
 
         this.message = fill(0, valueList, type.getOriginal());
-        MZTabErrorList.add(this);
     }
 
     /**

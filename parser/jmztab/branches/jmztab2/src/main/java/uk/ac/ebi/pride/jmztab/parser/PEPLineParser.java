@@ -2,6 +2,7 @@ package uk.ac.ebi.pride.jmztab.parser;
 
 import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabError;
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.model.*;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
@@ -11,15 +12,14 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
  * Date: 10/02/13
  */
 public class PEPLineParser extends MZTabDataLineParser {
-    public PEPLineParser(MZTabColumnFactory factory, Metadata metadata) {
-        super(factory, metadata);
+    public PEPLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
+        super(factory, metadata, errorList);
     }
 
     @Override
     protected int checkStableData() {
         String sequence = checkSequence(mapping.get(1), items[1]);
         Unit unit = checkUnitId(mapping.get(3), items[3]);
-        checkAccession(mapping.get(2), items[2], unit);
         checkUnique(mapping.get(4), items[4]);
         checkDatabase(mapping.get(5), items[5]);
         checkDatabaseVersion(mapping.get(6), items[6]);
@@ -70,28 +70,6 @@ public class PEPLineParser extends MZTabDataLineParser {
     }
 
     /**
-     * accession should not null.
-     * accession should be found in the protein accession set.
-     *
-     * If check error return null, else return accession String.
-     */
-    protected String checkAccession(MZTabColumn column, String accession, Unit unit) {
-        String result_accession = checkData(column, accession, false);
-
-        if (result_accession == null) {
-            return result_accession;
-        }
-
-        String unitId_accession = unit.getUnitId() + result_accession;
-        if (! PRTLineParser.accessionSet.contains(unitId_accession)) {
-            new MZTabError(LogicalErrorType.PeptideAccession, lineNumber, column.getHeader(), accession);
-            return null;
-        }
-
-        return result_accession;
-    }
-
-    /**
      * For proteins and peptides modifications SHOULD be reported using either UNIMOD or PSI-MOD accessions.
      * As these two ontologies are not applicable to small molecules, so-called CHEMMODs can also be defined.
      */
@@ -102,13 +80,13 @@ public class PEPLineParser extends MZTabDataLineParser {
         for (Modification mod: modificationList) {
             for (Integer position : mod.getPositionMap().keySet()) {
                 if (position > terminal_position || position < 0) {
-                    new MZTabError(LogicalErrorType.ModificationPosition, lineNumber, column.getHeader(), mod.toString());
+                    errorList.add(new MZTabError(LogicalErrorType.ModificationPosition, lineNumber, column.getHeader(), mod.toString()));
                     return null;
                 }
             }
 
             if (mod.getType() == Modification.Type.CHEMMOD) {
-                new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString());
+                errorList.add(new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString()));
                 return null;
             }
         }

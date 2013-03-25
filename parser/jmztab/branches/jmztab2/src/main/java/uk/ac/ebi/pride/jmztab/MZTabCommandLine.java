@@ -1,8 +1,11 @@
 package uk.ac.ebi.pride.jmztab;
 
 import org.apache.commons.cli.*;
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.errors.MZTabErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabErrorTypeMap;
+import uk.ac.ebi.pride.jmztab.model.MZTabFile;
+import uk.ac.ebi.pride.jmztab.utils.MZTabFileChecker;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileMerger;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
@@ -150,7 +153,15 @@ public class MZTabCommandLine {
                 }
 
                 MZTabFileConverter converter = new MZTabFileConverter(inFile, format);
-                converter.getMZTabFile().printMZTab(out);
+                MZTabFile tabFile = converter.getMZTabFile();
+                MZTabErrorList errorList = new MZTabErrorList();
+                MZTabFileChecker checker = new MZTabFileChecker(errorList);
+                checker.check(tabFile);
+                if (errorList.isEmpty()) {
+                    tabFile.printMZTab(out);
+                } else {
+                    errorList.print(out);
+                }
             } else if (line.hasOption(mergeOpt)) {
                 String[] values = line.getOptionValues(mergeOpt);
                 List<File> inFileList = new ArrayList<File>();
@@ -167,11 +178,27 @@ public class MZTabCommandLine {
                         combine = value.equals("true");
                     }
                 }
-                MZTabFileMerger merger = new MZTabFileMerger(inFileList);
+
+                MZTabFileParser mzParser;
+                MZTabFileMerger merger = new MZTabFileMerger();
+                for (File inFile : inFileList) {
+                    mzParser = new MZTabFileParser(inFile, out);
+                    merger.addTabFile(mzParser.getMZTabFile());
+                }
+
                 merger.setCombine(combine);
-                merger.printMZTab(out);
+                MZTabFile tabFile = merger.merge();
+                MZTabErrorList errorList = new MZTabErrorList();
+                MZTabFileChecker checker = new MZTabFileChecker(errorList);
+                checker.check(tabFile);
+                if (errorList.isEmpty()) {
+                    tabFile.printMZTab(out);
+                } else {
+                    errorList.print(out);
+                }
             }
 
+            System.out.println("Finish!");
 
             out.close();
         }
