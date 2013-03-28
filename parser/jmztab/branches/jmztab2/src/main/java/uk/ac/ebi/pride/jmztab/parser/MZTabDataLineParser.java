@@ -50,8 +50,8 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         checkOptionalData(offset);
     }
 
-    protected AbstractMZTabRecord getRecord(Section section, String line) {
-        AbstractMZTabRecord record = null;
+    protected MZTabRecord getRecord(Section section, String line) {
+        MZTabRecord record = null;
 
         switch (section) {
             case Protein:
@@ -82,7 +82,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      */
     abstract int checkStableData();
 
-    abstract int loadStableData(AbstractMZTabRecord record, String line);
+    abstract int loadStableData(MZTabRecord record, String line);
 
     private void checkOptionalData(int offset) {
         MZTabColumn column;
@@ -102,7 +102,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         }
     }
 
-    private void loadOptionalData(AbstractMZTabRecord record, int offset) {
+    private void loadOptionalData(MZTabRecord record, int offset) {
         MZTabColumn column;
 
         column = mapping.get(offset);
@@ -135,7 +135,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         return offset;
     }
 
-    private int loadAbundanceData(AbstractMZTabRecord record, int offset) {
+    private int loadAbundanceData(MZTabRecord record, int offset) {
         record.addValue(offset, parseDouble(items[offset++]));
         record.addValue(offset, parseDouble(items[offset++]));
         record.addValue(offset, parseDouble(items[offset]));
@@ -160,7 +160,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         }
     }
 
-    private void loadCVParamOptData(AbstractMZTabRecord record, int offset) {
+    private void loadCVParamOptData(MZTabRecord record, int offset) {
         MZTabColumn column = mapping.get(offset);
         String data = checkData(column, items[offset], true);
         String header = column.getHeader();
@@ -178,7 +178,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         checkData(mapping.get(offset), items[offset], true);
     }
 
-    private void loadOptData(AbstractMZTabRecord record, int offset) {
+    private void loadOptData(MZTabRecord record, int offset) {
         record.addValue(offset, items[offset]);
     }
 

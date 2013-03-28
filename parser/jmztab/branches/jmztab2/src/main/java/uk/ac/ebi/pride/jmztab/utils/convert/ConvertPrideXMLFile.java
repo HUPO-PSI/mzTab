@@ -587,7 +587,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
     /**
      * Adds the quantitative values for the given protein.
      */
-    private void addAbundanceValues(AbstractMZTabRecord record, MZTabColumnFactory columnFactory, Identification identification) {
+    private void addAbundanceValues(MZTabRecord record, MZTabColumnFactory columnFactory, Identification identification) {
         SortedMap<Integer, AbundanceColumn> abundanceColumns = columnFactory.getAbundanceColumnMapping();
         if (abundanceColumns.isEmpty()) {
             return;
@@ -655,7 +655,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
         }
     }
 
-    private void addOptionalColumnValue(AbstractMZTabRecord record, MZTabColumnFactory columnFactory, String name, String value) {
+    private void addOptionalColumnValue(MZTabRecord record, MZTabColumnFactory columnFactory, String name, String value) {
         Integer position = columnFactory.containOptionalColumn(name);
         if (position == null) {
             position = columnFactory.addOptionalColumn(name, String.class);

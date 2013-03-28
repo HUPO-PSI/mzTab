@@ -34,7 +34,7 @@ public class CVParamOptionColumn extends OptionalColumn {
      * @param columnType is the value type which allow user to set for this optional column. Can not set null.
      * @param offset is the position of the rightest column of table. Can not set null.
      *
-     * @see AbstractMZTabRecord#isMatch(int, Class)
+     * @see MZTabRecord#isMatch(int, Class)
      */
     protected CVParamOptionColumn(CVParam param, Class columnType, int offset) {
         super(getName(param), columnType, offset);
@@ -51,7 +51,7 @@ public class CVParamOptionColumn extends OptionalColumn {
      * @param param can not set null.
      * @param offset is the position of the rightest column of table. Can not set null.
      *
-     * @see AbstractMZTabRecord#isMatch(int, Class)
+     * @see MZTabRecord#isMatch(int, Class)
      */
     public static CVParamOptionColumn getInstance(CVParam param, int offset) {
         return new CVParamOptionColumn(param, MZBoolean.class, offset);

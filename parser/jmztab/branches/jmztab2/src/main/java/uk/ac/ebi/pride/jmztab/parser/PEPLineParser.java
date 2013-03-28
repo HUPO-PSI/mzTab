@@ -37,7 +37,7 @@ public class PEPLineParser extends MZTabDataLineParser {
     }
 
     @Override
-    protected int loadStableData(AbstractMZTabRecord record, String line) {
+    protected int loadStableData(MZTabRecord record, String line) {
         if (items == null) {
             items = line.split("\\s*" + TAB + "\\s*");
             items[items.length - 1] = items[items.length - 1].trim();

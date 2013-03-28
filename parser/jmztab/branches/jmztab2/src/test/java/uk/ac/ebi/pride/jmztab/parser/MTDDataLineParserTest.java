@@ -2,6 +2,7 @@ package uk.ac.ebi.pride.jmztab.parser;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.model.*;
 
 /**
@@ -19,6 +20,8 @@ public class MTDDataLineParserTest {
 
     @Test
     public void testCheckProteinData() throws Exception {
+        MZTabErrorList errorList = new MZTabErrorList();
+
         String header = "PRH\taccession\tunit_id\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
                 "search_engine\tsearch_engine_score\treliability\tnum_peptides\tnum_peptides_distinct\t" +
                 "num_peptides_unambiguous\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
@@ -27,7 +30,7 @@ public class MTDDataLineParserTest {
         PRHLineParser headerParser = new PRHLineParser(metadata);
         headerParser.check(1, header);
         MZTabColumnFactory factory = headerParser.getFactory();
-        PRTLineParser dataParser = new PRTLineParser(factory, metadata);
+        PRTLineParser dataParser = new PRTLineParser(factory, metadata, errorList);
 
         String data = "PRT\tIPI00004942\tPRIDE_1234\tName4\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:1001207,Mascot,]" +
                 "\t[MS,MS:1001171,Mascot:score,30]\tnull\t1\t1\tnull\tnull\tnull\tnull" +
@@ -40,7 +43,7 @@ public class MTDDataLineParserTest {
                 "\tprotein_abundance_sub[2]\tprotein_abundance_stdev_sub[2]\tprotein_abundance_std_error_sub[2]";
         headerParser.check(1, header);
         factory = headerParser.getFactory();
-        dataParser = new PRTLineParser(factory, metadata);
+        dataParser = new PRTLineParser(factory, metadata, errorList);
         data = "PRT\tIPI00004943\tPRIDE_1234\tName4\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:1001207,Mascot,]" +
                "\t[MS,MS:1001171,Mascot:score,30]\tnull\t1\t1\tnull\tnull\tnull\tnull" +
                "\tGO:0005488,GO:0005515,GO:0008270,GO:0043167,GO:0043169,GO:0046872,GO:0046914\t0.3" +
@@ -50,6 +53,8 @@ public class MTDDataLineParserTest {
 
     @Test
     public void testLoadProteinData() throws Exception {
+        MZTabErrorList errorList = new MZTabErrorList();
+
         String header = "PRH\taccession\tunit_id\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
                 "search_engine\tsearch_engine_score\treliability\tnum_peptides\tnum_peptides_distinct\t" +
                 "num_peptides_unambiguous\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage" +
@@ -60,7 +65,7 @@ public class MTDDataLineParserTest {
         PRHLineParser headerParser = new PRHLineParser(metadata);
         headerParser.check(1, header);
         MZTabColumnFactory factory = headerParser.getFactory();
-        PRTLineParser dataParser = new PRTLineParser(factory, metadata);
+        PRTLineParser dataParser = new PRTLineParser(factory, metadata, errorList);
 
         String data = "PRT\tIPI00004943\tPRIDE_1234\tName4\t9606\tHomo sapiens\tIPI\t3.11\t[MS,MS:1001207,Mascot,]" +
                     "\t[MS,MS:1001171,Mascot:score,30]\tnull\t1\t1\tnull\tnull\tnull\tnull" +
@@ -74,6 +79,8 @@ public class MTDDataLineParserTest {
 
     @Test
     public void testCheckPeptideData() throws Exception {
+        MZTabErrorList errorList = new MZTabErrorList();
+
         String header = "PEH\tsequence\taccession\tunit_id\tunique\tdatabase\tdatabase_version\tsearch_engine" +
                 "\tsearch_engine_score\treliability\tmodifications\tretention_time\tcharge\tmass_to_charge\turi\tspectra_ref" +
                 "\tpeptide_abundance_sub[1]\tpeptide_abundance_stdev_sub[1]\tpeptide_abundance_std_error_sub[1]" +
@@ -83,7 +90,7 @@ public class MTDDataLineParserTest {
         PEHLineParser headerParser = new PEHLineParser(metadata);
         headerParser.check(1, header);
         MZTabColumnFactory factory = headerParser.getFactory();
-        PEPLineParser dataParser = new PEPLineParser(factory, metadata);
+        PEPLineParser dataParser = new PEPLineParser(factory, metadata, errorList);
 
         String data = "PEP\tIQLVEEELDR\tIPI00218319\tPRIDE_1234\tfalse\tIPI\t3,11\t[MS,MS:1001207,Mascot,]" +
                 "\t[MS,MS:1001171,Mascot:score,30]\tnull\tnull\tnull\tnull\tnull\tnull\tnull" +
@@ -93,6 +100,8 @@ public class MTDDataLineParserTest {
 
     @Test
     public void testLoadPeptideData() throws Exception {
+        MZTabErrorList errorList = new MZTabErrorList();
+
         String header = "PEH\tsequence\taccession\tunit_id\tunique\tdatabase\tdatabase_version\tsearch_engine" +
                 "\tsearch_engine_score\treliability\tmodifications\tretention_time\tcharge\tmass_to_charge\turi\tspectra_ref" +
                 "\tpeptide_abundance_sub[1]\tpeptide_abundance_stdev_sub[1]\tpeptide_abundance_std_error_sub[1]" +
@@ -102,7 +111,7 @@ public class MTDDataLineParserTest {
         PEHLineParser headerParser = new PEHLineParser(metadata);
         headerParser.check(1, header);
         MZTabColumnFactory factory = headerParser.getFactory();
-        PEPLineParser dataParser = new PEPLineParser(factory, metadata);
+        PEPLineParser dataParser = new PEPLineParser(factory, metadata, errorList);
 
         String data = "PEP\tIQLVEEELDR\tIPI00218319\tPRIDE_1234\tfalse\tIPI\t3,11\t[MS,MS:1001207,Mascot,]" +
                 "\t[MS,MS:1001171,Mascot:score,30]\tnull\tnull\tnull\tnull\tnull\tnull\tnull" +
@@ -115,6 +124,8 @@ public class MTDDataLineParserTest {
 
     @Test
     public void testCheckSmallMoleculeData() throws Exception {
+        MZTabErrorList errorList = new MZTabErrorList();
+
         String header = "SMH\tidentifier\tunit_id\tchemical_formula\tsmiles\tinchi_key\tdescription\tmass_to_charge" +
                 "\tcharge\tretention_time\ttaxid\tspecies\tdatabase\tdatabase_version\treliability\turi\tspectra_ref" +
                 "\tsearch_engine\tsearch_engine_score\tmodifications" +
@@ -125,7 +136,7 @@ public class MTDDataLineParserTest {
         SMHLineParser headerParser = new SMHLineParser(metadata);
         headerParser.check(1, header);
         MZTabColumnFactory factory = headerParser.getFactory();
-        SMLLineParser dataParser = new SMLLineParser(factory, metadata);
+        SMLLineParser dataParser = new SMLLineParser(factory, metadata, errorList);
 
         String data = "SML\tID_1\tPRIDE_1234\tnull\tnull\tnull\tnull\t254.4\t2\t20.7\t9606\tHomo sapiens (Human)\tnull" +
                 "\tnull\t2\tnull\tnull\t[,,SpectraSt,]\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull";
@@ -134,6 +145,8 @@ public class MTDDataLineParserTest {
 
     @Test
     public void testLoadSmallMoleculeData() throws Exception {
+        MZTabErrorList errorList = new MZTabErrorList();
+
         String header = "SMH\tidentifier\tunit_id\tchemical_formula\tsmiles\tinchi_key\tdescription\tmass_to_charge" +
                 "\tcharge\tretention_time\ttaxid\tspecies\tdatabase\tdatabase_version\treliability\turi\tspectra_ref" +
                 "\tsearch_engine\tsearch_engine_score\tmodifications" +
@@ -144,7 +157,7 @@ public class MTDDataLineParserTest {
         SMHLineParser headerParser = new SMHLineParser(metadata);
         headerParser.check(1, header);
         MZTabColumnFactory factory = headerParser.getFactory();
-        SMLLineParser dataParser = new SMLLineParser(factory, metadata);
+        SMLLineParser dataParser = new SMLLineParser(factory, metadata, errorList);
 
         String data = "SML\tID_1\tPRIDE_1234\tnull\tnull\tnull\tnull\t254.4\t2\t20.7\t9606\tHomo sapiens (Human)\tnull" +
                 "\tnull\t2\tnull\tnull\t[,,SpectraSt,]\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull";

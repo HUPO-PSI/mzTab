@@ -17,7 +17,7 @@ public interface MZTabColumn {
 
     /**
      * @return the data type of value, which can set for this column.
-     * @see AbstractMZTabRecord#isMatch(int, Class)
+     * @see MZTabRecord#isMatch(int, Class)
      */
     public Class getColumnType();
 }

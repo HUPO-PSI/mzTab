@@ -10,7 +10,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * User: Qingwei, Johannes Griss
  * Date: 30/01/13
  */
-public class SmallMolecule extends AbstractMZTabRecord {
+public class SmallMolecule extends MZTabRecord {
     public SmallMolecule() {
         super(MZTabColumnFactory.getInstance(Section.Small_Molecule));
     }

@@ -21,7 +21,7 @@ public class OptionalColumn implements MZTabColumn {
      * of the rightest column of table. {@link #columnType} is the value type which allow user
      * to set for this optional column. When user add value for this column, system will execute
      * value type match operation first.
-     * @see AbstractMZTabRecord#isMatch(int, Class)
+     * @see MZTabRecord#isMatch(int, Class)
      */
     protected OptionalColumn(String name, Class columnType, int offset) {
         if (name == null) {
@@ -42,7 +42,7 @@ public class OptionalColumn implements MZTabColumn {
      * of the rightest column of table. {@link #columnType} is the value type which allow user
      * to set for this optional column. When user add value for this column, system will execute
      * value type match operation first.
-     * @see AbstractMZTabRecord#isMatch(int, Class)
+     * @see MZTabRecord#isMatch(int, Class)
      */
     public static OptionalColumn getInstance(String name, Class dataType, int offset) {
         return new OptionalColumn(name, dataType, offset);
