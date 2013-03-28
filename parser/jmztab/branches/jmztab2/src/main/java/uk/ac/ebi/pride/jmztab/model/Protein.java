@@ -10,7 +10,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * User: Qingwei
  * Date: 30/01/13
  */
-public class Protein extends AbstractMZTabRecord {
+public class Protein extends MZTabRecord {
     public Protein() {
         super(MZTabColumnFactory.getInstance(Section.Protein));
     }

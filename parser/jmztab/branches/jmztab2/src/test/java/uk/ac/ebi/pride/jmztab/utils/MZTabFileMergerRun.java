@@ -1,5 +1,7 @@
 package uk.ac.ebi.pride.jmztab.utils;
 
+import uk.ac.ebi.pride.jmztab.model.MZTabFile;
+
 import java.io.File;
 
 /**
@@ -11,9 +13,13 @@ public class MZTabFileMergerRun {
         File file1 = new File("testset/mztab_itraq_example.txt");
         File file2 = new File("testset/CPTAC_Progenesis_label_free_mzq.txt");
 
-        MZTabFileMerger merger = new MZTabFileMerger(file1, file2);
+        MZTabFileMerger merger = new MZTabFileMerger();
+        MZTabFileParser parser1 = new MZTabFileParser(file1, System.out);
+        MZTabFileParser parser2 = new MZTabFileParser(file2, System.out);
+        merger.addTabFile(parser1.getMZTabFile());
+        merger.addTabFile(parser2.getMZTabFile());
         merger.setCombine(true);
-
-        merger.printMZTab(System.out);
+        MZTabFile tabFile = merger.merge();
+        tabFile.printMZTab(System.out);
     }
 }

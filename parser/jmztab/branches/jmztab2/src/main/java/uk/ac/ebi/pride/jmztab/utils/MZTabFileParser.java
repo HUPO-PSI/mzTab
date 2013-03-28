@@ -31,12 +31,11 @@ public class MZTabFileParser {
         this.tabFile = tabFile;
     }
 
-    public MZTabFileParser(File tabFile) throws IOException, MZTabException, MZTabErrorOverflowException {
-        init(tabFile);
-        check();
+    public MZTabFileParser(File tabFile, OutputStream out) throws IOException {
+        this(tabFile, out, LEVEL);
     }
 
-    public MZTabFileParser(File tabFile, OutputStream out) throws IOException {
+    public MZTabFileParser(File tabFile, OutputStream out, MZTabErrorType.Level level) throws IOException {
         init(tabFile);
 
         try {
@@ -48,10 +47,14 @@ public class MZTabFileParser {
             out.write(MZTabErrorOverflowExceptionMessage.getBytes());
         }
 
-        errorList.print(out, LEVEL);
+        errorList.print(out, level);
         if (errorList.isEmpty()) {
             out.write(("not errors in " + tabFile + " file!" + NEW_LINE).getBytes());
         }
+    }
+
+    public MZTabErrorList getErrorList() {
+        return errorList;
     }
 
     private Section getSection(String line) {
@@ -115,6 +118,10 @@ public class MZTabFileParser {
             }
 
             section = getSection(line);
+            if (section == null) {
+                error = new MZTabError(FormatErrorType.LinePrefix, lineNumber, line);
+                throw new MZTabException(error);
+            }
             if (section.getLevel() < highWaterMark) {
                 error = new MZTabError(LogicalErrorType.LineOrder, lineNumber, section.getName());
                 throw new MZTabException(error);

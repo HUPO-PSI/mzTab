@@ -12,7 +12,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * User: Qingwei
  * Date: 30/01/13
  */
-public class Peptide extends AbstractMZTabRecord {
+public class Peptide extends MZTabRecord {
     public Peptide() {
         super(MZTabColumnFactory.getInstance(Section.Peptide));
     }

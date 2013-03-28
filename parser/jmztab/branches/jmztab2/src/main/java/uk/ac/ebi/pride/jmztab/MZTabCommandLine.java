@@ -131,6 +131,7 @@ public class MZTabCommandLine {
                     throw new IllegalArgumentException("Not setting input file!");
                 }
                 File inFile = new File(inDir, values[1].trim());
+                System.out.println("Begin check mztab file: " + inFile.getAbsolutePath());
                 new MZTabFileParser(inFile, out);
             } else if (line.hasOption(convertOpt)) {
                 String[] values = line.getOptionValues(convertOpt);
@@ -152,14 +153,17 @@ public class MZTabCommandLine {
                     format = ConvertFile.Format.PRIDE;
                 }
 
+                System.out.println("Begin convert " + inFile.getAbsolutePath() + " which format is " + format + " to mztab file.");
                 MZTabFileConverter converter = new MZTabFileConverter(inFile, format);
                 MZTabFile tabFile = converter.getMZTabFile();
                 MZTabErrorList errorList = new MZTabErrorList();
                 MZTabFileChecker checker = new MZTabFileChecker(errorList);
                 checker.check(tabFile);
                 if (errorList.isEmpty()) {
+                    System.out.println("Begin print mztab file.");
                     tabFile.printMZTab(out);
                 } else {
+                    System.out.println("There exists some errors in mztab file.");
                     errorList.print(out);
                 }
             } else if (line.hasOption(mergeOpt)) {
@@ -181,25 +185,31 @@ public class MZTabCommandLine {
 
                 MZTabFileParser mzParser;
                 MZTabFileMerger merger = new MZTabFileMerger();
+                System.out.println("Begin merge multiple mztab files into one.");
                 for (File inFile : inFileList) {
+                    System.out.println("Begin load mztab file " + inFile.getAbsolutePath());
                     mzParser = new MZTabFileParser(inFile, out);
                     merger.addTabFile(mzParser.getMZTabFile());
                 }
 
                 merger.setCombine(combine);
+                System.out.println("Begin merge mztab files.");
                 MZTabFile tabFile = merger.merge();
                 MZTabErrorList errorList = new MZTabErrorList();
+                System.out.println("Begin check merged mztab file.");
                 MZTabFileChecker checker = new MZTabFileChecker(errorList);
                 checker.check(tabFile);
                 if (errorList.isEmpty()) {
+                    System.out.println("Begin print merged mztab file.");
                     tabFile.printMZTab(out);
                 } else {
+                    System.out.println("There exists some errors in merged mztab files.");
                     errorList.print(out);
                 }
             }
 
             System.out.println("Finish!");
-
+            System.out.println();
             out.close();
         }
     }

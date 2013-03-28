@@ -30,7 +30,11 @@ public class MZTabErrorList {
     }
 
     public boolean isEmpty() {
-        if (LEVEL.equals(MZTabErrorType.Level.Warn)) {
+        return isEmpty(LEVEL);
+    }
+
+    public boolean isEmpty(MZTabErrorType.Level level) {
+        if (level.equals(MZTabErrorType.Level.Warn)) {
             return errorList.isEmpty();
         } else {
             for (MZTabError error : errorList) {
