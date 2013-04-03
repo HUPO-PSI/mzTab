@@ -123,11 +123,10 @@
                     </excludes>
                     <archive>
                         <manifest>
-                            <mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>
-                            <!--use this if want to extract metadata from public mysql instance-->
-                            <!--<mainClass>uk.ac.ebi.pride.data.io.db.DBMetadataExtractor</mainClass>-->
-                            <!--use this if want to run batch dbtest-->
-                            <!--<mainClass>uk.ac.ebi.pride.dbtestst.FileControllerBatchTest</mainClass>-->
+                            <!--provide a CLI for jmztab-->
+                            <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>-->
+                            <!--provide a simple GUI for jmztab-->
+                            <mainClass>uk.ac.ebi.pride.jmztab.gui.MZTabInspector</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
                         </manifest>
@@ -166,43 +165,28 @@
             <id>PRIDE_SourceForge_Maven2_Repository</id>
             <url>http://pride-proteome.sourceforge.net/maven2</url>
         </repository>
+        <!-- EBI repo -->
         <repository>
-            <id>ebi-repo</id>
+            <id>nexus-ebi-repo</id>
             <name>The EBI internal repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>
             <releases>
-                <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
+        <!-- EBI SNAPSHOT repo -->
         <repository>
-            <id>ebi-snapshot-repo</id>
+            <id>nexus-ebi-snapshot-repo</id>
             <name>The EBI internal snapshot repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots/</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
             <snapshots>
-                <enabled>true</enabled>
             </snapshots>
-        </repository>
-        <repository>
-            <id>ibiblio-repo</id>
-            <name>IBiBlio</name>
-            <url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>java-repo</id>
-            <name>JavaDev</name>
-            <url>http://download.java.net/maven/2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
         </repository>
     </repositories>
 

@@ -98,7 +98,7 @@ public class MZTabFileMerger {
             if (srcUnit instanceof SubUnit) {
                 subUnit = (SubUnit) srcUnit;
                 int subId = metadata.getSubUnits().lastKey();
-                if (subUnit.getSubId() <= subId && !combine) {
+                if (subUnit.getSubId() != null && subUnit.getSubId() <= subId && !combine) {
                     subUnit.setSubId(subId + 1);
                 }
             }
@@ -121,12 +121,20 @@ public class MZTabFileMerger {
                 // combine two protein header columns. move srcTabFile optional columns to the left.
                 if (!combine) {
                     int offset = tarProteinColumnFactory.getColumnMapping().lastKey() - tarProteinColumnFactory.getStableColumnMapping().lastKey();
-                    Integer position;
-                    while ((position = overlap(srcProteinColumnFactory.getAbundanceColumnMapping().keySet(), tarProteinColumnFactory.getAbundanceColumnMapping().keySet())) != null) {
-                        srcProteinColumnFactory.modifyColumnPosition(position, position + offset);
+                    Set<Integer> srcPositionSet = srcProteinColumnFactory.getAbundanceColumnMapping().keySet();
+                    if ((overlap(srcPositionSet, tarProteinColumnFactory.getAbundanceColumnMapping().keySet())) != null) {
+                        Integer[] positionList = srcPositionSet.toArray(new Integer[srcPositionSet.size()]);
+                        for (int i = positionList.length - 1; i >= 0; i--) {
+                            srcProteinColumnFactory.modifyColumnPosition(positionList[i], positionList[i] + offset);
+                        }
                     }
-                    while ((position = overlap(srcProteinColumnFactory.getOptionalColumnMapping().keySet(), tarProteinColumnFactory.getOptionalColumnMapping().keySet())) != null) {
-                        srcProteinColumnFactory.modifyColumnPosition(position, position + offset);
+
+                    srcPositionSet = srcProteinColumnFactory.getOptionalColumnMapping().keySet();
+                    if ((overlap(srcPositionSet, tarProteinColumnFactory.getOptionalColumnMapping().keySet())) != null) {
+                        Integer[] positionList = srcPositionSet.toArray(new Integer[srcPositionSet.size()]);
+                        for (int i = positionList.length - 1; i >= 0; i--) {
+                            srcProteinColumnFactory.modifyColumnPosition(positionList[i], positionList[i] + offset);
+                        }
                     }
                 }
 
@@ -167,12 +175,20 @@ public class MZTabFileMerger {
                 // combine two peptide header columns. move srcTabFile optional columns to the left.
                 if (!combine) {
                     int offset = tarPeptideColumnFactory.getColumnMapping().lastKey() - tarPeptideColumnFactory.getStableColumnMapping().lastKey();
-                    Integer position;
-                    while ((position = overlap(srcPeptideColumnFactory.getAbundanceColumnMapping().keySet(), tarPeptideColumnFactory.getAbundanceColumnMapping().keySet())) != null) {
-                        srcPeptideColumnFactory.modifyColumnPosition(position, position + offset);
+                    Set<Integer> srcPositionSet = srcPeptideColumnFactory.getAbundanceColumnMapping().keySet();
+                    if ((overlap(srcPositionSet, tarPeptideColumnFactory.getAbundanceColumnMapping().keySet())) != null) {
+                        Integer[] positionList = srcPositionSet.toArray(new Integer[srcPositionSet.size()]);
+                        for (int i = positionList.length - 1; i >= 0; i--) {
+                            srcPeptideColumnFactory.modifyColumnPosition(positionList[i], positionList[i] + offset);
+                        }
                     }
-                    while ((position = overlap(srcPeptideColumnFactory.getOptionalColumnMapping().keySet(), tarPeptideColumnFactory.getOptionalColumnMapping().keySet())) != null) {
-                        srcPeptideColumnFactory.modifyColumnPosition(position, position + offset);
+
+                    srcPositionSet = srcPeptideColumnFactory.getOptionalColumnMapping().keySet();
+                    if ((overlap(srcPositionSet, tarPeptideColumnFactory.getOptionalColumnMapping().keySet())) != null) {
+                        Integer[] positionList = srcPositionSet.toArray(new Integer[srcPositionSet.size()]);
+                        for (int i = positionList.length - 1; i >= 0; i--) {
+                            srcPeptideColumnFactory.modifyColumnPosition(positionList[i], positionList[i] + offset);
+                        }
                     }
                 }
 
@@ -213,12 +229,20 @@ public class MZTabFileMerger {
                 // combine two small molecule header columns. move srcTabFile optional columns to the left.
                 if (!combine) {
                     int offset = tarSmallMoleculeColumnFactory.getColumnMapping().lastKey() - tarSmallMoleculeColumnFactory.getStableColumnMapping().lastKey();
-                    Integer position;
-                    while ((position = overlap(srcSmallMoleculeColumnFactory.getAbundanceColumnMapping().keySet(), tarSmallMoleculeColumnFactory.getAbundanceColumnMapping().keySet())) != null) {
-                        srcSmallMoleculeColumnFactory.modifyColumnPosition(position, position + offset);
+                    Set<Integer> srcPositionSet = srcSmallMoleculeColumnFactory.getAbundanceColumnMapping().keySet();
+                    if ((overlap(srcPositionSet, tarSmallMoleculeColumnFactory.getAbundanceColumnMapping().keySet())) != null) {
+                        Integer[] positionList = srcPositionSet.toArray(new Integer[srcPositionSet.size()]);
+                        for (int i = positionList.length - 1; i >= 0; i--) {
+                            srcSmallMoleculeColumnFactory.modifyColumnPosition(positionList[i], positionList[i] + offset);
+                        }
                     }
-                    while ((position = overlap(srcSmallMoleculeColumnFactory.getOptionalColumnMapping().keySet(), tarSmallMoleculeColumnFactory.getOptionalColumnMapping().keySet())) != null) {
-                        srcSmallMoleculeColumnFactory.modifyColumnPosition(position, position + offset);
+
+                    srcPositionSet = srcSmallMoleculeColumnFactory.getOptionalColumnMapping().keySet();
+                    if ((overlap(srcPositionSet, tarSmallMoleculeColumnFactory.getOptionalColumnMapping().keySet())) != null) {
+                        Integer[] positionList = srcPositionSet.toArray(new Integer[srcPositionSet.size()]);
+                        for (int i = positionList.length - 1; i >= 0; i--) {
+                            srcSmallMoleculeColumnFactory.modifyColumnPosition(positionList[i], positionList[i] + offset);
+                        }
                     }
                 }
 

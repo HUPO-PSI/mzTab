@@ -16,8 +16,8 @@ public enum MetadataProperty {
     CONTACT_AFFILIATION            (MetadataElement.CONTACT,        "affiliation"),
     CONTACT_EMAIL                  (MetadataElement.CONTACT,        "email"),
 
-    PROTEIN_QUANTIFICATION_UNIT    (MetadataElement.PROTEIN,        "protein_quantification_unit"),
-    PEPTIDE_QUANTIFICATION_UNIT    (MetadataElement.PEPTIDE,        "peptide_quantification_unit"),
+    PROTEIN_QUANTIFICATION_UNIT    (MetadataElement.PROTEIN,        "quantification_unit"),
+    PEPTIDE_QUANTIFICATION_UNIT    (MetadataElement.PEPTIDE,        "quantification_unit"),
 
     MS_FILE_FORMAT                 (MetadataElement.MS_FILE,        "format"),
     MS_FILE_LOCATION               (MetadataElement.MS_FILE,        "location"),

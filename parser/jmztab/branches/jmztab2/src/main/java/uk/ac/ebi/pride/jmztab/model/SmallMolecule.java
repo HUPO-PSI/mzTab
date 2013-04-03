@@ -33,6 +33,7 @@ public class SmallMolecule extends MZTabRecord {
         super(factory);
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<String> getIdentifier() {
         return getSplitList(1);
     }
@@ -122,6 +123,7 @@ public class SmallMolecule extends MZTabRecord {
         setCharge(parseInteger(chargeLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Double> getRetentionTime() {
         return getSplitList(9);
     }
@@ -212,6 +214,7 @@ public class SmallMolecule extends MZTabRecord {
         setURI(parseURI(uriLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<SpecRef> getSpectraRef() {
         return getSplitList(16);
     }
@@ -238,6 +241,7 @@ public class SmallMolecule extends MZTabRecord {
         setSpectraRef(parseSpecRefList(unit, spectraRef));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Param> getSearchEngine() {
         return getSplitList(17);
     }
@@ -268,6 +272,7 @@ public class SmallMolecule extends MZTabRecord {
         setSearchEngine(parseParamList(searchEngineLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Param> getSearchEngineScore() {
         return getSplitList(18);
     }
@@ -298,6 +303,7 @@ public class SmallMolecule extends MZTabRecord {
         setSearchEngineScore(parseParamList(searchEngineScoreLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Modification> getModifications() {
         return getSplitList(19);
     }

@@ -87,6 +87,7 @@ public class Peptide extends MZTabRecord {
         addValue(6, parseString(databaseVersion));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Param> getSearchEngine() {
         return getSplitList(7);
     }
@@ -117,6 +118,7 @@ public class Peptide extends MZTabRecord {
         setSearchEngine(parseParamList(searchEngineLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Param> getSearchEngineScore() {
         return getSplitList(8);
     }
@@ -159,6 +161,7 @@ public class Peptide extends MZTabRecord {
         setReliability(Reliability.findReliability(reliabilityLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Modification> getModifications() {
         return getSplitList(10);
     }
@@ -185,6 +188,7 @@ public class Peptide extends MZTabRecord {
         setModifications(parseModificationList(Section.Peptide, modificationsLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Double> getRetentionTime() {
         return getSplitList(11);
     }
@@ -251,6 +255,7 @@ public class Peptide extends MZTabRecord {
         setURI(parseURI(uriLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<SpecRef> getSpectraRef() {
         return getSplitList(15);
     }

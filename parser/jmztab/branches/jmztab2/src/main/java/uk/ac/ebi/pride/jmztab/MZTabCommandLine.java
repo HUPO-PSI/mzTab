@@ -5,10 +5,7 @@ import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.errors.MZTabErrorType;
 import uk.ac.ebi.pride.jmztab.errors.MZTabErrorTypeMap;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
-import uk.ac.ebi.pride.jmztab.utils.MZTabFileChecker;
-import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
-import uk.ac.ebi.pride.jmztab.utils.MZTabFileMerger;
-import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
+import uk.ac.ebi.pride.jmztab.utils.*;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;
 
 import java.io.BufferedOutputStream;
@@ -158,7 +155,7 @@ public class MZTabCommandLine {
                 MZTabFile tabFile = converter.getMZTabFile();
                 MZTabErrorList errorList = new MZTabErrorList();
                 MZTabFileChecker checker = new MZTabFileChecker(errorList);
-                checker.check(tabFile);
+                checker.check(tabFile, MZTabProperties.LEVEL);
                 if (errorList.isEmpty()) {
                     System.out.println("Begin print mztab file.");
                     tabFile.printMZTab(out);
@@ -198,7 +195,7 @@ public class MZTabCommandLine {
                 MZTabErrorList errorList = new MZTabErrorList();
                 System.out.println("Begin check merged mztab file.");
                 MZTabFileChecker checker = new MZTabFileChecker(errorList);
-                checker.check(tabFile);
+                checker.check(tabFile, MZTabProperties.LEVEL);
                 if (errorList.isEmpty()) {
                     System.out.println("Begin print merged mztab file.");
                     tabFile.printMZTab(out);

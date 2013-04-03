@@ -15,14 +15,13 @@ public class MZTabFileConverter {
     public final static String PRIDE = "PRIDE";
     public final static String mzIdentML = "mzIndenML";
 
-    private MZTabFile mzTabFile;
+    private ConvertFile convertFile;
 
     public MZTabFileConverter(File inFile, ConvertFile.Format format) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
 
-        ConvertFile convertFile;
         switch (format) {
             case PRIDE:
                 convertFile = new ConvertPrideXMLFile(inFile);
@@ -33,12 +32,10 @@ public class MZTabFileConverter {
             default:
                 convertFile = null;
         }
-
-        mzTabFile = convertFile.getMZTabFile();
     }
 
     public MZTabFile getMZTabFile() {
-        return mzTabFile;
+        return convertFile.getMZTabFile();
     }
 
     public static ConvertFile.Format findFormat(String formatLabel) {

@@ -1,5 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,7 +10,7 @@ import java.util.regex.Pattern;
  * User: Qingwei
  * Date: 30/01/13
  */
-public class Metadata extends OperationCenter {
+public class Metadata extends OperationCenter implements PropertyChangeListener {
     private Comparator<String> idComparator = new Comparator<String>() {
         /**
          * if exists subId or repId which more than 9, the identifier comparator
@@ -66,6 +68,11 @@ public class Metadata extends OperationCenter {
         }
 
         unitMap.put(identifier, unit);
+
+        if (unit instanceof SubUnit && unit.getUnitId() != null) {
+            SubUnit subUnit = (SubUnit) unit;
+            subUnit.addPropertyChangeListener(OperationCenter.SUB_UNIT_ID, this);
+        }
         return true;
     }
 
@@ -146,5 +153,18 @@ public class Metadata extends OperationCenter {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(OperationCenter.SUB_UNIT_ID)) {
+            SortedMap<String, Unit> newUnitMap = new TreeMap<String, Unit>();
+
+            for (Unit unit : unitMap.values()) {
+                newUnitMap.put(unit.getIdentifier(), unit);
+            }
+
+            this.unitMap = newUnitMap;
+        }
     }
 }

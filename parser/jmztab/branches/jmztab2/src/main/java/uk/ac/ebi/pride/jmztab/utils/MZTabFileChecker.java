@@ -24,11 +24,12 @@ public class MZTabFileChecker {
         this.errorList = errorList == null ? new MZTabErrorList() : errorList;
     }
 
-    public boolean check(MZTabFile mzTabFile) {
+    public boolean check(MZTabFile mzTabFile, MZTabErrorType.Level level) {
         Set<String> unitAccessionSet = new HashSet<String>();
         Set<String> accessionSet = new HashSet<String>();
 
         // Stage 1: check unitId + accession should be unique in Protein section.
+        // This is Error level error.
         Protein protein;
         SortedMap<Integer, Protein> proteins = mzTabFile.getProteinsWithLineNumber();
         MZTabColumnFactory proteinColumnFactory = mzTabFile.getProteinColumnFactory();
@@ -45,8 +46,8 @@ public class MZTabFileChecker {
         }
 
         // If level is error, ignore stage 2 check.
-        if (MZTabProperties.LEVEL == MZTabErrorType.Level.Error) {
-            return errorList.isEmpty();
+        if (level == MZTabErrorType.Level.Error) {
+            return errorList.isEmpty(level);
         }
 
         // Stage 2: check accession of Peptide section, which may be display in the protein section.
@@ -61,6 +62,6 @@ public class MZTabFileChecker {
             }
         }
 
-        return errorList.isEmpty();
+        return errorList.isEmpty(level);
     }
 }

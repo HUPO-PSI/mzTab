@@ -39,7 +39,7 @@ public class MZTabFileParser {
         init(tabFile);
 
         try {
-            check();
+            check(level);
         } catch (MZTabException e) {
             out.write(MZTabExceptionMessage.getBytes());
             errorList.add(e.getError());
@@ -81,7 +81,7 @@ public class MZTabFileParser {
      * @throws MZTabException during parse metadata, protein/peptide/small_molecule header line, exists error.
      * @throws MZTabErrorOverflowException reference mztab.properties file mztab.max_error_count parameter.
      */
-    private void check() throws IOException, MZTabException, MZTabErrorOverflowException {
+    private void check(MZTabErrorType.Level level) throws IOException, MZTabException, MZTabErrorOverflowException {
         BufferedReader reader = readFile(tabFile);
 
         COMLineParser comParser = new COMLineParser();
@@ -225,7 +225,7 @@ public class MZTabFileParser {
             reader.close();
         }
 
-        if (errorList.isEmpty()) {
+        if (errorList.isEmpty(level)) {
             mzTabFile = new MZTabFile(mtdParser.getMetadata());
             for (Integer id : commentMap.keySet()) {
                 mzTabFile.addComment(id, commentMap.get(id));
@@ -266,7 +266,7 @@ public class MZTabFileParser {
         }
 
         MZTabFileChecker checker = new MZTabFileChecker(errorList);
-        checker.check(mzTabFile);
+        checker.check(mzTabFile, level);
     }
 
     public MZTabFile getMZTabFile() {
