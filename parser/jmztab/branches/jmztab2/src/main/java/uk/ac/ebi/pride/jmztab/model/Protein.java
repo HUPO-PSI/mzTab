@@ -93,6 +93,7 @@ public class Protein extends MZTabRecord {
         addValue(7, parseString(databaseVersion));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Param> getSearchEngine() {
         return getSplitList(8);
     }
@@ -123,6 +124,7 @@ public class Protein extends MZTabRecord {
         setSearchEngine(parseParamList(searchEngineLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Param> getSearchEngineScore() {
         return getSplitList(9);
     }
@@ -201,6 +203,7 @@ public class Protein extends MZTabRecord {
         setNumPeptidesUnambiguous(parseInteger(numPeptidesUnambiguousLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<String> getAmbiguityMembers() {
         return getSplitList(14);
     }
@@ -227,6 +230,7 @@ public class Protein extends MZTabRecord {
         setAmbiguityMembers(parseStringList(COMMA, ambiguityMembersLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<Modification> getModifications() {
         return getSplitList(15);
     }
@@ -265,6 +269,7 @@ public class Protein extends MZTabRecord {
         setURI(parseURI(uriLabel));
     }
 
+    @SuppressWarnings("unchecked")
     public SplitList<String> getGOTerms() {
         return getSplitList(17);
     }

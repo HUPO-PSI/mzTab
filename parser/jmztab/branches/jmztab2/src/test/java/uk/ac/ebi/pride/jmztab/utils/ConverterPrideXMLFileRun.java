@@ -19,7 +19,7 @@ public class ConverterPrideXMLFileRun {
         MZTabFileConverter converter = new MZTabFileConverter(inFile, ConvertFile.Format.PRIDE);
         MZTabFile mzTabFile = converter.getMZTabFile();
 
-        File outFile = new File("testset/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt");
+        File outFile = new File("testset/PRIDE_Exp_Complete_Ac_16649_xml.mztab");
         mzTabFile.printMZTab(new BufferedOutputStream(new FileOutputStream(outFile)));
     }
 }

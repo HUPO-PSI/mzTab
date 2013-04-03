@@ -790,11 +790,11 @@ public class ConvertPrideXMLFile extends ConvertFile {
             }
             mod = modifications.get(ptm.getModAccession());
             if (mod == null) {
-                mod = MZTabUtils.parseModification(Section.Protein, ptm.getModAccession());
+                mod = MZTabUtils.parseModification(Section.Peptide, ptm.getModAccession());
                 modifications.put(ptm.getModAccession(), mod);
             }
 
-            Integer position = item.getStart().intValue() + ptm.getModLocation().intValue() - 1;
+            Integer position = ptm.getModLocation().intValue();
             mod.addPosition(position, null);
         }
 

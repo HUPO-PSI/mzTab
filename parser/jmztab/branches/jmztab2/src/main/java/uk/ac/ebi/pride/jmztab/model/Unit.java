@@ -127,22 +127,22 @@ public class Unit extends OperationCenter {
             printPrefix(sb).append(QUANTIFICATION_METHOD).append(TAB).append(quantificationMethod).append(NEW_LINE);
         }
         if (proteinQuantificationUnit != null) {
-            printPrefix(sb).append(PROTEIN_QUANTIFICATION_UNIT).append(TAB).append(proteinQuantificationUnit).append(NEW_LINE);
+            printPrefix(sb).append(PROTEIN).append(MINUS).append(PROTEIN_QUANTIFICATION_UNIT).append(TAB).append(proteinQuantificationUnit).append(NEW_LINE);
         }
         if (peptideQuantificationUnit != null) {
-            printPrefix(sb).append(PEPTIDE_QUANTIFICATION_UNIT).append(TAB).append(peptideQuantificationUnit).append(NEW_LINE);
+            printPrefix(sb).append(PEPTIDE).append(MINUS).append(PEPTIDE_QUANTIFICATION_UNIT).append(TAB).append(peptideQuantificationUnit).append(NEW_LINE);
         }
 
         sb = printMap(msFileMap, MS_FILE.toString(), sb);
 
         for (ProteinColUnit colUnit : proteinColUnitList) {
-            printPrefix(sb).append(COLUNIT_PROTEIN).append(TAB).append(colUnit).append(NEW_LINE);
+            printPrefix(sb).append(COLUNIT).append(MINUS).append(COLUNIT_PROTEIN).append(TAB).append(colUnit).append(NEW_LINE);
         }
         for (PeptideColUnit colUnit : peptideColUnitList) {
-            printPrefix(sb).append(COLUNIT_PEPTIDE).append(TAB).append(colUnit).append(NEW_LINE);
+            printPrefix(sb).append(COLUNIT).append(MINUS).append(COLUNIT_PEPTIDE).append(TAB).append(colUnit).append(NEW_LINE);
         }
         for (SmallMoleculeColUnit colUnit : smallMoleculeColUnitList) {
-            printPrefix(sb).append(COLUNIT_SMALL_MOLECULE).append(TAB).append(colUnit).append(NEW_LINE);
+            printPrefix(sb).append(COLUNIT).append(MINUS).append(COLUNIT_SMALL_MOLECULE).append(TAB).append(colUnit).append(NEW_LINE);
         }
         for (Param custom : customList) {
             printPrefix(sb).append(CUSTOM).append(TAB).append(custom).append(NEW_LINE);
