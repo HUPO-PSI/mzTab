@@ -9,7 +9,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
  * User: Qingwei
  * Date: 01/02/13
  */
-public class UnitRun {
+public class MetadataRun {
     private void printPRIDEUnit() throws Exception {
         Unit unit = new Unit("PRIDE_1234");
 
@@ -128,7 +128,7 @@ public class UnitRun {
     }
 
     public static void main(String[] args) throws Exception {
-        UnitRun run = new UnitRun();
+        MetadataRun run = new MetadataRun();
 
         System.out.println("Testing Unit and its elements");
         System.out.println("============================================");

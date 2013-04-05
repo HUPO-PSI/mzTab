@@ -1,9 +1,9 @@
 package uk.ac.ebi.pride.jmztab;
 
 import org.apache.commons.cli.*;
-import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
-import uk.ac.ebi.pride.jmztab.errors.MZTabErrorType;
-import uk.ac.ebi.pride.jmztab.errors.MZTabErrorTypeMap;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorTypeMap;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.utils.*;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;

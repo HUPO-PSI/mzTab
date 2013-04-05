@@ -1,6 +1,6 @@
-package uk.ac.ebi.pride.jmztab.parser;
+package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import uk.ac.ebi.pride.jmztab.errors.MZTabException;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 import uk.ac.ebi.pride.jmztab.model.Comment;
 
 /**

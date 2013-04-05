@@ -25,6 +25,10 @@ public class MZTabFile {
     private SortedMap<Integer, Peptide> peptides = new TreeMap<Integer, Peptide>();
     private SortedMap<Integer, SmallMolecule> smallMolecules = new TreeMap<Integer, SmallMolecule>();
 
+    public MZTabFile() {
+        this(new Metadata());
+    }
+
     public MZTabFile(Metadata metadata) {
         this.metadata = metadata;
     }

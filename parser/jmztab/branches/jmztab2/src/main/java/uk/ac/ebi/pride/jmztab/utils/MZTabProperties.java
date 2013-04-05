@@ -1,7 +1,7 @@
 package uk.ac.ebi.pride.jmztab.utils;
 
 import org.apache.log4j.Logger;
-import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

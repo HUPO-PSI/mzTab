@@ -19,7 +19,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
  *         optional columns: these columns MAY be present in the table. These columns will add to the last column of
  *         table, which position based on the stable columns scale.
  *         @see AbundanceColumn
- *         @see OptionalColumn
+ *         @see OptionColumn
  *         @see CVParamOptionColumn
  *     </li>
  * </ol>
@@ -33,7 +33,7 @@ public class MZTabColumnFactory extends OperationCenter {
      */
     private TreeMap<Integer, MZTabColumn> stableColumnMapping = new TreeMap<Integer, MZTabColumn>();
 
-    private TreeMap<Integer, OptionalColumn> optionalColumnMapping = new TreeMap<Integer, OptionalColumn>();
+    private TreeMap<Integer, OptionColumn> optionalColumnMapping = new TreeMap<Integer, OptionColumn>();
 
     private TreeMap<Integer, AbundanceColumn> abundanceColumnMapping = new TreeMap<Integer, AbundanceColumn>();
 
@@ -142,11 +142,11 @@ public class MZTabColumnFactory extends OperationCenter {
 
     /**
      * Add a Optional Column {opt_} to the rightest of the table.
-     * @see OptionalColumn
+     * @see OptionColumn
      */
     public Integer addOptionalColumn(String name, Class dataType) {
         int offset = columnMapping.lastKey();
-        OptionalColumn column = OptionalColumn.getInstance(name, dataType, offset);
+        OptionColumn column = OptionColumn.getInstance(name, dataType, offset);
         addOptionalColumn(column);
         return column.getPosition();
     }
@@ -162,14 +162,14 @@ public class MZTabColumnFactory extends OperationCenter {
         return column.getPosition();
     }
 
-    public Integer addOptionalColumn(OptionalColumn column) {
+    public Integer addOptionalColumn(OptionColumn column) {
         stableColumnMapping.put(column.getPosition(), column);
         columnMapping.put(column.getPosition(), column);
         return column.getPosition();
     }
 
-    public void addAllOptionalColumn(Collection<OptionalColumn> columns) {
-        for (OptionalColumn column : columns) {
+    public void addAllOptionalColumn(Collection<OptionColumn> columns) {
+        for (OptionColumn column : columns) {
             addOptionalColumn(column);
         }
     }
@@ -211,13 +211,13 @@ public class MZTabColumnFactory extends OperationCenter {
             columnMapping.remove(oldPosition);
             abundanceColumnMapping.put(newPosition, abundanceColumn);
             columnMapping.put(newPosition, abundanceColumn);
-        } else if (column instanceof OptionalColumn) {
-            OptionalColumn optionalColumn = (OptionalColumn) column;
-            optionalColumn.setPosition(newPosition);
+        } else if (column instanceof OptionColumn) {
+            OptionColumn optionColumn = (OptionColumn) column;
+            optionColumn.setPosition(newPosition);
             optionalColumnMapping.remove(oldPosition);
             columnMapping.remove(oldPosition);
-            optionalColumnMapping.put(newPosition, optionalColumn);
-            columnMapping.put(newPosition, optionalColumn);
+            optionalColumnMapping.put(newPosition, optionColumn);
+            columnMapping.put(newPosition, optionColumn);
         }
 
         firePropertyChange(OperationCenter.POSITION, oldPosition, newPosition);
@@ -277,7 +277,7 @@ public class MZTabColumnFactory extends OperationCenter {
     /**
      * @return a readonly sorted <Position, MZTabColumn> map.
      */
-    public SortedMap<Integer, OptionalColumn> getOptionalColumnMapping() {
+    public SortedMap<Integer, OptionColumn> getOptionalColumnMapping() {
         return Collections.unmodifiableSortedMap(optionalColumnMapping);
     }
 

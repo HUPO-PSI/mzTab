@@ -1,4 +1,4 @@
-package uk.ac.ebi.pride.jmztab.errors;
+package uk.ac.ebi.pride.jmztab.utils.errors;
 
 import java.util.HashMap;
 import java.util.Map;

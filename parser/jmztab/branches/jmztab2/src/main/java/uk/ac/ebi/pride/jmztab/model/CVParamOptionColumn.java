@@ -7,7 +7,7 @@ package uk.ac.ebi.pride.jmztab.model;
  * User: Qingwei
  * Date: 31/01/13
  */
-public class CVParamOptionColumn extends OptionalColumn {
+public class CVParamOptionColumn extends OptionColumn {
     private CVParam param;
 
     private static String getName(CVParam param) {

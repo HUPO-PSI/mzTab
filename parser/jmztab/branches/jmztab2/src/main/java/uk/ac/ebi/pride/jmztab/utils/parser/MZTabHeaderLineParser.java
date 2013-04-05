@@ -1,9 +1,9 @@
-package uk.ac.ebi.pride.jmztab.parser;
+package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import uk.ac.ebi.pride.jmztab.errors.FormatErrorType;
-import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
-import uk.ac.ebi.pride.jmztab.errors.MZTabError;
-import uk.ac.ebi.pride.jmztab.errors.MZTabException;
+import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 import uk.ac.ebi.pride.jmztab.model.*;
 
 import java.util.SortedMap;
