@@ -9,7 +9,7 @@ package uk.ac.ebi.pride.jmztab.model;
  * User: Qingwei, Johannes Griss
  * Date: 31/01/13
  */
-public class OptionalColumn implements MZTabColumn {
+public class OptionColumn implements MZTabColumn {
     public final static String OPT = "opt_";
 
     private String name;
@@ -23,7 +23,7 @@ public class OptionalColumn implements MZTabColumn {
      * value type match operation first.
      * @see MZTabRecord#isMatch(int, Class)
      */
-    protected OptionalColumn(String name, Class columnType, int offset) {
+    protected OptionColumn(String name, Class columnType, int offset) {
         if (name == null) {
             throw new NullPointerException("Optional Column's name can not set null!");
         }
@@ -44,8 +44,8 @@ public class OptionalColumn implements MZTabColumn {
      * value type match operation first.
      * @see MZTabRecord#isMatch(int, Class)
      */
-    public static OptionalColumn getInstance(String name, Class dataType, int offset) {
-        return new OptionalColumn(name, dataType, offset);
+    public static OptionColumn getInstance(String name, Class dataType, int offset) {
+        return new OptionColumn(name, dataType, offset);
     }
 
     @Override

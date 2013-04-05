@@ -1,6 +1,6 @@
-package uk.ac.ebi.pride.jmztab.errors;
+package uk.ac.ebi.pride.jmztab.utils.errors;
 
-import static uk.ac.ebi.pride.jmztab.errors.MZTabErrorType.Category.Format;
+import static uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType.Category.Format;
 
 /**
  * User: Qingwei

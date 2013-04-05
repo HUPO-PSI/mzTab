@@ -1,7 +1,8 @@
-package uk.ac.ebi.pride.jmztab.gui;
+package uk.ac.ebi.pride.jmztab;
 
-import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
-import uk.ac.ebi.pride.jmztab.errors.MZTabErrorType;
+import uk.ac.ebi.pride.jmztab.gui.MZTabConsolePane;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileChecker;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
@@ -75,8 +76,8 @@ public class MZTabInspector extends JFrame {
         controlPane.setLayout(new FlowLayout());
 
         final ButtonGroup levelGroup = new ButtonGroup();
-        levelGroup.add(new JRadioButton("Warn", true));
-        levelGroup.add(new JRadioButton("Error"));
+        levelGroup.add(new JRadioButton("Warn"));
+        levelGroup.add(new JRadioButton("Error", true));
         JPanel paramPane = getParamsPane("Message Level", levelGroup);
         controlPane.add(paramPane);
 
@@ -165,8 +166,8 @@ public class MZTabInspector extends JFrame {
         tarFilePane.add(tarFileChoosePane);
 
         final ButtonGroup levelGroup = new ButtonGroup();
-        levelGroup.add(new JRadioButton("Warn", true));
-        levelGroup.add(new JRadioButton("Error"));
+        levelGroup.add(new JRadioButton("Warn"));
+        levelGroup.add(new JRadioButton("Error", true));
         JPanel paramPane = getParamsPane("Message Level", levelGroup);
         tarFilePane.add(paramPane);
 
@@ -371,8 +372,8 @@ public class MZTabInspector extends JFrame {
         tarPane.add(tarFileChoosePane);
 
         final ButtonGroup levelGroup = new ButtonGroup();
-        levelGroup.add(new JRadioButton("Warn", true));
-        levelGroup.add(new JRadioButton("Error"));
+        levelGroup.add(new JRadioButton("Warn"));
+        levelGroup.add(new JRadioButton("Error", true));
         JPanel paramPane = getParamsPane("Message Level", levelGroup);
         tarPane.add(paramPane);
 

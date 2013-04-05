@@ -126,7 +126,7 @@
                             <!--provide a CLI for jmztab-->
                             <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>-->
                             <!--provide a simple GUI for jmztab-->
-                            <mainClass>uk.ac.ebi.pride.jmztab.gui.MZTabInspector</mainClass>
+                            <mainClass>uk.ac.ebi.pride.jmztab.MZTabInspector</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
                         </manifest>

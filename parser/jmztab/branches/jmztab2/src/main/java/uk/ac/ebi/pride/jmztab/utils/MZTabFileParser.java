@@ -1,8 +1,8 @@
 package uk.ac.ebi.pride.jmztab.utils;
 
-import uk.ac.ebi.pride.jmztab.errors.*;
+import uk.ac.ebi.pride.jmztab.utils.errors.*;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.parser.*;
+import uk.ac.ebi.pride.jmztab.utils.parser.*;
 
 import java.io.*;
 import java.util.SortedMap;
