@@ -11,9 +11,10 @@ Add your content here.
 * Create a unit object and set and set human readable title, description. 
 {{{
 Unit unit = new Unit("PRIDE_1234");
-
+}}}
 # MTD	PRIDE_1234-title	mzTab iTRAQ test
 # MTD	PRIDE_1234-description	This is a PRIDE test.
+{{{
 unit.setTitle("mzTab iTRAQ test");
 unit.setDescription("This is a PRIDE test.");
 }}}
@@ -100,7 +101,7 @@ unit.addModParam(new CVParam("MOD", "MOD:00675", "oxidized residue", null));
 # MTD	PRIDE_1234-quantification_method	[MS, MS:1001837, iTraq, ]
 unit.setQuantificationMethod(new CVParam("MS", "MS:1001837", "iTraq", null));
 }}}
-Defines what type of units is reported in the protein/peptide/small _molecule quantification fields.
+* Defines what type of units is reported in the protein/peptide/small _molecule quantification fields.
 {{{
 # MTD	PRIDE_1234-protein-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 # MTD	PRIDE_1234-peptide-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
