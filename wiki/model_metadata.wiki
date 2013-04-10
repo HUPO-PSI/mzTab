@@ -7,7 +7,7 @@ Add your content here.
 
 = Demos =
 
-== Unit ==
+== Create a common Unit ==
 {{{
 # create a unit object first:
 Unit unit = new Unit("PRIDE_1234");
@@ -97,5 +97,21 @@ unit.addMsFileIdFormat(2, new CVParam("MS", "MS:1000774", "multiple peak list", 
 
 # MTD	PRIDE_1234-custom	[, , MS operator, Florian]
 unit.addCustom(new UserParam("MS operator", "Florian"));
+}}}
 
+Defines the used unit of protein/peptide/small_molecule section
+{{{
+# refer a peptide header retention_time column 
+MZTabColumnFactory peptideFactory = MZTabColumnFactory.getInstance(Section.Peptide);
+PeptideColumn peptideColumn = (PeptideColumn) peptideFactory.getColumn("retention_time");
+# MTD	PRIDE_1234-colunit-peptide	retention_time=[UO, UO:0000031, minute, ]
+unit.addPeptideColUnit(peptideColumn, new CVParam("UO", "UO:0000031", "minute", null));
+
+# refer protein header section reliability column directly
+# MTD	PRIDE_1234-colunit-protein	reliability=[MS, MS:00001231, PeptideProphet:Score, ]
+unit.addProteinColUnit(ProteinColumn.RELIABILITY, new CVParam("MS", "MS:00001231", "PeptideProphet:Score", null));
+
+# refer small molecule header section reliability column directory
+# MTD	PRIDE_1234-colunit-small_molecule	retention_time=[UO, UO:0000031, minute, ]
+unit.addSmallMoleculeColUnit(SmallMoleculeColumn.RETENTION_TIME, new CVParam("UO", "UO:0000031", "minute", null));
 }}}
