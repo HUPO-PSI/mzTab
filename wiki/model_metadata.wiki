@@ -110,7 +110,7 @@ unit.addModParam(new CVParam("MOD", "MOD:00675", "oxidized residue", null));
 unit.setQuantificationMethod(new CVParam("MS", "MS:1001837", "iTraq", null));
 }}}
 
-  * Defines what type of units is reported in the protein/peptide/small _molecule quantification fields.
+  * Defines what type of units is reported in the protein/peptide/small molecule quantification fields.
 {{{
 # MTD	PRIDE_1234-protein-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 # MTD	PRIDE_1234-peptide-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
