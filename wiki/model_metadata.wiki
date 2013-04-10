@@ -8,20 +8,21 @@ Add your content here.
 = Demos =
 
 == Create a common Unit ==
-* Create a unit object and set and set human readable title, description. 
+  * Create a unit object and set and set human readable title, description. 
 {{{
 Unit unit = new Unit("PRIDE_1234");
 }}}
-# MTD	PRIDE_1234-title	mzTab iTRAQ test
-# MTD	PRIDE_1234-description	This is a PRIDE test.
+    # MTD	PRIDE_1234-title	mzTab iTRAQ test
+    # MTD	PRIDE_1234-description	This is a PRIDE test.
 {{{
 unit.setTitle("mzTab iTRAQ test");
 unit.setDescription("This is a PRIDE test.");
 }}}
-* A list of parameters describing a sample processing step. The order of the data_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these should be separated by a “|”.
+  * A list of parameters describing a sample processing step. The order of the data_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these should be separated by a “|”.
+
+    # MTD	PRIDE_1234-sample_processing[1]	[SEP, SEP:00173, SDS PAGE, ]
+    # MTD	PRIDE_1234-sample_processing[2]	[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, Trypsin, ]
 {{{
-# MTD	PRIDE_1234-sample_processing[1]	[SEP, SEP:00173, SDS PAGE, ]
-# MTD	PRIDE_1234-sample_processing[2]	[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, Trypsin, ]
 SplitList<Param> sampleProcessing1 = new SplitList<Param>(BAR);
 sampleProcessing1.add(new CVParam("SEP", "SEP:00173", "SDS PAGE", null));
 SplitList<Param> sampleProcessing2 = new SplitList<Param>(BAR);
