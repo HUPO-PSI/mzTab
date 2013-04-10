@@ -120,6 +120,7 @@ unit.addMsFileLocation(2, new URL("file://C:\\path\\to\\my\\file"));
 unit.addMsFileLocation(3, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
 unit.addMsFileIdFormat(2, new CVParam("MS", "MS:1000774", "multiple peak list", "nativeID format"));
 }}}
+
 * Defines the used unit of protein/peptide/small_molecule section
 {{{
 # refer a peptide header retention_time column 
