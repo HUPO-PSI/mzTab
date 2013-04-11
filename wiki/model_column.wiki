@@ -32,7 +32,7 @@ There are three kind of Option Column Header
 MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide);
 }}}
 
-  * Add three abundance columns: peptide_abundance_!sub[1], peptide_abundance_stdev_!sub[1], peptide_abundance_std_error_!sub[1] for special subsample. *NOTICE:* subUnit should be found in the metadata.
+  * Add three abundance columns: peptide_abundance_sub[1], peptide_abundance_stdev_sub[1], peptide_abundance_std_error_sub[1] for special subsample. *NOTICE:* subUnit should be found in the metadata.
 {{{
 SubUnit subUnit = new SubUnit("PRIDE_1234", 1);
 factory.addAbundanceColumns(subUnit);
