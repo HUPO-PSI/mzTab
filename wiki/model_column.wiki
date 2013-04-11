@@ -121,11 +121,12 @@ factory.addCVParamOptionalColumn(param);
 # based on column factory, create a protein record.
 Protein protein = new Protein(factory);
 
-# fill data for optional columns
+# fill data for optional columns 
 # Notice: the position need calculate by yourself :)
 protein.addValue(21, new Double(0.2));
 
-# You can also use factory to navigate optional columns:
+# You can also use factory to navigate optional columns and position:
+# Notice: the return map is read only, not allow user to add/remove column.
 SortedMap<Integer, OptionColumn> factory.getAbundanceColumnMapping();
 SortedMap<Integer, OptionColumn> factory.getOptionalColumnMapping();
 
