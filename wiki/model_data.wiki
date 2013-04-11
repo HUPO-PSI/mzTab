@@ -12,9 +12,22 @@ Add your content here.
 {{{
 MZTabFile tabFile = new MZTabFile();
 }}}
-    # Create a MZTabFile based on [model_metadata Metadata]. Notice: after create the model, system not allow user reset the metadata again!
+    # Create a MZTabFile based on [model_metadata Metadata]. *Notice:* after create the model, system not allow user reset the metadata again!
 {{{
 Metadata metadata = new Metadata();
 ......
 MZTabFile tabFile = new MZTabFile(metadata);
+}}}
+    # Add table-based protein/peptide/small molecule [model_column MZTabColumnFactory]
+{{{
+MZTabColumnFactory proteinFactory = MZTabColumnFactory.getInstance(Section.Protein);
+......
+tabFile.setProteinColumnFactory(proteinFactory);
+}}}
+    # Add a record
+{{{
+Protein protein = new Protein(proteinFactory);
+# set values for protein record
+......
+tabFile.addProtein(protein);
 }}}
