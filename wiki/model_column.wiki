@@ -32,12 +32,12 @@ There are three kind of Option Column Header
 MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide);
 }}}
 
-  * Add three abundance columns: !peptide_abundance_sub[1]	!peptide_abundance_stdev_sub[1]	!peptide_abundance_std_error_sub[1] for special subsample. *NOTICE:* subUnit should be found in the metadata.
+  * Add three abundance columns: !peptide_abundance_sub[1], !peptide_abundance_stdev_sub[1], !peptide_abundance_std_error_sub[1] for special subsample. *NOTICE:* subUnit should be found in the metadata.
 {{{
 SubUnit subUnit = new SubUnit("PRIDE_1234", 1);
 factory.addAbundanceColumns(subUnit);
 }}}
-  * Add option columns: opt_my_value	opt_cv_MS:1001208_TOM. *NOTICE:* user defined optional column, the default data type is String.class. If user set other data type, then need put according data in the fill process, otherwise add value operation return false.
+  * Add option columns: opt_my_value, opt_cv_MS:1001208_TOM. *NOTICE:* user defined optional column, the default data type is String.class. If user set other data type, then need put according data in the fill process, otherwise add value operation return false.
 {{{
 CVParam param = new CVParam("MS", "MS:1001208", "TOM", null);
 factory.addOptionalColumn("my_value", String.class);
