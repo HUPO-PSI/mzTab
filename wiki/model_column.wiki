@@ -1,13 +1,20 @@
 #summary One-sentence summary of this page.
 
+<wiki:toc max_depth="2" />
+
+----
+
 = Introduction =
 
 Add your content here.
 
+----
 
 = Column Header =
 
 Add your content here.  Format your content with:
+
+----
 
 == Mandatory Column Header ==
   * Generate mandatory columns
@@ -23,6 +30,8 @@ User can get special column by position, column name. The stable columns' name a
 MZTabColumn column = factory.getColumn(2);
 MZTabColumn column = factory.getColumn("retention_time");
 }}}
+
+----
 
 == Option Column Header ==
 There are three kind of Option Column Header
@@ -44,9 +53,12 @@ factory.addOptionalColumn("my_value", String.class);
 factory.addCVParamOptionalColumn(param);
 }}}
 
+----
 
 = Fill Data =
 Create a record row, based on MZTabColumnFactory. *NOTICE: * There exists one-to-one mapping between column header and value. 
+
+----
 
 == Fill data which only include mandatory columns ==
   * Generate a protein data row, only include mandatory columns.
@@ -106,6 +118,8 @@ modList.add(modification2);
 modList.add(modification1);
 modList.add(modification4);
 }}}
+
+----
 
 == Fill data which only include user defined optional columns ==
 Because of optional columns have dynamic position, column header and data type, thus, system only provide addValue(position, value) method to fill value manually.
