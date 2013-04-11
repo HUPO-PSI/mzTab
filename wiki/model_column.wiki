@@ -78,8 +78,7 @@ protein.setSearchEngine(searchEngine);
 {{{
 protein.setReliability(Reliability.High);
 }}}
-    # Fill Modification
-Modification is most complex expression in mzTab specification.
+    # Fill Modification: Modification is most complex expression in mzTab specification.
 {{{
 # 3-MOD:00412
 Modification modification1 = new Modification(Section.Protein, Modification1.Type.MOD, "00412");
@@ -106,4 +105,34 @@ ModificationList modList = new ModificationList();
 modList.add(modification2);
 modList.add(modification1);
 modList.add(modification4);
+}}}
+
+== Fill data which only include user defined optional columns ==
+Because of optional columns have dynamic position, column header and data type, thus, system only provide addValue(position, value) method to fill value manually.
+{{{
+# create factory with optional columns
+MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Protein);
+SubUnit subUnit = new SubUnit("PRIDE_1234", 1);
+factory.addAbundanceColumns(subUnit);
+CVParam param = new CVParam("MS", "MS:1001208", "TOM", null);
+factory.addOptionalColumn("my_value", String.class);
+factory.addCVParamOptionalColumn(param);
+
+# based on column factory, create a protein record.
+Protein protein = new Protein(factory);
+
+# fill data for optional columns
+# *Notice: * the position need calculate by yourself :)
+protein.addValue(21, new Double(0.2));
+
+# You can also use factory to navigate optional columns:
+SortedMap<Integer, OptionColumn> factory.getAbundanceColumnMapping();
+SortedMap<Integer, OptionColumn> factory.getOptionalColumnMapping();
+
+# Or get column position by name directly:
+Integer factory.containOptionalColumn("peptide_abundance_sub[1]");
+Integer factory.containOptionalColumn("peptide_abundance_stdev_sub[1]");
+Integer factory.containOptionalColumn("peptide_abundance_std_error_sub[1]");
+Integer factory.containOptionalColumn("opt_my_value");
+Integer factory.containOptionalColumn("opt_cv_MS:1001208_TOM");
 }}}
