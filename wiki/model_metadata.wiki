@@ -22,6 +22,7 @@ unit.setDescription("This is a PRIDE test.");
 # MTD	PRIDE_1234-sample_processing[1]	[SEP, SEP:00173, SDS PAGE, ]
 # MTD	PRIDE_1234-sample_processing[2]	[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, Trypsin, ]
 
+# method 1:
 SplitList<Param> sampleProcessing1 = new SplitList<Param>(BAR);
 sampleProcessing1.add(new CVParam("SEP", "SEP:00173", "SDS PAGE", null));
 SplitList<Param> sampleProcessing2 = new SplitList<Param>(BAR);
@@ -29,6 +30,11 @@ sampleProcessing2.add(new CVParam("SEP", "SEP:00142", "enzyme digestion", null))
 sampleProcessing2.add(new CVParam("MS", "MS:1001251", "Trypsin", null));
 unit.addSampleProcessing(1, sampleProcessing1);
 unit.addSampleProcessing(2, sampleProcessing2);
+
+# method 2:
+unit.addSampleProcessingParam(1, new CVParam("SEP", "SEP:00173", "SDS PAGE", null));
+        unit.addSampleProcessingParam(2, new CVParam("SEP", "SEP:00142", "enzyme digestion", null));
+        unit.addSampleProcessingParam(2, new CVParam("MS", "MS:1001251", "Trypsin", null));
 }}}
 
   * The instrument used in the experiment. Multiple instruments are numbered 1..n
