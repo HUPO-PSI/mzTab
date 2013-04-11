@@ -65,7 +65,29 @@ Collection<Peptide> allPeptides = tabFile.getPeptides();
 // retrieves all peptides with a given sequence
 Collection<Peptide> peptides = tabFile.getPeptidesForSequence("ABCDEFG");
 }}}
-  * iteratively modify unit_id of metadata and table-based section
+  * Modify the content of mzTab file. After move, maybe exists some empty cells, which not set "null" value. suggest user to call fillNull() method to fill these empty cells. fillNull() will spend too many time when mzTab file very large, thus, this method need to call manually.
 {{{
+// iteratively modify unit_id of metadata and table-based section
 tabFile.modifyUnitId("PRIDE_1234", "TEST_123");
+
+// iteratively modify subsample id of metadata and abundance columns' header.
+tabFile.modifySubUnitId(subUnit1, 2);
+
+// move optional column header and data
+// before move, the data of new position should be null.
+tabFile.modifyPeptideColumnPosition(21, 34);
+tabFile.modifyProteinColumnPosition(21, 34);
+tabFile.modifySmallMoleculeColumnPosition(21, 34);
+tabFile.fillNull();
+}}}
+  * print MZTabFile
+{{{
+// print MZTabFile on screen.
+tabFile.print(System.out);
+
+// output MZTabFile to a file "demo.mztab"
+File file = new File("demo.mztab");
+OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+tabFile.print(out);
+out.close();
 }}}
