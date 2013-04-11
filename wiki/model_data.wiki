@@ -5,9 +5,16 @@
 Add your content here.
 
 
-= Details =
+= Create MZTabFile =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  * Create MZTabFile Manually
+    # Create an empty MZTabFile
+{{{
+MZTabFile tabFile = new MZTabFile();
+}}}
+    # Create a MZTabFile based on [model_metadata Metadata]. Notice: after create the model, system not allow user reset the metadata again!
+{{{
+Metadata metadata = new Metadata();
+......
+MZTabFile tabFile = new MZTabFile(metadata);
+}}}
