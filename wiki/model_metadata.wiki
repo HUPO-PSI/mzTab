@@ -150,3 +150,57 @@ unit.addSmallMoleculeColUnit(SmallMoleculeColumn.RETENTION_TIME, new CVParam("UO
 # MTD	PRIDE_1234-custom	[, , MS operator, Florian]
 unit.addCustom(new UserParam("MS operator", "Florian"));
 }}}
+
+== Create subsample Unit ==
+  * Subsample specific parameters describing one sample should all contain the same number between the brackets. If there were multiple subsamples analyzed in the respective unit these species should be given using the additional “–{SUB_ID}” part. 
+{{{
+# MTD	PRIDE_1234-sub[1]-species[1]	[NEWT, 9606, Homo sapien (Human), ]
+# MTD	PRIDE_1234-sub[1]-species[2]	[NEWT, 573824, Human rhinovirus 1, ]
+# MTD	PRIDE_1234-sub[1]-description	Hepatocellular carcinoma sample.
+# MTD	PRIDE_1234-sub[1]-quantification_reagent	[PRIDE, PRIDE:0000114, iTRAQ reagent, 114]
+# MTD	PRIDE_1234-sub[1]-custom	[, , Extraction date, 2011-12-21]
+# MTD	PRIDE_1234-sub[1]-custom	[, , Extraction reason, liver biopsy]
+
+# MTD	PRIDE_1234-sub[2]-species[1]	[NEWT, 9606, Homo sapien (Human), ]
+# MTD	PRIDE_1234-sub[2]-species[2]	[NEWT, 12130, Human rhinovirus 2, ]
+# MTD	PRIDE_1234-sub[2]-description	Healthy control samples.
+# MTD	PRIDE_1234-sub[2]-quantification_reagent	[PRIDE, PRIDE:0000115, iTRAQ reagent, 115]
+
+SubUnit subUnit1 = new SubUnit("PRIDE_1234", 1);
+SubUnit subUnit2 = new SubUnit("PRIDE_1234", 2);
+
+subUnit1.addSpecies(1, new CVParam("NEWT", "9606", "Homo sapien (Human)", null));
+subUnit1.addSpecies(2, new CVParam("NEWT", "573824", "Human rhinovirus 1", null));
+subUnit2.addSpecies(1, new CVParam("NEWT", "9606", "Homo sapien (Human)", null));
+subUnit2.addSpecies(2, new CVParam("NEWT", "12130", "Human rhinovirus 2", null));
+
+subUnit1.setDescription("Hepatocellular carcinoma sample.");
+subUnit2.setDescription("Healthy control samples.");
+
+subUnit1.setQuantificationReagent(new CVParam("PRIDE", "PRIDE:0000114", "iTRAQ reagent", "114"));
+subUnit2.setQuantificationReagent(new CVParam("PRIDE", "PRIDE:0000115", "iTRAQ reagent", "115"));
+
+subUnit1.addCustom(new UserParam("Extraction date", "2011-12-21"));
+subUnit1.addCustom(new UserParam("Extraction reason", "liver biopsy"));
+}}} 
+
+  * Experiment where all subsamples (if any) consisted of the same properties
+{{{
+# MTD	PRIDE_1234-species[1]	[NEWT, 9606, Homo sapien (Human), ]
+# MTD	PRIDE_1234-species[2]	[NEWT, 12059, Rhinovirus, ]
+# MTD	PRIDE_1234-tissue[1]	[BTO, BTO:0000759, liver, ]
+# MTD	PRIDE_1234-cell_type[1]	[CL, CL:0000182, hepatocyte, ]
+# MTD	PRIDE_1234-disease[1]	[DOID, DOID:684, hepatocellular carcinoma, ]
+# MTD	PRIDE_1234-disease[2]	[DOID, DOID:9451, alcoholic fatty liver, ]
+# MTD	PRIDE_1234-description	Hepatocellular carcinoma sample.
+
+SubUnit subUnit = new SubUnit("PRIDE_1234", null);
+
+subUnit.addSpecies(1, new CVParam("NEWT", "9606", "Homo sapien (Human)", null));
+subUnit.addSpecies(2, new CVParam("NEWT", "12059", "Rhinovirus", null));
+subUnit.addTissue(1, new CVParam("BTO", "BTO:0000759", "liver", null));
+subUnit.addCellType(1, new CVParam("CL", "CL:0000182", "hepatocyte", null));
+subUnit.addDisease(1, new CVParam("DOID", "DOID:684", "hepatocellular carcinoma", null));
+subUnit.addDisease(2, new CVParam("DOID", "DOID:9451", "alcoholic fatty liver", null));
+subUnit.setDescription("Hepatocellular carcinoma sample.");
+}}}
