@@ -1,11 +1,18 @@
 #summary One-sentence summary of this page.
 
+<wiki:toc max_depth="2" />
+
+----
+
 = Introduction =
 
 Add your content here.
 
+----
 
 = Demos =
+
+----
 
 == Create a common Unit ==
   * Create a unit object and set and set human readable title, description. 
@@ -151,6 +158,8 @@ unit.addSmallMoleculeColUnit(SmallMoleculeColumn.RETENTION_TIME, new CVParam("UO
 unit.addCustom(new UserParam("MS operator", "Florian"));
 }}}
 
+----
+
 == Create subsample Unit ==
   * Subsample specific parameters describing one sample should all contain the same number between the brackets. If there were multiple subsamples analyzed in the respective unit these species should be given using the additional “–{SUB_ID}” part. 
 {{{
@@ -202,6 +211,7 @@ subUnit.addDisease(2, new CVParam("DOID", "DOID:9451", "alcoholic fatty liver", 
 subUnit.setDescription("Hepatocellular carcinoma sample.");
 }}}
 
+----
 
 == Create replicate Unit ==
   * When reporting technical replicates, for example for an experiment “EXP_1”, the replicates MUST have the UNIT_IDs “EXP_1-rep[1-n]”. 
