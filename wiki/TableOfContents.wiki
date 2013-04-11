@@ -10,7 +10,7 @@
   * [jmzTab2 jmzTab2]
     * [mzTab_model Core Model]
       * [model_metadata Metadata]
-      * [model_column MZTabColumn & MZTabRecord]
+      * [model_column Column & Data]
       * [model_data MZTabFile]
     * [mzTab_util Enhancement Utilities]
       * [model_validate Validate]
