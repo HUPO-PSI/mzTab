@@ -1,10 +1,13 @@
 #summary One-sentence summary of this page.
 
+<wiki:toc max_depth="2" />
+
+----
 = Introduction =
 
 Add your content here.
 
-
+----
 == Create MZTabFile Manually ==
 
   * Create an empty MZTabFile
@@ -31,6 +34,7 @@ Protein protein = new Protein(proteinFactory);
 tabFile.addProtein(protein);
 }}}
 
+----
 == Useful Methods ==
   * Retrieving Proteins: There are various methods to retrieve the proteins from a mzTab file.
 {{{
