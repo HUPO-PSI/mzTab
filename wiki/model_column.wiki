@@ -122,7 +122,7 @@ factory.addCVParamOptionalColumn(param);
 Protein protein = new Protein(factory);
 
 # fill data for optional columns
-# *Notice: * the position need calculate by yourself :)
+# Notice: the position need calculate by yourself :)
 protein.addValue(21, new Double(0.2));
 
 # You can also use factory to navigate optional columns:
