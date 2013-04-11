@@ -33,8 +33,8 @@ unit.addSampleProcessing(2, sampleProcessing2);
 
 # method 2:
 unit.addSampleProcessingParam(1, new CVParam("SEP", "SEP:00173", "SDS PAGE", null));
-        unit.addSampleProcessingParam(2, new CVParam("SEP", "SEP:00142", "enzyme digestion", null));
-        unit.addSampleProcessingParam(2, new CVParam("MS", "MS:1001251", "Trypsin", null));
+unit.addSampleProcessingParam(2, new CVParam("SEP", "SEP:00142", "enzyme digestion", null));
+unit.addSampleProcessingParam(2, new CVParam("MS", "MS:1001251", "Trypsin", null));
 }}}
 
   * The instrument used in the experiment. Multiple instruments are numbered 1..n
