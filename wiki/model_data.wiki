@@ -5,29 +5,67 @@
 Add your content here.
 
 
-= Create MZTabFile =
+== Create MZTabFile Manually ==
 
-  * Create MZTabFile Manually
-    # Create an empty MZTabFile
+  * Create an empty MZTabFile
 {{{
 MZTabFile tabFile = new MZTabFile();
 }}}
-    # Create a MZTabFile based on [model_metadata Metadata]. *Notice:* after create the model, system not allow user reset the metadata again!
+  * Create a MZTabFile based on [model_metadata Metadata]. *Notice:* after create the model, system not allow user reset the metadata again!
 {{{
 Metadata metadata = new Metadata();
 ......
 MZTabFile tabFile = new MZTabFile(metadata);
 }}}
-    # Add table-based protein/peptide/small molecule [model_column MZTabColumnFactory]
+  * Add table-based protein/peptide/small molecule, see [model_column MZTabColumnFactory]
 {{{
 MZTabColumnFactory proteinFactory = MZTabColumnFactory.getInstance(Section.Protein);
 ......
 tabFile.setProteinColumnFactory(proteinFactory);
 }}}
-    # Add a record
+  * Add a record
 {{{
 Protein protein = new Protein(proteinFactory);
 # set values for protein record
 ......
 tabFile.addProtein(protein);
+}}}
+
+== Useful Methods ==
+  * Retrieving Proteins: There are various methods to retrieve the proteins from a mzTab file.
+{{{
+// get a specific protein from a given unit
+Protein protein = tabFile.getProtein("P12345", "PRIDE_1234"); 
+
+// gets all proteins from a specific unit
+Collection<Protein> unitProteins = tabFile.getProteins("PRIDE_1234");
+
+// gets all proteins in the mzTab file
+Collection<Protein> allProteins = tabFile.getProteins();
+
+// gets all proteins with the given accession
+Collection<Protein> specificProteins = tabFile.getProtein("P12345");
+}}}
+  * Retrieving Peptides: The functions to retrieve peptides are similar to the ones to retrieve proteins:
+{{{
+// retrieves all peptides for the given protein
+Collection<Peptide> proteinPeptides = tabFile.getProteinPeptides(protein);
+
+// it is also possible to retrieve all peptides supporting
+// the identification of specific protein irrespective of the
+// unit they were identified in.
+Collection<Peptide> proteinPeptides = tabFile.getProteinPeptides("P12345");
+
+// retrieves all peptides from a given unit
+Collection<Peptide> unitPeptides = tabFile.getPeptides("PRIDE_12345");
+
+// retrieves all peptides from the mzTab file
+Collection<Peptide> allPeptides = tabFile.getPeptides();
+
+// retrieves all peptides with a given sequence
+Collection<Peptide> peptides = tabFile.getPeptidesForSequence("ABCDEFG");
+}}}
+  * iteratively modify unit_id of metadata and table-based section
+{{{
+tabFile.modifyUnitId("PRIDE_1234", "TEST_123");
 }}}
