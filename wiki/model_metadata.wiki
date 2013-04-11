@@ -167,21 +167,18 @@ unit.addCustom(new UserParam("MS operator", "Florian"));
 # MTD	PRIDE_1234-sub[2]-quantification_reagent	[PRIDE, PRIDE:0000115, iTRAQ reagent, 115]
 
 SubUnit subUnit1 = new SubUnit("PRIDE_1234", 1);
-SubUnit subUnit2 = new SubUnit("PRIDE_1234", 2);
-
 subUnit1.addSpecies(1, new CVParam("NEWT", "9606", "Homo sapien (Human)", null));
 subUnit1.addSpecies(2, new CVParam("NEWT", "573824", "Human rhinovirus 1", null));
-subUnit2.addSpecies(1, new CVParam("NEWT", "9606", "Homo sapien (Human)", null));
-subUnit2.addSpecies(2, new CVParam("NEWT", "12130", "Human rhinovirus 2", null));
-
 subUnit1.setDescription("Hepatocellular carcinoma sample.");
-subUnit2.setDescription("Healthy control samples.");
-
 subUnit1.setQuantificationReagent(new CVParam("PRIDE", "PRIDE:0000114", "iTRAQ reagent", "114"));
-subUnit2.setQuantificationReagent(new CVParam("PRIDE", "PRIDE:0000115", "iTRAQ reagent", "115"));
-
 subUnit1.addCustom(new UserParam("Extraction date", "2011-12-21"));
 subUnit1.addCustom(new UserParam("Extraction reason", "liver biopsy"));
+
+SubUnit subUnit2 = new SubUnit("PRIDE_1234", 2);
+subUnit2.addSpecies(1, new CVParam("NEWT", "9606", "Homo sapien (Human)", null));
+subUnit2.addSpecies(2, new CVParam("NEWT", "12130", "Human rhinovirus 2", null));
+subUnit2.setDescription("Healthy control samples.");
+subUnit2.setQuantificationReagent(new CVParam("PRIDE", "PRIDE:0000115", "iTRAQ reagent", "115"));
 }}} 
 
   * Experiment where all subsamples (if any) consisted of the same properties
