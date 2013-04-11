@@ -9,7 +9,7 @@ Add your content here.
 
 Add your content here.  Format your content with:
 
-== Mandatory Column and Data ==
+== Mandatory Column Header ==
   * Generate mandatory columns
 Mandatory columns' header of protein/peptide/small molecule section have stable position, column name, data type. As a result, we use a factory class to generate them.
 {{{
@@ -18,30 +18,54 @@ MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide);
 MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.SmallMolecule);
 }}}
 
-User can get special column by position, column name. The stable columns' name and position defined in the ProteinColumn/PeptideColumn/SmallMoleculeColumn class.
+User can get special column by position, column name. The stable columns' name and position defined in the ProteinColumn/PeptideColumn/SmallMolecule Column class.
 {{{
 MZTabColumn column = factory.getColumn(2);
 MZTabColumn column = factory.getColumn("retention_time");
 }}}
 
-  * Fill data for mandatory columns
-Protein/Peptide/SmallMolecule classes provide a couple of methods to fill data for mandatory columns:
-
-    # step 1: create a record row, based on MZTabColumnFactory.
-{{{
-# generate a protein data row, only include mandatory columns.
-Protein protein = new Protein();
-# this method same with
-Protein protein = new Protein(factory.getInstance(Section.Protein));
-
-# generate a protein data row, based on user define column factory:
-Protein protein = new Protein(MZTabColumnFactory factory)
-}}}
-
 == Option Column Header ==
 There are three kind of Option Column Header
+
+  * Create a column factory which only include stable columns
 {{{
+MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide);
 }}}
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+
+  * Add three abundance columns: peptide_abundance_sub[1]	peptide_abundance_stdev_sub[1]	peptide_abundance_std_error_sub[1] for special subsample.
+*NOTICE:* subUnit should be found in the metadata.
+{{{
+SubUnit subUnit = new SubUnit("PRIDE_1234", 1);
+factory.addAbundanceColumns(subUnit);
+}}}
+  * Add option columns: opt_my_value	opt_cv_MS:1001208_TOM
+*NOTICE:* user defined optional column, the default data type is String.class. If user set other data type, then need put according data in the fill process, otherwise add value operation return false.
+{{{
+CVParam param = new CVParam("MS", "MS:1001208", "TOM", null);
+factory.addOptionalColumn("my_value", String.class);
+factory.addCVParamOptionalColumn(param);
+}}}
+
+
+= Fill Data =
+Create a record row, based on MZTabColumnFactory. *NOTICE: * There exists one-to-one mapping between column header and value. 
+
+== Fill data which only include mandatory columns ==
+  * Generate a protein data row, only include mandatory columns.
+{{{
+Protein protein = new Protein();
+}}}
+
+  * Fill data for mandatory columns provide a couple of methods to fill data for mandatory columns. For String type of data, user can set directly. 
+{{{
+protein.setAccession("P12345");
+protein.setDescription("Aspartate aminotransferase, mitochondrial");
+}}}
+
+  * For non-String type data, we provide two type of methods. 
+    # The easiest method is use String type, system will parse and translate this string to other type. *NOTICE*, system *not* report any error if parse error, only return null object. Thus, maybe exists some bugs when calling this method.
+{{{
+protein.setTaxid("10116");
+protein.setSearchEngine("[MS,MS:1001207,Mascot,]|[MS,MS:1001208,Sequest,]");
+protein.setModifications("3|4|8-MOD:00412, 3|4|8-MOD:00412");
+}}}
