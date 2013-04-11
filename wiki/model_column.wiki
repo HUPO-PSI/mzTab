@@ -5,9 +5,43 @@
 Add your content here.
 
 
-= Details =
+= Column Header =
 
 Add your content here.  Format your content with:
+
+== Mandatory Column and Data ==
+  * Generate mandatory columns
+Mandatory columns' header of protein/peptide/small molecule section have stable position, column name, data type. As a result, we use a factory class to generate them.
+{{{
+MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Protein);
+MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide);
+MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.SmallMolecule);
+}}}
+
+User can get special column by position, column name. The stable columns' name and position defined in the ProteinColumn/PeptideColumn/SmallMoleculeColumn class.
+{{{
+MZTabColumn column = factory.getColumn(2);
+MZTabColumn column = factory.getColumn("retention_time");
+}}}
+
+  * Fill data for mandatory columns
+Protein/Peptide/SmallMolecule classes provide a couple of methods to fill data for mandatory columns:
+
+    # step 1: create a record row, based on MZTabColumnFactory.
+{{{
+# generate a protein data row, only include mandatory columns.
+Protein protein = new Protein();
+# this method same with
+Protein protein = new Protein(factory.getInstance(Section.Protein));
+
+# generate a protein data row, based on user define column factory:
+Protein protein = new Protein(MZTabColumnFactory factory)
+}}}
+
+== Option Column Header ==
+There are three kind of Option Column Header
+{{{
+}}}
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
