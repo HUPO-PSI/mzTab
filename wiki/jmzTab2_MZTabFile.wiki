@@ -14,13 +14,13 @@ Add your content here.
 {{{
 MZTabFile tabFile = new MZTabFile();
 }}}
-  * Create a MZTabFile based on [model_metadata Metadata]. *Notice:* after create the model, system not allow user reset the metadata again!
+  * Create a MZTabFile based on [jmzTab2_metadata Metadata]. *Notice:* after create the model, system not allow user reset the metadata again!
 {{{
 Metadata metadata = new Metadata();
 ......
 MZTabFile tabFile = new MZTabFile(metadata);
 }}}
-  * Add table-based protein/peptide/small molecule, see [model_column MZTabColumnFactory]
+  * Add table-based protein/peptide/small molecule, see [jmzTab2_column Column & Data]
 {{{
 MZTabColumnFactory proteinFactory = MZTabColumnFactory.getInstance(Section.Protein);
 ......
