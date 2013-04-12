@@ -5,11 +5,11 @@
 ----
 = Introduction =
 
-We create two interfaces, [mzTab_util#Command_Line_Interface, CLI] and [mzTab_util#Simple_GUI, GUI], to simplify the usage of jmzTab APIs. Compared with GUI, command line provides more flexible way to batch process the mzTab files.
+We create two interfaces, [jmzTab2_utils#Command_Line_Interface, CLI] and [jmzTab2_utils#Simple_GUI, GUI], to simplify the usage of jmzTab APIs. Compared with GUI, command line provides more flexible way to batch process the mzTab files.
 
-== Command Line Interface ==
+= Command Line Interface =
 ----
-=== Get Help ===
+== Get Help ==
   * print command line help
 {{{
 java -jar jmztab-2.0.jar -help
@@ -47,11 +47,11 @@ Original:	Column "{0}" is a empty cell, or current column can not use "null".
    Cause:	In the table-based sections (protein, peptide, and small molecule) there MUST NOT be any empty cells. In case a given property is not available "null" MUST be used. Notice: some properties not allow "null" value, for example unit_id, accession and so on. This is, for example, the case when modifications were not identified on a given peptide (i.e. the table cell MUST NOT be empty but "null" has to be reported).
 }}}
     # *    Code:* Unique number for error/warn
-    # *Category:* Currently, there are three types of messages: *_Format, Logical, CrossCheck_*
+    # *Category:* Currently, there are three types of messages: _*Format, Logical, CrossCheck*_
     # *Original:* Message expression pattern. "{?}" is a couple of parameters which can be filled during validate processing.
     # *   Cause:* A readable text to describe the reason why raise this error/warn. Currently, these cause message coming from mztab specification mainly.
 ----
-=== Validate ===
+== Validate Operation ==
   * no warn/error messages report during validate CPTAC_Progenesis_label_free_mzq.txt
 {{{
 java -Xms2048m -jar jmztab-2.0.jar -inDir testset -check inFile=CPTAC_Progenesis_label_free_mzq.txt
@@ -77,7 +77,7 @@ Finish!
 java -Xms2048m -jar jmztab-2.0.jar -inDir testset -check inFile=mztab_merged_example.txt outDir testset -outFile mztab_merged_example.err
 }}}
 ----
-=== Convert ===
+== Convert Operation ==
   * Convert PRIDE_Exp_Complete_Ac_16649.xml, and print mzTab file to screen:
 {{{
 java -Xms2048m -jar jmztab-2.0.jar -inDir testset -convert inFile=PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE
@@ -87,7 +87,7 @@ java -Xms2048m -jar jmztab-2.0.jar -inDir testset -convert inFile=PRIDE_Exp_Comp
 java -Xms2048m -jar jmztab-2.0.jar -inDir testset -convert inFile=PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE -outFile PRIDE_Exp_Complete_Ac_16649_xml.mztab
 }}}
 ----
-=== Merge ===
+== Merge Operation ==
   * Merge multiple mzTabFile into one mzTabFile, print result to screen:
 {{{
 java -Xms2048m -jar jmztab-2.0.jar -inDir testset -merge inFiles=CPTAC_Progenesis_label_free_mzq.txt,mztab_itraq_example.txt
@@ -101,7 +101,7 @@ java -Xms2048m -jar jmztab-2.0.jar -inDir testset -merge inFiles=CPTAC_Progenesi
 java -Xms2048m -jar jmztab-2.0.jar -inDir testset -merge inFiles=CPTAC_Progenesis_label_free_mzq.txt,mztab_itraq_example.txt -outDir testset -outFile combine_CPTAC_Progenesis_label_free_mzq.txt
 }}}
 ----
-== Simple GUI ==
+= Simple GUI =
 There are some screenshots about how to use GUI (Click on a screenshot to see the full size version):
 <table>
 <tr>

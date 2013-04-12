@@ -6,11 +6,12 @@
 = Introduction =
 
 ----
-== Format Error/Warn ==
+== Format Type ==
 
-|| *Code Number*: || 1100 ||
+|| *    Code*: || 1100 ||
+|| *   Level*: || Error ||
 || *Original*: || "{0}" not start with [MTD, PRH, PRT, PEH, PEP, SMH, SML, COM] ||
-|| *Cause*: || Every line in an mzTab file MUST start with a three letter code identifying the type of line delimited by a Tab character. The three letter codes are as follows [MTD, PRH, PRT, PEH, PEP, SMH, SML, COM]||
+|| *   Cause*: || Every line in an mzTab file MUST start with a three letter code identifying the type of line delimited by a Tab character. The three letter codes are as follows [MTD, PRH, PRT, PEH, PEP, SMH, SML, COM]||
 
 ----
 
@@ -124,7 +125,7 @@ f_cause_SearchEngineScore=A "|" delimited list of search engine score(s), Scores
 
 
 ----
-== Logical Error/Warn ==
+== Logical Type ==
 l_code_NULL=2000
 l_original_NULL=Column "{0}" is a empty cell, or current column can not use "null".
 l_cause_NULL=In the table-based sections (protein, peptide, and small molecule) there MUST NOT be any empty cells. In case a given property is not available "null" MUST be used. Notice: some properties not allow "null" value, for example unit_id, accession and so on. This is, for example, the case when modifications were not identified on a given peptide (i.e. the table cell MUST NOT be empty but "null" has to be reported).
