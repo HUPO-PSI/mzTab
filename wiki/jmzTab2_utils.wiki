@@ -105,8 +105,8 @@ java -Xms2048m -jar jmztab-2.0.jar -inDir testset -merge inFiles=CPTAC_Progenesi
 There are some screenshots about how to use GUI (Click on a screenshot to see the full size version):
 <table>
 <tr>
-<td>[https://code.google.com/p/mztab/source/browse/wiki/images/validate.JPG, https://code.google.com/p/mztab/source/browse/wiki/images/validate.JPG]</td>
-<td>[https://code.google.com/p/mztab/source/browse/wiki/images/convert.JPG, https://code.google.com/p/mztab/source/browse/wiki/images/convert.JPG]</td>
-<td>[https://code.google.com/p/mztab/source/browse/wiki/images/merge.JPG, https://code.google.com/p/mztab/source/browse/wiki/images/merge.JPG]</td>
+<td>[https://code.google.com/p/mztab/source/browse/wiki/images/validate.JPG https://code.google.com/p/mztab/source/browse/wiki/images/validate.JPG]</td>
+<td>[https://code.google.com/p/mztab/source/browse/wiki/images/convert.JPG https://code.google.com/p/mztab/source/browse/wiki/images/convert.JPG]</td>
+<td>[https://code.google.com/p/mztab/source/browse/wiki/images/merge.JPG https://code.google.com/p/mztab/source/browse/wiki/images/merge.JPG]</td>
 </tr>
 </table>
