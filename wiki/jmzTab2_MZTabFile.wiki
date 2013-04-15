@@ -10,7 +10,7 @@ Add your content here.
 ----
 == Create MZTabFile Manually ==
 
-  * Create an empty MZTabFile
+  * Create an MZTabFile with empty metadata.
 {{{
 MZTabFile tabFile = new MZTabFile();
 }}}
@@ -67,7 +67,7 @@ Collection<Peptide> unitPeptides = tabFile.getPeptides("PRIDE_12345");
 Collection<Peptide> allPeptides = tabFile.getPeptides();
 
 // retrieves all peptides with a given sequence
-Collection<Peptide> peptides = tabFile.getPeptidesForSequence("ABCDEFG");
+Collection<Peptide> peptides = tabFile.getPeptidesBySequence("ABCDEFG");
 }}}
   * Modify the content of mzTab file. After move, maybe exists some empty cells, which not set "null" value. suggest user to call fillNull() method to fill these empty cells. fillNull() will spend too many time when mzTab file very large, thus, this method need to call manually.
 {{{

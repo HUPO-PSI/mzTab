@@ -9,6 +9,7 @@
     * [MzTabExporter mztab-exporter]
   * [jmzTab2 jmzTab2]
     * [jmzTab2_ReleaseNotes Release Notes]
+    * [ExampleFiles Examples]
     * [jmzTab2_MZTabFile MZTabFile]
       * [jmzTab2_metadata Metadata]
       * [jmzTab2_column Column & Data]

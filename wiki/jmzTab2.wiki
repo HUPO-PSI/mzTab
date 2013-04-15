@@ -1,4 +1,4 @@
-#summary Java library for mzTab
+#summary Overview of jmzTab
 
 <wiki:toc max_depth="2" />
 

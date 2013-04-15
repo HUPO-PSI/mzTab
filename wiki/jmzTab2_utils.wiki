@@ -5,7 +5,7 @@
 ----
 = Introduction =
 
-We create two interfaces, [jmzTab2_utils#Command_Line_Interface, CLI] and [jmzTab2_utils#Simple_GUI, GUI], to simplify the usage of jmzTab APIs. Compared with GUI, command line provides more flexible way to batch process the mzTab files.
+We create two interfaces, CLI (MZTabCommandLine) and Simple GUI (MZTabInspector), to simplify the usage of jmzTab APIs. Compared with GUI, command line provides more flexible way to batch process the mzTab files.
 
 = Command Line Interface =
 ----

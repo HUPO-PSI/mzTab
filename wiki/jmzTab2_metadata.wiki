@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Overview the how to generate metadata.
 
 <wiki:toc max_depth="2" />
 
