@@ -40,9 +40,11 @@
         <fileSet>
             <directory>${project.basedir}</directory>
             <outputDirectory>${assembly.dir}</outputDirectory>
-            <includes>*.bat</includes>
-            <includes>*.sh</includes>
-            <includes>*.txt</includes>
+            <includes>
+                <include>*.bat</include>
+                <include>*.sh</include>
+                <include>*.txt</include>
+            </includes>
         </fileSet>
     </fileSets>
 </assembly>

@@ -6,12 +6,12 @@ import java.io.File;
 import java.util.Collection;
 
 /**
- * User: Qingwei
- * Date: 12/03/13
- */
+* User: Qingwei
+* Date: 12/03/13
+*/
 public class ConvertMzIndentMLFile extends ConvertFile {
     public ConvertMzIndentMLFile(File inFile) {
-        super(inFile, Format.mzIdentML);
+        super(inFile, mzIdentML);
     }
 
     @Override

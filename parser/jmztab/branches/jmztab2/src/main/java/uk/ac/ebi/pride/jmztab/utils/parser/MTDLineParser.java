@@ -306,11 +306,11 @@ public class MTDLineParser extends MZTabLineParser {
                             unit.setFalseDiscoveryRate(paramList);
                             break;
                         case PUBLICATION:
-                            Publication publication = parsePublication(valueLabel);
-                            if (publication == null) {
+                            SplitList<PublicationItem> items = parsePublicationItems(valueLabel);
+                            if (items.size() == 0) {
                                 return Result.publication_format_error;
                             }
-                            unit.addPublication(publication);
+                            unit.addPublicationItems(id, items);
                             break;
                         case CONTACT:
                             switch (property) {

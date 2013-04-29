@@ -12,7 +12,7 @@ import java.util.Collection;
  */
 public abstract class ConvertFile {
     protected File inFile;
-    protected Format format;
+    protected String format;
     protected Metadata metadata;
     protected MZTabColumnFactory proteinColumnFactory;
     protected MZTabColumnFactory peptideColumnFactory;
@@ -23,24 +23,10 @@ public abstract class ConvertFile {
 
     private MZTabFile mzTabFile;
 
-    public enum Format {
-        PRIDE("PRIDE_XML", "2.1"),            // Pride XML
-        mzIdentML("mzIndenML", "1.1.0");
+    public final static String PRIDE = "PRIDE";
+    public final static String mzIdentML = "mzIndenML";
 
-        private String name;
-        private String version;
-
-        private Format(String name, String version) {
-            this.name = name;
-            this.version = version;
-        }
-
-        public String toString() {
-            return name + "-" + version;
-        }
-    }
-
-    public ConvertFile(File inFile, Format format) {
+    public ConvertFile(File inFile, String format) {
         if (inFile == null || inFile.isDirectory()) {
             throw new IllegalArgumentException("Invalid input file " + inFile);
         }

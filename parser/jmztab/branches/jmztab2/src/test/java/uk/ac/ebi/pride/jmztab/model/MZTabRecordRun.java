@@ -9,18 +9,31 @@ import static junit.framework.Assert.assertTrue;
  */
 public class MZTabRecordRun {
     public static void main(String[] args) {
-        Peptide record = new Peptide();
+        MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Protein);
+        SubUnit subUnit = new SubUnit("PRIDE_1234", 1);
+        factory.addAbundanceColumns(subUnit);
+        CVParam param = new CVParam("MS", "MS:1001208", "TOM", null);
+        factory.addOptionalColumn("my_value", String.class);
+        factory.addCVParamOptionalColumn(param);
 
-        String sequence = "EIEILACEIR";
-        record.addValue(1, sequence);
-        record.addValue(4, MZBoolean.True);
-        SplitList<Param> searchEngineScore = new SplitList<Param>(MZTabConstants.BAR);
-        searchEngineScore.add(new CVParam("MS", "MS:1001155", "Sequest:xorr", "2"));
-        searchEngineScore.add(new CVParam("MS", "MS:1001171", "Mascot score", "47.2"));
-        record.addValue(8, searchEngineScore);
+        Protein protein = new Protein(factory);
 
-        assertEquals(record.getSequence(), sequence);
-        assertEquals(record.getUnique(), MZBoolean.True);
-        assertTrue(record.getSearchEngineScore().size() == 2);
+        protein.setAccession("P12345");
+        protein.setUnitId("PRIDE_1234");
+        protein.setDescription("Aspartate aminotransferase, mitochondrial");
+
+        protein.setTaxid("10116");
+
+        SplitList<Param> searchEngine = new SplitList<Param>(MZTabConstants.BAR);
+        searchEngine.add(new CVParam("MS", "MS:1001207", "Mascot", null));
+        searchEngine.add(new CVParam("MS", "MS:1001208", "Sequest", null));
+        protein.setSearchEngine(searchEngine);
+
+        protein.setReliability(Reliability.High);
+
+        factory.getAbundanceColumnMapping();
+        factory.getOptionalColumnMapping();
+
+        factory.getAbundanceColumnMapping();
     }
 }

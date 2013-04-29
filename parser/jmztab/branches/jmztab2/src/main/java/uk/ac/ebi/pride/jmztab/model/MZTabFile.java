@@ -418,7 +418,7 @@ public class MZTabFile {
      * @return A Collection of PeptideS or null in case the sequence is not
      * present in the peptide table.
      */
-    public Collection<Peptide> getPeptidesForSequence(String sequence) {
+    public Collection<Peptide> getPeptidesBySequence(String sequence) {
         Collection<Peptide> result = new ArrayList<Peptide>();
 
         for (Peptide record : peptides.values()) {
@@ -448,7 +448,7 @@ public class MZTabFile {
      *
      * @param unitId The unit'd id.
      * @return A Collection of SmallMolecules or null in case there are not
-     * small molcules identified for the passed unit.
+     * small molecules identified for the passed unit.
      */
     public Collection<SmallMolecule> getSmallMolecules(String unitId) {
         Collection<SmallMolecule> result = new ArrayList<SmallMolecule>();
@@ -582,7 +582,7 @@ public class MZTabFile {
      * @return A Collection of SmallMoleculeS or null in case the identifier is
      * not used in the SmallMolecule section.
      */
-    public Collection<SmallMolecule> getSmallMoleculesForIdentifier(String identifier) {
+    public Collection<SmallMolecule> getSmallMoleculesByIdentifier(String identifier) {
         Collection<SmallMolecule> result = new ArrayList<SmallMolecule>();
 
         for (SmallMolecule record : smallMolecules.values()) {

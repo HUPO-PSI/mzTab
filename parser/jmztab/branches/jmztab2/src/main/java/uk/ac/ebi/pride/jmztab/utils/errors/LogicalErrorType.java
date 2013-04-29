@@ -29,4 +29,6 @@ public class LogicalErrorType extends MZTabErrorType {
     public static MZTabErrorType AbundanceColumnId = createError(Category.Logical, "AbundanceColumnId");
     public static MZTabErrorType AbundanceColumnSameId = createError(Category.Logical, "AbundanceColumnSameId");
 
+    public static MZTabErrorType SpectraRef = createError(Category.Logical, "SpectraRef");
+
 }

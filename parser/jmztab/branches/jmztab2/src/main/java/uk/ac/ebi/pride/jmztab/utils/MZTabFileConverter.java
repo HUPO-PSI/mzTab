@@ -12,43 +12,23 @@ import java.io.File;
  * Date: 27/02/13
  */
 public class MZTabFileConverter {
-    public final static String PRIDE = "PRIDE";
-    public final static String mzIdentML = "mzIndenML";
-
     private ConvertFile convertFile;
 
-    public MZTabFileConverter(File inFile, ConvertFile.Format format) {
+    public MZTabFileConverter(File inFile, String format) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
 
-        switch (format) {
-            case PRIDE:
-                convertFile = new ConvertPrideXMLFile(inFile);
-                break;
-            case mzIdentML:
-                convertFile = new ConvertMzIndentMLFile(inFile);
-                break;
-            default:
-                convertFile = null;
+        if (format.equalsIgnoreCase(ConvertFile.PRIDE)) {
+            convertFile = new ConvertPrideXMLFile(inFile);
         }
+
+//        else if (format.equalsIgnoreCase(ConvertFile.mzIdentML)) {
+//            convertFile = new ConvertMzIndentMLFile(inFile);
+//        }
     }
 
     public MZTabFile getMZTabFile() {
         return convertFile.getMZTabFile();
-    }
-
-    public static ConvertFile.Format findFormat(String formatLabel) {
-        if (formatLabel == null) {
-            return null;
-        }
-
-        if (formatLabel.equals(PRIDE)) {
-            return ConvertFile.Format.PRIDE;
-        } else if (formatLabel.equals(mzIdentML)) {
-            return ConvertFile.Format.mzIdentML;
-        } else {
-            return null;
-        }
     }
 }

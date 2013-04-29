@@ -28,7 +28,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
     private Unit unit;
 
     public ConvertPrideXMLFile(File inFile) {
-        super(inFile, Format.PRIDE);
+        super(inFile, PRIDE);
         this.reader = new PrideXmlReader(inFile);
         createArchitecture();
         fillData();
@@ -240,30 +240,27 @@ public class ConvertPrideXMLFile extends ConvertFile {
             return;
         }
 
-        Publication publication;
         for (Reference ref : references) {
-
-
             uk.ac.ebi.pride.jaxb.model.Param param = ref.getAdditional();
             if (param == null) {
                 continue;
             }
 
-            publication = new Publication();
+            List<PublicationItem> items = new ArrayList<PublicationItem>();
 
             // check if there's a DOI
             String doi = getPublicationAccession(param, DAOCvParams.REFERENCE_DOI.getName());
             if (! isEmpty(doi)) {
-                publication.addPublication(Publication.Type.DOI, doi);
+                items.add(new PublicationItem(PublicationItem.Type.DOI, doi));
             }
 
             // check if there's a pubmed id
             String pubmed = getPublicationAccession(param, DAOCvParams.REFERENCE_PUBMED.getName());
             if (! isEmpty(pubmed)) {
-                publication.addPublication(Publication.Type.PUBMED, pubmed);
+                items.add(new PublicationItem(PublicationItem.Type.PUBMED, pubmed));
             }
 
-            unit.addPublication(publication);
+            unit.addPublicationItems(1, items);
         }
     }
 

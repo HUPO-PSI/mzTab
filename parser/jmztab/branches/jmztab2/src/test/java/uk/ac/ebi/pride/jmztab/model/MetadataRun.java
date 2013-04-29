@@ -3,8 +3,6 @@ package uk.ac.ebi.pride.jmztab.model;
 import java.net.URI;
 import java.net.URL;
 
-import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
-
 /**
  * User: Qingwei
  * Date: 01/02/13
@@ -16,13 +14,9 @@ public class MetadataRun {
         unit.setTitle("mzTab iTRAQ test");
         unit.setDescription("This is a PRIDE test.");
 
-        SplitList<Param> sampleProcessing1 = new SplitList<Param>(BAR);
-        sampleProcessing1.add(new CVParam("SEP", "SEP:00173", "SDS PAGE", null));
-        SplitList<Param> sampleProcessing2 = new SplitList<Param>(BAR);
-        sampleProcessing2.add(new CVParam("SEP", "SEP:00142", "enzyme digestion", null));
-        sampleProcessing2.add(new CVParam("MS", "MS:1001251", "Trypsin", null));
-        unit.addSampleProcessing(1, sampleProcessing1);
-        unit.addSampleProcessing(2, sampleProcessing2);
+        unit.addSampleProcessingParam(1, new CVParam("SEP", "SEP:00173", "SDS PAGE", null));
+        unit.addSampleProcessingParam(2, new CVParam("SEP", "SEP:00142", "enzyme digestion", null));
+        unit.addSampleProcessingParam(2, new CVParam("MS", "MS:1001251", "Trypsin", null));
 
         unit.addInstrumentName(1, new CVParam("MS", "MS:100049", "LTQ Orbitrap", null));
         unit.addInstrumentSource(2, new CVParam("MS", "MS:1000598", "ETD", null));
@@ -37,14 +31,10 @@ public class MetadataRun {
         unit.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001364", "pep:global FDR", "0.01"));
         unit.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001214", "pep:global FDR", "0.08"));
 
-        Publication p1 = new Publication();
-        p1.addPublication(Publication.Type.PUBMED, "21063943");
-        p1.addPublication(Publication.Type.DOI, "10.1007/978-1-60761-987-1_6");
-        Publication p2 = new Publication();
-        p2.addPublication(Publication.Type.PUBMED, "20615486");
-        p2.addPublication(Publication.Type.DOI, "10.1016/j.jprot.2010.06.008");
-        unit.addPublication(p1);
-        unit.addPublication(p2);
+        unit.addPublicationItem(1, PublicationItem.Type.PUBMED, "21063943");
+        unit.addPublicationItem(1, PublicationItem.Type.DOI, "10.1007/978-1-60761-987-1_6");
+        unit.addPublicationItem(2, PublicationItem.Type.PUBMED, "20615486");
+        unit.addPublicationItem(2, PublicationItem.Type.DOI, "10.1016/j.jprot.2010.06.008");
 
         unit.addContactName(1, "James D. Watson");
         unit.addContactAffiliation(1, "Cambridge University, UK");
@@ -79,17 +69,17 @@ public class MetadataRun {
     }
 
     private void printPRIDESubUnitWithoutSubId() throws Exception {
-        SubUnit subUnit1 = new SubUnit("PRIDE_1234", null);
+        SubUnit subUnit = new SubUnit("PRIDE_1234", null);
 
-        subUnit1.addSpecies(1, new CVParam("NEWT", "9606", "Homo sapien (Human)", null));
-        subUnit1.addSpecies(2, new CVParam("NEWT", "12059", "Rhinovirus", null));
-        subUnit1.addTissue(1, new CVParam("BTO", "BTO:0000759", "liver", null));
-        subUnit1.addCellType(1, new CVParam("CL", "CL:0000182", "hepatocyte", null));
-        subUnit1.addDisease(1, new CVParam("DOID", "DOID:684", "hepatocellular carcinoma", null));
-        subUnit1.addDisease(2, new CVParam("DOID", "DOID:9451", "alcoholic fatty liver", null));
-        subUnit1.setDescription("Hepatocellular carcinoma sample.");
+        subUnit.addSpecies(1, new CVParam("NEWT", "9606", "Homo sapien (Human)", null));
+        subUnit.addSpecies(2, new CVParam("NEWT", "12059", "Rhinovirus", null));
+        subUnit.addTissue(1, new CVParam("BTO", "BTO:0000759", "liver", null));
+        subUnit.addCellType(1, new CVParam("CL", "CL:0000182", "hepatocyte", null));
+        subUnit.addDisease(1, new CVParam("DOID", "DOID:684", "hepatocellular carcinoma", null));
+        subUnit.addDisease(2, new CVParam("DOID", "DOID:9451", "alcoholic fatty liver", null));
+        subUnit.setDescription("Hepatocellular carcinoma sample.");
 
-        System.out.println(subUnit1);
+        System.out.println(subUnit);
     }
 
     private void printPRIDESubUnitWithSubId() throws Exception {

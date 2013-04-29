@@ -22,8 +22,8 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType Param = createError(Format, "Param");
     public static MZTabErrorType ParamList = createError(Format, "ParamList");
     public static MZTabErrorType Publication = createError(Format, "Publication");
-    public static MZTabErrorType URI = createError(Format, "URI");
-    public static MZTabErrorType URL = createError(Format, "URL");
+    public static MZTabErrorType URI = createWarn(Format, "URI");
+    public static MZTabErrorType URL = createWarn(Format, "URL");
     public static MZTabErrorType Email = createWarn(Format, "Email");
     public static MZTabErrorType Integer = createError(Format, "Integer");
     public static MZTabErrorType Double = createError(Format, "Double");

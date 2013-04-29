@@ -6,7 +6,7 @@
 
     <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>2.0</version>
 
     <name>jmzTab</name>
     <description>A Java library to read and write mzTab files.</description>
@@ -66,6 +66,11 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.jmzidml</groupId>
+            <artifactId>jmzidentml</artifactId>
+            <version>1.1.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -124,9 +129,9 @@
                     <archive>
                         <manifest>
                             <!--provide a CLI for jmztab-->
-                            <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>-->
+                            <mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>
                             <!--provide a simple GUI for jmztab-->
-                            <mainClass>uk.ac.ebi.pride.jmztab.MZTabInspector</mainClass>
+                            <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabInspector</mainClass>-->
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
                         </manifest>

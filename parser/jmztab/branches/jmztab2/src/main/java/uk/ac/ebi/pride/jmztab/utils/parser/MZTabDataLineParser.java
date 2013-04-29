@@ -428,6 +428,12 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         List<SpecRef> refList = parseSpecRefList(unit, result_spectraRef);
         if (refList.size() == 0) {
             this.errorList.add(new MZTabError(FormatErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef));
+        } else {
+            for (SpecRef ref : refList) {
+                if (ref.getMsFile() == null || ref.getMsFile().getLocation() == null) {
+                    this.errorList.add(new MZTabError(LogicalErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef));
+                }
+            }
         }
 
         return refList;

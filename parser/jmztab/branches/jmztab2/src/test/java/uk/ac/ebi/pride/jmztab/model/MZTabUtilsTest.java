@@ -109,23 +109,23 @@ public class MZTabUtilsTest {
 
     @Test
     public void testPublication() throws Exception {
-        Publication publication;
+        SplitList<PublicationItem> items;
 
         StringBuilder sb = new StringBuilder();
-        publication = parsePublication(sb.toString());
-        assertTrue(publication.size() == 0);
+        items = parsePublicationItems(sb.toString());
+        assertTrue(items.size() == 0);
 
         sb.append("pubmed:21063943|doi:10.1007/978-1-60761-987-1_6");
-        publication = parsePublication(sb.toString());
-        assertTrue(publication.toString().contains("pubmed:21063943|doi:10.1007/978-1-60761-987-1_6"));
+        items = parsePublicationItems(sb.toString());
+        assertTrue(items.toString().contains("pubmed:21063943|doi:10.1007/978-1-60761-987-1_6"));
 
         sb.append("| doi:1231-60761-987-1_6");
-        publication = parsePublication(sb.toString());
-        assertTrue(publication.size() == 3);
+        items = parsePublicationItems(sb.toString());
+        assertTrue(items.size() == 3);
 
         sb.append("|cnki:1231-60761-987-1_6");
-        publication = parsePublication(sb.toString());
-        assertTrue(publication.size() == 0);
+        items = parsePublicationItems(sb.toString());
+        assertTrue(items.size() == 0);
     }
 
     @Test
