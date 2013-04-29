@@ -16,7 +16,7 @@ public class ConverterPrideXMLFileRun {
         File inFile = new File("testset/PRIDE_Exp_Complete_Ac_16649.xml");
 //        File inFile = new File("testset/PRIDE_Exp_Complete_Ac_8500.xml");
 
-        MZTabFileConverter converter = new MZTabFileConverter(inFile, ConvertFile.Format.PRIDE);
+        MZTabFileConverter converter = new MZTabFileConverter(inFile, ConvertFile.PRIDE);
         MZTabFile mzTabFile = converter.getMZTabFile();
 
         File outFile = new File("testset/PRIDE_Exp_Complete_Ac_16649_xml.mztab");

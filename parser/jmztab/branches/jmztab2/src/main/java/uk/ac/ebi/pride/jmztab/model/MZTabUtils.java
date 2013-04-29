@@ -279,29 +279,31 @@ public class MZTabUtils {
      * A publication on this unit. PubMed ids must be prefixed by “pubmed:”,
      * DOIs by “doi:”. Multiple identifiers MUST be separated by “|”.
      */
-    public static Publication parsePublication(String target) {
+    public static SplitList<PublicationItem> parsePublicationItems(String target) {
         SplitList<String> list = parseStringList(BAR, target);
 
-        Publication publication = new Publication();
-        Publication.Type type;
+        PublicationItem.Type type;
         String accession;
+        PublicationItem item;
+        SplitList<PublicationItem> itemList = new SplitList<PublicationItem>(BAR);
         for (String pub : list) {
             pub = parseString(pub);
             if (pub == null) {
-                publication.clear();
+                itemList.clear();
                 break;
             }
             String[] items = pub.split("" + COLON);
-            if (items.length != 2 || (type = Publication.findType(items[0].trim())) == null) {
-                publication.clear();
+            if (items.length != 2 || (type = PublicationItem.findType(items[0].trim())) == null) {
+                itemList.clear();
                 break;
             } else {
                 accession = items[1].trim();
-                publication.addPublication(type, accession);
+                item = new PublicationItem(type, accession);
+                itemList.add(item);
             }
         }
 
-        return publication;
+        return itemList;
     }
 
     private static SpecRef createSpecRef(Unit unit, Integer ms_file_id, String reference) {

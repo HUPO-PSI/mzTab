@@ -32,7 +32,7 @@ public class MZTabCommandLine {
 
         String msgOpt = "message";
         String codeOpt = "code";
-        Option msgOption = OptionBuilder.withArgName(codeOpt + "=CodeNumber")
+        Option msgOption = OptionBuilder.withArgName(codeOpt)
                 .hasArgs(2)
                 .withValueSeparator()
                 .withDescription("print Error/Warn detail message based on code number.")
@@ -40,42 +40,41 @@ public class MZTabCommandLine {
         options.addOption(msgOption);
 
         String inDirOpt = "inDir";
-        String inDirLongOpt = "input_directory";
-        options.addOption(inDirOpt, inDirLongOpt, true, "Setting input file directory.");
+        options.addOption(inDirOpt, true, "Setting input file directory. If not set, default input " +
+                                          "directory is current application path.");
 
         String outDirOpt = "outDir";
-        String outDirLongOpt = "output_directory";
-        options.addOption(outDirOpt, outDirLongOpt, true, "Setting output file directory.");
+        options.addOption(outDirOpt, true, "Setting output file directory. If not set, default output " +
+                                           " directory is same with input directory.");
 
         String outOpt = "outFile";
-        String outLongOpt = "out_file";
-        options.addOption(outOpt, outLongOpt, true, "Record error/warn messages into outfile. If not set, print message on the screen. ");
+        options.addOption(outOpt, true, "Record error/warn messages into outfile. If not set, print message on the screen. ");
 
         String checkOpt = "check";
         String inFileOpt = "inFile";
-        Option checkOption = OptionBuilder.withArgName(inFileOpt + "=FileName")
+        Option checkOption = OptionBuilder.withArgName(inFileOpt)
                 .hasArgs(2)
                 .withValueSeparator()
-                .withDescription("choose a file from input directory.")
+                .withDescription("Choose a file from input directory. This parameter should not be null!")
                 .create(checkOpt);
         options.addOption(checkOption);
 
         String convertOpt = "convert";
         String formatOpt = "format";
-        Option convertOption = OptionBuilder.withArgName(inFileOpt + "=FileName " + formatOpt + "=PRIDE/mzIdentML")
+        Option convertOption = OptionBuilder.withArgName(inFileOpt + ", " + formatOpt)
                 .hasArgs()
                 .withValueSeparator()
-                .withDescription("Converts the given file to an mztab file.")
+                .withDescription("Converts the given format file to an mztab file.")
                 .create(convertOpt);
         options.addOption(convertOption);
 
         String mergeOpt = "merge";
-        String inFileListOpt = "inFileList";
+        String inFileListOpt = "inFiles";
         String combineOpt = "combine";
-        Option mergeOption = OptionBuilder.withArgName(inFileListOpt + "=File1,file2,file3 " + combineOpt + "=true/false")
+        Option mergeOption = OptionBuilder.withArgName(inFileListOpt + ", " + combineOpt)
                 .hasArgs()
                 .withValueSeparator()
-                .withDescription("Merge more than one mztab files into another mztab File.")
+                .withDescription("Merge multiple comma-delimited mztab files into one File.")
                 .create(mergeOpt);
         options.addOption(mergeOption);
 
@@ -133,21 +132,21 @@ public class MZTabCommandLine {
             } else if (line.hasOption(convertOpt)) {
                 String[] values = line.getOptionValues(convertOpt);
                 File inFile = null;
-                ConvertFile.Format format = null;
+                String format = null;
                 for (int i = 0; i < values.length; i++) {
                     String type = values[i++].trim();
                     String value = values[i].trim();
                     if (type.equals(inFileOpt)) {
                         inFile = new File(inDir, value.trim());
                     } else if (type.equals(formatOpt)) {
-                        format = MZTabFileConverter.findFormat(value);
+                        format = value.trim();
                     }
                 }
                 if (inFile == null) {
                     throw new IllegalArgumentException("Not setting input file!");
                 }
                 if (format == null) {
-                    format = ConvertFile.Format.PRIDE;
+                    format = ConvertFile.PRIDE;
                 }
 
                 System.out.println("Begin convert " + inFile.getAbsolutePath() + " which format is " + format + " to mztab file.");

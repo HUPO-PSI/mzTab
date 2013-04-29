@@ -10,8 +10,8 @@ MTD	PRIDE_1234-software[1]	[MS, MS:1001207, Mascot, 2.3]
 MTD	PRIDE_1234-software[2]-setting	Fragment tolerance = 0.1Da
 MTD	PRIDE_1234-software[2]-setting	Parent tolerance = 0.5Da
 MTD	PRIDE_1234-false_discovery_rate	[MS, MS:1234, pep-fdr, 0.5]|[MS, MS:1001364, pep:global FDR, 0.01]|[MS, MS:1001214, pep:global FDR, 0.08]
-MTD	PRIDE_1234-publication	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
-MTD	PRIDE_1234-publication	pubmed:20615486|doi:10.1016/j.jprot.2010.06.008
+MTD	PRIDE_1234-publication[1]	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
+MTD	PRIDE_1234-publication[2]	pubmed:20615486|doi:10.1016/j.jprot.2010.06.008
 MTD	PRIDE_1234-contact[1]-name	James D. Watson
 MTD	PRIDE_1234-contact[1]-affiliation	Cambridge University, UK
 MTD	PRIDE_1234-contact[1]-email	watson@cam.ac.uk

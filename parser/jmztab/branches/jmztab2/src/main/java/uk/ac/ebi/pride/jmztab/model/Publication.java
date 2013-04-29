@@ -1,7 +1,9 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import java.util.Collection;
+
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
-import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.COLON;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
 /**
  * A publication on this unit. PubMed ids must be prefixed by “pubmed:”, DOIs by “doi:”.
@@ -9,40 +11,23 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.COLON;
  * User: Qingwei
  * Date: 01/02/13
  */
-public class Publication {
-    public enum Type {
-        PUBMED         ("pubmed"),
-        DOI            ("doi");
-
-        private String name;
-        Type(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
+public class Publication extends UnitElement {
+    public Publication(int id, Unit unit) {
+        super(id, unit);
     }
 
-    private SplitList<String> itemList = new SplitList<String>(BAR);
+    private SplitList<PublicationItem> itemList = new SplitList<PublicationItem>(BAR);
 
-    public void addPublication(Type type, String accession) {
-        if (type == null) {
-            throw new NullPointerException("Publication type can not set null!");
-        }
-        if (accession == null) {
-            throw new IllegalArgumentException("Publication accession can not empty!");
-        }
+    public void addPublicationItem(PublicationItem item) {
+        itemList.add(item);
+    }
 
-        itemList.add(type.getName() + COLON + accession);
+    public void addPublicationItems(Collection<PublicationItem> items) {
+        itemList.addAll(items);
     }
 
     public int size() {
         return itemList.size();
-    }
-
-    public String get(int index) {
-        return itemList.get(index);
     }
 
     public void clear() {
@@ -50,21 +35,10 @@ public class Publication {
     }
 
     public String toString() {
-        return itemList.toString();
-    }
+        StringBuilder sb = new StringBuilder();
 
-    public static Type findType(String name) {
-        if (name == null) {
-            return null;
-        }
+        sb.append(printElement(MetadataElement.PUBLICATION, itemList)).append(NEW_LINE);
 
-        Type type;
-        try {
-            type = Type.valueOf(name.trim().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            type = null;
-        }
-
-        return type;
+        return sb.toString();
     }
 }

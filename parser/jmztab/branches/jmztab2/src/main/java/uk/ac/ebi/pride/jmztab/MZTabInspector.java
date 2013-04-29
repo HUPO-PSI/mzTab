@@ -1,14 +1,13 @@
 package uk.ac.ebi.pride.jmztab;
 
 import uk.ac.ebi.pride.jmztab.gui.MZTabConsolePane;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileChecker;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileMerger;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
-import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -148,14 +147,15 @@ public class MZTabInspector extends JFrame {
         final JTextField srcFileNameField = new JTextField();
         JPanel srcFileChoosePane = getFileChoosePane(
                 "Choose Converted File: ", srcFileNameField,
-                new FileNameExtensionFilter("PRIDE XML File(*.xml), mzIdentML File (*.mzid)", "xml", "mzid"), false);
+//                new FileNameExtensionFilter("PRIDE XML File(*.xml), mzIdentML File (*.mzid)", "xml", "mzid"), false);
+                new FileNameExtensionFilter("PRIDE XML File(*.xml)", "xml"), false);
         srcFilePane.add(srcFileChoosePane);
 
         final ButtonGroup formatGroup = new ButtonGroup();
         formatGroup.add(new JRadioButton("PRIDE", true));
         formatGroup.add(new JRadioButton("mzIdentML"));
         JPanel formatPane = getParamsPane("Format", formatGroup);
-        srcFilePane.add(formatPane);
+//        srcFilePane.add(formatPane);
 
         JPanel tarFilePane = new JPanel(new FlowLayout());
 
@@ -210,15 +210,15 @@ public class MZTabInspector extends JFrame {
                         MZTabErrorType.Level level = MZTabErrorType.findLevel(levelLabel);
 
                         elements = formatGroup.getElements();
-                        String formatLabel = "PRIDE";
+                        String format = "PRIDE";
                         while (elements.hasMoreElements()) {
                             element = elements.nextElement();
                             if (element.isSelected()) {
-                                formatLabel = element.getText();
+                                format = element.getText();
                                 break;
                             }
                         }
-                        ConvertFile.Format format = MZTabFileConverter.findFormat(formatLabel);
+
                         File inFile = new File(fileName);
 
                         System.out.println("Begin reading " + inFile.getName());

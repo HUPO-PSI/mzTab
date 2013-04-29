@@ -18,18 +18,18 @@ public class Unit extends OperationCenter {
     private String unitId;
     private String title;
     private String description;
-    private Map<Integer, SplitList<Param>> sampleProcessingMap = new TreeMap<Integer, SplitList<Param>>();
-    private Map<Integer, Instrument> instrumentMap = new TreeMap<Integer, Instrument>();
-    private Map<Integer, Software> softwareMap = new TreeMap<Integer, Software>();
+    private SortedMap<Integer, SplitList<Param>> sampleProcessingMap = new TreeMap<Integer, SplitList<Param>>();
+    private SortedMap<Integer, Instrument> instrumentMap = new TreeMap<Integer, Instrument>();
+    private SortedMap<Integer, Software> softwareMap = new TreeMap<Integer, Software>();
     private SplitList<Param> falseDiscoveryRate = new SplitList<Param>(BAR);
-    private List<Publication> publicationList = new ArrayList<Publication>();
-    private Map<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
+    private SortedMap<Integer, Publication> publicationMap = new TreeMap<Integer, Publication>();
+    private SortedMap<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
     private List<URI> uriList = new ArrayList<java.net.URI>();
     private SplitList<Param> mod = new SplitList<Param>(BAR);
     private Param quantificationMethod;
     private Param proteinQuantificationUnit;
     private Param peptideQuantificationUnit;
-    private Map<Integer, MsFile> msFileMap = new TreeMap<Integer, MsFile>();
+    private SortedMap<Integer, MsFile> msFileMap = new TreeMap<Integer, MsFile>();
     private List<Param> customList = new ArrayList<Param>();
     private List<ProteinColUnit> proteinColUnitList = new ArrayList<ProteinColUnit>();
     private List<PeptideColUnit> peptideColUnitList = new ArrayList<PeptideColUnit>();
@@ -81,7 +81,9 @@ public class Unit extends OperationCenter {
                 printPrefix(sb).append(item).append("[").append(id).append("]").append(TAB);
             }
             sb.append(value);
-            if (value instanceof SplitList) {
+
+            // for sample processing, provide a new line for each item.
+            if (item.equals(SAMPLE_PROCESSING.getName())) {
                 sb.append(NEW_LINE);
             }
         }
@@ -109,10 +111,7 @@ public class Unit extends OperationCenter {
             printPrefix(sb).append(FALSE_DISCOVERY_RATE).append(TAB).append(falseDiscoveryRate).append(NEW_LINE);
         }
 
-        for (Publication publication : publicationList) {
-            printPrefix(sb).append(PUBLICATION).append(TAB).append(publication).append(NEW_LINE);
-        }
-
+        sb = printMap(publicationMap, PUBLICATION.toString(), sb);
         sb = printMap(contactMap, CONTACT.toString(), sb);
 
         for (URI uri : uriList) {
@@ -179,8 +178,8 @@ public class Unit extends OperationCenter {
         return falseDiscoveryRate;
     }
 
-    public List<Publication> getPublicationList() {
-        return publicationList;
+    public SortedMap<Integer, Publication> getPublicationMap() {
+        return publicationMap;
     }
 
     public Map<Integer, Contact> getContactMap() {
@@ -253,6 +252,19 @@ public class Unit extends OperationCenter {
             this.sampleProcessingMap.put(id, sampleProcessing);
             return true;
         }
+    }
+
+    public boolean addSampleProcessingParam(Integer id, Param param) {
+        SplitList<Param> sampleProcessing = sampleProcessingMap.get(id);
+        if (sampleProcessing == null) {
+            sampleProcessing = new SplitList<Param>(BAR);
+            sampleProcessing.add(param);
+            sampleProcessingMap.put(id, sampleProcessing);
+        } else {
+            sampleProcessing.add(param);
+        }
+
+        return true;
     }
 
     public boolean addInstrumentName(Integer id, Param name) {
@@ -349,8 +361,26 @@ public class Unit extends OperationCenter {
         this.falseDiscoveryRate = paramList;
     }
 
-    public void addPublication(Publication publication) {
-        this.publicationList.add(publication);
+    public void addPublicationItem(Integer id, PublicationItem.Type type, String accession) {
+        Publication publication = publicationMap.get(id);
+        if (publication == null) {
+            publication = new Publication(id, this);
+            publication.addPublicationItem(new PublicationItem(type, accession));
+            publicationMap.put(id, publication);
+        } else {
+            publication.addPublicationItem(new PublicationItem(type, accession));
+        }
+    }
+
+    public void addPublicationItems(Integer id, Collection<PublicationItem> items) {
+        Publication publication = publicationMap.get(id);
+        if (publication == null) {
+            publication = new Publication(id, this);
+            publication.addPublicationItems(items);
+            publicationMap.put(id, publication);
+        } else {
+            publication.addPublicationItems(items);
+        }
     }
 
     public boolean addContactName(Integer id, String name) {

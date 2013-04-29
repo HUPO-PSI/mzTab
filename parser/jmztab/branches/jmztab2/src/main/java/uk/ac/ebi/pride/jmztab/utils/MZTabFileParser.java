@@ -263,10 +263,11 @@ public class MZTabFileParser {
                     mzTabFile.addSmallMolecule(id, smallMoleculeMap.get(id));
                 }
             }
+
+            MZTabFileChecker checker = new MZTabFileChecker(errorList);
+            checker.check(mzTabFile, level);
         }
 
-        MZTabFileChecker checker = new MZTabFileChecker(errorList);
-        checker.check(mzTabFile, level);
     }
 
     public MZTabFile getMZTabFile() {

@@ -25,7 +25,7 @@ public class SpecRef {
     private String reference;
 
     /**
-     * Creates a new SpecRef object.
+     * Creates a new SpectraRef object.
      *
      * @param reference The reference to the spectrum in the MS fiile.
      */
@@ -39,6 +39,14 @@ public class SpecRef {
 
         this.msFile = msFile;
         this.reference = reference;
+    }
+
+    public MsFile getMsFile() {
+        return msFile;
+    }
+
+    public String getReference() {
+        return reference;
     }
 
     @Override
