@@ -163,7 +163,7 @@ public class MZTabColumnFactory extends OperationCenter {
     }
 
     public Integer addOptionalColumn(OptionColumn column) {
-        stableColumnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getPosition(), column);
         columnMapping.put(column.getPosition(), column);
         return column.getPosition();
     }

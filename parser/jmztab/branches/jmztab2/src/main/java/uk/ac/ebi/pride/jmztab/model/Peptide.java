@@ -101,9 +101,12 @@ public class Peptide extends MZTabRecord {
         if (params == null) {
             params = new SplitList<Param>(BAR);
             setSearchEngine(params);
+            params.add(param);
+        } else if (! params.contains(param)) {
+            params.add(param);
         }
 
-        return params.add(param);
+        return true;
     }
 
     public boolean addSearchEngineParam(String paramLabel) {

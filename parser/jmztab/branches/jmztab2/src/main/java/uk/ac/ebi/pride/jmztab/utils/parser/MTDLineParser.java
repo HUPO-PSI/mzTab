@@ -27,9 +27,11 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 */
 public class MTDLineParser extends MZTabLineParser {
     private Metadata metadata;
+    private MetadataDescription description = new MetadataDescription();
 
     private enum Result {
         ok,
+        version_error,
         unitId_format_error,
         id_number_error,
         format_error,
@@ -55,7 +57,9 @@ public class MTDLineParser extends MZTabLineParser {
             throw new MZTabException(error);
         }
 
-        if (items[1].contains("colunit")) {
+        if (items[1].contains(MetadataDescription.MZTAB)) {
+            parseMetadataDescription(items[1], items[2]);
+        } else if (items[1].contains("colunit")) {
             parseColUnit(items[1], items[2]);
         } else {
             parseNormalMetadata(items[1], items[2]);
@@ -68,7 +72,7 @@ public class MTDLineParser extends MZTabLineParser {
      * PRIDE_1234-cell_type[1]
      * PRIDE_1234-sub[1]-cell_type[1]
      */
-    public boolean isSubSampleElement(MetadataElement element) {
+    private boolean isSubSampleElement(MetadataElement element) {
         if (element == null) {
             return false;
         }
@@ -94,6 +98,32 @@ public class MTDLineParser extends MZTabLineParser {
         }
 
         return valueLabel;
+    }
+
+    private Result checkMetadataDescription(String defineLabel, String valueLabel) {
+        String regexp = "mzTab-(\\w+)";
+
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(defineLabel);
+
+        if (matcher.find()) {
+            String elementLabel = matcher.group(1);
+            MetadataDescription.Element element = MetadataDescription.findElement(elementLabel);
+            if (element == null) {
+                return Result.version_error;
+            }
+
+            switch (element) {
+                case VERSION:
+                    description.setVersion(valueLabel);
+                    break;
+            }
+
+            metadata.setDescription(description);
+            return Result.ok;
+        } else {
+            return Result.format_error;
+        }
     }
 
     private Result checkNormalMetadata(String defineLabel, String valueLabel) {
@@ -518,6 +548,24 @@ public class MTDLineParser extends MZTabLineParser {
             return Result.ok;
         } else {
             return Result.format_error;
+        }
+    }
+
+    private void parseMetadataDescription(String defineLabel, String valueLabel) throws MZTabException {
+        Result result = checkMetadataDescription(defineLabel, valueLabel);
+
+        MZTabError error = null;
+        switch (result) {
+            case format_error:
+                error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, defineLabel);
+                break;
+            case version_error:
+                error = new MZTabError(FormatErrorType.Version, lineNumber, defineLabel);
+                break;
+        }
+
+        if (error != null) {
+            throw new MZTabException(error);
         }
     }
 

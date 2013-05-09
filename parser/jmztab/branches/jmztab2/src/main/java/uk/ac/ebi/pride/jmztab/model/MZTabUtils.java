@@ -367,6 +367,11 @@ public class MZTabUtils {
     }
 
     public static Modification parseModification(Section section, String target) {
+        target = parseString(target);
+        if (target == null) {
+            return null;
+        }
+
         target = translateTabToComma(target);
         String[] items = target.split("\\-");
         String modLabel;
@@ -447,6 +452,11 @@ public class MZTabUtils {
     }
 
     public static SplitList<Modification> parseModificationList(Section section, String target) {
+        target = parseString(target);
+        if (target == null) {
+            return null;
+        }
+
         target = translateCommaToTab(target);
 
         SplitList<String> list = parseStringList(COMMA, target);

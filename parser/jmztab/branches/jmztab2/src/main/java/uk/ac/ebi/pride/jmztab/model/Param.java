@@ -56,6 +56,28 @@ public class Param {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Param param = (Param) o;
+
+        if (accession != null ? !accession.equals(param.accession) : param.accession != null) return false;
+        if (name != null ? !name.equals(param.name) : param.name != null) return false;
+        if (value != null ? !value.equals(param.value) : param.value != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = accession != null ? accession.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
