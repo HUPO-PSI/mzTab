@@ -21,11 +21,9 @@ public class MZTabFileConverter {
 
         if (format.equalsIgnoreCase(ConvertFile.PRIDE)) {
             convertFile = new ConvertPrideXMLFile(inFile);
+        } else if (format.equalsIgnoreCase(ConvertFile.mzIdentML)) {
+            convertFile = new ConvertMzIndentMLFile(inFile);
         }
-
-//        else if (format.equalsIgnoreCase(ConvertFile.mzIdentML)) {
-//            convertFile = new ConvertMzIndentMLFile(inFile);
-//        }
     }
 
     public MZTabFile getMZTabFile() {

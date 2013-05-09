@@ -10,6 +10,7 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType LinePrefix = createError(Format, "LinePrefix");
     public static MZTabErrorType CountMatch = createError(Format, "CountMatch");
 
+    public static MZTabErrorType Version = createError(Format, "Version");
 
     public static MZTabErrorType UnitID = createError(Format, "UnitID");
     public static MZTabErrorType AbundanceColumn = createError(Format, "AbundanceColumn");

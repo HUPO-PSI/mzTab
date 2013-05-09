@@ -49,9 +49,22 @@ public class Metadata extends OperationCenter implements PropertyChangeListener 
      * In our system, we this kind of SubUnit's identifier is PRIDE_1234-sub
      */
     private SortedMap<String, Unit> unitMap;
+    private MetadataDescription description;
 
     public Metadata() {
         unitMap = new TreeMap<String, Unit>(idComparator);
+    }
+
+    public MetadataDescription getDescription() {
+        return description;
+    }
+
+    public void setDescription(MetadataDescription description) {
+        if (description == null) {
+            description = new MetadataDescription("1.0 rc3");
+        }
+
+        this.description = description;
     }
 
     public boolean addUnit(Unit unit) {
@@ -147,6 +160,11 @@ public class Metadata extends OperationCenter implements PropertyChangeListener 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
+        if (description == null) {
+            description = new MetadataDescription("1.0 rc3");
+        }
+        sb.append(description);
 
         for (Unit unit : unitMap.values()) {
             sb.append(unit);
