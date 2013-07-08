@@ -211,12 +211,12 @@ public class MTDLineParser extends MZTabLineParser {
                     }
                     metadata.addUri(uri);
                     break;
-                case MOD:
+                case FIXED_MOD:
                     paramList = parseParamList(valueLabel);
                     if (paramList.size() == 0) {
                         return CheckResult.paramList_format_error;
                     }
-                    metadata.setMod(paramList);
+                    metadata.setFixedMod(paramList);
                     break;
                 case QUANTIFICATION_METHOD:
                     param = parseParam(valueLabel);
@@ -276,7 +276,7 @@ public class MTDLineParser extends MZTabLineParser {
                             return CheckResult.property_error;
                     }
                     break;
-                case MS_FILE:
+                case MS_RUN:
                     id = new Integer(matcher.group(3));
                     property = MetadataProperty.findProperty(element.getName(), matcher.group(5));
                     if (property == null) {
@@ -284,26 +284,26 @@ public class MTDLineParser extends MZTabLineParser {
                     }
 
                     switch (property) {
-                        case MS_FILE_FORMAT:
+                        case MS_RUN_FORMAT:
                             param = parseParam(valueLabel);
                             if (param == null) {
                                 return CheckResult.param_format_error;
                             }
-                            metadata.addMsFileFormat(id, param);
+                            metadata.addMsRunFormat(id, param);
                             break;
-                        case MS_FILE_LOCATION:
+                        case MS_RUN_LOCATION:
                             java.net.URL url = parseURL(valueLabel);
                             if (url == null) {
                                 return CheckResult.url_format_error;
                             }
-                            metadata.addMsFileLocation(id, url);
+                            metadata.addMsRunLocation(id, url);
                             break;
-                        case MS_FILE_ID_FORMAT:
+                        case MS_RUN_ID_FORMAT:
                             param = parseParam(valueLabel);
                             if (param == null) {
                                 return CheckResult.param_format_error;
                             }
-                            metadata.addMsFileIdFormat(id, param);
+                            metadata.addMsRunIdFormat(id, param);
                             break;
                         default:
                             return CheckResult.property_error;
@@ -397,15 +397,15 @@ public class MTDLineParser extends MZTabLineParser {
                             metadata.addAssaySample(id, sample);
                             break;
                         case ASSAY_MS_FILE_REF:
-                            indexedElement = parseIndexedElement(valueLabel, MetadataElement.MS_FILE);
+                            indexedElement = parseIndexedElement(valueLabel, MetadataElement.MS_RUN);
                             if (indexedElement == null) {
                                 return CheckResult.indexed_element_format_error;
                             }
-                            MsFile msFile = metadata.getMsFileMap().get(indexedElement.getId());
-                            if (msFile == null) {
+                            MsRun msRun = metadata.getMsRunMap().get(indexedElement.getId());
+                            if (msRun == null) {
                                 return CheckResult.not_found_in_metadata_error;
                             }
-                            metadata.addAssayMsFile(id, msFile);
+                            metadata.addAssayMsRun(id, msRun);
                             break;
                         default:
                             return CheckResult.property_error;

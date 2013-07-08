@@ -371,7 +371,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             this.errorList.add(new MZTabError(FormatErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef));
         } else {
             for (SpectraRef ref : refList) {
-                if (ref.getMsFile() == null || ref.getMsFile().getLocation() == null) {
+                if (ref.getMsRun() == null || ref.getMsRun().getLocation() == null) {
                     this.errorList.add(new MZTabError(LogicalErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef));
                 }
             }

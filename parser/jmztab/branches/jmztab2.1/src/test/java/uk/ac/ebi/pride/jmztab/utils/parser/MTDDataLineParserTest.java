@@ -86,10 +86,10 @@ public class MTDDataLineParserTest {
                 "null\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull";
         record = dataParser.getRecord(data);
         items = data.split("\t");
-        assertTrue(record.getSearchEngineScore(metadata.getMsFileMap().get(1)).equals(MZTabUtils.parseParamList(items[9])));
-        assertTrue(record.getNumPSMs(metadata.getMsFileMap().get(1)).equals(new Integer(items[11])));
-        assertTrue(record.getNumPeptidesDistinct(metadata.getMsFileMap().get(1)).equals(new Integer(items[12])));
-        assertTrue(record.getNumPeptidesUnique(metadata.getMsFileMap().get(1)).equals(new Integer(items[13])));
+        assertTrue(record.getSearchEngineScore(metadata.getMsRunMap().get(1)).equals(MZTabUtils.parseParamList(items[9])));
+        assertTrue(record.getNumPSMs(metadata.getMsRunMap().get(1)).equals(new Integer(items[11])));
+        assertTrue(record.getNumPeptidesDistinct(metadata.getMsRunMap().get(1)).equals(new Integer(items[12])));
+        assertTrue(record.getNumPeptidesUnique(metadata.getMsRunMap().get(1)).equals(new Integer(items[13])));
 
         // check abundance optional columns
         data = "PRT\tP12345\tAspartate aminotransferase, mitochondrial\t10116\tnull\tnull\tnull\t" +

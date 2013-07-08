@@ -7,6 +7,7 @@ package uk.ac.ebi.pride.jmztab.model;
 public enum MetadataProperty {
     MZTAB_VERSION                         (MetadataElement.MZTAB,                 "version"),
     MZTAB_MODE                            (MetadataElement.MZTAB,                 "mode"),
+    MZTAB_TYPE                            (MetadataElement.MZTAB,                 "type"),
     MZTAB_ID                              (MetadataElement.MZTAB,                 "ID"),
 
     INSTRUMENT_NAME                       (MetadataElement.INSTRUMENT,            "name"),
@@ -24,9 +25,9 @@ public enum MetadataProperty {
     PEPTIDE_QUANTIFICATION_UNIT           (MetadataElement.PEPTIDE,               "quantification_unit"),
     SMALL_MOLECULE_QUANTIFICATION_UNIT    (MetadataElement.SMALL_MOLECULE,        "quantification_unit"),
 
-    MS_FILE_FORMAT                        (MetadataElement.MS_FILE,               "format"),
-    MS_FILE_LOCATION                      (MetadataElement.MS_FILE,               "location"),
-    MS_FILE_ID_FORMAT                     (MetadataElement.MS_FILE,               "id_format"),
+    MS_RUN_FORMAT                         (MetadataElement.MS_RUN,                "format"),
+    MS_RUN_LOCATION                       (MetadataElement.MS_RUN,                "location"),
+    MS_RUN_ID_FORMAT                      (MetadataElement.MS_RUN,                "id_format"),
 
     SAMPLE_SPECIES                        (MetadataElement.SAMPLE,                "species"),
     SAMPLE_TISSUE                         (MetadataElement.SAMPLE,                "tissue"),
@@ -37,7 +38,7 @@ public enum MetadataProperty {
 
     ASSAY_QUANTIFICATION_REAGENT          (MetadataElement.ASSAY,                 "quantification_reagent"),
     ASSAY_SAMPLE_REF                      (MetadataElement.ASSAY,                 "sample_ref"),
-    ASSAY_MS_FILE_REF                     (MetadataElement.ASSAY,                 "ms_file_ref"),
+    ASSAY_MS_FILE_REF                     (MetadataElement.ASSAY,                 "ms_run_ref"),
 
     STUDY_VARIABLE_ASSAY_REFS             (MetadataElement.STUDY_VARIABLE,        "assay_refs"),
     STUDY_VARIABLE_SAMPLE_REFS            (MetadataElement.STUDY_VARIABLE,        "sample_refs"),

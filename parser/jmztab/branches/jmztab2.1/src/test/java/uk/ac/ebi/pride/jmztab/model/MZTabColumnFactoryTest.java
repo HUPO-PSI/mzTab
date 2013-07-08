@@ -22,27 +22,27 @@ public class MZTabColumnFactoryTest {
         assertTrue(optionalColumns.size() == 0);
         int optionSize = 0;
 
-        MsFile msFile1 = new MsFile(1);
-        MsFile msFile2 = new MsFile(2);
+        MsRun msRun1 = new MsRun(1);
+        MsRun msRun2 = new MsRun(2);
         Assay assay1 = new Assay(1);
         StudyVariable studyVariable1 = new StudyVariable(1);
         StudyVariable studyVariable2 = new StudyVariable(2);
         MZTabColumn column;
 
-        factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msFile1);
+        factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun1);
         optionSize += 4;
         assertTrue(optionalColumns.size() == optionSize);
-        column = optionalColumns.get(ProteinColumn.SEARCH_ENGINE_SCORE.getPosition() + msFile1.getId());
+        column = optionalColumns.get(ProteinColumn.SEARCH_ENGINE_SCORE.getPosition() + msRun1.getId());
         assertTrue(column != null);
 
-        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msFile2);
-        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msFile2);
+        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun2);
+        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun2);
         optionSize += 2;
         assertTrue(optionalColumns.size() == optionSize);
-        column = optionalColumns.get(ProteinColumn.NUM_PEPTIDES_UNIQUE.getPosition() + msFile2.getId());
+        column = optionalColumns.get(ProteinColumn.NUM_PEPTIDES_UNIQUE.getPosition() + msRun2.getId());
         assertTrue(column == null);
 
         factory.addAbundanceOptionalColumn(assay1);
@@ -53,7 +53,7 @@ public class MZTabColumnFactoryTest {
         optionSize += 3;
         assertTrue(optionalColumns.size() == optionSize);
 
-        factory.addOptionalColumn(msFile1, "my_value", String.class);
+        factory.addOptionalColumn(msRun1, "my_value", String.class);
         optionSize += 1;
         assertTrue(optionalColumns.size() == optionSize);
 

@@ -6,8 +6,8 @@ package uk.ac.ebi.pride.jmztab.model;
  */
 public class MZTabColumnFactoryRun {
     public static void main(String[] args) {
-        MsFile msFile1 = new MsFile(1);
-        MsFile msFile2 = new MsFile(2);
+        MsRun msRun1 = new MsRun(1);
+        MsRun msRun2 = new MsRun(2);
         Assay assay1 = new Assay(1);
         Assay assay2 = new Assay(2);
         StudyVariable studyVariable1 = new StudyVariable(1);
@@ -18,13 +18,13 @@ public class MZTabColumnFactoryRun {
         System.out.println();
 
         // add optional columns which have stable order.
-        factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msFile1);
+        factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun1);
 
-        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msFile2);
-        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msFile2);
+        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun2);
+        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun2);
         System.out.println(factory);
         System.out.println();
 
@@ -36,7 +36,7 @@ public class MZTabColumnFactoryRun {
         System.out.println();
 
         // add user defined optional columns
-        factory.addOptionalColumn(msFile1, "my_value", String.class);
+        factory.addOptionalColumn(msRun1, "my_value", String.class);
         CVParam param = new CVParam("MS", "MS:1002217", "decoy peptide", null);
         factory.addOptionalColumn(param, String.class);
         System.out.println(factory);

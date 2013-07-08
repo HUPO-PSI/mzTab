@@ -95,7 +95,7 @@ public class MTDLineParserTest {
 
         parser.parse(1, "MTD\tmod\t[MOD, MOD:00397, iodoacetamide derivatized residue, ]|[MOD, MOD:00675, oxidized residue, ]");
         parser.parse(1, "MTD\tquantification_method\t[MS, MS:1001837, iTraq, ]");
-        assertTrue(metadata.getMod().size() == 2);
+        assertTrue(metadata.getFixedMod().size() == 2);
         assertTrue(metadata.getQuantificationMethod() != null);
 
         parser.parse(1, "MTD\tprotein-quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]");
@@ -109,7 +109,7 @@ public class MTDLineParserTest {
         parser.parse(1, "MTD\tms_file[2]-location\tfile://C:/path/to/my/file");
         parser.parse(1, "MTD\tms_file[2]-id_format\t[MS, MS:1000774, multiple peak list, nativeID format]");
         parser.parse(1, "MTD\tms_file[3]-location\tftp://ftp.ebi.ac.uk/path/to/file");
-        assertTrue(metadata.getMsFileMap().size() == 3);
+        assertTrue(metadata.getMsRunMap().size() == 3);
 
         parser.parse(1, "MTD\tcustom\t[, , MS operator, Florian]");
         assertTrue(metadata.getCustomList().size() == 1);
@@ -129,8 +129,8 @@ public class MTDLineParserTest {
         assertTrue(metadata.getSmallMoleculeColUnitList().size() == 1);
 
         MZTabColumnFactory proteinFactory = MZTabColumnFactory.getInstance(Section.Protein_Header);
-        MsFile msFile1 = new MsFile(1);
-        proteinFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msFile1);
+        MsRun msRun1 = new MsRun(1);
+        proteinFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun1);
         parser.parse(1, "MTD\tcolunit-protein\tnum_peptides_unique_ms_file[1] = [EFO, EFO:0004374, milligram per deciliter, ]");
         parser.refineColUnit(proteinFactory);
         assertTrue(metadata.getProteinColUnitList().size() == 1);
@@ -186,14 +186,14 @@ public class MTDLineParserTest {
         assertTrue(metadata.getAssayMap().get(1).getSample().equals(sample1));
         assertTrue(metadata.getAssayMap().get(2).getSample().equals(sample2));
 
-        MsFile msFile1 = new MsFile(1);
-        MsFile msFile2 = new MsFile(2);
-        metadata.addMsFile(msFile1);
-        metadata.addMsFile(msFile2);
+        MsRun msRun1 = new MsRun(1);
+        MsRun msRun2 = new MsRun(2);
+        metadata.addMsRun(msRun1);
+        metadata.addMsRun(msRun2);
         parser.parse(1, "MTD\tassay[1]-ms_file_ref\tms_file[1]");
         parser.parse(1, "MTD\tassay[2]-ms_file_ref\tms_file[2]");
-        assertTrue(metadata.getAssayMap().get(1).getMsFile().equals(msFile1));
-        assertTrue(metadata.getAssayMap().get(2).getMsFile().equals(msFile2));
+        assertTrue(metadata.getAssayMap().get(1).getMsRun().equals(msRun1));
+        assertTrue(metadata.getAssayMap().get(2).getMsRun().equals(msRun2));
     }
 
     @Test
