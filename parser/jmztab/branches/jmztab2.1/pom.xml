@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -9,9 +8,6 @@
     <!-- based on mzTab specification version 1.0 rc 3 -->
     <version>2.1-SNAPSHOT</version>
 
-    <name>jmzTab</name>
-    <description>A Java library to read and write mzTab files.</description>
-    <url>http://code.google.com/p/mztab/</url>
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -119,7 +115,7 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <taxid>copy-dependencies</taxid>
+                        <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
@@ -164,34 +160,13 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>${project.basedir}/assembly.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <taxid>assembly</taxid>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <repositories>
-        <repository>
-            <taxid>PRIDE_SourceForge_Maven2_Repository</taxid>
-            <url>http://pride-proteome.sourceforge.net/maven2</url>
-        </repository>
         <!-- EBI repo -->
         <repository>
-            <taxid>nexus-ebi-repo</taxid>
+            <id>nexus-ebi-repo</id>
             <name>The EBI internal repository</name>
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>
             <releases>
@@ -203,7 +178,7 @@
 
         <!-- EBI SNAPSHOT repo -->
         <repository>
-            <taxid>nexus-ebi-snapshot-repo</taxid>
+            <id>nexus-ebi-snapshot-repo</id>
             <name>The EBI internal snapshot repository</name>
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots/</url>
             <releases>
@@ -212,20 +187,27 @@
             <snapshots>
             </snapshots>
         </repository>
+
+        <!-- Compomics Genesis Maven 2 repository -->
+        <repository>
+            <id>genesis-maven2-repository</id>
+            <name>Genesis maven2 repository</name>
+            <url>http://genesis.UGent.be/maven2</url>
+            <layout>default</layout>
+        </repository>
     </repositories>
 
     <distributionManagement>
         <!-- EBI repo -->
         <repository>
-            <taxid>nexus-ebi-repo</taxid>
+            <id>nexus-ebi-repo</id>
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
         </repository>
         <!-- EBI SNAPSHOT repo -->
         <snapshotRepository>
-            <taxid>nexus-ebi-repo-snapshots</taxid>
+            <id>nexus-ebi-repo-snapshots</id>
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
 
 </project>

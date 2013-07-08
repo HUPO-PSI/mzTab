@@ -1,12 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import org.junit.Test;
-
 import java.net.URI;
 import java.net.URL;
-import java.util.Collections;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * User: Qingwei
