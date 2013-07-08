@@ -63,16 +63,16 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         Pattern pattern = Pattern.compile("(\\w+)_ms_file\\[(\\d)\\]");
         Matcher matcher;
         MZTabColumn column = null;
-        MsFile msFile;
+        MsRun msRun;
         int id;
         for (int i = 1; i < items.length; i++) {
             header = items[i];
             matcher = pattern.matcher(header);
             if (matcher.find()) {
                 id = new Integer(matcher.group(2));
-                msFile = metadata.getMsFileMap().get(id);
-                if (msFile == null) {
-                    throw new MZTabException("msFile not defined in the metadata.");
+                msRun = metadata.getMsRunMap().get(id);
+                if (msRun == null) {
+                    throw new MZTabException("msRun not defined in the metadata.");
                 }
 
                 switch (section) {
@@ -100,7 +100,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
                 }
 
                 if (column != null) {
-                    factory.addOptionalColumn(column, msFile);
+                    factory.addOptionalColumn(column, msRun);
                 }
             }
         }
@@ -193,7 +193,7 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
                     }
                 } else if (object_id.contains("ms_file")) {
                     // not found ms_file_id in metadata.
-                    MsFile element = metadata.getMsFileMap().get(id);
+                    MsRun element = metadata.getMsRunMap().get(id);
                     if (element == null) {
                         throw new MZTabException("error.");
                     } else if (param == null) {

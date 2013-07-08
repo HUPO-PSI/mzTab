@@ -15,12 +15,12 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.COLON;
  */
 public class SpectraRef {
     /**
-     * The msFile identifier
+     * The msRun identifier
      */
-    private MsFile msFile;
+    private MsRun msRun;
     /**
      * Reference to the spectrum in the
-     * msFile.
+     * msRun.
      */
     private String reference;
 
@@ -29,20 +29,20 @@ public class SpectraRef {
      *
      * @param reference The reference to the spectrum in the MS fiile.
      */
-    public SpectraRef(MsFile msFile, String reference) {
-        if (msFile == null) {
-            throw new NullPointerException("msFile can not null!");
+    public SpectraRef(MsRun msRun, String reference) {
+        if (msRun == null) {
+            throw new NullPointerException("msRun can not null!");
         }
         if (reference == null) {
-            throw new NullPointerException("msFile reference can not empty!");
+            throw new NullPointerException("msRun reference can not empty!");
         }
 
-        this.msFile = msFile;
+        this.msRun = msRun;
         this.reference = reference;
     }
 
-    public MsFile getMsFile() {
-        return msFile;
+    public MsRun getMsRun() {
+        return msRun;
     }
 
     public String getReference() {
@@ -53,7 +53,7 @@ public class SpectraRef {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(msFile.getReference()).append(COLON).append(reference);
+        sb.append(msRun.getReference()).append(COLON).append(reference);
 
         return sb.toString();
     }

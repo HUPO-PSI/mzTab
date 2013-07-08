@@ -328,28 +328,28 @@ public class MZTabRecord {
      *
      * If not find the optional column, return null;
      */
-    public String getOptionColumn(MsFile msFile, String name) {
-        String header = OptionColumn.getHeader(msFile, name);
+    public String getOptionColumn(MsRun msRun, String name) {
+        String header = OptionColumn.getHeader(msRun, name);
         MZTabColumn column = factory.findColumn(header);
         return column == null ? null : getString(column.getPosition());
     }
 
-    public void setOptionColumn(MsFile msFile, String name, String value) {
-        String header = OptionColumn.getHeader(msFile, name);
+    public void setOptionColumn(MsRun msRun, String name, String value) {
+        String header = OptionColumn.getHeader(msRun, name);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
             setValue(column.getPosition(), value);
         }
     }
 
-    public String getOptionColumn(MsFile msFile, CVParam param) {
-        String header = CVParamOptionColumn.getHeader(msFile, param);
+    public String getOptionColumn(MsRun msRun, CVParam param) {
+        String header = CVParamOptionColumn.getHeader(msRun, param);
         MZTabColumn column = factory.findColumn(header);
         return column == null ? null : getString(column.getPosition());
     }
 
-    public void setOptionColumn(MsFile msFile, CVParam param, String value) {
-        String header = CVParamOptionColumn.getHeader(msFile, param);
+    public void setOptionColumn(MsRun msRun, CVParam param, String value) {
+        String header = CVParamOptionColumn.getHeader(msRun, param);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
             setValue(column.getPosition(), value);

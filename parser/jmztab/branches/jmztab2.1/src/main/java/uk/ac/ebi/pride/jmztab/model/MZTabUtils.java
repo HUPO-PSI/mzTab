@@ -393,11 +393,11 @@ public class MZTabUtils {
                 ms_file_id = new Integer(matcher.group(1));
                 reference = matcher.group(2);
 
-                MsFile msFile = metadata.getMsFileMap().get(ms_file_id);
-                if (msFile == null) {
+                MsRun msRun = metadata.getMsRunMap().get(ms_file_id);
+                if (msRun == null) {
                     ref = null;
                 } else {
-                    ref = new SpectraRef(msFile, reference);
+                    ref = new SpectraRef(msRun, reference);
                 }
 
                 if (ref == null) {

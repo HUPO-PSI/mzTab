@@ -51,7 +51,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
         // set the accession as URI if there's one
         loadURI(reader.getExpAccession());
         // set Ms File
-        loadMsFile(reader.getExpAccession());
+        loadMsRun(reader.getExpAccession());
 
         return metadata;
     }
@@ -224,15 +224,15 @@ public class ConvertPrideXMLFile extends ConvertFile {
         }
     }
 
-    private void loadMsFile(String expAccession) {
+    private void loadMsRun(String expAccession) {
         if (!inFile.isFile()) {
             return;
         }
 
-        metadata.addMsFileFormat(1, new CVParam("MS", "MS:1000564", "PSI mzData file", null));
-        metadata.addMsFileIdFormat(1, new CVParam("MS", "MS:1000777", "spectrum identifier nativeID format", null));
+        metadata.addMsRunFormat(1, new CVParam("MS", "MS:1000564", "PSI mzData file", null));
+        metadata.addMsRunIdFormat(1, new CVParam("MS", "MS:1000777", "spectrum identifier nativeID format", null));
         try {
-            metadata.addMsFileLocation(1, new URL("ftp://ftp.ebi.ac.uk/pub/databases/pride/PRIDE_Exp_Complete_Ac_" + expAccession + ".xml"));
+            metadata.addMsRunLocation(1, new URL("ftp://ftp.ebi.ac.uk/pub/databases/pride/PRIDE_Exp_Complete_Ac_" + expAccession + ".xml"));
         } catch (MalformedURLException e) {
             // do nothing
         }

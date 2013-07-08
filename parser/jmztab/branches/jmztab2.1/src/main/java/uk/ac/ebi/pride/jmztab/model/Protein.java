@@ -133,31 +133,31 @@ public class Protein extends MZTabRecord {
     }
 
     @SuppressWarnings("unchecked")
-    public SplitList<Param> getSearchEngineScore(MsFile msFile) {
-        return getSplitList(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msFile));
+    public SplitList<Param> getSearchEngineScore(MsRun msRun) {
+        return getSplitList(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msRun));
     }
 
-    public void setSearchEngineScore(MsFile msFile, SplitList<Param> searchEngineScore) {
-        setValue(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msFile), searchEngineScore);
+    public void setSearchEngineScore(MsRun msRun, SplitList<Param> searchEngineScore) {
+        setValue(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
     }
 
-    public boolean addSearchEngineScoreParam(MsFile msFile, CVParam param) {
+    public boolean addSearchEngineScoreParam(MsRun msRun, CVParam param) {
         if (param == null) {
             return false;
         }
 
-        SplitList<Param> params = getSearchEngineScore(msFile);
+        SplitList<Param> params = getSearchEngineScore(msRun);
         if (params == null) {
             params = new SplitList<Param>(BAR);
-            setSearchEngineScore(msFile, params);
+            setSearchEngineScore(msRun, params);
         }
         params.add(param);
 
         return true;
     }
 
-    public void setSearchEngineScore(MsFile msFile, String paramsLabel) {
-        setSearchEngineScore(msFile, parseParamList(paramsLabel));
+    public void setSearchEngineScore(MsRun msRun, String paramsLabel) {
+        setSearchEngineScore(msRun, parseParamList(paramsLabel));
     }
 
     public Reliability getReliability() {
@@ -172,40 +172,40 @@ public class Protein extends MZTabRecord {
         setReliability(Reliability.findReliability(reliabilityLabel));
     }
 
-    public Integer getNumPSMs(MsFile msFile) {
-        return getInteger(getPosition(ProteinColumn.NUM_PSMS, msFile));
+    public Integer getNumPSMs(MsRun msRun) {
+        return getInteger(getPosition(ProteinColumn.NUM_PSMS, msRun));
     }
 
-    public void setNumPSMs(MsFile msFile, Integer numPSMs) {
-        setValue(getPosition(ProteinColumn.NUM_PSMS, msFile), numPSMs);
+    public void setNumPSMs(MsRun msRun, Integer numPSMs) {
+        setValue(getPosition(ProteinColumn.NUM_PSMS, msRun), numPSMs);
     }
 
-    public void setNumPSMs(MsFile msFile, String numPSMsLabel) {
-        setNumPSMs(msFile, parseInteger(numPSMsLabel));
+    public void setNumPSMs(MsRun msRun, String numPSMsLabel) {
+        setNumPSMs(msRun, parseInteger(numPSMsLabel));
     }
 
-    public Integer getNumPeptidesDistinct(MsFile msFile) {
-        return getInteger(getPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, msFile));
+    public Integer getNumPeptidesDistinct(MsRun msRun) {
+        return getInteger(getPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun));
     }
 
-    public void setNumPeptidesDistinct(MsFile msFile, Integer numPeptidesDistinct) {
-        setValue(getPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, msFile), numPeptidesDistinct);
+    public void setNumPeptidesDistinct(MsRun msRun, Integer numPeptidesDistinct) {
+        setValue(getPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun), numPeptidesDistinct);
     }
 
-    public void setNumPeptidesDistinct(MsFile msFile, String numPeptidesDistinct) {
-        setNumPeptidesDistinct(msFile, parseInteger(numPeptidesDistinct));
+    public void setNumPeptidesDistinct(MsRun msRun, String numPeptidesDistinct) {
+        setNumPeptidesDistinct(msRun, parseInteger(numPeptidesDistinct));
     }
 
-    public Integer getNumPeptidesUnique(MsFile msFile) {
-        return getInteger(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msFile));
+    public Integer getNumPeptidesUnique(MsRun msRun) {
+        return getInteger(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun));
     }
 
-    public void setNumPeptidesUnique(MsFile msFile, Integer numPeptidesUnique) {
-        setValue(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msFile), numPeptidesUnique);
+    public void setNumPeptidesUnique(MsRun msRun, Integer numPeptidesUnique) {
+        setValue(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun), numPeptidesUnique);
     }
 
-    public void setNumPeptidesUnique(MsFile msFile, String numPeptidesUnique) {
-        setNumPeptidesUnique(msFile, parseInteger(numPeptidesUnique));
+    public void setNumPeptidesUnique(MsRun msRun, String numPeptidesUnique) {
+        setNumPeptidesUnique(msRun, parseInteger(numPeptidesUnique));
     }
 
     @SuppressWarnings("unchecked")

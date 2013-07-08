@@ -9,15 +9,15 @@ import java.net.URL;
 public class MZTabRecordRun {
     private void addProteinValue() {
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Protein);
-        MsFile msFile1 = new MsFile(1);
+        MsRun msRun1 = new MsRun(1);
         Assay assay1 = new Assay(1);
         Assay assay2 = new Assay(2);
         StudyVariable studyVariable1 = new StudyVariable(1);
 
-        factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msFile1);
-        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msFile1);
+        factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun1);
+        factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun1);
 
         factory.addAbundanceOptionalColumn(assay1);
         factory.addAbundanceOptionalColumn(assay2);
@@ -43,10 +43,10 @@ public class MZTabRecordRun {
         System.out.println(protein);
 
         // set optional columns which have stable order.
-        protein.setSearchEngineScore(msFile1, "[MS,MS:1001171,Mascot score,50]|[MS,MS:1001155,Sequest:xcorr,2]");
-        protein.setNumPSMs(msFile1, 4);
-        protein.setNumPeptidesDistinct(msFile1, 3);
-        protein.setNumPeptidesUnique(msFile1, 2);
+        protein.setSearchEngineScore(msRun1, "[MS,MS:1001171,Mascot score,50]|[MS,MS:1001155,Sequest:xcorr,2]");
+        protein.setNumPSMs(msRun1, 4);
+        protein.setNumPeptidesDistinct(msRun1, 3);
+        protein.setNumPeptidesUnique(msRun1, 2);
         System.out.println(protein);
 
         // set abundance columns
@@ -67,7 +67,7 @@ public class MZTabRecordRun {
     private void addPeptideValue() throws Exception {
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide);
         Metadata metadata = new Metadata();
-        metadata.addMsFileLocation(2, new URL("file://C:\\path\\to\\my\\file"));
+        metadata.addMsRunLocation(2, new URL("file://C:\\path\\to\\my\\file"));
 
         System.out.println(factory);
         Peptide peptide = new Peptide(factory, metadata);

@@ -165,7 +165,7 @@ public class MZTabColumnFactory {
         return columnMapping;
     }
 
-    public void addOptionalColumn(MZTabColumn column, MsFile msFile) {
+    public void addOptionalColumn(MZTabColumn column, MsRun msRun) {
         String position = column.getPosition();
         if (optionalColumnMapping.containsKey(position)) {
             throw new IllegalArgumentException("There exists column " + optionalColumnMapping.get(position) + " in position " + position);
@@ -175,17 +175,17 @@ public class MZTabColumnFactory {
         switch (section) {
             case Protein_Header:
                 if (position.equals("09") || position.equals("11") || position.equals("12") || position.equals("13")) {
-                    newColumn = MZTabColumn.createOptionalColumn(column, msFile);
+                    newColumn = MZTabColumn.createOptionalColumn(column, msRun);
                 }
                 break;
             case Peptide_Header:
                 if (position.equals("08")) {
-                    newColumn = MZTabColumn.createOptionalColumn(column, msFile);
+                    newColumn = MZTabColumn.createOptionalColumn(column, msRun);
                 }
                 break;
             case Small_Molecule_Header:
                 if (position.equals("18")) {
-                    newColumn = MZTabColumn.createOptionalColumn(column, msFile);
+                    newColumn = MZTabColumn.createOptionalColumn(column, msRun);
                 }
                 break;
         }
@@ -222,8 +222,8 @@ public class MZTabColumnFactory {
         columnMapping.put(column.getPosition(), column);
     }
 
-    public void addOptionalColumn(MsFile msFile, String name, Class columnType) {
-        MZTabColumn column = new OptionColumn(msFile, name, columnType, getColumnOrder(columnMapping.lastKey()));
+    public void addOptionalColumn(MsRun msRun, String name, Class columnType) {
+        MZTabColumn column = new OptionColumn(msRun, name, columnType, getColumnOrder(columnMapping.lastKey()));
         optionalColumnMapping.put(column.getPosition(), column);
         columnMapping.put(column.getPosition(), column);
     }
@@ -246,8 +246,8 @@ public class MZTabColumnFactory {
         columnMapping.put(column.getPosition(), column);
     }
 
-    public void addOptionalColumn(MsFile msFile, CVParam param, Class columnType) {
-        MZTabColumn column = new CVParamOptionColumn(msFile, param, columnType, getColumnOrder(columnMapping.lastKey()));
+    public void addOptionalColumn(MsRun msRun, CVParam param, Class columnType) {
+        MZTabColumn column = new CVParamOptionColumn(msRun, param, columnType, getColumnOrder(columnMapping.lastKey()));
         optionalColumnMapping.put(column.getPosition(), column);
         columnMapping.put(column.getPosition(), column);
     }

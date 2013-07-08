@@ -135,31 +135,31 @@ public class Peptide extends MZTabRecord {
     }
 
     @SuppressWarnings("unchecked")
-    public SplitList<Param> getSearchEngineScore(MsFile msFile) {
-        return getSplitList(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msFile));
+    public SplitList<Param> getSearchEngineScore(MsRun msRun) {
+        return getSplitList(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msRun));
     }
 
-    public void setSearchEngineScore(MsFile msFile, SplitList<Param> searchEngineScore) {
-        setValue(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msFile), searchEngineScore);
+    public void setSearchEngineScore(MsRun msRun, SplitList<Param> searchEngineScore) {
+        setValue(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
     }
 
-    public boolean addSearchEngineScore(MsFile msFile, CVParam param) {
+    public boolean addSearchEngineScore(MsRun msRun, CVParam param) {
         if (param == null) {
             return false;
         }
 
-        SplitList<Param> params = getSearchEngineScore(msFile);
+        SplitList<Param> params = getSearchEngineScore(msRun);
         if (params == null) {
             params = new SplitList<Param>(BAR);
-            setSearchEngineScore(msFile, params);
+            setSearchEngineScore(msRun, params);
         }
         params.add(param);
 
         return true;
     }
 
-    public void setSearchEngineScore(MsFile msFile, String paramsLabel) {
-        setSearchEngineScore(msFile, parseParamList(paramsLabel));
+    public void setSearchEngineScore(MsRun msRun, String paramsLabel) {
+        setSearchEngineScore(msRun, parseParamList(paramsLabel));
     }
 
     public Reliability getReliability() {

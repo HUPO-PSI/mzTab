@@ -9,7 +9,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 public class Assay extends IndexedElement {
     private Param quantificationReagent;
     private Sample sample;
-    private MsFile msFile;
+    private MsRun msRun;
 
     public Assay(int id) {
         super(MetadataElement.ASSAY, id);
@@ -23,8 +23,8 @@ public class Assay extends IndexedElement {
         return sample;
     }
 
-    public MsFile getMsFile() {
-        return msFile;
+    public MsRun getMsRun() {
+        return msRun;
     }
 
     public void setQuantificationReagent(Param quantificationReagent) {
@@ -35,8 +35,8 @@ public class Assay extends IndexedElement {
         this.sample = sample;
     }
 
-    public void setMsFile(MsFile msFile) {
-        this.msFile = msFile;
+    public void setMsRun(MsRun msRun) {
+        this.msRun = msRun;
     }
 
     public String toString() {
@@ -52,9 +52,9 @@ public class Assay extends IndexedElement {
             sb.append(TAB).append(sample.getReference()).append(NEW_LINE);
         }
 
-        if (msFile != null) {
+        if (msRun != null) {
             printPrefix(sb).append(getReference()).append(MINUS).append(MetadataProperty.ASSAY_MS_FILE_REF);
-            sb.append(TAB).append(msFile.getReference()).append(NEW_LINE);
+            sb.append(TAB).append(msRun.getReference()).append(NEW_LINE);
         }
 
         return sb.toString();

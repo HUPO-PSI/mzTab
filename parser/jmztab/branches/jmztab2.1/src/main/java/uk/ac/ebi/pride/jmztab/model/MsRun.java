@@ -3,10 +3,9 @@ package uk.ac.ebi.pride.jmztab.model;
 import java.net.URL;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
-import static uk.ac.ebi.pride.jmztab.model.MetadataElement.MS_FILE;
-import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_FILE_FORMAT;
-import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_FILE_ID_FORMAT;
-import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_FILE_LOCATION;
+import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_RUN_FORMAT;
+import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_RUN_ID_FORMAT;
+import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_RUN_LOCATION;
 
 /**
  * The external MS data file.
@@ -14,7 +13,7 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_FILE_LOCATION;
  * User: Qingwei
  * Date: 23/05/13
  */
-public class MsFile extends IndexedElement {
+public class MsRun extends IndexedElement {
     /**
      * A parameter specifying the data format of the external MS data file.
      */
@@ -30,8 +29,8 @@ public class MsFile extends IndexedElement {
      */
     private URL location;
 
-    public MsFile(int id) {
-        super(MetadataElement.MS_FILE, id);
+    public MsRun(int id) {
+        super(MetadataElement.MS_RUN, id);
     }
 
     public Param getFormat() {
@@ -66,13 +65,13 @@ public class MsFile extends IndexedElement {
         StringBuilder sb = new StringBuilder();
 
         if (format != null) {
-            sb.append(printProperty(MS_FILE_FORMAT, format)).append(NEW_LINE);
+            sb.append(printProperty(MS_RUN_FORMAT, format)).append(NEW_LINE);
         }
         if (location != null) {
-            sb.append(printProperty(MS_FILE_LOCATION, location)).append(NEW_LINE);
+            sb.append(printProperty(MS_RUN_LOCATION, location)).append(NEW_LINE);
         }
         if (idFormat != null) {
-            sb.append(printProperty(MS_FILE_ID_FORMAT, idFormat)).append(NEW_LINE);
+            sb.append(printProperty(MS_RUN_ID_FORMAT, idFormat)).append(NEW_LINE);
         }
 
         return sb.toString();

@@ -23,12 +23,13 @@ public class Metadata {
     private SortedMap<Integer, Publication> publicationMap = new TreeMap<Integer, Publication>();
     private SortedMap<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
     private List<URI> uriList = new ArrayList<URI>();
-    private SplitList<Param> mod = new SplitList<Param>(BAR);
+    private SplitList<Param> fixedMod = new SplitList<Param>(BAR);
+    private SplitList<Param> variableMod = new SplitList<Param>(BAR);
     private Param quantificationMethod;
     private Param proteinQuantificationUnit;
     private Param peptideQuantificationUnit;
     private Param smallMoleculeQuantificationUnit;
-    private SortedMap<Integer, MsFile> msFileMap = new TreeMap<Integer, MsFile>();
+    private SortedMap<Integer, MsRun> msRunMap = new TreeMap<Integer, MsRun>();
     private List<Param> customList = new ArrayList<Param>();
     private SortedMap<Integer, Sample> sampleMap = new TreeMap<Integer, Sample>();
     private SortedMap<Integer, Assay> assayMap = new TreeMap<Integer, Assay>();
@@ -38,11 +39,15 @@ public class Metadata {
     private List<ColUnit> smallMoleculeColUnitList = new ArrayList<ColUnit>();
 
     public Metadata() {
-        this(null);
+        this(new MZTabDescription(MZTabDescription.Mode.Summary, MZTabDescription.Type.Identification));
     }
 
     public Metadata(MZTabDescription tabDescription) {
-        this.tabDescription = tabDescription == null ? new MZTabDescription() : tabDescription;
+        if (tabDescription == null) {
+            throw new NullPointerException("Should define mz-tab description first.");
+        }
+
+        this.tabDescription = tabDescription;
     }
 
     private StringBuilder printPrefix(StringBuilder sb) {
@@ -105,8 +110,12 @@ public class Metadata {
             printPrefix(sb).append(MetadataElement.URI).append(TAB).append(uri).append(NEW_LINE);
         }
 
-        if (! mod.isEmpty()) {
-            printPrefix(sb).append(MOD).append(TAB).append(mod).append(NEW_LINE);
+        if (! fixedMod.isEmpty()) {
+            printPrefix(sb).append(FIXED_MOD).append(TAB).append(fixedMod).append(NEW_LINE);
+        }
+
+        if (! variableMod.isEmpty()) {
+            printPrefix(sb).append(VARIABLE_MOD).append(TAB).append(variableMod).append(NEW_LINE);
         }
 
         if (quantificationMethod != null) {
@@ -122,7 +131,7 @@ public class Metadata {
             printPrefix(sb).append(SMALL_MOLECULE).append(MINUS).append(SMALL_MOLECULE_QUANTIFICATION_UNIT).append(TAB).append(smallMoleculeQuantificationUnit).append(NEW_LINE);
         }
 
-        sb = printMap(msFileMap, MS_FILE.toString(), sb);
+        sb = printMap(msRunMap, MS_RUN.toString(), sb);
 
         for (Param custom : customList) {
             printPrefix(sb).append(CUSTOM).append(TAB).append(custom).append(NEW_LINE);
@@ -164,6 +173,10 @@ public class Metadata {
         this.tabDescription.setMode(mode);
     }
 
+    public void setMZTabType(MZTabDescription.Type type) {
+        this.tabDescription.setType(type);
+    }
+
     public String getTitle() {
         return title;
     }
@@ -200,8 +213,12 @@ public class Metadata {
         return uriList;
     }
 
-    public SplitList<Param> getMod() {
-        return mod;
+    public SplitList<Param> getFixedMod() {
+        return fixedMod;
+    }
+
+    public SplitList<Param> getVariableMod() {
+        return variableMod;
     }
 
     public Param getQuantificationMethod() {
@@ -220,8 +237,8 @@ public class Metadata {
         return smallMoleculeQuantificationUnit;
     }
 
-    public SortedMap<Integer, MsFile> getMsFileMap() {
-        return msFileMap;
+    public SortedMap<Integer, MsRun> getMsRunMap() {
+        return msRunMap;
     }
 
     public List<Param> getCustomList() {
@@ -458,12 +475,20 @@ public class Metadata {
         this.uriList.add(uri);
     }
 
-    public void addModParam(Param param) {
-        this.mod.add(param);
+    public void addFixedModParam(Param param) {
+        this.fixedMod.add(param);
     }
 
-    public void setMod(SplitList<Param> mod) {
-        this.mod = mod;
+    public void addVariableModParam(Param param) {
+        this.variableMod.add(param);
+    }
+
+    public void setFixedMod(SplitList<Param> fixedMod) {
+        this.fixedMod = fixedMod;
+    }
+
+    public void setVariableMod(SplitList<Param> variableMod) {
+        this.variableMod = variableMod;
     }
 
     public void setQuantificationMethod(Param quantificationMethod) {
@@ -482,51 +507,51 @@ public class Metadata {
         this.smallMoleculeQuantificationUnit = smallMoleculeQuantificationUnit;
     }
 
-    public void addMsFile(MsFile msFile) {
-        msFileMap.put(msFile.getId(), msFile);
+    public void addMsRun(MsRun msRun) {
+        msRunMap.put(msRun.getId(), msRun);
     }
 
-    public boolean addMsFileFormat(Integer id, Param format) {
-        MsFile msFile = msFileMap.get(id);
-        if (msFile == null) {
-            msFile = new MsFile(id);
-            msFile.setFormat(format);
-            msFileMap.put(id, msFile);
+    public boolean addMsRunFormat(Integer id, Param format) {
+        MsRun msRun = msRunMap.get(id);
+        if (msRun == null) {
+            msRun = new MsRun(id);
+            msRun.setFormat(format);
+            msRunMap.put(id, msRun);
             return true;
-        } else if (msFile.getFormat() != null) {
+        } else if (msRun.getFormat() != null) {
             return false;
         } else {
-            msFile.setFormat(format);
+            msRun.setFormat(format);
             return true;
         }
     }
 
-    public boolean addMsFileLocation(Integer id, URL location) {
-        MsFile msFile = msFileMap.get(id);
-        if (msFile == null) {
-            msFile = new MsFile(id);
-            msFile.setLocation(location);
-            msFileMap.put(id, msFile);
+    public boolean addMsRunLocation(Integer id, URL location) {
+        MsRun msRun = msRunMap.get(id);
+        if (msRun == null) {
+            msRun = new MsRun(id);
+            msRun.setLocation(location);
+            msRunMap.put(id, msRun);
             return true;
-        } else if (msFile.getLocation() != null) {
+        } else if (msRun.getLocation() != null) {
             return false;
         } else {
-            msFile.setLocation(location);
+            msRun.setLocation(location);
             return true;
         }
     }
 
-    public boolean addMsFileIdFormat(Integer id, Param idFormat) {
-        MsFile msFile = msFileMap.get(id);
-        if (msFile == null) {
-            msFile = new MsFile(id);
-            msFile.setIdFormat(idFormat);
-            msFileMap.put(id, msFile);
+    public boolean addMsRunIdFormat(Integer id, Param idFormat) {
+        MsRun msRun = msRunMap.get(id);
+        if (msRun == null) {
+            msRun = new MsRun(id);
+            msRun.setIdFormat(idFormat);
+            msRunMap.put(id, msRun);
             return true;
-        } else if (msFile.getIdFormat() != null) {
+        } else if (msRun.getIdFormat() != null) {
             return false;
         } else {
-            msFile.setIdFormat(idFormat);
+            msRun.setIdFormat(idFormat);
             return true;
         }
     }
@@ -657,15 +682,15 @@ public class Metadata {
         }
     }
 
-    public boolean addAssayMsFile(Integer id, MsFile msFile) {
+    public boolean addAssayMsRun(Integer id, MsRun msRun) {
         Assay assay = assayMap.get(id);
         if (assay == null) {
             assay = new Assay(id);
-            assay.setMsFile(msFile);
+            assay.setMsRun(msRun);
             assayMap.put(id, assay);
             return true;
         } else {
-            assay.setMsFile(msFile);
+            assay.setMsRun(msRun);
             return true;
         }
     }
