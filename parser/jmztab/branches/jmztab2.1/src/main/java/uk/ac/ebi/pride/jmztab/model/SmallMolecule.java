@@ -61,7 +61,7 @@ public class SmallMolecule extends MZTabRecord {
     }
 
     public void setSmiles(String smiles) {
-        setValue(SmallMoleculeColumn.SMILES.getOrder(), parseString(smiles));
+        setValue(SmallMoleculeColumn.SMILES.getOrder(), parseStringList(BAR, smiles));
     }
 
     public String getInchiKey() {
@@ -69,7 +69,7 @@ public class SmallMolecule extends MZTabRecord {
     }
 
     public void setInchiKey(String inchiKey) {
-        setValue(SmallMoleculeColumn.INCHI_KEY.getOrder(), parseString(inchiKey));
+        setValue(SmallMoleculeColumn.INCHI_KEY.getOrder(), parseStringList(BAR, inchiKey));
     }
 
     public String getDescription() {
@@ -80,16 +80,28 @@ public class SmallMolecule extends MZTabRecord {
         setValue(SmallMoleculeColumn.DESCRIPTION.getOrder(), parseString(description));
     }
 
-    public Double getMassToCharge() {
-        return getDouble(SmallMoleculeColumn.MASS_TO_CHARGE.getOrder());
+    public Double getExpMassToCharge() {
+        return getDouble(SmallMoleculeColumn.EXP_MASS_TO_CHARGE.getOrder());
     }
 
-    public void setMassToCharge(Double massToCharge) {
-        setValue(SmallMoleculeColumn.MASS_TO_CHARGE.getOrder(), massToCharge);
+    public void setExpMassToCharge(Double expMassToCharge) {
+        setValue(SmallMoleculeColumn.EXP_MASS_TO_CHARGE.getOrder(), expMassToCharge);
     }
 
-    public void setMassToCharge(String massToChargeLabel) {
-        setMassToCharge(parseDouble(massToChargeLabel));
+    public void setExpMassToCharge(String expMassToChargeLabel) {
+        setExpMassToCharge(parseDouble(expMassToChargeLabel));
+    }
+
+    public Double getCalcMassToCharge() {
+        return getDouble(SmallMoleculeColumn.CALC_MASS_TO_CHARGE.getOrder());
+    }
+
+    public void setCalcMassToCharge(Double calcMassToCharge) {
+        setValue(SmallMoleculeColumn.CALC_MASS_TO_CHARGE.getOrder(), calcMassToCharge);
+    }
+
+    public void setCalcMassToCharge(String calcMassToChargeLabel) {
+        setCalcMassToCharge(parseDouble(calcMassToChargeLabel));
     }
 
     public Integer getCharge() {

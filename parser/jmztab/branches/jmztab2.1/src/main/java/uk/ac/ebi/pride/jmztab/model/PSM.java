@@ -41,7 +41,7 @@ public class PSM extends MZTabRecord {
     }
 
     public void setPSM_ID(String psmIdLabel) {
-        setValue(PSMColumn.PSM_ID.getOrder(), psmIdLabel);
+        setValue(PSMColumn.PSM_ID.getOrder(), parseInteger(psmIdLabel));
     }
 
     public String getAccession() {

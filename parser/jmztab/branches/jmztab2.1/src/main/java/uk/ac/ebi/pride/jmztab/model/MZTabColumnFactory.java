@@ -123,7 +123,8 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, SmallMoleculeColumn.SMILES);
                 addStableColumn(factory, SmallMoleculeColumn.INCHI_KEY);
                 addStableColumn(factory, SmallMoleculeColumn.DESCRIPTION);
-                addStableColumn(factory, SmallMoleculeColumn.MASS_TO_CHARGE);
+                addStableColumn(factory, SmallMoleculeColumn.EXP_MASS_TO_CHARGE);
+                addStableColumn(factory, SmallMoleculeColumn.CALC_MASS_TO_CHARGE);
                 addStableColumn(factory, SmallMoleculeColumn.CHARGE);
                 addStableColumn(factory, SmallMoleculeColumn.RETENTION_TIME);
                 addStableColumn(factory, SmallMoleculeColumn.TAXID);
@@ -184,7 +185,7 @@ public class MZTabColumnFactory {
                 }
                 break;
             case Small_Molecule_Header:
-                if (position.equals("18")) {
+                if (position.equals("19")) {
                     newColumn = MZTabColumn.createOptionalColumn(column, msRun);
                 }
                 break;
