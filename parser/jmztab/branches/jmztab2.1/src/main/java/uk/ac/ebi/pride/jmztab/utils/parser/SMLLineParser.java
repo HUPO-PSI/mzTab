@@ -63,7 +63,7 @@ public class SMLLineParser extends MZTabDataLineParser {
         smallMolecule.setSmiles(items[offset++]);
         smallMolecule.setInchiKey(items[offset++]);
         smallMolecule.setDescription(items[offset++]);
-        smallMolecule.setMassToCharge(items[offset++]);
+        smallMolecule.setExpMassToCharge(items[offset++]);
         smallMolecule.setCharge(items[offset++]);
         smallMolecule.setRetentionTime(items[offset++]);
         smallMolecule.setTaxid(items[offset++]);

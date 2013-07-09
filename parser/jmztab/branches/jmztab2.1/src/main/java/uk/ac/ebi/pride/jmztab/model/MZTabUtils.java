@@ -382,7 +382,7 @@ public class MZTabUtils {
         SplitList<String> list = parseStringList(BAR, target);
         SplitList<SpectraRef> refList = new SplitList<SpectraRef>(BAR);
 
-        Pattern pattern = Pattern.compile("ms_file\\[(\\d+)\\]:(.*)");
+        Pattern pattern = Pattern.compile("ms_run\\[(\\d+)\\]:(.*)");
         Matcher matcher;
         Integer ms_file_id;
         String reference;
@@ -430,8 +430,45 @@ public class MZTabUtils {
         }
     }
 
+    /**
+     *  solve the conflict about minus char between modification position and CHEMMOD charge.
+     *  For example: 13-CHEMMOD:-159
+     */
+    private static String translateMinusToUnicode(String target) {
+        Pattern pattern = Pattern.compile("(CHEMMOD:.*)(-)(.*)");
+        Matcher matcher = pattern.matcher(target);
+        if (matcher.find()) {
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(matcher.group(1));
+            sb.append("&minus;");
+            sb.append(matcher.group(3));
+
+            return sb.toString();
+        } else {
+            return target;
+        }
+    }
+
+    private static String translateUnicodeToMinus(String target) {
+        Pattern pattern = Pattern.compile("(.*CHEMMOD:.*)(&minus;)(.*)");
+        Matcher matcher = pattern.matcher(target);
+        if (matcher.find()) {
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(matcher.group(1));
+            sb.append("-");
+            sb.append(matcher.group(3));
+
+            return sb.toString();
+        } else {
+            return target;
+        }
+    }
+
     public static Modification parseModification(Section section, String target) {
         target = parseString(target);
+        target = translateMinusToUnicode(target);
         if (target == null) {
             return null;
         }
@@ -456,6 +493,7 @@ public class MZTabUtils {
         String accession;
         CVParam neutralLoss;
 
+        modLabel = translateUnicodeToMinus(modLabel);
         Pattern pattern = Pattern.compile("(MOD|UNIMOD|CHEMMOD|SUBST):([^\\|]+)(\\|\\[([^,]+)?,([^,]+)?,([^,]+),([^,]*)\\])?");
         Matcher matcher = pattern.matcher(modLabel);
         if (matcher.find()) {
@@ -496,6 +534,9 @@ public class MZTabUtils {
         return sb.toString();
     }
 
+    /**
+     * solve the conflict about comma char which used in split modification and split cv param components.
+     */
     private static String translateTabToComma(String target) {
         Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
         Matcher matcher = pattern.matcher(target);

@@ -19,7 +19,7 @@ public class PSMColumn extends MZTabColumn {
     public static PSMColumn SEARCH_ENGINE_SCORE = new PSMColumn("search_engine_score", SplitList.class, false, "08");
     public static PSMColumn RELIABILITY = new PSMColumn("reliability", Reliability.class, false, "09");
     public static PSMColumn MODIFICATIONS = new PSMColumn("modifications", SplitList.class, false, "10");
-    public static PSMColumn RETENTION_TIME = new PSMColumn("retention_time", Double.class, false, "11");
+    public static PSMColumn RETENTION_TIME = new PSMColumn("retention_time", SplitList.class, false, "11");
     public static PSMColumn CHARGE = new PSMColumn("charge", Integer.class, false, "12");
     public static PSMColumn EXP_MASS_TO_CHARGE = new PSMColumn("exp_mass_to_charge", Double.class, false, "13");
     public static PSMColumn CALC_MASS_TO_CHARGE = new PSMColumn("calc_mass_to_charge", Double.class, false, "14");
@@ -27,6 +27,6 @@ public class PSMColumn extends MZTabColumn {
     public static PSMColumn SPECTRA_REF = new PSMColumn("spectra_ref", SplitList.class, false, "16");
     public static PSMColumn PRE = new PSMColumn("pre", String.class, false, "17");
     public static PSMColumn POST = new PSMColumn("post", String.class, false, "18");
-    public static PSMColumn START = new PSMColumn("start", Integer.class, false, "19");
-    public static PSMColumn END = new PSMColumn("end", Integer.class, false, "20");
+    public static PSMColumn START = new PSMColumn("start", String.class, false, "19");
+    public static PSMColumn END = new PSMColumn("end", String.class, false, "20");
 }
