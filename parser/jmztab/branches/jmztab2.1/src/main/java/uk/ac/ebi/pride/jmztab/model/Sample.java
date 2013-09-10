@@ -2,8 +2,6 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
@@ -13,10 +11,10 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
  * Date: 23/05/13
  */
 public class Sample extends IndexedElement {
-    private SortedMap<Integer, Param> speciesMap = new TreeMap<Integer, Param>();
-    private SortedMap<Integer, Param> tissueMap = new TreeMap<Integer, Param>();
-    private SortedMap<Integer, Param> cellTypeMap = new TreeMap<Integer, Param>();
-    private SortedMap<Integer, Param> diseaseMap = new TreeMap<Integer, Param>();
+    private List<Param> speciesList = new ArrayList<Param>();
+    private List<Param> tissueList = new ArrayList<Param>();
+    private List<Param> cellTypeList = new ArrayList<Param>();
+    private List<Param> diseaseList = new ArrayList<Param>();
     private String description;
     private List<Param> customList = new ArrayList<Param>();
 
@@ -24,40 +22,40 @@ public class Sample extends IndexedElement {
         super(MetadataElement.SAMPLE, id);
     }
 
-    public SortedMap<Integer, Param> getSpeciesMap() {
-        return speciesMap;
+    public List<Param> getSpeciesList() {
+        return speciesList;
     }
 
-    public SortedMap<Integer, Param> getTissueMap() {
-        return tissueMap;
+    public List<Param> getTissueList() {
+        return tissueList;
     }
 
-    public SortedMap<Integer, Param> getCellTypeMap() {
-        return cellTypeMap;
+    public List<Param> getCellTypeList() {
+        return cellTypeList;
     }
 
-    public SortedMap<Integer, Param> getDiseaseMap() {
-        return diseaseMap;
+    public List<Param> getDiseaseList() {
+        return diseaseList;
     }
 
     public List<Param> getCustomList() {
         return customList;
     }
 
-    public void addSpecies(Integer pid, Param param) {
-        speciesMap.put(pid, param);
+    public void addSpecies(Param param) {
+        speciesList.add(param);
     }
 
-    public void addTissue(Integer pid, Param param) {
-        tissueMap.put(pid, param);
+    public void addTissue(Param param) {
+        tissueList.add(param);
     }
 
-    public void addCellType(Integer pid, Param param) {
-        cellTypeMap.put(pid, param);
+    public void addCellType(Param param) {
+        cellTypeList.add(param);
     }
 
-    public void addDisease(Integer pid, Param param) {
-        diseaseMap.put(pid, param);
+    public void addDisease(Param param) {
+        diseaseList.add(param);
     }
 
     public String getDescription() {
@@ -75,10 +73,10 @@ public class Sample extends IndexedElement {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb = printMap(speciesMap, SAMPLE_SPECIES, sb);
-        sb = printMap(tissueMap, SAMPLE_TISSUE, sb);
-        sb = printMap(cellTypeMap, SAMPLE_CELL_TYPE, sb);
-        sb = printMap(diseaseMap, SAMPLE_DISEASE, sb);
+        sb = printList(speciesList, SAMPLE_SPECIES, sb);
+        sb = printList(tissueList, SAMPLE_TISSUE, sb);
+        sb = printList(cellTypeList, SAMPLE_CELL_TYPE, sb);
+        sb = printList(diseaseList, SAMPLE_DISEASE, sb);
 
         if (description != null) {
             sb.append(printProperty(SAMPLE_DESCRIPTION, description)).append(NEW_LINE);

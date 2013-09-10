@@ -273,8 +273,6 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             if (! (param instanceof CVParam) || (isEmpty(param.getValue()))) {
                 this.errorList.add(new MZTabError(FormatErrorType.SearchEngineScore, lineNumber, column.getHeader(), bestSearchEngineScore, section.getName()));
             }
-
-
         }
 
         return paramList;
@@ -287,8 +285,6 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             if (! (param instanceof CVParam) || (isEmpty(param.getValue()))) {
                 this.errorList.add(new MZTabError(FormatErrorType.SearchEngineScore, lineNumber, column.getHeader(), searchEngineScore, section.getName()));
             }
-
-
         }
 
         return paramList;
@@ -473,6 +469,21 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
     protected SplitList<Double> checkRetentionTime(MZTabColumn column, String retention_time) {
         String result = checkData(column, retention_time, true);
+
+        if (result == null || result.equals(NULL)) {
+            return new SplitList<Double>(BAR);
+        }
+
+        SplitList<Double> valueList = parseDoubleList(result);
+        if (valueList.size() == 0) {
+            this.errorList.add(new MZTabError(FormatErrorType.DoubleList, lineNumber, column.getHeader(), result, "" + BAR));
+        }
+
+        return valueList;
+    }
+
+    protected SplitList<Double> checkRetentionTimeWindow(MZTabColumn column, String retention_time_window) {
+        String result = checkData(column, retention_time_window, true);
 
         if (result == null || result.equals(NULL)) {
             return new SplitList<Double>(BAR);

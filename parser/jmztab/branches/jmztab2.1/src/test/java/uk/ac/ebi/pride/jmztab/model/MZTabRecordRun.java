@@ -106,6 +106,8 @@ public class MZTabRecordRun {
         peptide.setReliability("3");
         peptide.setModifications("3[MS,MS:1001876, modification probability, 0.8]|4[MS,MS:1001876, modification probability, 0.2]-MOD:00412,8[MS,MS:1001876, modification probability, 0.3]-MOD:00412");
         peptide.setRetentionTime("10.2");
+        peptide.setRetentionTimeWindow("1123.2");
+        peptide.addRetentionTimeWindow(1145.3);
         peptide.setCharge("2");
         peptide.setMassToCharge("1234.4");
         peptide.setURI("http://www.ebi.ac.uk/pride/link/to/peptide");

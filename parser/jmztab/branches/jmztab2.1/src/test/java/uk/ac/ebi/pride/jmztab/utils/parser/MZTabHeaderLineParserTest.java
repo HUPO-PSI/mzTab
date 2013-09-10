@@ -11,7 +11,7 @@ import static junit.framework.Assert.assertNotNull;
 * User: Qingwei
 * Date: 18/02/13
 */
-public class MTDHeaderLineParserTest {
+public class MZTabHeaderLineParserTest {
     private Metadata metadata;
 
     @Before
@@ -25,8 +25,8 @@ public class MTDHeaderLineParserTest {
         MZTabColumn column;
 
         String headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
-                "search_engine\tbest_search_engine_score\treliability\tambiguity_members\tmodifications\t" +
-                "uri\tgo_terms\tprotein_coverage";
+            "search_engine\tbest_search_engine_score\treliability\tambiguity_members\tmodifications\turi\t" +
+            "go_terms\tprotein_coverage";
 
         PRHLineParser parser = new PRHLineParser(metadata);
 
@@ -37,9 +37,9 @@ public class MTDHeaderLineParserTest {
 
         // check optional columns with stable order.
         headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\tsearch_engine\t" +
-                "best_search_engine_score\tsearch_engine_score_ms_file[1]\treliability\tnum_psms_ms_file[1]\t" +
-                "num_psms_ms_file[2]\tnum_peptides_distinct_ms_file[1]\tnum_peptides_distinct_ms_file[2]\t" +
-                "num_peptides_unique_ms_file[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
+            "best_search_engine_score\tsearch_engine_score_ms_run[1]\treliability\tnum_psms_ms_run[1]\t" +
+            "num_psms_ms_run[2]\tnum_peptides_distinct_ms_run[1]\tnum_peptides_distinct_ms_run[2]\t" +
+            "num_peptides_unique_ms_run[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
         parser.parse(1, headerLine);
         assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 6);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
@@ -70,9 +70,9 @@ public class MTDHeaderLineParserTest {
         assertTrue(column instanceof AbundanceColumn);
 
         // check Optional Column which start with opt_
-        headerLine += "\topt_ms_file[1]_my_value";
+        headerLine += "\topt_ms_run[1]_my_value";
         parser.parse(1, headerLine);
-        column = parser.getFactory().findColumn("opt_ms_file[1]_my_value");
+        column = parser.getFactory().findColumn("opt_ms_run[1]_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
@@ -101,8 +101,8 @@ public class MTDHeaderLineParserTest {
     @Test
     public void testPeptideHeader() throws Exception {
         String headerLine = "PEH\tsequence\taccession\tunique\tdatabase\tdatabase_version\tsearch_engine\t" +
-                "best_search_engine_score\treliability\tmodifications\tretention_time\tcharge\tmass_to_charge\t" +
-                "uri\tspectra_ref";
+            "best_search_engine_score\treliability\tmodifications\tretention_time\tretention_time_window\t" +
+            "charge\tmass_to_charge\turi\tspectra_ref";
 
         PEHLineParser parser = new PEHLineParser(metadata);
         MZTabColumn column;
@@ -114,12 +114,12 @@ public class MTDHeaderLineParserTest {
 
         // check optional columns with stable order.
         headerLine = "PEH\tsequence\taccession\tunique\tdatabase\tdatabase_version\tsearch_engine\t" +
-                "best_search_engine_score\tsearch_engine_score_ms_file[1]\tsearch_engine_score_ms_file[2]\t" +
-                "reliability\tmodifications\tretention_time\tcharge\tmass_to_charge\turi\tspectra_ref";
+            "best_search_engine_score\tsearch_engine_score_ms_run[1]\treliability\tmodifications\t" +
+            "retention_time\tretention_time_window\tcharge\tmass_to_charge\turi\tspectra_ref\n";
         parser.parse(1, headerLine);
-        column = parser.getFactory().findColumn("search_engine_score_ms_file[1]");
+        column = parser.getFactory().findColumn("search_engine_score_ms_run[1]");
         assertNotNull(column);
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 2);
+        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 1);
 
         // check Abundance Columns
         headerLine += "\tpeptide_abundance_assay[1]";
@@ -147,9 +147,9 @@ public class MTDHeaderLineParserTest {
         assertTrue(column instanceof AbundanceColumn);
 
         // check Optional Column which start with opt_
-        headerLine += "\topt_ms_file[1]_my_value";
+        headerLine += "\topt_ms_run[1]_my_value";
         parser.parse(1, headerLine);
-        column = parser.getFactory().findColumn("opt_ms_file[1]_my_value");
+        column = parser.getFactory().findColumn("opt_ms_run[1]_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
@@ -177,9 +177,9 @@ public class MTDHeaderLineParserTest {
 
     @Test
     public void testPSMHeader() throws Exception {
-        String headerLine = "PSH\tsequence\tPSM_ID\taccession\tunique\tdatabase\tdatabase_version\tsearch_engine\t" +
-                "search_engine_score\treliability\tmodifications\tretention_time\tcharge\texp_mass_to_charge\t" +
-                "calc_mass_to_charge\turi\tspectra_ref\tpre\tpost\tstart\tend";
+        String headerLine = "PSH\tsequence\tPSM_ID\taccession\tunique\tdatabase\tdatabase_version\t" +
+            "search_engine\tsearch_engine_score\treliability\tmodifications\tretention_time\tcharge\t" +
+            "exp_mass_to_charge\tcalc_mass_to_charge\turi\tspectra_ref\tpre\tpost\tstart\tend";
 
         PSHLineParser parser = new PSHLineParser(metadata);
         MZTabColumn column;
@@ -190,9 +190,9 @@ public class MTDHeaderLineParserTest {
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getStableColumnMapping().size());
 
         // check Optional Column which start with opt_
-        headerLine += "\topt_ms_file[1]_my_value";
+        headerLine += "\topt_ms_run[1]_my_value";
         parser.parse(1, headerLine);
-        column = parser.getFactory().findColumn("opt_ms_file[1]_my_value");
+        column = parser.getFactory().findColumn("opt_ms_run[1]_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
@@ -220,9 +220,9 @@ public class MTDHeaderLineParserTest {
 
     @Test
     public void testSmallMoleculeHeader() throws Exception {
-        String headerLine = "SMH\tidentifier\tchemical_formula\tsmiles\tinchi_key\tdescription\tmass_to_charge" +
-                "\tcharge\tretention_time\ttaxid\tspecies\tdatabase\tdatabase_version\treliability\turi\tspectra_ref" +
-                "\tsearch_engine\tbest_search_engine_score\tmodifications";
+        String headerLine = "SMH\tidentifier\tchemical_formula\tsmiles\tinchi_key\tdescription\t" +
+            "exp_mass_to_charge\tcalc_mass_to_charge\tcharge\tretention_time\ttaxid\tspecies\tdatabase\t" +
+            "database_version\treliability\turi\tspectra_ref\tsearch_engine\tbest_search_engine_score\tmodifications";
 
         SMHLineParser parser = new SMHLineParser(metadata);
         MZTabColumn column;
@@ -233,14 +233,14 @@ public class MTDHeaderLineParserTest {
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getStableColumnMapping().size());
 
         // check optional columns with stable order.
-        headerLine = "SMH\tidentifier\tchemical_formula\tsmiles\tinchi_key\tdescription\tmass_to_charge" +
-                "\tcharge\tretention_time\ttaxid\tspecies\tdatabase\tdatabase_version\treliability\turi\tspectra_ref" +
-                "\tsearch_engine\tbest_search_engine_score\tsearch_engine_score_ms_file[1]\tsearch_engine_score_ms_file[2]" +
-                "\tmodifications";
+        headerLine = "SMH\tidentifier\tchemical_formula\tsmiles\tinchi_key\tdescription\texp_mass_to_charge\t" +
+            "calc_mass_to_charge\tcharge\tretention_time\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
+            "reliability\turi\tspectra_ref\tsearch_engine\tbest_search_engine_score\tsearch_engine_score_ms_run[1]\t" +
+            "modifications";
         parser.parse(1, headerLine);
-        column = parser.getFactory().findColumn("search_engine_score_ms_file[1]");
+        column = parser.getFactory().findColumn("search_engine_score_ms_run[1]");
         assertNotNull(column);
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 2);
+        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 1);
 
         // check Abundance Columns
         headerLine += "\tsmallmolecule_abundance_assay[1]";

@@ -34,6 +34,7 @@ public class PEPLineParser extends MZTabDataLineParser {
         checkReliability(mapping.get(offset), items[offset++]);
         checkModifications(mapping.get(offset), items[1], items[offset++]);
         checkRetentionTime(mapping.get(offset), items[offset++]);
+        checkRetentionTimeWindow(mapping.get(offset), items[offset++]);
         checkCharge(mapping.get(offset), items[offset++]);
         checkMassToCharge(mapping.get(offset), items[offset++]);
         checkURI(mapping.get(offset), items[offset++]);
@@ -62,6 +63,7 @@ public class PEPLineParser extends MZTabDataLineParser {
         peptide.setReliability(items[offset++]);
         peptide.setModifications(items[offset++]);
         peptide.setRetentionTime(items[offset++]);
+        peptide.setRetentionTimeWindow(items[offset++]);
         peptide.setCharge(items[offset++]);
         peptide.setMassToCharge(items[offset++]);
         peptide.setURI(items[offset++]);

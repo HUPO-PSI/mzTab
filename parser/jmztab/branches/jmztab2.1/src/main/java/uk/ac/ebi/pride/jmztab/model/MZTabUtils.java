@@ -48,6 +48,19 @@ public class MZTabUtils {
         }
     }
 
+    public static String parseEmail(String target) {
+        target = parseString(target);
+        if (target == null) {
+            return null;
+        }
+
+        String regexp = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(target);
+
+        return matcher.find() ? target : null;
+    }
+
     /**
      * Parameters are always reported as [CV label, accession, name, value].
      * Any field that is not available MUST be left empty.
@@ -64,7 +77,7 @@ public class MZTabUtils {
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(target);
 
-        if (matcher.find()) {
+        if (matcher.find() && matcher.end() == target.length()) {
             String cvLabel = matcher.group(1);
             String accession = matcher.group(2);
             String name = matcher.group(3);

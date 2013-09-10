@@ -232,6 +232,37 @@ public class Peptide extends MZTabRecord {
         setRetentionTime(parseDoubleList(retentionTimeLabel));
     }
 
+    @SuppressWarnings("unchecked")
+    public SplitList<Double> getRetentionTimeWindow() {
+        return getSplitList(PeptideColumn.RETENTION_TIME_WINDOW.getOrder());
+    }
+
+    public boolean addRetentionTimeWindow(Double rtw) {
+        if (rtw == null) {
+            return false;
+        }
+
+        SplitList<Double> rtwList = getRetentionTimeWindow();
+        if (rtwList == null) {
+            rtwList = new SplitList<Double>(BAR);
+            setRetentionTimeWindow(rtwList);
+        }
+
+        return rtwList.add(rtw);
+    }
+
+    public boolean addRetentionTimeWindow(String rtwLabel) {
+        return !isEmpty(rtwLabel) && addRetentionTimeWindow(parseDouble(rtwLabel));
+    }
+
+    public void setRetentionTimeWindow(SplitList<Double> retentionTimeWindow) {
+        setValue(PeptideColumn.RETENTION_TIME_WINDOW.getOrder(), retentionTimeWindow);
+    }
+
+    public void setRetentionTimeWindow(String retentionTimeWindowLabel) {
+        setRetentionTimeWindow(parseDoubleList(retentionTimeWindowLabel));
+    }
+
     public Integer getCharge() {
         return getInteger(PeptideColumn.CHARGE.getOrder());
     }

@@ -1,6 +1,9 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
 import uk.ac.ebi.pride.jmztab.model.*;
+import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 import java.util.*;
@@ -51,16 +54,19 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
     private int parseStableOrderColumns() throws MZTabException {
         List<String> headerList = Arrays.asList(items);
 
+        MZTabError error;
+
         // step 1: confirm stable columns have been included in the header line.
         for (MZTabColumn column : factory.getStableColumnMapping().values()) {
             if (! headerList.contains(column.getHeader())) {
-                throw new MZTabException("error");
+                error = new MZTabError(LogicalErrorType.StableColumnNotFound, lineNumber, column.getHeader());
+                throw new MZTabException(error);
             }
         }
 
         // step 2: checking some optional columns which have stable order.
         String header;
-        Pattern pattern = Pattern.compile("(\\w+)_ms_file\\[(\\d)\\]");
+        Pattern pattern = Pattern.compile("(\\w+)_ms_run\\[(\\d)\\]");
         Matcher matcher;
         MZTabColumn column = null;
         MsRun msRun;
@@ -72,7 +78,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
                 id = new Integer(matcher.group(2));
                 msRun = metadata.getMsRunMap().get(id);
                 if (msRun == null) {
-                    throw new MZTabException("msRun not defined in the metadata.");
+                    error = new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, header);
+                    throw new MZTabException(error);
                 }
 
                 switch (section) {
@@ -104,7 +111,6 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
                 }
             }
         }
-
 
         return factory.getColumnMapping().values().size();
     }
@@ -141,16 +147,17 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
     }
 
     /**
-     * opt_{assay_id|study_variable_id|ms_file_id|global}_value
+     * opt_{assay_id|study_variable_id|ms_run_id|global}_value
      */
     private boolean checkOptColumnName(String nameLabel) throws MZTabException {
-        String regexp = "opt_((assay|study_variable|ms_file)\\[(\\d)\\]|global)_([A-Za-z0-9_\\-\\[\\]:\\.]+)";
+        String regexp = "opt_((assay|study_variable|ms_run)\\[(\\d)\\]|global)_([A-Za-z0-9_\\-\\[\\]:\\.]+)";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(nameLabel);
 
         Integer id;
         String object_id;
         String value;
+        MZTabError error;
         if (matcher.find()) {
             object_id = matcher.group(1);
             value = matcher.group(4);
@@ -175,7 +182,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
                     Assay element = metadata.getAssayMap().get(id);
                     // not found assay_id in metadata.
                     if (element == null) {
-                        throw new MZTabException("error.");
+                        error = new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, nameLabel);
+                        throw new MZTabException(error);
                     } else if (param == null) {
                         factory.addOptionalColumn(element, value, dataType);
                     } else {
@@ -185,17 +193,19 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
                     StudyVariable element = metadata.getStudyVariableMap().get(id);
                     // not found study_variable_id in metadata.
                     if (element == null) {
-                        throw new MZTabException("error.");
+                        error = new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, nameLabel);
+                        throw new MZTabException(error);
                     } else if (param == null) {
                         factory.addOptionalColumn(element, value, dataType);
                     } else {
                         factory.addOptionalColumn(element, param, dataType);
                     }
-                } else if (object_id.contains("ms_file")) {
-                    // not found ms_file_id in metadata.
+                } else if (object_id.contains("ms_run")) {
+                    // not found ms_run_id in metadata.
                     MsRun element = metadata.getMsRunMap().get(id);
                     if (element == null) {
-                        throw new MZTabException("error.");
+                        error = new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, nameLabel);
+                        throw new MZTabException(error);
                     } else if (param == null) {
                         factory.addOptionalColumn(element, value, dataType);
                     } else {
@@ -248,16 +258,17 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
                 abundanceStdevHeader = items[offset++];
                 abundanceStdErrorHeader = items[offset];
             } catch (ArrayIndexOutOfBoundsException e) {
-                String header = null;
+                String header;
                 if (abundanceHeader == null) {
                     header = AbundanceColumn.Field.ABUNDANCE.toString();
                 } else if (abundanceStdevHeader == null) {
                     header = AbundanceColumn.Field.ABUNDANCE_STDEV.toString();
-                } else if (abundanceStdErrorHeader == null) {
+                } else {
                     header = AbundanceColumn.Field.ABUNDANCE_STD_ERROR.toString();
                 }
 
-                throw new MZTabException(header);
+                MZTabError error = new MZTabError(FormatErrorType.AbundanceColumn, lineNumber, header);
+                throw new MZTabException(error);
             }
 
             checkAbundanceStudyVariableColumns(abundanceHeader, abundanceStdevHeader, abundanceStdErrorHeader);
@@ -295,9 +306,11 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
                 return matcher.group(2);
             }
 
-           throw new MZTabException("error");
+            MZTabError error = new MZTabError(FormatErrorType.AbundanceColumn, lineNumber, abundanceHeader);
+            throw new MZTabException(error);
         } else {
-           throw new MZTabException("error");
+            MZTabError error = new MZTabError(FormatErrorType.AbundanceColumn, lineNumber, abundanceHeader);
+            throw new MZTabException(error);
         }
     }
 
@@ -310,13 +323,15 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         Pattern pattern = Pattern.compile("assay\\[(\\d)\\]");
         Matcher matcher = pattern.matcher(valueLabel);
         if (! matcher.find()) {
-            throw new MZTabException("error");
+            MZTabError error = new MZTabError(FormatErrorType.AbundanceColumn, lineNumber, abundanceHeader);
+            throw new MZTabException(error);
         }
 
         int id = new Integer(matcher.group(1));
         Assay assay = metadata.getAssayMap().get(id);
         if (assay == null) {
-            throw new MZTabException("error");
+            MZTabError error = new MZTabError(FormatErrorType.AbundanceColumn, lineNumber, abundanceHeader);
+            throw new MZTabException(error);
         }
 
         factory.addAbundanceOptionalColumn(assay);
@@ -328,13 +343,15 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         Pattern pattern = Pattern.compile("study_variable\\[(\\d)\\]");
         Matcher matcher = pattern.matcher(valueLabel);
         if (! matcher.find()) {
-            throw new MZTabException("error");
+            MZTabError error = new MZTabError(FormatErrorType.AbundanceColumn, lineNumber, abundanceHeader);
+            throw new MZTabException(error);
         }
 
         int id = new Integer(matcher.group(1));
         StudyVariable studyVariable = metadata.getStudyVariableMap().get(id);
         if (studyVariable == null) {
-            throw new MZTabException("error");
+            MZTabError error = new MZTabError(FormatErrorType.AbundanceColumn, lineNumber, abundanceHeader);
+            throw new MZTabException(error);
         }
 
         return studyVariable;
@@ -349,7 +366,8 @@ public class MZTabHeaderLineParser extends MZTabLineParser {
         StudyVariable abundanceStdErrorStudyVariable = checkAbundanceStudyVariableColumn(abundanceStdErrorHeader);
 
         if (abundanceStudyVariable != abundanceStdevStudyVariable || abundanceStudyVariable != abundanceStdErrorStudyVariable) {
-            throw new MZTabException("error");
+            MZTabError error = new MZTabError(FormatErrorType.AbundanceColumn, lineNumber, abundanceHeader + "\t" + abundanceStdevHeader + "\t" + abundanceStdErrorHeader);
+            throw new MZTabException(error);
         }
 
         factory.addAbundanceOptionalColumn(abundanceStudyVariable);

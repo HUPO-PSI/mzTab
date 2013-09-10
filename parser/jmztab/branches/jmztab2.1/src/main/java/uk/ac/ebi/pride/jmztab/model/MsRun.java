@@ -3,9 +3,7 @@ package uk.ac.ebi.pride.jmztab.model;
 import java.net.URL;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
-import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_RUN_FORMAT;
-import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_RUN_ID_FORMAT;
-import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.MS_RUN_LOCATION;
+import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
 
 /**
  * The external MS data file.
@@ -28,6 +26,8 @@ public class MsRun extends IndexedElement {
      * Location of the external data file.
      */
     private URL location;
+
+    private Param fragmentationMethod;
 
     public MsRun(int id) {
         super(MetadataElement.MS_RUN, id);
@@ -57,6 +57,14 @@ public class MsRun extends IndexedElement {
         this.location = location;
     }
 
+    public Param getFragmentationMethod() {
+        return fragmentationMethod;
+    }
+
+    public void setFragmentationMethod(Param fragmentationMethod) {
+        this.fragmentationMethod = fragmentationMethod;
+    }
+
     /**
      * ms_file[1-n]-[format|location|id_format]   {CVParam|URL}
      */
@@ -72,6 +80,9 @@ public class MsRun extends IndexedElement {
         }
         if (idFormat != null) {
             sb.append(printProperty(MS_RUN_ID_FORMAT, idFormat)).append(NEW_LINE);
+        }
+        if (fragmentationMethod != null) {
+            sb.append(printProperty(MS_RUN_FRAGMENTATION_METHOD, fragmentationMethod)).append(NEW_LINE);
         }
 
         return sb.toString();

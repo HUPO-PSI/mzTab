@@ -12,7 +12,7 @@ public class MZTabDescription {
     public enum Mode {Complete, Summary}
     public enum Type {Quantification, Identification}
 
-    public static final String default_version = "1.0 rc4";
+    public static final String default_version = "1.0 rc5";
 
     private String version;
     private Mode mode;

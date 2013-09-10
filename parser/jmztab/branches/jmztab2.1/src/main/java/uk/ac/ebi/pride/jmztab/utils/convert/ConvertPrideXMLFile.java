@@ -343,13 +343,13 @@ public class ConvertPrideXMLFile extends ConvertFile {
 
                     // add the param depending on the type
                     if ("NEWT".equals(p.getCvLabel())) {
-                        sample.addSpecies(1, convertParam(p));
+                        sample.addSpecies(convertParam(p));
                     } else if ("BRENDA".equals(p.getCvLabel())) {
-                        sample.addTissue(1, convertParam(p));
+                        sample.addTissue(convertParam(p));
                     } else if ("CL".equals(p.getCvLabel())) {
-                        sample.addCellType(1, convertParam(p));
+                        sample.addCellType(convertParam(p));
                     } else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
-                        sample.addDisease(1, convertParam(p));
+                        sample.addDisease(convertParam(p));
                     } else if (QuantitationCvParams.isQuantificationReagent(p.getAccession())) {
                         // check if it's a quantification reagent
                         Assay assay = metadata.getAssayMap().get(sample.getId());
@@ -371,18 +371,18 @@ public class ConvertPrideXMLFile extends ConvertFile {
 
                 // add the param to the "global" group
                 if ("NEWT".equals(p.getCvLabel())) {
-                    noIdSample.addSpecies(1, convertParam(p));
+                    noIdSample.addSpecies(convertParam(p));
                 }
                 else if ("BTO".equals(p.getCvLabel())) {
-                    noIdSample.addTissue(1, convertParam(p));
+                    noIdSample.addTissue(convertParam(p));
                 }
                 else if ("CL".equals(p.getCvLabel())) {
-                    noIdSample.addCellType(1, convertParam(p));
+                    noIdSample.addCellType(convertParam(p));
                 }
                 else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
                     //DOID: Human Disease Ontology
                     //IDO: Infectious Disease Ontology
-                    noIdSample.addDisease(1, convertParam(p));
+                    noIdSample.addDisease(convertParam(p));
                 }
             }
         }

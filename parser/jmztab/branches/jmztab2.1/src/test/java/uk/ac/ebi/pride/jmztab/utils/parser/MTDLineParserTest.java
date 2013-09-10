@@ -19,20 +19,29 @@ public class MTDLineParserTest {
         MTDLineParser parser = new MTDLineParser();
         Metadata metadata = parser.getMetadata();
 
-        parser.parse(1, "MTD\tmzTab-version\t1.0 rc4");
-        assertTrue(metadata.getTabDescription().getVersion().equals("1.0 rc4"));
-
-        parser.parse(1, "MTD\tmzTab-ID\tPRIDE_1234");
-        assertTrue(metadata.getTabDescription().getId().equals("PRIDE_1234"));
+        parser.parse(1, "MTD\tmzTab-version\t1.0 rc5");
+        assertTrue(metadata.getTabDescription().getVersion().equals("1.0 rc5"));
 
         parser.parse(1, "MTD\tmzTab-mode\tComplete");
         assertTrue(metadata.getTabDescription().getMode() == MZTabDescription.Mode.Complete);
 
+        parser.parse(1, "MTD\tmzTab-mode\tSummary");
+        assertTrue(metadata.getTabDescription().getMode() == MZTabDescription.Mode.Summary);
+
+        parser.parse(1, "MTD\tmzTab-type\tQuantification");
+        assertTrue(metadata.getTabDescription().getType() == MZTabDescription.Type.Quantification);
+
+        parser.parse(1, "MTD\tmzTab-type\tIdentification");
+        assertTrue(metadata.getTabDescription().getType() == MZTabDescription.Type.Identification);
+
+        parser.parse(1, "MTD\tmzTab-ID\tPRIDE_1234");
+        assertTrue(metadata.getTabDescription().getId().equals("PRIDE_1234"));
+
         parser.parse(1, "MTD\ttitle\tmzTab iTRAQ test");
         assertTrue(metadata.getTitle().contains("mzTab iTRAQ test"));
 
-        parser.parse(1, "MTD\tdescription\tThis is a PRIDE test.");
-        assertTrue(metadata.getDescription().contains("This is a PRIDE test."));
+        parser.parse(1, "MTD\tdescription\tAn experiment investigating the effects of Il-6.");
+        assertTrue(metadata.getDescription().contains("An experiment investigating the effects of Il-6."));
 
         parser.parse(1, "MTD\tsample_processing[1]\t[SEP, SEP:00173, SDS PAGE, ]");
         Param param = metadata.getSampleProcessingMap().get(1).get(0);
@@ -93,9 +102,11 @@ public class MTDLineParserTest {
         parser.parse(1, "MTD\turi\thttp://proteomecentral.proteomexchange.org/cgi/GetDataset");
         assertTrue(metadata.getUriList().size() == 2);
 
-        parser.parse(1, "MTD\tmod\t[MOD, MOD:00397, iodoacetamide derivatized residue, ]|[MOD, MOD:00675, oxidized residue, ]");
+        parser.parse(1, "MTD\tfixed_mod\t[MOD, MOD:00397, iodoacetamide derivatized residue, ]|[MOD, MOD:00675, oxidized residue, ]");
+        parser.parse(1, "MTD\tvariable_mod\t[MOD, MOD:00412, phosphorylation, ]|[MOD, MOD:00675, oxidized residue, ]");
         parser.parse(1, "MTD\tquantification_method\t[MS, MS:1001837, iTraq, ]");
         assertTrue(metadata.getFixedMod().size() == 2);
+        assertTrue(metadata.getVariableMod().size() == 2);
         assertTrue(metadata.getQuantificationMethod() != null);
 
         parser.parse(1, "MTD\tprotein-quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]");
@@ -105,11 +116,7 @@ public class MTDLineParserTest {
         assertTrue(metadata.getPeptideQuantificationUnit() != null);
         assertTrue(metadata.getSmallMoleculeQuantificationUnit() != null);
 
-        parser.parse(1, "MTD\tms_file[1]-format\t[MS, MS:1000584, mzML file, ]");
-        parser.parse(1, "MTD\tms_file[2]-location\tfile://C:/path/to/my/file");
-        parser.parse(1, "MTD\tms_file[2]-id_format\t[MS, MS:1000774, multiple peak list, nativeID format]");
-        parser.parse(1, "MTD\tms_file[3]-location\tftp://ftp.ebi.ac.uk/path/to/file");
-        assertTrue(metadata.getMsRunMap().size() == 3);
+
 
         parser.parse(1, "MTD\tcustom\t[, , MS operator, Florian]");
         assertTrue(metadata.getCustomList().size() == 1);
@@ -120,41 +127,61 @@ public class MTDLineParserTest {
         MTDLineParser parser = new MTDLineParser();
         Metadata metadata = parser.getMetadata();
 
-        parser.parse(1, "MTD\tcolunit-peptide \t retention_time=[UO, UO:0000031, minute, ]");
+        parser.parse(1, "MTD\tcolunit-peptide\tretention_time=[UO, UO:0000031, minute, ]");
         parser.refineColUnit(MZTabColumnFactory.getInstance(Section.Peptide_Header));
         assertTrue(metadata.getPeptideColUnitList().size() == 1);
 
-        parser.parse(1, "MTD\tcolunit-small_molecule \t retention_time=[UO, UO:0000031, minute, ]");
+        parser.parse(1, "MTD\tcolunit-psm\tretention_time=[UO, UO:0000031, minute, ]");
+        parser.refineColUnit(MZTabColumnFactory.getInstance(Section.PSM_Header));
+        assertTrue(metadata.getPsmColUnitList().size() == 1);
+
+        parser.parse(1, "MTD\tcolunit-small_molecule\tretention_time=[UO, UO:0000031, minute, ]");
         parser.refineColUnit(MZTabColumnFactory.getInstance(Section.Small_Molecule_Header));
         assertTrue(metadata.getSmallMoleculeColUnitList().size() == 1);
 
         MZTabColumnFactory proteinFactory = MZTabColumnFactory.getInstance(Section.Protein_Header);
         MsRun msRun1 = new MsRun(1);
         proteinFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun1);
-        parser.parse(1, "MTD\tcolunit-protein\tnum_peptides_unique_ms_file[1] = [EFO, EFO:0004374, milligram per deciliter, ]");
+        parser.parse(1, "MTD\tcolunit-protein\tnum_peptides_unique_ms_run[1] = [EFO, EFO:0004374, milligram per deciliter, ]");
         parser.refineColUnit(proteinFactory);
         assertTrue(metadata.getProteinColUnitList().size() == 1);
     }
 
-        @Test
-    public void testIndexedElementParser() throws Exception {
+    @Test
+    public void testMsRun() throws Exception {
         MTDLineParser parser = new MTDLineParser();
         Metadata metadata = parser.getMetadata();
 
-        parser.parse(1, " MTD\tsample[1]-species[1]\t[NEWT, 9606, Homo sapien (Human), ]");
-        parser.parse(1, " MTD\tsample[1]-species[2]\t[NEWT, 573824, Human rhinovirus 1, ]");
+        parser.parse(1, "MTD\tms_run[1]-format\t[MS, MS:1000584, mzML file, ]");
+        parser.parse(1, "MTD\tms_run[2]-location\tfile://C:/path/to/my/file");
+        parser.parse(1, "MTD\tms_run[2]-id_format\t[MS, MS:1000774, multiple peak list, nativeID format]");
+        parser.parse(1, "MTD\tms_run[2]-fragmentation_method\t[MS, MS:1000133, CID, ]");
+        parser.parse(1, "MTD\tms_run[3]-location\tftp://ftp.ebi.ac.uk/path/to/file");
+        assertTrue(metadata.getMsRunMap().size() == 3);
+        MsRun msRun2 = metadata.getMsRunMap().get(2);
+        assertTrue(msRun2.getLocation().toString().equals("file://C:/path/to/my/file"));
+        assertTrue(msRun2.getFragmentationMethod().getAccession().equals("MS:1000133"));
+    }
+
+    @Test
+    public void testSample() throws Exception {
+        MTDLineParser parser = new MTDLineParser();
+        Metadata metadata = parser.getMetadata();
+
+        parser.parse(1, " MTD\tsample[1]-species\t[NEWT, 9606, Homo sapien (Human), ]");
+        parser.parse(1, " MTD\tsample[1]-species\t[NEWT, 573824, Human rhinovirus 1, ]");
         Sample sample1 = metadata.getSampleMap().get(1);
-        assertTrue(sample1.getSpeciesMap().size() == 2);
+        assertTrue(sample1.getSpeciesList().size() == 2);
 
         parser.parse(1, "MTD\tsample[1]-tissue[1]\t[BTO, BTO:0000759, liver, ]");
-        assertTrue(sample1.getTissueMap().size() == 1);
+        assertTrue(sample1.getTissueList().size() == 1);
 
         parser.parse(1, " MTD\tsample[1]-cell_type[1]\t[CL, CL:0000182, hepatocyte, ]");
-        assertTrue(sample1.getCellTypeMap().size() == 1);
+        assertTrue(sample1.getCellTypeList().size() == 1);
 
         parser.parse(1, " MTD\tsample[1]-disease[1]\t[DOID, DOID:684, hepatocellular carcinoma, ]");
         parser.parse(1, " MTD\tsample[1]-disease[2]\t[DOID, DOID:9451, alcoholic fatty liver, ]");
-        assertTrue(sample1.getDiseaseMap().size() == 2);
+        assertTrue(sample1.getDiseaseList().size() == 2);
 
         parser.parse(1, " MTD \t sample[1]-description \t  Hepatocellular carcinoma samples.");
         parser.parse(1, " MTD \t sample[2]-description \t  Healthy control samples.");
@@ -190,8 +217,8 @@ public class MTDLineParserTest {
         MsRun msRun2 = new MsRun(2);
         metadata.addMsRun(msRun1);
         metadata.addMsRun(msRun2);
-        parser.parse(1, "MTD\tassay[1]-ms_file_ref\tms_file[1]");
-        parser.parse(1, "MTD\tassay[2]-ms_file_ref\tms_file[2]");
+        parser.parse(1, "MTD\tassay[1]-ms_run_ref\tms_run[1]");
+        parser.parse(1, "MTD\tassay[2]-ms_run_ref\tms_run[2]");
         assertTrue(metadata.getAssayMap().get(1).getMsRun().equals(msRun1));
         assertTrue(metadata.getAssayMap().get(2).getMsRun().equals(msRun2));
     }

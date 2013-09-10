@@ -20,7 +20,7 @@ public class MZTabErrorTypeMap {
     public MZTabErrorTypeMap() {
         add(FormatErrorType.LinePrefix);
         add(FormatErrorType.CountMatch);
-        add(FormatErrorType.UnitID);
+        add(FormatErrorType.IndexedElement);
         add(FormatErrorType.AbundanceColumn);
         add(FormatErrorType.OptionalColumn);
         add(FormatErrorType.OptionalCVParamColumn);
