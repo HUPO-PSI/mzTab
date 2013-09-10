@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import java.util.List;
 import java.util.SortedMap;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.MINUS;
@@ -64,19 +65,9 @@ public class IndexedElement {
      * MTD  {element}[id]-{property}    {value.toString}
      */
     protected String printProperty(MetadataProperty property, Object value) {
-        return printProperty(property, null, value);
-    }
-
-    /**
-     * MTD  {element}[id]-{property}[pid]    {value.toString}
-     */
-    protected String printProperty(MetadataProperty property, Integer pid, Object value) {
         StringBuilder sb = new StringBuilder();
 
         printPrefix(sb).append(getReference()).append(MINUS).append(property);
-        if (pid != null) {
-            sb.append("[").append(pid).append("]");
-        }
 
         if (value != null) {
             sb.append(TAB).append(value);
@@ -86,13 +77,11 @@ public class IndexedElement {
     }
 
     /**
-     * MTD  {element}[id]-{property}[pid]   value
+     * print a list of metadata line.
      */
-    protected StringBuilder printMap(SortedMap<Integer, Param> map, MetadataProperty property, StringBuilder sb) {
-        Param param;
-        for (Integer pid : map.keySet()) {
-            param = map.get(pid);
-            sb.append(printProperty(property, pid, param)).append(NEW_LINE);
+    protected StringBuilder printList(List<Param> list, MetadataProperty property, StringBuilder sb) {
+        for (Param param : list) {
+            sb.append(printProperty(property, param)).append(NEW_LINE);
         }
 
         return sb;

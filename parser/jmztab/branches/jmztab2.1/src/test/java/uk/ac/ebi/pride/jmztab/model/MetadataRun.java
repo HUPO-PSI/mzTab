@@ -68,18 +68,19 @@ public class MetadataRun {
         mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file"));
         mtd.addMsRunLocation(2, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
         mtd.addMsRunIdFormat(1, new CVParam("MS", "MS:1001530", "mzML unique identifier", null));
-        mtd.addMsRunIdFormat(2, new CVParam("MS", "MS:1000774", "multiple peak list", "nativeID format"));
+        mtd.addMsRunFragmentationMethod(1, new CVParam("MS", "MS:1000133", "CID", null));
+        mtd.addMsRunFragmentationMethod(2, new CVParam("MS", "MS:1000422", "HCD", null));
 
         mtd.addCustom(new UserParam("MS operator", "Florian"));
 
-        mtd.addSampleSpecies(1, 1, new CVParam("NEWT", "9606", "Homo sapiens (Human)", null));
-        mtd.addSampleSpecies(1, 2, new CVParam("NEWT", "573824", "Human rhinovirus 1", null));
-        mtd.addSampleSpecies(2, 1, new CVParam("NEWT", "9606", "Homo sapiens (Human)", null));
-        mtd.addSampleSpecies(2, 2, new CVParam("NEWT", "12130", "Human rhinovirus 2", null));
-        mtd.addSampleTissue(1, 1, new CVParam("BTO", "BTO:0000759", "liver", null));
-        mtd.addSampleCellType(1, 1, new CVParam("CL", "CL:0000182", "hepatocyte", null));
-        mtd.addSampleDisease(1, 1, new CVParam("DOID", "DOID:684", "hepatocellular carcinoma", null));
-        mtd.addSampleDisease(1, 2, new CVParam("DOID", "DOID:9451", "alcoholic fatty liver", null));
+        mtd.addSampleSpecies(1, new CVParam("NEWT", "9606", "Homo sapiens (Human)", null));
+        mtd.addSampleSpecies(1, new CVParam("NEWT", "573824", "Human rhinovirus 1", null));
+        mtd.addSampleSpecies(2, new CVParam("NEWT", "9606", "Homo sapiens (Human)", null));
+        mtd.addSampleSpecies(2, new CVParam("NEWT", "12130", "Human rhinovirus 2", null));
+        mtd.addSampleTissue(1, new CVParam("BTO", "BTO:0000759", "liver", null));
+        mtd.addSampleCellType(1, new CVParam("CL", "CL:0000182", "hepatocyte", null));
+        mtd.addSampleDisease(1, new CVParam("DOID", "DOID:684", "hepatocellular carcinoma", null));
+        mtd.addSampleDisease(1, new CVParam("DOID", "DOID:9451", "alcoholic fatty liver", null));
         mtd.addSampleDescription(1, "Hepatocellular carcinoma samples.");
         mtd.addSampleDescription(2, "Healthy control samples.");
         mtd.addSampleCustom(1, new UserParam("Extraction date", "2011-12-21"));
@@ -111,6 +112,7 @@ public class MetadataRun {
         PeptideColumn peptideColumn = (PeptideColumn) peptideFactory.findColumn("retention_time");
         mtd.addPeptideColUnit(peptideColumn, new CVParam("UO", "UO:0000031", "minute", null));
 
+        mtd.addPSMColUnit(PSMColumn.RETENTION_TIME, new CVParam("UO", "UO:0000031", "minute", null));
         mtd.addSmallMoleculeColUnit(SmallMoleculeColumn.RETENTION_TIME, new CVParam("UO", "UO:0000031", "minute", null));
 
         System.out.println(mtd);

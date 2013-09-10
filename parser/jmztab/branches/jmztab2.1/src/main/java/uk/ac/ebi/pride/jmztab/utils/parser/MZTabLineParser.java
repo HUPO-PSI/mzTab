@@ -16,6 +16,8 @@ public class MZTabLineParser {
 
     protected Section section;
 
+    protected String line;
+
     /**
      * based on TAB char to split raw line into String array.
      */
@@ -27,6 +29,7 @@ public class MZTabLineParser {
      */
     protected void parse(int lineNumber, String line) throws MZTabException {
         this.lineNumber = lineNumber;
+        this.line = line;
 
         this.items = line.split("\\s*" + TAB + "\\s*");
         items[0] = items[0].trim();

@@ -11,7 +11,7 @@ import static junit.framework.Assert.assertTrue;
  * User: Qingwei
  * Date: 20/02/13
  */
-public class MTDDataLineParserTest {
+public class MZTabDataLineParserTest {
     private Metadata metadata;
 
     @Before

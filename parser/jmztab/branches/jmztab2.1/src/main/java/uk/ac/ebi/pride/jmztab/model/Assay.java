@@ -53,7 +53,7 @@ public class Assay extends IndexedElement {
         }
 
         if (msRun != null) {
-            printPrefix(sb).append(getReference()).append(MINUS).append(MetadataProperty.ASSAY_MS_FILE_REF);
+            printPrefix(sb).append(getReference()).append(MINUS).append(MetadataProperty.ASSAY_MS_RUN_REF);
             sb.append(TAB).append(msRun.getReference()).append(NEW_LINE);
         }
 

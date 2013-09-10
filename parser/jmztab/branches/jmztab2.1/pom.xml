@@ -5,8 +5,8 @@
 
     <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab</artifactId>
-    <!-- based on mzTab specification version 1.0 rc 3 -->
-    <version>2.1-SNAPSHOT</version>
+    <!-- based on mzTab specification version 1.0 rc 5 -->
+    <version>2.1.2-SNAPSHOT</version>
 
     <licenses>
         <license>

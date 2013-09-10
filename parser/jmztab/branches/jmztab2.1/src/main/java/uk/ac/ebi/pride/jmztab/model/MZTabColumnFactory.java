@@ -90,6 +90,7 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, PeptideColumn.RELIABILITY);
                 addStableColumn(factory, PeptideColumn.MODIFICATIONS);
                 addStableColumn(factory, PeptideColumn.RETENTION_TIME);
+                addStableColumn(factory, PeptideColumn.RETENTION_TIME_WINDOW);
                 addStableColumn(factory, PeptideColumn.CHARGE);
                 addStableColumn(factory, PeptideColumn.MASS_TO_CHARGE);
                 addStableColumn(factory, PeptideColumn.URI);

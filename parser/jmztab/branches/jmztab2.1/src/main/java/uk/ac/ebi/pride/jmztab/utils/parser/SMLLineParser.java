@@ -31,7 +31,8 @@ public class SMLLineParser extends MZTabDataLineParser {
         checkSmiles(mapping.get(offset), items[offset++]);
         checkInchiKey(mapping.get(offset), items[offset++]);
         checkDescription(mapping.get(offset), items[offset++]);
-        checkMassToCharge(mapping.get(offset), items[offset++]);
+        checkExpMassToCharge(mapping.get(offset), items[offset++]);
+        checkCalcMassToCharge(mapping.get(offset), items[offset++]);
         checkCharge(mapping.get(offset), items[offset++]);
         checkRetentionTime(mapping.get(offset), items[offset++]);
         checkTaxid(mapping.get(offset), items[offset++]);
@@ -64,6 +65,7 @@ public class SMLLineParser extends MZTabDataLineParser {
         smallMolecule.setInchiKey(items[offset++]);
         smallMolecule.setDescription(items[offset++]);
         smallMolecule.setExpMassToCharge(items[offset++]);
+        smallMolecule.setCalcMassToCharge(items[offset++]);
         smallMolecule.setCharge(items[offset++]);
         smallMolecule.setRetentionTime(items[offset++]);
         smallMolecule.setTaxid(items[offset++]);

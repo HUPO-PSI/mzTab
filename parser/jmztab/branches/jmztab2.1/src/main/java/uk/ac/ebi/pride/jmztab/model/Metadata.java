@@ -36,6 +36,7 @@ public class Metadata {
     private SortedMap<Integer, StudyVariable> studyVariableMap = new TreeMap<Integer, StudyVariable>();
     private List<ColUnit> proteinColUnitList = new ArrayList<ColUnit>();
     private List<ColUnit> peptideColUnitList = new ArrayList<ColUnit>();
+    private List<ColUnit> psmColUnitList = new ArrayList<ColUnit>();
     private List<ColUnit> smallMoleculeColUnitList = new ArrayList<ColUnit>();
 
     public Metadata() {
@@ -147,6 +148,10 @@ public class Metadata {
         }
         for (ColUnit colUnit : peptideColUnitList) {
             printPrefix(sb).append(COLUNIT).append(MINUS).append(COLUNIT_PEPTIDE);
+            sb.append(TAB).append(colUnit).append(NEW_LINE);
+        }
+        for (ColUnit colUnit : psmColUnitList) {
+            printPrefix(sb).append(COLUNIT).append(MINUS).append(COLUNIT_PSM);
             sb.append(TAB).append(colUnit).append(NEW_LINE);
         }
         for (ColUnit colUnit : smallMoleculeColUnitList) {
@@ -263,6 +268,10 @@ public class Metadata {
 
     public List<ColUnit> getPeptideColUnitList() {
         return peptideColUnitList;
+    }
+
+    public List<ColUnit> getPsmColUnitList() {
+        return psmColUnitList;
     }
 
     public List<ColUnit> getSmallMoleculeColUnitList() {
@@ -556,6 +565,21 @@ public class Metadata {
         }
     }
 
+    public boolean addMsRunFragmentationMethod(Integer id, Param fragmentationMethod) {
+        MsRun msRun = msRunMap.get(id);
+        if (msRun == null) {
+            msRun = new MsRun(id);
+            msRun.setFragmentationMethod(fragmentationMethod);
+            msRunMap.put(id, msRun);
+            return true;
+        } else if (msRun.getFragmentationMethod() != null) {
+            return false;
+        } else {
+            msRun.setFragmentationMethod(fragmentationMethod);
+            return true;
+        }
+    }
+
     public void addCustom(Param custom) {
         this.customList.add(custom);
     }
@@ -564,62 +588,54 @@ public class Metadata {
         sampleMap.put(sample.getId(), sample);
     }
 
-    public boolean addSampleSpecies(Integer id, Integer pid, Param species) {
+    public boolean addSampleSpecies(Integer id, Param species) {
         Sample sample = sampleMap.get(id);
         if (sample == null) {
             sample = new Sample(id);
-            sample.addSpecies(pid, species);
+            sample.addSpecies(species);
             sampleMap.put(id, sample);
             return true;
-        } else if (sample.getSpeciesMap().containsKey(pid)) {
-            return false;
         } else {
-            sample.addSpecies(pid, species);
+            sample.addSpecies(species);
             return true;
         }
     }
 
-    public boolean addSampleTissue(Integer id, Integer pid, Param tissue) {
+    public boolean addSampleTissue(Integer id, Param tissue) {
         Sample sample = sampleMap.get(id);
         if (sample == null) {
             sample = new Sample(id);
-            sample.addTissue(pid, tissue);
+            sample.addTissue(tissue);
             sampleMap.put(id, sample);
             return true;
-        } else if (sample.getTissueMap().containsKey(pid)) {
-            return false;
         } else {
-            sample.addTissue(pid, tissue);
+            sample.addTissue(tissue);
             return true;
         }
     }
 
-    public boolean addSampleCellType(Integer id, Integer pid, Param cellType) {
+    public boolean addSampleCellType(Integer id, Param cellType) {
         Sample sample = sampleMap.get(id);
         if (sample == null) {
             sample = new Sample(id);
-            sample.addCellType(pid, cellType);
+            sample.addCellType(cellType);
             sampleMap.put(id, sample);
             return true;
-        } else if (sample.getCellTypeMap().containsKey(pid)) {
-            return false;
         } else {
-            sample.addCellType(pid, cellType);
+            sample.addCellType(cellType);
             return true;
         }
     }
 
-    public boolean addSampleDisease(Integer id, Integer pid, Param disease) {
+    public boolean addSampleDisease(Integer id, Param disease) {
         Sample sample = sampleMap.get(id);
         if (sample == null) {
             sample = new Sample(id);
-            sample.addDisease(pid, disease);
+            sample.addDisease(disease);
             sampleMap.put(id, sample);
             return true;
-        } else if (sample.getDiseaseMap().containsKey(pid)) {
-            return false;
         } else {
-            sample.addDisease(pid, disease);
+            sample.addDisease(disease);
             return true;
         }
     }
@@ -742,6 +758,10 @@ public class Metadata {
 
     public void addPeptideColUnit(MZTabColumn column, Param param) {
         this.peptideColUnitList.add(new ColUnit(column, param));
+    }
+
+    public void addPSMColUnit(MZTabColumn column, Param param) {
+        this.psmColUnitList.add(new ColUnit(column, param));
     }
 
     public void addSmallMoleculeColUnit(MZTabColumn column, Param param) {
