@@ -170,16 +170,32 @@ public class Metadata {
         this.tabDescription.setVersion(version);
     }
 
+    public String getMZTabVersion() {
+        return this.tabDescription.getVersion();
+    }
+
     public void setMZTabID(String id) {
         this.tabDescription.setId(id);
+    }
+
+    public String getMZTabID() {
+        return this.tabDescription.getId();
     }
 
     public void setMZTabMode(MZTabDescription.Mode mode) {
         this.tabDescription.setMode(mode);
     }
 
+    public MZTabDescription.Mode getMZTabMode() {
+        return this.tabDescription.getMode();
+    }
+
     public void setMZTabType(MZTabDescription.Type type) {
         this.tabDescription.setType(type);
+    }
+
+    public MZTabDescription.Type getMZTabType() {
+        return tabDescription.getType();
     }
 
     public String getTitle() {

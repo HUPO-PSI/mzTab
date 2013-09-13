@@ -16,7 +16,8 @@ public class MZTabErrorType {
 
     public enum Level {
         Warn,
-        Error
+        Error,
+        Info
     }
 
     private Integer code;
@@ -35,7 +36,7 @@ public class MZTabErrorType {
         }
         this.category = category;
 
-        this.level = level == null ? Level.Error : level;
+        this.level = level == null ? Level.Info : level;
 
         if (original == null || original.trim().length() == 0) {
             throw new IllegalArgumentException("Original " + original + " is empty!");
@@ -45,11 +46,15 @@ public class MZTabErrorType {
     }
 
     protected static MZTabErrorType createError(MZTabErrorType.Category category, String keyword) {
-        return MZTabErrorType.createMZTabError(category, MZTabErrorType.Level.Error, keyword);
+        return MZTabErrorType.createMZTabError(category, Level.Error, keyword);
     }
 
     protected static MZTabErrorType createWarn(MZTabErrorType.Category category, String keyword) {
-        return MZTabErrorType.createMZTabError(category, MZTabErrorType.Level.Warn, keyword);
+        return MZTabErrorType.createMZTabError(category, Level.Warn, keyword);
+    }
+
+    protected static MZTabErrorType createInfo(MZTabErrorType.Category category, String keyword) {
+        return MZTabErrorType.createMZTabError(category, Level.Info, keyword);
     }
 
     /**

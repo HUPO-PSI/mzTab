@@ -12,6 +12,7 @@ public class FormatErrorType extends MZTabErrorType {
 
     public static MZTabErrorType IndexedElement = createError(Format, "IndexedElement");
     public static MZTabErrorType AbundanceColumn = createError(Format, "AbundanceColumn");
+    public static MZTabErrorType MsRunOptionalColumn = createError(Format, "MsRunOptionalColumn");
     public static MZTabErrorType OptionalColumn = createError(Format, "OptionalColumn");
     public static MZTabErrorType OptionalCVParamColumn = createError(Format, "OptionalCVParamColumn");
     public static MZTabErrorType StableColumn = createError(Format, "StableColumn");
