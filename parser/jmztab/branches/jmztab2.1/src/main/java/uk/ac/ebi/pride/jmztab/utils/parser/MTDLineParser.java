@@ -6,9 +6,7 @@ import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -154,9 +152,14 @@ public class MTDLineParser extends MZTabLineParser {
     // the id is not correct number in the define label.
     private int checkIndex(String defineLabel, String id) throws MZTabException {
         try {
-            return Integer.parseInt(id);
+            Integer index = Integer.parseInt(id);
+            if (index < 1) {
+                throw new NumberFormatException();
+            }
+
+            return index;
         } catch (NumberFormatException e) {
-            MZTabError error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, Error_Header + defineLabel);
+            MZTabError error = new MZTabError(LogicalErrorType.IdNumber, lineNumber, Error_Header + defineLabel, id);
             throw new MZTabException(error);
         }
     }
@@ -194,7 +197,7 @@ public class MTDLineParser extends MZTabLineParser {
      * If optional item not exists, return null.
      */
     private void parseNormalMetadata(String defineLabel, String valueLabel) throws MZTabException {
-        String regexp = "(\\w+)(\\[(\\d)\\])?(-(\\w+))?";
+        String regexp = "(\\w+)(\\[(\\w+)\\])?(-(\\w+))?";
 
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(defineLabel);
@@ -223,15 +226,24 @@ public class MTDLineParser extends MZTabLineParser {
                             metadata.setMZTabType(checkMZTabType(defineLabel, valueLabel));
                             break;
                         case MZTAB_ID:
+                            if (metadata.getMZTabID() != null) {
+                                throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                            }
                             metadata.setMZTabID(valueLabel);
                             break;
                     }
 
                     break;
                 case TITLE:
+                    if (metadata.getTitle() != null) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                    }
                     metadata.setTitle(valueLabel);
                     break;
                 case DESCRIPTION:
+                    if (metadata.getDescription() != null) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                    }
                     metadata.setDescription(valueLabel);
                     break;
                 case SAMPLE_PROCESSING:
@@ -264,6 +276,9 @@ public class MTDLineParser extends MZTabLineParser {
                     property = MetadataProperty.findProperty(element.getName(), matcher.group(5));
                     if (property == null) {
                         param = checkParam(defineLabel, valueLabel);
+                        if (param.getValue() == null || param.getValue().trim().length() == 0) {
+                            throw new MZTabException(new MZTabError(LogicalErrorType.SoftwareVersion, lineNumber, valueLabel));
+                        }
                         metadata.addSoftwareParam(id, param);
                     } else {
                         switch (property) {
@@ -275,6 +290,9 @@ public class MTDLineParser extends MZTabLineParser {
 
                     break;
                 case FALSE_DISCOVERY_RATE:
+                    if (metadata.getFalseDiscoveryRate().size() > 0) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                    }
                     paramList = checkParamList(defineLabel, valueLabel);
                     metadata.setFalseDiscoveryRate(paramList);
                     break;
@@ -302,18 +320,30 @@ public class MTDLineParser extends MZTabLineParser {
                     metadata.addUri(checkURI(defineLabel, valueLabel));
                     break;
                 case FIXED_MOD:
+                    if (metadata.getFixedMod().size() > 0) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                    }
                     metadata.setFixedMod(checkParamList(defineLabel, valueLabel));
                     break;
                 case VARIABLE_MOD:
+                    if (metadata.getVariableMod().size() > 0) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                    }
                     metadata.setVariableMod(checkParamList(defineLabel, valueLabel));
                     break;
                 case QUANTIFICATION_METHOD:
+                    if (metadata.getQuantificationMethod() != null) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                    }
                     metadata.setQuantificationMethod(checkParam(defineLabel, valueLabel));
                     break;
                 case PROTEIN:
                     property = checkProperty(element.getName(), matcher.group(5));
                     switch (property) {
                         case PROTEIN_QUANTIFICATION_UNIT:
+                            if (metadata.getProteinQuantificationUnit() != null) {
+                                throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                            }
                             metadata.setProteinQuantificationUnit(checkParam(defineLabel, valueLabel));
                             break;
                     }
@@ -322,6 +352,9 @@ public class MTDLineParser extends MZTabLineParser {
                     property = checkProperty(element.getName(), matcher.group(5));
                     switch (property) {
                         case PEPTIDE_QUANTIFICATION_UNIT:
+                            if (metadata.getPeptideQuantificationUnit() != null) {
+                                throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                            }
                             metadata.setPeptideQuantificationUnit(checkParam(defineLabel, valueLabel));
                             break;
                     }
@@ -330,6 +363,9 @@ public class MTDLineParser extends MZTabLineParser {
                     property = checkProperty(element.getName(), matcher.group(5));
                     switch (property) {
                         case SMALL_MOLECULE_QUANTIFICATION_UNIT:
+                            if (metadata.getSmallMoleculeQuantificationUnit() != null) {
+                                throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                            }
                             metadata.setSmallMoleculeQuantificationUnit(checkParam(defineLabel, valueLabel));
                             break;
                     }
@@ -393,7 +429,7 @@ public class MTDLineParser extends MZTabLineParser {
                             indexedElement = checkIndexedElement(defineLabel, valueLabel, MetadataElement.SAMPLE);
                             Sample sample = metadata.getSampleMap().get(indexedElement.getId());
                             if (sample == null) {
-                                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel));
+                                throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
                             }
                             metadata.addAssaySample(id, sample);
                             break;
@@ -401,7 +437,7 @@ public class MTDLineParser extends MZTabLineParser {
                             indexedElement = checkIndexedElement(defineLabel, valueLabel, MetadataElement.MS_RUN);
                             MsRun msRun = metadata.getMsRunMap().get(indexedElement.getId());
                             if (msRun == null) {
-                                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel));
+                                throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
                             }
                             metadata.addAssayMsRun(id, msRun);
                             break;
@@ -417,7 +453,7 @@ public class MTDLineParser extends MZTabLineParser {
                             for (IndexedElement e : indexedElementList) {
                                 if (! metadata.getAssayMap().containsKey(e.getId())) {
                                     // can not find assay[id] in metadata.
-                                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel));
+                                    throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
                                 }
                                 metadata.addStudyVariableAssay(id, metadata.getAssayMap().get(e.getId()));
                             }
@@ -427,7 +463,7 @@ public class MTDLineParser extends MZTabLineParser {
                             for (IndexedElement e : indexedElementList) {
                                 if (! metadata.getSampleMap().containsKey(e.getId())) {
                                     // can not find assay[id] in metadata.
-                                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel));
+                                    throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
                                 }
                                 metadata.addStudyVariableSample(id, metadata.getSampleMap().get(e.getId()));
                             }
@@ -445,20 +481,84 @@ public class MTDLineParser extends MZTabLineParser {
     }
 
     /**
-     * Based on factory, navigate colUnitMap<defineLabel, valueLabel>
-     * and refine colunit columns are correct or not.
-     *
-     * Notice: after refined phase, colunit definition can be record in the metadata.
+     * Refine the metadata, and check whether missing some important information.
+     * fixed_mode, variable_mode must provide in the Complete file.
+     * Detail information see specification 5.5
      */
-    public void refineColUnit(MZTabColumnFactory factory) throws MZTabException {
-        String valueLabel;
-        for (String defineLabel : colUnitMap.keySet()) {
-            if (defineLabel.equals("colunit-" + Section.toDataSection(factory.getSection()).getName())) {
-                valueLabel = colUnitMap.get(defineLabel);
-                MZTabError error = checkColUnit(valueLabel, factory);
+    public void refineNormalMetadata() throws MZTabException {
+        MZTabDescription.Mode mode = metadata.getMZTabMode();
+        MZTabDescription.Type type = metadata.getMZTabType();
 
-                if (error != null) {
-                    throw new MZTabException(error);
+        SortedMap<Integer, StudyVariable> svMap = metadata.getStudyVariableMap();
+        SortedMap<Integer, Assay> assayMap = metadata.getAssayMap();
+        SortedMap<Integer, MsRun> runMap = metadata.getMsRunMap();
+
+        if (mode == MZTabDescription.Mode.Complete) {
+            for (Integer id : svMap.keySet()) {
+                if (svMap.get(id).getAssayMap().size() == 0) {
+                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "study_variable[" + id + "]-assay_refs", mode.toString(), type.toString()));
+                }
+            }
+            if (metadata.getFixedMod().size() == 0) {
+                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "fixed_mode", mode.toString(), type.toString()));
+            }
+            if (metadata.getVariableMod().size() == 0) {
+                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "variable_mode", mode.toString(), type.toString()));
+            }
+
+            if (type == MZTabDescription.Type.Identification) {
+                for (Integer id : assayMap.keySet()) {
+                    if (assayMap.get(id).getMsRun() == null) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "assay[" + id + "]-ms_run_ref", mode.toString(), type.toString()));
+                    }
+                }
+                for (Integer id : svMap.keySet()) {
+                    if (svMap.get(id).getDescription() == null) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "study_variable[" + id + "]-description", mode.toString(), type.toString()));
+                    }
+                }
+            } else {
+                for (Integer id : runMap.keySet()) {
+                    if (runMap.get(id).getLocation() == null) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "ms_run[" + id + "]-location", mode.toString(), type.toString()));
+                    }
+                }
+                for (Integer id : assayMap.keySet()) {
+                    if (assayMap.get(id).getQuantificationReagent() == null) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "assay[" + id + "]-quantification_reagent", mode.toString(), type.toString()));
+                    }
+                }
+                if (metadata.getSoftwareMap().size() == 0) {
+                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "software[1-n]", mode.toString(), type.toString()));
+                }
+                for (Integer id : metadata.getSoftwareMap().keySet()) {
+                    if (metadata.getSoftwareMap().get(id).getParam() == null) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "software[" + id + "]", mode.toString(), type.toString()));
+                    }
+                }
+                if (metadata.getQuantificationMethod() == null) {
+                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "quantification_method", mode.toString(), type.toString()));
+                }
+            }
+
+        }
+
+        // Complete and Summary should provide following information.
+        // mzTab-version, mzTab-mode and mzTab-type have default values in create metadata. Not check here.
+        if (metadata.getDescription() == null) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "description", mode.toString(), type.toString()));
+        }
+
+        if (type == MZTabDescription.Type.Identification) {
+            for (MsRun msRun : metadata.getMsRunMap().values()) {
+                if (msRun.getLocation() == null) {
+                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "ms_run[1-n]-location", mode.toString(), type.toString()));
+                }
+            }
+        } else {
+            for (StudyVariable studyVariable : metadata.getStudyVariableMap().values()) {
+                if (studyVariable.getDescription() == null) {
+                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "study_variable[1-n]-description", mode.toString(), type.toString()));
                 }
             }
         }
@@ -498,6 +598,26 @@ public class MTDLineParser extends MZTabLineParser {
             }
 
             return null;
+        }
+    }
+
+    /**
+     * Based on factory, navigate colUnitMap<defineLabel, valueLabel>
+     * and refine colunit columns are correct or not.
+     *
+     * Notice: after refined phase, colunit definition can be record in the metadata.
+     */
+    public void refineColUnit(MZTabColumnFactory factory) throws MZTabException {
+        String valueLabel;
+        for (String defineLabel : colUnitMap.keySet()) {
+            if (defineLabel.equals("colunit-" + Section.toDataSection(factory.getSection()).getName())) {
+                valueLabel = colUnitMap.get(defineLabel);
+                MZTabError error = checkColUnit(valueLabel, factory);
+
+                if (error != null) {
+                    throw new MZTabException(error);
+                }
+            }
         }
     }
 

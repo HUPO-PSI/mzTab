@@ -22,7 +22,9 @@ public class MZTabError {
         this.lineNumber = lineNumber;
 
         List<String> valueList = new ArrayList<String>();
-        Collections.addAll(valueList, values);
+        for (String value : values) {
+            valueList.add(value == null ? "" : value);
+        }
 
         this.message = fill(0, valueList, type.getOriginal());
     }

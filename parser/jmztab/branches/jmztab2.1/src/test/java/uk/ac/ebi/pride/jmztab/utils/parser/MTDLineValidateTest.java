@@ -1,9 +1,11 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
+import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
 import uk.ac.ebi.pride.jmztab.model.Section;
 import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 import static junit.framework.Assert.assertTrue;
@@ -15,10 +17,16 @@ import static junit.framework.Assert.assertTrue;
  * Date: 09/09/13
  */
 public class MTDLineValidateTest {
+    private MTDLineParser parser;
+
+    @Before
+    public void setUp() throws Exception {
+        parser = new MTDLineParser();
+        parser.getMetadata().setDescription("test...");
+    }
+
     @Test
     public void testMZTabDescription() throws Exception {
-        MTDLineParser parser = new MTDLineParser();
-
         try {
             parser.parse(1, "MTD\tmzTab-ver\t1.0 rc5");
             assertTrue(false);
@@ -46,8 +54,6 @@ public class MTDLineValidateTest {
 
     @Test
     public void testIndexElement() throws Exception {
-        MTDLineParser parser = new MTDLineParser();
-
         try {
             // param name can not set empty.
             parser.parse(1, "MTD\tsample_processing[1]\t[, SEP:00173, ,]");
@@ -80,7 +86,7 @@ public class MTDLineValidateTest {
             parser.parse(1, "MTD\tsample_processing[x]\t[SEP, SEP:00142, enzyme digestion, ]");
             assertTrue(false);
         } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.MTDDefineLabel);
+            assertTrue(e.getError().getType() == LogicalErrorType.IdNumber);
             System.out.println(e.getMessage());
         }
 
@@ -96,8 +102,6 @@ public class MTDLineValidateTest {
 
     @Test
     public void testPublication() throws Exception {
-        MTDLineParser parser = new MTDLineParser();
-
         try {
             // split char error.
             parser.parse(1, "MTD\tpublication[1]\tpubmed:21063943/doi:10.1007/978-1-60761-987-1_6");
@@ -127,9 +131,7 @@ public class MTDLineValidateTest {
     }
 
     @Test
-    public void testColUnit() throws Exception {
-        MTDLineParser parser = new MTDLineParser();
-
+    public void testColUnit1() throws Exception {
         try {
             parser.parse(1, "MTD\tcolunit-unknown\tretention_time=[UO,UO:0000031, minute,]");
             assertTrue(false);
@@ -147,14 +149,31 @@ public class MTDLineValidateTest {
             System.out.println(e.getMessage());
         }
 
-        // clear colunit map.
-        parser = new MTDLineParser();
+    }
+
+    @Test
+    public void testColUnit2() throws Exception {
         try {
             parser.parse(1, "MTD\tcolunit-peptide\tretention_time=[UO,UO:0000031, ,]");
             parser.refineColUnit(MZTabColumnFactory.getInstance(Section.Peptide_Header));
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.Param);
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testDuplicationDefine() throws Exception {
+        parser.parse(1, "MTD\tprotein-quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]");
+        assertTrue(true);
+
+        try {
+            // not allow duplicate twice.
+            parser.parse(1, "MTD\tprotein-quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]");
+            assertTrue(false);
+        } catch (MZTabException e) {
+            assertTrue(e.getError().getType() == LogicalErrorType.DuplicationDefine);
             System.out.println(e.getMessage());
         }
     }

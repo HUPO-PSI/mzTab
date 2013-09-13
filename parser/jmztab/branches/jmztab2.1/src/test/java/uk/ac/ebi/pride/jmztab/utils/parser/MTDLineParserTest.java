@@ -267,6 +267,7 @@ public class MTDLineParserTest {
 
         reader.close();
 
+        parser.refineNormalMetadata();
         return parser.getMetadata();
     }
 

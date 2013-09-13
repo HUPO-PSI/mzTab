@@ -8,7 +8,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 import static uk.ac.ebi.pride.jmztab.model.MetadataElement.SOFTWARE;
 
 /**
- * Software used to analyze the data and obtain the results reported.
+ * SoftwareVersion used to analyze the data and obtain the results reported.
  * The parameter’s value SHOULD contain the software’s version.
  * The order (numbering) should reflect the order in which the tools were used.
  *
