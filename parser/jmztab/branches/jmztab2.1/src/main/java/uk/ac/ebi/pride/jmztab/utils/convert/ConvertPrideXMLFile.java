@@ -362,12 +362,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
                     }
                 }
             } else {
-                Sample u = new Sample(1);
-                if (u == null) {
-                    noIdSample = new Sample(1);
-                } else {
-                    noIdSample = u;
-                }
+                noIdSample = new Sample(1);
 
                 // add the param to the "global" group
                 if ("NEWT".equals(p.getCvLabel())) {
@@ -387,7 +382,6 @@ public class ConvertPrideXMLFile extends ConvertFile {
             }
         }
 
-        // combine subUnits
         if (noIdSample == null) {
             return;
         }

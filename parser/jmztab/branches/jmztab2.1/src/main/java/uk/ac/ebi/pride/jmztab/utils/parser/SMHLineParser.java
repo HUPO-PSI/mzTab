@@ -3,6 +3,7 @@ package uk.ac.ebi.pride.jmztab.utils.parser;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 /**
@@ -14,8 +15,8 @@ public class SMHLineParser extends MZTabHeaderLineParser {
         super(MZTabColumnFactory.getInstance(Section.Small_Molecule_Header), metadata);
     }
 
-    public void parse(int lineNumber, String line) throws MZTabException {
-        super.parse(lineNumber, line);
+    public void parse(int lineNumber, String line, MZTabErrorList errorList) throws MZTabException {
+        super.parse(lineNumber, line, errorList);
     }
 
     @Override

@@ -101,7 +101,6 @@ public class SMLLineParser extends MZTabDataLineParser {
             if (mod.getType() == Modification.Type.CHEMMOD) {
                 if (target.contains("-MOD:") || target.contains("-UNIMOD:")) {
                     errorList.add(new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString()));
-                    return null;
                 }
 
                 if (parseChemmodAccession(mod.getAccession()) == null) {

@@ -125,14 +125,21 @@ public class PRTLineParser extends MZTabDataLineParser {
     /**
      * For proteins and peptides modifications SHOULD be reported using either UNIMOD or PSI-MOD accessions.
      * As these two ontologies are not applicable to small molecules, so-called CHEMMODs can also be defined.
+     *
+     * Ambiguity of modification position MUST NOT be reported at the Protein level.
      */
     protected SplitList<Modification> checkModifications(MZTabColumn column, String target) {
         SplitList<Modification> modificationList = super.checkModifications(section, column, target);
 
         for (Modification mod: modificationList) {
+            if (mod.getPositionMap().size() > 1) {
+                // this is warn
+                errorList.add(new MZTabError(LogicalErrorType.AmbiguityMod, lineNumber, column.getHeader(), mod.toString()));
+            }
+
             if (mod.getType() == Modification.Type.CHEMMOD) {
+                // this is warn
                 errorList.add(new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString()));
-                return null;
             }
 
             if (mod.getType() == Modification.Type.SUBST && parseSubstitutionIdentifier(mod.getAccession()) != null) {
@@ -144,13 +151,16 @@ public class PRTLineParser extends MZTabDataLineParser {
         return modificationList;
     }
 
+    /**
+     * In SUBST cases, the "sequence" column MUST contain the original, unaltered sequence.
+     */
     private String parseSubstitutionIdentifier(String identifier) {
         identifier = parseString(identifier);
         if (identifier == null) {
             return null;
         }
 
-        Pattern pattern = Pattern.compile("\"[A-Z]+\"");
+        Pattern pattern = Pattern.compile("\"[^BJOUXZ]+\"");
         Matcher matcher = pattern.matcher(identifier);
 
         if (matcher.find() && matcher.start() == 0 && matcher.end() == identifier.length()) {

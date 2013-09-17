@@ -1,10 +1,7 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
+import uk.ac.ebi.pride.jmztab.utils.errors.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -47,8 +44,8 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
      * We assume that user before call this method, have parse the raw line
      * is not empty line and start with section prefix.
      */
-    protected void parse(int lineNumber, String line) throws MZTabException {
-        super.parse(lineNumber, line);
+    protected void parse(int lineNumber, String line, MZTabErrorList errorList) throws MZTabException {
+        super.parse(lineNumber, line, errorList);
 
         int offset = parseStableOrderColumns();
         offset++;

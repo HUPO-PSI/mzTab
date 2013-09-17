@@ -350,7 +350,7 @@ public class MZTabColumnFactory {
      */
     public MZTabColumn findColumn(String header) {
         for (MZTabColumn column : columnMapping.values()) {
-            if (header.equals(column.getHeader())) {
+            if (header.equalsIgnoreCase(column.getHeader())) {
                 return column;
             }
         }

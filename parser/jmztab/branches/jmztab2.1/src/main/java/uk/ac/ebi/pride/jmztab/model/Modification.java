@@ -17,7 +17,8 @@ public class Modification {
         MOD,             //PSI-MOD
         UNIMOD,
         CHEMMOD,
-        SUBST            //Substitution identifier
+        SUBST,           //Substitution identifier
+        UNKNOW
     }
 
     private Map<Integer, CVParam> positionMap = new TreeMap<Integer, CVParam>();
@@ -31,7 +32,7 @@ public class Modification {
      */
     public Modification(Section section, Type type, String accession) {
         if (! section.isData()) {
-            throw new IllegalArgumentException("Section should use Protein, Peptide or SmallMolecule.");
+            throw new IllegalArgumentException("Section should use Protein, Peptide, PSM or SmallMolecule.");
         }
         this.section = section;
         this.type = type;
@@ -40,6 +41,13 @@ public class Modification {
             throw new NullPointerException("Modification accession can not null!");
         }
         this.accession = accession;
+    }
+
+    /**
+     *. If the software has determined that there are no modifications to a given protein “0” MUST be used.
+     */
+    public static Modification createNoModification(Section section) {
+        return new Modification(section, Type.UNKNOW, "0");
     }
 
     public Section getSection() {
@@ -73,6 +81,11 @@ public class Modification {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
+        // no modification.
+        if (type == Type.UNKNOW) {
+            return accession;
+        }
 
         Integer id;
         Param param;
