@@ -7,13 +7,12 @@ import static uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType.Category.Format
  * Date: 29/01/13
  */
 public class FormatErrorType extends MZTabErrorType {
-    public static MZTabErrorType LinePrefix = createWarn(Format, "LinePrefix");
+    public static MZTabErrorType LinePrefix = createError(Format, "LinePrefix");
     public static MZTabErrorType CountMatch = createError(Format, "CountMatch");
 
     public static MZTabErrorType IndexedElement = createError(Format, "IndexedElement");
     public static MZTabErrorType AbundanceColumn = createError(Format, "AbundanceColumn");
     public static MZTabErrorType MsRunOptionalColumn = createError(Format, "MsRunOptionalColumn");
-    public static MZTabErrorType OptionalColumn = createError(Format, "OptionalColumn");
     public static MZTabErrorType OptionalCVParamColumn = createError(Format, "OptionalCVParamColumn");
     public static MZTabErrorType StableColumn = createError(Format, "StableColumn");
 
@@ -24,9 +23,9 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType Param = createError(Format, "Param");
     public static MZTabErrorType ParamList = createError(Format, "ParamList");
     public static MZTabErrorType Publication = createError(Format, "Publication");
-    public static MZTabErrorType URI = createWarn(Format, "URI");
-    public static MZTabErrorType URL = createWarn(Format, "URL");
-    public static MZTabErrorType Email = createWarn(Format, "Email");
+    public static MZTabErrorType URI = createError(Format, "URI");
+    public static MZTabErrorType URL = createError(Format, "URL");
+    public static MZTabErrorType Email = createError(Format, "Email");
 
     public static MZTabErrorType Integer = createError(Format, "Integer");
     public static MZTabErrorType Double = createError(Format, "Double");
@@ -39,6 +38,7 @@ public class FormatErrorType extends MZTabErrorType {
     public static MZTabErrorType SpectraRef = createError(Format, "SpectraRef");
     public static MZTabErrorType CHEMMODSAccession = createError(Format, "CHEMMODSAccession");
     public static MZTabErrorType SearchEngineScore = createWarn(Format, "SearchEngineScore");
+    public static MZTabErrorType Sequence = createWarn(Format, "SearchEngineScore");
 
     public static MZTabErrorType ColUnit = createError(Format, "ColUnit");
 }

@@ -29,33 +29,36 @@ public class MZTabErrorList {
         errorList.clear();
     }
 
-    public boolean isEmpty() {
-        return isEmpty(LEVEL);
+    public int size() {
+        return errorList.size();
     }
 
-    public boolean isEmpty(MZTabErrorType.Level level) {
-        if (level.equals(MZTabErrorType.Level.Warn)) {
-            return errorList.isEmpty();
+    public MZTabError getError(int index) {
+        return errorList.get(index);
+    }
+
+    public boolean isEmpty() {
+        return errorList.isEmpty();
+    }
+
+    public MZTabErrorList filterList(MZTabErrorType.Level level) {
+        MZTabErrorList newList = new MZTabErrorList();
+        if (level.equals(MZTabErrorType.Level.Info)) {
+            newList.errorList.addAll(this.errorList);
         } else {
             for (MZTabError error : errorList) {
-                if (error.getType().getLevel().equals(MZTabErrorType.Level.Error)) {
-                    return false;
+                if (error.getType().getLevel().compareTo(level) >= 0) {
+                    newList.errorList.add(error);
                 }
             }
-            // all errors' level are Warn.
-            return true;
         }
-    }
 
-    public void print(OutputStream out, MZTabErrorType.Level level) throws IOException {
-        for (MZTabError e : errorList) {
-            if (e.getType().getLevel().compareTo(level) >= 0) {
-                out.write(e.toString().getBytes());
-            }
-        }
+        return newList;
     }
 
     public void print(OutputStream out) throws IOException {
-        print(out, MZTabProperties.LEVEL);
+        for (MZTabError e : errorList) {
+            out.write(e.toString().getBytes());
+        }
     }
 }

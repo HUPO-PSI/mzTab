@@ -6,6 +6,7 @@ import uk.ac.ebi.pride.jmztab.model.Metadata;
 import uk.ac.ebi.pride.jmztab.model.Section;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 /**
@@ -17,8 +18,8 @@ public class PSHLineParser extends MZTabHeaderLineParser {
         super(MZTabColumnFactory.getInstance(Section.PSM_Header), metadata);
     }
 
-    public void parse(int lineNumber, String line) throws MZTabException {
-        super.parse(lineNumber, line);
+    public void parse(int lineNumber, String line, MZTabErrorList errorList) throws MZTabException {
+        super.parse(lineNumber, line, errorList);
     }
 
     @Override

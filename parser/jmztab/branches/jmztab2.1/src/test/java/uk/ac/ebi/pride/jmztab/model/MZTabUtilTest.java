@@ -18,6 +18,9 @@ public class MZTabUtilTest {
         assertTrue(parseParam("[, ,tolerance,0.5]") instanceof UserParam);
         assertTrue(parseParam("[, ,,0.5]") == null);
         assertTrue(parseParam("null") == null);
+
+        assertTrue(parseParam("[PRIDE,PRIDE:0000114,\"N,O-diacetylated L-serine\",]").getName().contains("N,O-diacetylated L-serine"));
+        System.out.println(parseParam("[PRIDE,PRIDE:0000114,\"N[12],O-diacetylated L-serine\",]"));
     }
 
     @Test
@@ -195,5 +198,11 @@ public class MZTabUtilTest {
         assertTrue(modification.getPositionMap().isEmpty());
         assertTrue(modification.getType().name().equals("CHEMMOD"));
         assertTrue(modification.getAccession().equals("+NH4-H"));
+
+        // test no modification.
+        Modification mod = parseModification(Section.Protein, "0");
+        assertTrue(mod.toString().equals("0"));
+        modList = parseModificationList(Section.Protein, "0");
+        assertTrue(modList.size() == 1);
     }
 }

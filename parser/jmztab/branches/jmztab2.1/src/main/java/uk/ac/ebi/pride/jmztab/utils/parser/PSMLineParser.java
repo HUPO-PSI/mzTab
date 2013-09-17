@@ -94,14 +94,13 @@ public class PSMLineParser extends MZTabDataLineParser {
         for (Modification mod: modificationList) {
             for (Integer position : mod.getPositionMap().keySet()) {
                 if (position > terminal_position || position < 0) {
-                    errorList.add(new MZTabError(LogicalErrorType.ModificationPosition, lineNumber, column.getHeader(), mod.toString()));
+                    errorList.add(new MZTabError(LogicalErrorType.ModificationPosition, lineNumber, column.getHeader(), mod.toString(), sequence));
                     return null;
                 }
             }
 
             if (mod.getType() == Modification.Type.CHEMMOD) {
                 errorList.add(new MZTabError(LogicalErrorType.CHEMMODS, lineNumber, column.getHeader(), mod.toString()));
-                return null;
             }
         }
 

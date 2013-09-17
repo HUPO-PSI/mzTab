@@ -6,6 +6,7 @@ import uk.ac.ebi.pride.jmztab.model.MZTabDescription;
 import uk.ac.ebi.pride.jmztab.model.Metadata;
 import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 import static org.junit.Assert.assertTrue;
@@ -16,11 +17,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class MZTabHeaderLineValidateTest {
     private Metadata metadata;
+    private MZTabErrorList errorList;
 
     @Before
     public void setUp() throws Exception {
         MTDLineParserTest test = new MTDLineParserTest();
         metadata = test.parseMetadata("testset/mtdFile.txt");
+        errorList = new MZTabErrorList();
     }
 
     @Test
@@ -32,7 +35,7 @@ public class MZTabHeaderLineValidateTest {
 
         PRHLineParser prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.StableColumn);
@@ -46,7 +49,7 @@ public class MZTabHeaderLineValidateTest {
 
         PEHLineParser pehParser = new PEHLineParser(metadata);
         try {
-            pehParser.parse(1, peh);
+            pehParser.parse(1, peh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.StableColumn);
@@ -64,7 +67,7 @@ public class MZTabHeaderLineValidateTest {
 
         PRHLineParser prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.MsRunNotDefined);
@@ -78,7 +81,7 @@ public class MZTabHeaderLineValidateTest {
 
         PEHLineParser pehParser = new PEHLineParser(metadata);
         try {
-            pehParser.parse(1, peh);
+            pehParser.parse(1, peh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.MsRunOptionalColumn);
@@ -93,7 +96,7 @@ public class MZTabHeaderLineValidateTest {
 
         SMHLineParser smhParser = new SMHLineParser(metadata);
         try {
-            smhParser.parse(1, smh);
+            smhParser.parse(1, smh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.IdNumber);
@@ -111,7 +114,7 @@ public class MZTabHeaderLineValidateTest {
         prh += "\tpeptide_abundance_assay[1]";
         PRHLineParser prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.AbundanceColumn);
@@ -128,7 +131,7 @@ public class MZTabHeaderLineValidateTest {
         prh += "\tprotein_abundance_assay[30]";
         prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.AssayNotDefined);
@@ -144,7 +147,7 @@ public class MZTabHeaderLineValidateTest {
         psh += "\tpsm_abundance_assay[1]";
         PSHLineParser pshParser = new PSHLineParser(metadata);
         try {
-            pshParser.parse(1, psh);
+            pshParser.parse(1, psh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.AbundanceColumn);
@@ -162,7 +165,7 @@ public class MZTabHeaderLineValidateTest {
         prh += "\tprotein_abundance_study_variable[10]\tprotein_abundance_stdev_study_variable[10]\tprotein_abundance_std_error_study_variable[10]";
         PRHLineParser prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.StudyVariableNotDefined);
@@ -176,7 +179,7 @@ public class MZTabHeaderLineValidateTest {
         prh += "\tprotein_abundance_study_variable[1]\tprotein_abundance_std_error_study_variable[1]";
         prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.AbundanceColumnTogether);
@@ -190,7 +193,7 @@ public class MZTabHeaderLineValidateTest {
         prh += "\tprotein_abundance_study_variable[1]\tprotein_abundance_stdev_study_variable[2]\tprotein_abundance_std_error_study_variable[1]";
         prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.AbundanceColumnSameId);
@@ -207,7 +210,7 @@ public class MZTabHeaderLineValidateTest {
         prh += "\topt_assay[1]_#y_value";
         PRHLineParser prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.OptionalCVParamColumn);
@@ -221,7 +224,7 @@ public class MZTabHeaderLineValidateTest {
         prh += "\topt_assay[10]_my_value";
         prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.AssayNotDefined);
@@ -235,7 +238,7 @@ public class MZTabHeaderLineValidateTest {
         prh += "\topt_assay[x]_my_value";
         prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.IdNumber);
@@ -256,7 +259,7 @@ public class MZTabHeaderLineValidateTest {
             "go_terms\tprotein_coverage";
         PRHLineParser prhParser = new PRHLineParser(metadata);
         try {
-            prhParser.parse(1, prh);
+            prhParser.parse(1, prh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.NotDefineInHeader);

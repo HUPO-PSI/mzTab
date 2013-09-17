@@ -73,6 +73,10 @@ public class MZTabUtils {
             return null;
         }
 
+        if (target.contains("\"")) {
+            return parseComplexParam(target);
+        }
+
         String regexp = "\\[([^,]+)?,([^,]+)?,([^,]+),([^,]*)\\]";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(target);
@@ -83,6 +87,37 @@ public class MZTabUtils {
             String name = matcher.group(3);
             String value = matcher.group(4);
 
+            if (isEmpty(name)) {
+                return null;
+            }
+
+            if (isEmpty(cvLabel) && isEmpty(accession)) {
+                return new UserParam(name, value);
+            } else {
+                return new CVParam(cvLabel, accession, name, value);
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * If the name of param contains comma, bracket, quotes MUST be added to avoid problems.
+     */
+    public static Param parseComplexParam(String target) {
+        String regexp = "\\[([^,]+)?,([^,]+)?,(.+),([^,]*)\\]";
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(target);
+
+        if (matcher.find() && matcher.end() == target.length()) {
+            String cvLabel = matcher.group(1);
+            String accession = matcher.group(2);
+            String name = matcher.group(3);
+            String value = matcher.group(4);
+
+            int start = name.indexOf("\"") + 1;
+            int end = name.lastIndexOf("\"");
+            name = name.substring(start, end);
             if (isEmpty(name)) {
                 return null;
             }
@@ -168,44 +203,6 @@ public class MZTabUtils {
         }
         return indexedElementList;
     }
-
-//    /**
-//     * sample[1], sample[2], sample[3] ...
-//     */
-//    public static SplitList<Sample> parseSampleList(String target) {
-//        SplitList<String> list = parseStringList(MZTabConstants.COMMA, target);
-//
-//        SplitList<Sample> elementList = new SplitList<Sample>(COMMA);
-//        IndexedElement element;
-//        for (String item : list) {
-//            element = parseIndexedElement(item, MetadataElement.SAMPLE);
-//            if (element == null) {
-//                elementList.clear();
-//                return elementList;
-//            }
-//            elementList.add((Sample) element);
-//        }
-//        return elementList;
-//    }
-//
-//    /**
-//     * assay[1], assay[2], assay[3] ...
-//     */
-//    public static SplitList<Assay> parseAssayList(String target) {
-//        SplitList<String> list = parseStringList(MZTabConstants.COMMA, target);
-//
-//        SplitList<Assay> elementList = new SplitList<Assay>(COMMA);
-//        IndexedElement element;
-//        for (String item : list) {
-//            element = parseIndexedElement(item, MetadataElement.ASSAY);
-//            if (element == null) {
-//                elementList.clear();
-//                return elementList;
-//            }
-//            elementList.add((Assay) element);
-//        }
-//        return elementList;
-//    }
 
     /**
      * A list of '|' separated parameters
@@ -310,6 +307,7 @@ public class MZTabUtils {
      * UNIT_IDs SHOULD consist of the resource identifier plus the resources internal unit id.
      * A resource is anything that is generating mzTab files.
      */
+    @Deprecated
     public static String parseUnitId(String target) {
         target = parseString(target);
         if (target == null) {
@@ -481,6 +479,12 @@ public class MZTabUtils {
 
     public static Modification parseModification(Section section, String target) {
         target = parseString(target);
+
+        // no modification
+        if (target.equals("0")) {
+            return Modification.createNoModification(section);
+        }
+
         target = translateMinusToUnicode(target);
         if (target == null) {
             return null;
@@ -575,10 +579,14 @@ public class MZTabUtils {
             return null;
         }
 
-        target = translateCommaToTab(target);
-
-        SplitList<String> list = parseStringList(COMMA, target);
         SplitList<Modification> modList = new SplitList<Modification>(COMMA);
+        if (target.equals("0")) {
+            modList.add(Modification.createNoModification(section));
+            return modList;
+        }
+
+        target = translateCommaToTab(target);
+        SplitList<String> list = parseStringList(COMMA, target);
 
         Modification mod;
         for (String item : list) {

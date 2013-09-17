@@ -1,5 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * mzTab makes use of CV parameters. As mzTab is expected to be used in several experimental environments
  * where parameters might not yet be available for the generated scores etc. all parameters can either
@@ -72,6 +75,29 @@ public class Param {
         return accession != null ? accession.hashCode() : 0;
     }
 
+    private void printName(String name, StringBuilder sb) {
+        List<String> charList = new ArrayList<String>();
+
+        charList.add("\"");
+        charList.add(",");
+        charList.add("[");
+        charList.add("]");
+
+        boolean containReserveChar = false;
+        for (String c : charList) {
+            if (name.contains(c)) {
+                containReserveChar = true;
+                break;
+            }
+        }
+
+        if (containReserveChar) {
+            sb.append("\"").append(name).append("\"");
+        } else {
+            sb.append(name);
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -88,7 +114,7 @@ public class Param {
         }
         sb.append(", ");
 
-        sb.append(name);
+        printName(name, sb);
         sb.append(", ");
 
         if (value != null) {
