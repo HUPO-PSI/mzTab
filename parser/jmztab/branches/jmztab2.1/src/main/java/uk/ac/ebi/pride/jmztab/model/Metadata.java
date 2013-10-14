@@ -23,8 +23,8 @@ public class Metadata {
     private SortedMap<Integer, Publication> publicationMap = new TreeMap<Integer, Publication>();
     private SortedMap<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
     private List<URI> uriList = new ArrayList<URI>();
-    private SplitList<Param> fixedMod = new SplitList<Param>(BAR);
-    private SplitList<Param> variableMod = new SplitList<Param>(BAR);
+    private SortedMap<Integer, FixedMod> fixedModMap = new TreeMap<Integer, FixedMod>();
+    private  SortedMap<Integer, VariableMod> variableModMap = new TreeMap<Integer, VariableMod>();
     private Param quantificationMethod;
     private Param proteinQuantificationUnit;
     private Param peptideQuantificationUnit;
@@ -34,6 +34,7 @@ public class Metadata {
     private SortedMap<Integer, Sample> sampleMap = new TreeMap<Integer, Sample>();
     private SortedMap<Integer, Assay> assayMap = new TreeMap<Integer, Assay>();
     private SortedMap<Integer, StudyVariable> studyVariableMap = new TreeMap<Integer, StudyVariable>();
+    private SortedMap<Integer, CV> cvMap = new TreeMap<Integer, CV>();
     private List<ColUnit> proteinColUnitList = new ArrayList<ColUnit>();
     private List<ColUnit> peptideColUnitList = new ArrayList<ColUnit>();
     private List<ColUnit> psmColUnitList = new ArrayList<ColUnit>();
@@ -111,13 +112,8 @@ public class Metadata {
             printPrefix(sb).append(MetadataElement.URI).append(TAB).append(uri).append(NEW_LINE);
         }
 
-        if (! fixedMod.isEmpty()) {
-            printPrefix(sb).append(FIXED_MOD).append(TAB).append(fixedMod).append(NEW_LINE);
-        }
-
-        if (! variableMod.isEmpty()) {
-            printPrefix(sb).append(VARIABLE_MOD).append(TAB).append(variableMod).append(NEW_LINE);
-        }
+        sb = printMap(fixedModMap, FIXED_MOD.toString(), sb);
+        sb = printMap(variableModMap, VARIABLE_MOD.toString(), sb);
 
         if (quantificationMethod != null) {
             printPrefix(sb).append(QUANTIFICATION_METHOD).append(TAB).append(quantificationMethod).append(NEW_LINE);
@@ -141,6 +137,7 @@ public class Metadata {
         sb = printMap(sampleMap, SAMPLE.toString(), sb);
         sb = printMap(assayMap, ASSAY.toString(), sb);
         sb = printMap(studyVariableMap, STUDY_VARIABLE.toString(), sb);
+        sb = printMap(cvMap, CV.toString(), sb);
 
         for (ColUnit colUnit : proteinColUnitList) {
             printPrefix(sb).append(COLUNIT).append(MINUS).append(COLUNIT_PROTEIN);
@@ -234,12 +231,12 @@ public class Metadata {
         return uriList;
     }
 
-    public SplitList<Param> getFixedMod() {
-        return fixedMod;
+    public Map<Integer, FixedMod> getFixedModMap() {
+        return fixedModMap;
     }
 
-    public SplitList<Param> getVariableMod() {
-        return variableMod;
+    public Map<Integer, VariableMod> getVariableModMap() {
+        return variableModMap;
     }
 
     public Param getQuantificationMethod() {
@@ -292,6 +289,10 @@ public class Metadata {
 
     public List<ColUnit> getSmallMoleculeColUnitList() {
         return smallMoleculeColUnitList;
+    }
+
+    public SortedMap<Integer, CV> getCvMap() {
+        return cvMap;
     }
 
     public boolean setTitle(String title) {
@@ -500,20 +501,78 @@ public class Metadata {
         this.uriList.add(uri);
     }
 
-    public void addFixedModParam(Param param) {
-        this.fixedMod.add(param);
+    public boolean addFixedModParam(Integer id, Param param) {
+        FixedMod mod = fixedModMap.get(id);
+        if (mod == null) {
+            mod = new FixedMod(id);
+            mod.setParam(param);
+            fixedModMap.put(id, mod);
+            return true;
+        } else if (mod.getParam() != null) {
+            return false;
+        } else {
+            mod.setParam(param);
+            return true;
+        }
     }
 
-    public void addVariableModParam(Param param) {
-        this.variableMod.add(param);
+    public void addFixedModSite(Integer id, String site) {
+        FixedMod mod = fixedModMap.get(id);
+        if (mod == null) {
+            mod = new FixedMod(id);
+            mod.setSite(site);
+            fixedModMap.put(id, mod);
+        } else  {
+            mod.setSite(site);
+        }
     }
 
-    public void setFixedMod(SplitList<Param> fixedMod) {
-        this.fixedMod = fixedMod;
+    public void addFixedModPosition(Integer id, String position) {
+        FixedMod mod = fixedModMap.get(id);
+        if (mod == null) {
+            mod = new FixedMod(id);
+            mod.setPosition(position);
+            fixedModMap.put(id, mod);
+        } else  {
+            mod.setPosition(position);
+        }
     }
 
-    public void setVariableMod(SplitList<Param> variableMod) {
-        this.variableMod = variableMod;
+    public boolean addVariableModParam(Integer id, Param param) {
+        VariableMod mod = variableModMap.get(id);
+        if (mod == null) {
+            mod = new VariableMod(id);
+            mod.setParam(param);
+            variableModMap.put(id, mod);
+            return true;
+        } else if (mod.getParam() != null) {
+            return false;
+        } else {
+            mod.setParam(param);
+            return true;
+        }
+    }
+
+    public void addVariableModSite(Integer id, String site) {
+        VariableMod mod = variableModMap.get(id);
+        if (mod == null) {
+            mod = new VariableMod(id);
+            mod.setSite(site);
+            variableModMap.put(id, mod);
+        } else  {
+            mod.setSite(site);
+        }
+    }
+
+    public void addVariableModPosition(Integer id, String position) {
+        VariableMod mod = variableModMap.get(id);
+        if (mod == null) {
+            mod = new VariableMod(id);
+            mod.setPosition(position);
+            variableModMap.put(id, mod);
+        } else  {
+            mod.setPosition(position);
+        }
     }
 
     public void setQuantificationMethod(Param quantificationMethod) {
@@ -727,6 +786,39 @@ public class Metadata {
         }
     }
 
+    public void addAssayQuantificationModParam(Integer assayId, Integer quanModId, Param param) {
+        Assay assay = assayMap.get(assayId);
+        if (assay == null) {
+            assay = new Assay(assayId);
+            assay.addQuantificationModParam(quanModId, param);
+            assayMap.put(assayId, assay);
+        } else {
+            assay.addQuantificationModParam(quanModId, param);
+        }
+    }
+
+    public void addAssayQuantificationModSite(Integer assayId, Integer quanModId, String site) {
+        Assay assay = assayMap.get(assayId);
+        if (assay == null) {
+            assay = new Assay(assayId);
+            assay.addQuantificationModSite(quanModId, site);
+            assayMap.put(assayId, assay);
+        } else {
+            assay.addQuantificationModSite(quanModId, site);
+        }
+    }
+
+    public void addAssayQuantificationModPosition(Integer assayId, Integer quanModId, String position) {
+        Assay assay = assayMap.get(assayId);
+        if (assay == null) {
+            assay = new Assay(assayId);
+            assay.addQuantificationModPosition(quanModId, position);
+            assayMap.put(assayId, assay);
+        } else {
+            assay.addQuantificationModPosition(quanModId, position);
+        }
+    }
+
     public void addStudyVariable(StudyVariable studyVariable) {
         studyVariableMap.put(studyVariable.getId(), studyVariable);
     }
@@ -766,6 +858,46 @@ public class Metadata {
         studyVariable.setDescription(description);
         studyVariableMap.put(id, studyVariable);
         return true;
+    }
+
+    public void addCVLabel(Integer id, String label) {
+        CV cv = cvMap.get(id);
+        if (cv == null) {
+            cv = new CV(id);
+        }
+
+        cv.setLabel(label);
+        cvMap.put(id, cv);
+    }
+
+    public void addCVFullName(Integer id, String fullName) {
+        CV cv = cvMap.get(id);
+        if (cv == null) {
+            cv = new CV(id);
+        }
+
+        cv.setFullName(fullName);
+        cvMap.put(id, cv);
+    }
+
+    public void addCVVersion(Integer id, String version) {
+        CV cv = cvMap.get(id);
+        if (cv == null) {
+            cv = new CV(id);
+        }
+
+        cv.setVersion(version);
+        cvMap.put(id, cv);
+    }
+
+    public void addCVURL(Integer id, String url) {
+        CV cv = cvMap.get(id);
+        if (cv == null) {
+            cv = new CV(id);
+        }
+
+        cv.setUrl(url);
+        cvMap.put(id, cv);
     }
 
     public void addProteinColUnit(MZTabColumn column, Param param) {

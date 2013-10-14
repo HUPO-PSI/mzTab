@@ -112,11 +112,17 @@ public class MTDLineParserTest {
         parser.parse(1, "MTD\turi\thttp://proteomecentral.proteomexchange.org/cgi/GetDataset", errorList);
         assertTrue(metadata.getUriList().size() == 2);
 
-        parser.parse(1, "MTD\tfixed_mod\t[MOD, MOD:00397, iodoacetamide derivatized residue, ]|[MOD, MOD:00675, oxidized residue, ]", errorList);
-        parser.parse(1, "MTD\tvariable_mod\t[MOD, MOD:00412, phosphorylation, ]|[MOD, MOD:00675, oxidized residue, ]", errorList);
+        parser.parse(1, "MTD\tfixed_mod[1]\t[UNIMOD, UNIMOD:4, Carbamidomethyl, ]", errorList);
+        parser.parse(1, "MTD\tfixed_mod[1]-site\tM", errorList);
+        parser.parse(1, "MTD\tfixed_mod[2]\t[UNIMOD, UNIMOD:35, Oxidation, ]", errorList);
+        parser.parse(1, "MTD\tfixed_mod[2]-site\tN-term", errorList);
+        parser.parse(1, "MTD\tfixed_mod[3]\t[UNIMOD, UNIMOD:1, Acetyl, ]", errorList);
+        parser.parse(1, "MTD\tfixed_mod[3]-position\tProtein C-term", errorList);
+        assertTrue(metadata.getFixedModMap().size() == 3);
+        assertTrue(metadata.getFixedModMap().get(1).getSite().equals("M"));
+        assertTrue(metadata.getVariableModMap().size() == 0);
+
         parser.parse(1, "MTD\tquantification_method\t[MS, MS:1001837, iTraq, ]", errorList);
-        assertTrue(metadata.getFixedMod().size() == 2);
-        assertTrue(metadata.getVariableMod().size() == 2);
         assertTrue(metadata.getQuantificationMethod() != null);
 
         parser.parse(1, "MTD\tprotein-quantification_unit\t[PRIDE, PRIDE:0000395, Ratio, ]", errorList);
@@ -126,10 +132,16 @@ public class MTDLineParserTest {
         assertTrue(metadata.getPeptideQuantificationUnit() != null);
         assertTrue(metadata.getSmallMoleculeQuantificationUnit() != null);
 
-
-
         parser.parse(1, "MTD\tcustom\t[, , MS operator, Florian]", errorList);
         assertTrue(metadata.getCustomList().size() == 1);
+
+        parser.parse(1, "MTD\tcv[1]-label\tMS", errorList);
+        parser.parse(1, "MTD\tcv[2]-full_name\tMS", errorList);
+        parser.parse(1, "MTD\tcv[1]-version\t3.54.0", errorList);
+        parser.parse(1, "MTD\tcv[2]-url\thttp://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo", errorList);
+        assertTrue(metadata.getCvMap().size() == 2);
+        assertTrue(metadata.getCvMap().get(1).getVersion().equals("3.54.0"));
+        assertTrue(metadata.getCvMap().get(2).getUrl().equals("http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo"));
     }
 
     @Test
@@ -222,6 +234,18 @@ public class MTDLineParserTest {
         parser.parse(1, "MTD\tassay[2]-ms_run_ref\tms_run[2]", errorList);
         assertTrue(metadata.getAssayMap().get(1).getMsRun().equals(msRun1));
         assertTrue(metadata.getAssayMap().get(2).getMsRun().equals(msRun2));
+
+        parser.parse(1, "MTD\tassay[2]-quantification_mod[1]\t[UNIMOD, UNIMOD:188, Label:13C(6), ]", errorList);
+        parser.parse(1, "MTD\tassay[2]-quantification_mod[1]-site\tR", errorList);
+        parser.parse(1, "MTD\tassay[2]-quantification_mod[1]-position\tAnywhere", errorList);
+        parser.parse(1, "MTD\tassay[2]-quantification_mod[2]\t[UNIMOD, UNIMOD:188, Label:13C(6), ]", errorList);
+        parser.parse(1, "MTD\tassay[2]-quantification_mod[2]-site\tK", errorList);
+        parser.parse(1, "MTD\tassay[2]-quantification_mod[2]-position\tAnywhere", errorList);
+        assertTrue(metadata.getAssayMap().get(2).getQuantificationModMap().size() == 2);
+        AssayQuantificationMod quantificationMod = metadata.getAssayMap().get(2).getQuantificationModMap().get(1);
+        assertTrue(quantificationMod.getSite().equals("R"));
+        quantificationMod = metadata.getAssayMap().get(2).getQuantificationModMap().get(2);
+        assertTrue(quantificationMod.getPosition().equals("Anywhere"));
     }
 
     @Test

@@ -52,11 +52,19 @@ public class MetadataRun {
         mtd.addUri(new URI("http://www.ebi.ac.uk/pride/url/to/experiment"));
         mtd.addUri(new URI("http://proteomecentral.proteomexchange.org/cgi/GetDataset"));
 
-        mtd.addFixedModParam(new CVParam("MOD", "MOD:00397", "iodoacetamide derivatized residue", null));
-        mtd.addFixedModParam(new CVParam("MOD", "MOD:00675", "oxidized residue", null));
+        mtd.addFixedModParam(1, new CVParam("UNIMOD", "UNIMOD:4", "Carbamidomethyl", null));
+        mtd.addFixedModSite(1, "M");
+        mtd.addFixedModParam(2, new CVParam("UNIMOD", "UNIMOD:35", "Oxidation", null));
+        mtd.addFixedModSite(2, "N-term");
+        mtd.addFixedModParam(3, new CVParam("UNIMOD", "UNIMOD:1", "Acetyl", null));
+        mtd.addFixedModPosition(3, "Protein C-term");
 
-        mtd.addVariableModParam(new CVParam("MOD", "MOD:00412", "phosphorylation", null));
-        mtd.addVariableModParam(new CVParam("MOD", "MOD:00675", "oxidized residue", null));
+        mtd.addVariableModParam(1, new CVParam("UNIMOD", "UNIMOD:21", "Phospho", null));
+        mtd.addVariableModSite(1, "M");
+        mtd.addVariableModParam(2, new CVParam("UNIMOD", "UNIMOD:35", "Oxidation", null));
+        mtd.addVariableModSite(2, "N-term");
+        mtd.addVariableModParam(3, new CVParam("UNIMOD", "UNIMOD:1", "Acetyl", null));
+        mtd.addVariableModPosition(3, "Protein C-term");
 
         mtd.setQuantificationMethod(new CVParam("MS", "MS:1001837", "iTRAQ quantitation analysis", null));
         mtd.setProteinQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000395", "Ratio", null));
@@ -94,6 +102,13 @@ public class MetadataRun {
         mtd.addAssaySample(1, sample1);
         mtd.addAssaySample(2, sample2);
 
+        mtd.addAssayQuantificationModParam(2, 1, new CVParam("UNIMOD", "UNIMOD:188", "Label:13C(6)", null));
+        mtd.addAssayQuantificationModParam(2, 2, new CVParam("UNIMOD", "UNIMOD:188", "Label:13C(6)", null));
+        mtd.addAssayQuantificationModSite(2, 1, "R");
+        mtd.addAssayQuantificationModSite(2, 2, "K");
+        mtd.addAssayQuantificationModPosition(2, 1, "Anywhere");
+        mtd.addAssayQuantificationModPosition(2, 2, "Anywhere");
+
         MsRun msRun1 = mtd.getMsRunMap().get(1);
         mtd.addAssayMsRun(1, msRun1);
 
@@ -105,6 +120,10 @@ public class MetadataRun {
         mtd.addStudyVariableSample(1, sample1);
         mtd.addStudyVariableDescription(1, "description Group B (spike-in 0.74 fmol/uL)");
 
+        mtd.addCVLabel(1, "MS");
+        mtd.addCVFullName(1, "MS");
+        mtd.addCVVersion(1, "3.54.0");
+        mtd.addCVURL(1, "http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo");
 
         mtd.addProteinColUnit(ProteinColumn.RELIABILITY, new CVParam("MS", "MS:00001231", "PeptideProphet:Score", null));
 

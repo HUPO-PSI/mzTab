@@ -27,6 +27,10 @@ public class IndexedElement {
         this.id = id;
     }
 
+    public MetadataElement getElement() {
+        return element;
+    }
+
     public int getId() {
         return id;
     }
