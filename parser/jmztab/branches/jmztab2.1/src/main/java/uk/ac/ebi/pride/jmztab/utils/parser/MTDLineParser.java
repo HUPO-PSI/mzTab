@@ -68,10 +68,28 @@ public class MTDLineParser extends MZTabLineParser {
         return email;
     }
 
-    private MetadataProperty checkProperty(String elementName, String propertyName) throws MZTabException {
-        MetadataProperty property = MetadataProperty.findProperty(elementName, propertyName);
+    private MetadataProperty checkProperty(MetadataElement element, String propertyName) throws MZTabException {
+        if (isEmpty(propertyName)) {
+            return null;
+        }
+
+        MetadataProperty property = MetadataProperty.findProperty(element, propertyName);
         if (property == null) {
-            MZTabError error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, elementName + "-" + propertyName);
+            MZTabError error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, element.getName() + "-" + propertyName);
+            throw new MZTabException(error);
+        }
+
+        return property;
+    }
+
+    private MetadataProperty checkProperty(MetadataSubElement subElement, String propertyName) throws MZTabException {
+        if (isEmpty(propertyName)) {
+            return null;
+        }
+
+        MetadataProperty property = MetadataProperty.findProperty(subElement, propertyName);
+        if (property == null) {
+            MZTabError error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, subElement.getName() + "-" + propertyName);
             throw new MZTabException(error);
         }
 
@@ -194,7 +212,7 @@ public class MTDLineParser extends MZTabLineParser {
      * If optional item not exists, return null.
      */
     private void parseNormalMetadata(String defineLabel, String valueLabel) throws MZTabException {
-        String regexp = "(\\w+)(\\[(\\w+)\\])?(-(\\w+))?";
+        String regexp = "(\\w+)(\\[(\\w+)\\])?(-(\\w+)(\\[(\\w+)\\])?)?(-(\\w+))?";
 
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(defineLabel);
@@ -211,7 +229,7 @@ public class MTDLineParser extends MZTabLineParser {
             List<IndexedElement> indexedElementList;
             switch (element) {
                 case MZTAB:
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
                     switch (property) {
                         case MZTAB_VERSION:
                             metadata.setMZTabVersion(valueLabel);
@@ -249,7 +267,7 @@ public class MTDLineParser extends MZTabLineParser {
                     break;
                 case INSTRUMENT:
                     id = checkIndex(defineLabel, matcher.group(3));
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
                     param = checkParam(defineLabel, valueLabel);
 
                     switch (property) {
@@ -270,7 +288,7 @@ public class MTDLineParser extends MZTabLineParser {
                     break;
                 case SOFTWARE:
                     id = checkIndex(defineLabel, matcher.group(3));
-                    property = MetadataProperty.findProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
                     if (property == null) {
                         param = checkParam(defineLabel, valueLabel);
                         if (param.getValue() == null || param.getValue().trim().length() == 0) {
@@ -300,7 +318,7 @@ public class MTDLineParser extends MZTabLineParser {
                     break;
                 case CONTACT:
                     id = checkIndex(defineLabel, matcher.group(3));
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
 
                     switch (property) {
                         case CONTACT_NAME:
@@ -318,16 +336,48 @@ public class MTDLineParser extends MZTabLineParser {
                     metadata.addUri(checkURI(defineLabel, valueLabel));
                     break;
                 case FIXED_MOD:
-                    if (metadata.getFixedMod().size() > 0) {
-                        throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                    id = checkIndex(defineLabel, matcher.group(3));
+                    property = checkProperty(element, matcher.group(5));
+                    if (property == null) {
+                        param = checkParam(defineLabel, valueLabel);
+                        if (param == null) {
+                            // fixed modification parameter should be setting.
+                            errorList.add(new MZTabError(FormatErrorType.Param, lineNumber, valueLabel));
+                        } else {
+                            metadata.addFixedModParam(id, param);
+                        }
+                    } else {
+                        switch (property) {
+                            case FIXED_MOD_POSITION:
+                                metadata.addFixedModPosition(id, valueLabel);
+                                break;
+                            case FIXED_MOD_SITE:
+                                metadata.addFixedModSite(id, valueLabel);
+                                break;
+                        }
                     }
-                    metadata.setFixedMod(checkParamList(defineLabel, valueLabel));
                     break;
                 case VARIABLE_MOD:
-                    if (metadata.getVariableMod().size() > 0) {
-                        throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
+                    id = checkIndex(defineLabel, matcher.group(3));
+                    property = checkProperty(element, matcher.group(5));
+                    if (property == null) {
+                        param = checkParam(defineLabel, valueLabel);
+                        if (param == null) {
+                            // variable modification parameter should be setting.
+                            errorList.add(new MZTabError(FormatErrorType.Param, lineNumber, valueLabel));
+                        } else {
+                            metadata.addVariableModParam(id, param);
+                        }
+                    } else {
+                        switch (property) {
+                            case VARIABLE_MOD_POSITION:
+                                metadata.addFixedModPosition(id, valueLabel);
+                                break;
+                            case VARIABLE_MOD_SITE:
+                                metadata.addFixedModSite(id, valueLabel);
+                                break;
+                        }
                     }
-                    metadata.setVariableMod(checkParamList(defineLabel, valueLabel));
                     break;
                 case QUANTIFICATION_METHOD:
                     if (metadata.getQuantificationMethod() != null) {
@@ -336,7 +386,7 @@ public class MTDLineParser extends MZTabLineParser {
                     metadata.setQuantificationMethod(checkParam(defineLabel, valueLabel));
                     break;
                 case PROTEIN:
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
                     switch (property) {
                         case PROTEIN_QUANTIFICATION_UNIT:
                             if (metadata.getProteinQuantificationUnit() != null) {
@@ -347,7 +397,7 @@ public class MTDLineParser extends MZTabLineParser {
                     }
                     break;
                 case PEPTIDE:
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
                     switch (property) {
                         case PEPTIDE_QUANTIFICATION_UNIT:
                             if (metadata.getPeptideQuantificationUnit() != null) {
@@ -358,7 +408,7 @@ public class MTDLineParser extends MZTabLineParser {
                     }
                     break;
                 case SMALL_MOLECULE:
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
                     switch (property) {
                         case SMALL_MOLECULE_QUANTIFICATION_UNIT:
                             if (metadata.getSmallMoleculeQuantificationUnit() != null) {
@@ -370,7 +420,7 @@ public class MTDLineParser extends MZTabLineParser {
                     break;
                 case MS_RUN:
                     id = checkIndex(defineLabel, matcher.group(3));
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
 
                     switch (property) {
                         case MS_RUN_FORMAT:
@@ -393,7 +443,7 @@ public class MTDLineParser extends MZTabLineParser {
                     break;
                 case SAMPLE:
                     id = checkIndex(defineLabel, matcher.group(3));
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
 
                     switch (property) {
                         case SAMPLE_SPECIES:
@@ -417,34 +467,60 @@ public class MTDLineParser extends MZTabLineParser {
                     }
                     break;
                 case ASSAY:
-                    id = checkIndex(defineLabel, matcher.group(3));
-                    property = checkProperty(element.getName(), matcher.group(5));
-                    switch (property) {
-                        case ASSAY_QUANTIFICATION_REAGENT:
-                            metadata.addAssayQuantificationReagent(id, checkParam(defineLabel, valueLabel));
-                            break;
-                        case ASSAY_SAMPLE_REF:
-                            indexedElement = checkIndexedElement(defineLabel, valueLabel, MetadataElement.SAMPLE);
-                            Sample sample = metadata.getSampleMap().get(indexedElement.getId());
-                            if (sample == null) {
-                                throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
-                            }
-                            metadata.addAssaySample(id, sample);
-                            break;
-                        case ASSAY_MS_RUN_REF:
-                            indexedElement = checkIndexedElement(defineLabel, valueLabel, MetadataElement.MS_RUN);
-                            MsRun msRun = metadata.getMsRunMap().get(indexedElement.getId());
-                            if (msRun == null) {
-                                throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
-                            }
-                            metadata.addAssayMsRun(id, msRun);
-                            break;
+                    if (isEmpty(matcher.group(6))) {
+                        // no quantification modification. For example: assay[1-n]-quantification_reagent
+                        id = checkIndex(defineLabel, matcher.group(3));
+                        property = checkProperty(element, matcher.group(5));
+                        switch (property) {
+                            case ASSAY_QUANTIFICATION_REAGENT:
+                                metadata.addAssayQuantificationReagent(id, checkParam(defineLabel, valueLabel));
+                                break;
+                            case ASSAY_SAMPLE_REF:
+                                indexedElement = checkIndexedElement(defineLabel, valueLabel, MetadataElement.SAMPLE);
+                                Sample sample = metadata.getSampleMap().get(indexedElement.getId());
+                                if (sample == null) {
+                                    throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
+                                }
+                                metadata.addAssaySample(id, sample);
+                                break;
+                            case ASSAY_MS_RUN_REF:
+                                indexedElement = checkIndexedElement(defineLabel, valueLabel, MetadataElement.MS_RUN);
+                                MsRun msRun = metadata.getMsRunMap().get(indexedElement.getId());
+                                if (msRun == null) {
+                                    throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
+                                }
+                                metadata.addAssayMsRun(id, msRun);
+                                break;
+                        }
+                    } else {
+                        // quantification modification. For example: assay[1]-quantification_mod[1], assay[1]-quantification_mod[1]-site
+                        id = checkIndex(defineLabel, matcher.group(3));
+                        MetadataSubElement subElement = MetadataSubElement.findSubElement(element, matcher.group(5));
+                        switch (subElement) {
+                            case ASSAY_QUANTIFICATION_MOD:
+                                int modId = checkIndex(defineLabel, matcher.group(7));
+                                property = checkProperty(subElement, matcher.group(9));
+                                if (property == null) {
+                                    metadata.addAssayQuantificationModParam(id, modId, checkParam(defineLabel, valueLabel));
+                                } else {
+                                    switch (property) {
+                                        case ASSAY_QUANTIFICATION_MOD_SITE:
+                                            metadata.addAssayQuantificationModSite(id, modId, valueLabel);
+                                            break;
+                                        case ASSAY_QUANTIFICATION_MOD_POSITION:
+                                            metadata.addAssayQuantificationModPosition(id, modId, valueLabel);
+                                            break;
+                                    }
+                                }
+
+                                break;
+                        }
                     }
 
                     break;
                 case STUDY_VARIABLE:
                     id = checkIndex(defineLabel, matcher.group(3));
-                    property = checkProperty(element.getName(), matcher.group(5));
+                    property = checkProperty(element, matcher.group(5));
                     switch (property) {
                         case STUDY_VARIABLE_ASSAY_REFS:
                             indexedElementList = checkIndexedElementList(defineLabel, valueLabel, MetadataElement.ASSAY);
@@ -468,6 +544,24 @@ public class MTDLineParser extends MZTabLineParser {
                             break;
                         case STUDY_VARIABLE_DESCRIPTION:
                             metadata.addStudyVariableDescription(id, valueLabel);
+                            break;
+                    }
+                    break;
+                case CV:
+                    id = checkIndex(defineLabel, matcher.group(3));
+                    property = checkProperty(element, matcher.group(5));
+                    switch (property) {
+                        case CV_LABEL:
+                            metadata.addCVLabel(id, valueLabel);
+                            break;
+                        case CV_FULL_NAME:
+                            metadata.addCVFullName(id, valueLabel);
+                            break;
+                        case CV_VERSION:
+                            metadata.addCVVersion(id, valueLabel);
+                            break;
+                        case CV_URL:
+                            metadata.addCVURL(id, valueLabel);
                             break;
                     }
                     break;
@@ -497,11 +591,11 @@ public class MTDLineParser extends MZTabLineParser {
                     throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "study_variable[" + id + "]-assay_refs", mode.toString(), type.toString()));
                 }
             }
-            if (metadata.getFixedMod().size() == 0) {
-                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "fixed_mode", mode.toString(), type.toString()));
+            if (metadata.getFixedModMap().size() == 0) {
+                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "fixed_mod", mode.toString(), type.toString()));
             }
-            if (metadata.getVariableMod().size() == 0) {
-                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "variable_mode", mode.toString(), type.toString()));
+            if (metadata.getVariableModMap().size() == 0) {
+                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "variable_mod", mode.toString(), type.toString()));
             }
 
             if (type == MZTabDescription.Type.Identification) {

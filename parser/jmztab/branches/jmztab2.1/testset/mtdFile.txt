@@ -29,8 +29,18 @@ MTD	contact[2]-affiliation	Cambridge University, UK
 MTD	contact[2]-email	crick@cam.ac.uk
 MTD	uri	http://www.ebi.ac.uk/pride/url/to/experiment
 MTD	uri	http://proteomecentral.proteomexchange.org/cgi/GetDataset
-MTD	fixed_mod	[MOD, MOD:00397, iodoacetamide derivatized residue, ]|[MOD, MOD:00675, oxidized residue, ]
-MTD	variable_mod	[MOD, MOD:00412, phosphorylation, ]|[MOD, MOD:00675, oxidized residue, ]
+MTD	fixed_mod[1]	[UNIMOD, UNIMOD:4, Carbamidomethyl, ]
+MTD	fixed_mod[1]-site	M
+MTD	fixed_mod[2]	[UNIMOD, UNIMOD:35, Oxidation, ]
+MTD	fixed_mod[2]-site	N-term
+MTD	fixed_mod[3]	[UNIMOD, UNIMOD:1, Acetyl, ]
+MTD	fixed_mod[3]-position	Protein C-term
+MTD	variable_mod[1]	[UNIMOD, UNIMOD:21, Phospho, ]
+MTD	variable_mod[1]-site	M
+MTD	variable_mod[2]	[UNIMOD, UNIMOD:35, Oxidation, ]
+MTD	variable_mod[2]-site	N-term
+MTD	variable_mod[3]	[UNIMOD, UNIMOD:1, Acetyl, ]
+MTD	variable_mod[3]-position	Protein C-term
 MTD	quantification_method	[MS, MS:1001837, iTRAQ quantitation analysis, ]
 MTD	protein-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	peptide-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
@@ -60,12 +70,22 @@ MTD	assay[1]-sample_ref	sample[1]
 MTD	assay[1]-ms_run_ref	ms_run[1]
 MTD	assay[2]-quantification_reagent	[PRIDE, PRIDE:0000115, iTRAQ reagent, 115]
 MTD	assay[2]-sample_ref	sample[2]
-MTD	study_variable[1]-description	description Group A (spike-in 0.74 fmol/uL)
+MTD	assay[2]-quantification_mod[1]	[UNIMOD, UNIMOD:188, Label:13C(6), ]
+MTD	assay[2]-quantification_mod[1]-site	R
+MTD	assay[2]-quantification_mod[1]-position	Anywhere
+MTD	assay[2]-quantification_mod[2]	[UNIMOD, UNIMOD:188, Label:13C(6), ]
+MTD	assay[2]-quantification_mod[2]-site	K
+MTD	assay[2]-quantification_mod[2]-position	Anywhere
+MTD	study_variable[1]-description	description Group B (spike-in 0.74 fmol/uL)
 MTD	study_variable[1]-assay_refs	assay[1], assay[2]
 MTD	study_variable[1]-sample_refs	sample[1]
 MTD	study_variable[2]-description	description Group B (spike-in 0.74 fmol/uL)
 MTD	study_variable[2]-assay_refs	assay[1]
 MTD	study_variable[2]-sample_refs	sample[1]
+MTD	cv[1]-label	MS
+MTD	cv[1]-full_name	MS
+MTD	cv[1]-version	3.54.0
+MTD	cv[1]-url	http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo
 MTD	colunit-protein	reliability=[MS, MS:00001231, PeptideProphet:Score, ]
 MTD	colunit-peptide	retention_time=[UO, UO:0000031, minute, ]
 MTD	colunit-psm	retention_time=[UO, UO:0000031, minute, ]

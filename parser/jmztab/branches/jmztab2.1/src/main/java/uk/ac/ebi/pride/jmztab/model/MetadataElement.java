@@ -26,6 +26,7 @@ public enum MetadataElement {
     SAMPLE                            ("sample"),
     ASSAY                             ("assay"),
     STUDY_VARIABLE                    ("study_variable"),
+    CV                                ("cv"),
     COLUNIT                           ("colunit");
 
     private String name;

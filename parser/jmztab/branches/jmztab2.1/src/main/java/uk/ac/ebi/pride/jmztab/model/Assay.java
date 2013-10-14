@@ -1,5 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
@@ -10,6 +13,7 @@ public class Assay extends IndexedElement {
     private Param quantificationReagent;
     private Sample sample;
     private MsRun msRun;
+    private Map<Integer, AssayQuantificationMod> quantificationModMap = new TreeMap<Integer, AssayQuantificationMod>();
 
     public Assay(int id) {
         super(MetadataElement.ASSAY, id);
@@ -27,6 +31,10 @@ public class Assay extends IndexedElement {
         return msRun;
     }
 
+    public Map<Integer, AssayQuantificationMod> getQuantificationModMap() {
+        return quantificationModMap;
+    }
+
     public void setQuantificationReagent(Param quantificationReagent) {
         this.quantificationReagent = quantificationReagent;
     }
@@ -37,6 +45,43 @@ public class Assay extends IndexedElement {
 
     public void setMsRun(MsRun msRun) {
         this.msRun = msRun;
+    }
+
+    public boolean addQuantificationModParam(Integer id, Param param) {
+        AssayQuantificationMod mod = quantificationModMap.get(id);
+        if (mod == null) {
+            mod = new AssayQuantificationMod(this, id);
+            mod.setParam(param);
+            quantificationModMap.put(id, mod);
+            return true;
+        } else if (mod.getParam() != null) {
+            return false;
+        } else {
+            mod.setParam(param);
+            return true;
+        }
+    }
+
+    public void addQuantificationModSite(Integer id, String site) {
+        AssayQuantificationMod mod = quantificationModMap.get(id);
+        if (mod == null) {
+            mod = new AssayQuantificationMod(this, id);
+            mod.setSite(site);
+            quantificationModMap.put(id, mod);
+        } else  {
+            mod.setSite(site);
+        }
+    }
+
+    public void addQuantificationModPosition(Integer id, String position) {
+        AssayQuantificationMod mod = quantificationModMap.get(id);
+        if (mod == null) {
+            mod = new AssayQuantificationMod(this, id);
+            mod.setPosition(position);
+            quantificationModMap.put(id, mod);
+        } else  {
+            mod.setPosition(position);
+        }
     }
 
     public String toString() {
@@ -55,6 +100,10 @@ public class Assay extends IndexedElement {
         if (msRun != null) {
             printPrefix(sb).append(getReference()).append(MINUS).append(MetadataProperty.ASSAY_MS_RUN_REF);
             sb.append(TAB).append(msRun.getReference()).append(NEW_LINE);
+        }
+
+        for (AssayQuantificationMod mod : quantificationModMap.values()) {
+            sb.append(mod);
         }
 
         return sb.toString();
