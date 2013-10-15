@@ -17,12 +17,12 @@ public class PeptideColumn extends MZTabColumn {
     public static PeptideColumn SEARCH_ENGINE = new PeptideColumn("search_engine", SplitList.class, false, "06");
     public static PeptideColumn BEST_SEARCH_ENGINE_SCORE = new PeptideColumn("best_search_engine_score", SplitList.class, false, "07");
     public static PeptideColumn SEARCH_ENGINE_SCORE = new PeptideColumn("search_engine_score", SplitList.class, true, "08");
-    public static PeptideColumn RELIABILITY = new PeptideColumn("reliability", Reliability.class, false, "09");
+    public static PeptideColumn RELIABILITY = new PeptideColumn("reliability", Reliability.class, true, "09");
     public static PeptideColumn MODIFICATIONS = new PeptideColumn("modifications", SplitList.class, false, "10");
     public static PeptideColumn RETENTION_TIME = new PeptideColumn("retention_time", SplitList.class, false, "11");
     public static PeptideColumn RETENTION_TIME_WINDOW = new PeptideColumn("retention_time_window", SplitList.class, false, "12");
     public static PeptideColumn CHARGE = new PeptideColumn("charge", Integer.class, false, "13");
     public static PeptideColumn MASS_TO_CHARGE = new PeptideColumn("mass_to_charge", Double.class, false, "14");
-    public static PeptideColumn URI = new PeptideColumn("uri", java.net.URI.class, false, "15");
+    public static PeptideColumn URI = new PeptideColumn("uri", java.net.URI.class, true, "15");
     public static PeptideColumn SPECTRA_REF = new PeptideColumn("spectra_ref", SplitList.class, false, "16");
 }

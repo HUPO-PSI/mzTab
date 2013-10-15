@@ -1,5 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import static junit.framework.Assert.assertTrue;
+
 /**
  * User: Qingwei
  * Date: 24/05/13
@@ -18,6 +20,10 @@ public class MZTabColumnFactoryRun {
         System.out.println();
 
         // add optional columns which have stable order.
+        factory.addGoTermsOptionalColumn();
+        factory.addReliabilityOptionalColumn();
+        factory.addURIOptionalColumn();
+
         factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun1);
         factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun1);
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun1);
@@ -57,6 +63,9 @@ public class MZTabColumnFactoryRun {
         System.out.println();
 
         // add optional columns which have stable order.
+        factory.addReliabilityOptionalColumn();
+        factory.addURIOptionalColumn();
+
         factory.addOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, msRun1);
         System.out.println(factory);
         System.out.println();
@@ -86,6 +95,10 @@ public class MZTabColumnFactoryRun {
         System.out.println(factory);
         System.out.println();
 
+        // add optional columns which have stable order.
+        factory.addReliabilityOptionalColumn();
+        factory.addURIOptionalColumn();
+
         // add user defined optional columns
         factory.addOptionalColumn(assay1, "my_value", String.class);
         CVParam param = new CVParam("MS", "MS:1002217", "decoy peptide", null);
@@ -106,6 +119,10 @@ public class MZTabColumnFactoryRun {
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Small_Molecule);
         System.out.println(factory);
         System.out.println();
+
+        // add optional columns which have stable order.
+        factory.addReliabilityOptionalColumn();
+        factory.addURIOptionalColumn();
 
         // add optional columns which have stable order.
         factory.addOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, msRun1);

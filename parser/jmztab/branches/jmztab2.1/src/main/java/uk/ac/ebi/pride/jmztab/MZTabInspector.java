@@ -40,7 +40,7 @@ public class MZTabInspector extends JFrame {
 
     public MZTabInspector() {
         setTitle("MZTabInspector v1.0");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         JTabbedPane mainPane = new JTabbedPane();

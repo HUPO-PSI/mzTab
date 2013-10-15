@@ -31,13 +31,17 @@ public class PEPLineParser extends MZTabDataLineParser {
         while (mapping.get(offset).getName().equals(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
             checkSearchEngineScore(mapping.get(offset), items[offset++]);
         }
-        checkReliability(mapping.get(offset), items[offset++]);
+        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
+            checkReliability(mapping.get(offset), items[offset++]);
+        }
         checkModifications(mapping.get(offset), items[1], items[offset++]);
         checkRetentionTime(mapping.get(offset), items[offset++]);
         checkRetentionTimeWindow(mapping.get(offset), items[offset++]);
         checkCharge(mapping.get(offset), items[offset++]);
         checkMassToCharge(mapping.get(offset), items[offset++]);
-        checkURI(mapping.get(offset), items[offset++]);
+        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
+            checkURI(mapping.get(offset), items[offset++]);
+        }
         checkSpectraRef(mapping.get(offset), items[offset]);
 
         return offset;
@@ -60,13 +64,17 @@ public class PEPLineParser extends MZTabDataLineParser {
         while (mapping.get(offset).getName().equals(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
             peptide.setValue(mapping.get(offset).getPosition(), parseParamList(items[offset++]));
         }
-        peptide.setReliability(items[offset++]);
+        if (factory.findColumn(PeptideColumn.RELIABILITY.getHeader()) != null) {
+            peptide.setReliability(items[offset++]);
+        }
         peptide.setModifications(items[offset++]);
         peptide.setRetentionTime(items[offset++]);
         peptide.setRetentionTimeWindow(items[offset++]);
         peptide.setCharge(items[offset++]);
         peptide.setMassToCharge(items[offset++]);
-        peptide.setURI(items[offset++]);
+        if (factory.findColumn(PeptideColumn.URI.getHeader()) != null) {
+            peptide.setURI(items[offset++]);
+        }
         peptide.setSpectraRef(items[offset]);
 
         return offset;

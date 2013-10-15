@@ -72,11 +72,8 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, ProteinColumn.DATABASE_VERSION);
                 addStableColumn(factory, ProteinColumn.SEARCH_ENGINE);
                 addStableColumn(factory, ProteinColumn.BEST_SEARCH_ENGINE_SCORE);
-                addStableColumn(factory, ProteinColumn.RELIABILITY);
-                addStableColumn(factory, ProteinColumn.AMBIGUITY_MEMGERS);
+                addStableColumn(factory, ProteinColumn.AMBIGUITY_MEMBERS);
                 addStableColumn(factory, ProteinColumn.MODIFICATIONS);
-                addStableColumn(factory, ProteinColumn.URI);
-                addStableColumn(factory, ProteinColumn.GO_TERMS);
                 addStableColumn(factory, ProteinColumn.PROTEIN_COVERAGE);
                 break;
             case Peptide_Header:
@@ -87,13 +84,11 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, PeptideColumn.DATABASE_VERSION);
                 addStableColumn(factory, PeptideColumn.SEARCH_ENGINE);
                 addStableColumn(factory, PeptideColumn.BEST_SEARCH_ENGINE_SCORE);
-                addStableColumn(factory, PeptideColumn.RELIABILITY);
                 addStableColumn(factory, PeptideColumn.MODIFICATIONS);
                 addStableColumn(factory, PeptideColumn.RETENTION_TIME);
                 addStableColumn(factory, PeptideColumn.RETENTION_TIME_WINDOW);
                 addStableColumn(factory, PeptideColumn.CHARGE);
                 addStableColumn(factory, PeptideColumn.MASS_TO_CHARGE);
-                addStableColumn(factory, PeptideColumn.URI);
                 addStableColumn(factory, PeptideColumn.SPECTRA_REF);
                 break;
             case PSM_Header:
@@ -105,13 +100,11 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, PSMColumn.DATABASE_VERSION);
                 addStableColumn(factory, PSMColumn.SEARCH_ENGINE);
                 addStableColumn(factory, PSMColumn.SEARCH_ENGINE_SCORE);
-                addStableColumn(factory, PSMColumn.RELIABILITY);
                 addStableColumn(factory, PSMColumn.MODIFICATIONS);
                 addStableColumn(factory, PSMColumn.RETENTION_TIME);
                 addStableColumn(factory, PSMColumn.CHARGE);
                 addStableColumn(factory, PSMColumn.EXP_MASS_TO_CHARGE);
                 addStableColumn(factory, PSMColumn.CALC_MASS_TO_CHARGE);
-                addStableColumn(factory, PSMColumn.URI);
                 addStableColumn(factory, PSMColumn.SPECTRA_REF);
                 addStableColumn(factory, PSMColumn.PRE);
                 addStableColumn(factory, PSMColumn.POST);
@@ -132,8 +125,6 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, SmallMoleculeColumn.SPECIES);
                 addStableColumn(factory, SmallMoleculeColumn.DATABASE);
                 addStableColumn(factory, SmallMoleculeColumn.DATABASE_VERSION);
-                addStableColumn(factory, SmallMoleculeColumn.RELIABILITY);
-                addStableColumn(factory, SmallMoleculeColumn.URI);
                 addStableColumn(factory, SmallMoleculeColumn.SPECTRA_REF);
                 addStableColumn(factory, SmallMoleculeColumn.SEARCH_ENGINE);
                 addStableColumn(factory, SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE);
@@ -204,6 +195,62 @@ public class MZTabColumnFactory {
 
     public static int getColumnId(String position) {
         return position.length() == 2 ? 0 : new Integer(position.substring(2));
+    }
+
+    public void addGoTermsOptionalColumn() {
+        if (section != Section.Protein_Header) {
+            throw new IllegalArgumentException("go_terms optional column only add into the protein section.");
+        }
+
+        MZTabColumn column = ProteinColumn.GO_TERMS;
+        optionalColumnMapping.put(column.getPosition(), column);
+        columnMapping.put(column.getPosition(), column);
+    }
+
+    public void addReliabilityOptionalColumn() {
+        MZTabColumn column = null;
+        switch (section) {
+            case Protein_Header:
+                column = ProteinColumn.RELIABILITY;
+                break;
+            case Peptide_Header:
+                column = PeptideColumn.RELIABILITY;
+                break;
+            case Small_Molecule_Header:
+                column = SmallMoleculeColumn.RELIABILITY;
+                break;
+            case PSM_Header:
+                column = PSMColumn.RELIABILITY;
+                break;
+        }
+
+        if (column != null) {
+            optionalColumnMapping.put(column.getPosition(), column);
+            columnMapping.put(column.getPosition(), column);
+        }
+    }
+
+    public void addURIOptionalColumn() {
+        MZTabColumn column = null;
+        switch (section) {
+            case Protein_Header:
+                column = ProteinColumn.URI;
+                break;
+            case Peptide_Header:
+                column = PeptideColumn.URI;
+                break;
+            case Small_Molecule_Header:
+                column = SmallMoleculeColumn.URI;
+                break;
+            case PSM_Header:
+                column = PSMColumn.URI;
+                break;
+        }
+
+        if (column != null) {
+            optionalColumnMapping.put(column.getPosition(), column);
+            columnMapping.put(column.getPosition(), column);
+        }
     }
 
     public void addOptionalColumn(String name, Class columnType) {

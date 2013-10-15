@@ -39,8 +39,12 @@ public class SMLLineParser extends MZTabDataLineParser {
         checkSpecies(mapping.get(offset), items[offset++]);
         checkDatabase(mapping.get(offset), items[offset++]);
         checkDatabaseVersion(mapping.get(offset), items[offset++]);
-        checkReliability(mapping.get(offset), items[offset++]);
-        checkURI(mapping.get(offset), items[offset++]);
+        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
+            checkReliability(mapping.get(offset), items[offset++]);
+        }
+        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
+            checkURI(mapping.get(offset), items[offset++]);
+        }
         checkSpectraRef(mapping.get(offset), items[offset++]);
         checkSearchEngine(mapping.get(offset), items[offset++]);
         checkBestSearchEngineScore(mapping.get(offset), items[offset++]);
@@ -72,8 +76,12 @@ public class SMLLineParser extends MZTabDataLineParser {
         smallMolecule.setSpecies(items[offset++]);
         smallMolecule.setDatabase(items[offset++]);
         smallMolecule.setDatabaseVersion(items[offset++]);
-        smallMolecule.setReliability(items[offset++]);
-        smallMolecule.setURI(items[offset++]);
+        if (factory.findColumn(SmallMoleculeColumn.RELIABILITY.getHeader()) != null) {
+            smallMolecule.setReliability(items[offset++]);
+        }
+        if (factory.findColumn(SmallMoleculeColumn.URI.getHeader()) != null) {
+            smallMolecule.setURI(items[offset++]);
+        }
         smallMolecule.setSpectraRef(items[offset++]);
         smallMolecule.setSearchEngine(items[offset++]);
         smallMolecule.setBestSearchEngineScore(items[offset++]);
