@@ -18,9 +18,15 @@ public class MZTabColumnFactoryTest {
         SortedMap<String, MZTabColumn> stableColumns = factory.getStableColumnMapping();
         SortedMap<String, MZTabColumn> optionalColumns = factory.getOptionalColumnMapping();
 
-        assertTrue(stableColumns.size() == 14);
+        assertTrue(stableColumns.size() == 11);
         assertTrue(optionalColumns.size() == 0);
         int optionSize = 0;
+
+        factory.addGoTermsOptionalColumn();
+        factory.addReliabilityOptionalColumn();
+        factory.addURIOptionalColumn();
+        optionSize += 3;
+        assertTrue(optionalColumns.size() == 3);
 
         MsRun msRun1 = new MsRun(1);
         MsRun msRun2 = new MsRun(2);

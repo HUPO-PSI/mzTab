@@ -20,7 +20,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 * Date: 14/02/13
 */
 public abstract class MZTabDataLineParser extends MZTabLineParser {
-    private MZTabColumnFactory factory;
+    protected MZTabColumnFactory factory;
 
     protected SortedMap<Integer, MZTabColumn> mapping;
     protected Metadata metadata;

@@ -1,6 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
@@ -13,7 +13,7 @@ public class Assay extends IndexedElement {
     private Param quantificationReagent;
     private Sample sample;
     private MsRun msRun;
-    private Map<Integer, AssayQuantificationMod> quantificationModMap = new TreeMap<Integer, AssayQuantificationMod>();
+    private SortedMap<Integer, AssayQuantificationMod> quantificationModMap = new TreeMap<Integer, AssayQuantificationMod>();
 
     public Assay(int id) {
         super(MetadataElement.ASSAY, id);
@@ -31,7 +31,7 @@ public class Assay extends IndexedElement {
         return msRun;
     }
 
-    public Map<Integer, AssayQuantificationMod> getQuantificationModMap() {
+    public SortedMap<Integer, AssayQuantificationMod> getQuantificationModMap() {
         return quantificationModMap;
     }
 
@@ -47,18 +47,30 @@ public class Assay extends IndexedElement {
         this.msRun = msRun;
     }
 
-    public boolean addQuantificationModParam(Integer id, Param param) {
+    public void setQuantificationModMap(SortedMap<Integer, AssayQuantificationMod> quantificationModMap) {
+        if (quantificationModMap == null) {
+            quantificationModMap = new TreeMap<Integer, AssayQuantificationMod>();
+        }
+
+        this.quantificationModMap = quantificationModMap;
+    }
+
+    public void addQuantificationMod(AssayQuantificationMod mod) {
+        if (mod == null) {
+            throw new IllegalArgumentException("AssayQuantificationMod should not be null");
+        }
+
+        quantificationModMap.put(mod.getId(), mod);
+    }
+
+    public void addQuantificationModParam(Integer id, Param param) {
         AssayQuantificationMod mod = quantificationModMap.get(id);
         if (mod == null) {
             mod = new AssayQuantificationMod(this, id);
             mod.setParam(param);
             quantificationModMap.put(id, mod);
-            return true;
-        } else if (mod.getParam() != null) {
-            return false;
         } else {
             mod.setParam(param);
-            return true;
         }
     }
 

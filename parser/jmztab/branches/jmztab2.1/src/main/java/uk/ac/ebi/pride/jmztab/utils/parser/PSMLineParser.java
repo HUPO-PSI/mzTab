@@ -28,13 +28,17 @@ public class PSMLineParser extends MZTabDataLineParser {
         checkDatabaseVersion(mapping.get(offset), items[offset++]);
         checkSearchEngine(mapping.get(offset), items[offset++]);
         checkSearchEngineScore(mapping.get(offset), items[offset++]);
-        checkReliability(mapping.get(offset), items[offset++]);
+        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
+            checkReliability(mapping.get(offset), items[offset++]);
+        }
         checkModifications(mapping.get(offset), items[1], items[offset++]);
         checkRetentionTime(mapping.get(offset), items[offset++]);
         checkCharge(mapping.get(offset), items[offset++]);
         checkExpMassToCharge(mapping.get(offset), items[offset++]);
         checkCalcMassToCharge(mapping.get(offset), items[offset++]);
-        checkURI(mapping.get(offset), items[offset++]);
+        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
+            checkURI(mapping.get(offset), items[offset++]);
+        }
         checkSpectraRef(mapping.get(offset), items[offset++]);
         checkPre(mapping.get(offset), items[offset++]);
         checkPost(mapping.get(offset), items[offset++]);
@@ -59,13 +63,17 @@ public class PSMLineParser extends MZTabDataLineParser {
         psm.setDatabaseVersion(items[offset++]);
         psm.setSearchEngine(items[offset++]);
         psm.setSearchEngineScore(items[offset++]);
-        psm.setReliability(items[offset++]);
+        if (factory.findColumn(PSMColumn.RELIABILITY.getHeader()) != null) {
+            psm.setReliability(items[offset++]);
+        }
         psm.setModifications(items[offset++]);
         psm.setRetentionTime(items[offset++]);
         psm.setCharge(items[offset++]);
         psm.setExpMassToCharge(items[offset++]);
         psm.setCalcMassToCharge(items[offset++]);
-        psm.setURI(items[offset++]);
+        if (factory.findColumn(PSMColumn.URI.getHeader()) != null) {
+            psm.setURI(items[offset++]);
+        }
         psm.setSpectraRef(items[offset++]);
         psm.setPre(items[offset++]);
         psm.setPost(items[offset++]);

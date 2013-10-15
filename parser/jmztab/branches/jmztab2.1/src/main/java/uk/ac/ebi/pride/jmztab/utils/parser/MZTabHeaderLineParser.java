@@ -73,6 +73,17 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
         }
 
         // step 2: checking some optional columns which have stable order.
+        for (String header : headerList) {
+            if (header.equals(ProteinColumn.GO_TERMS.getHeader())) {
+                factory.addGoTermsOptionalColumn();
+            } else if (header.equals(ProteinColumn.RELIABILITY.getHeader())) {
+                factory.addReliabilityOptionalColumn();
+            } else if (header.equals(ProteinColumn.URI.getHeader())) {
+                factory.addURIOptionalColumn();
+            }
+        }
+
+        // step 3: checking some flexible optional columns which have stable order.
         String header;
         Pattern pattern = Pattern.compile("(\\w+)_ms_run\\[(\\d+)\\]");
         Matcher matcher;

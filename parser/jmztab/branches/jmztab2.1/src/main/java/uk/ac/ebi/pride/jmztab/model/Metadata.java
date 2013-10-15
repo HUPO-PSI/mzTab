@@ -46,7 +46,7 @@ public class Metadata {
 
     public Metadata(MZTabDescription tabDescription) {
         if (tabDescription == null) {
-            throw new NullPointerException("Should define mz-tab description first.");
+            throw new IllegalArgumentException("Should define mz-tab description first.");
         }
 
         this.tabDescription = tabDescription;
@@ -163,80 +163,168 @@ public class Metadata {
         return tabDescription;
     }
 
-    public void setMZTabVersion(String version) {
-        this.tabDescription.setVersion(version);
+    public MZTabDescription.Mode getMZTabMode() {
+        return tabDescription.getMode();
     }
 
     public String getMZTabVersion() {
-        return this.tabDescription.getVersion();
-    }
-
-    public void setMZTabID(String id) {
-        this.tabDescription.setId(id);
-    }
-
-    public String getMZTabID() {
-        return this.tabDescription.getId();
-    }
-
-    public void setMZTabMode(MZTabDescription.Mode mode) {
-        this.tabDescription.setMode(mode);
-    }
-
-    public MZTabDescription.Mode getMZTabMode() {
-        return this.tabDescription.getMode();
-    }
-
-    public void setMZTabType(MZTabDescription.Type type) {
-        this.tabDescription.setType(type);
+        return tabDescription.getVersion();
     }
 
     public MZTabDescription.Type getMZTabType() {
         return tabDescription.getType();
     }
 
+    public String getMZTabID() {
+        return tabDescription.getId();
+    }
+
+    public void setMZTabID(String id) {
+        tabDescription.setId(id);
+    }
+
+    public void setMZTabVersion(String version) {
+        tabDescription.setVersion(version);
+    }
+
+    public void setMZTabMode(MZTabDescription.Mode mode) {
+        tabDescription.setMode(mode);
+    }
+
+    public void setMZTabType(MZTabDescription.Type type) {
+        tabDescription.setType(type);
+    }
+
+    public void setTabDescription(MZTabDescription tabDescription) {
+        if (tabDescription == null) {
+            throw new IllegalArgumentException("MZTabDescription should not set null!");
+        }
+
+        this.tabDescription = tabDescription;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public SortedMap<Integer, SplitList<Param>> getSampleProcessingMap() {
         return sampleProcessingMap;
+    }
+
+    public void setSampleProcessingMap(SortedMap<Integer, SplitList<Param>> sampleProcessingMap) {
+        if (sampleProcessingMap == null) {
+            sampleProcessingMap = new TreeMap<Integer, SplitList<Param>>();
+        }
+
+        this.sampleProcessingMap = sampleProcessingMap;
     }
 
     public SortedMap<Integer, Instrument> getInstrumentMap() {
         return instrumentMap;
     }
 
+    public void setInstrumentMap(SortedMap<Integer, Instrument> instrumentMap) {
+        if (instrumentMap == null) {
+            instrumentMap = new TreeMap<Integer, Instrument>();
+        }
+
+        this.instrumentMap = instrumentMap;
+    }
+
     public SortedMap<Integer, Software> getSoftwareMap() {
         return softwareMap;
+    }
+
+    public void setSoftwareMap(SortedMap<Integer, Software> softwareMap) {
+        if (softwareMap == null) {
+            softwareMap = new TreeMap<Integer, Software>();
+        }
+
+        this.softwareMap = softwareMap;
     }
 
     public SplitList<Param> getFalseDiscoveryRate() {
         return falseDiscoveryRate;
     }
 
+    public void setFalseDiscoveryRate(SplitList<Param> falseDiscoveryRate) {
+        if (falseDiscoveryRate == null) {
+            falseDiscoveryRate = new SplitList<Param>(BAR);
+        }
+
+        this.falseDiscoveryRate = falseDiscoveryRate;
+    }
+
     public SortedMap<Integer, Publication> getPublicationMap() {
         return publicationMap;
+    }
+
+    public void setPublicationMap(SortedMap<Integer, Publication> publicationMap) {
+        if (publicationMap == null) {
+            publicationMap = new TreeMap<Integer, Publication>();
+        }
+
+        this.publicationMap = publicationMap;
     }
 
     public SortedMap<Integer, Contact> getContactMap() {
         return contactMap;
     }
 
+    public void setContactMap(SortedMap<Integer, Contact> contactMap) {
+        if (contactMap == null) {
+            contactMap = new TreeMap<Integer, Contact>();
+        }
+
+        this.contactMap = contactMap;
+    }
+
     public List<URI> getUriList() {
         return uriList;
     }
 
-    public Map<Integer, FixedMod> getFixedModMap() {
+    public void setUriList(List<URI> uriList) {
+        if (uriList == null) {
+            uriList = new ArrayList<java.net.URI>();
+        }
+
+        this.uriList = uriList;
+    }
+
+    public SortedMap<Integer, FixedMod> getFixedModMap() {
         return fixedModMap;
     }
 
-    public Map<Integer, VariableMod> getVariableModMap() {
+    public void setFixedModMap(SortedMap<Integer, FixedMod> fixedModMap) {
+        if (fixedModMap == null) {
+            fixedModMap = new TreeMap<Integer, FixedMod>();
+        }
+
+        this.fixedModMap = fixedModMap;
+    }
+
+    public SortedMap<Integer, VariableMod> getVariableModMap() {
         return variableModMap;
+    }
+
+    public void setVariableModMap(SortedMap<Integer, VariableMod> variableModMap) {
+        if (variableModMap == null) {
+            variableModMap = new TreeMap<Integer, VariableMod>();
+        }
+
+        this.variableModMap = variableModMap;
     }
 
     public Param getQuantificationMethod() {
@@ -255,75 +343,222 @@ public class Metadata {
         return smallMoleculeQuantificationUnit;
     }
 
+    public void setQuantificationMethod(Param quantificationMethod) {
+        this.quantificationMethod = quantificationMethod;
+    }
+
+    public void setProteinQuantificationUnit(Param proteinQuantificationUnit) {
+        this.proteinQuantificationUnit = proteinQuantificationUnit;
+    }
+
+    public void setPeptideQuantificationUnit(Param peptideQuantificationUnit) {
+        this.peptideQuantificationUnit = peptideQuantificationUnit;
+    }
+
+    public void setSmallMoleculeQuantificationUnit(Param smallMoleculeQuantificationUnit) {
+        this.smallMoleculeQuantificationUnit = smallMoleculeQuantificationUnit;
+    }
+
     public SortedMap<Integer, MsRun> getMsRunMap() {
         return msRunMap;
+    }
+
+    public void setMsRunMap(SortedMap<Integer, MsRun> msRunMap) {
+        if (msRunMap == null) {
+            msRunMap = new TreeMap<Integer, MsRun>();
+        }
+
+        this.msRunMap = msRunMap;
     }
 
     public List<Param> getCustomList() {
         return customList;
     }
 
+    public void setCustomList(List<Param> customList) {
+        if (customList == null) {
+            customList = new ArrayList<Param>();
+        }
+
+        this.customList = customList;
+    }
+
     public SortedMap<Integer, Sample> getSampleMap() {
         return sampleMap;
+    }
+
+    public void setSampleMap(SortedMap<Integer, Sample> sampleMap) {
+        if (sampleMap == null) {
+            sampleMap = new TreeMap<Integer, Sample>();
+        }
+
+        this.sampleMap = sampleMap;
     }
 
     public SortedMap<Integer, Assay> getAssayMap() {
         return assayMap;
     }
 
+    public void setAssayMap(SortedMap<Integer, Assay> assayMap) {
+        if (assayMap == null) {
+            assayMap = new TreeMap<Integer, Assay>();
+        }
+
+        this.assayMap = assayMap;
+    }
+
     public SortedMap<Integer, StudyVariable> getStudyVariableMap() {
         return studyVariableMap;
     }
 
-    public List<ColUnit> getProteinColUnitList() {
-        return proteinColUnitList;
-    }
+    public void setStudyVariableMap(SortedMap<Integer, StudyVariable> studyVariableMap) {
+        if (studyVariableMap == null) {
+            studyVariableMap = new TreeMap<Integer, StudyVariable>();
+        }
 
-    public List<ColUnit> getPeptideColUnitList() {
-        return peptideColUnitList;
-    }
-
-    public List<ColUnit> getPsmColUnitList() {
-        return psmColUnitList;
-    }
-
-    public List<ColUnit> getSmallMoleculeColUnitList() {
-        return smallMoleculeColUnitList;
+        this.studyVariableMap = studyVariableMap;
     }
 
     public SortedMap<Integer, CV> getCvMap() {
         return cvMap;
     }
 
-    public boolean setTitle(String title) {
-        if (this.title != null) {
-            return false;
+    public void setCvMap(SortedMap<Integer, CV> cvMap) {
+        if (cvMap == null) {
+            cvMap = new TreeMap<Integer, CV>();
+        }
+
+        this.cvMap = cvMap;
+    }
+
+    public List<ColUnit> getProteinColUnitList() {
+        return proteinColUnitList;
+    }
+
+    public void setProteinColUnitList(List<ColUnit> proteinColUnitList) {
+        if (proteinColUnitList == null) {
+            proteinColUnitList = new ArrayList<ColUnit>();
+        }
+
+        this.proteinColUnitList = proteinColUnitList;
+    }
+
+    public List<ColUnit> getPeptideColUnitList() {
+        return peptideColUnitList;
+    }
+
+    public void setPeptideColUnitList(List<ColUnit> peptideColUnitList) {
+        if (peptideColUnitList == null) {
+            peptideColUnitList = new ArrayList<ColUnit>();
+        }
+
+        this.peptideColUnitList = peptideColUnitList;
+    }
+
+    public List<ColUnit> getPsmColUnitList() {
+        return psmColUnitList;
+    }
+
+    public void setPsmColUnitList(List<ColUnit> psmColUnitList) {
+        if (psmColUnitList == null) {
+            psmColUnitList = new ArrayList<ColUnit>();
+        }
+
+        this.psmColUnitList = psmColUnitList;
+    }
+
+    public List<ColUnit> getSmallMoleculeColUnitList() {
+        return smallMoleculeColUnitList;
+    }
+
+    public void setSmallMoleculeColUnitList(List<ColUnit> smallMoleculeColUnitList) {
+        if (smallMoleculeColUnitList == null) {
+            smallMoleculeColUnitList = new ArrayList<ColUnit>();
+        }
+
+        this.smallMoleculeColUnitList = smallMoleculeColUnitList;
+    }
+
+    public void addSample(Sample sample) {
+        if (sample == null) {
+            throw new IllegalArgumentException("Sample should not be null");
+        }
+
+        this.sampleMap.put(sample.getId(), sample);
+    }
+
+    public void addSampleSpecies(Integer id, Param species) {
+        Sample sample = sampleMap.get(id);
+        if (sample == null) {
+            sample = new Sample(id);
+            sample.addSpecies(species);
+            sampleMap.put(id, sample);
         } else {
-            this.title = title;
-            return true;
+            sample.addSpecies(species);
         }
     }
 
-    public boolean setDescription(String description) {
-        if (this.description != null) {
-            return false;
+    public void addSampleTissue(Integer id, Param tissue) {
+        Sample sample = sampleMap.get(id);
+        if (sample == null) {
+            sample = new Sample(id);
+            sample.addTissue(tissue);
+            sampleMap.put(id, sample);
         } else {
-            this.description = description;
-            return true;
+            sample.addTissue(tissue);
         }
     }
 
-    public boolean addSampleProcessing(Integer id, SplitList<Param> sampleProcessing) {
-        if (sampleProcessingMap.containsKey(id)) {
-            return false;
+    public void addSampleCellType(Integer id, Param cellType) {
+        Sample sample = sampleMap.get(id);
+        if (sample == null) {
+            sample = new Sample(id);
+            sample.addCellType(cellType);
+            sampleMap.put(id, sample);
         } else {
-            sampleProcessing.setSplitChar(BAR);
-            this.sampleProcessingMap.put(id, sampleProcessing);
-            return true;
+            sample.addCellType(cellType);
         }
     }
 
-    public boolean addSampleProcessingParam(Integer id, Param param) {
+    public void addSampleDisease(Integer id, Param disease) {
+        Sample sample = sampleMap.get(id);
+        if (sample == null) {
+            sample = new Sample(id);
+            sample.addDisease(disease);
+            sampleMap.put(id, sample);
+        } else {
+            sample.addDisease(disease);
+        }
+    }
+
+    public void addSampleDescription(Integer id, String description) {
+        Sample sample = sampleMap.get(id);
+        if (sample == null) {
+            sample = new Sample(id);
+            sample.setDescription(description);
+            sampleMap.put(id, sample);
+        } else {
+            sample.setDescription(description);
+        }
+    }
+
+    public void addSampleCustom(Integer id, Param custom) {
+        Sample sample = sampleMap.get(id);
+        if (sample == null) {
+            sample = new Sample(id);
+            sample.addCustom(custom);
+            sampleMap.put(id, sample);
+        } else {
+            sample.addCustom(custom);
+        }
+    }
+
+    public void addSampleProcessing(Integer id, SplitList<Param> sampleProcessing) {
+        sampleProcessing.setSplitChar(BAR);
+        this.sampleProcessingMap.put(id, sampleProcessing);
+    }
+
+    public void addSampleProcessingParam(Integer id, Param param) {
         SplitList<Param> sampleProcessing = sampleProcessingMap.get(id);
         if (sampleProcessing == null) {
             sampleProcessing = new SplitList<Param>(BAR);
@@ -332,82 +567,76 @@ public class Metadata {
         } else {
             sampleProcessing.add(param);
         }
-
-        return true;
     }
 
-    public boolean addInstrumentName(Integer id, Param name) {
+    public void addInstrument(Instrument instrument) {
+        if (instrument == null) {
+            throw new IllegalArgumentException("Instrument should not be null");
+        }
+
+        instrumentMap.put(instrument.getId(), instrument);
+    }
+
+    public void addInstrumentName(Integer id, Param name) {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id);
             instrument.setName(name);
             instrumentMap.put(id, instrument);
-            return true;
-        } else if (instrument.getName() != null) {
-            return false;
         } else {
             instrument.setName(name);
-            return true;
         }
     }
 
-    public boolean addInstrumentSource(Integer id, Param source) {
+    public void addInstrumentSource(Integer id, Param source) {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id);
             instrument.setSource(source);
             instrumentMap.put(id, instrument);
-            return true;
-        } else if (instrument.getSource() != null) {
-            return false;
         } else {
             instrument.setSource(source);
-            return true;
         }
     }
 
-    public boolean addInstrumentAnalyzer(Integer id, Param analyzer) {
+    public void addInstrumentAnalyzer(Integer id, Param analyzer) {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id);
             instrument.setAnalyzer(analyzer);
             instrumentMap.put(id, instrument);
-            return true;
-        } else if (instrument.getAnalyzer() != null) {
-            return false;
         } else {
             instrument.setAnalyzer(analyzer);
-            return true;
         }
     }
 
-    public boolean addInstrumentDetector(Integer id, Param detector) {
+    public void addInstrumentDetector(Integer id, Param detector) {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id);
             instrument.setDetector(detector);
             instrumentMap.put(id, instrument);
-            return true;
-        } else if (instrument.getDetector() != null) {
-            return false;
         } else {
             instrument.setDetector(detector);
-            return true;
         }
     }
 
-    public boolean addSoftwareParam(Integer id, Param param) {
+    public void addSoftware(Software software) {
+        if (software == null) {
+            throw new IllegalArgumentException("Software should not be null");
+        }
+
+        this.softwareMap.put(software.getId(), software);
+    }
+
+    public void addSoftwareParam(Integer id, Param param) {
         Software software = softwareMap.get(id);
         if (software == null) {
             software = new Software(id);
             software.setParam(param);
             softwareMap.put(id, software);
-            return true;
-        } else if (software.getParam() != null) {
-            return false;
         } else {
             software.setParam(param);
-            return true;
         }
     }
 
@@ -426,8 +655,12 @@ public class Metadata {
         this.falseDiscoveryRate.add(param);
     }
 
-    public void setFalseDiscoveryRate(SplitList<Param> paramList) {
-        this.falseDiscoveryRate = paramList;
+    public void addPublication(Publication publication) {
+        if (publication == null) {
+            throw new IllegalArgumentException("Publication should not be null");
+        }
+
+        this.publicationMap.put(publication.getId(), publication);
     }
 
     public void addPublicationItem(Integer id, PublicationItem.Type type, String accession) {
@@ -452,48 +685,44 @@ public class Metadata {
         }
     }
 
-    public boolean addContactName(Integer id, String name) {
+    public void addContact(Contact contact) {
+        if (contact == null) {
+            throw new IllegalArgumentException("Contact should not be null");
+        }
+
+        this.contactMap.put(contact.getId(), contact);
+    }
+
+    public void addContactName(Integer id, String name) {
         Contact contact = contactMap.get(id);
         if (contact == null) {
             contact = new Contact(id);
             contact.setName(name);
             contactMap.put(id, contact);
-            return true;
-        } else if (contact.getName() != null) {
-            return false;
         } else {
             contact.setName(name);
-            return true;
         }
     }
 
-    public boolean addContactAffiliation(Integer id, String affiliation) {
+    public void addContactAffiliation(Integer id, String affiliation) {
         Contact contact = contactMap.get(id);
         if (contact == null) {
             contact = new Contact(id);
             contact.setAffiliation(affiliation);
             contactMap.put(id, contact);
-            return true;
-        } else if (contact.getAffiliation() != null) {
-            return false;
         } else {
             contact.setAffiliation(affiliation);
-            return true;
         }
     }
 
-    public boolean addContactEmail(Integer id, String email) {
+    public void addContactEmail(Integer id, String email) {
         Contact contact = contactMap.get(id);
         if (contact == null) {
             contact = new Contact(id);
             contact.setEmail(email);
             contactMap.put(id, contact);
-            return true;
-        } else if (contact.getEmail() != null) {
-            return false;
         } else {
             contact.setEmail(email);
-            return true;
         }
     }
 
@@ -501,18 +730,22 @@ public class Metadata {
         this.uriList.add(uri);
     }
 
-    public boolean addFixedModParam(Integer id, Param param) {
+    public void addFixedMod(FixedMod mod) {
+        if (mod == null) {
+            throw new IllegalArgumentException("FixedMod should not be null");
+        }
+
+        this.fixedModMap.put(mod.getId(), mod);
+    }
+
+    public void addFixedModParam(Integer id, Param param) {
         FixedMod mod = fixedModMap.get(id);
         if (mod == null) {
             mod = new FixedMod(id);
             mod.setParam(param);
             fixedModMap.put(id, mod);
-            return true;
-        } else if (mod.getParam() != null) {
-            return false;
         } else {
             mod.setParam(param);
-            return true;
         }
     }
 
@@ -538,18 +771,22 @@ public class Metadata {
         }
     }
 
-    public boolean addVariableModParam(Integer id, Param param) {
+    public void addVariableMod(VariableMod mod) {
+        if (mod == null) {
+            throw new IllegalArgumentException("VariableMod should not be null");
+        }
+
+        this.variableModMap.put(mod.getId(), mod);
+    }
+
+    public void addVariableModParam(Integer id, Param param) {
         VariableMod mod = variableModMap.get(id);
         if (mod == null) {
             mod = new VariableMod(id);
             mod.setParam(param);
             variableModMap.put(id, mod);
-            return true;
-        } else if (mod.getParam() != null) {
-            return false;
         } else {
             mod.setParam(param);
-            return true;
         }
     }
 
@@ -575,83 +812,55 @@ public class Metadata {
         }
     }
 
-    public void setQuantificationMethod(Param quantificationMethod) {
-        this.quantificationMethod = quantificationMethod;
-    }
-
-    public void setProteinQuantificationUnit(Param proteinQuantificationUnit) {
-        this.proteinQuantificationUnit = proteinQuantificationUnit;
-    }
-
-    public void setPeptideQuantificationUnit(Param peptideQuantificationUnit) {
-        this.peptideQuantificationUnit = peptideQuantificationUnit;
-    }
-
-    public void setSmallMoleculeQuantificationUnit(Param smallMoleculeQuantificationUnit) {
-        this.smallMoleculeQuantificationUnit = smallMoleculeQuantificationUnit;
-    }
-
     public void addMsRun(MsRun msRun) {
+        if (msRun == null) {
+            throw new IllegalArgumentException("MsRun should not be null");
+        }
+
         msRunMap.put(msRun.getId(), msRun);
     }
 
-    public boolean addMsRunFormat(Integer id, Param format) {
+    public void addMsRunFormat(Integer id, Param format) {
         MsRun msRun = msRunMap.get(id);
         if (msRun == null) {
             msRun = new MsRun(id);
             msRun.setFormat(format);
             msRunMap.put(id, msRun);
-            return true;
-        } else if (msRun.getFormat() != null) {
-            return false;
         } else {
             msRun.setFormat(format);
-            return true;
         }
     }
 
-    public boolean addMsRunLocation(Integer id, URL location) {
+    public void addMsRunLocation(Integer id, URL location) {
         MsRun msRun = msRunMap.get(id);
         if (msRun == null) {
             msRun = new MsRun(id);
             msRun.setLocation(location);
             msRunMap.put(id, msRun);
-            return true;
-        } else if (msRun.getLocation() != null) {
-            return false;
         } else {
             msRun.setLocation(location);
-            return true;
         }
     }
 
-    public boolean addMsRunIdFormat(Integer id, Param idFormat) {
+    public void addMsRunIdFormat(Integer id, Param idFormat) {
         MsRun msRun = msRunMap.get(id);
         if (msRun == null) {
             msRun = new MsRun(id);
             msRun.setIdFormat(idFormat);
             msRunMap.put(id, msRun);
-            return true;
-        } else if (msRun.getIdFormat() != null) {
-            return false;
         } else {
             msRun.setIdFormat(idFormat);
-            return true;
         }
     }
 
-    public boolean addMsRunFragmentationMethod(Integer id, Param fragmentationMethod) {
+    public void addMsRunFragmentationMethod(Integer id, Param fragmentationMethod) {
         MsRun msRun = msRunMap.get(id);
         if (msRun == null) {
             msRun = new MsRun(id);
             msRun.setFragmentationMethod(fragmentationMethod);
             msRunMap.put(id, msRun);
-            return true;
-        } else if (msRun.getFragmentationMethod() != null) {
-            return false;
         } else {
             msRun.setFragmentationMethod(fragmentationMethod);
-            return true;
         }
     }
 
@@ -659,130 +868,55 @@ public class Metadata {
         this.customList.add(custom);
     }
 
-    public void addSample(Sample sample) {
-        sampleMap.put(sample.getId(), sample);
-    }
-
-    public boolean addSampleSpecies(Integer id, Param species) {
-        Sample sample = sampleMap.get(id);
-        if (sample == null) {
-            sample = new Sample(id);
-            sample.addSpecies(species);
-            sampleMap.put(id, sample);
-            return true;
-        } else {
-            sample.addSpecies(species);
-            return true;
-        }
-    }
-
-    public boolean addSampleTissue(Integer id, Param tissue) {
-        Sample sample = sampleMap.get(id);
-        if (sample == null) {
-            sample = new Sample(id);
-            sample.addTissue(tissue);
-            sampleMap.put(id, sample);
-            return true;
-        } else {
-            sample.addTissue(tissue);
-            return true;
-        }
-    }
-
-    public boolean addSampleCellType(Integer id, Param cellType) {
-        Sample sample = sampleMap.get(id);
-        if (sample == null) {
-            sample = new Sample(id);
-            sample.addCellType(cellType);
-            sampleMap.put(id, sample);
-            return true;
-        } else {
-            sample.addCellType(cellType);
-            return true;
-        }
-    }
-
-    public boolean addSampleDisease(Integer id, Param disease) {
-        Sample sample = sampleMap.get(id);
-        if (sample == null) {
-            sample = new Sample(id);
-            sample.addDisease(disease);
-            sampleMap.put(id, sample);
-            return true;
-        } else {
-            sample.addDisease(disease);
-            return true;
-        }
-    }
-
-    public boolean addSampleDescription(Integer id, String description) {
-        Sample sample = sampleMap.get(id);
-        if (sample == null) {
-            sample = new Sample(id);
-            sample.setDescription(description);
-            sampleMap.put(id, sample);
-            return true;
-        } else {
-            sample.setDescription(description);
-            return true;
-        }
-    }
-
-    public boolean addSampleCustom(Integer id, Param custom) {
-        Sample sample = sampleMap.get(id);
-        if (sample == null) {
-            sample = new Sample(id);
-            sample.addCustom(custom);
-            sampleMap.put(id, sample);
-            return true;
-        } else {
-            sample.addCustom(custom);
-            return true;
-        }
-    }
-
     public void addAssay(Assay assay) {
+        if (assay == null) {
+            throw new IllegalArgumentException("Assay should not be null");
+        }
+
         assayMap.put(assay.getId(), assay);
     }
 
-    public boolean addAssayQuantificationReagent(Integer id, Param quantificationReagent) {
+    public void addAssayQuantificationReagent(Integer id, Param quantificationReagent) {
         Assay assay = assayMap.get(id);
         if (assay == null) {
             assay = new Assay(id);
             assay.setQuantificationReagent(quantificationReagent);
             assayMap.put(id, assay);
-            return true;
-        } else if (assay.getQuantificationReagent() != null) {
-            return false;
         } else {
             assay.setQuantificationReagent(quantificationReagent);
-            return true;
         }
     }
 
-    public boolean addAssaySample(Integer id, Sample sample) {
+    public void addAssaySample(Integer id, Sample sample) {
         Assay assay = assayMap.get(id);
         if (assay == null) {
             assay = new Assay(id);
             assay.setSample(sample);
             assayMap.put(id, assay);
-            return true;
         } else {
             assay.setSample(sample);
-            return true;
         }
     }
 
-    public boolean addAssayMsRun(Integer id, MsRun msRun) {
+    public void addAssayMsRun(Integer id, MsRun msRun) {
         Assay assay = assayMap.get(id);
         if (assay == null) {
             assay = new Assay(id);
             assay.setMsRun(msRun);
             assayMap.put(id, assay);
-            return true;
         } else {
             assay.setMsRun(msRun);
-            return true;
+        }
+    }
+
+    public void addAssayQuantificationMod(Integer assayId, AssayQuantificationMod mod) {
+        Assay assay = assayMap.get(assayId);
+        if (assay == null) {
+            assay = new Assay(assayId);
+            assay.addQuantificationMod(mod);
+            assayMap.put(assayId, assay);
+        } else {
+            assay.addQuantificationMod(mod);
         }
     }
 
@@ -820,36 +954,36 @@ public class Metadata {
     }
 
     public void addStudyVariable(StudyVariable studyVariable) {
+        if (studyVariable == null) {
+            throw new IllegalArgumentException("StudyVariable should not be null");
+        }
+
         studyVariableMap.put(studyVariable.getId(), studyVariable);
     }
 
-    public boolean addStudyVariableAssay(Integer id, Assay assay) {
+    public void addStudyVariableAssay(Integer id, Assay assay) {
         StudyVariable studyVariable = studyVariableMap.get(id);
         if (studyVariable == null) {
             studyVariable = new StudyVariable(id);
             studyVariable.addAssay(assay.getId(), assay);
             studyVariableMap.put(id, studyVariable);
-            return true;
         } else {
             studyVariable.addAssay(assay.getId(), assay);
-            return true;
         }
     }
 
-    public boolean addStudyVariableSample(Integer id, Sample sample) {
+    public void addStudyVariableSample(Integer id, Sample sample) {
         StudyVariable studyVariable = studyVariableMap.get(id);
         if (studyVariable == null) {
             studyVariable = new StudyVariable(id);
             studyVariable.addSample(sample.getId(), sample);
             studyVariableMap.put(id, studyVariable);
-            return true;
         } else {
             studyVariable.addSample(sample.getId(), sample);
-            return true;
         }
     }
 
-    public boolean addStudyVariableDescription(Integer id, String description) {
+    public void addStudyVariableDescription(Integer id, String description) {
         StudyVariable studyVariable = studyVariableMap.get(id);
         if (studyVariable == null) {
             studyVariable = new StudyVariable(id);
@@ -857,7 +991,10 @@ public class Metadata {
 
         studyVariable.setDescription(description);
         studyVariableMap.put(id, studyVariable);
-        return true;
+    }
+
+    public void addCV(CV cv) {
+        cvMap.put(cv.getId(), cv);
     }
 
     public void addCVLabel(Integer id, String label) {

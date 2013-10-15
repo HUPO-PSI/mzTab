@@ -22,8 +22,8 @@ public class SmallMoleculeColumn extends MZTabColumn {
     public static SmallMoleculeColumn SPECIES = new SmallMoleculeColumn("species", String.class, false, "11");
     public static SmallMoleculeColumn DATABASE = new SmallMoleculeColumn("database", String.class, false, "12");
     public static SmallMoleculeColumn DATABASE_VERSION = new SmallMoleculeColumn("database_version", String.class, false, "13");
-    public static SmallMoleculeColumn RELIABILITY = new SmallMoleculeColumn("reliability", Reliability.class, false, "14");
-    public static SmallMoleculeColumn URI = new SmallMoleculeColumn("uri", java.net.URI.class, false, "15");
+    public static SmallMoleculeColumn RELIABILITY = new SmallMoleculeColumn("reliability", Reliability.class, true, "14");
+    public static SmallMoleculeColumn URI = new SmallMoleculeColumn("uri", java.net.URI.class, true, "15");
     public static SmallMoleculeColumn SPECTRA_REF = new SmallMoleculeColumn("spectra_ref", SplitList.class, false, "16");
     public static SmallMoleculeColumn SEARCH_ENGINE = new SmallMoleculeColumn("search_engine", SplitList.class, false, "17");
     public static SmallMoleculeColumn BEST_SEARCH_ENGINE_SCORE = new SmallMoleculeColumn("best_search_engine_score", SplitList.class, false, "18");

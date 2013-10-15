@@ -41,7 +41,9 @@ public class PRTLineParser extends MZTabDataLineParser {
         while (mapping.get(offset).getName().equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
             checkSearchEngineScore(mapping.get(offset), items[offset++]);
         }
-        checkReliability(mapping.get(offset), items[offset++]);
+        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
+            checkReliability(mapping.get(offset), items[offset++]);
+        }
         while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PSMS.getName())) {
             checkNumPSMs(mapping.get(offset), items[offset++]);
         }
@@ -53,8 +55,12 @@ public class PRTLineParser extends MZTabDataLineParser {
         }
         checkAmbiguityMembers(mapping.get(offset), items[offset++]);
         checkModifications(mapping.get(offset), items[offset++]);
-        checkURI(mapping.get(offset), items[offset++]);
-        checkGOTerms(mapping.get(offset), items[offset++]);
+        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
+            checkURI(mapping.get(offset), items[offset++]);
+        }
+        if (factory.findColumn(ProteinColumn.GO_TERMS.getHeader()) != null) {
+            checkGOTerms(mapping.get(offset), items[offset++]);
+        }
         checkProteinCoverage(mapping.get(offset), items[offset]);
 
         return offset;
@@ -78,7 +84,9 @@ public class PRTLineParser extends MZTabDataLineParser {
         while (mapping.get(offset).getName().equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
             protein.setValue(mapping.get(offset).getPosition(), parseParamList(items[offset++]));
         }
-        protein.setReliability(items[offset++]);
+        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
+            protein.setReliability(items[offset++]);
+        }
         while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PSMS.getName())) {
             protein.setValue(mapping.get(offset).getPosition(), parseInteger(items[offset++]));
         }
@@ -90,8 +98,12 @@ public class PRTLineParser extends MZTabDataLineParser {
         }
         protein.setAmbiguityMembers(items[offset++]);
         protein.setModifications(items[offset++]);
-        protein.setURI(items[offset++]);
-        protein.setGOTerms(items[offset++]);
+        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
+            protein.setURI(items[offset++]);
+        }
+        if (factory.findColumn(ProteinColumn.GO_TERMS.getHeader()) != null) {
+            protein.setGOTerms(items[offset++]);
+        }
         protein.setProteinConverage(items[offset]);
 
         return offset;

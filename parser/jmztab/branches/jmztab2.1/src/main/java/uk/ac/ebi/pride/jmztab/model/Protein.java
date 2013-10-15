@@ -210,7 +210,7 @@ public class Protein extends MZTabRecord {
 
     @SuppressWarnings("unchecked")
     public SplitList<String> getAmbiguityMembers() {
-        return getSplitList(ProteinColumn.AMBIGUITY_MEMGERS.getOrder());
+        return getSplitList(ProteinColumn.AMBIGUITY_MEMBERS.getOrder());
     }
 
     public boolean addAmbiguityMembers(String member) {
@@ -228,7 +228,7 @@ public class Protein extends MZTabRecord {
     }
 
     public void setAmbiguityMembers(SplitList<String> ambiguityMembers) {
-        setValue(ProteinColumn.AMBIGUITY_MEMGERS.getOrder(), ambiguityMembers);
+        setValue(ProteinColumn.AMBIGUITY_MEMBERS.getOrder(), ambiguityMembers);
     }
 
     public void setAmbiguityMembers(String ambiguityMembersLabel) {

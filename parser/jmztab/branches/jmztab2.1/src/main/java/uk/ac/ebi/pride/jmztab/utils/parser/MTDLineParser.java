@@ -586,50 +586,28 @@ public class MTDLineParser extends MZTabLineParser {
         SortedMap<Integer, MsRun> runMap = metadata.getMsRunMap();
 
         if (mode == MZTabDescription.Mode.Complete) {
-            for (Integer id : svMap.keySet()) {
-                if (svMap.get(id).getAssayMap().size() == 0) {
-                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "study_variable[" + id + "]-assay_refs", mode.toString(), type.toString()));
-                }
-            }
-            if (metadata.getFixedModMap().size() == 0) {
-                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "fixed_mod", mode.toString(), type.toString()));
-            }
-            if (metadata.getVariableModMap().size() == 0) {
-                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "variable_mod", mode.toString(), type.toString()));
+            if (metadata.getSoftwareMap().size() == 0) {
+                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "software[1-n]", mode.toString(), type.toString()));
             }
 
-            if (type == MZTabDescription.Type.Identification) {
+            if (type == MZTabDescription.Type.Quantification) {
+                if (metadata.getQuantificationMethod() == null) {
+                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "quantification_method", mode.toString(), type.toString()));
+                }
                 for (Integer id : assayMap.keySet()) {
                     if (assayMap.get(id).getMsRun() == null) {
                         throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "assay[" + id + "]-ms_run_ref", mode.toString(), type.toString()));
                     }
-                }
-                for (Integer id : svMap.keySet()) {
-                    if (svMap.get(id).getDescription() == null) {
-                        throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "study_variable[" + id + "]-description", mode.toString(), type.toString()));
-                    }
-                }
-            } else {
-                for (Integer id : runMap.keySet()) {
-                    if (runMap.get(id).getLocation() == null) {
-                        throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "ms_run[" + id + "]-location", mode.toString(), type.toString()));
-                    }
-                }
-                for (Integer id : assayMap.keySet()) {
                     if (assayMap.get(id).getQuantificationReagent() == null) {
                         throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "assay[" + id + "]-quantification_reagent", mode.toString(), type.toString()));
                     }
                 }
-                if (metadata.getSoftwareMap().size() == 0) {
-                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "software[1-n]", mode.toString(), type.toString()));
-                }
-                for (Integer id : metadata.getSoftwareMap().keySet()) {
-                    if (metadata.getSoftwareMap().get(id).getParam() == null) {
-                        throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "software[" + id + "]", mode.toString(), type.toString()));
+                if (svMap.size() > 0 && assayMap.size() > 0) {
+                    for (Integer id : svMap.keySet()) {
+                        if (svMap.get(id).getAssayMap().size() == 0) {
+                            throw new MZTabException(new MZTabError(LogicalErrorType.AssayRefs, lineNumber, "study_variable[" + id + "]-assay_refs"));
+                        }
                     }
-                }
-                if (metadata.getQuantificationMethod() == null) {
-                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "quantification_method", mode.toString(), type.toString()));
                 }
             }
 
@@ -640,22 +618,13 @@ public class MTDLineParser extends MZTabLineParser {
         if (metadata.getDescription() == null) {
             throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "description", mode.toString(), type.toString()));
         }
-
-        if (svMap.size() > 0 && assayMap.size() > 0) {
-            for (Integer id : svMap.keySet()) {
-                if (svMap.get(id).getAssayMap().size() == 0) {
-                    throw new MZTabException(new MZTabError(LogicalErrorType.AssayRefs, lineNumber, "study_variable[" + id + "]-assay_refs"));
-                }
+        for (Integer id : runMap.keySet()) {
+            if (runMap.get(id).getLocation() == null) {
+                throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "ms_run[" + id + "]-location", mode.toString(), type.toString()));
             }
         }
 
-        if (type == MZTabDescription.Type.Identification) {
-            for (Integer id : runMap.keySet()) {
-                if (runMap.get(id).getLocation() == null) {
-                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "ms_run[" + id + "]-location", mode.toString(), type.toString()));
-                }
-            }
-        } else {
+        if (type == MZTabDescription.Type.Quantification) {
             for (Integer id : svMap.keySet()) {
                 if (svMap.get(id).getDescription() == null) {
                     throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "study_variable[" + id + "]-description", mode.toString(), type.toString()));

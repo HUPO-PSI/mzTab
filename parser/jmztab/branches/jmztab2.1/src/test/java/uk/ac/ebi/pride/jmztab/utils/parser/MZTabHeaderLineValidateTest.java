@@ -28,10 +28,9 @@ public class MZTabHeaderLineValidateTest {
 
     @Test
     public void testStableColumns() throws Exception {
-        // miss URI column.
+        // miss protein_coverage column.
         String prh = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
-            "search_engine\tbest_search_engine_score\treliability\tambiguity_members\tmodifications\t" +
-            "go_terms\tprotein_coverage";
+            "search_engine\tbest_search_engine_score\tambiguity_members\tmodifications";
 
         PRHLineParser prhParser = new PRHLineParser(metadata);
         try {
@@ -44,8 +43,7 @@ public class MZTabHeaderLineValidateTest {
 
         // miss retention_time_window column
         String peh = "PEH\tsequence\taccession\tunique\tdatabase\tdatabase_version\tsearch_engine\t" +
-            "best_search_engine_score\treliability\tmodifications\tretention_time\t" +
-            "charge\tmass_to_charge\turi\tspectra_ref";
+            "best_search_engine_score\tmodifications\tretention_time\tcharge\tmass_to_charge\tspectra_ref";
 
         PEHLineParser pehParser = new PEHLineParser(metadata);
         try {
@@ -55,6 +53,32 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(e.getError().getType() == FormatErrorType.StableColumn);
             System.out.println(e.getMessage());
         }
+    }
+
+    @Test
+    public void testFixedAndVariableMod() throws Exception {
+        // if PSM section is present, fixed_mod and variable_mod should be defined in metadata.
+        String psh = "PSH\tsequence\tPSM_ID\taccession\tunique\tdatabase\tdatabase_version\t" +
+            "search_engine\tsearch_engine_score\treliability\tmodifications\tretention_time\tcharge\t" +
+            "exp_mass_to_charge\tcalc_mass_to_charge\turi\tspectra_ref\tpre\tpost\tstart\tend";
+        PSHLineParser pshParser = new PSHLineParser(metadata);
+
+        try {
+            pshParser.parse(1, psh, errorList);
+            assertTrue(true);
+        } catch (MZTabException e) {
+            assertTrue(false);
+        }
+
+        metadata.getFixedModMap().clear();
+        try {
+            pshParser.parse(1, psh, errorList);
+            assertTrue(false);
+        } catch (MZTabException e) {
+            assertTrue(e.getError().getType() == LogicalErrorType.FixedMod);
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Test

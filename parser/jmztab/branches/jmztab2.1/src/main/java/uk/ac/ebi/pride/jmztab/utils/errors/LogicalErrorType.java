@@ -37,4 +37,6 @@ public class LogicalErrorType extends MZTabErrorType {
     public static MZTabErrorType AmbiguityMod = createWarn(Category.Logical, "AmbiguityMod");
     public static MZTabErrorType MsRunLocation = createWarn(Category.Logical, "MsRunLocation");
 
+    public static MZTabErrorType FixedMod = createWarn(Category.Logical, "FixedMod");
+    public static MZTabErrorType VariableMod = createWarn(Category.Logical, "VariableMod");
 }
