@@ -67,11 +67,11 @@ public class AbundanceColumn extends MZTabColumn {
 
         AbundanceColumn column;
         column = new AbundanceColumn(dataSection, Field.ABUNDANCE, studyVariable, offset);
-        columns.put(column.getPosition(), column);
+        columns.put(column.getLogicPosition(), column);
         column = new AbundanceColumn(dataSection, Field.ABUNDANCE_STDEV, studyVariable, offset);
-        columns.put(column.getPosition(), column);
+        columns.put(column.getLogicPosition(), column);
         column = new AbundanceColumn(dataSection, Field.ABUNDANCE_STD_ERROR, studyVariable, offset);
-        columns.put(column.getPosition(), column);
+        columns.put(column.getLogicPosition(), column);
 
         return columns;
     }

@@ -55,7 +55,7 @@ public class MZTabDataLineParserTest {
         PRHLineParser headerParser = new PRHLineParser(metadata);
         headerParser.parse(1, header, new MZTabErrorList());
         MZTabColumnFactory factory = headerParser.getFactory();
-        PRTLineParser dataParser = new PRTLineParser(factory, metadata, errorList);
+        PRTLineParser dataParser = new PRTLineParser(factory, new PositionMapping(factory, header), metadata, errorList);
 
         String data;
         Protein record;
@@ -166,7 +166,7 @@ public class MZTabDataLineParserTest {
         PEHLineParser headerParser = new PEHLineParser(metadata);
         headerParser.parse(1, header, errorList);
         MZTabColumnFactory factory = headerParser.getFactory();
-        PEPLineParser dataParser = new PEPLineParser(factory, metadata, errorList);
+        PEPLineParser dataParser = new PEPLineParser(factory, new PositionMapping(factory, header), metadata, errorList);
 
         String data;
         Peptide peptide;
@@ -229,7 +229,7 @@ public class MZTabDataLineParserTest {
         PSHLineParser headerParser = new PSHLineParser(metadata);
         headerParser.parse(1, header, errorList);
         MZTabColumnFactory factory = headerParser.getFactory();
-        PSMLineParser dataParser = new PSMLineParser(factory, metadata, errorList);
+        PSMLineParser dataParser = new PSMLineParser(factory, new PositionMapping(factory, header), metadata, errorList);
 
         String data;
         String[] items;
@@ -313,7 +313,7 @@ public class MZTabDataLineParserTest {
         SMHLineParser headerParser = new SMHLineParser(metadata);
         headerParser.parse(1, header, new MZTabErrorList());
         MZTabColumnFactory factory = headerParser.getFactory();
-        SMLLineParser dataParser = new SMLLineParser(factory, metadata, errorList);
+        SMLLineParser dataParser = new SMLLineParser(factory, new PositionMapping(factory, header), metadata, errorList);
 
         String data = "SML\t" +
             "CID:00027395\t" +

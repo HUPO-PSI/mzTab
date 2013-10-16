@@ -5,8 +5,10 @@ import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
-import static junit.framework.Assert.assertTrue;
+import java.util.Set;
+
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 /**
 * User: Qingwei
@@ -300,5 +302,36 @@ public class MZTabHeaderLineParserTest {
         assertTrue(column instanceof AbundanceColumn);
 
 //        System.out.println(parser.getFactory().toString());
+    }
+
+    @Test
+    public void testPositionMapping() throws Exception {
+        MZTabColumnFactory factory;
+        PRHLineParser parser = new PRHLineParser(metadata);
+
+        // check stable columns with stable order.
+        String headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\tsearch_engine\t" +
+            "best_search_engine_score\tsearch_engine_score_ms_run[1]\treliability\tnum_psms_ms_run[1]\t" +
+            "num_psms_ms_run[2]\tnum_peptides_distinct_ms_run[1]\tnum_peptides_distinct_ms_run[2]\t" +
+            "num_peptides_unique_ms_run[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
+        factory = parser.getFactory();
+        parser.parse(1, headerLine, errorList);
+        PositionMapping positionMapping1 = new PositionMapping(factory, headerLine);
+        assertTrue(positionMapping1.size() == factory.getColumnMapping().size());
+
+        // change physical position of taxid
+        headerLine = "PRH\taccession\tdescription\tspecies\tdatabase\tdatabase_version\tsearch_engine\ttaxid\t" +
+            "best_search_engine_score\tsearch_engine_score_ms_run[1]\treliability\tnum_psms_ms_run[1]\t" +
+            "num_psms_ms_run[2]\tnum_peptides_distinct_ms_run[1]\tnum_peptides_distinct_ms_run[2]\t" +
+            "num_peptides_unique_ms_run[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
+        factory = parser.getFactory();
+        parser.parse(1, headerLine, errorList);
+        PositionMapping positionMapping2 = new PositionMapping(factory, headerLine);
+        assertTrue(positionMapping2.size() == factory.getColumnMapping().size());
+        assertTrue(positionMapping2.get(7).equals(positionMapping1.get(3)));
+
+        Set<String> mapping1LogicalPosition = positionMapping1.exchange().keySet();
+        Set<String> mapping2LogicalPosition = positionMapping2.exchange().keySet();
+        assertTrue(mapping1LogicalPosition.equals(mapping2LogicalPosition));
     }
 }

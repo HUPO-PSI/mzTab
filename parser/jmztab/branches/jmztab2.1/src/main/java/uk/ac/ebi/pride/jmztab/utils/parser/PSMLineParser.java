@@ -12,8 +12,9 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
  * Date: 07/06/13
  */
 public class PSMLineParser extends MZTabDataLineParser {
-    public PSMLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
-        super(factory, metadata, errorList);
+    public PSMLineParser(MZTabColumnFactory factory, PositionMapping positionMapping,
+                         Metadata metadata, MZTabErrorList errorList) {
+        super(factory, positionMapping, metadata, errorList);
     }
 
     @Override

@@ -159,7 +159,7 @@ public class MZTabColumnFactory {
     }
 
     public void addOptionalColumn(MZTabColumn column, MsRun msRun) {
-        String position = column.getPosition();
+        String position = column.getLogicPosition();
         if (optionalColumnMapping.containsKey(position)) {
             throw new IllegalArgumentException("There exists column " + optionalColumnMapping.get(position) + " in position " + position);
         }
@@ -184,8 +184,8 @@ public class MZTabColumnFactory {
         }
 
         if (newColumn != null) {
-            optionalColumnMapping.put(newColumn.getPosition(), newColumn);
-            columnMapping.put(newColumn.getPosition(), newColumn);
+            optionalColumnMapping.put(newColumn.getLogicPosition(), newColumn);
+            columnMapping.put(newColumn.getLogicPosition(), newColumn);
         }
     }
 
@@ -203,8 +203,8 @@ public class MZTabColumnFactory {
         }
 
         MZTabColumn column = ProteinColumn.GO_TERMS;
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addReliabilityOptionalColumn() {
@@ -225,8 +225,8 @@ public class MZTabColumnFactory {
         }
 
         if (column != null) {
-            optionalColumnMapping.put(column.getPosition(), column);
-            columnMapping.put(column.getPosition(), column);
+            optionalColumnMapping.put(column.getLogicPosition(), column);
+            columnMapping.put(column.getLogicPosition(), column);
         }
     }
 
@@ -248,63 +248,63 @@ public class MZTabColumnFactory {
         }
 
         if (column != null) {
-            optionalColumnMapping.put(column.getPosition(), column);
-            columnMapping.put(column.getPosition(), column);
+            optionalColumnMapping.put(column.getLogicPosition(), column);
+            columnMapping.put(column.getLogicPosition(), column);
         }
     }
 
     public void addOptionalColumn(String name, Class columnType) {
         MZTabColumn column = new OptionColumn(null, name, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addOptionalColumn(Assay assay, String name, Class columnType) {
         MZTabColumn column = new OptionColumn(assay, name, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addOptionalColumn(StudyVariable studyVariable, String name, Class columnType) {
         MZTabColumn column = new OptionColumn(studyVariable, name, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addOptionalColumn(MsRun msRun, String name, Class columnType) {
         MZTabColumn column = new OptionColumn(msRun, name, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addOptionalColumn(CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(null, param, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addOptionalColumn(Assay assay, CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(assay, param, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addOptionalColumn(StudyVariable studyVariable, CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(studyVariable, param, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addOptionalColumn(MsRun msRun, CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(msRun, param, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addAbundanceOptionalColumn(Assay assay) {
         MZTabColumn column = AbundanceColumn.createOptionalColumn(section, assay, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getPosition(), column);
-        columnMapping.put(column.getPosition(), column);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
     }
 
     public void addAbundanceOptionalColumn(StudyVariable studyVariable) {

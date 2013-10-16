@@ -8,7 +8,7 @@ public class MZTabColumn {
     private final String name;
     private final String order;
     private String header;
-    private String position;
+    private String logicPosition;
     private Class dataType;
     private boolean optional;
 
@@ -21,7 +21,7 @@ public class MZTabColumn {
         this.order = order;
 
         this.header = name;
-        this.position = order;
+        this.logicPosition = order;
     }
 
     public String getName() {
@@ -36,8 +36,8 @@ public class MZTabColumn {
         return header;
     }
 
-    public String getPosition() {
-        return position;
+    public String getLogicPosition() {
+        return logicPosition;
     }
 
     public Class getDataType() {
@@ -56,7 +56,7 @@ public class MZTabColumn {
         this.element = element;
 
         if (element != null) {
-            this.position = position + element.getId();
+            this.logicPosition = logicPosition + element.getId();
             StringBuilder sb = new StringBuilder();
             sb.append(this.header).append("_").append(element.getReference());
             this.header = sb.toString();
@@ -78,7 +78,7 @@ public class MZTabColumn {
     public String toString() {
         return "MZTabColumn{" +
                 "header='" + header + '\'' +
-                ", position='" + position + '\'' +
+                ", logicPosition='" + logicPosition + '\'' +
                 ", dataType=" + dataType +
                 ", optional=" + optional +
                 '}';
@@ -94,7 +94,7 @@ public class MZTabColumn {
         if (optional != column.optional) return false;
         if (dataType != null ? !dataType.equals(column.dataType) : column.dataType != null) return false;
         if (header != null ? !header.equals(column.header) : column.header != null) return false;
-        if (position != null ? !position.equals(column.position) : column.position != null) return false;
+        if (logicPosition != null ? !logicPosition.equals(column.logicPosition) : column.logicPosition != null) return false;
 
         return true;
     }
@@ -102,7 +102,7 @@ public class MZTabColumn {
     @Override
     public int hashCode() {
         int result = header != null ? header.hashCode() : 0;
-        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (logicPosition != null ? logicPosition.hashCode() : 0);
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
         result = 31 * result + (optional ? 1 : 0);
         return result;

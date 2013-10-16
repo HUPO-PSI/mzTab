@@ -41,14 +41,14 @@ public class MZTabColumnFactoryTest {
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun1);
         optionSize += 4;
         assertTrue(optionalColumns.size() == optionSize);
-        column = optionalColumns.get(ProteinColumn.SEARCH_ENGINE_SCORE.getPosition() + msRun1.getId());
+        column = optionalColumns.get(ProteinColumn.SEARCH_ENGINE_SCORE.getLogicPosition() + msRun1.getId());
         assertTrue(column != null);
 
         factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun2);
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun2);
         optionSize += 2;
         assertTrue(optionalColumns.size() == optionSize);
-        column = optionalColumns.get(ProteinColumn.NUM_PEPTIDES_UNIQUE.getPosition() + msRun2.getId());
+        column = optionalColumns.get(ProteinColumn.NUM_PEPTIDES_UNIQUE.getLogicPosition() + msRun2.getId());
         assertTrue(column == null);
 
         factory.addAbundanceOptionalColumn(assay1);

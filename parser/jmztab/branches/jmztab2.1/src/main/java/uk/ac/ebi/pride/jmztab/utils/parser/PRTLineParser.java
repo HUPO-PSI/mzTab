@@ -22,8 +22,9 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
 public class PRTLineParser extends MZTabDataLineParser {
     private Set<String> accessionSet = new HashSet<String>();
 
-    public PRTLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
-        super(factory, metadata, errorList);
+    public PRTLineParser(MZTabColumnFactory factory, PositionMapping positionMapping,
+                         Metadata metadata, MZTabErrorList errorList) {
+        super(factory, positionMapping, metadata, errorList);
     }
 
     @Override
@@ -82,19 +83,19 @@ public class PRTLineParser extends MZTabDataLineParser {
         protein.setSearchEngine(items[offset++]);
         protein.setBestSearchEngineScore(items[offset++]);
         while (mapping.get(offset).getName().equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
-            protein.setValue(mapping.get(offset).getPosition(), parseParamList(items[offset++]));
+            protein.setValue(mapping.get(offset).getLogicPosition(), parseParamList(items[offset++]));
         }
         if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
             protein.setReliability(items[offset++]);
         }
         while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PSMS.getName())) {
-            protein.setValue(mapping.get(offset).getPosition(), parseInteger(items[offset++]));
+            protein.setValue(mapping.get(offset).getLogicPosition(), parseInteger(items[offset++]));
         }
         while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName())) {
-            protein.setValue(mapping.get(offset).getPosition(), parseInteger(items[offset++]));
+            protein.setValue(mapping.get(offset).getLogicPosition(), parseInteger(items[offset++]));
         }
         while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getName())) {
-            protein.setValue(mapping.get(offset).getPosition(), parseInteger(items[offset++]));
+            protein.setValue(mapping.get(offset).getLogicPosition(), parseInteger(items[offset++]));
         }
         protein.setAmbiguityMembers(items[offset++]);
         protein.setModifications(items[offset++]);

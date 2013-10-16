@@ -45,7 +45,7 @@ public class PeptideValidateTest {
             "spectra_ref";
         pehParser.parse(1, headerLine, errorList);
         pehFactory = pehParser.getFactory();
-        pepParser = new PEPLineParser(pehFactory, metadata, errorList);
+        pepParser = new PEPLineParser(pehFactory, new PositionMapping(pehFactory, headerLine), metadata, errorList);
     }
 
     @After
