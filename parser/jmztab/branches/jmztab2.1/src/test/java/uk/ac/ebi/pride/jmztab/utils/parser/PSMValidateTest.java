@@ -50,7 +50,7 @@ public class PSMValidateTest {
             "end";
         pshParser.parse(1, headerLine, errorList);
         psmFactory = pshParser.getFactory();
-        psmParser = new PSMLineParser(psmFactory, metadata, errorList);
+        psmParser = new PSMLineParser(psmFactory, new PositionMapping(psmFactory, headerLine), metadata, errorList);
     }
 
     @After

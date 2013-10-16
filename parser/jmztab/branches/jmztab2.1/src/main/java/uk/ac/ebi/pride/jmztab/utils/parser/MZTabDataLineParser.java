@@ -21,12 +21,15 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 */
 public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected MZTabColumnFactory factory;
+    protected PositionMapping positionMapping;
 
     protected SortedMap<Integer, MZTabColumn> mapping;
     protected Metadata metadata;
 
-    protected MZTabDataLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
+    protected MZTabDataLineParser(MZTabColumnFactory factory, PositionMapping positionMapping,
+                                  Metadata metadata, MZTabErrorList errorList) {
         this.factory = factory;
+        this.positionMapping = positionMapping;
         this.mapping = factory.getOffsetColumnsMap();
 
         if (metadata == null) {
@@ -125,11 +128,11 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             dataType = column.getDataType();
 
             if (dataType.equals(String.class)) {
-                record.setValue(column.getPosition(), checkString(column, target));
+                record.setValue(column.getLogicPosition(), checkString(column, target));
             } else if (dataType.equals(Double.class)) {
-                record.setValue(column.getPosition(), checkDouble(column, target));
+                record.setValue(column.getLogicPosition(), checkDouble(column, target));
             } else if (dataType.equals(MZBoolean.class)) {
-                record.setValue(column.getPosition(), checkMZBoolean(column, target));
+                record.setValue(column.getLogicPosition(), checkMZBoolean(column, target));
             }
         }
 

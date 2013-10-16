@@ -113,6 +113,11 @@ public class MZTabFileParser {
         SortedMap<Integer, PSM> psmMap = new TreeMap<Integer, PSM>();
         SortedMap<Integer, SmallMolecule> smallMoleculeMap = new TreeMap<Integer, SmallMolecule>();
 
+        PositionMapping prtPositionMapping = null;
+        PositionMapping pepPositionMapping = null;
+        PositionMapping psmPositionMapping = null;
+        PositionMapping smlPositionMapping = null;
+
         MZTabError error;
         String line;
         int highWaterMark = 1;
@@ -158,6 +163,7 @@ public class MZTabFileParser {
                     // protein header section
                     prhParser = new PRHLineParser(mtdParser.getMetadata());
                     prhParser.parse(lineNumber, line, errorList);
+                    prtPositionMapping = new PositionMapping(prhParser.getFactory(), line);
 
                     // tell system to continue check protein data line.
                     highWaterMark = 3;
@@ -170,7 +176,7 @@ public class MZTabFileParser {
                     }
 
                     if (prtParser == null) {
-                        prtParser = new PRTLineParser(prhParser.getFactory(), mtdParser.getMetadata(), errorList);
+                        prtParser = new PRTLineParser(prhParser.getFactory(), prtPositionMapping, mtdParser.getMetadata(), errorList);
                     }
                     prtParser.parse(lineNumber, line, errorList);
                     proteinMap.put(lineNumber, prtParser.getRecord(line));
@@ -186,6 +192,7 @@ public class MZTabFileParser {
                     // peptide header section
                     pehParser = new PEHLineParser(mtdParser.getMetadata());
                     pehParser.parse(lineNumber, line, errorList);
+                    pepPositionMapping = new PositionMapping(pehParser.getFactory(), line);
 
                     // tell system to continue check peptide data line.
                     highWaterMark = 5;
@@ -198,7 +205,7 @@ public class MZTabFileParser {
                     }
 
                     if (pepParser == null) {
-                        pepParser = new PEPLineParser(pehParser.getFactory(), mtdParser.getMetadata(), errorList);
+                        pepParser = new PEPLineParser(pehParser.getFactory(), pepPositionMapping, mtdParser.getMetadata(), errorList);
                     }
                     pepParser.parse(lineNumber, line, errorList);
                     peptideMap.put(lineNumber, pepParser.getRecord(line));
@@ -214,6 +221,7 @@ public class MZTabFileParser {
                     // psm header section
                     pshParser = new PSHLineParser(mtdParser.getMetadata());
                     pshParser.parse(lineNumber, line, errorList);
+                    psmPositionMapping = new PositionMapping(pshParser.getFactory(), line);
 
                     // tell system to continue check peptide data line.
                     highWaterMark = 7;
@@ -226,7 +234,7 @@ public class MZTabFileParser {
                     }
 
                     if (psmParser == null) {
-                        psmParser = new PSMLineParser(pshParser.getFactory(), mtdParser.getMetadata(), errorList);
+                        psmParser = new PSMLineParser(pshParser.getFactory(), psmPositionMapping, mtdParser.getMetadata(), errorList);
                     }
                     psmParser.parse(lineNumber, line, errorList);
                     psmMap.put(lineNumber, psmParser.getRecord(line));
@@ -242,6 +250,7 @@ public class MZTabFileParser {
                     // small molecule header section
                     smhParser = new SMHLineParser(mtdParser.getMetadata());
                     smhParser.parse(lineNumber, line, errorList);
+                    smlPositionMapping = new PositionMapping(smhParser.getFactory(), line);
 
                     // tell system to continue check small molecule data line.
                     highWaterMark = 9;
@@ -254,7 +263,7 @@ public class MZTabFileParser {
                     }
 
                     if (smlParser == null) {
-                        smlParser = new SMLLineParser(smhParser.getFactory(), mtdParser.getMetadata(), errorList);
+                        smlParser = new SMLLineParser(smhParser.getFactory(), smlPositionMapping, mtdParser.getMetadata(), errorList);
                     }
                     smlParser.parse(lineNumber, line, errorList);
                     smallMoleculeMap.put(lineNumber, smlParser.getRecord(line));

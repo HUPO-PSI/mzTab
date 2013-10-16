@@ -35,8 +35,8 @@ public class MZTabRecord {
      *
      * @see uk.ac.ebi.pride.jmztab.model.MZTabColumn#getDataType()
      */
-    private boolean isMatch(String position, Class valueType) {
-        MZTabColumn column = factory.getColumnMapping().get(position);
+    private boolean isMatch(String logicalPosition, Class valueType) {
+        MZTabColumn column = factory.getColumnMapping().get(logicalPosition);
         if (column == null) {
             return false;
         }
@@ -45,22 +45,22 @@ public class MZTabRecord {
         return valueType == columnType;
     }
 
-    public boolean setValue(String position, Object value) {
+    public boolean setValue(String logicalPosition, Object value) {
         if (value == null) {
-            record.put(position, value);
+            record.put(logicalPosition, value);
             return true;
         }
 
-        if (isMatch(position, value.getClass())) {
-            record.put(position, value);
+        if (isMatch(logicalPosition, value.getClass())) {
+            record.put(logicalPosition, value);
             return true;
         } else {
             return false;
         }
     }
 
-    public Object getValue(String position) {
-        return record.get(position);
+    public Object getValue(String logicalPosition) {
+        return record.get(logicalPosition);
     }
 
     private Object translateValue(Object value) {
@@ -107,60 +107,60 @@ public class MZTabRecord {
         return sb.toString();
     }
 
-    protected String getString(String position) {
-        if (! isMatch(position, String.class)) {
+    protected String getString(String logicalPosition) {
+        if (! isMatch(logicalPosition, String.class)) {
             return null;
         }
 
-        return (String) record.get(position);
+        return (String) record.get(logicalPosition);
     }
 
-    protected Integer getInteger(String position) {
-        if (! isMatch(position, Integer.class)) {
+    protected Integer getInteger(String logicalPosition) {
+        if (! isMatch(logicalPosition, Integer.class)) {
             return null;
         }
 
-        return (Integer) record.get(position);
+        return (Integer) record.get(logicalPosition);
     }
 
-    protected Double getDouble(String position) {
-        if (! isMatch(position, Double.class)) {
+    protected Double getDouble(String logicalPosition) {
+        if (! isMatch(logicalPosition, Double.class)) {
             return null;
         }
 
-        return (Double) record.get(position);
+        return (Double) record.get(logicalPosition);
     }
 
-    protected SplitList getSplitList(String position) {
-        if (! isMatch(position, SplitList.class)) {
+    protected SplitList getSplitList(String logicalPosition) {
+        if (! isMatch(logicalPosition, SplitList.class)) {
             return null;
         }
 
-        return (SplitList) record.get(position);
+        return (SplitList) record.get(logicalPosition);
     }
 
-    protected URI getURI(String position) {
-        if (! isMatch(position, URI.class)) {
+    protected URI getURI(String logicalPosition) {
+        if (! isMatch(logicalPosition, URI.class)) {
             return null;
         }
 
-        return (URI) record.get(position);
+        return (URI) record.get(logicalPosition);
     }
 
-    protected Reliability getReliability(String position) {
-        if (! isMatch(position, Reliability.class)) {
+    protected Reliability getReliability(String logicalPosition) {
+        if (! isMatch(logicalPosition, Reliability.class)) {
             return null;
         }
 
-        return (Reliability) record.get(position);
+        return (Reliability) record.get(logicalPosition);
     }
 
-    protected MZBoolean getMZBoolean(String position) {
-        if (! isMatch(position, MZBoolean.class)) {
+    protected MZBoolean getMZBoolean(String logicalPosition) {
+        if (! isMatch(logicalPosition, MZBoolean.class)) {
             return null;
         }
 
-        return (MZBoolean) record.get(position);
+        return (MZBoolean) record.get(logicalPosition);
     }
 
     protected String getPosition(MZTabColumn column, IndexedElement element) {
@@ -179,14 +179,14 @@ public class MZTabRecord {
         if (column == null) {
             return null;
         } else {
-            return getDouble(column.getPosition());
+            return getDouble(column.getLogicPosition());
         }
     }
 
     public void setAbundanceColumn(Assay assay, double value) {
         MZTabColumn column = getColumn("_abundance_", assay);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
@@ -199,14 +199,14 @@ public class MZTabRecord {
         if (column == null) {
             return null;
         } else {
-            return getDouble(column.getPosition());
+            return getDouble(column.getLogicPosition());
         }
     }
 
     public void setAbundanceColumn(StudyVariable studyVariable, double value) {
         MZTabColumn column = getColumn("_abundance_", studyVariable);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
@@ -219,14 +219,14 @@ public class MZTabRecord {
         if (column == null) {
             return null;
         } else {
-            return getDouble(column.getPosition());
+            return getDouble(column.getLogicPosition());
         }
     }
 
     public void setAbundanceStdevColumn(StudyVariable studyVariable, double value) {
         MZTabColumn column = getColumn("_abundance_stdev_", studyVariable);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
@@ -239,14 +239,14 @@ public class MZTabRecord {
         if (column == null) {
             return null;
         } else {
-            return getDouble(column.getPosition());
+            return getDouble(column.getLogicPosition());
         }
     }
 
     public void setAbundanceStdErrorColumn(StudyVariable studyVariable, double value) {
         MZTabColumn column = getColumn("_abundance_std_error_", studyVariable);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
@@ -263,28 +263,28 @@ public class MZTabRecord {
     public String getOptionColumn(Assay assay, String name) {
         String header = OptionColumn.getHeader(assay, name);
         MZTabColumn column = factory.findColumn(header);
-        return column == null ? null : getString(column.getPosition());
+        return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(Assay assay, String name, String value) {
         String header = OptionColumn.getHeader(assay, name);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
     public String getOptionColumn(Assay assay, CVParam param) {
         String header = CVParamOptionColumn.getHeader(assay, param);
         MZTabColumn column = factory.findColumn(header);
-        return column == null ? null : getString(column.getPosition());
+        return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(Assay assay, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(assay, param);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
@@ -297,28 +297,28 @@ public class MZTabRecord {
     public String getOptionColumn(StudyVariable studyVariable, String name) {
         String header = OptionColumn.getHeader(studyVariable, name);
         MZTabColumn column = factory.findColumn(header);
-        return column == null ? null : getString(column.getPosition());
+        return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(StudyVariable studyVariable, String name, String value) {
         String header = OptionColumn.getHeader(studyVariable, name);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
     public String getOptionColumn(StudyVariable studyVariable, CVParam param) {
         String header = CVParamOptionColumn.getHeader(studyVariable, param);
         MZTabColumn column = factory.findColumn(header);
-        return column == null ? null : getString(column.getPosition());
+        return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(StudyVariable studyVariable, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(studyVariable, param);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
@@ -331,28 +331,28 @@ public class MZTabRecord {
     public String getOptionColumn(MsRun msRun, String name) {
         String header = OptionColumn.getHeader(msRun, name);
         MZTabColumn column = factory.findColumn(header);
-        return column == null ? null : getString(column.getPosition());
+        return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(MsRun msRun, String name, String value) {
         String header = OptionColumn.getHeader(msRun, name);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
     public String getOptionColumn(MsRun msRun, CVParam param) {
         String header = CVParamOptionColumn.getHeader(msRun, param);
         MZTabColumn column = factory.findColumn(header);
-        return column == null ? null : getString(column.getPosition());
+        return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(MsRun msRun, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(msRun, param);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
@@ -365,28 +365,28 @@ public class MZTabRecord {
     public String getOptionColumn(String name) {
         String header = OptionColumn.getHeader(null, name);
         MZTabColumn column = factory.findColumn(header);
-        return column == null ? null : getString(column.getPosition());
+        return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(String name, Object value) {
         String header = OptionColumn.getHeader(null, name);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 
     public String getOptionColumn(CVParam param) {
         String header = CVParamOptionColumn.getHeader(null, param);
         MZTabColumn column = factory.findColumn(header);
-        return column == null ? null : getString(column.getPosition());
+        return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(CVParam param, Object value) {
         String header = CVParamOptionColumn.getHeader(null, param);
         MZTabColumn column = factory.findColumn(header);
         if (column != null) {
-            setValue(column.getPosition(), value);
+            setValue(column.getLogicPosition(), value);
         }
     }
 }

@@ -18,8 +18,9 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
 * Date: 10/02/13
 */
 public class SMLLineParser extends MZTabDataLineParser {
-    public SMLLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
-        super(factory, metadata, errorList);
+    public SMLLineParser(MZTabColumnFactory factory, PositionMapping positionMapping,
+                         Metadata metadata, MZTabErrorList errorList) {
+        super(factory, positionMapping, metadata, errorList);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class SMLLineParser extends MZTabDataLineParser {
         smallMolecule.setSearchEngine(items[offset++]);
         smallMolecule.setBestSearchEngineScore(items[offset++]);
         while (mapping.get(offset).getName().equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
-            smallMolecule.setValue(mapping.get(offset).getPosition(), parseParamList(items[offset++]));
+            smallMolecule.setValue(mapping.get(offset).getLogicPosition(), parseParamList(items[offset++]));
         }
         smallMolecule.setModifications(items[offset]);
 

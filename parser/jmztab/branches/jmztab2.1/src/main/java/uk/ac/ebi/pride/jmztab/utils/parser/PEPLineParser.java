@@ -13,8 +13,9 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseParamList;
 * Date: 10/02/13
 */
 public class PEPLineParser extends MZTabDataLineParser {
-    public PEPLineParser(MZTabColumnFactory factory, Metadata metadata, MZTabErrorList errorList) {
-        super(factory, metadata, errorList);
+    public PEPLineParser(MZTabColumnFactory factory, PositionMapping positionMapping,
+                         Metadata metadata, MZTabErrorList errorList) {
+        super(factory, positionMapping, metadata, errorList);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class PEPLineParser extends MZTabDataLineParser {
         peptide.setSearchEngine(items[offset++]);
         peptide.setBestSearchEngineScore(items[offset++]);
         while (mapping.get(offset).getName().equals(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
-            peptide.setValue(mapping.get(offset).getPosition(), parseParamList(items[offset++]));
+            peptide.setValue(mapping.get(offset).getLogicPosition(), parseParamList(items[offset++]));
         }
         if (factory.findColumn(PeptideColumn.RELIABILITY.getHeader()) != null) {
             peptide.setReliability(items[offset++]);

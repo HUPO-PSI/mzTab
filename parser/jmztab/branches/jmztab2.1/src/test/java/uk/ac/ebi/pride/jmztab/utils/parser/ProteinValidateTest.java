@@ -53,7 +53,7 @@ public class ProteinValidateTest {
             "opt_global_cv_MS:1002217_decoy_peptide";
         prhParser.parse(1, headerLine, errorList);
         prhFactory = prhParser.getFactory();
-        prtParser = new PRTLineParser(prhFactory, metadata, errorList);
+        prtParser = new PRTLineParser(prhFactory, new PositionMapping(prhFactory, headerLine), metadata, errorList);
     }
 
     @After
