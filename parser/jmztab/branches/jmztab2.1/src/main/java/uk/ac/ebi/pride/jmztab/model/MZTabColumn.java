@@ -63,13 +63,30 @@ public class MZTabColumn {
         }
     }
 
-    static MZTabColumn createOptionalColumn(MZTabColumn column, IndexedElement element) {
+    static MZTabColumn createOptionalColumn(Section section, MZTabColumn column, IndexedElement element) {
         if (! column.isOptional()) {
             throw new IllegalArgumentException(column + " is not optional column!");
         }
 
-        MZTabColumn optionColumn = new MZTabColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
-        optionColumn.setElement(element);
+        MZTabColumn optionColumn = null;
+        switch (section) {
+            case Protein_Header:
+                optionColumn = new ProteinColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
+                break;
+            case Peptide_Header:
+                optionColumn = new PeptideColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
+                break;
+            case PSM_Header:
+                optionColumn = new PSMColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
+                break;
+            case Small_Molecule_Header:
+                optionColumn = new SmallMoleculeColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
+                break;
+        }
+
+        if (optionColumn != null) {
+            optionColumn.setElement(element);
+        }
 
         return optionColumn;
     }

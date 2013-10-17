@@ -22,6 +22,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected MZTabColumnFactory factory;
     protected PositionMapping positionMapping;
+    protected SortedMap<String, Integer> exchangeMapping;
 
     protected SortedMap<Integer, MZTabColumn> mapping;
     protected Metadata metadata;
@@ -30,6 +31,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
                                   Metadata metadata, MZTabErrorList errorList) {
         this.factory = factory;
         this.positionMapping = positionMapping;
+        exchangeMapping = positionMapping.exchange();
         this.mapping = factory.getOffsetColumnsMap();
 
         if (metadata == null) {
@@ -42,15 +44,8 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     public void parse(int lineNumber, String line, MZTabErrorList errorList) throws MZTabException {
         super.parse(lineNumber, line, errorList);
         checkCount();
-
-        int offset = checkStableData();
-        if (offset == items.length - 1) {
-            // no optional data.
-            return;
-        }
-
-        offset++;
-        checkOptionalData(offset);
+        checkStableData();
+        checkOptionalData();
     }
 
     private void checkCount() {
@@ -85,7 +80,6 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             return record;
         }
 
-        offset++;
         loadOptionalData(record, offset);
 
         return record;
@@ -93,38 +87,42 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
     /**
      * Based on mapping order to parse stable column data.
-     * @return the last stable column position.
      */
-    abstract int checkStableData();
+    abstract void checkStableData();
 
     abstract int loadStableData(MZTabRecord record, String line);
 
-    private void checkOptionalData(int offset) {
-        String target;
+    private void checkOptionalData() {
         MZTabColumn column;
         Class dataType;
-        for (int i = offset; i < items.length; i++) {
-            target = items[i];
-            column = mapping.get(i);
-            dataType = column.getDataType();
-
-            if (dataType.equals(String.class)) {
-                checkString(column, target);
-            } else if (dataType.equals(Double.class)) {
-                checkDouble(column, target);
-            } else if (dataType.equals(MZBoolean.class)) {
-                checkMZBoolean(column, target);
+        String target;
+        for (int physicalPosition = 1; physicalPosition < items.length; physicalPosition++) {
+            column = factory.getColumnMapping().get(positionMapping.get(physicalPosition));
+            if (column != null) {
+                target = items[physicalPosition];
+                dataType = column.getDataType();
+                if (column instanceof AbundanceColumn) {
+                    checkDouble(column, target);
+                } else if (column instanceof OptionColumn) {
+                    if (dataType.equals(String.class)) {
+                        checkString(column, target);
+                    } else if (dataType.equals(Double.class)) {
+                        checkDouble(column, target);
+                    } else if (dataType.equals(MZBoolean.class)) {
+                        checkMZBoolean(column, target);
+                    }
+                }
             }
         }
     }
 
-    private void loadOptionalData(MZTabRecord record, int offset) {
+    private void loadOptionalData(MZTabRecord record, int physicalOffset) {
         String target;
         MZTabColumn column;
         Class dataType;
-        for (int i = offset; i < items.length; i++) {
-            target = items[i];
-            column = mapping.get(i);
+        for (int physicalPosition = physicalOffset; physicalPosition < items.length; physicalPosition++) {
+            target = items[physicalPosition].trim();
+            column = factory.getColumnMapping().get(positionMapping.get(physicalPosition));
             dataType = column.getDataType();
 
             if (dataType.equals(String.class)) {

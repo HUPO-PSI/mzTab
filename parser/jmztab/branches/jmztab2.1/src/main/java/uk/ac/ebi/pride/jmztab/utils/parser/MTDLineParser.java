@@ -40,20 +40,23 @@ public class MTDLineParser extends MZTabLineParser {
             throw new MZTabException(error);
         }
 
-        if (items[1].contains("colunit")) {
+        String defineLabel = items[1].trim().toLowerCase();
+        String valueLabel = items[2].trim();
+
+        if (defineLabel.contains("colunit")) {
             // ignore colunit parse. In the stage, just store them into colUnitMap<defineLabel, valueLabel>.
             // after table section columns created, call checkColUnit manually.
-            colUnitMap.put(items[1], items[2]);
+            colUnitMap.put(defineLabel, valueLabel);
 
-            if (! items[1].equals("colunit-protein") &&
-                ! items[1].equals("colunit-peptide") &&
-                ! items[1].equals("colunit-psm") &&
-                ! items[1].equals("colunit-small_molecule")) {
-                MZTabError error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, items[1]);
+            if (! defineLabel.equals("colunit-protein") &&
+                ! defineLabel.equals("colunit-peptide") &&
+                ! defineLabel.equals("colunit-psm") &&
+                ! defineLabel.equals("colunit-small_molecule")) {
+                MZTabError error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, defineLabel);
                 throw new MZTabException(error);
             }
         } else {
-            parseNormalMetadata(items[1], items[2]);
+            parseNormalMetadata(defineLabel, valueLabel);
         }
     }
 
@@ -679,7 +682,7 @@ public class MTDLineParser extends MZTabLineParser {
     public void refineColUnit(MZTabColumnFactory factory) throws MZTabException {
         String valueLabel;
         for (String defineLabel : colUnitMap.keySet()) {
-            if (defineLabel.equals("colunit-" + Section.toDataSection(factory.getSection()).getName())) {
+            if (defineLabel.equalsIgnoreCase("colunit-" + Section.toDataSection(factory.getSection()).getName())) {
                 valueLabel = colUnitMap.get(defineLabel);
                 MZTabError error = checkColUnit(valueLabel, factory);
 

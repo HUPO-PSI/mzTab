@@ -5,6 +5,8 @@ import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
+import java.util.SortedMap;
+
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 
 /**
@@ -18,70 +20,126 @@ public class PSMLineParser extends MZTabDataLineParser {
     }
 
     @Override
-    protected int checkStableData() {
-        int offset = 1;
-
-        checkSequence(mapping.get(offset), items[offset++]);
-        checkPSMID(mapping.get(offset), items[offset++]);
-        checkAccession(mapping.get(offset), items[offset++]);
-        checkUnique(mapping.get(offset), items[offset++]);
-        checkDatabase(mapping.get(offset), items[offset++]);
-        checkDatabaseVersion(mapping.get(offset), items[offset++]);
-        checkSearchEngine(mapping.get(offset), items[offset++]);
-        checkSearchEngineScore(mapping.get(offset), items[offset++]);
-        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
-            checkReliability(mapping.get(offset), items[offset++]);
+    protected void checkStableData() {
+        MZTabColumn column;
+        String columnName;
+        String target;
+        for (int physicalPosition = 1; physicalPosition < items.length; physicalPosition++) {
+            column = factory.getColumnMapping().get(positionMapping.get(physicalPosition));
+            if (column != null) {
+                columnName = column.getName();
+                target = items[physicalPosition];
+                if (columnName.equals(PSMColumn.SEQUENCE.getName())) {
+                    checkSequence(column, target);
+                } else if (columnName.equals(PSMColumn.PSM_ID.getName())) {
+                    checkPSMID(column, target);
+                } else if (columnName.equals(PSMColumn.ACCESSION.getName())) {
+                    checkAccession(column, target);
+                } else if (columnName.equals(PSMColumn.UNIQUE.getName())) {
+                    checkUnique(column, target);
+                } else if (columnName.equals(PSMColumn.DATABASE.getName())) {
+                    checkDatabase(column, target);
+                } else if (columnName.equals(PSMColumn.DATABASE_VERSION.getName())) {
+                    checkDatabaseVersion(column, target);
+                } else if (columnName.equals(PSMColumn.SEARCH_ENGINE.getName())) {
+                    checkSearchEngine(column, target);
+                } else if (columnName.equals(PSMColumn.SEARCH_ENGINE_SCORE.getName())) {
+                    checkSearchEngineScore(column, target);
+                } else if (columnName.equals(PSMColumn.RELIABILITY.getName())) {
+                    checkReliability(column, target);
+                } else if (columnName.equals(PSMColumn.MODIFICATIONS.getName())) {
+                    String sequence = items[exchangeMapping.get(PSMColumn.SEQUENCE.getLogicPosition())];
+                    checkModifications(column, sequence, target);
+                } else if (columnName.equals(PSMColumn.RETENTION_TIME.getName())) {
+                    checkRetentionTime(column, target);
+                } else if (columnName.equals(PSMColumn.CHARGE.getName())) {
+                    checkCharge(column, target);
+                } else if (columnName.equals(PSMColumn.EXP_MASS_TO_CHARGE.getName())) {
+                    checkExpMassToCharge(column, target);
+                } else if (columnName.equals(PSMColumn.CALC_MASS_TO_CHARGE.getName())) {
+                    checkCalcMassToCharge(column, target);
+                } else if (columnName.equals(PSMColumn.URI.getName())) {
+                    checkURI(column, target);
+                } else if (columnName.equals(PSMColumn.SPECTRA_REF.getName())) {
+                    checkSpectraRef(column, target);
+                } else if (columnName.equals(PSMColumn.PRE.getName())) {
+                    checkPre(column, target);
+                } else if (columnName.equals(PSMColumn.POST.getName())) {
+                    checkPost(column, target);
+                } else if (columnName.equals(PSMColumn.START.getName())) {
+                    checkStart(column, target);
+                } else if (columnName.equals(PSMColumn.END.getName())) {
+                    checkEnd(column, target);
+                }
+            }
         }
-        checkModifications(mapping.get(offset), items[1], items[offset++]);
-        checkRetentionTime(mapping.get(offset), items[offset++]);
-        checkCharge(mapping.get(offset), items[offset++]);
-        checkExpMassToCharge(mapping.get(offset), items[offset++]);
-        checkCalcMassToCharge(mapping.get(offset), items[offset++]);
-        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
-            checkURI(mapping.get(offset), items[offset++]);
-        }
-        checkSpectraRef(mapping.get(offset), items[offset++]);
-        checkPre(mapping.get(offset), items[offset++]);
-        checkPost(mapping.get(offset), items[offset++]);
-        checkStart(mapping.get(offset), items[offset++]);
-        checkEnd(mapping.get(offset), items[offset]);
-
-        return offset;
     }
 
-    @Override
     protected int loadStableData(MZTabRecord record, String line) {
         items = line.split("\\s*" + TAB + "\\s*");
         items[items.length - 1] = items[items.length - 1].trim();
 
         PSM psm = (PSM) record;
-        int offset = 1;
-        psm.setSequence(items[offset++]);
-        psm.setPSM_ID(items[offset++]);
-        psm.setAccession(items[offset++]);
-        psm.setUnique(items[offset++]);
-        psm.setDatabase(items[offset++]);
-        psm.setDatabaseVersion(items[offset++]);
-        psm.setSearchEngine(items[offset++]);
-        psm.setSearchEngineScore(items[offset++]);
-        if (factory.findColumn(PSMColumn.RELIABILITY.getHeader()) != null) {
-            psm.setReliability(items[offset++]);
-        }
-        psm.setModifications(items[offset++]);
-        psm.setRetentionTime(items[offset++]);
-        psm.setCharge(items[offset++]);
-        psm.setExpMassToCharge(items[offset++]);
-        psm.setCalcMassToCharge(items[offset++]);
-        if (factory.findColumn(PSMColumn.URI.getHeader()) != null) {
-            psm.setURI(items[offset++]);
-        }
-        psm.setSpectraRef(items[offset++]);
-        psm.setPre(items[offset++]);
-        psm.setPost(items[offset++]);
-        psm.setStart(items[offset++]);
-        psm.setEnd(items[offset]);
+        MZTabColumn column;
+        String columnName;
+        String target;
+        SortedMap<String, MZTabColumn> columnMapping = factory.getColumnMapping();
+        int physicalPosition = 1;
+        String logicalPosition;
 
-        return offset;
+        logicalPosition = positionMapping.get(physicalPosition);
+        column = columnMapping.get(logicalPosition);
+        while (column != null && column instanceof PSMColumn) {
+            target = items[physicalPosition];
+            columnName = column.getName();
+            if (columnName.equals(PSMColumn.SEQUENCE.getName())) {
+                psm.setSequence(target);
+            } else if (columnName.equals(PSMColumn.PSM_ID.getName())) {
+                psm.setPSM_ID(target);
+            } else if (columnName.equals(PSMColumn.ACCESSION.getName())) {
+                psm.setAccession(target);
+            } else if (columnName.equals(PSMColumn.UNIQUE.getName())) {
+                psm.setUnique(target);
+            } else if (columnName.equals(PSMColumn.DATABASE.getName())) {
+                psm.setDatabase(target);
+            } else if (columnName.equals(PSMColumn.DATABASE_VERSION.getName())) {
+                psm.setDatabaseVersion(target);
+            } else if (columnName.equals(PSMColumn.SEARCH_ENGINE.getName())) {
+                psm.setSearchEngine(target);
+            } else if (columnName.equals(PSMColumn.SEARCH_ENGINE_SCORE.getName())) {
+                psm.setSearchEngineScore(target);
+            } else if (columnName.equals(PSMColumn.RELIABILITY.getName())) {
+                psm.setReliability(target);
+            } else if (columnName.equals(PSMColumn.MODIFICATIONS.getName())) {
+                psm.setModifications(target);
+            } else if (columnName.equals(PSMColumn.RETENTION_TIME.getName())) {
+                psm.setRetentionTime(target);
+            } else if (columnName.equals(PSMColumn.CHARGE.getName())) {
+                psm.setCharge(target);
+            } else if (columnName.equals(PSMColumn.EXP_MASS_TO_CHARGE.getName())) {
+                psm.setExpMassToCharge(target);
+            } else if (columnName.equals(PSMColumn.CALC_MASS_TO_CHARGE.getName())) {
+                psm.setCalcMassToCharge(target);
+            } else if (columnName.equals(PSMColumn.URI.getName())) {
+                psm.setURI(target);
+            } else if (columnName.equals(PSMColumn.SPECTRA_REF.getName())) {
+                psm.setSpectraRef(target);
+            } else if (columnName.equals(PSMColumn.PRE.getName())) {
+                psm.setPre(target);
+            } else if (columnName.equals(PSMColumn.POST.getName())) {
+                psm.setPost(target);
+            } else if (columnName.equals(PSMColumn.START.getName())) {
+                psm.setStart(target);
+            } else if (columnName.equals(PSMColumn.END.getName())) {
+                psm.setEnd(target);
+            }
+
+            physicalPosition++;
+            logicalPosition = positionMapping.get(physicalPosition);
+            column = logicalPosition == null ? null : columnMapping.get(logicalPosition);
+        }
+
+        return physicalPosition;
     }
 
     private String checkAccession(MZTabColumn column, String target) {

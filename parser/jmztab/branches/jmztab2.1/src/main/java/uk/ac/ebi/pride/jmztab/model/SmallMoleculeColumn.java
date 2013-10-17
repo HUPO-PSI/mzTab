@@ -5,7 +5,7 @@ package uk.ac.ebi.pride.jmztab.model;
  * Date: 23/05/13
  */
 public class SmallMoleculeColumn extends MZTabColumn {
-    private SmallMoleculeColumn(String name, Class columnType, boolean optional, String order) {
+    SmallMoleculeColumn(String name, Class columnType, boolean optional, String order) {
         super(name, columnType, optional, order);
     }
 

@@ -51,6 +51,46 @@ public enum Section {
         return level;
     }
 
+    public static Section findSection(int level) {
+        Section section;
+        switch (level) {
+            case 0:
+                section = Comment;
+                break;
+            case 1:
+                section = Metadata;
+                break;
+            case 2:
+                section = Protein_Header;
+                break;
+            case 3:
+                section = Protein;
+                break;
+            case 4:
+                section = Peptide_Header;
+                break;
+            case 5:
+                section = Peptide;
+                break;
+            case 6:
+                section = PSM_Header;
+                break;
+            case 7:
+                section = PSM;
+                break;
+            case 8:
+                section = Small_Molecule_Header;
+                break;
+            case 9:
+                section = Small_Molecule;
+                break;
+            default:
+                section = null;
+        }
+
+        return section;
+    }
+
     public boolean isComment() {
         return this == Comment;
     }
