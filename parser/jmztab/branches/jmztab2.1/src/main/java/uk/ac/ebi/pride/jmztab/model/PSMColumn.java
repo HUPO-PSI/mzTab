@@ -5,7 +5,7 @@ package uk.ac.ebi.pride.jmztab.model;
  * Date: 23/05/13
  */
 public class PSMColumn extends MZTabColumn {
-    private PSMColumn(String name, Class columnType, boolean optional, String order) {
+    PSMColumn(String name, Class columnType, boolean optional, String order) {
         super(name, columnType, optional, order);
     }
 

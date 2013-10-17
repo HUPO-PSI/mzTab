@@ -305,6 +305,14 @@ public class SmallMolecule extends MZTabRecord {
         setValue(getPosition(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
     }
 
+    public void setSearchEngineScore(String logicalPosition, SplitList<Param> searchEngineScore) {
+        setValue(logicalPosition, searchEngineScore);
+    }
+
+    public void setSearchEngineScore(String logicalPosition, String paramsLabel) {
+        setSearchEngineScore(logicalPosition, parseParamList(paramsLabel));
+    }
+
     public boolean addSearchEngineScore(MsRun msRun, CVParam param) {
         if (param == null) {
             return false;

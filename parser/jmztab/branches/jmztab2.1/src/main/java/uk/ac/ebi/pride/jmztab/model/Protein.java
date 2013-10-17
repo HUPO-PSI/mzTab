@@ -137,8 +137,12 @@ public class Protein extends MZTabRecord {
         return getSplitList(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msRun));
     }
 
+    public void setSearchEngineScore(String logicalPosition, SplitList<Param> searchEngineScore) {
+        setValue(logicalPosition, searchEngineScore);
+    }
+
     public void setSearchEngineScore(MsRun msRun, SplitList<Param> searchEngineScore) {
-        setValue(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
+        setSearchEngineScore(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
     }
 
     public boolean addSearchEngineScoreParam(MsRun msRun, CVParam param) {
@@ -154,6 +158,10 @@ public class Protein extends MZTabRecord {
         params.add(param);
 
         return true;
+    }
+
+    public void setSearchEngineScore(String logicalPosition, String paramsLabel) {
+        setSearchEngineScore(logicalPosition, parseParamList(paramsLabel));
     }
 
     public void setSearchEngineScore(MsRun msRun, String paramsLabel) {
@@ -176,8 +184,16 @@ public class Protein extends MZTabRecord {
         return getInteger(getPosition(ProteinColumn.NUM_PSMS, msRun));
     }
 
+    public void setNumPSMs(String logicalPosition, Integer numPSMs) {
+        setValue(logicalPosition, numPSMs);
+    }
+
     public void setNumPSMs(MsRun msRun, Integer numPSMs) {
-        setValue(getPosition(ProteinColumn.NUM_PSMS, msRun), numPSMs);
+        setNumPSMs(getPosition(ProteinColumn.NUM_PSMS, msRun), numPSMs);
+    }
+
+    public void setNumPSMs(String logicalPosition, String numPSMsLabel) {
+        setNumPSMs(logicalPosition, parseInteger(numPSMsLabel));
     }
 
     public void setNumPSMs(MsRun msRun, String numPSMsLabel) {
@@ -189,19 +205,35 @@ public class Protein extends MZTabRecord {
     }
 
     public void setNumPeptidesDistinct(MsRun msRun, Integer numPeptidesDistinct) {
-        setValue(getPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun), numPeptidesDistinct);
+        setNumPeptidesDistinct(getPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun), numPeptidesDistinct);
+    }
+
+    public void setNumPeptidesDistinct(String logicalPosition, Integer numPeptidesDistinct) {
+        setValue(logicalPosition, numPeptidesDistinct);
     }
 
     public void setNumPeptidesDistinct(MsRun msRun, String numPeptidesDistinct) {
         setNumPeptidesDistinct(msRun, parseInteger(numPeptidesDistinct));
     }
 
+    public void setNumPeptidesDistinct(String logicalPosition, String numPeptidesDistinct) {
+        setNumPeptidesDistinct(logicalPosition, parseInteger(numPeptidesDistinct));
+    }
+
     public Integer getNumPeptidesUnique(MsRun msRun) {
         return getInteger(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun));
     }
 
+    public void setNumPeptidesUnique(String logicalPosition, Integer numPeptidesUnique) {
+        setValue(logicalPosition, numPeptidesUnique);
+    }
+
     public void setNumPeptidesUnique(MsRun msRun, Integer numPeptidesUnique) {
-        setValue(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun), numPeptidesUnique);
+        setNumPeptidesUnique(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun), numPeptidesUnique);
+    }
+
+    public void setNumPeptidesUnique(String logicalPosition, String numPeptidesUnique) {
+        setNumPeptidesUnique(logicalPosition, parseInteger(numPeptidesUnique));
     }
 
     public void setNumPeptidesUnique(MsRun msRun, String numPeptidesUnique) {

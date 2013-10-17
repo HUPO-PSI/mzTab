@@ -139,8 +139,12 @@ public class Peptide extends MZTabRecord {
         return getSplitList(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msRun));
     }
 
+    public void setSearchEngineScore(String logicalPosition, SplitList<Param> searchEngineScore) {
+        setValue(logicalPosition, searchEngineScore);
+    }
+
     public void setSearchEngineScore(MsRun msRun, SplitList<Param> searchEngineScore) {
-        setValue(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
+        setSearchEngineScore(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
     }
 
     public boolean addSearchEngineScore(MsRun msRun, CVParam param) {
@@ -156,6 +160,10 @@ public class Peptide extends MZTabRecord {
         params.add(param);
 
         return true;
+    }
+
+    public void setSearchEngineScore(String logicalPosition, String paramsLabel) {
+        setSearchEngineScore(logicalPosition, parseParamList(paramsLabel));
     }
 
     public void setSearchEngineScore(MsRun msRun, String paramsLabel) {

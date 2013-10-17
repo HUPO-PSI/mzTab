@@ -6,6 +6,7 @@ import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
+import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,74 +25,125 @@ public class SMLLineParser extends MZTabDataLineParser {
     }
 
     @Override
-    protected int checkStableData() {
-        int offset = 1;
-
-        checkIdentifier(mapping.get(offset), items[offset++]);
-        checkChemicalFormula(mapping.get(offset), items[offset++]);
-        checkSmiles(mapping.get(offset), items[offset++]);
-        checkInchiKey(mapping.get(offset), items[offset++]);
-        checkDescription(mapping.get(offset), items[offset++]);
-        checkExpMassToCharge(mapping.get(offset), items[offset++]);
-        checkCalcMassToCharge(mapping.get(offset), items[offset++]);
-        checkCharge(mapping.get(offset), items[offset++]);
-        checkRetentionTime(mapping.get(offset), items[offset++]);
-        checkTaxid(mapping.get(offset), items[offset++]);
-        checkSpecies(mapping.get(offset), items[offset++]);
-        checkDatabase(mapping.get(offset), items[offset++]);
-        checkDatabaseVersion(mapping.get(offset), items[offset++]);
-        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
-            checkReliability(mapping.get(offset), items[offset++]);
+    protected void checkStableData() {
+        MZTabColumn column;
+        String columnName;
+        String target;
+        for (int physicalPosition = 1; physicalPosition < items.length; physicalPosition++) {
+            column = factory.getColumnMapping().get(positionMapping.get(physicalPosition));
+            if (column != null) {
+                columnName = column.getName();
+                target = items[physicalPosition];
+                if (columnName.equals(SmallMoleculeColumn.IDENTIFIER.getName())) {
+                    checkIdentifier(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.CHEMICAL_FORMULA.getName())) {
+                    checkChemicalFormula(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.SMILES.getName())) {
+                    checkSmiles(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.INCHI_KEY.getName())) {
+                    checkInchiKey(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.DESCRIPTION.getName())) {
+                    checkDescription(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.EXP_MASS_TO_CHARGE.getName())) {
+                    checkExpMassToCharge(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.CALC_MASS_TO_CHARGE.getName())) {
+                    checkCalcMassToCharge(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.CHARGE.getName())) {
+                    checkCharge(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.RETENTION_TIME.getName())) {
+                    checkRetentionTime(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.TAXID.getName())) {
+                    checkTaxid(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.SPECIES.getName())) {
+                    checkSpecies(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.DATABASE.getName())) {
+                    checkDatabase(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.DATABASE_VERSION.getName())) {
+                    checkDatabaseVersion(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.RELIABILITY.getName())) {
+                    checkReliability(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.URI.getName())) {
+                    checkURI(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.SPECTRA_REF.getName())) {
+                    checkSpectraRef(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.SEARCH_ENGINE.getName())) {
+                    checkSearchEngine(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                    checkBestSearchEngineScore(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
+                    checkSearchEngineScore(column, target);
+                } else if (columnName.equals(SmallMoleculeColumn.MODIFICATIONS.getName())) {
+                    checkModifications(column, target);
+                }
+            }
         }
-        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
-            checkURI(mapping.get(offset), items[offset++]);
-        }
-        checkSpectraRef(mapping.get(offset), items[offset++]);
-        checkSearchEngine(mapping.get(offset), items[offset++]);
-        checkBestSearchEngineScore(mapping.get(offset), items[offset++]);
-        while (mapping.get(offset).getName().equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
-            checkSearchEngineScore(mapping.get(offset), items[offset++]);
-        }
-        checkModifications(mapping.get(offset), items[offset]);
-
-        return offset;
     }
 
-    @Override
     protected int loadStableData(MZTabRecord record, String line) {
         items = line.split("\\s*" + TAB + "\\s*");
         items[items.length - 1] = items[items.length - 1].trim();
 
-        int offset = 1;
         SmallMolecule smallMolecule = (SmallMolecule) record;
-        smallMolecule.setIdentifier(items[offset++]);
-        smallMolecule.setChemicalFormula(items[offset++]);
-        smallMolecule.setSmiles(items[offset++]);
-        smallMolecule.setInchiKey(items[offset++]);
-        smallMolecule.setDescription(items[offset++]);
-        smallMolecule.setExpMassToCharge(items[offset++]);
-        smallMolecule.setCalcMassToCharge(items[offset++]);
-        smallMolecule.setCharge(items[offset++]);
-        smallMolecule.setRetentionTime(items[offset++]);
-        smallMolecule.setTaxid(items[offset++]);
-        smallMolecule.setSpecies(items[offset++]);
-        smallMolecule.setDatabase(items[offset++]);
-        smallMolecule.setDatabaseVersion(items[offset++]);
-        if (factory.findColumn(SmallMoleculeColumn.RELIABILITY.getHeader()) != null) {
-            smallMolecule.setReliability(items[offset++]);
-        }
-        if (factory.findColumn(SmallMoleculeColumn.URI.getHeader()) != null) {
-            smallMolecule.setURI(items[offset++]);
-        }
-        smallMolecule.setSpectraRef(items[offset++]);
-        smallMolecule.setSearchEngine(items[offset++]);
-        smallMolecule.setBestSearchEngineScore(items[offset++]);
-        while (mapping.get(offset).getName().equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
-            smallMolecule.setValue(mapping.get(offset).getLogicPosition(), parseParamList(items[offset++]));
-        }
-        smallMolecule.setModifications(items[offset]);
+        MZTabColumn column;
+        String columnName;
+        String target;
+        SortedMap<String, MZTabColumn> columnMapping = factory.getColumnMapping();
+        int physicalPosition = 1;
+        String logicalPosition;
 
-        return 19;
+        logicalPosition = positionMapping.get(physicalPosition);
+        column = columnMapping.get(logicalPosition);
+        while (column != null && column instanceof SmallMoleculeColumn) {
+            target = items[physicalPosition];
+            columnName = column.getName();
+            if (columnName.equals(SmallMoleculeColumn.IDENTIFIER.getName())) {
+                smallMolecule.setIdentifier(target);
+            } else if (columnName.equals(SmallMoleculeColumn.CHEMICAL_FORMULA.getName())) {
+                smallMolecule.setChemicalFormula(target);
+            } else if (columnName.equals(SmallMoleculeColumn.SMILES.getName())) {
+                smallMolecule.setSmiles(target);
+            } else if (columnName.equals(SmallMoleculeColumn.INCHI_KEY.getName())) {
+                smallMolecule.setInchiKey(target);
+            } else if (columnName.equals(SmallMoleculeColumn.DESCRIPTION.getName())) {
+                smallMolecule.setDescription(target);
+            } else if (columnName.equals(SmallMoleculeColumn.EXP_MASS_TO_CHARGE.getName())) {
+                smallMolecule.setExpMassToCharge(target);
+            } else if (columnName.equals(SmallMoleculeColumn.CALC_MASS_TO_CHARGE.getName())) {
+                smallMolecule.setCalcMassToCharge(target);
+            } else if (columnName.equals(SmallMoleculeColumn.CHARGE.getName())) {
+                smallMolecule.setCharge(target);
+            } else if (columnName.equals(SmallMoleculeColumn.RETENTION_TIME.getName())) {
+                smallMolecule.setRetentionTime(target);
+            } else if (columnName.equals(SmallMoleculeColumn.TAXID.getName())) {
+                smallMolecule.setTaxid(target);
+            } else if (columnName.equals(SmallMoleculeColumn.SPECIES.getName())) {
+                smallMolecule.setSpecies(target);
+            } else if (columnName.equals(SmallMoleculeColumn.DATABASE.getName())) {
+                smallMolecule.setDatabase(target);
+            } else if (columnName.equals(SmallMoleculeColumn.DATABASE_VERSION.getName())) {
+                smallMolecule.setDatabaseVersion(target);
+            } else if (columnName.equals(SmallMoleculeColumn.RELIABILITY.getName())) {
+                smallMolecule.setReliability(target);
+            } else if (columnName.equals(SmallMoleculeColumn.URI.getName())) {
+                smallMolecule.setURI(target);
+            } else if (columnName.equals(SmallMoleculeColumn.SPECTRA_REF.getName())) {
+                smallMolecule.setSpectraRef(target);
+            } else if (columnName.equals(SmallMoleculeColumn.SEARCH_ENGINE.getName())) {
+                smallMolecule.setSearchEngine(target);
+            } else if (columnName.equals(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                smallMolecule.setBestSearchEngineScore(target);
+            } else if (columnName.equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
+                smallMolecule.setSearchEngineScore(logicalPosition, target);
+            } else if (columnName.equals(SmallMoleculeColumn.MODIFICATIONS.getName())) {
+                smallMolecule.setModifications(target);
+            }
+
+            physicalPosition++;
+            logicalPosition = positionMapping.get(physicalPosition);
+            column = logicalPosition == null ? null : columnMapping.get(logicalPosition);
+        }
+
+        return physicalPosition;
     }
 
     public SmallMolecule getRecord(String line) {

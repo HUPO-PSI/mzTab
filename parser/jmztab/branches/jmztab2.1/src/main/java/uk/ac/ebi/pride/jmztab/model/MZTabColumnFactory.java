@@ -168,17 +168,17 @@ public class MZTabColumnFactory {
         switch (section) {
             case Protein_Header:
                 if (position.equals("09") || position.equals("11") || position.equals("12") || position.equals("13")) {
-                    newColumn = MZTabColumn.createOptionalColumn(column, msRun);
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
                 }
                 break;
             case Peptide_Header:
                 if (position.equals("08")) {
-                    newColumn = MZTabColumn.createOptionalColumn(column, msRun);
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
                 }
                 break;
             case Small_Molecule_Header:
                 if (position.equals("19")) {
-                    newColumn = MZTabColumn.createOptionalColumn(column, msRun);
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
                 }
                 break;
         }
@@ -349,6 +349,8 @@ public class MZTabColumnFactory {
     }
 
     public boolean isOptionalColumn(String header) {
+        header = header.trim().toLowerCase();
+
         switch (section) {
             case Protein_Header:
                 if (header.startsWith(ProteinColumn.SEARCH_ENGINE_SCORE.getName())   ||
@@ -396,8 +398,10 @@ public class MZTabColumnFactory {
      * @see
      */
     public MZTabColumn findColumn(String header) {
+        header = header.trim();
+
         for (MZTabColumn column : columnMapping.values()) {
-            if (header.equalsIgnoreCase(column.getHeader())) {
+            if (header.equals(column.getHeader())) {
                 return column;
             }
         }

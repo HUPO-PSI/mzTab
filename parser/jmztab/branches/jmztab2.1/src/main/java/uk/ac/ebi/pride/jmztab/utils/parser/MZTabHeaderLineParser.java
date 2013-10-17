@@ -181,6 +181,8 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
      * opt_{assay_id|study_variable_id|ms_run_id|global}_value
      */
     private boolean checkOptColumnName(String nameLabel) throws MZTabException {
+        nameLabel = nameLabel.trim();
+
         String regexp = "opt_((assay|study_variable|ms_run)\\[(\\w+)\\]|global)_([A-Za-z0-9_\\-\\[\\]:\\.]+)";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(nameLabel);
@@ -255,6 +257,9 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
      * opt_cv_{accession}_{parameter name}
      */
     private CVParam checkCVParamOptColumnName(String nameLabel, String valueLabel) throws MZTabException {
+        nameLabel = nameLabel.trim();
+        valueLabel = valueLabel.trim();
+
         String regexp = "cv(_([A-Za-z0-9\\-\\[\\]:\\.]+))?(_([A-Za-z0-9_\\-\\[\\]:\\.]+)*)";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(valueLabel);
@@ -336,6 +341,8 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
      * For example, protein_abundance_std_error_study_variable[id], return study_variable[id].
      */
     private String checkAbundanceSection(String abundanceHeader) throws MZTabException {
+        abundanceHeader = abundanceHeader.trim().toLowerCase();
+
         Pattern pattern = Pattern.compile("(protein|peptide|smallmolecule)_abundance_(.+)");
         Matcher matcher = pattern.matcher(abundanceHeader);
 
@@ -402,6 +409,10 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     private void checkAbundanceStudyVariableColumns(String abundanceHeader,
                                                     String abundanceStdevHeader,
                                                     String abundanceStdErrorHeader) throws MZTabException {
+        abundanceHeader = abundanceHeader.trim().toLowerCase();
+        abundanceStdevHeader = abundanceStdevHeader.trim().toLowerCase();
+        abundanceStdErrorHeader = abundanceStdErrorHeader.trim().toLowerCase();
+
         if (! abundanceHeader.contains("_abundance_study_variable")) {
             String missHeader = Section.toDataSection(section).getName() + "_abundance_study_variable";
 

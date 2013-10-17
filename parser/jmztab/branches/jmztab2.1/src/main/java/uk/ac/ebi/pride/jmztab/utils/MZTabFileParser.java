@@ -142,7 +142,8 @@ public class MZTabFileParser {
                 throw new MZTabException(error);
             }
             if (section.getLevel() < highWaterMark) {
-                error = new MZTabError(LogicalErrorType.LineOrder, lineNumber, section.getName());
+                Section currentSection = Section.findSection(highWaterMark);
+                error = new MZTabError(LogicalErrorType.LineOrder, lineNumber, currentSection.getName(), section.getName());
                 throw new MZTabException(error);
             }
 
@@ -187,6 +188,10 @@ public class MZTabFileParser {
                         // header line only display once!
                         error = new MZTabError(LogicalErrorType.HeaderLine, lineNumber, subString(line));
                         throw new MZTabException(error);
+                    }
+
+                    if (mtdParser.getMetadata().getMZTabType() == MZTabDescription.Type.Identification) {
+                        errorList.add(new MZTabError(LogicalErrorType.PeptideSection, lineNumber, subString(line)));
                     }
 
                     // peptide header section

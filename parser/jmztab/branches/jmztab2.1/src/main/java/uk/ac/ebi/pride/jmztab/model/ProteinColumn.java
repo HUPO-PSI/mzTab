@@ -10,7 +10,7 @@ import java.util.TreeMap;
  * Date: 23/05/13
  */
 public class ProteinColumn extends MZTabColumn {
-    private ProteinColumn(String name, Class columnType, boolean optional, String order) {
+    ProteinColumn(String name, Class columnType, boolean optional, String order) {
         super(name, columnType, optional, order);
     }
 

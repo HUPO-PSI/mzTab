@@ -4,9 +4,11 @@ import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,86 +30,117 @@ public class PRTLineParser extends MZTabDataLineParser {
     }
 
     @Override
-    protected int checkStableData() {
-        int offset = 1;
-
-        checkAccession(mapping.get(offset), items[offset++]);
-        checkDescription(mapping.get(offset), items[offset++]);
-        checkTaxid(mapping.get(offset), items[offset++]);
-        checkSpecies(mapping.get(offset), items[offset++]);
-        checkDatabase(mapping.get(offset), items[offset++]);
-        checkDatabaseVersion(mapping.get(offset), items[offset++]);
-        checkSearchEngine(mapping.get(offset), items[offset++]);
-        checkBestSearchEngineScore(mapping.get(offset), items[offset++]);
-        while (mapping.get(offset).getName().equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
-            checkSearchEngineScore(mapping.get(offset), items[offset++]);
+    protected void checkStableData() {
+        MZTabColumn column;
+        String columnName;
+        String target;
+        for (int physicalPosition = 1; physicalPosition < items.length; physicalPosition++) {
+            column = factory.getColumnMapping().get(positionMapping.get(physicalPosition));
+            if (column != null) {
+                columnName = column.getName();
+                target = items[physicalPosition];
+                if (columnName.equals(ProteinColumn.ACCESSION.getName())) {
+                    checkAccession(column, target);
+                } else if (columnName.equals(ProteinColumn.DESCRIPTION.getName())) {
+                    checkDescription(column, target);
+                } else if (columnName.equals(ProteinColumn.TAXID.getName())) {
+                    checkTaxid(column, target);
+                } else if (columnName.equals(ProteinColumn.SPECIES.getName())) {
+                    checkSpecies(column, target);
+                } else if (columnName.equals(ProteinColumn.DATABASE.getName())) {
+                    checkDatabase(column, target);
+                } else if (columnName.equals(ProteinColumn.DATABASE_VERSION.getName())) {
+                    checkDatabaseVersion(column, target);
+                } else if (columnName.equals(ProteinColumn.SEARCH_ENGINE.getName())) {
+                    checkSearchEngine(column, target);
+                } else if (columnName.equals(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                    checkBestSearchEngineScore(column, target);
+                } else if (columnName.equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
+                    checkSearchEngineScore(column, target);
+                } else if (columnName.equals(ProteinColumn.RELIABILITY.getName())) {
+                    checkReliability(column, target);
+                } else if (columnName.equals(ProteinColumn.NUM_PSMS.getName())) {
+                    checkNumPSMs(column, target);
+                } else if (columnName.equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName())) {
+                    checkNumPeptidesDistinct(column, target);
+                } else if (columnName.equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getName())) {
+                    checkNumPeptidesUnique(column, target);
+                } else if (columnName.equals(ProteinColumn.AMBIGUITY_MEMBERS.getName())) {
+                    checkAmbiguityMembers(column, target);
+                } else if (columnName.equals(ProteinColumn.MODIFICATIONS.getName())) {
+                    checkModifications(column, target);
+                } else if (columnName.equals(ProteinColumn.URI.getName())) {
+                    checkURI(column, target);
+                } else if (columnName.equals(ProteinColumn.GO_TERMS.getName())) {
+                    checkGOTerms(column, target);
+                } else if (columnName.equals(ProteinColumn.PROTEIN_COVERAGE.getName())) {
+                    checkProteinCoverage(column, target);
+                }
+            }
         }
-        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
-            checkReliability(mapping.get(offset), items[offset++]);
-        }
-        while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PSMS.getName())) {
-            checkNumPSMs(mapping.get(offset), items[offset++]);
-        }
-        while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName())) {
-            checkNumPeptidesDistinct(mapping.get(offset), items[offset++]);
-        }
-        while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getName())) {
-            checkNumPeptidesUnique(mapping.get(offset), items[offset++]);
-        }
-        checkAmbiguityMembers(mapping.get(offset), items[offset++]);
-        checkModifications(mapping.get(offset), items[offset++]);
-        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
-            checkURI(mapping.get(offset), items[offset++]);
-        }
-        if (factory.findColumn(ProteinColumn.GO_TERMS.getHeader()) != null) {
-            checkGOTerms(mapping.get(offset), items[offset++]);
-        }
-        checkProteinCoverage(mapping.get(offset), items[offset]);
-
-        return offset;
     }
 
-    @Override
     protected int loadStableData(MZTabRecord record, String line) {
         items = line.split("\\s*" + TAB + "\\s*");
         items[items.length - 1] = items[items.length - 1].trim();
 
         Protein protein = (Protein) record;
-        int offset = 1;
-        protein.setAccession(items[offset++]);
-        protein.setDescription(items[offset++]);
-        protein.setTaxid(items[offset++]);
-        protein.setSpecies(items[offset++]);
-        protein.setDatabase(items[offset++]);
-        protein.setDatabaseVersion(items[offset++]);
-        protein.setSearchEngine(items[offset++]);
-        protein.setBestSearchEngineScore(items[offset++]);
-        while (mapping.get(offset).getName().equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
-            protein.setValue(mapping.get(offset).getLogicPosition(), parseParamList(items[offset++]));
-        }
-        if (factory.findColumn(ProteinColumn.RELIABILITY.getHeader()) != null) {
-            protein.setReliability(items[offset++]);
-        }
-        while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PSMS.getName())) {
-            protein.setValue(mapping.get(offset).getLogicPosition(), parseInteger(items[offset++]));
-        }
-        while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName())) {
-            protein.setValue(mapping.get(offset).getLogicPosition(), parseInteger(items[offset++]));
-        }
-        while (mapping.get(offset).getName().equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getName())) {
-            protein.setValue(mapping.get(offset).getLogicPosition(), parseInteger(items[offset++]));
-        }
-        protein.setAmbiguityMembers(items[offset++]);
-        protein.setModifications(items[offset++]);
-        if (factory.findColumn(ProteinColumn.URI.getHeader()) != null) {
-            protein.setURI(items[offset++]);
-        }
-        if (factory.findColumn(ProteinColumn.GO_TERMS.getHeader()) != null) {
-            protein.setGOTerms(items[offset++]);
-        }
-        protein.setProteinConverage(items[offset]);
+        MZTabColumn column;
+        String columnName;
+        String target;
+        SortedMap<String, MZTabColumn> columnMapping = factory.getColumnMapping();
+        int physicalPosition = 1;
+        String logicalPosition;
 
-        return offset;
+        logicalPosition = positionMapping.get(physicalPosition);
+        column = columnMapping.get(logicalPosition);
+        while (column != null && column instanceof ProteinColumn) {
+            target = items[physicalPosition];
+            columnName = column.getName();
+            if (columnName.equals(ProteinColumn.ACCESSION.getName())) {
+                protein.setAccession(target);
+            } else if (columnName.equals(ProteinColumn.DESCRIPTION.getName())) {
+                protein.setDescription(target);
+            } else if (columnName.equals(ProteinColumn.TAXID.getName())) {
+                protein.setTaxid(target);
+            } else if (columnName.equals(ProteinColumn.SPECIES.getName())) {
+                protein.setSpecies(target);
+            } else if (columnName.equals(ProteinColumn.DATABASE.getName())) {
+                protein.setDatabase(target);
+            } else if (columnName.equals(ProteinColumn.DATABASE_VERSION.getName())) {
+                protein.setDatabaseVersion(target);
+            } else if (columnName.equals(ProteinColumn.SEARCH_ENGINE.getName())) {
+                protein.setSearchEngine(target);
+            } else if (columnName.equals(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                protein.setBestSearchEngineScore(target);
+            } else if (columnName.equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
+                protein.setSearchEngineScore(logicalPosition, target);
+            } else if (columnName.equals(ProteinColumn.RELIABILITY.getName())) {
+                protein.setReliability(target);
+            } else if (columnName.equals(ProteinColumn.NUM_PSMS.getName())) {
+                protein.setNumPSMs(logicalPosition, target);
+            } else if (columnName.equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName())) {
+                protein.setNumPeptidesDistinct(logicalPosition, target);
+            } else if (columnName.equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getName())) {
+                protein.setNumPeptidesUnique(logicalPosition, target);
+            } else if (columnName.equals(ProteinColumn.AMBIGUITY_MEMBERS.getName())) {
+                protein.setAmbiguityMembers(target);
+            } else if (columnName.equals(ProteinColumn.MODIFICATIONS.getName())) {
+                protein.setModifications(target);
+            } else if (columnName.equals(ProteinColumn.URI.getName())) {
+                protein.setURI(target);
+            } else if (columnName.equals(ProteinColumn.GO_TERMS.getName())) {
+                protein.setGOTerms(target);
+            } else if (columnName.equals(ProteinColumn.PROTEIN_COVERAGE.getName())) {
+                protein.setProteinConverage(target);
+            }
+
+            physicalPosition++;
+            logicalPosition = positionMapping.get(physicalPosition);
+            column = logicalPosition == null ? null : columnMapping.get(logicalPosition);
+        }
+
+        return physicalPosition;
     }
 
     public Protein getRecord(String line) {

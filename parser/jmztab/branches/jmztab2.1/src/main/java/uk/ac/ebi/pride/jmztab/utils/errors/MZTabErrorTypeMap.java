@@ -74,6 +74,9 @@ public class MZTabErrorTypeMap {
         add(LogicalErrorType.SpectraRef);
         add(LogicalErrorType.AmbiguityMod);
 //        add(LogicalErrorType.MsRunLocation);
+        add(LogicalErrorType.FixedMod);
+        add(LogicalErrorType.VariableMod);
+        add(LogicalErrorType.PeptideSection);
     }
 
     public MZTabErrorType getType(int code) {
