@@ -25,12 +25,12 @@ public class PSHLineParser extends MZTabHeaderLineParser {
     @Override
     protected void refine() throws MZTabException {
         // if PSM section is present, fixed_mod[1-n] and variable_mod[1-n] should be defined.
-        if (metadata.getFixedModMap().size() == 0) {
-            throw new MZTabException(new MZTabError(LogicalErrorType.FixedMod, lineNumber));
-        }
-
-        if (metadata.getVariableModMap().size() == 0) {
-            throw new MZTabException(new MZTabError(LogicalErrorType.VariableMod, lineNumber));
-        }
+//        if (metadata.getFixedModMap().size() == 0) {
+//            throw new MZTabException(new MZTabError(LogicalErrorType.FixedMod, lineNumber));
+//        }
+//
+//        if (metadata.getVariableModMap().size() == 0) {
+//            throw new MZTabException(new MZTabError(LogicalErrorType.VariableMod, lineNumber));
+//        }
     }
 }

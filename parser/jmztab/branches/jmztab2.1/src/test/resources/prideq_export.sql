@@ -1,3 +1,5 @@
+
+--Query Pride-Q database, and export resultset to mzTab
 SELECT p.psms_sequence,
        group_concat(concat(m.mods_location, "-", m.mods_main_accession)),
        round(p.psms_prec_mz, 2),
@@ -18,3 +20,17 @@ SELECT p.psms_sequence,
   FROM prideq_psms p, prideq_mods m
   WHERE p.psms_id = m.mods_psms_id
   GROUP BY psms_id limit 20,40; 
+
+
+-- Query Pride2 database, and create connection between project accession and pmid List.
+SELECT e.accession as accession, p.accession as pmid
+FROM 
+    pride.pride_reference_exp_link l, 
+    pride.pride_reference_param p, 
+    pride.pride_experiment e
+WHERE 
+    p.parent_element_fk = l.reference_id 
+AND e.experiment_id = l.experiment_id
+AND l.public_flag = 1
+AND p.cv_label='PubMed'
+ORDER BY 1;
