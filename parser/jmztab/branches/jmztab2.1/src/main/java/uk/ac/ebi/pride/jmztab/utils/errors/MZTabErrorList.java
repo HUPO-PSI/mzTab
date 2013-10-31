@@ -16,8 +16,21 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.MAX_ERROR_COUNT;
  */
 public class MZTabErrorList {
     private List<MZTabError> errorList = new ArrayList<MZTabError>(MAX_ERROR_COUNT);
+    private MZTabErrorType.Level level;
+
+    public MZTabErrorList() {
+        level = MZTabErrorType.Level.Error;
+    }
+
+    public MZTabErrorList(MZTabErrorType.Level level) {
+        this.level = level;
+    }
 
     public boolean add(MZTabError o) throws MZTabErrorOverflowException {
+        if (o.getType().getLevel().compareTo(level) < 0) {
+            return false;
+        }
+
         if (errorList.size() >= MAX_ERROR_COUNT) {
             throw new MZTabErrorOverflowException();
         }

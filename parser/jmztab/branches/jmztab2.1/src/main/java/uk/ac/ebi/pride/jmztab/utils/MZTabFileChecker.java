@@ -24,7 +24,7 @@ public class MZTabFileChecker {
         this.errorList = errorList == null ? new MZTabErrorList() : errorList;
     }
 
-    public boolean check(MZTabFile mzTabFile, MZTabErrorType.Level level) {
+    public boolean check(MZTabFile mzTabFile) {
         return true;
 //        Set<String> unitAccessionSet = new HashSet<String>();
 //        Set<String> accessionSet = new HashSet<String>();

@@ -22,7 +22,7 @@ public class ProteinValidateTest {
     public ProteinValidateTest() throws Exception {
         MTDLineParserTest test = new MTDLineParserTest();
         Metadata metadata = test.parseMetadata("testset/mtdFile.txt");
-        errorList = new MZTabErrorList();
+        errorList = new MZTabErrorList(MZTabErrorType.Level.Warn);
 
         PRHLineParser prhParser = new PRHLineParser(metadata);
         String headerLine = "PRH\t" +

@@ -1,10 +1,14 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
+import uk.ac.ebi.pride.iongen.model.impl.DefaultPeptideIon;
 import uk.ac.ebi.pride.jaxb.model.*;
 import uk.ac.ebi.pride.jaxb.xml.PrideXmlReader;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.model.Param;
+import uk.ac.ebi.pride.jmztab.model.UserParam;
+import uk.ac.ebi.pride.mol.PTModification;
 import uk.ac.ebi.pride.tools.converter.dao.DAOCvParams;
+import uk.ac.ebi.pride.tools.converter.dao.Utils;
 import uk.ac.ebi.pride.tools.converter.dao.handler.QuantitationCvParams;
 
 import java.io.File;
@@ -24,10 +28,19 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
  */
 public class ConvertPrideXMLFile extends ConvertFile {
     private PrideXmlReader reader;
+    private MsRun msRun;
 
     public ConvertPrideXMLFile(File inFile) {
         super(inFile, PRIDE);
         this.reader = new PrideXmlReader(inFile);
+
+        msRun = new MsRun(1);
+        try {
+            msRun.setLocation(inFile.toURI().toURL());
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
+
         createArchitecture();
         fillData();
     }
@@ -35,6 +48,11 @@ public class ConvertPrideXMLFile extends ConvertFile {
     @Override
     protected Metadata convertMetadata() {
         this.metadata = new Metadata();
+
+        metadata.setMZTabID(reader.getExpAccession());
+        metadata.setTitle(reader.getExpTitle());
+
+        loadSoftware(reader.getDataProcessing().getSoftware());
 
         // process the references
         loadReferences(reader.getReferences());
@@ -46,10 +64,36 @@ public class ConvertPrideXMLFile extends ConvertFile {
         loadInstrument(reader.getInstrument());
         // set the accession as URI if there's one
         loadURI(reader.getExpAccession());
-        // set Ms File
+        // set Ms Run
         loadMsRun(reader.getExpAccession());
 
+        loadSubSamples(reader.getAdmin().getSampleDescription());
+
+        if (isIdentification()) {
+            metadata.setMZTabType(MZTabDescription.Type.Identification);
+            metadata.setMZTabMode(MZTabDescription.Mode.Complete);
+        } else {
+            metadata.setMZTabType(MZTabDescription.Type.Quantification);
+            metadata.setMZTabMode(MZTabDescription.Mode.Summary);
+        }
+
+        metadata.addCustom(new UserParam("date of export", new Date().toString()));
         return metadata;
+    }
+
+    private void loadSoftware(uk.ac.ebi.pride.jaxb.model.Software software) {
+        StringBuilder sb = new StringBuilder();
+
+        if (! isEmpty(software.getName())) {
+            sb.append(software.getName());
+        }
+        if (! isEmpty(software.getVersion())) {
+            sb.append(" v").append(software.getVersion());
+        }
+
+        if (sb.length() > 0) {
+            metadata.addSoftwareParam(1, new CVParam("MS", "MS:1001456", "analysis software", sb.toString().replaceAll("," , "")));
+        }
     }
 
     /**
@@ -161,6 +205,29 @@ public class ConvertPrideXMLFile extends ConvertFile {
         }
     }
 
+    private enum SearchEngineScoreParameter {
+        MASCOT("PRIDE", "PRIDE:0000069", "Mascot score", null),
+        OMSSA_E("PRIDE", "PRIDE:0000185", "OMSSA E-value", null),
+        OMSSA_P("PRIDE", "PRIDE:0000186", "OMSSA P-value", null),
+        SEQUEST("PRIDE", "PRIDE:0000053", "Sequest score", null),
+        SPECTRUMMILL( "PRIDE", "PRIDE:0000177", "Spectrum Mill peptide score", null),
+        XTANDEM("PRIDE", "PRIDE:0000176", "X!Tandem Hyperscore", null),
+        SLOMO("PRIDE", "PRIDE:0000275", "SloMo score", null),
+        DISCRIMINANT("PRIDE", "PRIDE:0000138", "Discriminant score", null);
+
+        private String cvLabel;
+        private String accession;
+        private String name;
+        private Double value;
+
+        private SearchEngineScoreParameter(String cvLabel, String accession, String name, Double value) {
+            this.cvLabel = cvLabel;
+            this.accession = accession;
+            this.name = name;
+            this.value = value;
+        }
+    }
+
     /**
      * Tries to guess which search engine is described by the passed name. In case no matching parameter
      * is found, null is returned.
@@ -195,6 +262,42 @@ public class ConvertPrideXMLFile extends ConvertFile {
             return new CVParam(param.cvLabel, param.accession, param.name, null);
         }
     }
+
+//    private CVParam findSearchEngineScoreParam(Identification identification) {
+//        String searchEngineName = identification.getSearchEngine();
+//        if (searchEngineName == null) {
+//            return null;
+//        }
+//
+//        searchEngineName = searchEngineName.toLowerCase();
+//
+//        SearchEngineScoreParameter param = null;
+//        if (searchEngineName.contains("mascot")) {
+//            param = SearchEngineScoreParameter.MASCOT;
+//            param.value = identification.getScore();
+//        } else if (searchEngineName.contains("omssa")) {
+//            param = SearchEngineScoreParameter.OMSSA_E;
+//            param.value = identification.getScore();
+//        } else if (searchEngineName.contains("sequest")) {
+//            param = SearchEngineScoreParameter.SEQUEST;
+//            param.value = identification.getScore();
+//        } else if (searchEngineName.contains("spectrummill")) {
+//            param = SearchEngineScoreParameter.SPECTRUMMILL;
+//            param.value = identification.getScore();
+//        } else if (searchEngineName.contains("xtandem")) {
+//            param = SearchEngineScoreParameter.XTANDEM_1;
+//            param.value = identification.getScore();
+//        } else if (searchEngineName.contains("x!tandem")) {
+//            param = SearchEngineScoreParameter.XTANDEM_2;
+//            param.value = identification.getScore();
+//        }
+//
+//        if (param == null) {
+//            return null;
+//        } else {
+//            return new CVParam(param.cvLabel, param.accession, param.name, (param.value == null ? "" : param.value.toString()));
+//        }
+//    }
 
     private CVParam convertParam(uk.ac.ebi.pride.jaxb.model.CvParam param) {
         return new CVParam(param.getCvLabel(), param.getAccession(), param.getName(), param.getValue());
@@ -236,6 +339,10 @@ public class ConvertPrideXMLFile extends ConvertFile {
     private void loadInstrument(uk.ac.ebi.pride.jaxb.model.Instrument instrument) {
         if (instrument == null) {
             return;
+        }
+
+        if (! isEmpty(instrument.getInstrumentName())) {
+            metadata.addInstrumentName(1, new CVParam("PRIDE", "PRIDE:0000131", "Instrument model", instrument.getInstrumentName()));
         }
 
         // handle the source information
@@ -297,85 +404,44 @@ public class ConvertPrideXMLFile extends ConvertFile {
             return;
         }
 
-        Sample sample1 = null;
-        Sample sample2 = null;
-        Sample sample3 = null;
-        Sample sample4 = null;
-        Sample sample5 = null;
-        Sample sample6 = null;
-        Sample sample7 = null;
-        Sample sample8 = null;
-
-        Sample noIdSample = null;
+        // Quantification
         for (CvParam p : sampleDescription.getCvParam()) {
             // check for subsample descriptions
             if (QuantitationCvParams.SUBSAMPLE1_DESCRIPTION.getAccession().equals(p.getAccession())) {
-                if (sample1 == null) {
-                    sample1 = new Sample(1);
-                    metadata.addSample(sample1);
-                }
-                sample1.setDescription(p.getValue());
+                metadata.addSampleDescription(1, p.getValue());
                 continue;
             }
             if (QuantitationCvParams.SUBSAMPLE2_DESCRIPTION.getAccession().equals(p.getAccession())) {
-                if (sample2 == null) {
-                    sample2 = new Sample(2);
-                    metadata.addSample(sample1);
-                }
-                sample2.setDescription(p.getValue());
+                metadata.addSampleDescription(2, p.getValue());
                 continue;
             }
             if (QuantitationCvParams.SUBSAMPLE3_DESCRIPTION.getAccession().equals(p.getAccession())) {
-                if (sample3 == null) {
-                    sample3 = new Sample(3);
-                    metadata.addSample(sample3);
-                }
-                sample3.setDescription(p.getValue());
+                metadata.addSampleDescription(3, p.getValue());
                 continue;
             }
             if (QuantitationCvParams.SUBSAMPLE4_DESCRIPTION.getAccession().equals(p.getAccession())) {
-                if (sample4 == null) {
-                    sample4 = new Sample(4);
-                    metadata.addSample(sample4);
-                }
-                sample4.setDescription(p.getValue());
+                metadata.addSampleDescription(4, p.getValue());
                 continue;
             }
             if (QuantitationCvParams.SUBSAMPLE5_DESCRIPTION.getAccession().equals(p.getAccession())) {
-                if (sample5 == null) {
-                    sample5 = new Sample(5);
-                    metadata.addSample(sample5);
-                }
-                sample5.setDescription(p.getValue());
+                metadata.addSampleDescription(5, p.getValue());
                 continue;
             }
             if (QuantitationCvParams.SUBSAMPLE6_DESCRIPTION.getAccession().equals(p.getAccession())) {
-                if (sample6 == null) {
-                    sample6 = new Sample(6);
-                    metadata.addSample(sample6);
-                }
-                sample6.setDescription(p.getValue());
+                metadata.addSampleDescription(6, p.getValue());
                 continue;
             }
             if (QuantitationCvParams.SUBSAMPLE7_DESCRIPTION.getAccession().equals(p.getAccession())) {
-                if (sample7 == null) {
-                    sample7 = new Sample(7);
-                    metadata.addSample(sample7);
-                }
-                sample7.setDescription(p.getValue());
+                metadata.addSampleDescription(7, p.getValue());
                 continue;
             }
             if (QuantitationCvParams.SUBSAMPLE8_DESCRIPTION.getAccession().equals(p.getAccession())) {
-                if (sample8 == null) {
-                    sample8 = new Sample(8);
-                    metadata.addSample(sample8);
-                }
-                sample8.setDescription(p.getValue());
+                metadata.addSampleDescription(8, p.getValue());
                 continue;
             }
 
             // check if it belongs to a sample
-            if (p.getValue() != null && p.getValue().startsWith("subsample")) {
+            if (! isEmpty(p.getValue()) && p.getValue().startsWith("subsample")) {
                 // get the subsample number
                 Pattern subsampleNumberPattern = Pattern.compile("subsample(\\d+)");
                 Matcher matcher = subsampleNumberPattern.matcher(p.getValue());
@@ -383,63 +449,66 @@ public class ConvertPrideXMLFile extends ConvertFile {
                 if (matcher.find()) {
                     Integer id = Integer.parseInt(matcher.group(1));
 
-                    // remove the value
-                    p.setValue(null);
-
-                    Sample sample = metadata.getSampleMap().get(id);
-                    if (sample == null) {
-                        sample = new Sample(id);
-                        metadata.addSample(sample);
-                    }
-
                     // add the param depending on the type
                     if ("NEWT".equals(p.getCvLabel())) {
-                        sample.addSpecies(convertParam(p));
+                        metadata.addSampleSpecies(id, convertParam(p));
                     } else if ("BRENDA".equals(p.getCvLabel())) {
-                        sample.addTissue(convertParam(p));
+                        metadata.addSampleTissue(id, convertParam(p));
                     } else if ("CL".equals(p.getCvLabel())) {
-                        sample.addCellType(convertParam(p));
+                        metadata.addSampleCellType(id, convertParam(p));
                     } else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
-                        sample.addDisease(convertParam(p));
+                        metadata.addSampleDisease(id, convertParam(p));
                     } else if (QuantitationCvParams.isQuantificationReagent(p.getAccession())) {
-                        // check if it's a quantification reagent
-                        Assay assay = metadata.getAssayMap().get(sample.getId());
-                        if (assay == null) {
-                            assay = new Assay(sample.getId());
-                            assay.setSample(sample);
-                            metadata.addAssay(assay);
-                        }
-                        assay.setQuantificationReagent(convertParam(p));
+                        metadata.addAssayQuantificationReagent(id, convertParam(p));
+                    } else {
+                        metadata.addSampleCustom(id, convertParam(p));
                     }
-                }
-            } else {
-                noIdSample = new Sample(1);
-
-                // add the param to the "global" group
-                if ("NEWT".equals(p.getCvLabel())) {
-                    noIdSample.addSpecies(convertParam(p));
-                }
-                else if ("BTO".equals(p.getCvLabel())) {
-                    noIdSample.addTissue(convertParam(p));
-                }
-                else if ("CL".equals(p.getCvLabel())) {
-                    noIdSample.addCellType(convertParam(p));
-                }
-                else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
-                    //DOID: Human Disease Ontology
-                    //IDO: Infectious Disease Ontology
-                    noIdSample.addDisease(convertParam(p));
                 }
             }
         }
 
-        if (noIdSample == null) {
-            return;
+        // Identification
+        if (metadata.getSampleMap().isEmpty()) {
+            for (CvParam p : sampleDescription.getCvParam()) {
+                if (isEmpty(p.getValue())) {
+                    if ("NEWT".equals(p.getCvLabel())) {
+                        metadata.addSampleSpecies(1, convertParam(p));
+                    }
+                    else if ("BTO".equals(p.getCvLabel())) {
+                        metadata.addSampleTissue(1, convertParam(p));
+                    }
+                    else if ("CL".equals(p.getCvLabel())) {
+                        metadata.addSampleCellType(1, convertParam(p));
+                    }
+                    else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
+                        //DOID: Human Disease Ontology
+                        //IDO: Infectious Disease Ontology
+                        metadata.addSampleDisease(1, convertParam(p));
+                    }
+                    else {
+                        metadata.addSampleCustom(1, convertParam(p));
+                    }
+                }
+            }
         }
 
-        SortedMap<Integer, Sample> samples = metadata.getSampleMap();
-        if (samples.isEmpty()) {
-            metadata.addSample(noIdSample);
+        // setting custom parameter for identification.
+        if (metadata.getSampleMap().size() <= 1) {
+            for (uk.ac.ebi.pride.jaxb.model.UserParam userParam : sampleDescription.getUserParam()) {
+                metadata.addSampleCustom(1, new UserParam(userParam.getName(), userParam.getValue()));
+            }
+        }
+
+        // create relationships between ms_run, samples, and assays
+        if (metadata.getSampleMap().size() == 1) {
+            // Identification
+            metadata.addAssaySample(1, metadata.getSampleMap().get(1));
+            metadata.addAssayMsRun(1, msRun);
+        } else {
+            for (Assay assay : metadata.getAssayMap().values()) {
+                assay.setSample(metadata.getSampleMap().get(assay.getId()));
+                assay.setMsRun(msRun);
+            }
         }
     }
 
@@ -498,9 +567,32 @@ public class ConvertPrideXMLFile extends ConvertFile {
         return modifications.values();
     }
 
+    /**
+     * Only one sample means this file is Identification and Complete. Otherwise, the file is Quantification and Summary.
+     */
+    private boolean isIdentification() {
+        return metadata.getSampleMap().size() == 1;
+    }
+
     @Override
     protected MZTabColumnFactory convertProteinColumnFactory() {
-        return null;
+        MZTabColumnFactory proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
+
+        // If not provide protein_quantification_unit in metadata, default value is Ratio
+        if (metadata.getProteinQuantificationUnit() == null) {
+            metadata.setProteinQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000395", "Ratio", null));
+        }
+
+        // ms_run[1] optional columns
+        proteinColumnFactory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun);
+        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun);
+        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun);
+        // for quantification file, need provide all optional columns for each ms_run.
+        if (! isIdentification()) {
+            proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun);
+        }
+
+        return proteinColumnFactory;
     }
 
     @Override
@@ -510,7 +602,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
 
     @Override
     protected MZTabColumnFactory convertPSMColumnFactory() {
-        return null;
+        return MZTabColumnFactory.getInstance(Section.PSM);
     }
 
     @Override
@@ -535,9 +627,40 @@ public class ConvertPrideXMLFile extends ConvertFile {
             Protein protein = loadProtein(identification);
             proteins.add(protein);
 
-            // convert the identification's peptides
-            List<Peptide> peptideList = loadPeptides(identification);
-            peptides.addAll(peptideList);
+            // convert psm
+            List<PSM> psmList = loadPSMs(identification);
+            psms.addAll(psmList);
+        }
+    }
+
+    private void addOptionalColumnValue(MZTabRecord record, MZTabColumnFactory columnFactory, String name, String value) {
+        String logicalPosition = columnFactory.addOptionalColumn(name, String.class);
+        record.setValue(logicalPosition, value);
+    }
+
+    private void loadSearchEngineScore(Protein protein, Identification identification) {
+        if (identification.getScore() != null) {
+            CVParam score = null;
+            for (PeptideItem peptideItem : identification.getPeptideItem()) {
+                score = getSearchEngineScores(peptideItem.getAdditional().getCvParam());
+                if (score != null) {
+                    score = new CVParam(score.getCvLabel(), score.getAccession(), score.getName(), identification.getScore().toString());
+                    protein.addSearchEngineScoreParam(msRun, score);
+                    break;
+                }
+            }
+            if (score == null) {
+                // not find score term in search engine score
+                if (identification.getSearchEngine().toLowerCase().contains("spectrast")) {
+                    score = new CVParam(null, null, "SpectraST score", identification.getScore().toString());
+                    protein.addSearchEngineScoreParam(msRun, score);
+                }
+            }
+
+            // in PRIDE XML, best_search_engine_score and search_engine_score_ms_run[1] are same.
+            if (score != null) {
+                protein.addBestSearchEngineScoreParam(score);
+            }
         }
     }
 
@@ -548,154 +671,230 @@ public class ConvertPrideXMLFile extends ConvertFile {
         // create the protein object
         Protein protein = new Protein(proteinColumnFactory);
 
-//        protein.setAccession(identification.getAccession());
-//        protein.setDatabase(identification.getDatabase());
-//        protein.setDatabaseVersion(identification.getDatabaseVersion());
-//
-//        // set the search engine
-//        uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = findSearchEngineParam(identification.getSearchEngine());
-//        if (searchEngineParam != null) {
-//            protein.addSearchEngineParam(searchEngineParam);
-//        }
-//        // setting the score is not sensible
-//
-//        // set the description if available
-//        String description = getCvParamValue(identification.getAdditional(), DAOCvParams.PROTEIN_NAME.getAccession());
-//        protein.setDescription(description);
-//
-//        // set the species if possible
-//        Species species;
-//        Unit u = metadata.getUnit(this.unit.getUnitId() + "-sub");
-//        if (u != null) {
-//            // exists global sub-sample
-//            SubUnit subUnit = (SubUnit) u;
-//            species = getSpecies(subUnit);
-//            if (species != null) {
-//                protein.setSpecies(species.getParam().getName());
-//                protein.setTaxid(species.getParam().getAccession());
-//            }
-//        } else {
-//            // exists subId sub-samples
-//            SortedMap<Integer, SubUnit> subUnits = metadata.getSubUnits();
-//            for (SubUnit subUnit : subUnits.values()) {
-//                species = getSpecies(subUnit);
-//                if (species != null) {
-//                    protein.setSpecies(species.getParam().getName());
-//                    protein.setTaxid(species.getParam().getAccession());
-//                    break;
-//                }
-//            }
-//        }
-//
-//        // get the number of peptides
-//        List<PeptideItem> items = identification.getPeptideItem();
-//        protein.setNumPeptides(items.size());
-//        HashSet<String> peptideSequences = new HashSet<String>();
-//        for (PeptideItem item : items) {
-//            List<ModificationItem> modList = item.getModificationItem();
-//            StringBuilder sb = new StringBuilder();
-//            for (ModificationItem mod : modList) {
-//                sb.append(mod.getModAccession()).append(mod.getModLocation());
-//            }
-//            sb.append(item.getSequence());
-//            peptideSequences.add(sb.toString());
-//        }
-//        // sequence + modifications
-//        protein.setNumPeptideDistinct(peptideSequences.size());
-//
-//        // add the indistinguishable accessions to the ambiguity members
-//        List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
-//        for (String member : ambiguityMembers) {
-//            protein.addAmbiguityMembers(member);
-//        }
-//
-//        // set the modifications
-//        for (Modification modification : getProteinModifications(items)) {
-//            protein.addModification(modification);
-//        }
-//
-//        // add potential quantitative values
-//        addAbundanceValues(protein, proteinColumnFactory, identification);
-//
-//        // process the additional params
-//        for (CvParam p : identification.getAdditional().getCvParam()) {
-//            // check if there's a quant unit set
-//            if (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession())) {
-//                CVParam param = convertParam(p);
-//                if (this.unit != null && param != null) {
-//                    this.unit.setProteinQuantificationUnit(param);
-//                }
-//            } else {
-//                // check optional column.
-//                if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
-//                    addOptionalColumnValue(protein, proteinColumnFactory, "empai", p.getValue());
-//                } else if (DAOCvParams.GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
-//                    // check if there's gel spot identifier
-//                    addOptionalColumnValue(protein, proteinColumnFactory, "gel_spotidentifier", p.getValue());
-//                } else if (DAOCvParams.GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
-//                    // check if there's gel identifier
-//                    addOptionalColumnValue(protein, proteinColumnFactory, "gel_identifier", p.getValue());
-//                }
-//            }
-//        }
-//
+        protein.setAccession(identification.getAccession());
+        protein.setDatabase(identification.getDatabase());
+        protein.setDatabaseVersion(identification.getDatabaseVersion());
+
+        uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = findSearchEngineParam(identification.getSearchEngine());
+        if (searchEngineParam != null) {
+            protein.addSearchEngineParam(searchEngineParam);
+        }
+        loadSearchEngineScore(protein, identification);
+
+        // set the description if available
+        String description = getCvParamValue(identification.getAdditional(), DAOCvParams.PROTEIN_NAME.getAccession());
+        protein.setDescription(description);
+
+        // set protein species and taxid.
+        Sample sample = metadata.getSampleMap().get(1);
+        Param speciesParam = sample.getSpeciesList().get(0);
+        protein.setSpecies(speciesParam.getName());
+        protein.setTaxid(speciesParam.getAccession());
+
+        // get the number of psms and distinct peptides
+        List<PeptideItem> items = identification.getPeptideItem();
+        List<String> allPeptideList = new ArrayList<String>();
+        // sequence + modifications + charge
+        HashSet<String> distinctPeptideList = new HashSet<String>();
+        for (PeptideItem item : items) {
+            List<ModificationItem> modList = item.getModificationItem();
+            StringBuilder sb = new StringBuilder();
+            for (ModificationItem mod : modList) {
+                sb.append(mod.getModAccession()).append(mod.getModLocation());
+            }
+            sb.append(item.getSequence());
+            for (CvParam cvParam : item.getAdditional().getCvParam()) {
+                if (DAOCvParams.CHARGE_STATE.getAccession().equalsIgnoreCase(cvParam.getAccession())) {
+                    sb.append(cvParam.getValue());
+                    break;
+                }
+            }
+
+            distinctPeptideList.add(sb.toString());
+            allPeptideList.add(item.getSequence());
+        }
+        protein.setNumPSMs(msRun, allPeptideList.size());
+        protein.setNumPeptidesDistinct(msRun, distinctPeptideList.size());
+
+        // add the indistinguishable accessions to the ambiguity members
+        List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
+        for (String member : ambiguityMembers) {
+            protein.addAmbiguityMembers(member);
+        }
+
+        // set the modifications
+        for (Modification modification : getProteinModifications(items)) {
+            protein.addModification(modification);
+        }
+
+        // protein coverage
+        protein.setProteinConverage(identification.getSequenceCoverage());
+
+        // process the additional params
+        for (CvParam p : identification.getAdditional().getCvParam()) {
+            // check if there's a quant unit set
+            if (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession())) {
+                CVParam param = convertParam(p);
+                if (param != null && metadata.getProteinQuantificationUnit() == null) {
+                    metadata.setProteinQuantificationUnit(param);
+                }
+            } else {
+                // check optional column.
+                if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
+                    addOptionalColumnValue(protein, proteinColumnFactory, "empai", p.getValue());
+                } else if (DAOCvParams.GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
+                    // check if there's gel spot identifier
+                    addOptionalColumnValue(protein, proteinColumnFactory, "gel_spotidentifier", p.getValue());
+                } else if (DAOCvParams.GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
+                    // check if there's gel identifier
+                    addOptionalColumnValue(protein, proteinColumnFactory, "gel_identifier", p.getValue());
+                }
+            }
+        }
+
         return protein;
     }
 
     /**
-     * Converts and Identification's peptides into a List of mzTab Peptides.
+     * Extracts all search engine score related parameters from a peptide object and returns them in a list of
+     * mzTab Params.
      */
-    private List<Peptide> loadPeptides(Identification identification) {
-        List<Peptide> peptideList = new ArrayList<Peptide>();
+    private CVParam getSearchEngineScores(List<CvParam> cvParamList) {
+        for (CvParam param : cvParamList) {
+            if (Utils.PEPTIDE_SCORE_PARAM.isScoreAccession(param.getAccession())) {
+                return convertParam(param);
+            } else {
+                for (SearchEngineScoreParameter scoreParameter : SearchEngineScoreParameter.values()) {
+                    if (scoreParameter.accession.equalsIgnoreCase(param.getAccession())) {
+                        return convertParam(param);
+                    }
+                }
+            }
+        }
 
-//        for (PeptideItem peptideItem : identification.getPeptideItem()) {
-//            // create the peptide object
-//            Peptide peptide = new Peptide(peptideColumnFactory);
-//
-//            peptide.setSequence(peptideItem.getSequence());
-//            peptide.setAccession(identification.getAccession());
-//            peptide.setUnitId(unit.getUnitId());
-//            peptide.setDatabase(identification.getDatabase());
-//            peptide.setDatabaseVersion(identification.getDatabaseVersion());
-//
-//            // set the peptide spectrum reference
-//            String spectrumReference = peptideItem.getSpectrum() == null ? "null" : Integer.toString(peptideItem.getSpectrum().getId());
-//            MsFile msFile = unit.getMsFileMap().get(1);
-//            peptide.addSpectraRef(new SpecRef(msFile, "spectrum=" + spectrumReference));
-//
-//            // set the search engine - is possible
-//            uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = findSearchEngineParam(identification.getSearchEngine());
-//            if (searchEngineParam != null) {
-//                peptide.addSearchEngineParam(searchEngineParam);
-//            }
-//
-//            // set the search engine scores
-//            loadPeptideSearchEngineScores(peptide, peptideItem);
-//
-//            // set the modifications
-//            for (Modification modification : getPeptideModifications(peptideItem)) {
-//                peptide.addModification(modification);
-//            }
-//
-//            // process the quant values
-//            addAbundanceValues(peptide, peptideColumnFactory, identification);
-//
-//            // process the additional params -- mainly check for quantity units
-//            if (peptideItem.getAdditional() != null) {
-//                for (CvParam p : peptideItem.getAdditional().getCvParam()) {
-//                    // check if there's a quant unit set
-//                    if (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession())) {
-//                        CVParam param = convertParam(p);
-//                        if (param != null) {
-//                            unit.setPeptideQuantificationUnit(param);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            peptideList.add(peptide);
-//        }
+        return null;
+    }
 
-        return peptideList;
+    private Collection<Modification> getPeptideModifications(PeptideItem item) {
+        HashMap<String, Modification> modifications = new HashMap<String, Modification>();
+
+        Modification mod;
+        for (ModificationItem ptm : item.getModificationItem()) {
+            // ignore modifications that can't be processed correctly
+            if (item.getStart() == null || ptm.getModAccession() == null || ptm.getModLocation() == null) {
+                continue;
+            }
+            mod = modifications.get(ptm.getModAccession());
+            if (mod == null) {
+                mod = MZTabUtils.parseModification(Section.Peptide, ptm.getModAccession());
+                modifications.put(ptm.getModAccession(), mod);
+            }
+
+            Integer position = ptm.getModLocation().intValue();
+            mod.addPosition(position, null);
+        }
+
+        return modifications.values();
+    }
+
+    private List<PSM> loadPSMs(Identification identification) {
+        List<PSM> psmList = new ArrayList<PSM>();
+
+        for (PeptideItem peptideItem : identification.getPeptideItem()) {
+            // create the peptide object
+            PSM psm = new PSM(psmColumnFactory, metadata);
+
+            psm.setSequence(peptideItem.getSequence());
+            psm.setPSM_ID(peptideItem.getSpectrum().getId());
+            psm.setAccession(identification.getAccession());
+            psm.setDatabase(identification.getDatabase());
+            psm.setDatabaseVersion(identification.getDatabaseVersion());
+
+            // set the search engine - is possible
+            uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = findSearchEngineParam(identification.getSearchEngine());
+            if (searchEngineParam != null) {
+                psm.addSearchEngineParam(searchEngineParam);
+                psm.addSearchEngineScoreParam(getSearchEngineScores(peptideItem.getAdditional().getCvParam()));
+            }
+
+            // set the modifications
+            for (Modification modification : getPeptideModifications(peptideItem)) {
+                psm.addModification(modification);
+            }
+
+            // set exp m/z
+            List<Precursor> precursorList = peptideItem.getSpectrum().getSpectrumDesc().getPrecursorList().getPrecursor();
+            for (Precursor precursor : precursorList) {
+                if (precursor.getMsLevel() != 1) {
+                    continue;
+                }
+
+                for (CvParam c : precursor.getIonSelection().getCvParam()) {
+                    if (DAOCvParams.PRECURSOR_MZ.getAccession().equalsIgnoreCase(c.getAccession())) {
+                        psm.setExpMassToCharge(c.getValue());
+                        break;
+                    }
+                }
+            }
+
+            // set the peptide spectrum reference
+            String spectrumReference = peptideItem.getSpectrum() == null ? "null" : Integer.toString(peptideItem.getSpectrum().getId());
+            psm.addSpectraRef(new SpectraRef(msRun, "spectrum=" + spectrumReference));
+
+            if (peptideItem.getStart() != null) {
+                psm.setStart(peptideItem.getStart().toString());
+            }
+            if (peptideItem.getEnd() != null) {
+                psm.setEnd(peptideItem.getEnd().toString());
+            }
+
+
+            // process the additional params -- mainly check for quantity units
+            if (peptideItem.getAdditional() != null) {
+                for (CvParam p : peptideItem.getAdditional().getCvParam()) {
+                    // check if there's a quant unit set
+                    if (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession())) {
+                        CVParam param = convertParam(p);
+                        if (param != null) {
+                            metadata.setPeptideQuantificationUnit(param);
+                        }
+                    }
+                    else if (DAOCvParams.CHARGE_STATE.getAccession().equalsIgnoreCase(p.getAccession())) {
+                        psm.setCharge(p.getValue());
+                    }
+                }
+            }
+
+            // calculate m/z based on sequence.
+            if (psm.getCharge() != null) {
+                boolean success = false;
+                // Step 1: additional cv param list contains theoretical mass
+                for (CvParam c : peptideItem.getAdditional().getCvParam()) {
+                    if (c.getName().trim().equalsIgnoreCase("Theoretical Mass")) {
+                        Double mass = Double.parseDouble(c.getValue());
+                        psm.setCalcMassToCharge(mass / psm.getCharge());
+                        success = true;
+                        break;
+                    }
+                }
+                // Step 2: calculate based on sequence + modification + charge.
+                if (! success) {
+                    uk.ac.ebi.pride.mol.Peptide peptide = new uk.ac.ebi.pride.mol.Peptide(peptideItem.getSequence());
+                    for (ModificationItem modificationItem : peptideItem.getModificationItem()) {
+                        int location = modificationItem.getModLocation().intValue();
+                        double mass = Double.parseDouble(modificationItem.getModMonoDelta().get(0));
+                        List<Double> monoMassList = new ArrayList<Double>();
+                        monoMassList.add(mass);
+                        peptide.addModification(location, new PTModification("","","", monoMassList, null));
+                    }
+                    DefaultPeptideIon peptideIon = new DefaultPeptideIon(peptide, psm.getCharge());
+                    psm.setCalcMassToCharge(peptideIon.getMassOverCharge());
+                }
+            }
+
+            psmList.add(psm);
+        }
+
+        return psmList;
     }
 }

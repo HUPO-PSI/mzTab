@@ -14,6 +14,10 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 public class MZTabUtilTest {
     @Test
     public void testParam() throws Exception {
+        System.out.println(new UserParam("Source", "Sigma-Aldrich, catalog #H4522, lot #043K0502"));
+        System.out.println(new UserParam("Source", "Sigma-Aldrich [catalog #H4522, lot #043K0502]"));
+        System.out.println(new UserParam("Source", "Sigma-Aldrich, \"catalog #H4522, lot #043K0502\""));
+
         assertTrue(parseParam("[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]") instanceof CVParam);
         assertTrue(parseParam("[, ,tolerance,0.5]") instanceof UserParam);
         assertTrue(parseParam("[, ,,0.5]") == null);
