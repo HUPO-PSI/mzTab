@@ -129,11 +129,6 @@ public class Metadata {
         }
 
         sb = printMap(msRunMap, MS_RUN.toString(), sb);
-
-        for (Param custom : customList) {
-            printPrefix(sb).append(CUSTOM).append(TAB).append(custom).append(NEW_LINE);
-        }
-
         sb = printMap(sampleMap, SAMPLE.toString(), sb);
         sb = printMap(assayMap, ASSAY.toString(), sb);
         sb = printMap(studyVariableMap, STUDY_VARIABLE.toString(), sb);
@@ -154,6 +149,10 @@ public class Metadata {
         for (ColUnit colUnit : smallMoleculeColUnitList) {
             printPrefix(sb).append(COLUNIT).append(MINUS).append(COLUNIT_SMALL_MOLECULE);
             sb.append(TAB).append(colUnit).append(NEW_LINE);
+        }
+
+        for (Param custom : customList) {
+            printPrefix(sb).append(CUSTOM).append(TAB).append(custom).append(NEW_LINE);
         }
 
         return sb.toString();

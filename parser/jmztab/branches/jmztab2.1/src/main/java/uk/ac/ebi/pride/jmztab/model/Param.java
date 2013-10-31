@@ -22,6 +22,26 @@ public class Param {
     protected String name;
     protected String value;
 
+    private void setValue(String value) {
+        if (value == null) {
+            this.value = value;
+        } else {
+            value = value.trim();
+            List<String> charList = new ArrayList<String>();
+
+            charList.add("\"");
+            charList.add("\'");
+            charList.add(",");
+            charList.add("\\[");
+            charList.add("\\]");
+
+            for (String c : charList) {
+                value = value.replaceAll(c, "");
+            }
+            this.value = value;
+        }
+    }
+
     protected Param(String cvLabel, String accession, String name, String value) {
         if (name == null || name.trim().length() == 0) {
             throw new IllegalArgumentException(CV_PARAM + "'s name can not set empty!");
@@ -30,7 +50,7 @@ public class Param {
         this.cvLabel = cvLabel == null ? null : cvLabel.trim();
         this.accession = accession == null ? null : accession.trim();
         this.name = name.trim();
-        this.value = value == null ? null : value.trim();
+        setValue(value);
     }
 
     protected Param(String name, String value) {
@@ -39,7 +59,7 @@ public class Param {
         }
 
         this.name = name;
-        this.value = value;
+        setValue(value);
     }
 
     public String getCvLabel() {
@@ -75,7 +95,7 @@ public class Param {
         return accession != null ? accession.hashCode() : 0;
     }
 
-    private void printName(String name, StringBuilder sb) {
+    private void printReserveString(String name, StringBuilder sb) {
         List<String> charList = new ArrayList<String>();
 
         charList.add("\"");
@@ -114,11 +134,11 @@ public class Param {
         }
         sb.append(", ");
 
-        printName(name, sb);
+        printReserveString(name, sb);
         sb.append(", ");
 
         if (value != null) {
-            sb.append(value);
+            printReserveString(value, sb);
         }
 
         sb.append("]");

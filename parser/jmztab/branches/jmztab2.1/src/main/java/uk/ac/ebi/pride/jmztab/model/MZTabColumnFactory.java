@@ -35,6 +35,8 @@ public class MZTabColumnFactory {
 
     private SortedMap<String, MZTabColumn> optionalColumnMapping = new TreeMap<String, MZTabColumn>();
 
+    private SortedMap<String, MZTabColumn> abundanceColumnMapping = new TreeMap<String, MZTabColumn>();
+
     private SortedMap<String, MZTabColumn> columnMapping = new TreeMap<String, MZTabColumn>();
 
     /**
@@ -150,6 +152,10 @@ public class MZTabColumnFactory {
         return stableColumnMapping;
     }
 
+    public SortedMap<String, MZTabColumn> getAbundanceColumnMapping() {
+        return abundanceColumnMapping;
+    }
+
     public SortedMap<String, MZTabColumn> getOptionalColumnMapping() {
         return optionalColumnMapping;
     }
@@ -253,64 +259,67 @@ public class MZTabColumnFactory {
         }
     }
 
-    public void addOptionalColumn(String name, Class columnType) {
+    private String addOptionColumn(MZTabColumn column) {
+        String logicalPosition = column.getLogicPosition();
+
+        optionalColumnMapping.put(logicalPosition, column);
+        columnMapping.put(column.getLogicPosition(), column);
+
+        return logicalPosition;
+    }
+
+    public String addOptionalColumn(String name, Class columnType) {
         MZTabColumn column = new OptionColumn(null, name, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addOptionalColumn(Assay assay, String name, Class columnType) {
+    public String addOptionalColumn(Assay assay, String name, Class columnType) {
         MZTabColumn column = new OptionColumn(assay, name, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addOptionalColumn(StudyVariable studyVariable, String name, Class columnType) {
+    public String addOptionalColumn(StudyVariable studyVariable, String name, Class columnType) {
         MZTabColumn column = new OptionColumn(studyVariable, name, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addOptionalColumn(MsRun msRun, String name, Class columnType) {
+    public String addOptionalColumn(MsRun msRun, String name, Class columnType) {
         MZTabColumn column = new OptionColumn(msRun, name, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addOptionalColumn(CVParam param, Class columnType) {
+    public String addOptionalColumn(CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(null, param, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addOptionalColumn(Assay assay, CVParam param, Class columnType) {
+    public String addOptionalColumn(Assay assay, CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(assay, param, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addOptionalColumn(StudyVariable studyVariable, CVParam param, Class columnType) {
+    public String addOptionalColumn(StudyVariable studyVariable, CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(studyVariable, param, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addOptionalColumn(MsRun msRun, CVParam param, Class columnType) {
+    public String addOptionalColumn(MsRun msRun, CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(msRun, param, columnType, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addAbundanceOptionalColumn(Assay assay) {
+    public String addAbundanceOptionalColumn(Assay assay) {
         MZTabColumn column = AbundanceColumn.createOptionalColumn(section, assay, getColumnOrder(columnMapping.lastKey()));
-        optionalColumnMapping.put(column.getLogicPosition(), column);
-        columnMapping.put(column.getLogicPosition(), column);
+        abundanceColumnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column);
     }
 
-    public void addAbundanceOptionalColumn(StudyVariable studyVariable) {
+    public String addAbundanceOptionalColumn(StudyVariable studyVariable) {
         SortedMap<String, MZTabColumn> columns = AbundanceColumn.createOptionalColumns(section, studyVariable,  getColumnOrder(columnMapping.lastKey()));
+        abundanceColumnMapping.putAll(columns);
         optionalColumnMapping.putAll(columns);
         columnMapping.putAll(columns);
+        return columns.lastKey();
     }
 
     /**

@@ -21,7 +21,7 @@ public class MZTabFileParser {
     private MZTabFile mzTabFile;
     private File tabFile;
 
-    private MZTabErrorList errorList = new MZTabErrorList();
+    private MZTabErrorList errorList;
 
     private void init(File tabFile) {
         if (tabFile == null || ! tabFile.exists()) {
@@ -39,7 +39,8 @@ public class MZTabFileParser {
         init(tabFile);
 
         try {
-            check(level);
+            errorList = new MZTabErrorList(level);
+            check();
         } catch (MZTabException e) {
             out.write(MZTabExceptionMessage.getBytes());
             errorList.add(e.getError());
@@ -47,9 +48,8 @@ public class MZTabFileParser {
             out.write(MZTabErrorOverflowExceptionMessage.getBytes());
         }
 
-        MZTabErrorList filterList = errorList.filterList(level);
-        filterList.print(out);
-        if (filterList.isEmpty()) {
+        errorList.print(out);
+        if (errorList.isEmpty()) {
             out.write(("not errors in " + tabFile + " file!" + NEW_LINE).getBytes());
         }
     }
@@ -92,7 +92,7 @@ public class MZTabFileParser {
      * @throws uk.ac.ebi.pride.jmztab.utils.errors.MZTabException during parse metadata, protein/peptide/small_molecule header line, exists error.
      * @throws uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorOverflowException reference mztab.properties file mztab.max_error_count parameter.
      */
-    private void check(MZTabErrorType.Level level) throws IOException, MZTabException, MZTabErrorOverflowException {
+    private void check() throws IOException, MZTabException, MZTabErrorOverflowException {
         BufferedReader reader = readFile(tabFile);
 
         COMLineParser comParser = new COMLineParser();
@@ -281,7 +281,7 @@ public class MZTabFileParser {
             reader.close();
         }
 
-        if (errorList.filterList(level).isEmpty()) {
+        if (errorList.isEmpty()) {
             mzTabFile = new MZTabFile(mtdParser.getMetadata());
             for (Integer id : commentMap.keySet()) {
                 mzTabFile.addComment(id, commentMap.get(id));
@@ -320,7 +320,7 @@ public class MZTabFileParser {
             }
 
             MZTabFileChecker checker = new MZTabFileChecker(errorList);
-            checker.check(mzTabFile, level);
+            checker.check(mzTabFile);
         }
 
     }

@@ -144,7 +144,7 @@ public class MZTabCommandLine {
                 MZTabFile tabFile = converter.getMZTabFile();
                 MZTabErrorList errorList = new MZTabErrorList();
                 MZTabFileChecker checker = new MZTabFileChecker(errorList);
-                checker.check(tabFile, MZTabProperties.LEVEL);
+                checker.check(tabFile);
                 if (errorList.isEmpty()) {
                     System.out.println("Begin print mztab file.");
                     tabFile.printMZTab(out);

@@ -147,7 +147,7 @@ public class Peptide extends MZTabRecord {
         setSearchEngineScore(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
     }
 
-    public boolean addSearchEngineScore(MsRun msRun, CVParam param) {
+    public boolean addSearchEngineScoreParam(MsRun msRun, CVParam param) {
         if (param == null) {
             return false;
         }

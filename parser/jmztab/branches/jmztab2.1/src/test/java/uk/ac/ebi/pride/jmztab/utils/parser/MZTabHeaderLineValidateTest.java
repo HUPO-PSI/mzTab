@@ -55,31 +55,31 @@ public class MZTabHeaderLineValidateTest {
         }
     }
 
-    @Test
-    public void testFixedAndVariableMod() throws Exception {
-        // if PSM section is present, fixed_mod and variable_mod should be defined in metadata.
-        String psh = "PSH\tsequence\tPSM_ID\taccession\tunique\tdatabase\tdatabase_version\t" +
-            "search_engine\tsearch_engine_score\treliability\tmodifications\tretention_time\tcharge\t" +
-            "exp_mass_to_charge\tcalc_mass_to_charge\turi\tspectra_ref\tpre\tpost\tstart\tend";
-        PSHLineParser pshParser = new PSHLineParser(metadata);
-
-        try {
-            pshParser.parse(1, psh, errorList);
-            assertTrue(true);
-        } catch (MZTabException e) {
-            assertTrue(false);
-        }
-
-        metadata.getFixedModMap().clear();
-        try {
-            pshParser.parse(1, psh, errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == LogicalErrorType.FixedMod);
-            System.out.println(e.getMessage());
-        }
-
-    }
+//    @Test
+//    public void testFixedAndVariableMod() throws Exception {
+//        // if PSM section is present, fixed_mod and variable_mod should be defined in metadata.
+//        String psh = "PSH\tsequence\tPSM_ID\taccession\tunique\tdatabase\tdatabase_version\t" +
+//            "search_engine\tsearch_engine_score\treliability\tmodifications\tretention_time\tcharge\t" +
+//            "exp_mass_to_charge\tcalc_mass_to_charge\turi\tspectra_ref\tpre\tpost\tstart\tend";
+//        PSHLineParser pshParser = new PSHLineParser(metadata);
+//
+//        try {
+//            pshParser.parse(1, psh, errorList);
+//            assertTrue(true);
+//        } catch (MZTabException e) {
+//            assertTrue(false);
+//        }
+//
+//        metadata.getFixedModMap().clear();
+//        try {
+//            pshParser.parse(1, psh, errorList);
+//            assertTrue(false);
+//        } catch (MZTabException e) {
+//            assertTrue(e.getError().getType() == LogicalErrorType.FixedMod);
+//            System.out.println(e.getMessage());
+//        }
+//
+//    }
 
     @Test
     public void testMsRunOptionalColumn() throws Exception {
