@@ -31,7 +31,7 @@ public class PRHLineParser extends MZTabHeaderLineParser {
                     refineOptionalColumn(mode, type, "search_engine_score" + msRunLabel);
                     refineOptionalColumn(mode, type, "num_psms" + msRunLabel);
                     refineOptionalColumn(mode, type, "num_peptides_distinct" + msRunLabel);
-                    refineOptionalColumn(mode, type, "num_peptide_unique" + msRunLabel);
+                    refineOptionalColumn(mode, type, "num_peptides_unique" + msRunLabel);
                 }
             } else {
                 for (Assay assay : metadata.getAssayMap().values()) {

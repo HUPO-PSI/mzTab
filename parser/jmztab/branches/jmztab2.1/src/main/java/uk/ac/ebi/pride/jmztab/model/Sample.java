@@ -73,18 +73,16 @@ public class Sample extends IndexedElement {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb = printList(speciesList, SAMPLE_SPECIES, sb);
-        sb = printList(tissueList, SAMPLE_TISSUE, sb);
-        sb = printList(cellTypeList, SAMPLE_CELL_TYPE, sb);
-        sb = printList(diseaseList, SAMPLE_DISEASE, sb);
+        printList(speciesList, SAMPLE_SPECIES, sb);
+        printList(tissueList, SAMPLE_TISSUE, sb);
+        printList(cellTypeList, SAMPLE_CELL_TYPE, sb);
+        printList(diseaseList, SAMPLE_DISEASE, sb);
 
         if (description != null) {
             sb.append(printProperty(SAMPLE_DESCRIPTION, description)).append(NEW_LINE);
         }
 
-        for (Param custom : customList) {
-            sb.append(printProperty(SAMPLE_CUSTOM, custom)).append(NEW_LINE);
-        }
+        printList(customList, SAMPLE_CUSTOM, sb);
 
         return sb.toString();
     }

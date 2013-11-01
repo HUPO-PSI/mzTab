@@ -62,9 +62,7 @@ public class Software extends IndexedElement {
             sb.append(printElement(param)).append(NEW_LINE);
         }
 
-        for (String setting : settingList) {
-            sb.append(printProperty(MetadataProperty.SOFTWARE_SETTING, setting)).append(NEW_LINE);
-        }
+        printList(settingList, MetadataProperty.SOFTWARE_SETTING, sb);
 
         return sb.toString();
     }

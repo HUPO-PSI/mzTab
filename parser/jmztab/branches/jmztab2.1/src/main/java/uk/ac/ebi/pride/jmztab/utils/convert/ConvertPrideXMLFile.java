@@ -579,7 +579,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
         MZTabColumnFactory proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
 
         // If not provide protein_quantification_unit in metadata, default value is Ratio
-        if (metadata.getProteinQuantificationUnit() == null) {
+        if (! isIdentification() && metadata.getProteinQuantificationUnit() == null) {
             metadata.setProteinQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000395", "Ratio", null));
         }
 
@@ -587,9 +587,12 @@ public class ConvertPrideXMLFile extends ConvertFile {
         proteinColumnFactory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun);
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun);
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun);
+        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun);
         // for quantification file, need provide all optional columns for each ms_run.
         if (! isIdentification()) {
-            proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun);
+            for (Assay assay : metadata.getAssayMap().values()) {
+                proteinColumnFactory.addAbundanceOptionalColumn(assay);
+            }
         }
 
         return proteinColumnFactory;
@@ -650,9 +653,26 @@ public class ConvertPrideXMLFile extends ConvertFile {
                 }
             }
             if (score == null) {
+                String searchEngineName = identification.getSearchEngine().toLowerCase();
+                String searchEngineScore = identification.getScore().toString();
+                if (searchEngineName.contains("mascot")) {
+                    score = new CVParam("MS", "MS:1001171", "Mascot:score", searchEngineScore);
+                }
+                else if (searchEngineName.contains("ommsa")) {
+                    score = new CVParam("MS", "MS:1001328", "OMSSA:evalue", searchEngineScore);
+                }
+                else if (searchEngineName.contains("sequest")) {
+                    score = new CVParam("PRIDE", "PRIDE:0000053", "Sequest score", searchEngineScore);
+                }
+                else if (searchEngineName.contains("spectrum mill")) {
+                    score = new CVParam("PRIDE", "PRIDE:0000177", "Spectrum Mill peptide score", searchEngineScore);
+                }
+                else if (searchEngineName.contains("x!tandem")) {
+                    score = new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", searchEngineScore);
+                }
                 // not find score term in search engine score
-                if (identification.getSearchEngine().toLowerCase().contains("spectrast")) {
-                    score = new CVParam(null, null, "SpectraST score", identification.getScore().toString());
+                else if (searchEngineName.contains("spectrast")) {
+                    score = new CVParam(null, null, "SpectraST score", searchEngineScore);
                     protein.addSearchEngineScoreParam(msRun, score);
                 }
             }
@@ -733,12 +753,38 @@ public class ConvertPrideXMLFile extends ConvertFile {
         // process the additional params
         for (CvParam p : identification.getAdditional().getCvParam()) {
             // check if there's a quant unit set
-            if (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession())) {
+            if (! isIdentification() && (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession()))) {
                 CVParam param = convertParam(p);
                 if (param != null && metadata.getProteinQuantificationUnit() == null) {
                     metadata.setProteinQuantificationUnit(param);
                 }
-            } else {
+            }
+            // Quantification values
+            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE1.getAccession().equalsIgnoreCase(p.getAccession())) {
+                protein.setAbundanceColumn(metadata.getAssayMap().get(1), p.getValue());
+            }
+            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {
+                protein.setAbundanceColumn(metadata.getAssayMap().get(2), p.getValue());
+            }
+            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession().equalsIgnoreCase(p.getAccession())) {
+                protein.setAbundanceColumn(metadata.getAssayMap().get(3), p.getValue());
+            }
+            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession().equalsIgnoreCase(p.getAccession())) {
+                protein.setAbundanceColumn(metadata.getAssayMap().get(4), p.getValue());
+            }
+            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession().equalsIgnoreCase(p.getAccession())) {
+                protein.setAbundanceColumn(metadata.getAssayMap().get(5), p.getValue());
+            }
+            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession().equalsIgnoreCase(p.getAccession())) {
+                protein.setAbundanceColumn(metadata.getAssayMap().get(6), p.getValue());
+            }
+            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession().equalsIgnoreCase(p.getAccession())) {
+                protein.setAbundanceColumn(metadata.getAssayMap().get(7), p.getValue());
+            }
+            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession().equalsIgnoreCase(p.getAccession())) {
+                protein.setAbundanceColumn(metadata.getAssayMap().get(8), p.getValue());
+            }
+            else {
                 // check optional column.
                 if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
                     addOptionalColumnValue(protein, proteinColumnFactory, "empai", p.getValue());
@@ -852,15 +898,9 @@ public class ConvertPrideXMLFile extends ConvertFile {
             // process the additional params -- mainly check for quantity units
             if (peptideItem.getAdditional() != null) {
                 for (CvParam p : peptideItem.getAdditional().getCvParam()) {
-                    // check if there's a quant unit set
-                    if (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession())) {
-                        CVParam param = convertParam(p);
-                        if (param != null) {
-                            metadata.setPeptideQuantificationUnit(param);
-                        }
-                    }
-                    else if (DAOCvParams.CHARGE_STATE.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    if (DAOCvParams.CHARGE_STATE.getAccession().equalsIgnoreCase(p.getAccession())) {
                         psm.setCharge(p.getValue());
+                        break;
                     }
                 }
             }

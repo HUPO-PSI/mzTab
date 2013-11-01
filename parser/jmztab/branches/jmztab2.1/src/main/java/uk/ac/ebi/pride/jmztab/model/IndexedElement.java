@@ -81,11 +81,28 @@ public class IndexedElement {
     }
 
     /**
+     * MTD  {element}[id]-{property}[sub-id]    {value.toString}
+     */
+    protected String printProperty(MetadataProperty property, int subId, Object value) {
+        StringBuilder sb = new StringBuilder();
+
+        printPrefix(sb).append(getReference()).append(MINUS).append(property).append("[").append(subId).append("]");
+
+        if (value != null) {
+            sb.append(TAB).append(value).append(NEW_LINE);
+        }
+
+        return sb.toString();
+    }
+
+    /**
      * print a list of metadata line.
      */
-    protected StringBuilder printList(List<Param> list, MetadataProperty property, StringBuilder sb) {
-        for (Param param : list) {
-            sb.append(printProperty(property, param)).append(NEW_LINE);
+    protected StringBuilder printList(List<?> list, MetadataProperty property, StringBuilder sb) {
+        Object param;
+        for (int i = 0; i < list.size(); i++) {
+            param = list.get(i);
+            sb.append(printProperty(property, i + 1, param));
         }
 
         return sb;
