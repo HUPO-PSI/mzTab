@@ -83,6 +83,17 @@ public class Metadata {
         return sb;
     }
 
+    /**
+     * item[list.id+1]    {list.value}
+     */
+    protected StringBuilder printList(List<?> list, String item, StringBuilder sb) {
+        for (int i = 0; i < list.size(); i++) {
+            printPrefix(sb).append(item).append("[").append(i + 1).append("]").append(TAB).append(list.get(i)).append(NEW_LINE);
+        }
+
+        return sb;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -108,9 +119,7 @@ public class Metadata {
         sb = printMap(publicationMap, PUBLICATION.toString(), sb);
         sb = printMap(contactMap, CONTACT.toString(), sb);
 
-        for (URI uri : uriList) {
-            printPrefix(sb).append(MetadataElement.URI).append(TAB).append(uri).append(NEW_LINE);
-        }
+        printList(uriList, URI.toString(), sb);
 
         sb = printMap(fixedModMap, FIXED_MOD.toString(), sb);
         sb = printMap(variableModMap, VARIABLE_MOD.toString(), sb);
@@ -151,9 +160,7 @@ public class Metadata {
             sb.append(TAB).append(colUnit).append(NEW_LINE);
         }
 
-        for (Param custom : customList) {
-            printPrefix(sb).append(CUSTOM).append(TAB).append(custom).append(NEW_LINE);
-        }
+        printList(customList, CUSTOM.toString(), sb);
 
         return sb.toString();
     }

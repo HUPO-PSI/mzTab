@@ -87,8 +87,8 @@ public class MTDLineParserTest {
         assertTrue(param.toString().contains("electron multiplier"));
 
         parser.parse(1, "MTD\tsoftware[1]\t[MS, MS:1001207, Mascot, 2.3]", errorList);
-        parser.parse(1, "MTD\tsoftware[2]-setting\tFragment tolerance = 0.1Da", errorList);
-        parser.parse(1, "MTD\tsoftware[2]-setting\tParent tolerance = 0.5Da", errorList);
+        parser.parse(1, "MTD\tsoftware[2]-setting[1]\tFragment tolerance = 0.1Da", errorList);
+        parser.parse(1, "MTD\tsoftware[2]-setting[2]\tParent tolerance = 0.5Da", errorList);
         param = metadata.getSoftwareMap().get(1).getParam();
         assertTrue(param.toString().contains("Mascot"));
         List<String> settingList = metadata.getSoftwareMap().get(2).getSettingList();
@@ -184,8 +184,8 @@ public class MTDLineParserTest {
 
     @Test
     public void testSample() throws Exception {
-        parser.parse(1, " MTD\tsample[1]-species\t[NEWT, 9606, Homo sapien (Human), ]", errorList);
-        parser.parse(1, " MTD\tsample[1]-species\t[NEWT, 573824, Human rhinovirus 1, ]", errorList);
+        parser.parse(1, " MTD\tsample[1]-species[1]\t[NEWT, 9606, Homo sapien (Human), ]", errorList);
+        parser.parse(1, " MTD\tsample[1]-species[2]\t[NEWT, 573824, Human rhinovirus 1, ]", errorList);
         Sample sample1 = metadata.getSampleMap().get(1);
         assertTrue(sample1.getSpeciesList().size() == 2);
 
@@ -205,8 +205,8 @@ public class MTDLineParserTest {
         Sample sample2 = metadata.getSampleMap().get(2);
         assertTrue(sample2.getDescription().contains("Healthy control samples."));
 
-        parser.parse(1, "MTD\tsample[1]-custom\t[,,Extraction date, 2011-12-21]", errorList);
-        parser.parse(1, "MTD\tsample[1]-custom\t[,,Extraction reason, liver biopsy]", errorList);
+        parser.parse(1, "MTD\tsample[1]-custom[1]\t[,,Extraction date, 2011-12-21]", errorList);
+        parser.parse(1, "MTD\tsample[1]-custom[2]\t[,,Extraction reason, liver biopsy]", errorList);
         assertTrue(sample1.getCustomList().size() == 2);
     }
 
