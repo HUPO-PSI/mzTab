@@ -1,0 +1,45 @@
+#summary Overview of jmzTab
+
+<wiki:toc max_depth="2" />
+
+----
+
+= About jmzTab =
+
+jmzTab can read, write and merge mzTab files. jmzTab is free, open-source software written in Java. For a list of changes in the latest version of jmzTab see the [jmzTabReleaseNotes Release Notes].
+
+----
+
+= Getting jmzTab =
+
+== SVN ==
+
+The *latest version* of jmzTab can always be found in the SVN at [http://code.google.com/p/mztab/source/browse/#svn%2Fparser%2Fjmztab%2Ftrunk /parser/jmztab/trunk].
+
+To check out the latest version of jmzTab using SVN use:
+
+<code language="xml">
+# Non-members may check out a read-only working copy anonymously over HTTP.
+svn checkout http://mztab.googlecode.com/svn/parser/jmztab/trunk jmztab-read-only 
+</code>
+
+== Maven ==
+
+The jmzTab library can easily be used *in Maven projects*. You can include the following snippets in your Maven pom file.
+{{{
+<dependency>
+   <groupId>uk.ac.ebi.pride</groupId>
+   <artifactId>jmztab</artifactId>
+   <version>2.0</version>
+</dependency>
+}}}
+
+The jmzTab library can currently only be found in the [http://www.ebi.ac.uk EBI]'s *maven repository*:
+
+{{{
+<repository>
+   <id>ebi-repo</id>
+   <name>The EBI internal repository</name>
+   <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+</repository>
+}}}

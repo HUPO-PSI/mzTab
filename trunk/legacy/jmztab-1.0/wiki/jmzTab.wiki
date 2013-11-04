@@ -1,0 +1,170 @@
+#summary Java library for mzTab
+#labels Featured
+
+<wiki:toc max_depth="2" />
+
+----
+
+= About jmzTab =
+
+jmzTab can read, write and merge mzTab files. jmzTab is free, open-source software written in Java. jmzTab is used by the [MzTabExporter mztab-exporter] as well as the new PRIDE Converter to read and write mzTab files.
+
+For a list of changes in the latest version of jmzTab see the [jmzTabReleaseNotes Release Notes].
+
+----
+
+= Getting jmzTab =
+
+== SVN ==
+
+The *latest version* of jmzTab can always be found in the SVN at [http://code.google.com/p/mztab/source/browse/#svn%2Fparser%2Fjmztab%2Ftrunk /parser/jmztab/trunk].
+
+To check out the latest version of jmzTab using SVN use:
+
+<code language="xml">
+# Non-members may check out a read-only working copy anonymously over HTTP.
+svn checkout http://mztab.googlecode.com/svn/parser/jmztab/trunk jmztab-read-only 
+</code>
+
+== Maven ==
+
+The jmzTab library can easily be used *in Maven projects*. You can include the following snippets in your Maven pom file.
+{{{
+<dependency>
+   <groupId>uk.ac.ebi.pride</groupId>
+   <artifactId>jmztab</artifactId>
+   <version>1.0.8</version>
+</dependency>
+}}}
+
+The jmzTab library can currently only be found in the [http://www.ebi.ac.uk EBI]'s *maven repository*:
+
+{{{
+<repository>
+   <id>ebi-repo</id>
+   <name>The EBI internal repository</name>
+   <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+</repository>
+}}}
+
+----
+
+= Reading mzTab Files using jmzTab =
+
+== Opening mzTab files ==
+
+To open an mzTab file simply create a new _MzTabFile_ object:
+{{{
+File inputFile = new File(pathToTheInputFile);
+
+// by creating the MzTabFile object the mzTab file
+// is automatically parsed.
+MzTabFile mzTabFile = new MzTabFile(inputFile);
+}}}
+
+== Reading Metadata ==
+
+An mzTab file's metadata is represented through _Unit_ objects. As mzTab files can contain the results of multiple experiments every _Unit_ holds the meta-data of one of these experiments.
+
+{{{
+// units can be retrieved through their id
+Unit unit = mzTabFile.getUnitMetadata("PRIDE_1234");
+
+// units can also be retrieved by just passing one of
+// their "child" elements such as f.e. a protein
+Protein protein = mzTabFile.getProtein("P12345", "PRIDE_1234");
+
+// this call will retrieve the same unit
+unit = mzTabFile.getUnitMetadata(protein);
+}}}
+
+_Unit_ objects then provide Getter and Setter functions for all meta-data fields defined by the mzTab format specification.
+
+== Retrieving Proteins ==
+
+There are various methods to retrieve the proteins from a mzTab file.
+
+{{{
+// get a specific protein from a given unit
+Protein protein = mzTabFile.getProtein("P12345", "PRIDE_1234"); # retrieves P12345 from the unit PRIDE_1234
+
+// gets all proteins from a specific unit
+Collection<Protein> unitProteins = mzTabFile.getUnitProteins("PRIDE_1234");
+
+// gets all proteins in the mzTab file
+Collection<Protein> allProteins = mzTabFile.getProteins();
+
+// gets all proteins with the given accession
+Collection<Protein> specificProteins = mzTabFile.getProtein("P12345");
+}}}
+
+== Retrieving Peptides ==
+
+The functions to retrieve peptides are similar to the ones to retrieve proteins:
+
+{{{
+// retrieves all peptides for the given protein
+Collection<Peptide> proteinPeptides = mzTabFile.getProteinPeptides(protein);
+
+// it is also possible to retrieve all peptides supporting
+// the identification of specific protein irrespective of the
+// unit they were identified in.
+Collection<Peptide> supportingPeptides = mzTabFile.getProteinPeptides("P12345");
+
+// retrieves all peptides from a given unit
+Collection<Peptide> unitPeptides = mzTabFile.getPeptides("PRIDE_12345");
+
+// retrieves all peptides from the mzTab file
+Collection<Peptide> allPeptides = mzTabFile.getPeptides();
+
+// retrieves all peptides with a given sequence
+Collection<Peptide> peptides = mzTabFile.getPeptidesForSequence("ABCDEFG");
+}}}
+
+----
+
+= Writing mzTab Files using mztab-java =
+
+To write mzTab files one simply creates a new _MzTabFile_ object, adapts the information using the *mztab-java* object model and calls the _MzTabFile_'s member function _toMzTab_.
+
+{{{
+// create the new MzTabFile object
+MzTabFile mzTabFile = new MzTabFile();
+
+// create a unit object to hold metadata
+Unit unit = new Unit();
+unit.setUnitId("PRIDE_1234");
+unit.setDescription("Example for Google Code.");
+
+// add contact objects
+List<Contact> contacts = new ArrayList<Contact>();
+
+Contact jg = new Contact();
+jg.setName("Johannes Griss");
+jg.setAffiliation("European Bioinformatics Institute");
+contacts.add(jg);
+
+unit.setContact(contacts);
+
+// set the meta data
+mzTabFile.setUnit(unit);
+
+// add a protein
+Protein protein = new Protein();
+protein.setAccession("P12345");
+protein.setUnitId("PRIDE_1234");
+protein.setSpecies("Homo sapiens (Human)");
+
+mzTabFile.addProtein(protein);
+
+// add a peptide
+Peptide peptide = new Peptide();
+peptide.setAccession("P12345");
+peptide.setUnitId("PRIDE_1234");
+peptide.setSequence("ABCDEGH");
+
+mzTabFile.addPeptide(peptide);
+
+// get the mzTab formatted string
+String mzTabString = mzTabFile.toMzTab();
+}}}

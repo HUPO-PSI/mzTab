@@ -1,0 +1,71 @@
+#summary Exports files to the mzTab format.
+#labels Featured
+
+<wiki:toc max_depth="2" />
+
+----
+
+= About mztab-exporter =
+
+The *mztab-exporter* is a simple Java program to export files to the mzTab format. At the moment the *mztab-exporter* supports
+  * PRIDE XML files
+
+----
+
+= Getting mztab-exporter =
+
+A ready-to-use jar file of the *mztab-exporter* can be found in the SVN or downloaded through this [http://mztab.googlecode.com/svn/tools/mztab-exporter/trunk/mztab-exporter.java link].
+
+----
+
+= Using mztab-exporter =
+
+The *mztab-exporter* is still in an early development stage and can only be used through it's Command Line Interface (CLI):
+{{{
+usage: PRIDE mzTab Exporter [-help] [-convert <file>] [-check_file <file>]
+       [-format <format>]
+Converts PRIDE files to mzTab files.
+
+ -check_file <file>   tries to parse the given mzTab file.
+ -convert <file>      converts the given PRIDE XML file to an mztab file.
+ -format <format>     specifies the input file format. Possible values are
+                      [PRIDE].
+ -help                print this message.
+}}}
+
+== Converting a PRIDE XML file ==
+
+To convert a PRIDE XML file to mzTab simply execute:
+{{{
+java -jar mztab-exporter.java -format PRIDE -convert C:\Path\To\My\PRIDE\File.xml
+}}}
+
+This call will then create the mzTab file "C:\Path\To\My\PRIDE\File.xml-mztab.txt".
+
+----
+
+= mztab-exporter Library =
+
+The *mztab-exporter* can also be used as a Java library in software projects.
+
+== Maven Dependency ==
+
+*mztab-exporter* library can be used in Maven projects. You can include the following snippets in your Maven pom file. 
+
+{{{
+<dependency>
+ <groupId>uk.ac.ebi.pride.tools</groupId>
+ <artifactId>mztab-exporter</artifactId>
+ <version>0.0.1-SNAPSHOT</version>
+</dependency> 
+}}}
+
+The *mztab-exporter* library can currently only be found in the [http://www.ebi.ac.uk EBI]'s maven repository:
+
+{{{
+<repository>
+   <id>ebi-repo-snapshots</id>
+   <name>The EBI internal repository</name>
+   <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+</repository>
+}}}
