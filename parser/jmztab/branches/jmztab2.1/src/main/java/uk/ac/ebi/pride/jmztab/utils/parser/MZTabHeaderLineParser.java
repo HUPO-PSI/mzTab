@@ -48,7 +48,6 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
         super.parse(lineNumber, line, errorList);
 
         int offset = parseStableOrderColumns();
-        offset++;
         if (offset < items.length) {
             matchOptionalColumns(offset);
         }

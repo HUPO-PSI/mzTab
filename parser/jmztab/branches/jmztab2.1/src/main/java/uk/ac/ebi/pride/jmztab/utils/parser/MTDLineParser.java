@@ -20,7 +20,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 * Date: 08/02/13
 */
 public class MTDLineParser extends MZTabLineParser {
-    private static final String Error_Header = "Metadata ";
+    private static final String Error_Header = "MTD\t";
 
     private Metadata metadata = new Metadata();
 
