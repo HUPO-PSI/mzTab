@@ -1,0 +1,31 @@
+#summary Release notes of the mzTab specification.
+
+*mzTab version 1.0 (7. June 2012)*
+  * UPDATE: Only allow "NA" for missing values
+  * UPDATE: Added inchi_key and smiles column to Small Molecules table.
+
+*mzTab version 0.9 (6. March 2012)*
+  * UPDATE: The whole specification document was rewritten following the guidelines from the PSI document process.
+  * UPDATE: Reliabilities are now only defined as 1(good), 2(medium), and 3(bad)
+  * UPDATE: Missing values are now indicated using "-" instead of "--"
+  * UPDATE: Infinite numbers may be reported using "INF"
+  * UPDATE: A new annotation for unknown modifications was introduced. CHEMMODS allow the reporting of chemical formulas or mass deltas as modifications.
+
+----
+*mzTab version 0.7 - (24. November 2011)*
+  * UPDATE: [[UNIT_ID]]-[[SUB_ID]]-quantitation_reagent was renamed to [[UNIT_ID]]-[[SUB_ID]]-quantification_reagent for consistency reasons.
+  * DOCUMENT UPDATE: the placeholders for [[UNIT_ID]] and [[SUB_ID]] were renamed to {UNIT_ID} and {SUB_ID} to have clear distinction between variable names and other fields (such as in contact[[1-n]]).
+
+----
+*mzTab version 0.6 - (11. November 2011)*
+
+  * UPDATE: The position information in modifications was set optional. In case no position information is given this means that the position of the modification is unknown.
+
+  * NEW FEATURE: Added references to spectra in external MS data files (such as mzML files). The same approach was followed as in mzIdentML. This update affects the metadata section, the peptide and the small molecules table.
+
+*Added fields / columns:*
+|| metadata fields || [[UNIT_ID]]-ms_file[[1-n]]-format, [[UNIT_ID]]-ms_file[[1-n]]-location, [[UNIT_ID]]-ms_file[[1-n]]-id_format ||
+|| peptide table || spectra_ref (after uri) ||
+|| small molecule table || spectra_ref (after uri) ||
+
+----
