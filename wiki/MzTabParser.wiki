@@ -1,9 +1,0 @@
-#summary Overview of the mzTab parser libraries developed here.
-
-= mzTab Parser Libraries =
-
-To make the implementation of mzTab as easy as possible we try to provide parser libraries to read and write mzTab files. The parser libraries presented here are organised based on their programming language.
-
-= Java =
-
-[MzTabJava mztab-java] supports reading, writing and merging of mzTab files. Information of how to use *mztab-java* can be found [MzTabJava here].
