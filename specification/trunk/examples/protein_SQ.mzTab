@@ -1,0 +1,24 @@
+COM	Report of a minimal "Summary Quantification report" experiment, quantification on 2 study variables (control/treatment), no assays (replicates) reported, no identifications reported.																
+COM	Reporting has been performed on protein level only.																
+COM	Internally 3 replicates/assays have been used to obtain quantification values, stdev and stderror																
+MTD	mzTab-version	1.0.0															
+MTD	mzTab-mode	Summary															
+MTD	mzTab-type	Quantification															
+MTD	description	mzTab example file for reporting a summary report of quantification data quantified on the protein level															
+MTD	ms_run[1]-location	file://C:\path\to\my\file1.mzML															
+MTD	ms_run[2]-location	file://C:\path\to\my\file2.mzML															
+MTD	ms_run[3]-location	file://C:\path\to\my\file3.mzML															
+MTD	ms_run[4]-location	file://C:\path\to\my\file4.mzML															
+MTD	ms_run[5]-location	file://C:\path\to\my\file5.mzML															
+MTD	ms_run[6]-location	file://C:\path\to\my\file6.mzML															
+MTD	protein-quantification_unit	[PRIDE, PRIDE:0000393, Relative quantification unit,]															
+MTD	study_variable[1]-description	heat shock response of control															
+MTD	study_variable[2]-description	heat shock response of treatment															
+																	
+COM	Example: Relative quantification can be normalized to 1																
+PRH	accession	description	taxid	species	database	database_version	search_engine	best_search_engine_score	ambiguity_members	modifications	protein_coverage	protein_abundance_study_variable[1]	protein_abundance_stdev_study_variable[1]	protein_abundance_std_error_study_variable[1]	protein_abundance_study_variable[2]	protein_abundance_stdev_study_variable[2]	protein_abundance_std_error_study_variable[2]
+PRT	P63017	Heat shock cognate 71 kDa protein	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,46]	null	null	0.34	1	null	null	17.3	2.3	1.327905619
+PRT	P14602	Heat shock protein beta-1	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,100]	Q340U4,Q5K0U2,P8L901	null	0.12	1	null	null	0.43	0.1	0.057735027
+PRT	Q8K0U4	Heat shock 70 kDa protein 12A	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,120]	null	null	0.14	1	null	null	21.3	3.3	1.905255888
+PRT	Q61699	Heat shock protein 105 kDa	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,30]	null	null	0.08	1	null	null	1232.5	32.4	18.70614872
+PRT	P07901	Heat shock protein HSP 90-alpha	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,120]	null	null	0.21	1	null	null	123.3	5.6789	3.278714444
