@@ -1,10 +1,5 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 /**
  * User: Qingwei
  * Date: 23/05/13

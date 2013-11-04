@@ -178,7 +178,7 @@ public class MZTabUtils {
             return null;
         }
 
-        Pattern pattern = Pattern.compile(element + "\\[(\\d)\\]");
+        Pattern pattern = Pattern.compile(element + "\\[(\\d+)\\]");
         Matcher matcher = pattern.matcher(target);
         if (matcher.find()) {
             Integer id = new Integer(matcher.group(1));

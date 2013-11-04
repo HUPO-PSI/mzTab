@@ -60,14 +60,14 @@ public class MTDLineParserTest {
         assertTrue(cvParam.getName().contains("SDS PAGE"));
         assertTrue(MZTabUtils.isEmpty(cvParam.getValue()));
 
-        parser.parse(1, "MTD\tsample_processing[2]\t[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, Trypsin, ]", errorList);
+        parser.parse(1, "MTD\tsample_processing[12]\t[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, Trypsin, ]", errorList);
         assertTrue(metadata.getSampleProcessingMap().size() == 2);
-        param = metadata.getSampleProcessingMap().get(2).get(0);
+        param = metadata.getSampleProcessingMap().get(12).get(0);
         assertTrue(param instanceof CVParam);
         cvParam = (CVParam) param;
         assertTrue(cvParam.getName().contains("enzyme digestion"));
         assertTrue(MZTabUtils.isEmpty(cvParam.getValue()));
-        param = metadata.getSampleProcessingMap().get(2).get(1);
+        param = metadata.getSampleProcessingMap().get(12).get(1);
         assertTrue(param instanceof CVParam);
         cvParam = (CVParam) param;
         assertTrue(cvParam.getName().contains("Trypsin"));
@@ -76,20 +76,20 @@ public class MTDLineParserTest {
         parser.parse(1, "MTD\tinstrument[1]-name\t[MS, MS:100049, LTQ Orbitrap, ]", errorList);
         parser.parse(1, "MTD\tinstrument[1]-analyzer\t[MS, MS:1000291, linear ion trap, ]", errorList);
         parser.parse(1, "MTD\tinstrument[2]-source\t[MS, MS:1000598, ETD, ]", errorList);
-        parser.parse(1, "MTD\tinstrument[3]-detector\t[MS, MS:1000253, electron multiplier, ]", errorList);
+        parser.parse(1, "MTD\tinstrument[13]-detector\t[MS, MS:1000253, electron multiplier, ]", errorList);
         param = metadata.getInstrumentMap().get(1).getName();
         assertTrue(param.toString().contains("LTQ Orbitrap"));
         param = metadata.getInstrumentMap().get(1).getAnalyzer();
         assertTrue(param.toString().contains("linear ion trap"));
         param = metadata.getInstrumentMap().get(2).getSource();
         assertTrue(param.toString().contains("ETD"));
-        param = metadata.getInstrumentMap().get(3).getDetector();
+        param = metadata.getInstrumentMap().get(13).getDetector();
         assertTrue(param.toString().contains("electron multiplier"));
 
-        parser.parse(1, "MTD\tsoftware[1]\t[MS, MS:1001207, Mascot, 2.3]", errorList);
+        parser.parse(1, "MTD\tsoftware[11]\t[MS, MS:1001207, Mascot, 2.3]", errorList);
         parser.parse(1, "MTD\tsoftware[2]-setting[1]\tFragment tolerance = 0.1Da", errorList);
         parser.parse(1, "MTD\tsoftware[2]-setting[2]\tParent tolerance = 0.5Da", errorList);
-        param = metadata.getSoftwareMap().get(1).getParam();
+        param = metadata.getSoftwareMap().get(11).getParam();
         assertTrue(param.toString().contains("Mascot"));
         List<String> settingList = metadata.getSoftwareMap().get(2).getSettingList();
         assertTrue(settingList.size() == 2);
@@ -98,12 +98,12 @@ public class MTDLineParserTest {
         assertTrue(metadata.getFalseDiscoveryRate().size() == 3);
 
         parser.parse(1, "MTD\tpublication[1]\tpubmed:21063943|doi:10.1007/978-1-60761-987-1_6", errorList);
-        parser.parse(1, "MTD\tpublication[2]\tpubmed:20615486|doi:10.1016/j.jprot.2010.06.008", errorList);
+        parser.parse(1, "MTD\tpublication[12]\tpubmed:20615486|doi:10.1016/j.jprot.2010.06.008", errorList);
         assertTrue(metadata.getPublicationMap().size() == 2);
 
-        parser.parse(1, "MTD\tcontact[1]-name\tJames D. Watson", errorList);
-        parser.parse(1, "MTD\tcontact[1]-affiliation\tCambridge University, UK", errorList);
-        parser.parse(1, "MTD\tcontact[1]-email\twatson@cam.ac.uk", errorList);
+        parser.parse(1, "MTD\tcontact[11]-name\tJames D. Watson", errorList);
+        parser.parse(1, "MTD\tcontact[11]-affiliation\tCambridge University, UK", errorList);
+        parser.parse(1, "MTD\tcontact[11]-email\twatson@cam.ac.uk", errorList);
         parser.parse(1, "MTD\tcontact[2]-affiliation\tCambridge University, UK", errorList);
         parser.parse(1, "MTD\tcontact[2]-email\tcrick@cam.ac.uk", errorList);
         assertTrue(metadata.getContactMap().size() == 2);
@@ -112,14 +112,14 @@ public class MTDLineParserTest {
         parser.parse(1, "MTD\turi\thttp://proteomecentral.proteomexchange.org/cgi/GetDataset", errorList);
         assertTrue(metadata.getUriList().size() == 2);
 
-        parser.parse(1, "MTD\tfixed_mod[1]\t[UNIMOD, UNIMOD:4, Carbamidomethyl, ]", errorList);
-        parser.parse(1, "MTD\tfixed_mod[1]-site\tM", errorList);
+        parser.parse(1, "MTD\tfixed_mod[11]\t[UNIMOD, UNIMOD:4, Carbamidomethyl, ]", errorList);
+        parser.parse(1, "MTD\tfixed_mod[11]-site\tM", errorList);
         parser.parse(1, "MTD\tfixed_mod[2]\t[UNIMOD, UNIMOD:35, Oxidation, ]", errorList);
         parser.parse(1, "MTD\tfixed_mod[2]-site\tN-term", errorList);
         parser.parse(1, "MTD\tfixed_mod[3]\t[UNIMOD, UNIMOD:1, Acetyl, ]", errorList);
         parser.parse(1, "MTD\tfixed_mod[3]-position\tProtein C-term", errorList);
         assertTrue(metadata.getFixedModMap().size() == 3);
-        assertTrue(metadata.getFixedModMap().get(1).getSite().equals("M"));
+        assertTrue(metadata.getFixedModMap().get(11).getSite().equals("M"));
         assertTrue(metadata.getVariableModMap().size() == 0);
 
         parser.parse(1, "MTD\tquantification_method\t[MS, MS:1001837, iTraq, ]", errorList);
@@ -136,12 +136,12 @@ public class MTDLineParserTest {
         assertTrue(metadata.getCustomList().size() == 1);
 
         parser.parse(1, "MTD\tcv[1]-label\tMS", errorList);
-        parser.parse(1, "MTD\tcv[2]-full_name\tMS", errorList);
+        parser.parse(1, "MTD\tcv[12]-full_name\tMS", errorList);
         parser.parse(1, "MTD\tcv[1]-version\t3.54.0", errorList);
-        parser.parse(1, "MTD\tcv[2]-url\thttp://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo", errorList);
+        parser.parse(1, "MTD\tcv[12]-url\thttp://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo", errorList);
         assertTrue(metadata.getCvMap().size() == 2);
         assertTrue(metadata.getCvMap().get(1).getVersion().equals("3.54.0"));
-        assertTrue(metadata.getCvMap().get(2).getUrl().equals("http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo"));
+        assertTrue(metadata.getCvMap().get(12).getUrl().equals("http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo"));
     }
 
     @Test
