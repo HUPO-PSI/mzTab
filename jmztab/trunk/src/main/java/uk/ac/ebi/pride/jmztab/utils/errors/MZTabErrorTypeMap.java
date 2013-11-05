@@ -73,7 +73,7 @@ public class MZTabErrorTypeMap {
 
         add(LogicalErrorType.SpectraRef);
         add(LogicalErrorType.AmbiguityMod);
-//        add(LogicalErrorType.MsRunLocation);
+        add(LogicalErrorType.MsRunLocation);
         add(LogicalErrorType.FixedMod);
         add(LogicalErrorType.VariableMod);
         add(LogicalErrorType.PeptideSection);
@@ -81,5 +81,9 @@ public class MZTabErrorTypeMap {
 
     public MZTabErrorType getType(int code) {
         return typeMap.get(code);
+    }
+
+    public Map<Integer, MZTabErrorType> getTypeMap() {
+        return typeMap;
     }
 }
