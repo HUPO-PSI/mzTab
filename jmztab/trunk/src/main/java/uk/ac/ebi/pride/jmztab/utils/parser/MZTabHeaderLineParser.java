@@ -142,7 +142,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
             }
         }
 
-        return factory.getColumnMapping().values().size();
+        return factory.getStableColumnMapping().values().size();
     }
 
     private void matchOptionalColumns(int offset) throws MZTabException {
