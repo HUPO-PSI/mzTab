@@ -1,0 +1,21 @@
+#summary Information on the developments around the mzTab file format for proteomics results.
+
+This Wiki holds information about the mzTab format as well as associated projects and tools that make the use of mzTab easier - for developers as well as end-users.
+
+== File Format ==
+
+mzTab is a tab-delimited text file format to report proteomics results. The mzTab file format is still under development and not yet stable. The *current format specification* can always be found in the mzTab SVN: 
+ [http://mztab.googlecode.com/svn/specification_document/mzTab_format_specification.docx mzTab_format_specification.docx] <br />
+ [http://mztab.googlecode.com/svn/specification_document/mzTab_format_specification.pdf mzTab format specification.pdf]
+
+mzTab *example files* can also be found in the svn (see [ExampleFiles Example files]).
+
+A quick introduction to the mzTab format is the *10 minute guide to mzTab* ([http://mztab.googlecode.com/svn/specification_document/The+ten+minute+guide+to+mzTab.pdf PDF], [http://mztab.googlecode.com/svn/specification_document/The+ten+minute+guide+to+mzTab.docx docx]). Additionally, the *mzTab Cheat sheet* ([http://mztab.googlecode.com/svn/specification_document/mzTab+cheat+sheet.pdf pdf], [http://mztab.googlecode.com/svn/specification_document/mzTab+cheat+sheet.docx docx]) provides a concise overview over all fields and columns defined in mzTab.
+
+== Utilities ==
+
+To make the usage and implementation of mzTab as easy as possible we try to provide parser libraries for various programming languages.
+
+|| *Tools* || *Description* ||
+|| MZTabInspector || The [MZTabInspector mzTab-Inspector] GUI Application for jmzTab ||
+|| MZTabCommandLine || The [MZTabCommandLine mzTab-CommandLine] Command Line for jmzTab ||
