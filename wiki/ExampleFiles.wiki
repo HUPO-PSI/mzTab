@@ -9,51 +9,35 @@
 || *Name*: || iTRAQ example: complete Quantification report ||
 || *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3), 4*3 assays (3 replicate experiments) reported, identifications reported. ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/iTRAQ_CQI.mzTab iTRAQ_CQI.mzTab] ||
-
-----
-
+|| || ||
 || *Name*: || Protein Summary Quantification example ||
 || *Description*: || (hand crafted) Report of a minimal "Summary Quantification report" experiment, quantification on 2 study variables (control/treatment), no assays (replicates) reported, no identifications reported.||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/protein_SQ.mzTab protein_SQ.mzTab] ||
-
-----
-
+|| || ||
 || *Name*: || Protein Complete Quantification example ||
 || *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment), 3+3 assays (replicates) reported, no identifications reported.||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/protein_CQ.mzTab protein_CQ.mzTab] ||
-
-----
-
+|| || ||
 || *Name*: || Peptide Summary Quantification example ||
 || *Description*: || (hand crafted) Report of a minimal "Summary Quantification report" experiment, quantification on 2 study variables (control/treatment), no assays (replicates) reported, no identifications reported.||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/peptide_SQ.mzTab peptide_SQ.mzTab] ||
-
-----
-
+|| || ||
 || *Name*: || PSM Summary Identification example ||
 || *Description*: || (hand crafted) Report of a minimal "Summary Identification report" with PSMs only.||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/PSM_SQ.mzTab PSM_SQ.mzTab] ||
-
-----
-
+|| || ||
 || *Name*: || Summary Identification example ||
 || *Description*: || Report of a "Summary Identification report" with protein identification data and PSMs.||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/protein_and_PSM_SI.mzTab protein_and_PSM_SI.mzTab] ||
-
-----
-
+|| || ||
 || *Name*: || PRIDE XML experiment 16649 ||
 || *Description*: || file generated using the mztab-exporter (converted PRIDE experiment accession 16649) containing iTRAQ data. ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt] ||
-
-----
-
+|| || ||
 || *Name*: || PRIDE XML experiment 1643 ||
 || *Description*: || file generated using the mztab-exporter (converted PRIDE experiment accession 1643) containing peptide and protein identification data. ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt] ||
-
-----
-
+|| || ||
 <wiki:comment>
 || *Name*: || Lipidomics example ||
 || *Description*: || Example containing MS lipidomics data produced by the Lipid Data Analyzer tool (http://genome.tugraz.at/lda/lda_download.shtml). ||
@@ -61,9 +45,6 @@
 
 ----
 </wiki:comment>
-
 || *Name*: || Label-free example ||
 || *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" label free experiment, quantification on 2 study variables (control/treatment), 3+3 assays (replicates) reported, identifications reported.||
 || *Link*: || [https://mztab.googlecode.com/svn/examples/labelfree_CQI.mzTab labelfree_CQI.mzTab] ||
-
-----

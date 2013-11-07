@@ -1,5 +1,5 @@
 #summary Release notes of the mzTab specification.
-----
+
 *jmzTab version 2.1.4 - (5. November 2013)*
   * update metadata, add id number for some elements.
   * uploaded new mzTab example files (validated with jmzTab)

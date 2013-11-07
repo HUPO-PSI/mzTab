@@ -6,9 +6,9 @@
 
 = Introduction =
 
-There are two modes of reporting of ‘Identification’ and ‘Quantification’ type results in mzTab files which MUST be specified by the mandatory meta value ‘mzTab-mode’ (‘Summary’ and ‘Complete’). The ‘Summary’ mode is used if final results are provided (e.g. quantification data at the level of study variables). The ‘Complete’ mode is used if all quantification data is provided (e.g. quantification on the assay level and on the study variable level).
+There are two modes of reporting of 'Identification' and 'Quantification' type results in mzTab files which MUST be specified by the mandatory meta value 'mzTab-mode' ('Summary' and 'Complete'). The 'Summary' mode is used if final results are provided (e.g. quantification data at the level of study variables). The 'Complete' mode is used if all quantification data is provided (e.g. quantification on the assay level and on the study variable level).
 
-The MANDATORY fields in the Metadata Section ‘mzTab-mode’ and ‘mzTab-type’ MUST therefore be present to indicate which type of file it is. In Table 2, the columns that MUST be included in a ‘Summary’ file are indicated and in Table 3 the columns that MUST be included in addition in a ‘Complete’ file. It must be highlighted that all the columns in Tables 2 and 3 MUST be present in a “Complete” file. 
+The MANDATORY fields in the Metadata Section 'mzTab-mode' and 'mzTab-type' MUST therefore be present to indicate which type of file it is. In Table 2, the columns that MUST be included in a 'Summary' file are indicated and in Table 3 the columns that MUST be included in addition in a 'Complete' file. It must be highlighted that all the columns in Tables 2 and 3 MUST be present in a “Complete” file. 
 
 In general, “null” values SHOULD not be given within any column of a “Complete” file if the information is available.
 
