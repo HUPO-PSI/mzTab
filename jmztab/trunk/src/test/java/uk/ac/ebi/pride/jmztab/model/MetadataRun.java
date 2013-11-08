@@ -128,7 +128,7 @@ public class MetadataRun {
         mtd.addProteinColUnit(ProteinColumn.RELIABILITY, new CVParam("MS", "MS:00001231", "PeptideProphet:Score", null));
 
         MZTabColumnFactory peptideFactory = MZTabColumnFactory.getInstance(Section.Peptide);
-        PeptideColumn peptideColumn = (PeptideColumn) peptideFactory.findColumn("retention_time");
+        PeptideColumn peptideColumn = (PeptideColumn) peptideFactory.findColumnByHeader("retention_time");
         mtd.addPeptideColUnit(peptideColumn, new CVParam("UO", "UO:0000031", "minute", null));
 
         mtd.addPSMColUnit(PSMColumn.RETENTION_TIME, new CVParam("UO", "UO:0000031", "minute", null));

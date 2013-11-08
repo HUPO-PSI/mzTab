@@ -199,10 +199,6 @@ public class MZTabColumnFactory {
         return new Integer(position.substring(0, 2));
     }
 
-    public static int getColumnId(String position) {
-        return position.length() == 2 ? 0 : new Integer(position.substring(2));
-    }
-
     public void addGoTermsOptionalColumn() {
         if (section != Section.Protein_Header) {
             throw new IllegalArgumentException("go_terms optional column only add into the protein section.");
@@ -406,7 +402,7 @@ public class MZTabColumnFactory {
      *
      * @see
      */
-    public MZTabColumn findColumn(String header) {
+    public MZTabColumn findColumnByHeader(String header) {
         header = header.trim();
 
         for (MZTabColumn column : columnMapping.values()) {
@@ -416,5 +412,9 @@ public class MZTabColumnFactory {
         }
 
         return null;
+    }
+
+    public MZTabColumn findColumnByPosition(String logicalPosition) {
+        return columnMapping.get(logicalPosition);
     }
 }

@@ -67,12 +67,12 @@ public class PSMValidateTest {
     @Test
     public void testSpectraRef() throws Exception {
         // ms_run[20] not defined in the metadata.
-        assertTrue(psmParser.checkSpectraRef(psmFactory.findColumn("spectra_ref"), "ms_run[20]:index=7|ms_run[2]:index=9").size() == 0);
+        assertTrue(psmParser.checkSpectraRef(psmFactory.findColumnByHeader("spectra_ref"), "ms_run[20]:index=7|ms_run[2]:index=9").size() == 0);
         assertError(FormatErrorType.SpectraRef);
 
         // ms_run[3] defined in the metadata, but ms_run[3]-location not provide.
         psmParser.metadata.addMsRun(new MsRun(3));
-        assertTrue(psmParser.checkSpectraRef(psmFactory.findColumn("spectra_ref"), "ms_run[3]:index=7|ms_run[2]:index=9").size() == 0);
+        assertTrue(psmParser.checkSpectraRef(psmFactory.findColumnByHeader("spectra_ref"), "ms_run[3]:index=7|ms_run[2]:index=9").size() == 0);
         assertError(LogicalErrorType.SpectraRef);
     }
 }

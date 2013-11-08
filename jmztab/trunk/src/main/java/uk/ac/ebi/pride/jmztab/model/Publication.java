@@ -6,7 +6,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
 /**
- * A publication on this unit. PubMed ids must be prefixed by “pubmed:”, DOIs by “doi:”.
+ * A publication on this unit. PubMed ids must be prefixed by "pubmed:", DOIs by "doi:".
  *
  * User: Qingwei
  * Date: 23/05/13

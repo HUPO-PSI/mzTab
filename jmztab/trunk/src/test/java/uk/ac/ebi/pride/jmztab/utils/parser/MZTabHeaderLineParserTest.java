@@ -58,51 +58,51 @@ public class MZTabHeaderLineParserTest {
         // check Abundance Columns
         headerLine += "\tprotein_abundance_assay[1]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("protein_abundance_assay[1]");
+        column = parser.getFactory().findColumnByHeader("protein_abundance_assay[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
         headerLine += "\tprotein_abundance_study_variable[1]\tprotein_abundance_stdev_study_variable[1]\tprotein_abundance_std_error_study_variable[1]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("protein_abundance_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("protein_abundance_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
-        column = parser.getFactory().findColumn("protein_abundance_stdev_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("protein_abundance_stdev_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
-        column = parser.getFactory().findColumn("protein_abundance_std_error_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("protein_abundance_std_error_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
         headerLine += "\tprotein_abundance_assay[2]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("protein_abundance_assay[2]");
+        column = parser.getFactory().findColumnByHeader("protein_abundance_assay[2]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
         // check Optional Column which start with opt_
         headerLine += "\topt_ms_run[1]_my_value";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_ms_run[1]_my_value");
+        column = parser.getFactory().findColumnByHeader("opt_ms_run[1]_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
         headerLine += "\topt_global_my_value";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_global_my_value");
+        column = parser.getFactory().findColumnByHeader("opt_global_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
         // check Optional CVParam Column
         headerLine += "\topt_assay[1]_cv_MS:1002217_decoy_peptide";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_assay[1]_cv_MS:1002217_decoy_peptide");
+        column = parser.getFactory().findColumnByHeader("opt_assay[1]_cv_MS:1002217_decoy_peptide");
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
         headerLine += "\topt_global_cv_MS:1002217_decoy_peptide";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_global_cv_MS:1002217_decoy_peptide");
+        column = parser.getFactory().findColumnByHeader("opt_global_cv_MS:1002217_decoy_peptide");
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
@@ -135,58 +135,58 @@ public class MZTabHeaderLineParserTest {
             "best_search_engine_score\tsearch_engine_score_ms_run[1]\treliability\tmodifications\t" +
             "retention_time\tretention_time_window\tcharge\tmass_to_charge\turi\tspectra_ref\n";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("search_engine_score_ms_run[1]");
+        column = parser.getFactory().findColumnByHeader("search_engine_score_ms_run[1]");
         assertNotNull(column);
         assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 3);
 
         // check Abundance Columns
         headerLine += "\tpeptide_abundance_assay[1]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("peptide_abundance_assay[1]");
+        column = parser.getFactory().findColumnByHeader("peptide_abundance_assay[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
         headerLine += "\tpeptide_abundance_study_variable[1]\tpeptide_abundance_stdev_study_variable[1]\tpeptide_abundance_std_error_study_variable[1]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("peptide_abundance_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("peptide_abundance_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
-        column = parser.getFactory().findColumn("peptide_abundance_stdev_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("peptide_abundance_stdev_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
-        column = parser.getFactory().findColumn("peptide_abundance_std_error_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("peptide_abundance_std_error_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
         headerLine += "\tpeptide_abundance_assay[2]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("peptide_abundance_assay[2]");
+        column = parser.getFactory().findColumnByHeader("peptide_abundance_assay[2]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
         // check Optional Column which start with opt_
         headerLine += "\topt_ms_run[1]_my_value";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_ms_run[1]_my_value");
+        column = parser.getFactory().findColumnByHeader("opt_ms_run[1]_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
         headerLine += "\topt_global_my_value";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_global_my_value");
+        column = parser.getFactory().findColumnByHeader("opt_global_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
         // check Optional CVParam Column
         headerLine += "\topt_assay[1]_cv_MS:1002217_decoy_peptide";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_assay[1]_cv_MS:1002217_decoy_peptide");
+        column = parser.getFactory().findColumnByHeader("opt_assay[1]_cv_MS:1002217_decoy_peptide");
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
         headerLine += "\topt_global_cv_MS:1002217_decoy_peptide";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_global_cv_MS:1002217_decoy_peptide");
+        column = parser.getFactory().findColumnByHeader("opt_global_cv_MS:1002217_decoy_peptide");
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
@@ -217,26 +217,26 @@ public class MZTabHeaderLineParserTest {
         // check Optional Column which start with opt_
         headerLine += "\topt_ms_run[1]_my_value";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_ms_run[1]_my_value");
+        column = parser.getFactory().findColumnByHeader("opt_ms_run[1]_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
         headerLine += "\topt_global_my_value";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_global_my_value");
+        column = parser.getFactory().findColumnByHeader("opt_global_my_value");
         assertNotNull(column);
         assertTrue(column instanceof OptionColumn);
 
         // check Optional CVParam Column
         headerLine += "\topt_assay[1]_cv_MS:1002217_decoy_peptide";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_assay[1]_cv_MS:1002217_decoy_peptide");
+        column = parser.getFactory().findColumnByHeader("opt_assay[1]_cv_MS:1002217_decoy_peptide");
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
         headerLine += "\topt_global_cv_MS:1002217_decoy_peptide";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("opt_global_cv_MS:1002217_decoy_peptide");
+        column = parser.getFactory().findColumnByHeader("opt_global_cv_MS:1002217_decoy_peptide");
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
@@ -272,32 +272,32 @@ public class MZTabHeaderLineParserTest {
             "reliability\turi\tspectra_ref\tsearch_engine\tbest_search_engine_score\tsearch_engine_score_ms_run[1]\t" +
             "modifications";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("search_engine_score_ms_run[1]");
+        column = parser.getFactory().findColumnByHeader("search_engine_score_ms_run[1]");
         assertNotNull(column);
         assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 3);
 
         // check Abundance Columns
         headerLine += "\tsmallmolecule_abundance_assay[1]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("smallmolecule_abundance_assay[1]");
+        column = parser.getFactory().findColumnByHeader("smallmolecule_abundance_assay[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
         headerLine += "\tsmallmolecule_abundance_study_variable[1]\tsmallmolecule_abundance_stdev_study_variable[1]\tsmallmolecule_abundance_std_error_study_variable[1]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("smallmolecule_abundance_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("smallmolecule_abundance_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
-        column = parser.getFactory().findColumn("smallmolecule_abundance_stdev_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("smallmolecule_abundance_stdev_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
-        column = parser.getFactory().findColumn("smallmolecule_abundance_std_error_study_variable[1]");
+        column = parser.getFactory().findColumnByHeader("smallmolecule_abundance_std_error_study_variable[1]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
         headerLine += "\tsmallmolecule_abundance_assay[2]";
         parser.parse(1, headerLine, errorList);
-        column = parser.getFactory().findColumn("smallmolecule_abundance_assay[2]");
+        column = parser.getFactory().findColumnByHeader("smallmolecule_abundance_assay[2]");
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 

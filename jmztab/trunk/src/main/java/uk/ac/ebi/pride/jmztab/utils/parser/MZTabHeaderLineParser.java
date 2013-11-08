@@ -35,7 +35,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
 
     protected void refineOptionalColumn(MZTabDescription.Mode mode, MZTabDescription.Type type,
                                         String columnHeader) throws MZTabException {
-        if (factory.findColumn(columnHeader) == null) {
+        if (factory.findColumnByHeader(columnHeader) == null) {
             throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInHeader, lineNumber, columnHeader, mode.toString(), type.toString()));
         }
     }

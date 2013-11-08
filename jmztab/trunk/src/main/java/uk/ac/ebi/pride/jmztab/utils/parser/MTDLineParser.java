@@ -644,7 +644,7 @@ public class MTDLineParser extends MZTabLineParser {
         String columnName = items[0].trim();
         String value = items[1].trim();
 
-        MZTabColumn column = factory.findColumn(columnName);
+        MZTabColumn column = factory.findColumnByHeader(columnName);
         if (column == null) {
             // column_name not exists in the factory.
             return new MZTabError(FormatErrorType.ColUnit, lineNumber, valueLabel, columnName);

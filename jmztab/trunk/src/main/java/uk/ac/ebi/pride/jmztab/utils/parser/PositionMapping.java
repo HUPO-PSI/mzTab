@@ -28,7 +28,7 @@ public class PositionMapping {
         String header;
         for (int physicalPosition = 0; physicalPosition < headerList.length; physicalPosition++) {
             header = headerList[physicalPosition];
-            MZTabColumn column = factory.findColumn(header);
+            MZTabColumn column = factory.findColumnByHeader(header);
             if (column != null) {
                 put(physicalPosition, column.getLogicPosition());
             }

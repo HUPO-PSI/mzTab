@@ -44,7 +44,7 @@ public class Modification {
     }
 
     /**
-     *. If the software has determined that there are no modifications to a given protein “0” MUST be used.
+     *. If the software has determined that there are no modifications to a given protein "0" MUST be used.
      */
     public static Modification createNoModification(Section section) {
         return new Modification(section, Type.UNKNOW, "0");

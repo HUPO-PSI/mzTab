@@ -61,7 +61,7 @@ public class PeptideValidateTest {
 
     @Test
     public void testUnique() throws Exception {
-        pepParser.checkUnique(pehFactory.findColumn("unique"), "x");
+        pepParser.checkUnique(pehFactory.findColumnByHeader("unique"), "x");
         assertError(FormatErrorType.MZBoolean);
     }
 

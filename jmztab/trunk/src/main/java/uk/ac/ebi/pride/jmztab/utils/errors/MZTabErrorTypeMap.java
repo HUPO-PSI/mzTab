@@ -1,7 +1,7 @@
 package uk.ac.ebi.pride.jmztab.utils.errors;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This list class used to storage all types of MZTabError, and provide query service based on
@@ -11,7 +11,7 @@ import java.util.Map;
  * Date: 27/02/13
  */
 public class MZTabErrorTypeMap {
-    private Map<Integer, MZTabErrorType> typeMap = new HashMap<Integer, MZTabErrorType>();
+    private Map<Integer, MZTabErrorType> typeMap = new TreeMap<Integer, MZTabErrorType>();
 
     private void add(MZTabErrorType type) {
         typeMap.put(type.getCode(), type);

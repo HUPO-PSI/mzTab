@@ -30,9 +30,9 @@ public class MZTabUtils {
     }
 
     /**
-     * If ratios are included and the denominator is zero, the “INF” value MUST be used.
+     * If ratios are included and the denominator is zero, the "INF" value MUST be used.
      * If the result leads to calculation errors (for example 0/0), this MUST be reported
-     * as “not a number” (“NaN”).
+     * as "not a number" ("NaN").
      *
      * @see #parseDouble(String)
      */
@@ -359,8 +359,8 @@ public class MZTabUtils {
     }
 
     /**
-     * A publication on this unit. PubMed ids must be prefixed by “pubmed:”,
-     * DOIs by “doi:”. Multiple identifiers MUST be separated by “|”.
+     * A publication on this unit. PubMed ids must be prefixed by "pubmed:",
+     * DOIs by "doi:". Multiple identifiers MUST be separated by "|".
      */
     public static SplitList<PublicationItem> parsePublicationItems(String target) {
         SplitList<String> list = parseStringList(BAR, target);

@@ -69,60 +69,60 @@ public class ProteinValidateTest {
 
     @Test
     public void testAccession() throws Exception {
-        assertTrue(prtParser.checkAccession(prhFactory.findColumn("accession"), "P12345").equals("P12345"));
+        assertTrue(prtParser.checkAccession(prhFactory.findColumnByHeader("accession"), "P12345").equals("P12345"));
         // duplicate define protein accession.
-        assertTrue(prtParser.checkAccession(prhFactory.findColumn("accession"), "P12345") == null);
+        assertTrue(prtParser.checkAccession(prhFactory.findColumnByHeader("accession"), "P12345") == null);
         assertError(LogicalErrorType.DuplicationAccession);
         // accession not allow set "null" value.
-        assertTrue(prtParser.checkAccession(prhFactory.findColumn("accession"), "null") == "null");
+        assertTrue(prtParser.checkAccession(prhFactory.findColumnByHeader("accession"), "null") == "null");
         assertError(LogicalErrorType.NotNULL);
     }
 
     @Test
     public void testParameterList() throws Exception {
-        assertTrue(prtParser.checkSearchEngine(prhFactory.findColumn("search_engine"), "[MS,MS:1001207,,]").size() == 0);
+        assertTrue(prtParser.checkSearchEngine(prhFactory.findColumnByHeader("search_engine"), "[MS,MS:1001207,,]").size() == 0);
         assertError(FormatErrorType.ParamList);
-        assertTrue(prtParser.checkBestSearchEngineScore(prhFactory.findColumn("best_search_engine_score"), "[MS,MS:1001207,Mascot,]|[MS,MS:1001208,,]").size() == 0);
+        assertTrue(prtParser.checkBestSearchEngineScore(prhFactory.findColumnByHeader("best_search_engine_score"), "[MS,MS:1001207,Mascot,]|[MS,MS:1001208,,]").size() == 0);
         assertError(FormatErrorType.ParamList);
-        assertTrue(prtParser.checkSearchEngine(prhFactory.findColumn("search_engine"), "[MS,MS:1001207,Mascot,]/[MS,MS:1001208,Sequest,]").size() == 0);
+        assertTrue(prtParser.checkSearchEngine(prhFactory.findColumnByHeader("search_engine"), "[MS,MS:1001207,Mascot,]/[MS,MS:1001208,Sequest,]").size() == 0);
         assertError(FormatErrorType.ParamList);
     }
 
     @Test
     public void testSearchEngineScore() throws Exception {
-        assertTrue(prtParser.checkBestSearchEngineScore(prhFactory.findColumn("best_search_engine_score"), "[MS,MS:1001171,Mascot score,50]|[,,my custom,my_value]").size() == 2);
+        assertTrue(prtParser.checkBestSearchEngineScore(prhFactory.findColumnByHeader("best_search_engine_score"), "[MS,MS:1001171,Mascot score,50]|[,,my custom,my_value]").size() == 2);
         assertError(FormatErrorType.SearchEngineScore);
     }
 
     @Test
     public void testReliability() throws Exception {
-        assertTrue(prtParser.checkReliability(prhFactory.findColumn("reliability"), "1") == Reliability.High);
-        assertTrue(prtParser.checkReliability(prhFactory.findColumn("reliability"), "0") == null);
+        assertTrue(prtParser.checkReliability(prhFactory.findColumnByHeader("reliability"), "1") == Reliability.High);
+        assertTrue(prtParser.checkReliability(prhFactory.findColumnByHeader("reliability"), "0") == null);
         assertError(FormatErrorType.Reliability);
     }
 
     @Test
     public void testModifications() throws Exception {
         prtParser.section = Section.Protein;
-        assertTrue(prtParser.checkModifications(prhFactory.findColumn("modifications"),
+        assertTrue(prtParser.checkModifications(prhFactory.findColumnByHeader("modifications"),
                 "8-MOD:00412, " +
                 "8[MS,MS:1001876, modification probability, 0.3]-MOD:00412, ")
             .size() == 2);
-        // case 1. If the software has determined that there are no modifications to a given protein “0” MUST be used
-        assertTrue(prtParser.checkModifications(prhFactory.findColumn("modifications"),"0").size() == 0);
+        // case 1. If the software has determined that there are no modifications to a given protein "0" MUST be used
+        assertTrue(prtParser.checkModifications(prhFactory.findColumnByHeader("modifications"),"0").size() == 0);
         // case 2. Ambiguity of modification position MUST NOT be reported at the Protein level.
-        assertTrue(prtParser.checkModifications(prhFactory.findColumn("modifications"),"3|4|8-MOD:00412").size() == 1);
+        assertTrue(prtParser.checkModifications(prhFactory.findColumnByHeader("modifications"),"3|4|8-MOD:00412").size() == 1);
         assertError(LogicalErrorType.AmbiguityMod);
         // case 3. for proteins and peptides modifications SHOULD be reported using either UNIMOD or PSI-MOD accessions
-        assertTrue(prtParser.checkModifications(prhFactory.findColumn("modifications"),"CHEMMOD:-18.0913").size() == 1);
+        assertTrue(prtParser.checkModifications(prhFactory.findColumnByHeader("modifications"),"CHEMMOD:-18.0913").size() == 1);
         assertError(LogicalErrorType.CHEMMODS);
     }
 
     @Test
     public void testProteinCoverage() throws Exception {
-        assertTrue(prtParser.checkProteinCoverage(prhFactory.findColumn("protein_coverage"), "NaN").equals(Double.NaN));
+        assertTrue(prtParser.checkProteinCoverage(prhFactory.findColumnByHeader("protein_coverage"), "NaN").equals(Double.NaN));
         // protein coverage value between 0 and 1.
-        assertTrue(prtParser.checkProteinCoverage(prhFactory.findColumn("protein_coverage"), "1.2") == null);
+        assertTrue(prtParser.checkProteinCoverage(prhFactory.findColumnByHeader("protein_coverage"), "1.2") == null);
         assertError(LogicalErrorType.ProteinCoverage);
     }
 

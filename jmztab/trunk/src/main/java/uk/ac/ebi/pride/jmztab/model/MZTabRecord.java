@@ -171,7 +171,7 @@ public class MZTabRecord {
         Section dataSection = Section.toDataSection(factory.getSection());
         String header = dataSection.getName() + tag + element.getReference();
 
-        return factory.findColumn(header);
+        return factory.findColumnByHeader(header);
     }
 
     public Double getAbundanceColumn(Assay assay) {
@@ -262,13 +262,13 @@ public class MZTabRecord {
      */
     public String getOptionColumn(Assay assay, String name) {
         String header = OptionColumn.getHeader(assay, name);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(Assay assay, String name, String value) {
         String header = OptionColumn.getHeader(assay, name);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
         }
@@ -276,13 +276,13 @@ public class MZTabRecord {
 
     public String getOptionColumn(Assay assay, CVParam param) {
         String header = CVParamOptionColumn.getHeader(assay, param);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(Assay assay, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(assay, param);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
         }
@@ -296,13 +296,13 @@ public class MZTabRecord {
      */
     public String getOptionColumn(StudyVariable studyVariable, String name) {
         String header = OptionColumn.getHeader(studyVariable, name);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(StudyVariable studyVariable, String name, String value) {
         String header = OptionColumn.getHeader(studyVariable, name);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
         }
@@ -310,13 +310,13 @@ public class MZTabRecord {
 
     public String getOptionColumn(StudyVariable studyVariable, CVParam param) {
         String header = CVParamOptionColumn.getHeader(studyVariable, param);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(StudyVariable studyVariable, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(studyVariable, param);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
         }
@@ -330,13 +330,13 @@ public class MZTabRecord {
      */
     public String getOptionColumn(MsRun msRun, String name) {
         String header = OptionColumn.getHeader(msRun, name);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(MsRun msRun, String name, String value) {
         String header = OptionColumn.getHeader(msRun, name);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
         }
@@ -344,13 +344,13 @@ public class MZTabRecord {
 
     public String getOptionColumn(MsRun msRun, CVParam param) {
         String header = CVParamOptionColumn.getHeader(msRun, param);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(MsRun msRun, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(msRun, param);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
         }
@@ -364,13 +364,13 @@ public class MZTabRecord {
      */
     public String getOptionColumn(String name) {
         String header = OptionColumn.getHeader(null, name);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(String name, Object value) {
         String header = OptionColumn.getHeader(null, name);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
         }
@@ -378,13 +378,13 @@ public class MZTabRecord {
 
     public String getOptionColumn(CVParam param) {
         String header = CVParamOptionColumn.getHeader(null, param);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
     public void setOptionColumn(CVParam param, Object value) {
         String header = CVParamOptionColumn.getHeader(null, param);
-        MZTabColumn column = factory.findColumn(header);
+        MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
         }
