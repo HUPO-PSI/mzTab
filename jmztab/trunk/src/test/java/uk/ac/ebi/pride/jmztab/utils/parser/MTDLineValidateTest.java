@@ -57,32 +57,20 @@ public class MTDLineValidateTest {
 
     @Test
     public void testIndexElement() throws Exception {
-        try {
-            // param name can not set empty.
-            parser.parse(1, "MTD\tsample_processing[1]\t[, SEP:00173, ,]", errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.ParamList);
-            System.out.println(e.getMessage());
-        }
+        // param name can not set empty.
+        parser.parse(1, "MTD\tsample_processing[1]\t[, SEP:00173, ,]", errorList);
+        assertTrue(errorList.size() == 1);
+        assertTrue(errorList.getError(0).getType() ==  FormatErrorType.ParamList);
 
-        try {
-            // second param name can not set empty.
-            parser.parse(1, "MTD\tsample_processing[1]\t[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, , ]", errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.ParamList);
-            System.out.println(e.getMessage());
-        }
+        // second param name can not set empty.
+        parser.parse(1, "MTD\tsample_processing[1]\t[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, , ]", errorList);
+        assertTrue(errorList.size() == 2);
+        assertTrue(errorList.getError(1).getType() ==  FormatErrorType.ParamList);
 
-        try {
-            // split char error.
-            parser.parse(1, "MTD\tsample_processing[1]\t[SEP, SEP:00142, enzyme digestion, ]/[MS, MS:1001251, Trypsin, ]", errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.ParamList);
-            System.out.println(e.getMessage());
-        }
+        // split char error.
+        parser.parse(1, "MTD\tsample_processing[1]\t[SEP, SEP:00142, enzyme digestion, ]/[MS, MS:1001251, Trypsin, ]", errorList);
+        assertTrue(errorList.size() == 3);
+        assertTrue(errorList.getError(2).getType() ==  FormatErrorType.ParamList);
 
         try {
             // split char error.
@@ -93,44 +81,28 @@ public class MTDLineValidateTest {
             System.out.println(e.getMessage());
         }
 
-        try {
-            // param error.
-            parser.parse(1, "MTD\tinstrument[1]-analyzer\t[MS, MS:1000291, ,]", errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.Param);
-            System.out.println(e.getMessage());
-        }
+        // param error.
+        parser.parse(1, "MTD\tinstrument[1]-analyzer\t[MS, MS:1000291, ,]", errorList);
+        assertTrue(errorList.size() == 4);
+        assertTrue(errorList.getError(3).getType() ==  FormatErrorType.Param);
     }
 
     @Test
     public void testPublication() throws Exception {
-        try {
-            // split char error.
-            parser.parse(1, "MTD\tpublication[1]\tpubmed:21063943/doi:10.1007/978-1-60761-987-1_6", errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.Publication);
-            System.out.println(e.getMessage());
-        }
+        // split char error.
+        parser.parse(1, "MTD\tpublication[1]\tpubmed:21063943/doi:10.1007/978-1-60761-987-1_6", errorList);
+        assertTrue(errorList.size() == 1);
+        assertTrue(errorList.getError(0).getType() == FormatErrorType.Publication);
 
-        try {
-            // error publication item
-            parser.parse(1, "MTD\tpublication[1]\tpub:21063943", errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.Publication);
-            System.out.println(e.getMessage());
-        }
+        // error publication item
+        parser.parse(1, "MTD\tpublication[1]\tpub:21063943", errorList);
+        assertTrue(errorList.size() == 2);
+        assertTrue(errorList.getError(1).getType() == FormatErrorType.Publication);
 
-        try {
-            // split char error.
-            parser.parse(1, "MTD\tpublication[1]\tdoi:21063943/pubmed:21063943", errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.Publication);
-            System.out.println(e.getMessage());
-        }
+        // split char error.
+        parser.parse(1, "MTD\tpublication[1]\tdoi:21063943/pubmed:21063943", errorList);
+        assertTrue(errorList.size() == 3);
+        assertTrue(errorList.getError(2).getType() == FormatErrorType.Publication);
     }
 
     @Test

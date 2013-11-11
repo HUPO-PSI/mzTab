@@ -112,6 +112,8 @@ public class MZTabInspector extends JFrame {
                             System.out.println();
                         } catch (IOException ioe) {
                             ioe.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                         btnValidate.setEnabled(true);

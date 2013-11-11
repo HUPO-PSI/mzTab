@@ -148,6 +148,10 @@ public class MZTabFileParser {
             }
 
             highWaterMark = section.getLevel();
+            // There exists errors during checking metadata section.
+            if (highWaterMark > 1 && ! errorList.isEmpty()) {
+                break;
+            }
 
             switch (highWaterMark) {
                 case 1:
