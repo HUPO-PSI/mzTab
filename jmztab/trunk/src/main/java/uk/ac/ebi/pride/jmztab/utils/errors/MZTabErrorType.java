@@ -114,6 +114,12 @@ public class MZTabErrorType {
     }
 
     public static Level findLevel(String target) {
+        if (MZTabUtils.isEmpty(target)) {
+            return null;
+        }
+
+        target = MZTabUtils.toCapital(target.trim());
+
         Level level;
         try {
             level = Level.valueOf(target);

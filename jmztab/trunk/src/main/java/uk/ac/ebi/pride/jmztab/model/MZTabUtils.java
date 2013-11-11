@@ -22,6 +22,23 @@ public class MZTabUtils {
     }
 
     /**
+     * The first char is upper case, others are lower case.
+     */
+    public static String toCapital(String s) {
+        if (isEmpty(s)) {
+            return s;
+        }
+
+        if (s.length() == 1) {
+            return s.toUpperCase();
+        }
+
+        String firstChar = s.substring(0, 1);
+        String leftString = s.substring(1);
+        return firstChar.toUpperCase().concat(leftString.toLowerCase());
+    }
+
+    /**
      * Pre-process the String object. If object is null, return null; otherwise
      * remove heading and tailing white space.
      */

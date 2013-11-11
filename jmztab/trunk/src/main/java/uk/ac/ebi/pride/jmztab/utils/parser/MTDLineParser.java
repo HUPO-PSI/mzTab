@@ -482,7 +482,7 @@ public class MTDLineParser extends MZTabLineParser {
                                 indexedElement = checkIndexedElement(defineLabel, valueLabel, MetadataElement.SAMPLE);
                                 Sample sample = metadata.getSampleMap().get(indexedElement.getId());
                                 if (sample == null) {
-                                    throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
+                                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel));
                                 }
                                 metadata.addAssaySample(id, sample);
                                 break;
@@ -490,7 +490,7 @@ public class MTDLineParser extends MZTabLineParser {
                                 indexedElement = checkIndexedElement(defineLabel, valueLabel, MetadataElement.MS_RUN);
                                 MsRun msRun = metadata.getMsRunMap().get(indexedElement.getId());
                                 if (msRun == null) {
-                                    throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
+                                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel));
                                 }
                                 metadata.addAssayMsRun(id, msRun);
                                 break;
@@ -530,7 +530,7 @@ public class MTDLineParser extends MZTabLineParser {
                             for (IndexedElement e : indexedElementList) {
                                 if (! metadata.getAssayMap().containsKey(e.getId())) {
                                     // can not find assay[id] in metadata.
-                                    throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
+                                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel));
                                 }
                                 metadata.addStudyVariableAssay(id, metadata.getAssayMap().get(e.getId()));
                             }
@@ -540,7 +540,7 @@ public class MTDLineParser extends MZTabLineParser {
                             for (IndexedElement e : indexedElementList) {
                                 if (! metadata.getSampleMap().containsKey(e.getId())) {
                                     // can not find assay[id] in metadata.
-                                    throw new MZTabException(new MZTabError(LogicalErrorType.MsRunNotDefined, lineNumber, valueLabel));
+                                    throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel));
                                 }
                                 metadata.addStudyVariableSample(id, metadata.getSampleMap().get(e.getId()));
                             }

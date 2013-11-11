@@ -60,6 +60,9 @@ public class MZTabCommandLine {
             .create(checkOpt);
         options.addOption(checkOption);
 
+        String levelOpt = "level";
+        options.addOption(levelOpt, true, "Choose validate level(Info, Warn, Error), default level is Error!");
+
         String convertOpt = "convert";
         String formatOpt = "format";
         Option convertOption = OptionBuilder.withArgName(inFileOpt + ", " + formatOpt)
@@ -111,6 +114,11 @@ public class MZTabCommandLine {
             }
             OutputStream out = outFile == null ? System.out : new BufferedOutputStream(new FileOutputStream(outFile));
 
+            MZTabErrorType.Level level = MZTabErrorType.Level.Error;
+            if (line.hasOption(levelOpt)) {
+                level = MZTabErrorType.findLevel(line.getOptionValue(levelOpt));
+            }
+
             if (line.hasOption(checkOpt)) {
                 String[] values = line.getOptionValues(checkOpt);
                 if (values.length != 2) {
@@ -118,7 +126,7 @@ public class MZTabCommandLine {
                 }
                 File inFile = new File(inDir, values[1].trim());
                 System.out.println("Begin check mztab file: " + inFile.getAbsolutePath());
-                new MZTabFileParser(inFile, out);
+                new MZTabFileParser(inFile, out, level);
             } else if (line.hasOption(convertOpt)) {
                 String[] values = line.getOptionValues(convertOpt);
                 File inFile = null;
