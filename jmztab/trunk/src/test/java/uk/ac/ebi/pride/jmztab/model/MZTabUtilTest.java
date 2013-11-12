@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import java.util.List;
@@ -12,11 +13,13 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * Date: 09/07/13
  */
 public class MZTabUtilTest {
+    private static Logger logger = Logger.getLogger(MZTabUtilTest.class);
+
     @Test
     public void testParam() throws Exception {
-        System.out.println(new UserParam("Source", "Sigma-Aldrich, catalog #H4522, lot #043K0502"));
-        System.out.println(new UserParam("Source", "Sigma-Aldrich [catalog #H4522, lot #043K0502]"));
-        System.out.println(new UserParam("Source", "Sigma-Aldrich, \"catalog #H4522, lot #043K0502\""));
+        logger.debug(new UserParam("Source", "Sigma-Aldrich, catalog #H4522, lot #043K0502"));
+        logger.debug(new UserParam("Source", "Sigma-Aldrich [catalog #H4522, lot #043K0502]"));
+        logger.debug(new UserParam("Source", "Sigma-Aldrich, \"catalog #H4522, lot #043K0502\""));
 
         assertTrue(parseParam("[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]") instanceof CVParam);
         assertTrue(parseParam("[, ,tolerance,0.5]") instanceof UserParam);
@@ -24,7 +27,7 @@ public class MZTabUtilTest {
         assertTrue(parseParam("null") == null);
 
         assertTrue(parseParam("[PRIDE,PRIDE:0000114,\"N,O-diacetylated L-serine\",]").getName().contains("N,O-diacetylated L-serine"));
-        System.out.println(parseParam("[PRIDE,PRIDE:0000114,\"N[12],O-diacetylated L-serine\",]"));
+        logger.debug(parseParam("[PRIDE,PRIDE:0000114,\"N[12],O-diacetylated L-serine\",]"));
     }
 
     @Test

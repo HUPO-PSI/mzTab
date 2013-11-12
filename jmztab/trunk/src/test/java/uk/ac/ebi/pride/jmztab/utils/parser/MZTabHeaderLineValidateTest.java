@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.MZTabDescription;
@@ -16,6 +17,8 @@ import static org.junit.Assert.assertTrue;
  * Date: 10/09/13
  */
 public class MZTabHeaderLineValidateTest {
+    private static Logger logger = Logger.getLogger(MZTabHeaderLineValidateTest.class);
+    
     private Metadata metadata;
     private MZTabErrorList errorList;
 
@@ -38,7 +41,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.StableColumn);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         // miss retention_time_window column
@@ -51,7 +54,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.StableColumn);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 
@@ -76,7 +79,7 @@ public class MZTabHeaderLineValidateTest {
 //            assertTrue(false);
 //        } catch (MZTabException e) {
 //            assertTrue(e.getError().getType() == LogicalErrorType.FixedMod);
-//            System.out.println(e.getMessage());
+//            logger.debug(e.getMessage());
 //        }
 //
 //    }
@@ -95,7 +98,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.MsRunNotDefined);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         // num_peptides_distinct_ms_run[1] not allowed displayed in the peptide header.
@@ -109,7 +112,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.MsRunOptionalColumn);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         // search_engine_score_ms_run[0] not validate number.
@@ -124,7 +127,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.IdNumber);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 
@@ -142,7 +145,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.AbundanceColumn);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
 
@@ -159,7 +162,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.AssayNotDefined);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
 
@@ -175,7 +178,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.AbundanceColumn);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 
@@ -193,7 +196,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.StudyVariableNotDefined);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         // miss protein_abundance_stdev_study_variable[1], three columns should be display together.
@@ -207,7 +210,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.AbundanceColumnTogether);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         // study_variable id number not same error.
@@ -221,7 +224,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.AbundanceColumnSameId);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 
@@ -238,7 +241,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.OptionalCVParamColumn);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         //  assay[10] not defined in the metadata.
@@ -252,7 +255,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.AssayNotDefined);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         //  assay[x] is not a number.
@@ -266,7 +269,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.IdNumber);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 
@@ -287,7 +290,7 @@ public class MZTabHeaderLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.NotDefineInHeader);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 }

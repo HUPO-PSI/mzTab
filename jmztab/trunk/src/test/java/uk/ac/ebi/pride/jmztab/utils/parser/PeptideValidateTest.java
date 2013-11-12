@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
@@ -16,6 +17,8 @@ import static org.junit.Assert.assertTrue;
  * Date: 16/09/13
  */
 public class PeptideValidateTest {
+    private Logger logger = Logger.getLogger(PeptideValidateTest.class);
+
     private MZTabErrorList errorList;
     private PEPLineParser pepParser;
     private MZTabColumnFactory pehFactory;
@@ -50,8 +53,7 @@ public class PeptideValidateTest {
 
     @After
     public void tearDown() throws Exception {
-        errorList.print(System.out);
-        System.out.println();
+        logger.debug(errorList);
         errorList.clear();
     }
 

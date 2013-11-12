@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.*;
@@ -15,6 +16,8 @@ import static junit.framework.Assert.assertTrue;
 * Date: 18/02/13
 */
 public class MZTabHeaderLineParserTest {
+    private static Logger logger = Logger.getLogger(MZTabHeaderLineParserTest.class);
+
     private Metadata metadata;
     private MZTabErrorList errorList;
 
@@ -106,7 +109,7 @@ public class MZTabHeaderLineParserTest {
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
-//        System.out.println(parser.getFactory().toString());
+        logger.debug(parser.getFactory().toString());
     }
 
     @Test
@@ -190,7 +193,7 @@ public class MZTabHeaderLineParserTest {
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
-//        System.out.println(parser.getFactory().toString());
+        logger.debug(parser.getFactory().toString());
     }
 
     @Test
@@ -240,7 +243,7 @@ public class MZTabHeaderLineParserTest {
         assertNotNull(column);
         assertTrue(column instanceof CVParamOptionColumn);
 
-//        System.out.println(parser.getFactory().toString());
+        logger.debug(parser.getFactory().toString());
     }
 
     @Test
@@ -301,7 +304,7 @@ public class MZTabHeaderLineParserTest {
         assertNotNull(column);
         assertTrue(column instanceof AbundanceColumn);
 
-//        System.out.println(parser.getFactory().toString());
+        logger.debug(parser.getFactory().toString());
     }
 
     @Test

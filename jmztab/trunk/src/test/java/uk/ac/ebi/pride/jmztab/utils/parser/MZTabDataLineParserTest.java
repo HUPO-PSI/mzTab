@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.*;
@@ -12,6 +13,8 @@ import static junit.framework.Assert.assertTrue;
  * Date: 20/02/13
  */
 public class MZTabDataLineParserTest {
+    private static Logger logger = Logger.getLogger(MZTabDataLineParserTest.class);
+    
     private Metadata metadata;
 
     @Before
@@ -88,8 +91,8 @@ public class MZTabDataLineParserTest {
             "My value about assay[1]\t" +
             "some other value that is across reps";
         record = dataParser.getRecord(data);
-        System.out.println(header);
-        System.out.println(record.toString());
+        logger.debug(header);
+        logger.debug(record.toString());
         items = data.split("\t");
 
         assertTrue(record.getAccession().equals(items[1]));
@@ -190,8 +193,8 @@ public class MZTabDataLineParserTest {
             "ms_run[1]:index=5";
         peptide = dataParser.getRecord(data);
 
-        System.out.println(header);
-        System.out.println(peptide.toString());
+        logger.debug(header);
+        logger.debug(peptide.toString());
     }
 
     @Test
@@ -346,7 +349,7 @@ public class MZTabDataLineParserTest {
 
         SmallMolecule record = dataParser.getRecord(data);
 
-        System.out.println(header);
-        System.out.println(record);
+        logger.debug(header);
+        logger.debug(record);
     }
 }

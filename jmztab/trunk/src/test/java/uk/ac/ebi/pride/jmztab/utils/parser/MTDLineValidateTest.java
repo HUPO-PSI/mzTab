@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
@@ -18,6 +19,8 @@ import static junit.framework.Assert.assertTrue;
  * Date: 09/09/13
  */
 public class MTDLineValidateTest {
+    private static Logger logger = Logger.getLogger(MTDLineValidateTest.class);
+
     private MTDLineParser parser;
     private MZTabErrorList errorList;
 
@@ -35,7 +38,7 @@ public class MTDLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.MTDDefineLabel);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         try {
@@ -43,7 +46,7 @@ public class MTDLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.MZTabMode);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         try {
@@ -51,7 +54,7 @@ public class MTDLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.MZTabType);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }        
     }
 
@@ -78,7 +81,7 @@ public class MTDLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.IdNumber);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         // param error.
@@ -112,7 +115,7 @@ public class MTDLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.MTDDefineLabel);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
         try {
@@ -121,7 +124,7 @@ public class MTDLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.ColUnit);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
 
     }
@@ -134,7 +137,7 @@ public class MTDLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.Param);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 
@@ -149,7 +152,7 @@ public class MTDLineValidateTest {
             assertTrue(false);
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == LogicalErrorType.DuplicationDefine);
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 }

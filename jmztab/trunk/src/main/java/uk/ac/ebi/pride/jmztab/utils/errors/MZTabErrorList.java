@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.utils.errors;
 
+import uk.ac.ebi.pride.jmztab.model.MZTabConstants;
 import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
 
 import java.io.IOException;
@@ -73,5 +74,15 @@ public class MZTabErrorList {
         for (MZTabError e : errorList) {
             out.write(e.toString().getBytes());
         }
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (MZTabError error : errorList) {
+            sb.append(error).append(MZTabConstants.NEW_LINE);
+        }
+
+        return sb.toString();
     }
 }
