@@ -13,20 +13,21 @@ MTD	PRIDE_16649-contact[3]-email	ka.wan.li@cncr.vu.nl
 MTD	PRIDE_16649-contact[4]-name	Pim van Nierop
 MTD	PRIDE_16649-contact[4]-affiliation	Department of Molecular and Cellular Neurobiology, Center for Neurogenomics and Cognitive Research, Neuroscience Campus Amsterdam, VU University, De Boelelaan 1085, 1081 HV Amsterdam, The Netherlands
 MTD	PRIDE_16649-contact[4]-email	pim.van.nierop@cncr.vu.nl
+COM	uri
 MTD	PRIDE_16649-uri	http://www.ebi.ac.uk/pride/directLink.do?experimentAccessionNumber=16649
 MTD	PRIDE_16649-protein-quantification_unit	[PRIDE,PRIDE:0000395,Ratio,]
 MTD	PRIDE_16649-peptide-quantification_unit	[PRIDE,PRIDE:0000395,Ratio,]
 MTD	PRIDE_16649-ms_file[1]-format	[MS,MS:1000564,PSI mzData file,]
-MTD	PRIDE_16649-ms_file[1]-location	/nfs/nobackup/pride/ksenia_temp/pride_xml_files/PRIDE_Exp_Complete_Ac_16649.xml
+MTD	PRIDE_16649-ms_file[1]-location	http://nfs/nobackup/pride/ksenia_temp/pride_xml_files/PRIDE_Exp_Complete_Ac_16649.xml
 MTD	PRIDE_16649-ms_file[1]-id_format	[MS,MS:1000777,spectrum identifier nativeID format,]
 MTD	PRIDE_16649-species[1]	[NEWT,10090,Mus musculus (Mouse),]
-MTD	PRIDE_16649-sub[1]-species[1]	[NEWT,10090,Mus musculus (Mouse),]
+COM	PRIDE_16649-sub[1]-species[1]	[NEWT,10090,Mus musculus (Mouse),]
 MTD	PRIDE_16649-sub[1]-quantification_reagent	[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]
-MTD	PRIDE_16649-sub[2]-species[1]	[NEWT,10090,Mus musculus (Mouse),]
+COM	PRIDE_16649-sub[2]-species[1]	[NEWT,10090,Mus musculus (Mouse),]
 MTD	PRIDE_16649-sub[2]-quantification_reagent	[PRIDE,PRIDE:0000115,iTRAQ reagent 115,]
-MTD	PRIDE_16649-sub[3]-species[1]	[NEWT,10090,Mus musculus (Mouse),]
+COM	PRIDE_16649-sub[3]-species[1]	[NEWT,10090,Mus musculus (Mouse),]
 MTD	PRIDE_16649-sub[3]-quantification_reagent	[PRIDE,PRIDE:0000116,iTRAQ reagent 116,]
-MTD	PRIDE_16649-sub[4]-species[1]	[NEWT,10090,Mus musculus (Mouse),]
+COM	PRIDE_16649-sub[4]-species[1]	[NEWT,10090,Mus musculus (Mouse),]
 MTD	PRIDE_16649-sub[4]-quantification_reagent	[PRIDE,PRIDE:0000117,iTRAQ reagent 117,]
 
 PRH	accession	unit_id	description	taxid	species	database	database_version	search_engine	search_engine_score	reliability	num_peptides	num_peptides_distinct	num_peptides_unambiguous	ambiguity_members	modifications	uri	go_terms	protein_coverage	protein_abundance_sub[1]	protein_abundance_stdev_sub[1]	protein_abundance_std_error_sub[1]	protein_abundance_sub[2]	protein_abundance_stdev_sub[2]	protein_abundance_std_error_sub[2]	protein_abundance_sub[3]	protein_abundance_stdev_sub[3]	protein_abundance_std_error_sub[3]	protein_abundance_sub[4]	protein_abundance_stdev_sub[4]	protein_abundance_std_error_sub[4]

@@ -1,5 +1,5 @@
 MTD	CPTAC-description	CPTAC label free, UPS 48 spike-in, four concentrations B, C, D and E																																																				
-MTD	CPTAC-software[1]	[MS,MS:1001830,Progenesis LC-MS,]																																																				
+MTD	CPTAC-software[1]	[MS,MS:1001830,Progenesis LC-MS, 1.0]																																																				
 MTD	CPTAC-quantification_method	[MS,MS:1001834,LC-MS label-free quantitation analysis,]																																																				
 MTD	CPTAC-protein-quantification_unit	[MS,MS:1001891,Progenesis:peptide normalised abundance,]																																																				
 MTD	CPTAC-peptide-quantification_unit	[MS,MS:1001890,Progenesis:protein normalised abundance,]																																																				
