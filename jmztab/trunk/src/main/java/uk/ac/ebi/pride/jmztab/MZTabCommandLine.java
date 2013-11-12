@@ -2,10 +2,8 @@ package uk.ac.ebi.pride.jmztab;
 
 import org.apache.commons.cli.*;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
-import uk.ac.ebi.pride.jmztab.utils.MZTabFileChecker;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
-import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
@@ -150,14 +148,13 @@ public class MZTabCommandLine {
                 System.out.println("Begin convert " + inFile.getAbsolutePath() + " which format is " + format + " to mztab file.");
                 MZTabFileConverter converter = new MZTabFileConverter(inFile, format);
                 MZTabFile tabFile = converter.getMZTabFile();
-                MZTabErrorList errorList = new MZTabErrorList();
-                MZTabFileChecker checker = new MZTabFileChecker(errorList);
-                checker.check(tabFile);
+                MZTabErrorList errorList = converter.getErrorList();
+
                 if (errorList.isEmpty()) {
                     System.out.println("Begin print mztab file.");
                     tabFile.printMZTab(out);
                 } else {
-                    System.out.println("There exists some errors in mztab file.");
+                    System.out.println("There exists errors in mztab file.");
                     errorList.print(out);
                 }
             }

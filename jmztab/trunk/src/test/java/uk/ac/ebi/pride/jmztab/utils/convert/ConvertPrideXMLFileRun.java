@@ -1,6 +1,9 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
+import org.apache.log4j.Logger;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
+import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,11 +15,22 @@ import java.io.OutputStream;
  * Date: 17/09/13
  */
 public class ConvertPrideXMLFileRun {
+    private static Logger logger = Logger.getLogger(ConvertPrideXMLFile.class);
+
     private void convert(File inFile, File outFile) throws Exception {
-        ConvertPrideXMLFile convert = new ConvertPrideXMLFile(inFile);
-        MZTabFile tabFile = convert.getMZTabFile();
+        logger.debug("Input file name is: " + inFile.getAbsoluteFile());
+        MZTabFileConverter converter = new MZTabFileConverter(inFile, ConvertFile.PRIDE);
+        MZTabErrorList errorList = converter.getErrorList();
+
         OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));
-        tabFile.printMZTab(out);
+        if (errorList.isEmpty()) {
+            MZTabFile tabFile = converter.getMZTabFile();
+            logger.debug("Finish convert, no error in it. Output file name is " + outFile.getAbsoluteFile());
+            tabFile.printMZTab(out);
+        } else {
+            logger.debug("There exists errors in convert files.");
+            logger.debug(errorList);
+        }
         out.close();
     }
 

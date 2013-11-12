@@ -77,7 +77,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
             metadata.setMZTabMode(MZTabDescription.Mode.Summary);
         }
 
-        metadata.addCustom(new UserParam("date of export", new Date().toString()));
+        metadata.setDescription("date of export: " + new Date());
         return metadata;
     }
 
