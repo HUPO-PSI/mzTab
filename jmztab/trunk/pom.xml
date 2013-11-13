@@ -6,7 +6,8 @@
     <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab</artifactId>
     <!-- based on mzTab specification version 1.0 RC5 v10102013-->
-    <version>2.1.4-SNAPSHOT</version>
+    <!-- add semantic validate-->
+    <version>2.1.5-SNAPSHOT</version>
 
     <licenses>
         <license>
@@ -34,22 +35,28 @@
             <version>4.3.1</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.13</version>
             <scope>test</scope>
         </dependency>
+
+        <!--used to provide command line interface-->
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
             <version>1.2</version>
         </dependency>
+
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
+
+        <!--used to convert PRIDE XML to mzTab-->
         <dependency>
             <groupId>uk.ac.ebi.pride.jaxb</groupId>
             <artifactId>pride-jaxb</artifactId>
@@ -57,6 +64,7 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>uk.ac.ebi.pride.tools.converter</groupId>
             <artifactId>dao-api</artifactId>
@@ -64,31 +72,45 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>uk.ac.ebi.jmzidml</groupId>
             <artifactId>jmzidentml</artifactId>
             <version>1.1.6</version>
         </dependency>
+
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-xjc</artifactId>
             <version>2.1.7</version>
         </dependency>
-        <dependency>
-            <groupId>psidev.psi.tools</groupId>
-            <artifactId>xxindex</artifactId>
-            <version>0.14</version>
-        </dependency>
+
+        <!--used to export pride-q to mzTab-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
             <scope>test</scope>
         </dependency>
+
+        <!--used to calculate mass to charge-->
         <dependency>
             <groupId>uk.ac.ebi.pride</groupId>
             <artifactId>ion-generator</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--used to provide semantic validate-->
+        <dependency>
+            <groupId>psidev.psi.tools</groupId>
+            <artifactId>cv-rule-reader</artifactId>
+            <version>2.0.5-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>psidev.psi.tools</groupId>
+            <artifactId>ontology-manager</artifactId>
+            <version>2.0.5-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

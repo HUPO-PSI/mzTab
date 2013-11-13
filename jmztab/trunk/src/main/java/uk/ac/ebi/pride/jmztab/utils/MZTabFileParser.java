@@ -41,6 +41,7 @@ public class MZTabFileParser {
         try {
             errorList = new MZTabErrorList(level);
             check();
+            refine();
         } catch (MZTabException e) {
             out.write(MZTabExceptionMessage.getBytes());
             errorList.add(e.getError());
@@ -83,6 +84,34 @@ public class MZTabFileParser {
             return source;
         } else {
             return source.substring(0, length - 1) + "...";
+        }
+    }
+
+    /**
+     * refine all MZTabFile consistency correct.
+     */
+    private void refine() throws MZTabException, MZTabErrorOverflowException {
+        Metadata metadata = mzTabFile.getMetadata();
+        MZTabColumnFactory proteinFactory = mzTabFile.getProteinColumnFactory();
+        MZTabColumnFactory peptideFactory = mzTabFile.getPeptideColumnFactory();
+        MZTabColumnFactory psmFactory = mzTabFile.getPsmColumnFactory();
+        MZTabColumnFactory smlFactory = mzTabFile.getSmallMoleculeColumnFactory();
+
+        // If mzTab-type is "Quantification", then at least one section with {protein|peptide|small_molecule}_abundance* columns MUST be present
+        boolean hasAbundance = false;
+        if (metadata.getMZTabType() == MZTabDescription.Type.Quantification) {
+            if (proteinFactory != null && ! proteinFactory.getAbundanceColumnMapping().isEmpty()) {
+                hasAbundance = true;
+            }
+            if (peptideFactory != null && ! peptideFactory.getAbundanceColumnMapping().isEmpty()) {
+                hasAbundance = true;
+            }
+            if (smlFactory != null && ! smlFactory.getAbundanceColumnMapping().isEmpty()) {
+                hasAbundance = true;
+            }
+        }
+        if (! hasAbundance) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.QuantificationAbundance, -1));
         }
     }
 

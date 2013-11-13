@@ -117,6 +117,9 @@ public class PrideqExportRun {
         tabFile.setPSMColumnFactory(psmColumnFactory);
 
         Connection conn = ConnectionFactory.getPRIDEQConnection();
+
+        String schema = "prideq_09_human";
+
         String sql = "SELECT p.psms_sequence,\n" +
                 "       group_concat(concat(m.mods_location, \"-\", m.mods_main_accession)),\n" +
                 "       round(p.psms_prec_mz, 2),\n" +
@@ -134,7 +137,7 @@ public class PrideqExportRun {
                 "       p.psms_score_SPECTRUM_MILL_PEPTIDE_SCORE,\n" +
                 "       p.psms_score_OMSSA_E_VALUE,\n" +
                 "       p.psms_score_OMSSA_P_VALUE\n" +
-                "  FROM prideq_07_human.prideq_psms p, prideq_07_human.prideq_mods m\n" +
+                "  FROM " + schema + ".prideq_psms p, " + schema + ".prideq_mods m\n" +
                 "  WHERE p.psms_id = m.mods_psms_id\n" +
                 "    AND p.psms_accession = ?" +
 //                "  GROUP BY psms_id";
@@ -252,42 +255,6 @@ public class PrideqExportRun {
     private HashMap<String, SplitList<String>> parseProjectPMIDs() throws Exception {
         Pride2Utils utils = new Pride2Utils();
         return utils.createProjectPMIDs();
-
-//        HashMap<String, SplitList<String>> map = new HashMap<String, SplitList<String>>();
-//
-//        InputStream input = this.getClass().getClassLoader().getResourceAsStream("database_summary_new.tsv");
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//
-//        String line;
-//        String[] items;
-//        String accession;
-//        SplitList<String> pmidList;
-//        String[] pmids;
-//
-//        List<String> limitedPmidList = getLimitPMIDList();
-//        while ((line = reader.readLine()) != null) {
-//            line = line.trim();
-//            if (line.startsWith("Accession")) {
-//                continue;
-//            }
-//
-//            if (line.length() != 0) {
-//                items = line.split("\t");
-//                accession = items[0];
-//                pmids = items.length <= 12 ? new String[0] : items[12].split(",");
-//                pmidList = new SplitList<String>(MZTabConstants.BAR);
-//                for (String pmid : pmids) {
-//                    if (isFilter() && ! limitedPmidList.contains(pmid.trim())) {
-//                        continue;
-//                    }
-//                    pmidList.add("pubmed:" + pmid.trim());
-//                }
-//                map.put(accession, pmidList);
-//            }
-//        }
-//
-//        reader.close();
-//        return map;
     }
 
     private void createMZTabFile(Species species, File outDir) throws Exception {

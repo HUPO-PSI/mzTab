@@ -155,4 +155,23 @@ public class MTDLineValidateTest {
             logger.debug(e.getMessage());
         }
     }
+
+    @Test
+    public void testDuplicationID() throws Exception {
+        parser.parse(1, "MTD\tstudy_variable[1]-description\tdescription Group B (spike-in 0.74 fmol/uL)", errorList);
+        parser.parse(1, "MTD\tassay[1]-quantification_reagent\t[PRIDE, MS:1002038, unlabeled sample, ]", errorList);
+        parser.parse(1, "MTD\tassay[2]-quantification_reagent\t[PRIDE, PRIDE:0000115, iTRAQ reagent, 115]", errorList);
+        parser.parse(1, "MTD\tsample[1]-tissue[1]\t[BTO, BTO:0000759, liver, ]", errorList);
+        parser.parse(1, "MTD\tsample[2]-species[1]\t[NEWT, 9606, Homo sapiens (Human), ]", errorList);
+        assertTrue(errorList.isEmpty());
+
+        parser.parse(1, "MTD\tstudy_variable[1]-assay_refs\tassay[1], assay[2]", errorList);
+        assertTrue(errorList.isEmpty());
+
+        parser.parse(1, "MTD\tstudy_variable[1]-assay_refs\tassay[1], assay[1]", errorList);
+        assertTrue(errorList.getError(0).getType() == LogicalErrorType.DuplicationID);
+
+        parser.parse(1, "MTD\tstudy_variable[1]-sample_refs\tsample[1], sample[1]", errorList);
+        assertTrue(errorList.getError(1).getType() == LogicalErrorType.DuplicationID);
+    }
 }

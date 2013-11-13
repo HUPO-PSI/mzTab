@@ -77,6 +77,8 @@ public class MZTabErrorTypeMap {
         add(LogicalErrorType.FixedMod);
         add(LogicalErrorType.VariableMod);
         add(LogicalErrorType.PeptideSection);
+        add(LogicalErrorType.QuantificationAbundance);
+        add(LogicalErrorType.DuplicationID);
     }
 
     public MZTabErrorType getType(int code) {

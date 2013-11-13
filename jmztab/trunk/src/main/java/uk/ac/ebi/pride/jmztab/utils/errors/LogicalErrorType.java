@@ -41,4 +41,7 @@ public class LogicalErrorType extends MZTabErrorType {
     public static MZTabErrorType VariableMod = createError(Category.Logical, "VariableMod");
 
     public static MZTabErrorType PeptideSection = createWarn(Category.Logical, "PeptideSection");
+
+    public static MZTabErrorType QuantificationAbundance = createError(Category.Logical, "QuantificationAbundance");
+    public static MZTabErrorType DuplicationID = createError(Category.Logical, "DuplicationID");
 }

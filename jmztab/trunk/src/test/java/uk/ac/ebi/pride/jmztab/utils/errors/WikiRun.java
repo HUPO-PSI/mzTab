@@ -104,10 +104,10 @@ public class WikiRun {
 
     public static void main(String[] args) throws Exception {
         WikiRun run = new WikiRun();
-//        run.printErrorMessage();
+        run.printErrorMessage();
 
-        run.printSummaryTable();
-        run.printCompleteTable();
-        run.printOptionalTable();
+//        run.printSummaryTable();
+//        run.printCompleteTable();
+//        run.printOptionalTable();
     }
 }

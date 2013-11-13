@@ -1,7 +1,10 @@
 package uk.ac.ebi.pride.jmztab;
 
 import uk.ac.ebi.pride.jmztab.gui.MZTabConsolePane;
+import uk.ac.ebi.pride.jmztab.model.MZTabFile;
+import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 
 import javax.swing.*;
@@ -13,6 +16,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Enumeration;
 
@@ -40,7 +44,7 @@ public class MZTabInspector extends JFrame {
 
     public MZTabInspector() {
         setTitle("MZTabInspector v1.0");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         JTabbedPane mainPane = new JTabbedPane();
@@ -50,6 +54,7 @@ public class MZTabInspector extends JFrame {
         getContentPane().add(mainPane, BorderLayout.CENTER);
 
         mainPane.addTab("Validate", getValidatePane());
+        mainPane.addTab("Convert", getConvertPane());
     }
 
     private JPanel getValidatePane() {
@@ -128,6 +133,134 @@ public class MZTabInspector extends JFrame {
 
         validatePane.add(controlPane);
         return validatePane;
+    }
+
+    private File getConvertFile(String outDir, String fileName) {
+        fileName = fileName.replaceAll("\\.", "_") + ".mztab";
+        return new File(outDir, fileName);
+    }
+
+    private JPanel getConvertPane() {
+        JPanel srcFilePane = new JPanel(new FlowLayout());
+        final JTextField srcFileNameField = new JTextField();
+        JPanel srcFileChoosePane = getFileChoosePane(
+            "Choose Converted File: ", srcFileNameField,
+//                new FileNameExtensionFilter("PRIDE XML File(*.xml), mzIdentML File (*.mzid)", "xml", "mzid"), false);
+            new FileNameExtensionFilter("PRIDE XML File(*.xml)", "xml"), false);
+        srcFilePane.add(srcFileChoosePane);
+
+        final ButtonGroup formatGroup = new ButtonGroup();
+        formatGroup.add(new JRadioButton("PRIDE", true));
+//        formatGroup.add(new JRadioButton("mzIdentML"));
+        JPanel formatPane = getParamsPane("Format", formatGroup);
+        srcFilePane.add(formatPane);
+
+        JPanel tarFilePane = new JPanel(new FlowLayout());
+
+        final JTextField tarFileDirField = new JTextField();
+        JPanel tarFileChoosePane = getFileChoosePane(
+            "Choose Target Directory: ", tarFileDirField,
+            null, true);
+        tarFilePane.add(tarFileChoosePane);
+
+        final ButtonGroup levelGroup = new ButtonGroup();
+        levelGroup.add(new JRadioButton("Warn"));
+        levelGroup.add(new JRadioButton("Error", true));
+        JPanel paramPane = getParamsPane("Message Level", levelGroup);
+        tarFilePane.add(paramPane);
+
+        JPanel actionPane = getTitledPane("Action");
+        final JButton btnConvert = new JButton("Convert");
+        actionPane.add(btnConvert);
+        tarFilePane.add(actionPane);
+
+        btnConvert.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                SwingWorker worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        btnConvert.setEnabled(false);
+                        consolePane.clearContent();
+
+                        String fileName = srcFileNameField.getText();
+                        if (fileName == null || fileName.trim().length() == 0) {
+                            JOptionPane.showMessageDialog(MZTabInspector.this, "Please choose a file!");
+                            return null;
+                        }
+
+                        String outDirName = tarFileDirField.getText();
+                        if (outDirName == null || outDirName.trim().length() == 0) {
+                            JOptionPane.showMessageDialog(MZTabInspector.this, "Please choose a target directory!");
+                            return null;
+                        }
+
+                        Enumeration<AbstractButton> elements = levelGroup.getElements();
+                        AbstractButton element;
+                        String levelLabel = "Warn";
+                        while (elements.hasMoreElements()) {
+                            element = elements.nextElement();
+                            if (element.isSelected()) {
+                                levelLabel = element.getText();
+                                break;
+                            }
+                        }
+                        MZTabErrorType.Level level = MZTabErrorType.findLevel(levelLabel);
+
+                        elements = formatGroup.getElements();
+                        String format = "PRIDE";
+                        while (elements.hasMoreElements()) {
+                            element = elements.nextElement();
+                            if (element.isSelected()) {
+                                format = element.getText();
+                                break;
+                            }
+                        }
+
+                        File inFile = new File(fileName);
+
+                        System.out.println("Begin reading " + inFile.getName());
+                        MZTabFileConverter converter;
+                        try {
+                            converter = new MZTabFileConverter(inFile, format);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(MZTabInspector.this, "There exists errors during read file process.");
+                            return null;
+                        }
+
+                        System.out.println("Begin convert to mztab file.");
+                        MZTabFile tabFile = converter.getMZTabFile();
+                        MZTabErrorList errorList = new MZTabErrorList(level);
+
+                        try {
+                            if (errorList.isEmpty()) {
+                                System.out.println("No errors in mztab.");
+                                File outFile = getConvertFile(outDirName, inFile.getName());
+                                System.out.println("Begin print mzTab file, which name is : " + outFile.getAbsolutePath());
+                                tabFile.printMZTab(new FileOutputStream(outFile));
+                                System.out.println("Finish!");
+                                System.out.println();
+                            } else {
+                                errorList.print(System.out);
+                            }
+                        } catch (IOException ioe) {
+                            ioe.printStackTrace();
+                        }
+
+                        btnConvert.setEnabled(true);
+
+                        return null;
+                    }
+                };
+
+                worker.execute();
+            }
+        });
+
+        JPanel convertPane = new JPanel(new BorderLayout());
+        convertPane.add(srcFilePane, BorderLayout.NORTH);
+        convertPane.add(tarFilePane, BorderLayout.CENTER);
+        return convertPane;
     }
 
     private JPanel getTitledPane(String title) {
