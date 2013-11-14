@@ -24,8 +24,8 @@ public class ConnectionFactory {
         Properties p = new Properties();
         p.setProperty("driverClassName", "com.mysql.jdbc.Driver");
         p.setProperty("url", url);
-        p.setProperty("username", "pride");
-        p.setProperty("password", "NinETee9");
+        p.setProperty("username", "pride_ro");
+        p.setProperty("password", "one_oh_one");
         p.setProperty("maxActive", "30");
         p.setProperty("maxIdle", "10");
 

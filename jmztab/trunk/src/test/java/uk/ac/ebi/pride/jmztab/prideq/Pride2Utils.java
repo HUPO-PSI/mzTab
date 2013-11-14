@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import java.util.List;
  * Date: 17/10/13
  */
 public class Pride2Utils {
+    private List<String> pmidList = new ArrayList<String>();
+
     private class Mapping {
         private String accession;
         private String pmid;
@@ -26,7 +29,23 @@ public class Pride2Utils {
         }
     }
 
+    public void setFilterPMIDList(List<String> pmidList) {
+        this.pmidList = pmidList == null ? new ArrayList<String>() : pmidList;
+    }
+
     private List<Mapping> queryProjectPMIDs() throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        if (! pmidList.isEmpty()) {
+            sb.append("(");
+            sb.append(pmidList.get(0));
+        }
+        for (int i = 1; i < pmidList.size(); i++) {
+            sb.append(", ").append(pmidList.get(i));
+        }
+        if (! pmidList.isEmpty()) {
+            sb.append(")");
+        }
+
         String sql = "SELECT e.accession as accession, p.accession as pmid\n" +
             "FROM \n" +
             "    pride.pride_reference_exp_link l, \n" +
@@ -37,6 +56,7 @@ public class Pride2Utils {
             "AND e.experiment_id = l.experiment_id\n" +
             "AND l.public_flag = 1\n" +
             "AND p.cv_label='PubMed'\n" +
+            (pmidList.isEmpty() ? "" : "AND p.accession in " + sb.toString() + "\n") +
             "ORDER BY 1";
 
         List<Mapping> mappingList = new ArrayList<Mapping>();

@@ -169,7 +169,7 @@ public class MZTabRecord {
 
     private MZTabColumn getColumn(String tag, IndexedElement element) {
         Section dataSection = Section.toDataSection(factory.getSection());
-        String header = dataSection.getName() + tag + element.getReference();
+        String header = (dataSection == Section.Small_Molecule ? AbundanceColumn.translate(dataSection.getName()) : dataSection.getName()) + tag + element.getReference();
 
         return factory.findColumnByHeader(header);
     }

@@ -1,6 +1,5 @@
-
---Query Pride-Q database, and export resultset to mzTab
-SELECT p.psms_sequence,
+SELECT p.psms_id,
+	   p.psms_sequence,
        group_concat(concat(m.mods_location, "-", m.mods_main_accession)),
        round(p.psms_prec_mz, 2),
        p.psms_prec_z,

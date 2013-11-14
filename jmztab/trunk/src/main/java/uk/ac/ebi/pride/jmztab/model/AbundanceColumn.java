@@ -44,7 +44,7 @@ public class AbundanceColumn extends MZTabColumn {
      * translate small_molecule --> smallmolecule
      * @see uk.ac.ebi.pride.jmztab.utils.parser.MZTabHeaderLineParser#translate(String)
      */
-    private static String translate(String oldName) {
+    public static String translate(String oldName) {
         if (oldName.equals("small_molecule")) {
             return "smallmolecule";
         } else {

@@ -13,6 +13,8 @@ import java.util.*;
  * Date: 21/12/12
  */
 public class PrideqExportRun {
+    private String schema = "prideq_09_human";
+
 //    private String file_suffix = ".mztab";
     private String file_suffix = ".txt";
 
@@ -109,6 +111,7 @@ public class PrideqExportRun {
 
         MZTabFile tabFile = new MZTabFile(metadata);
         MZTabColumnFactory psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
+        psmColumnFactory.addReliabilityOptionalColumn();
         psmColumnFactory.addOptionalColumn(pride_peptide_score, Double.class);
         psmColumnFactory.addOptionalColumn(pride_cluster_value, Integer.class);
         psmColumnFactory.addOptionalColumn(pride_experiment_accession, String.class);
@@ -117,8 +120,6 @@ public class PrideqExportRun {
         tabFile.setPSMColumnFactory(psmColumnFactory);
 
         Connection conn = ConnectionFactory.getPRIDEQConnection();
-
-        String schema = "prideq_09_human";
 
         String sql = "SELECT p.psms_sequence,\n" +
                 "       group_concat(concat(m.mods_location, \"-\", m.mods_main_accession)),\n" +
@@ -136,7 +137,8 @@ public class PrideqExportRun {
                 "       p.psms_score_DELTA_CN,\n" +
                 "       p.psms_score_SPECTRUM_MILL_PEPTIDE_SCORE,\n" +
                 "       p.psms_score_OMSSA_E_VALUE,\n" +
-                "       p.psms_score_OMSSA_P_VALUE\n" +
+                "       p.psms_score_OMSSA_P_VALUE,\n" +
+                "       p.psms_id\n" +
                 "  FROM " + schema + ".prideq_psms p, " + schema + ".prideq_mods m\n" +
                 "  WHERE p.psms_id = m.mods_psms_id\n" +
                 "    AND p.psms_accession = ?" +
@@ -159,6 +161,8 @@ public class PrideqExportRun {
         while (result.next()) {
             psm = new PSM(psmColumnFactory, metadata);
             psm.setSequence(result.getString(1));
+            psm.setPSM_ID(result.getString("psms_id"));
+            psm.setAccession(accession);
             psm.setModifications(result.getString(2));
             psm.setExpMassToCharge(result.getDouble(3));
             psm.setCharge(result.getInt(4));
@@ -254,6 +258,7 @@ public class PrideqExportRun {
      */
     private HashMap<String, SplitList<String>> parseProjectPMIDs() throws Exception {
         Pride2Utils utils = new Pride2Utils();
+//        utils.setFilterPMIDList(getLimitPMIDList());
         return utils.createProjectPMIDs();
     }
 
@@ -263,7 +268,7 @@ public class PrideqExportRun {
         }
 
         Connection conn = ConnectionFactory.getPRIDEQConnection();
-        String sql = "select distinct(psms_accession) from prideq_07_human.prideq_psms";
+        String sql = "select distinct(psms_accession) from " + schema + ".prideq_psms";
 
         PreparedStatement statement = conn.prepareStatement(sql);
         ResultSet result = statement.executeQuery();
@@ -274,6 +279,10 @@ public class PrideqExportRun {
         while (result.next()) {
             accession = result.getString(1);
             SplitList<String> pmidList = map.get(accession);
+            if (pmidList == null) {
+                continue;
+            }
+
             if (isFilter() && pmidList.isEmpty()) {
                 continue;
             }

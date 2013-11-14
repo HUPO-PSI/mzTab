@@ -530,7 +530,7 @@ public class MTDLineParser extends MZTabLineParser {
                                     throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel,
                                         valueLabel, metadata.getMZTabMode().toString(), metadata.getMZTabType().toString()));
                                 }
-                                if (metadata.getStudyVariableMap().get(id).getAssayMap().containsKey(e.getId())) {
+                                if (metadata.getStudyVariableMap().containsKey(id) && metadata.getStudyVariableMap().get(id).getAssayMap().containsKey(e.getId())) {
                                     errorList.add(new MZTabError(LogicalErrorType.DuplicationID, lineNumber, valueLabel));
                                 }
                                 metadata.addStudyVariableAssay(id, metadata.getAssayMap().get(e.getId()));
@@ -544,7 +544,7 @@ public class MTDLineParser extends MZTabLineParser {
                                     throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, valueLabel,
                                         valueLabel, metadata.getMZTabMode().toString(), metadata.getMZTabType().toString()));
                                 }
-                                if (metadata.getStudyVariableMap().get(id).getSampleMap().containsKey(e.getId())) {
+                                if (metadata.getStudyVariableMap().containsKey(id) && metadata.getStudyVariableMap().get(id).getSampleMap().containsKey(e.getId())) {
                                     errorList.add(new MZTabError(LogicalErrorType.DuplicationID, lineNumber, valueLabel));
                                 }
                                 metadata.addStudyVariableSample(id, metadata.getSampleMap().get(e.getId()));

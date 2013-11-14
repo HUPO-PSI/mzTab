@@ -109,9 +109,9 @@ public class MZTabFileParser {
             if (smlFactory != null && ! smlFactory.getAbundanceColumnMapping().isEmpty()) {
                 hasAbundance = true;
             }
-        }
-        if (! hasAbundance) {
-            throw new MZTabException(new MZTabError(LogicalErrorType.QuantificationAbundance, -1));
+            if (! hasAbundance) {
+                throw new MZTabException(new MZTabError(LogicalErrorType.QuantificationAbundance, -1));
+            }
         }
     }
 
@@ -155,7 +155,7 @@ public class MZTabFileParser {
         while ((line = reader.readLine()) != null) {
             lineNumber++;
 
-            if (line.trim().isEmpty()) {
+            if (MZTabUtils.isEmpty(line)) {
                 continue;
             }
 

@@ -3,8 +3,7 @@ package uk.ac.ebi.pride.jmztab.utils.parser;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
-import uk.ac.ebi.pride.jmztab.model.Section;
+import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
@@ -21,13 +20,15 @@ import static junit.framework.Assert.assertTrue;
 public class MTDLineValidateTest {
     private static Logger logger = Logger.getLogger(MTDLineValidateTest.class);
 
+    private Metadata metadata;
     private MTDLineParser parser;
     private MZTabErrorList errorList;
 
     @Before
     public void setUp() throws Exception {
         parser = new MTDLineParser();
-        parser.getMetadata().setDescription("test...");
+        metadata = parser.getMetadata();
+        metadata.setDescription("test...");
         errorList = new MZTabErrorList();
     }
 
@@ -159,11 +160,16 @@ public class MTDLineValidateTest {
     @Test
     public void testDuplicationID() throws Exception {
         parser.parse(1, "MTD\tstudy_variable[1]-description\tdescription Group B (spike-in 0.74 fmol/uL)", errorList);
-        parser.parse(1, "MTD\tassay[1]-quantification_reagent\t[PRIDE, MS:1002038, unlabeled sample, ]", errorList);
-        parser.parse(1, "MTD\tassay[2]-quantification_reagent\t[PRIDE, PRIDE:0000115, iTRAQ reagent, 115]", errorList);
-        parser.parse(1, "MTD\tsample[1]-tissue[1]\t[BTO, BTO:0000759, liver, ]", errorList);
-        parser.parse(1, "MTD\tsample[2]-species[1]\t[NEWT, 9606, Homo sapiens (Human), ]", errorList);
         assertTrue(errorList.isEmpty());
+
+        Sample sample1 = new Sample(1);
+        Sample sample2 = new Sample(2);
+        metadata.addSample(sample1);
+        metadata.addSample(sample2);
+        Assay assay1 = new Assay(1);
+        Assay assay2 = new Assay(2);
+        metadata.addAssay(assay1);
+        metadata.addAssay(assay2);
 
         parser.parse(1, "MTD\tstudy_variable[1]-assay_refs\tassay[1], assay[2]", errorList);
         assertTrue(errorList.isEmpty());
