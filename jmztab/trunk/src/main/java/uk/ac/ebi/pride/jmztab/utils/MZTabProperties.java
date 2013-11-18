@@ -3,8 +3,6 @@ package uk.ac.ebi.pride.jmztab.utils;
 import org.apache.log4j.Logger;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -25,23 +23,11 @@ public class MZTabProperties {
         String crosscheckProperties = "conf/mztab_crosscheck_error.properties";
         try {
             properties = new Properties();
-            FileReader reader = new FileReader(mzTabProperties);
-            properties.load(reader);
-            reader.close();
 
-            reader = new FileReader(formatProperties);
-            properties.load(reader);
-            reader.close();
-
-            reader = new FileReader(logicalProperties);
-            properties.load(reader);
-            reader.close();
-
-            reader = new FileReader(crosscheckProperties);
-            properties.load(reader);
-            reader.close();
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
+            properties.load(MZTabProperties.class.getClassLoader().getResourceAsStream(mzTabProperties));
+            properties.load(MZTabProperties.class.getClassLoader().getResourceAsStream(formatProperties));
+            properties.load(MZTabProperties.class.getClassLoader().getResourceAsStream(logicalProperties));
+            properties.load(MZTabProperties.class.getClassLoader().getResourceAsStream(crosscheckProperties));
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

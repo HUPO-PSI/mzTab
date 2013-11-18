@@ -1,7 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import org.junit.Test;
-import uk.ac.ebi.pride.jmztab.model.*;
 
 import java.net.URI;
 import java.net.URL;

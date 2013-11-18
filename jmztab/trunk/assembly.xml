@@ -37,10 +37,6 @@
             </excludes>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/conf</directory>
-            <outputDirectory>${assembly.dir}/conf</outputDirectory>
-        </fileSet>
-        <fileSet>
             <directory>/${project.basedir}/../examples</directory>
             <outputDirectory>${assembly.dir}/examples</outputDirectory>
             <includes>
