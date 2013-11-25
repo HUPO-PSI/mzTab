@@ -178,84 +178,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
     }
 
-    private enum SearchEngineParameter {
-        MASCOT("MS", "MS:1001207", "Mascot"),
-        OMSSA("MS", "MS:1001475", "OMSSA"),
-        SEQUEST("MS", "MS:1001208", "Sequest"),
-        SPECTRUMMILL( "MS", "MS:1000687", "Spectrum Mill for MassHunter Workstation"),
-        SPECTRAST("MS", "MS:1001477", "SpectaST"),
-        XTANDEM_1("MS", "MS:1001476", "X!Tandem"),
-        XTANDEM_2("MS", "MS:1001476", "X!Tandem");
-
-        private String cvLabel;
-        private String accession;
-        private String name;
-
-        private SearchEngineParameter(String cvLabel, String accession, String name) {
-            this.cvLabel = cvLabel;
-            this.accession = accession;
-            this.name = name;
-        }
-    }
-
-    private enum SearchEngineScoreParameter {
-        MASCOT("PRIDE", "PRIDE:0000069", "Mascot score", null),
-        OMSSA_E("PRIDE", "PRIDE:0000185", "OMSSA E-value", null),
-        OMSSA_P("PRIDE", "PRIDE:0000186", "OMSSA P-value", null),
-        SEQUEST("PRIDE", "PRIDE:0000053", "Sequest score", null),
-        SPECTRUMMILL( "PRIDE", "PRIDE:0000177", "Spectrum Mill peptide score", null),
-        XTANDEM("PRIDE", "PRIDE:0000176", "X!Tandem Hyperscore", null),
-        SLOMO("PRIDE", "PRIDE:0000275", "SloMo score", null),
-        DISCRIMINANT("PRIDE", "PRIDE:0000138", "Discriminant score", null);
-
-        private String cvLabel;
-        private String accession;
-        private String name;
-        private Double value;
-
-        private SearchEngineScoreParameter(String cvLabel, String accession, String name, Double value) {
-            this.cvLabel = cvLabel;
-            this.accession = accession;
-            this.name = name;
-            this.value = value;
-        }
-    }
-
-    /**
-     * Tries to guess which search engine is described by the passed name. In case no matching parameter
-     * is found, null is returned.
-     */
-    private CVParam findSearchEngineParam(String searchEngineName) {
-        if (searchEngineName == null) {
-            return null;
-        }
-
-        searchEngineName = searchEngineName.toLowerCase();
-
-        SearchEngineParameter param = null;
-        if (searchEngineName.contains("mascot")) {
-            param = SearchEngineParameter.MASCOT;
-        } else if (searchEngineName.contains("omssa")) {
-            param = SearchEngineParameter.OMSSA;
-        } else if (searchEngineName.contains("sequest")) {
-            param = SearchEngineParameter.SEQUEST;
-        } else if (searchEngineName.contains("spectrummill")) {
-            param = SearchEngineParameter.SPECTRUMMILL;
-        } else if (searchEngineName.contains("spectrast")) {
-            param = SearchEngineParameter.SPECTRAST;
-        } else if (searchEngineName.contains("xtandem")) {
-            param = SearchEngineParameter.XTANDEM_1;
-        } else if (searchEngineName.contains("x!tandem")) {
-            param = SearchEngineParameter.XTANDEM_2;
-        }
-
-        if (param == null) {
-            return null;
-        } else {
-            return new CVParam(param.cvLabel, param.accession, param.name, null);
-        }
-    }
-
     private CVParam convertParam(uk.ac.ebi.pride.jaxb.model.CvParam param) {
         return new CVParam(param.getCvLabel(), param.getAccession(), param.getName(), param.getValue());
     }
@@ -595,28 +517,24 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     break;
                 }
             }
+
             if (score == null) {
-                String searchEngineName = identification.getSearchEngine().toLowerCase();
+                String searchEngineName = identification.getSearchEngine();
                 String searchEngineScore = identification.getScore().toString();
-                if (searchEngineName.contains("mascot")) {
-                    score = new CVParam("MS", "MS:1001171", "Mascot:score", searchEngineScore);
-                }
-                else if (searchEngineName.contains("ommsa")) {
-                    score = new CVParam("MS", "MS:1001328", "OMSSA:evalue", searchEngineScore);
-                }
-                else if (searchEngineName.contains("sequest")) {
-                    score = new CVParam("PRIDE", "PRIDE:0000053", "Sequest score", searchEngineScore);
-                }
-                else if (searchEngineName.contains("spectrum mill")) {
-                    score = new CVParam("PRIDE", "PRIDE:0000177", "Spectrum Mill peptide score", searchEngineScore);
-                }
-                else if (searchEngineName.contains("x!tandem")) {
-                    score = new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", searchEngineScore);
-                }
-                // not find score term in search engine score
-                else if (searchEngineName.contains("spectrast")) {
+
+                SearchEngineParam searchEngineParam = SearchEngineParam.findParam(searchEngineName);
+                if (SearchEngineParam.MASCOT.equals(searchEngineParam)) {
+                    score = SearchEngineScoreParam.MASCOT_SCORE.setScore(searchEngineScore);
+                } else if (SearchEngineParam.OMSSA.equals(searchEngineParam)) {
+                    score = SearchEngineScoreParam.OMSSA_EVALUE.setScore(searchEngineScore);
+                } else if (SearchEngineParam.SEQUEST.equals(searchEngineParam)) {
+                    score = SearchEngineScoreParam.SEQUEST_SCORE.setScore(searchEngineScore);
+                } else if (SearchEngineParam.SPECTRUM_MILL_PEPTIDE.equals(searchEngineParam)) {
+                    score = SearchEngineScoreParam.SPECTRUMMILL_SCORE.setScore(searchEngineScore);
+                } else if (SearchEngineParam.XTANDEM.equals(searchEngineParam)) {
+                    score = SearchEngineScoreParam.XTANDEM_HYPERSCORE.setScore(searchEngineScore);
+                } else if (SearchEngineParam.SPECTRA_ST.equals(searchEngineParam)) {
                     score = new CVParam(null, null, "SpectraST score", searchEngineScore);
-                    protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
                 }
             }
 
@@ -638,7 +556,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         protein.setDatabase(identification.getDatabase());
         protein.setDatabaseVersion(identification.getDatabaseVersion());
 
-        uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = findSearchEngineParam(identification.getSearchEngine());
+        uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = SearchEngineParam.findParam(identification.getSearchEngine());
         if (searchEngineParam != null) {
             protein.addSearchEngineParam(searchEngineParam);
         }
@@ -752,12 +670,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         for (CvParam param : cvParamList) {
             if (Utils.PEPTIDE_SCORE_PARAM.isScoreAccession(param.getAccession())) {
                 return convertParam(param);
-            } else {
-                for (SearchEngineScoreParameter scoreParameter : SearchEngineScoreParameter.values()) {
-                    if (scoreParameter.accession.equalsIgnoreCase(param.getAccession())) {
-                        return convertParam(param);
-                    }
-                }
             }
         }
 
@@ -804,7 +716,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             psm.setDatabaseVersion(identification.getDatabaseVersion());
 
             // set the search engine - is possible
-            uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = findSearchEngineParam(identification.getSearchEngine());
+            uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = SearchEngineParam.findParam(identification.getSearchEngine());
             if (searchEngineParam != null) {
                 psm.addSearchEngineParam(searchEngineParam);
                 psm.addSearchEngineScoreParam(getSearchEngineScores(peptideItem.getAdditional().getCvParam()));
