@@ -1,9 +1,11 @@
 package uk.ac.ebi.pride.jmztab;
 
+import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
 import uk.ac.ebi.pride.jmztab.gui.MZTabConsolePane;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 
@@ -208,11 +210,11 @@ public class MZTabInspector extends JFrame {
                         MZTabErrorType.Level level = MZTabErrorType.findLevel(levelLabel);
 
                         elements = formatGroup.getElements();
-                        String format = "PRIDE";
+                        MassSpecFileFormat format = MassSpecFileFormat.PRIDE;
                         while (elements.hasMoreElements()) {
                             element = elements.nextElement();
                             if (element.isSelected()) {
-                                format = element.getText();
+                                format = ConvertProvider.getFormat(element.getText());
                                 break;
                             }
                         }

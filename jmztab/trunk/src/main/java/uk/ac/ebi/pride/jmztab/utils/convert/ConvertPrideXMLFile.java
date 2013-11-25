@@ -26,23 +26,16 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
  * User: Qingwei
  * Date: 07/06/13
  */
-public class ConvertPrideXMLFile extends ConvertFile {
+public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     private PrideXmlReader reader;
-    private MsRun msRun;
 
-    public ConvertPrideXMLFile(File inFile) {
-        super(inFile, PRIDE);
-        this.reader = new PrideXmlReader(inFile);
+    public ConvertPrideXMLFile(File source) {
+        super(source, null);
+    }
 
-        msRun = new MsRun(1);
-        try {
-            msRun.setLocation(inFile.toURI().toURL());
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException(e);
-        }
-
-        createArchitecture();
-        fillData();
+    @Override
+    protected void init(Void noParams) {
+        this.reader = new PrideXmlReader(source);
     }
 
     @Override
@@ -263,42 +256,6 @@ public class ConvertPrideXMLFile extends ConvertFile {
         }
     }
 
-//    private CVParam findSearchEngineScoreParam(Identification identification) {
-//        String searchEngineName = identification.getSearchEngine();
-//        if (searchEngineName == null) {
-//            return null;
-//        }
-//
-//        searchEngineName = searchEngineName.toLowerCase();
-//
-//        SearchEngineScoreParameter param = null;
-//        if (searchEngineName.contains("mascot")) {
-//            param = SearchEngineScoreParameter.MASCOT;
-//            param.value = identification.getScore();
-//        } else if (searchEngineName.contains("omssa")) {
-//            param = SearchEngineScoreParameter.OMSSA_E;
-//            param.value = identification.getScore();
-//        } else if (searchEngineName.contains("sequest")) {
-//            param = SearchEngineScoreParameter.SEQUEST;
-//            param.value = identification.getScore();
-//        } else if (searchEngineName.contains("spectrummill")) {
-//            param = SearchEngineScoreParameter.SPECTRUMMILL;
-//            param.value = identification.getScore();
-//        } else if (searchEngineName.contains("xtandem")) {
-//            param = SearchEngineScoreParameter.XTANDEM_1;
-//            param.value = identification.getScore();
-//        } else if (searchEngineName.contains("x!tandem")) {
-//            param = SearchEngineScoreParameter.XTANDEM_2;
-//            param.value = identification.getScore();
-//        }
-//
-//        if (param == null) {
-//            return null;
-//        } else {
-//            return new CVParam(param.cvLabel, param.accession, param.name, (param.value == null ? "" : param.value.toString()));
-//        }
-//    }
-
     private CVParam convertParam(uk.ac.ebi.pride.jaxb.model.CvParam param) {
         return new CVParam(param.getCvLabel(), param.getAccession(), param.getName(), param.getValue());
     }
@@ -383,10 +340,6 @@ public class ConvertPrideXMLFile extends ConvertFile {
     }
 
     private void loadMsRun(String expAccession) {
-        if (!inFile.isFile()) {
-            return;
-        }
-
         metadata.addMsRunFormat(1, new CVParam("MS", "MS:1000564", "PSI mzData file", null));
         metadata.addMsRunIdFormat(1, new CVParam("MS", "MS:1000777", "spectrum identifier nativeID format", null));
         try {
@@ -503,11 +456,11 @@ public class ConvertPrideXMLFile extends ConvertFile {
         if (metadata.getSampleMap().size() == 1) {
             // Identification
             metadata.addAssaySample(1, metadata.getSampleMap().get(1));
-            metadata.addAssayMsRun(1, msRun);
+            metadata.addAssayMsRun(1, metadata.getMsRunMap().get(1));
         } else {
             for (Assay assay : metadata.getAssayMap().values()) {
                 assay.setSample(metadata.getSampleMap().get(assay.getId()));
-                assay.setMsRun(msRun);
+                assay.setMsRun(metadata.getMsRunMap().get(1));
             }
         }
     }
@@ -584,10 +537,10 @@ public class ConvertPrideXMLFile extends ConvertFile {
         }
 
         // ms_run[1] optional columns
-        proteinColumnFactory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun);
-        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun);
-        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun);
-        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun);
+        proteinColumnFactory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, metadata.getMsRunMap().get(1));
+        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PSMS, metadata.getMsRunMap().get(1));
+        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, metadata.getMsRunMap().get(1));
+        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, metadata.getMsRunMap().get(1));
         // for quantification file, need provide all optional columns for each ms_run.
         if (! isIdentification()) {
             for (Assay assay : metadata.getAssayMap().values()) {
@@ -599,18 +552,8 @@ public class ConvertPrideXMLFile extends ConvertFile {
     }
 
     @Override
-    protected MZTabColumnFactory convertPeptideColumnFactory() {
-        return null;
-    }
-
-    @Override
     protected MZTabColumnFactory convertPSMColumnFactory() {
         return MZTabColumnFactory.getInstance(Section.PSM);
-    }
-
-    @Override
-    protected MZTabColumnFactory convertSmallMoleculeColumnFactory() {
-        return null;
     }
 
     @Override
@@ -648,7 +591,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
                 score = getSearchEngineScores(peptideItem.getAdditional().getCvParam());
                 if (score != null) {
                     score = new CVParam(score.getCvLabel(), score.getAccession(), score.getName(), identification.getScore().toString());
-                    protein.addSearchEngineScoreParam(msRun, score);
+                    protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
                     break;
                 }
             }
@@ -673,7 +616,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
                 // not find score term in search engine score
                 else if (searchEngineName.contains("spectrast")) {
                     score = new CVParam(null, null, "SpectraST score", searchEngineScore);
-                    protein.addSearchEngineScoreParam(msRun, score);
+                    protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
                 }
             }
 
@@ -733,8 +676,8 @@ public class ConvertPrideXMLFile extends ConvertFile {
             distinctPeptideList.add(sb.toString());
             allPeptideList.add(item.getSequence());
         }
-        protein.setNumPSMs(msRun, allPeptideList.size());
-        protein.setNumPeptidesDistinct(msRun, distinctPeptideList.size());
+        protein.setNumPSMs(metadata.getMsRunMap().get(1), allPeptideList.size());
+        protein.setNumPeptidesDistinct(metadata.getMsRunMap().get(1), distinctPeptideList.size());
 
         // add the indistinguishable accessions to the ambiguity members
         List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
@@ -847,6 +790,10 @@ public class ConvertPrideXMLFile extends ConvertFile {
         List<PSM> psmList = new ArrayList<PSM>();
 
         for (PeptideItem peptideItem : identification.getPeptideItem()) {
+            if (peptideItem.getSpectrum() == null) {
+                continue;
+            }
+
             // create the peptide object
             PSM psm = new PSM(psmColumnFactory, metadata);
 
@@ -885,7 +832,7 @@ public class ConvertPrideXMLFile extends ConvertFile {
 
             // set the peptide spectrum reference
             String spectrumReference = peptideItem.getSpectrum() == null ? "null" : Integer.toString(peptideItem.getSpectrum().getId());
-            psm.addSpectraRef(new SpectraRef(msRun, "spectrum=" + spectrumReference));
+            psm.addSpectraRef(new SpectraRef(metadata.getMsRunMap().get(1), "spectrum=" + spectrumReference));
 
             if (peptideItem.getStart() != null) {
                 psm.setStart(peptideItem.getStart().toString());
@@ -893,7 +840,6 @@ public class ConvertPrideXMLFile extends ConvertFile {
             if (peptideItem.getEnd() != null) {
                 psm.setEnd(peptideItem.getEnd().toString());
             }
-
 
             // process the additional params -- mainly check for quantity units
             if (peptideItem.getAdditional() != null) {

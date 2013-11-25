@@ -1,9 +1,9 @@
 package uk.ac.ebi.pride.jmztab.utils;
 
 
+import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;
-import uk.ac.ebi.pride.jmztab.utils.convert.ConvertMzIndentMLFile;
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertPrideXMLFile;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
@@ -18,20 +18,22 @@ import java.util.SortedMap;
  */
 public class MZTabFileConverter {
     private MZTabErrorList errorList = new MZTabErrorList();
-    private ConvertFile convertFile;
+    private ConvertProvider convertProvider;
 
-    public MZTabFileConverter(File inFile, String format) {
+    public MZTabFileConverter(File inFile, MassSpecFileFormat format) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
 
-        if (format.equalsIgnoreCase(ConvertFile.PRIDE)) {
-            convertFile = new ConvertPrideXMLFile(inFile);
-        } else if (format.equalsIgnoreCase(ConvertFile.mzIdentML)) {
-            convertFile = new ConvertMzIndentMLFile(inFile);
+        switch (format) {
+            case PRIDE:
+                convertProvider = new ConvertPrideXMLFile(inFile);
+                break;
+            default:
+                throw new IllegalArgumentException("Can not convert " + format + " to mztab.");
         }
 
-        check(convertFile.getMZTabFile());
+        check(convertProvider.getMZTabFile());
     }
 
     private void check(MZTabFile mzTabFile) {
@@ -214,7 +216,7 @@ public class MZTabFileConverter {
     }
 
     public MZTabFile getMZTabFile() {
-        return convertFile.getMZTabFile();
+        return convertProvider.getMZTabFile();
     }
 
     public MZTabErrorList getErrorList() {

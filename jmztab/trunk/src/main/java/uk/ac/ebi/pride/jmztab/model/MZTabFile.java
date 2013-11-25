@@ -244,12 +244,20 @@ public class MZTabFile {
         return Collections.unmodifiableCollection(smallMolecules.values());
     }
 
+    public boolean isEmpty() {
+        return proteins.isEmpty() && peptides.isEmpty() && psms.isEmpty() && smallMolecules.isEmpty();
+    }
+
     public void printMZTab(OutputStream out) throws IOException {
+        if (isEmpty()) {
+            return;
+        }
+
         out.write(metadata.toString().getBytes());
         out.write(NEW_LINE.getBytes());
 
         // print protein
-        if (proteinColumnFactory != null) {
+        if (proteinColumnFactory != null && ! proteins.isEmpty()) {
             out.write(proteinColumnFactory.toString().getBytes());
             out.write(NEW_LINE.getBytes());
             for (Protein protein : proteins.values()) {
@@ -260,7 +268,7 @@ public class MZTabFile {
         }
 
         // print peptide
-        if (peptideColumnFactory != null) {
+        if (peptideColumnFactory != null && ! peptides.isEmpty()) {
             out.write(peptideColumnFactory.toString().getBytes());
             out.write(NEW_LINE.getBytes());
 
@@ -272,7 +280,7 @@ public class MZTabFile {
         }
 
         // print PSM
-        if (psmColumnFactory != null) {
+        if (psmColumnFactory != null && ! psms.isEmpty()) {
             out.write(psmColumnFactory.toString().getBytes());
             out.write(NEW_LINE.getBytes());
 
@@ -284,7 +292,7 @@ public class MZTabFile {
         }
 
         // print small molecule
-        if (smallMoleculeColumnFactory != null) {
+        if (smallMoleculeColumnFactory != null && ! smallMolecules.isEmpty()) {
             out.write(smallMoleculeColumnFactory.toString().getBytes());
             out.write(NEW_LINE.getBytes());
 

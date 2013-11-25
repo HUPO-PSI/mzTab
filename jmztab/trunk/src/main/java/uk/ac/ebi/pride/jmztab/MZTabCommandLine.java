@@ -1,10 +1,11 @@
 package uk.ac.ebi.pride.jmztab;
 
 import org.apache.commons.cli.*;
+import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
-import uk.ac.ebi.pride.jmztab.utils.convert.ConvertFile;
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorTypeMap;
@@ -128,24 +129,21 @@ public class MZTabCommandLine {
             } else if (line.hasOption(convertOpt)) {
                 String[] values = line.getOptionValues(convertOpt);
                 File inFile = null;
-                String format = null;
+                MassSpecFileFormat format = MassSpecFileFormat.PRIDE;
                 for (int i = 0; i < values.length; i++) {
                     String type = values[i++].trim();
                     String value = values[i].trim();
                     if (type.equals(inFileOpt)) {
                         inFile = new File(inDir, value.trim());
                     } else if (type.equals(formatOpt)) {
-                        format = value.trim();
+                        format = ConvertProvider.getFormat(value.trim());
                     }
                 }
                 if (inFile == null) {
                     throw new IllegalArgumentException("Not setting input file!");
                 }
-                if (format == null) {
-                    format = ConvertFile.PRIDE;
-                }
 
-                System.out.println("Begin convert " + inFile.getAbsolutePath() + " which format is " + format + " to mztab file.");
+                System.out.println("Begin convert " + inFile.getAbsolutePath() + " which format is " + format.name() + " to mztab file.");
                 MZTabFileConverter converter = new MZTabFileConverter(inFile, format);
                 MZTabFile tabFile = converter.getMZTabFile();
                 MZTabErrorList errorList = converter.getErrorList();

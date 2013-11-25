@@ -1,8 +1,8 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
+import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
 import uk.ac.ebi.pride.jmztab.model.*;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -10,9 +10,9 @@ import java.util.Collection;
  * User: Qingwei
  * Date: 12/03/13
  */
-public abstract class ConvertFile {
-    protected File inFile;
-    protected String format;
+public abstract class ConvertProvider<T, V> {
+    protected T source;
+    protected V params;
     protected Metadata metadata;
     protected MZTabColumnFactory proteinColumnFactory;
     protected MZTabColumnFactory peptideColumnFactory;
@@ -25,16 +25,33 @@ public abstract class ConvertFile {
 
     private MZTabFile mzTabFile;
 
-    public final static String PRIDE = "PRIDE";
-    public final static String mzIdentML = "mzIndenML";
+    public ConvertProvider(T source, V params) {
+        if (source == null) {
+            throw new NullPointerException("Convert source can not set null!");
+        }
+        this.source = source;
 
-    public ConvertFile(File inFile, String format) {
-        if (inFile == null || inFile.isDirectory()) {
-            throw new IllegalArgumentException("Invalid input file " + inFile);
+        init(params);
+        createArchitecture();
+        fillData();
+    }
+
+    public static MassSpecFileFormat getFormat(String format) {
+        if (MZTabUtils.isEmpty(format)) {
+            return null;
         }
 
-        this.format = format;
-        this.inFile = inFile;
+        if (format.equalsIgnoreCase(MassSpecFileFormat.PRIDE.name())) {
+            return MassSpecFileFormat.PRIDE;
+        } else if (format.equalsIgnoreCase(MassSpecFileFormat.MZIDENTML.name())) {
+            return MassSpecFileFormat.MZIDENTML;
+        } else {
+            return MassSpecFileFormat.PRIDE;
+        }
+    }
+
+    protected void init(V params) {
+        this.params = params;
     }
 
     /**
@@ -103,9 +120,22 @@ public abstract class ConvertFile {
     }
 
     protected abstract Metadata convertMetadata();
-    protected abstract MZTabColumnFactory convertProteinColumnFactory();
-    protected abstract MZTabColumnFactory convertPeptideColumnFactory();
-    protected abstract MZTabColumnFactory convertPSMColumnFactory();
-    protected abstract MZTabColumnFactory convertSmallMoleculeColumnFactory();
+
+    protected MZTabColumnFactory convertProteinColumnFactory() {
+        return null;
+    }
+
+    protected MZTabColumnFactory convertPeptideColumnFactory() {
+        return null;
+    }
+
+    protected MZTabColumnFactory convertPSMColumnFactory() {
+        return null;
+    }
+
+    protected MZTabColumnFactory convertSmallMoleculeColumnFactory() {
+        return null;
+    }
+
     protected abstract void fillData();
 }
