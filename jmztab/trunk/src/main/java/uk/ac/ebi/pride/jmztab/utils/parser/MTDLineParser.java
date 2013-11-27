@@ -217,6 +217,9 @@ public class MTDLineParser extends MZTabLineParser {
         if (matcher.find()) {
             // Stage 1: create Unit.
             MetadataElement element = MetadataElement.findElement(matcher.group(1));
+            if (element == null) {
+                throw new MZTabException(new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, defineLabel));
+            }
 
             Integer id;
             MetadataProperty property;
