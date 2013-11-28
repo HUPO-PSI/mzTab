@@ -29,12 +29,16 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
 public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     private PrideXmlReader reader;
 
+    private Metadata metadata;
+    private MZTabColumnFactory proteinColumnFactory;
+    private MZTabColumnFactory psmColumnFactory;
+
     public ConvertPrideXMLFile(File source) {
         super(source, null);
     }
 
     @Override
-    protected void init(Void noParams) {
+    protected void init() {
         this.reader = new PrideXmlReader(source);
     }
 
@@ -451,7 +455,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
     @Override
     protected MZTabColumnFactory convertProteinColumnFactory() {
-        MZTabColumnFactory proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
+        this.proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
 
         // If not provide protein_quantification_unit in metadata, default value is Ratio
         if (! isIdentification() && metadata.getProteinQuantificationUnit() == null) {
@@ -475,7 +479,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
     @Override
     protected MZTabColumnFactory convertPSMColumnFactory() {
-        return MZTabColumnFactory.getInstance(Section.PSM);
+        this.psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
+        return this.psmColumnFactory;
     }
 
     @Override

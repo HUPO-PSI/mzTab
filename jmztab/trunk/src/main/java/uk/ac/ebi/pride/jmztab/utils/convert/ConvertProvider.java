@@ -13,11 +13,11 @@ import java.util.Collection;
 public abstract class ConvertProvider<T, V> {
     protected T source;
     protected V params;
-    protected Metadata metadata;
-    protected MZTabColumnFactory proteinColumnFactory;
-    protected MZTabColumnFactory peptideColumnFactory;
-    protected MZTabColumnFactory psmColumnFactory;
-    protected MZTabColumnFactory smallMoleculeColumnFactory;
+    private Metadata metadata;
+    private MZTabColumnFactory proteinColumnFactory;
+    private MZTabColumnFactory peptideColumnFactory;
+    private MZTabColumnFactory psmColumnFactory;
+    private MZTabColumnFactory smallMoleculeColumnFactory;
     protected Collection<Protein> proteins;
     protected Collection<Peptide> peptides;
     protected Collection<PSM> psms;
@@ -30,10 +30,10 @@ public abstract class ConvertProvider<T, V> {
             throw new NullPointerException("Convert source can not set null!");
         }
         this.source = source;
+        this.params = params;
 
-        init(params);
+        init();
         createArchitecture();
-        fillData();
     }
 
     public static MassSpecFileFormat getFormat(String format) {
@@ -50,8 +50,10 @@ public abstract class ConvertProvider<T, V> {
         }
     }
 
-    protected void init(V params) {
-        this.params = params;
+    /**
+     * Do some initial setting operations. This method will be called in Construct method.
+     */
+    protected void init() {
     }
 
     /**
@@ -59,7 +61,7 @@ public abstract class ConvertProvider<T, V> {
      * metadata, protein/peptide/small_molecule header line
      * empty table section.
      */
-    protected void createArchitecture() {
+    private void createArchitecture() {
         this.metadata = convertMetadata();
 
         this.proteinColumnFactory = convertProteinColumnFactory();
@@ -86,6 +88,7 @@ public abstract class ConvertProvider<T, V> {
     public MZTabFile getMZTabFile() {
         if (this.mzTabFile == null) {
             mzTabFile = new MZTabFile(metadata);
+            fillData();
 
             if (proteinColumnFactory != null) {
                 mzTabFile.setProteinColumnFactory(proteinColumnFactory);
@@ -137,5 +140,8 @@ public abstract class ConvertProvider<T, V> {
         return null;
     }
 
+    /**
+     * Fill records into model. This method will be called in {@link #getMZTabFile()} method.
+     */
     protected abstract void fillData();
 }
