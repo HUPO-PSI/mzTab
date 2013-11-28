@@ -38,10 +38,14 @@
 || *Description*: || file generated using the mztab-exporter (converted PRIDE experiment accession 1643) containing peptide and protein identification data. ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt] ||
 || || ||
+|| *Name*: || Lipidomics example: complete quantification report ||
+|| *Description*: || File generated LDA mzTab export for small molecules. Report of a “Complete Quanification report” lipidomics experiment for the lipid class TG. Quantification on 3 study variables (HFD/FED/FAS), 6+6+6 assays (biological replicates) reported, identifications reported. The analysis contains lipid extracts from lipid droplets of mouse hepatocytes. Study variable (feeding conditions): HFD = high fat diet; FED = normal diet and fed before sacrifice; FAS = normal diet and fasted before sacrifice. ||
+|| *Link*: || [http://mztab.googlecode.com/svn/examples/lipidomics-HFD-LD-study-TG.mzTab lipidomics-HFD-LD-study-TG.mzTab] ||
+|| || ||
 <wiki:comment>
-|| *Name*: || Lipidomics example ||
-|| *Description*: || Example containing MS lipidomics data produced by the Lipid Data Analyzer tool (http://genome.tugraz.at/lda/lda_download.shtml). ||
-|| *Link*: || [http://mztab.googlecode.com/svn/examples/mztab_lipidomics_example.txt mztab_lipidomics_example.txt] ||
+|| *Name*: || Lipidomics example 2 ||
+|| *Description*: || these are essentially the same mice as before, but other lipid classes were measured (SM, PE, PC, LPC, DG, PS). The reason is that lipid droplets contain bulk of TG species, where TG would exceed the detector limit and not allow for accurate quantification. Thus, the first example contains a further diluted extract, and this one the undiluted extract. The description is the same, except " for the lipid classes SM, PE, PC, LPC, DG, PS. Quantification on 3 study " . ||
+|| *Link*: || [http://mztab.googlecode.com/svn/examples/lipicomics-HFD-LD-study-PL-DG-SM.mzTab lipicomics-HFD-LD-study-PL-DG-SM.mzTab] ||
 
 ----
 </wiki:comment>
