@@ -545,7 +545,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
             // in PRIDE XML, best_search_engine_score and search_engine_score_ms_run[1] are same.
             if (score != null) {
-                protein.addBestSearchEngineScoreParam(score);
+                protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
             }
         }
     }
