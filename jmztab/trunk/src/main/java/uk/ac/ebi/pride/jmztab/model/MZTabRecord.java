@@ -183,7 +183,7 @@ public class MZTabRecord {
         }
     }
 
-    public void setAbundanceColumn(Assay assay, double value) {
+    public void setAbundanceColumn(Assay assay, Double value) {
         MZTabColumn column = getColumn("_abundance_", assay);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
@@ -203,7 +203,7 @@ public class MZTabRecord {
         }
     }
 
-    public void setAbundanceColumn(StudyVariable studyVariable, double value) {
+    public void setAbundanceColumn(StudyVariable studyVariable, Double value) {
         MZTabColumn column = getColumn("_abundance_", studyVariable);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
@@ -223,7 +223,7 @@ public class MZTabRecord {
         }
     }
 
-    public void setAbundanceStdevColumn(StudyVariable studyVariable, double value) {
+    public void setAbundanceStdevColumn(StudyVariable studyVariable, Double value) {
         MZTabColumn column = getColumn("_abundance_stdev_", studyVariable);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
@@ -243,7 +243,7 @@ public class MZTabRecord {
         }
     }
 
-    public void setAbundanceStdErrorColumn(StudyVariable studyVariable, double value) {
+    public void setAbundanceStdErrorColumn(StudyVariable studyVariable, Double value) {
         MZTabColumn column = getColumn("_abundance_std_error_", studyVariable);
         if (column != null) {
             setValue(column.getLogicPosition(), value);
