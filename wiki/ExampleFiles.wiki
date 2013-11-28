@@ -45,9 +45,7 @@
 || *Name*: || Lipidomics example 2 ||
 || *Description*: || these are essentially the same mice as before, but other lipid classes were measured (SM, PE, PC, LPC, DG, PS). The reason is that lipid droplets contain bulk of TG species, where TG would exceed the detector limit and not allow for accurate quantification. Thus, the first example contains a further diluted extract, and this one the undiluted extract. The description is the same, except " for the lipid classes SM, PE, PC, LPC, DG, PS. Quantification on 3 study " . ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/lipicomics-HFD-LD-study-PL-DG-SM.mzTab lipicomics-HFD-LD-study-PL-DG-SM.mzTab] ||
-
-----
-</wiki:comment>
+|| || ||
 || *Name*: || Label-free example ||
 || *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" label free experiment, quantification on 2 study variables (control/treatment), 3+3 assays (replicates) reported, identifications reported.||
 || *Link*: || [https://mztab.googlecode.com/svn/examples/labelfree_CQI.mzTab labelfree_CQI.mzTab] ||
