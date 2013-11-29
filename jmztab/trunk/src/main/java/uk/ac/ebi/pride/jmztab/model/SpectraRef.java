@@ -49,6 +49,10 @@ public class SpectraRef {
         return reference;
     }
 
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

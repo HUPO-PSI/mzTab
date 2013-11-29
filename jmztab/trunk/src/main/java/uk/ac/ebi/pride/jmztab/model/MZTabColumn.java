@@ -48,6 +48,22 @@ public class MZTabColumn {
         return optional;
     }
 
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public void setLogicPosition(String logicPosition) {
+        this.logicPosition = logicPosition;
+    }
+
+    public void setDataType(Class dataType) {
+        this.dataType = dataType;
+    }
+
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
+
     public IndexedElement getElement() {
         return element;
     }

@@ -13,7 +13,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
  */
 public class IndexedElement {
     private MetadataElement element;
-    private int id;
+    private Integer id;
 
     public IndexedElement(MetadataElement element, int id) {
         if (element == null) {
@@ -31,8 +31,16 @@ public class IndexedElement {
         return element;
     }
 
-    public int getId() {
+    public void setElement(MetadataElement element) {
+        this.element = element;
+    }
+
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getReference() {

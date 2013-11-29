@@ -31,6 +31,14 @@ public class ColUnit {
         this.value = value;
     }
 
+    public Param getValue() {
+        return value;
+    }
+
+    public void setValue(Param value) {
+        this.value = value;
+    }
+
     /**
      * {column name}={Parameter defining the unit}
      */

@@ -16,6 +16,14 @@ public class Comment {
         this.msg = msg == null ? "" : msg;
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
     public String toString() {
         return Section.Comment.getPrefix() + TAB + msg;
     }

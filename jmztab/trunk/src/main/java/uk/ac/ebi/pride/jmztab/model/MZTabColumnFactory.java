@@ -173,17 +173,20 @@ public class MZTabColumnFactory {
         MZTabColumn newColumn = null;
         switch (section) {
             case Protein_Header:
-                if (position.equals("09") || position.equals("11") || position.equals("12") || position.equals("13")) {
+                if (position.equals(ProteinColumn.SEARCH_ENGINE_SCORE.getOrder()) ||
+                    position.equals(ProteinColumn.NUM_PSMS.getOrder()) ||
+                    position.equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getOrder()) ||
+                    position.equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getOrder())) {
                     newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
                 }
                 break;
             case Peptide_Header:
-                if (position.equals("08")) {
+                if (position.equals(PeptideColumn.SEARCH_ENGINE_SCORE.getOrder())) {
                     newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
                 }
                 break;
             case Small_Molecule_Header:
-                if (position.equals("19")) {
+                if (position.equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getOrder())) {
                     newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
                 }
                 break;

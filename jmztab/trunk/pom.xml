@@ -146,7 +146,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <finalName>MZTabCommandLine</finalName>
+                    <!--<finalName>MZTabCommandLine</finalName>-->
+                    <finalName>MZTabInspector</finalName>
                     <!-- comment exclusion section out if want to run batch dbtest -->
                     <excludes>
                         <exclude>**/test</exclude>
@@ -155,11 +156,11 @@
                     <archive>
                         <manifest>
                             <!--provide a CLI for jmztab-->
-                            <mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>
+                            <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>-->
                             <!--export prideq to mztab for unique-->
                             <!--<mainClass>uk.ac.ebi.pride.jmztab.prideq.PrideqExportRun</mainClass>-->
                             <!--provide a simple GUI for jmztab-->
-                            <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabInspector</mainClass>-->
+                            <mainClass>uk.ac.ebi.pride.jmztab.MZTabInspector</mainClass>
 
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
