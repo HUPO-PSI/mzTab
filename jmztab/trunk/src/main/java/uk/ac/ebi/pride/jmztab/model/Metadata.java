@@ -14,32 +14,32 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
  * Date: 23/05/13
  */
 public class Metadata {
-    protected MZTabDescription tabDescription;
-    protected String title;
-    protected String description;
-    protected SortedMap<Integer, SplitList<Param>> sampleProcessingMap = new TreeMap<Integer, SplitList<Param>>();
-    protected SortedMap<Integer, Instrument> instrumentMap = new TreeMap<Integer, Instrument>();
-    protected SortedMap<Integer, Software> softwareMap = new TreeMap<Integer, Software>();
-    protected SplitList<Param> falseDiscoveryRate = new SplitList<Param>(BAR);
-    protected SortedMap<Integer, Publication> publicationMap = new TreeMap<Integer, Publication>();
-    protected SortedMap<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
-    protected List<URI> uriList = new ArrayList<URI>();
-    protected SortedMap<Integer, FixedMod> fixedModMap = new TreeMap<Integer, FixedMod>();
-    protected  SortedMap<Integer, VariableMod> variableModMap = new TreeMap<Integer, VariableMod>();
-    protected Param quantificationMethod;
-    protected Param proteinQuantificationUnit;
-    protected Param peptideQuantificationUnit;
-    protected Param smallMoleculeQuantificationUnit;
-    protected SortedMap<Integer, MsRun> msRunMap = new TreeMap<Integer, MsRun>();
-    protected List<Param> customList = new ArrayList<Param>();
-    protected SortedMap<Integer, Sample> sampleMap = new TreeMap<Integer, Sample>();
-    protected SortedMap<Integer, Assay> assayMap = new TreeMap<Integer, Assay>();
-    protected SortedMap<Integer, StudyVariable> studyVariableMap = new TreeMap<Integer, StudyVariable>();
-    protected SortedMap<Integer, CV> cvMap = new TreeMap<Integer, CV>();
-    protected List<ColUnit> proteinColUnitList = new ArrayList<ColUnit>();
-    protected List<ColUnit> peptideColUnitList = new ArrayList<ColUnit>();
-    protected List<ColUnit> psmColUnitList = new ArrayList<ColUnit>();
-    protected List<ColUnit> smallMoleculeColUnitList = new ArrayList<ColUnit>();
+    private MZTabDescription tabDescription;
+    private String title;
+    private String description;
+    private SortedMap<Integer, SplitList<Param>> sampleProcessingMap = new TreeMap<Integer, SplitList<Param>>();
+    private SortedMap<Integer, Instrument> instrumentMap = new TreeMap<Integer, Instrument>();
+    private SortedMap<Integer, Software> softwareMap = new TreeMap<Integer, Software>();
+    private SplitList<Param> falseDiscoveryRate = new SplitList<Param>(BAR);
+    private SortedMap<Integer, Publication> publicationMap = new TreeMap<Integer, Publication>();
+    private SortedMap<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
+    private List<URI> uriList = new ArrayList<URI>();
+    private SortedMap<Integer, FixedMod> fixedModMap = new TreeMap<Integer, FixedMod>();
+    private  SortedMap<Integer, VariableMod> variableModMap = new TreeMap<Integer, VariableMod>();
+    private Param quantificationMethod;
+    private Param proteinQuantificationUnit;
+    private Param peptideQuantificationUnit;
+    private Param smallMoleculeQuantificationUnit;
+    private SortedMap<Integer, MsRun> msRunMap = new TreeMap<Integer, MsRun>();
+    private List<Param> customList = new ArrayList<Param>();
+    private SortedMap<Integer, Sample> sampleMap = new TreeMap<Integer, Sample>();
+    private SortedMap<Integer, Assay> assayMap = new TreeMap<Integer, Assay>();
+    private SortedMap<Integer, StudyVariable> studyVariableMap = new TreeMap<Integer, StudyVariable>();
+    private SortedMap<Integer, CV> cvMap = new TreeMap<Integer, CV>();
+    private List<ColUnit> proteinColUnitList = new ArrayList<ColUnit>();
+    private List<ColUnit> peptideColUnitList = new ArrayList<ColUnit>();
+    private List<ColUnit> psmColUnitList = new ArrayList<ColUnit>();
+    private List<ColUnit> smallMoleculeColUnitList = new ArrayList<ColUnit>();
 
     public Metadata() {
         this(new MZTabDescription(MZTabDescription.Mode.Summary, MZTabDescription.Type.Identification));

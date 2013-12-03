@@ -11,21 +11,21 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
  * Date: 23/05/13
  */
 public class MZTabFile {
-    protected Metadata metadata;
+    private Metadata metadata;
 
-    protected MZTabColumnFactory proteinColumnFactory;
-    protected MZTabColumnFactory peptideColumnFactory;
-    protected MZTabColumnFactory psmColumnFactory;
-    protected MZTabColumnFactory smallMoleculeColumnFactory;
+    private MZTabColumnFactory proteinColumnFactory;
+    private MZTabColumnFactory peptideColumnFactory;
+    private MZTabColumnFactory psmColumnFactory;
+    private MZTabColumnFactory smallMoleculeColumnFactory;
 
     /**
      * Integer: line number
      */
-    protected SortedMap<Integer, Comment> comments = new TreeMap<Integer, Comment>();
-    protected SortedMap<Integer, Protein> proteins = new TreeMap<Integer, Protein>();
-    protected SortedMap<Integer, Peptide> peptides = new TreeMap<Integer, Peptide>();
-    protected SortedMap<Integer, PSM> psms = new TreeMap<Integer, PSM>();
-    protected SortedMap<Integer, SmallMolecule> smallMolecules = new TreeMap<Integer, SmallMolecule>();
+    private SortedMap<Integer, Comment> comments = new TreeMap<Integer, Comment>();
+    private SortedMap<Integer, Protein> proteins = new TreeMap<Integer, Protein>();
+    private SortedMap<Integer, Peptide> peptides = new TreeMap<Integer, Peptide>();
+    private SortedMap<Integer, PSM> psms = new TreeMap<Integer, PSM>();
+    private SortedMap<Integer, SmallMolecule> smallMolecules = new TreeMap<Integer, SmallMolecule>();
 
     public MZTabFile(Metadata metadata) {
         this.metadata = metadata;
