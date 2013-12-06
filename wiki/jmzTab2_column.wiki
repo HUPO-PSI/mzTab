@@ -8,138 +8,15 @@
 
 There are two modes of reporting of 'Identification' and 'Quantification' type results in mzTab files which MUST be specified by the mandatory meta value 'mzTab-mode' ('Summary' and 'Complete'). The 'Summary' mode is used if final results are provided (e.g. quantification data at the level of study variables). The 'Complete' mode is used if all quantification data is provided (e.g. quantification on the assay level and on the study variable level).
 
-The MANDATORY fields in the Metadata Section 'mzTab-mode' and 'mzTab-type' MUST therefore be present to indicate which type of file it is. In Table 2, the columns that MUST be included in a 'Summary' file are indicated and in Table 3 the columns that MUST be included in addition in a 'Complete' file. It must be highlighted that all the columns in Tables 2 and 3 MUST be present in a “Complete” file. 
+The MANDATORY fields in the Metadata Section 'mzTab-mode' and 'mzTab-type' MUST therefore be present to indicate which type of file it is. In Table 2, the columns that MUST be included in a 'Summary' file are indicated and in Table 3 the columns that MUST be included in addition in a 'Complete' file. It must be highlighted that all the columns in Tables 2 and 3 MUST be present in a "Complete" file. 
 
-In general, “null” values SHOULD not be given within any column of a “Complete” file if the information is available.
-
-|| *Protein Section* || *Identification* || *Quantification* ||
-|| || accession || accession ||
-|| || description || description ||
-|| || taxid || taxid ||
-|| || species, || species ||
-|| || database || database  ||
-|| || database_version  || database_version ||
-|| || search_engine || search_engine ||
-|| || best_search_engine_score || best_search_engine_score ||
-|| || ambiguity_members || ambiguity_members ||
-|| || modifications || modifications ||
-|| || protein_coverage || protein_coverage ||
-|| ||  || protein_abundance_study_variable[1-n] ||
-|| ||  || protein_abundance_stdev_study_variable[1-n]  ||
-|| ||  || protein_abundance_std_error_study_variable[1-n] ||
-|| || || || 
-|| *Peptide Section* || *Identification* || *Quantification* ||
-|| ||  || sequence ||
-|| ||  || accession  ||
-|| ||  || unique  ||
-|| ||  || database  ||
-|| ||  || database_version  ||
-|| ||  || search_engine ||
-|| ||  || best_search_engine_score ||
-|| ||  || modifications ||
-|| ||  || retention_time ||
-|| ||  || retention_time_window ||
-|| ||  || charge ||
-|| ||  || mass_to_charge ||
-|| ||  || peptide_abundance_study_variable[1-n]  ||
-|| ||  || peptide_abundance_stdev_study_variable[1-n] ||
-|| ||  || peptide_abundance_std_error_study_variable[1-n] ||
-|| || || || 
-|| *PSM Section* || *Identification* || *Quantification* ||
-|| || sequence || sequence ||
-|| || PSM_ID || PSM_ID ||
-|| || accession || accession ||
-|| || unique || unique ||
-|| || database || database ||
-|| || database_version || database_version ||
-|| || search_engine || search_engine ||
-|| || search_engine_score || search_engine_score ||
-|| || modifications || modifications ||
-|| || spectra_ref || spectra_ref ||
-|| || retention_time || retention_time ||
-|| || charge || charge ||
-|| || exp_mass_to_charge || exp_mass_to_charge ||
-|| || calc_mass_to_charge || calc_mass_to_charge ||
-|| || pre || pre ||
-|| || post || post ||
-|| || start || start ||
-|| || end || end ||
-|| || || || 
-|| *Small Molecule Section* || *Identification* || *Quantification* ||
-|| || identifier || identifier ||
-|| || chemical_formula || chemical_formula ||
-|| || smiles || smiles ||
-|| || inchi_key || inchi_key ||
-|| || description || description ||
-|| || exp_mass_to_charge || exp_mass_to_charge ||
-|| || calc_mass_to_charge || calc_mass_to_charge ||
-|| || charge || charge ||
-|| || retention time || retention time ||
-|| || taxid || taxid ||
-|| || species || species ||
-|| || database || database ||
-|| || database_version || database_version ||
-|| || spectra_ref || spectra_ref ||
-|| || search_engine || search_engine ||
-|| || best_search_engine_score || best_search_engine_score ||
-|| || modifications || modifications ||
-|| ||  || smallmolecule_abundance_assay[1-n] (if assays are reported) ||
-|| ||  || smallmolecule_abundance_study_variable[1-n]  (if study variables are reported) ||
-|| ||  || smallmolecule_stdev_study_variable[1-n] (if study variables are reported) ||
-|| ||  || smallmolecule_std_error_study_variable[1-n] (if study variables are reported) ||
-
-*Table 2*. Mandatory columns in mzTab 'Summary' files. Where noted, these columns are mandatory for every study_variable[1-n] or every ms_run[1-n] reported in the file. Note – any Quantification file type MAY include any of the Columns or Sections required for an Identification file type.
-
-
-|| *Protein Section* || *Identification* || *Quantification* ||
-|| || search_engine_score_ms_run[1-n] || search_engine_score_ms_run[1-n] ||
-|| || num_psms_ms_run[1-n] || protein_abundance_assay[1-n] ||
-|| || || num_peptides_distinct_ms_run[1-n] ||
-|| || || num_peptide_unique_ms_run[1-n] ||
-|| || || || 
-|| *Peptide Section* || *Identification* || *Quantification* ||
-|| ||  || search_engine_score_ms_run[1-n] ||
-|| ||  || peptide_abundance_assay[1-n] ||
-|| ||  || spectra_ref (if MS2 based quantification employed) ||
-|| || || || 
-|| *Small Molecule Section* || *Identification* || *Quantification* ||
-|| ||  || search_engine_score_ms_run[1-n] ||
-
-*Table 3*. Mandatory columns in mzTab 'Complete' files. In addition, 'Complete' files MUST also have all the items that are MANDATORY in a 'Summary' file (Table 2 above). Where noted, these columns are mandatory for every assay[1-n], ms_run[1-n] or study_variable[1-n] reported in the file.
-
-
-|| *Protein Section* || *Identification* || *Quantification* ||
-|| || opt_global_* || opt_global_* ||
-|| || go_terms || go_terms ||
-|| || reliability  || reliability ||
-|| || uri || num_psms_ms_run[1-n] ||
-|| ||  || num_peptides_distinct_ms_run[1-n] ||
-|| ||  || num_peptide_unique_ms_run[1-n] ||
-|| ||  || uri ||
-|| || || || 
-|| *Peptide Section* || *Identification* || *Quantification* ||
-|| ||  || opt_global_* ||
-|| ||  || reliability  ||
-|| ||  || uri ||
-|| || || || 
-|| *PSM Section* || *Identification* || *Quantification* ||
-|| ||  || opt_global_* ||
-|| ||  || reliability  ||
-|| ||  || uri ||
-|| || || || 
-|| *Small Molecule Section* || *Identification* || *Quantification* ||
-|| ||  || opt_global_* ||
-|| ||  || reliability  ||
-|| ||  || uri ||
-
-*Table 4*. Optional fields in mzTab 'Complete' and 'Summary' files. 
-
+In general, "null" values SHOULD not be given within any column of a "Complete" file if the information is available.
 
 ----
 
-= Column Header =
+= Generate Column Header =
 
-In jmzTab API, we use MZTabColumnFactory to generate column header line. Currently, there are four types of MZTabColumn. Stable columns defined in the factory directly, which have stable logical position in the table section. Besides, we also provide ms_run optional columns, abundance optional columns, and user defined optional columns. 
+In jmzTab API, we use MZTabColumnFactory to generate column header line. Currently, there are four types of MZTabColumn. Stable columns defined in the factory directly, which have stable logical position in the table section. Besides, we also provide ms_run optional columns, abundance optional columns, and user defined optional columns generate methods. 
 
 == Generate Protein Column Header ==
 {{{

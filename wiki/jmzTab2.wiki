@@ -8,7 +8,12 @@
 
 jmzTab can read, write and convert mzTab files. jmzTab is free, open-source software written in Java. 
 
-In jmzTab core model, the MZTabFile class is the central entry point to manage the internal relationships among the different sections in the file. The MZTabFile class contains three key components: i) Metadata: a mandatory metamodel which provides the definitions contained in the dataset reported in the mzTab file; ii) MZTabColumnFactory: a factory class that can be used to generate stable MZTabColumn elements, and to add dynamically different optional columns, such as AbundanceColumn, OptionColumn and CVParamOptionColumn. The Metadata and MZTabColumnFactory work together to build the framework for the MZTabFile class; and iii) Consistency constraints among different sections of the model. Thus, a couple of convenient methods are provided to keep these constraints. For example, MZTabFile class support iterative modify ms_run, sample, study variable, and assay identification number, maintain the consistency between the Metadata section and related abundance columns header; and moves corresponding data values when user modify the position of optional columns. These methods are very useful to overcome the identification confliction when user wants to merge multiple MZTabFile models together. 
+[http://code.google.com/p/mztab/wiki/jmztab-uml.png]
+
+As shown in the figure, the mainly architecture of jmzTab core model, MZTabFile class is the central entry point to manage the internal relationships among the different sections in the file. The MZTabFile class contains three key components: 
+  * *Metadata*: a mandatory metamodel which provides the definitions contained in the dataset reported in the mzTab file; 
+  * *MZTabColumnFactory*: a factory class that can be used to generate stable *MZTabColumn* elements, and to add dynamically different optional columns, such as *AbundanceColumn*, *OptionColumn* and *CVParamOptionColumn*. The Metadata and MZTabColumnFactory work together to build the framework for the MZTabFile class; 
+  * *Consistency constraints* among different sections of the model. Thus, a couple of convenient methods are provided to keep these constraints. For example, MZTabFile class support iterative modify ms_run, sample, study variable, and assay identification number, maintain the consistency between the Metadata section and related abundance columns header; and moves corresponding data values when user modify the position of optional columns. These methods are very useful to overcome the identification confliction when user wants to merge multiple MZTabFile models together. 
 
 ----
 
