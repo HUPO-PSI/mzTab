@@ -88,7 +88,7 @@ java -Xms2048m -jar MZTabCommandLine.jar -inDir temp -convert inFile=PRIDE_Exp_C
 There are some screenshots about how to use GUI (Click on a screenshot to see the full size version):
 <table>
 <tr>
-<td>[https://code.google.com/p/mztab/source/browse/wiki/images/validate.JPG https://code.google.com/p/mztab/source/browse/wiki/images/validate.JPG]</td>
-<td>[https://code.google.com/p/mztab/source/browse/wiki/images/convert.JPG https://code.google.com/p/mztab/source/browse/wiki/images/convert.JPG]</td>
+<td>[http://mztab.googlecode.com/svn/wiki/images/jmztab-validate-full.png http://mztab.googlecode.com/svn/wiki/images/jmztab-validate-small.png]</td>
+<td>[http://mztab.googlecode.com/svn/wiki/images/jmztab-convert-full.png http://mztab.googlecode.com/svn/wiki/images/jmztab-convert-small.png]</td>
 </tr>
 </table>
