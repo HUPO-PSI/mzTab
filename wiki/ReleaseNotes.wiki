@@ -1,5 +1,13 @@
 #summary Release notes of the mzTab specification.
 
+*jmzTab version 2.1.5 - (5. December 2013)*
+  * Fixed bugs
+  * Add SmallMoleculeTest to generate a mztab file which including small molecule records.
+  * Move conf/*.properties to src/resources/conf/*.properties, thus, the jar file will include these property files.
+  * Create SearchEngineParam and SearchEngineScoreParam
+  * Redefine ConvertProvider class
+  * Update mzTab examples
+
 *jmzTab version 2.1.4 - (5. November 2013)*
   * update metadata, add id number for some elements.
   * uploaded new mzTab example files (validated with jmzTab)

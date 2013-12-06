@@ -1,7 +1,6 @@
   * [Welcome ↑ Home]
   * [ReleaseNotes ReleaseNotes]
-  * [FileFormat File Format]
-    * [ExampleFiles Examples]
+  * [ExampleFiles Examples]
   * [jmzTab2 jmzTab2 Tutorial]    
     * [jmzTab2_metadata Create Metadata]
     * [jmzTab2_column Create Header and Fill Data]
