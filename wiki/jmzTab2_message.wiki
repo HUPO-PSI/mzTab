@@ -5,9 +5,9 @@
 ----
 = Introduction =
 
-These error messages are classified in two categories: ‘Format Type’ (reporting format problems) and ‘Logical Type’ (reporting errors related to the logical relationships among the different sections in a file). 
+These error messages are classified in two categories: 'Format Type' (reporting format problems) and 'Logical Type' (reporting errors related to the logical relationships among the different sections in a file). 
 
-The validation messages have a unique identifier are classified in three levels: Info, Warn and Error. All of them come from the notational conventions included in the specification document. This way, all the rules in the specification which use “MUST”, “MUST NOT”, “REQUIRED” as keywords, are defined at the Error level; the ones that use “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT” as keywords are defined at the Warn level. Finally, others keywords such as “RECOMMENDED”, “MAY” and “OPTIONAL”, are defined at the Info Level.
+The validation messages have a unique identifier are classified in three levels: Info, Warn and Error. All of them come from the notational conventions included in the specification document. This way, all the rules in the specification which use "MUST", "MUST NOT", "REQUIRED" as keywords, are defined at the Error level; the ones that use "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT" as keywords are defined at the Warn level. Finally, others keywords such as "RECOMMENDED", "MAY" and "OPTIONAL", are defined at the Info Level.
 
 == Message List ==
 
