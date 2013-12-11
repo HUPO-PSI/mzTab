@@ -4,7 +4,7 @@ This Wiki holds information about the mzTab format as well as associated project
 
 == Introduction ==
 
-mzTab is the most recent standard format developed by the Proteomics Standards Initiative (PSI). mzTab is a flexible tab-delimited file that can capture identification and quantification results coming from mass spectrometry (MS)-based proteomics and metabolomics approaches. We here present an open-source Java Application Programming Interface (API) for mzTab called jmzTab. 
+mzTab is a standard format developed by the Proteomics Standards Initiative (PSI). mzTab is a flexible tab-delimited file that can capture identification and quantification results coming from mass spectrometry (MS)-based proteomics and metabolomics approaches. We here present an open-source Java Application Programming Interface (API) for mzTab called jmzTab. 
 
 The software allows easy and efficient processing of mzTab files, providing read and write capabilities, and is designed to be embedded in other software packages. The second key feature of the jmzTab model is its flexible framework to maintain the logical integrity between the metadata and the table-based sections in the files. In this article, as an example implementation, we also describe a Graphical User Interface (GUI)-based tool that can be used to validate mzTab files and to convert PRIDE XML files to mzTab. 
 
@@ -20,7 +20,7 @@ mzTab is a tab-delimited text file format to report proteomics results. The mzTa
 
 mzTab *example files* can also be found in the svn (see [ExampleFiles Example files]).
 
-A quick introduction to the mzTab format is the *10 minute guide to mzTab* ([http://mztab.googlecode.com/svn/specification_document/The+ten+minute+guide+to+mzTab.pdf PDF], [http://mztab.googlecode.com/svn/specification_document/The+ten+minute+guide+to+mzTab.docx docx]). Additionally, the *mzTab Cheat sheet* ([http://mztab.googlecode.com/svn/specification_document/mzTab+cheat+sheet.pdf pdf], [http://mztab.googlecode.com/svn/specification_document/mzTab+cheat+sheet.docx docx]) provides a concise overview over all fields and columns defined in mzTab.
+A quick introduction to the mzTab format is the *20 minute guide to mzTab* ([http://mztab.googlecode.com/svn/specification_document/20minute_guide_mzTab.pdf PDF], [http://mztab.googlecode.com/svn/specification_document/20minute_guide_mzTab.docx docx]).
 
 ----
 
