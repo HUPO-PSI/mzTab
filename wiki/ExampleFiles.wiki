@@ -55,5 +55,5 @@
 || *Link*: || [https://mztab.googlecode.com/svn/examples/MaxQuant_SILAC.zip MaxQuant_SILAC.mzTab] ||
 || || ||
 || *Name*: || Cytidine ||
-|| *Description*: || Cydinine identification.||
+|| *Description*: || Cytidine reference spectra example.||
 || *Link*: || [https://mztab.googlecode.com/svn/examples/Cytidine.mzTab Cytidine.mzTab] ||
