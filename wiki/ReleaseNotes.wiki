@@ -1,5 +1,9 @@
 #summary Release notes of the mzTab specification.
 
+* mzTab Specification Document 1.0 RC 5 - (11. December 2013)*
+  * A completely updated version of the mzTab format specification
+  * Version currently submitted to the PSI document process
+
 *jmzTab version 2.1.5 - (5. December 2013)*
   * Fixed bugs
   * Add SmallMoleculeTest to generate a mztab file which including small molecule records.
