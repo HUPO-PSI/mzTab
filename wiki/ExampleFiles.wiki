@@ -57,3 +57,7 @@
 || *Name*: || Cytidine ||
 || *Description*: || Cytidine reference spectrum example.||
 || *Link*: || [https://mztab.googlecode.com/svn/examples/Cytidine.mzTab Cytidine.mzTab] ||
+|| || ||
+|| *Name*: || MTBLS2 study from the MetaboLights repository ||
+|| *Description*: || mzTab generated from the metabolites identified from comparative LC/MS-based profiling of silver nitrate-treated Arabidopsis thaliana leaves of wild-type and cyp79B2 cyp79B3 double knockout plants.||
+|| *Link*: || [https://mztab.googlecode.com/svn/examples/MTBLS2.mztab MTBLS2.mzTab] ||
