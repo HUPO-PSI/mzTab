@@ -1,6 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
+ * Define a couple constants used in the jmzTab API.
+ *
  * User: Qingwei
  * Date: 08/03/13
  */

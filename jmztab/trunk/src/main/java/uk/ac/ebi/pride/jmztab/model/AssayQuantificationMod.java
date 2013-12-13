@@ -3,6 +3,11 @@ package uk.ac.ebi.pride.jmztab.model;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
+ * A parameter describing a modification associated with a quantification_reagent for a assay.
+ * Multiple modifications are numbered 1..n.
+ *
+ * @see Assay
+ *
  * User: qingwei
  * Date: 14/10/13
  */
@@ -12,11 +17,14 @@ public class AssayQuantificationMod extends Mod {
     public AssayQuantificationMod(Assay assay, int id) {
         super(MetadataSubElement.ASSAY_QUANTIFICATION_MOD.getElement(), id);
 
+        if (assay == null) {
+            throw new NullPointerException("Assay should not be null!");
+        }
         this.assay = assay;
     }
 
     /**
-     * assay[id]-element[id]
+     * Output a string like: assay[id]-quantification_mod[id]
      */
     @Override
     public String getReference() {

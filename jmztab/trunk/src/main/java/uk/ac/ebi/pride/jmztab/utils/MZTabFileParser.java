@@ -91,6 +91,10 @@ public class MZTabFileParser {
      * refine all MZTabFile consistency correct.
      */
     private void refine() throws MZTabException, MZTabErrorOverflowException {
+        if (mzTabFile == null) {
+            return;
+        }
+
         Metadata metadata = mzTabFile.getMetadata();
         MZTabColumnFactory proteinFactory = mzTabFile.getProteinColumnFactory();
         MZTabColumnFactory peptideFactory = mzTabFile.getPeptideColumnFactory();
@@ -178,7 +182,7 @@ public class MZTabFileParser {
 
             highWaterMark = section.getLevel();
             // There exists errors during checking metadata section.
-            if (highWaterMark > 1 && ! errorList.isEmpty()) {
+            if (highWaterMark == 1 && ! errorList.isEmpty()) {
                 break;
             }
 

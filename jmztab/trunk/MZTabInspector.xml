@@ -146,7 +146,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <finalName>MZTabInspector</finalName>
+                    <finalName>mzTabGUI</finalName>
                     <!-- comment exclusion section out if want to run batch dbtest -->
                     <excludes>
                         <exclude>**/test</exclude>

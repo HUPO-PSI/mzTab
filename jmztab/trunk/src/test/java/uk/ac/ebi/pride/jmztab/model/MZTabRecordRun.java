@@ -60,17 +60,17 @@ public class MZTabRecordRun {
         System.out.println(protein);
 
         // set abundance columns
-        protein.setAbundanceColumn(assay1, "0.4");
-        protein.setAbundanceColumn(assay2, "0.2");
+        protein.setAbundanceColumnValue(assay1, "0.4");
+        protein.setAbundanceColumnValue(assay2, "0.2");
 
-        protein.setAbundanceColumn(studyVariable1, "0.4");
-        protein.setAbundanceStdevColumn(studyVariable1, "0.3");
-        protein.setAbundanceStdErrorColumn(studyVariable1, "0.2");
+        protein.setAbundanceColumnValue(studyVariable1, "0.4");
+        protein.setAbundanceStdevColumnValue(studyVariable1, "0.3");
+        protein.setAbundanceStdErrorColumnValue(studyVariable1, "0.2");
         System.out.println(protein);
 
         // set user defined optional columns
-        protein.setOptionColumn(assay1, "my_value", "My value about assay[1]");
-        protein.setOptionColumn(param, "TOM value");
+        protein.setOptionColumnValue(assay1, "my_value", "My value about assay[1]");
+        protein.setOptionColumnValue(param, "TOM value");
 
         System.out.println(protein);
     }

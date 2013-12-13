@@ -4,16 +4,12 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * Quantitative technologies generally result in some kind of abundance measurement of the identified analyze.
- * Several of the available techniques, furthermore, allow/require multiple similar samples to be multiplexed
- * and analyzed in a single MS run – for example in label-based techniques, such as SILAC/N15 where
- * quantification occurs on MS1 data or in tag-based techniques, such as iTRAQ/TMT where quantification occurs
- * in MS2 data.
- *
- * NOTICE: colunit columns MUST NOT be used to define a unit for quantification columns.
- * In mzTab package, these quantification columns are AbundanceColumn.
- *
- * @see ColUnit
+ * If the data exporter wishes to report only final results for ‘Summary’ files (i.e. following averaging over replicates),
+ * then these MUST be reported as quantitative values in the columns associated with the study_variable[1-n] (e.g.
+ * protein_abundance_study_variable[1]). mzTab allows the reporting of abundance, standard deviation, and standard error
+ * for any study_variable. The unit of values in the abundance column MUST be specified in the metadata section of the mzTab file.
+ * The reported values SHOULD represent the final result of the performed data analysis. The exact meaning of the values will
+ * thus depend on the used analysis pipeline and quantitation method and is not expected to be comparable across multiple mzTab files.
  *
  * User: Qingwei
  * Date: 23/05/13
@@ -52,16 +48,61 @@ public class AbundanceColumn extends MZTabColumn {
         }
     }
 
+    /**
+     * Generate a abundance column:
+     * The column header is: {Section}_{Field#name()}_{IndexedElement[id]}
+     * The column data type: {Field#columnType()}
+     * The column position: always most right side, calculated by offset.
+     */
     private AbundanceColumn(Section section, Field field, IndexedElement element, int offset) {
         super(translate(section.getName()) + "_" + field.name, field.columnType, true, offset + field.position + "");
         setElement(element);
     }
 
+    /**
+     * Generate a abundance optional column as measured in the given assay.The column header like
+     * protein_abundance_assay[1-n], the position always stay the most right of the tabled section,
+     * and the data type is Double.
+     *
+     * @param section SHOULD be {@link Section#Protein}, {@link Section#Peptide}, {@link Section#PSM},
+     *                or {@link Section#Small_Molecule}.
+     * @param assay SHOULD not be null.
+     * @param offset Normally the last column's position in header, {@link uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory#getColumnMapping()},
+     * @return a abundance optional column as measured in the given assay.
+     */
     public static MZTabColumn createOptionalColumn(Section section, Assay assay, int offset) {
+        if (section.isComment() || section.isMetadata()) {
+            throw new IllegalArgumentException("Section should be Protein, Peptide, PSM or SmallMolecule.");
+        }
+        if (assay == null) {
+            throw new NullPointerException("Assay should not be null!");
+        }
+
         return new AbundanceColumn(Section.toDataSection(section), Field.ABUNDANCE, assay, offset);
     }
 
-    public static SortedMap<String, MZTabColumn> createOptionalColumns(Section section, StudyVariable studyVariable, int offset) {
+    /**
+     * Generate three abundance optional columns as measured in the given study variable.
+     * The columns header like protein_abundance_study_variable[1-n], protein_abundance_stdev_study_variable[1-n]
+     * and protein_abundance_std_error_study_variable[1-n].
+     * The position always stay the most right of the tabled section, and the data type is Double.
+     *
+     * @param section SHOULD be {@link Section#Protein}, {@link Section#Peptide}, {@link Section#PSM},
+     *                or {@link Section#Small_Molecule}.
+     * @param studyVariable SHOULD not be null.
+     * @param order Normally the last column's position in header, {@link uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory#getColumnMapping()},
+     * @return a abundance optional column as measured in the given study variable.
+     */
+    public static SortedMap<String, MZTabColumn> createOptionalColumns(Section section, StudyVariable studyVariable, String order) {
+        if (section.isComment() || section.isMetadata()) {
+            throw new IllegalArgumentException("Section should be Protein, Peptide, PSM or SmallMolecule.");
+        }
+        if (studyVariable == null) {
+            throw new NullPointerException("Study Variable should not be null!");
+        }
+
+        int offset = new Integer(order);
+
         SortedMap<String, MZTabColumn> columns = new TreeMap<String, MZTabColumn>();
         Section dataSection = Section.toDataSection(section);
 

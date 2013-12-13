@@ -49,11 +49,13 @@ public class MZTabInspector extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+        setMinimumSize(new Dimension(1024, 768));
+
         JTabbedPane mainPane = new JTabbedPane();
         this.consolePane = new MZTabConsolePane();
-        consolePane.setPreferredSize(new Dimension(800, 600));
-        getContentPane().add(consolePane, BorderLayout.SOUTH);
-        getContentPane().add(mainPane, BorderLayout.CENTER);
+        mainPane.setPreferredSize(new Dimension(800, 200));
+        getContentPane().add(consolePane, BorderLayout.CENTER);
+        getContentPane().add(mainPane, BorderLayout.NORTH);
 
         mainPane.addTab("Validate", getValidatePane());
         mainPane.addTab("Convert", getConvertPane());
@@ -138,7 +140,7 @@ public class MZTabInspector extends JFrame {
     }
 
     private File getConvertFile(String outDir, String fileName) {
-        fileName = fileName.replaceAll("\\.", "_") + ".mztab";
+        fileName = fileName.replaceAll(".xml", ".mztab");
         return new File(outDir, fileName);
     }
 
@@ -146,7 +148,7 @@ public class MZTabInspector extends JFrame {
         JPanel srcFilePane = new JPanel(new FlowLayout());
         final JTextField srcFileNameField = new JTextField();
         JPanel srcFileChoosePane = getFileChoosePane(
-            "Choose Converted File: ", srcFileNameField,
+            "Choose File to Convert: ", srcFileNameField,
 //                new FileNameExtensionFilter("PRIDE XML File(*.xml), mzIdentML File (*.mzid)", "xml", "mzid"), false);
             new FileNameExtensionFilter("PRIDE XML File(*.xml)", "xml"), false);
         srcFilePane.add(srcFileChoosePane);

@@ -1,7 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
- * In mztab, using 0-false, 1-true to express the boolean value.
+ * In mzTab, using 0-false, 1-true to express the boolean value.
  *
  * User: Qingwei
  * Date: 06/02/13
@@ -12,17 +12,25 @@ public enum MZBoolean {
     private String value;
 
     /**
-     * Boolean(0/1)
+     * "0" for false, "1" for true.
      */
     private MZBoolean(String value) {
         this.value = value;
     }
 
+    /**
+     * @return "0" for false, "1" for true.
+     */
     @Override
     public String toString() {
         return value;
     }
 
+    /**
+     * @param booleanLabel "0" or "1" which used to define a boolean used in mzTab.
+     *
+     * @return null if can not recognize the boolean label.
+     */
     public static MZBoolean findBoolean(String booleanLabel) {
         booleanLabel = booleanLabel.trim();
         try {

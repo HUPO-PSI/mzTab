@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.io.*;
 
 /**
+ * Create a message output console for GUI application -- MZTabInspector.
+ *
+ * @see uk.ac.ebi.pride.jmztab.MZTabInspector
+ *
  * User: Qingwei
  * Date: 23/03/13
  */

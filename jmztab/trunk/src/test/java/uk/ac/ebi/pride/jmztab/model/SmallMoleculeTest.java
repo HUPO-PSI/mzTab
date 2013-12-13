@@ -188,15 +188,15 @@ public class SmallMoleculeTest {
         sm.setSearchEngineScore(metadata.getMsRunMap().get(1), "[MS,MS:1001171,Mascot score,50]|[MS,MS:1001155,Sequest:xcorr,2]");
 
 //      reference factory.addAbundanceOptionalColumn(metadata.getAssayMap().get(1));
-        sm.setAbundanceColumn(metadata.getAssayMap().get(1), "12.3");
+        sm.setAbundanceColumnValue(metadata.getAssayMap().get(1), "12.3");
 
 
 //      reference factory.addOptionalColumn(metadata.getMsRunMap().get(1), "my_value", String.class);
-        sm.setOptionColumn(metadata.getMsRunMap().get(1), "my_value", "Tom");
+        sm.setOptionColumnValue(metadata.getMsRunMap().get(1), "my_value", "Tom");
 
         CVParam param = new CVParam("MS", "MS:1002217", "decoy peptide", null);
 //      reference factory.addOptionalColumn(param, String.class);
-        sm.setOptionColumn(param, "111");
+        sm.setOptionColumnValue(param, "111");
 
         return sm;
     }

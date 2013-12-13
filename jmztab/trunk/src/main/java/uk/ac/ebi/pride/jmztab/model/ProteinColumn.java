@@ -1,6 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
+ * Define the stable columns and optional columns which have stable order in protein header line.
+ *
  * User: Qingwei
  * Date: 23/05/13
  */

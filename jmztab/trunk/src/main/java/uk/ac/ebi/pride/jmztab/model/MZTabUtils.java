@@ -13,16 +13,21 @@ import java.util.regex.Pattern;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
+ * Provide a couple of functions for translate, parse and print formatted string defined in the mzTab specification.
+ *
  * User: Qingwei
  * Date: 30/01/13
  */
 public class MZTabUtils {
+    /**
+     * Check the string is null or blank.
+     */
     public static boolean isEmpty(String s) {
         return s == null || s.trim().length() == 0;
     }
 
     /**
-     * The first char is upper case, others are lower case.
+     * Translate the string to the first char is upper case, others are lower case.
      */
     public static String toCapital(String s) {
         if (isEmpty(s)) {
@@ -43,7 +48,11 @@ public class MZTabUtils {
      * remove heading and tailing white space.
      */
     public static String parseString(String target) {
-        return target == null ? null : target.trim();
+        if (target == null) {
+            return null;
+        } else {
+            return target.trim();
+        }
     }
 
     /**
@@ -65,6 +74,9 @@ public class MZTabUtils {
         }
     }
 
+    /**
+     * Parse the target string, and check is obey the email format or not. If not, return null.
+     */
     public static String parseEmail(String target) {
         target = parseString(target);
         if (target == null) {
@@ -189,6 +201,9 @@ public class MZTabUtils {
         return list;
     }
 
+    /**
+     * parse the target into a {@link IndexedElement} object.
+     */
     public static IndexedElement parseIndexedElement(String target, MetadataElement element) {
         target = parseString(target);
         if (target == null) {
@@ -205,6 +220,9 @@ public class MZTabUtils {
         }
     }
 
+    /**
+     * Parse the target into a {@link IndexedElement} list.
+     */
     public static List<IndexedElement> parseIndexedElementList(String target, MetadataElement element) {
         SplitList<String> list = parseStringList(MZTabConstants.COMMA, target);
 
@@ -406,6 +424,9 @@ public class MZTabUtils {
         return itemList;
     }
 
+    /**
+     * Parse a {@link SpectraRef} list.
+     */
     public static SplitList<SpectraRef> parseSpectraRefList(Metadata metadata, String target) {
         SplitList<String> list = parseStringList(BAR, target);
         SplitList<SpectraRef> refList = new SplitList<SpectraRef>(BAR);
@@ -440,7 +461,7 @@ public class MZTabUtils {
         return refList;
     }
 
-    private static void parsePosition(String target, Modification modification) {
+    private static void parseModificationPosition(String target, Modification modification) {
         target = translateTabToComma(target);
         SplitList<String> list = parseStringList(BAR, target);
 
@@ -459,7 +480,7 @@ public class MZTabUtils {
     }
 
     /**
-     *  solve the conflict about minus char between modification position and CHEMMOD charge.
+     *  Solve the conflict about minus char between modification position and CHEMMOD charge.
      *  For example: 13-CHEMMOD:-159
      */
     private static String translateMinusToUnicode(String target) {
@@ -478,6 +499,10 @@ public class MZTabUtils {
         }
     }
 
+    /**
+     *  Solve the conflict about minus char between modification position and CHEMMOD charge.
+     *  For example: 13-CHEMMOD:-159
+     */
     private static String translateUnicodeToMinus(String target) {
         Pattern pattern = Pattern.compile("(.*CHEMMOD:.*)(&minus;)(.*)");
         Matcher matcher = pattern.matcher(target);
@@ -494,8 +519,14 @@ public class MZTabUtils {
         }
     }
 
+    /**
+     * Parse the target to {@link Modification}
+     */
     public static Modification parseModification(Section section, String target) {
         target = parseString(target);
+        if (target == null) {
+            return null;
+        }
 
         // no modification
         if (target.equals("0")) {
@@ -535,7 +566,7 @@ public class MZTabUtils {
             accession = matcher.group(2);
             modification = new Modification(section, type, accession);
             if (positionLabel != null) {
-                parsePosition(positionLabel,  modification);
+                parseModificationPosition(positionLabel, modification);
             }
 
             neutralLoss = matcher.group(6) == null ? null : new CVParam(matcher.group(4), matcher.group(5), matcher.group(6), matcher.group(7));
@@ -547,7 +578,6 @@ public class MZTabUtils {
 
     /**
      * locate param label [label, accession, name, value], translate ',' to '\t'
-     * which used to identified
      */
     private static String translateCommaToTab(String target) {
         Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
@@ -590,13 +620,17 @@ public class MZTabUtils {
         return sb.toString();
     }
 
+    /**
+     * Parse the target string to a {@link Modification} list, which split by comma character.
+     */
     public static SplitList<Modification> parseModificationList(Section section, String target) {
         target = parseString(target);
+        SplitList<Modification> modList = new SplitList<Modification>(COMMA);
+
         if (target == null) {
-            return null;
+            return modList;
         }
 
-        SplitList<Modification> modList = new SplitList<Modification>(COMMA);
         if (target.equals("0")) {
             modList.add(Modification.createNoModification(section));
             return modList;

@@ -90,7 +90,12 @@ public class PSMLineParser extends MZTabDataLineParser {
         logicalPosition = positionMapping.get(physicalPosition);
         column = columnMapping.get(logicalPosition);
         while (column != null && column instanceof PSMColumn) {
-            target = items[physicalPosition];
+            try {
+                target = items[physicalPosition];
+            } catch (IndexOutOfBoundsException e) {
+                System.err.println(lineNumber + ":\t" + line);
+                throw e;
+            }
             columnName = column.getName();
             if (columnName.equals(PSMColumn.SEQUENCE.getName())) {
                 psm.setSequence(target);

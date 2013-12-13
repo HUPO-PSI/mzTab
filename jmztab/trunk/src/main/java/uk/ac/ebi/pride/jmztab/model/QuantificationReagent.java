@@ -4,6 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * The reagent used to label the sample in the assay. For label-free analyses the "unlabeled sample" CV term SHOULD be used.
+ * For the "light" channel in label-based experiments the appropriate CV term specifying the labelling channel should be used.
+ *
+ * Notice: This class will be used in the next version of jmzTab.
+ *
  * User: qingwei
  * Date: 17/09/13
  */

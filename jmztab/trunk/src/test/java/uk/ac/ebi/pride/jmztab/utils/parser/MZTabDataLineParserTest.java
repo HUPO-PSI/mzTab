@@ -121,15 +121,15 @@ public class MZTabDataLineParserTest {
         record = dataParser.getRecord(data);
         items = data.split("\t");
         // protein_abundance_assay[1]
-        assertTrue(record.getAbundanceColumn(metadata.getAssayMap().get(1)).toString().equals(items[19]));
+        assertTrue(record.getAbundanceColumnValue(metadata.getAssayMap().get(1)).toString().equals(items[19]));
         // protein_abundance_assay[2]
-        assertTrue(record.getAbundanceColumn(metadata.getAssayMap().get(2)).toString().equals(items[20]));
+        assertTrue(record.getAbundanceColumnValue(metadata.getAssayMap().get(2)).toString().equals(items[20]));
         // protein_abundance_study_variable[1]
-        assertTrue(record.getAbundanceColumn(metadata.getStudyVariableMap().get(1)).toString().equals(items[21]));
+        assertTrue(record.getAbundanceColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[21]));
         // protein_abundance_stdev_study_variable[1]
-        assertTrue(record.getAbundanceStdevColumn(metadata.getStudyVariableMap().get(1)).toString().equals(items[22]));
+        assertTrue(record.getAbundanceStdevColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[22]));
         // protein_abundance_std_error_study_variable[1]
-        assertTrue(record.getAbundanceStdErrorColumn(metadata.getStudyVariableMap().get(1)).toString().equals(items[23]));
+        assertTrue(record.getAbundanceStdErrorColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[23]));
 
         // check user defined optional columns
         data = "PRT\tP12345\tAspartate aminotransferase, mitochondrial\t10116\tnull\tnull\tnull\t" +
@@ -139,10 +139,10 @@ public class MZTabDataLineParserTest {
         record = dataParser.getRecord(data);
         items = data.split("\t");
         // opt_assay[1]_my_value
-        assertTrue(record.getOptionColumn(metadata.getAssayMap().get(1), "my value").equals(items[24]));
+        assertTrue(record.getOptionColumnValue(metadata.getAssayMap().get(1), "my value").equals(items[24]));
         // opt_global_cv_MS:1001208_TOM
         CVParam param = new CVParam("MS", "MS:1001208", "TOM", null);
-        assertTrue(record.getOptionColumn(param).equals(items[25]));
+        assertTrue(record.getOptionColumnValue(param).equals(items[25]));
     }
 
     @Test
@@ -276,7 +276,7 @@ public class MZTabDataLineParserTest {
 
         // opt_global_cv_MS:1000879_PubMed_identifier
         CVParam param = new CVParam("MS", "MS:1000879", "PubMed identifier", null);
-        assertTrue(psm.getOptionColumn(param).equals("pubmed:20432482"));
+        assertTrue(psm.getOptionColumnValue(param).equals("pubmed:20432482"));
     }
 
     @Test

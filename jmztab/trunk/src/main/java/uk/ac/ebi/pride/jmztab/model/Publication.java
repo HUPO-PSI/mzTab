@@ -6,7 +6,9 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
 /**
- * A publication on this unit. PubMed ids must be prefixed by "pubmed:", DOIs by "doi:".
+ * A publication associated with this file. Several publications can be given by indicating the number
+ * in the square brackets after “publication”. PubMed ids must be prefixed by “pubmed:”, DOIs by “doi:”.
+ * Multiple identifiers MUST be separated by “|”.
  *
  * User: Qingwei
  * Date: 23/05/13
@@ -14,22 +16,46 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 public class Publication extends IndexedElement {
     private SplitList<PublicationItem> itemList = new SplitList<PublicationItem>(BAR);
 
+    /**
+     * Create a publication object.
+     * @param id SHOULD be positive integer.
+     */
     public Publication(int id) {
         super(MetadataElement.PUBLICATION, id);
     }
 
+    /**
+     * Add a {@link PublicationItem} into publication.
+     *
+     * @param item SHOULD NOT set null.
+     */
     public void addPublicationItem(PublicationItem item) {
+        if (item == null) {
+            throw new NullPointerException("Can not add a null into publication.");
+        }
+
         itemList.add(item);
     }
 
+    /**
+     * Add a couple of {@link PublicationItem} into publication.
+     *
+     * @param items SHOULD NOT set null.
+     */
     public void addPublicationItems(Collection<PublicationItem> items) {
         itemList.addAll(items);
     }
 
+    /**
+     * @return publication item count.
+     */
     public int size() {
         return itemList.size();
     }
 
+    /**
+     * Print publication into string.
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 

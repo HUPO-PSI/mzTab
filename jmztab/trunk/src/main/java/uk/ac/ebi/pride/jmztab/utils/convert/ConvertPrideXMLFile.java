@@ -438,7 +438,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     modifications.put(ptm.getModAccession(), mod);
                 }
 
-                Integer position = item.getStart().intValue() + ptm.getModLocation().intValue() - 1;
+                Integer position = item.getStart().intValue() + ptm.getModLocation().intValue();
                 mod.addPosition(position, null);
             }
         }
@@ -516,10 +516,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             CVParam score = null;
             for (PeptideItem peptideItem : identification.getPeptideItem()) {
                 score = getSearchEngineScores(peptideItem.getAdditional().getCvParam());
+
                 if (score != null) {
-                    score = new CVParam(score.getCvLabel(), score.getAccession(), score.getName(), identification.getScore().toString());
                     protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
-                    break;
                 }
             }
 
@@ -541,12 +540,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 } else if (SearchEngineParam.SPECTRA_ST.equals(searchEngineParam)) {
                     score = new CVParam(null, null, "SpectraST score", searchEngineScore);
                 }
+
+                // in PRIDE XML, best_search_engine_score and search_engine_score_ms_run[1] are same.
+                if (score != null) {
+                    protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
+                }
             }
 
-            // in PRIDE XML, best_search_engine_score and search_engine_score_ms_run[1] are same.
-            if (score != null) {
-                protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
-            }
         }
     }
 
@@ -627,28 +627,28 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             }
             // Quantification values
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE1.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumn(metadata.getAssayMap().get(1), p.getValue());
+                protein.setAbundanceColumnValue(metadata.getAssayMap().get(1), p.getValue());
             }
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumn(metadata.getAssayMap().get(2), p.getValue());
+                protein.setAbundanceColumnValue(metadata.getAssayMap().get(2), p.getValue());
             }
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumn(metadata.getAssayMap().get(3), p.getValue());
+                protein.setAbundanceColumnValue(metadata.getAssayMap().get(3), p.getValue());
             }
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumn(metadata.getAssayMap().get(4), p.getValue());
+                protein.setAbundanceColumnValue(metadata.getAssayMap().get(4), p.getValue());
             }
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumn(metadata.getAssayMap().get(5), p.getValue());
+                protein.setAbundanceColumnValue(metadata.getAssayMap().get(5), p.getValue());
             }
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumn(metadata.getAssayMap().get(6), p.getValue());
+                protein.setAbundanceColumnValue(metadata.getAssayMap().get(6), p.getValue());
             }
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumn(metadata.getAssayMap().get(7), p.getValue());
+                protein.setAbundanceColumnValue(metadata.getAssayMap().get(7), p.getValue());
             }
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumn(metadata.getAssayMap().get(8), p.getValue());
+                protein.setAbundanceColumnValue(metadata.getAssayMap().get(8), p.getValue());
             }
             else {
                 // check optional column.

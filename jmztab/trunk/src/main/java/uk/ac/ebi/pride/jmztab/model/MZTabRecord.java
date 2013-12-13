@@ -9,19 +9,30 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseDouble;
 
 /**
- * MZTabRecord used to store a row record of the table.
+ * MZTabRecord used to store a row record of the table. The record SHOULD keep the same structure with
+ * the {@link MZTabColumnFactory}, which defined in the construct method.
+ *
+ * @see Protein
+ * @see Peptide
+ * @see PSM
+ * @see SmallMolecule
  *
  * User: Qingwei
  * Date: 23/05/13
  */
-public class MZTabRecord {
+public abstract class MZTabRecord {
     protected MZTabColumnFactory factory;
 
     private TreeMap<String, Object> record = new TreeMap<String, Object>();
 
-    public MZTabRecord(MZTabColumnFactory factory) {
+    /**
+     * Create a record based on {@link MZTabColumnFactory} structure. The default cell value is null.
+     *
+     * @param factory SHOULD NOT be null.
+     */
+    protected MZTabRecord(MZTabColumnFactory factory) {
         if (factory == null) {
-            throw new NullPointerException("Not create MZTabColumn by using MZTabColumnFactory yet.");
+            throw new NullPointerException("MZTabColumnFactory SHOULD be defined first.");
         }
 
         this.factory = factory;
@@ -31,7 +42,7 @@ public class MZTabRecord {
     }
 
     /**
-     * validate the mzTabColumn's dataType match with the data's valueType.
+     * Validate the column's data type whether match with the data's type or not.
      *
      * @see uk.ac.ebi.pride.jmztab.model.MZTabColumn#getDataType()
      */
@@ -45,6 +56,14 @@ public class MZTabRecord {
         return valueType == columnType;
     }
 
+    /**
+     * Set a value to a special logical position cell. Before set value, system will do a match
+     * validate by calling {@link #isMatch(String, Class)}. If not match, system not do set operation
+     * and return false value.
+     *
+     * @param logicalPosition locate the column data type definition in {@link MZTabColumnFactory}
+     * @param value SHOULD NOT set null.
+     */
     public boolean setValue(String logicalPosition, Object value) {
         if (value == null) {
             record.put(logicalPosition, value);
@@ -59,10 +78,25 @@ public class MZTabRecord {
         }
     }
 
+    /**
+     * Get the value of a special logical position cell.
+     */
     public Object getValue(String logicalPosition) {
         return record.get(logicalPosition);
     }
 
+    /**
+     * Internal function, mainly used to process some special value, such as "null", "NaN" and "INF".
+     *
+     * In the table-based sections (protein, peptide, and small molecule) there MUST NOT be any empty cells.
+     * In case a given property is not available “null” MUST be used. This is, for example, the case when
+     * a URI is not available for a given protein (i.e. the table cell MUST NOT be empty but “null” has to
+     * be reported). If ratios are included and the denominator is zero, the “INF” value MUST be used. If
+     * the result leads to calculation errors (for example 0/0), this MUST be reported as “not a number”
+     * (“NaN”). In some cases, there is ambiguity with respect to these cases: e.g. in spectral counting
+     * if no peptide spectrum matches are observed for a given protein, it is open for debate as to whether
+     * its abundance is zero or missing (“null”).
+     */
     private Object translateValue(Object value) {
         if (value == null) {
             return NULL;
@@ -86,7 +120,7 @@ public class MZTabRecord {
     }
 
     /**
-     * Tab split string.
+     * Print record to a tab split string.
      * value1   value2  value3  ...
      */
     @Override
@@ -107,6 +141,9 @@ public class MZTabRecord {
         return sb.toString();
     }
 
+    /**
+     * Get cell value and convert it to String. If can not convert, return null.
+     */
     protected String getString(String logicalPosition) {
         if (! isMatch(logicalPosition, String.class)) {
             return null;
@@ -115,6 +152,9 @@ public class MZTabRecord {
         return (String) record.get(logicalPosition);
     }
 
+    /**
+     * Get cell value and convert it to Integer. If can not convert, return null.
+     */
     protected Integer getInteger(String logicalPosition) {
         if (! isMatch(logicalPosition, Integer.class)) {
             return null;
@@ -123,6 +163,9 @@ public class MZTabRecord {
         return (Integer) record.get(logicalPosition);
     }
 
+    /**
+     * Get cell value and convert it to Double. If can not convert, return null.
+     */
     protected Double getDouble(String logicalPosition) {
         if (! isMatch(logicalPosition, Double.class)) {
             return null;
@@ -131,6 +174,9 @@ public class MZTabRecord {
         return (Double) record.get(logicalPosition);
     }
 
+    /**
+     * Get cell value and convert it to {@link SplitList} object. If can not convert, return null.
+     */
     protected SplitList getSplitList(String logicalPosition) {
         if (! isMatch(logicalPosition, SplitList.class)) {
             return null;
@@ -139,6 +185,9 @@ public class MZTabRecord {
         return (SplitList) record.get(logicalPosition);
     }
 
+    /**
+     * Get cell value and convert it to {@link URI}. If can not convert, return null.
+     */
     protected URI getURI(String logicalPosition) {
         if (! isMatch(logicalPosition, URI.class)) {
             return null;
@@ -147,6 +196,9 @@ public class MZTabRecord {
         return (URI) record.get(logicalPosition);
     }
 
+    /**
+     * Get cell value and convert it to {@link Reliability}. If can not convert, return null.
+     */
     protected Reliability getReliability(String logicalPosition) {
         if (! isMatch(logicalPosition, Reliability.class)) {
             return null;
@@ -155,6 +207,9 @@ public class MZTabRecord {
         return (Reliability) record.get(logicalPosition);
     }
 
+    /**
+     * Get cell value and convert it to {@link MZBoolean}. If can not convert, return null.
+     */
     protected MZBoolean getMZBoolean(String logicalPosition) {
         if (! isMatch(logicalPosition, MZBoolean.class)) {
             return null;
@@ -163,110 +218,174 @@ public class MZTabRecord {
         return (MZBoolean) record.get(logicalPosition);
     }
 
+    /**
+     * Get logical position based on column's order and element id.
+     */
     protected String getPosition(MZTabColumn column, IndexedElement element) {
         return column.getOrder() + element.getId();
     }
 
-    private MZTabColumn getColumn(String tag, IndexedElement element) {
+    /**
+     * Get a abundance column based on header. For example: protein_abundance_assay[1-n].
+     *
+     * NOTICE: abundance columns in {@link Section#Small_Molecule} is very special, which miss '_' character.
+     * For example: smallmolecule_abundance_assay[1-n]. We use {@link AbundanceColumn#translate(String)}
+     * function to overcome this problem.
+     */
+    private MZTabColumn getAbundanceColumn(String tag, IndexedElement element) {
+        if (element == null) {
+            throw new NullPointerException("Element should be provide!");
+        }
+
         Section dataSection = Section.toDataSection(factory.getSection());
         String header = (dataSection == Section.Small_Molecule ? AbundanceColumn.translate(dataSection.getName()) : dataSection.getName()) + tag + element.getReference();
 
         return factory.findColumnByHeader(header);
     }
 
-    public Double getAbundanceColumn(Assay assay) {
-        MZTabColumn column = getColumn("_abundance_", assay);
+    /**
+     * Get value from {section name}_abundance_assay[1-n] column cell.
+     * @param assay SHOULD NOT be null.
+     */
+    public Double getAbundanceColumnValue(Assay assay) {
+        MZTabColumn column = getAbundanceColumn("_abundance_", assay);
         if (column == null) {
             return null;
         } else {
             return getDouble(column.getLogicPosition());
         }
-    }
-
-    public void setAbundanceColumn(Assay assay, Double value) {
-        MZTabColumn column = getColumn("_abundance_", assay);
-        if (column != null) {
-            setValue(column.getLogicPosition(), value);
-        }
-    }
-
-    public void setAbundanceColumn(Assay assay, String valueLabel) {
-        setAbundanceColumn(assay, parseDouble(valueLabel));
-    }
-
-    public Double getAbundanceColumn(StudyVariable studyVariable) {
-        MZTabColumn column = getColumn("_abundance_", studyVariable);
-        if (column == null) {
-            return null;
-        } else {
-            return getDouble(column.getLogicPosition());
-        }
-    }
-
-    public void setAbundanceColumn(StudyVariable studyVariable, Double value) {
-        MZTabColumn column = getColumn("_abundance_", studyVariable);
-        if (column != null) {
-            setValue(column.getLogicPosition(), value);
-        }
-    }
-
-    public void setAbundanceColumn(StudyVariable studyVariable, String valueLabel) {
-        setAbundanceColumn(studyVariable, parseDouble(valueLabel));
-    }
-
-    public Double getAbundanceStdevColumn(StudyVariable studyVariable) {
-        MZTabColumn column = getColumn("_abundance_stdev_", studyVariable);
-        if (column == null) {
-            return null;
-        } else {
-            return getDouble(column.getLogicPosition());
-        }
-    }
-
-    public void setAbundanceStdevColumn(StudyVariable studyVariable, Double value) {
-        MZTabColumn column = getColumn("_abundance_stdev_", studyVariable);
-        if (column != null) {
-            setValue(column.getLogicPosition(), value);
-        }
-    }
-
-    public void setAbundanceStdevColumn(StudyVariable studyVariable, String valueLabel) {
-        setAbundanceStdevColumn(studyVariable, parseDouble(valueLabel));
-    }
-
-    public Double getAbundanceStdErrorColumn(StudyVariable studyVariable) {
-        MZTabColumn column = getColumn("_abundance_std_error_", studyVariable);
-        if (column == null) {
-            return null;
-        } else {
-            return getDouble(column.getLogicPosition());
-        }
-    }
-
-    public void setAbundanceStdErrorColumn(StudyVariable studyVariable, Double value) {
-        MZTabColumn column = getColumn("_abundance_std_error_", studyVariable);
-        if (column != null) {
-            setValue(column.getLogicPosition(), value);
-        }
-    }
-
-    public void setAbundanceStdErrorColumn(StudyVariable studyVariable, String valueLabel) {
-        setAbundanceStdErrorColumn(studyVariable, parseDouble(valueLabel));
     }
 
     /**
-     * return user defined optional column,
-     * opt_{ASSAY_ID}_name column's record value.
-     *
-     * If not find the optional column, return null;
+     * Set value from {section name}_abundance_assay[1-n] column cell.
+     * @param assay SHOULD NOT be null.
      */
-    public String getOptionColumn(Assay assay, String name) {
+    public void setAbundanceColumnValue(Assay assay, Double value) {
+        MZTabColumn column = getAbundanceColumn("_abundance_", assay);
+        if (column != null) {
+            setValue(column.getLogicPosition(), value);
+        }
+    }
+
+    /**
+     * Set value from {section name}_abundance_assay[1-n] column cell.
+     * @param assay SHOULD NOT be null.
+     */
+    public void setAbundanceColumnValue(Assay assay, String valueLabel) {
+        setAbundanceColumnValue(assay, parseDouble(valueLabel));
+    }
+
+    /**
+     * Get value from {section name}_abundance_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public Double getAbundanceColumnValue(StudyVariable studyVariable) {
+        MZTabColumn column = getAbundanceColumn("_abundance_", studyVariable);
+        if (column == null) {
+            return null;
+        } else {
+            return getDouble(column.getLogicPosition());
+        }
+    }
+
+    /**
+     * Set value from {section name}_abundance_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public void setAbundanceColumnValue(StudyVariable studyVariable, Double value) {
+        MZTabColumn column = getAbundanceColumn("_abundance_", studyVariable);
+        if (column != null) {
+            setValue(column.getLogicPosition(), value);
+        }
+    }
+
+    /**
+     * Set value from {section name}_abundance_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public void setAbundanceColumnValue(StudyVariable studyVariable, String valueLabel) {
+        setAbundanceColumnValue(studyVariable, parseDouble(valueLabel));
+    }
+
+    /**
+     * Get value from {section name}_abundance_stdev_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public Double getAbundanceStdevColumnValue(StudyVariable studyVariable) {
+        MZTabColumn column = getAbundanceColumn("_abundance_stdev_", studyVariable);
+        if (column == null) {
+            return null;
+        } else {
+            return getDouble(column.getLogicPosition());
+        }
+    }
+
+    /**
+     * Set value from {section name}_abundance_stdev_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public void setAbundanceStdevColumnValue(StudyVariable studyVariable, Double value) {
+        MZTabColumn column = getAbundanceColumn("_abundance_stdev_", studyVariable);
+        if (column != null) {
+            setValue(column.getLogicPosition(), value);
+        }
+    }
+
+    /**
+     * Set value from {section name}_abundance_stdev_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public void setAbundanceStdevColumnValue(StudyVariable studyVariable, String valueLabel) {
+        setAbundanceStdevColumnValue(studyVariable, parseDouble(valueLabel));
+    }
+
+    /**
+     * Get value from {section name}_abundance_std_error_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public Double getAbundanceStdErrorColumnValue(StudyVariable studyVariable) {
+        MZTabColumn column = getAbundanceColumn("_abundance_std_error_", studyVariable);
+        if (column == null) {
+            return null;
+        } else {
+            return getDouble(column.getLogicPosition());
+        }
+    }
+
+    /**
+     * Set value from {section name}_abundance_std_error_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public void setAbundanceStdErrorColumnValue(StudyVariable studyVariable, Double value) {
+        MZTabColumn column = getAbundanceColumn("_abundance_std_error_", studyVariable);
+        if (column != null) {
+            setValue(column.getLogicPosition(), value);
+        }
+    }
+
+    /**
+     * Set value from {section name}_abundance_std_error_study_variable[1-n] column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public void setAbundanceStdErrorColumnValue(StudyVariable studyVariable, String valueLabel) {
+        setAbundanceStdErrorColumnValue(studyVariable, parseDouble(valueLabel));
+    }
+
+    /**
+     * Get value from opt_assay[1-n]_name column cell.
+     * @param assay SHOULD NOT be null.
+     */
+    public String getOptionColumnValue(Assay assay, String name) {
         String header = OptionColumn.getHeader(assay, name);
         MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
-    public void setOptionColumn(Assay assay, String name, String value) {
+    /**
+     * Set value for opt_assay[1-n]_name column cell.
+     * @param assay SHOULD NOT be null.
+     */
+    public void setOptionColumnValue(Assay assay, String name, String value) {
         String header = OptionColumn.getHeader(assay, name);
         MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
@@ -274,13 +393,21 @@ public class MZTabRecord {
         }
     }
 
-    public String getOptionColumn(Assay assay, CVParam param) {
+    /**
+     * Get value from opt_assay[1-n]_cv_{accession} column cell.
+     * @param assay SHOULD NOT be null.
+     */
+    public String getOptionColumnValue(Assay assay, CVParam param) {
         String header = CVParamOptionColumn.getHeader(assay, param);
         MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
-    public void setOptionColumn(Assay assay, CVParam param, String value) {
+    /**
+     * Set value for opt_assay[1-n]_cv_{accession} column cell.
+     * @param assay SHOULD NOT be null.
+     */
+    public void setOptionColumnValue(Assay assay, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(assay, param);
         MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
@@ -289,18 +416,20 @@ public class MZTabRecord {
     }
 
     /**
-     * return user defined optional column,
-     * opt_{STUDY_VARIABLE_ID}_name column's record value.
-     *
-     * If not find the optional column, return null;
+     * Get value from opt_study_variable[1-n]_name column cell.
+     * @param studyVariable SHOULD NOT be null.
      */
-    public String getOptionColumn(StudyVariable studyVariable, String name) {
+    public String getOptionColumnValue(StudyVariable studyVariable, String name) {
         String header = OptionColumn.getHeader(studyVariable, name);
         MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
-    public void setOptionColumn(StudyVariable studyVariable, String name, String value) {
+    /**
+     * Set value for opt_study_variable[1-n]_name column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public void setOptionColumnValue(StudyVariable studyVariable, String name, String value) {
         String header = OptionColumn.getHeader(studyVariable, name);
         MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
@@ -308,13 +437,21 @@ public class MZTabRecord {
         }
     }
 
-    public String getOptionColumn(StudyVariable studyVariable, CVParam param) {
+    /**
+     * Get value from opt_study_variable[1-n]_cv_{accession} column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public String getOptionColumnValue(StudyVariable studyVariable, CVParam param) {
         String header = CVParamOptionColumn.getHeader(studyVariable, param);
         MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
-    public void setOptionColumn(StudyVariable studyVariable, CVParam param, String value) {
+    /**
+     * Set value from opt_study_variable[1-n]_cv_{accession} column cell.
+     * @param studyVariable SHOULD NOT be null.
+     */
+    public void setOptionColumnValue(StudyVariable studyVariable, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(studyVariable, param);
         MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
@@ -323,18 +460,20 @@ public class MZTabRecord {
     }
 
     /**
-     * return user defined optional column,
-     * opt_{MS_FILE_ID}_name column's record value.
-     *
-     * If not find the optional column, return null;
+     * Get value from opt_ms_run[1-n]_name column cell.
+     * @param msRun SHOULD NOT be null.
      */
-    public String getOptionColumn(MsRun msRun, String name) {
+    public String getOptionColumnValue(MsRun msRun, String name) {
         String header = OptionColumn.getHeader(msRun, name);
         MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
-    public void setOptionColumn(MsRun msRun, String name, String value) {
+    /**
+     * Set value for opt_ms_run[1-n]_name column cell.
+     * @param msRun SHOULD NOT be null.
+     */
+    public void setOptionColumnValue(MsRun msRun, String name, String value) {
         String header = OptionColumn.getHeader(msRun, name);
         MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
@@ -342,13 +481,21 @@ public class MZTabRecord {
         }
     }
 
-    public String getOptionColumn(MsRun msRun, CVParam param) {
+    /**
+     * Get value from opt_ms_run[1-n]_name column cell.
+     * @param msRun SHOULD NOT be null.
+     */
+    public String getOptionColumnValue(MsRun msRun, CVParam param) {
         String header = CVParamOptionColumn.getHeader(msRun, param);
         MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
-    public void setOptionColumn(MsRun msRun, CVParam param, String value) {
+    /**
+     * Set value for opt_ms_run[1-n]_cv_{accession} column cell.
+     * @param msRun SHOULD NOT be null.
+     */
+    public void setOptionColumnValue(MsRun msRun, CVParam param, String value) {
         String header = CVParamOptionColumn.getHeader(msRun, param);
         MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
@@ -357,18 +504,18 @@ public class MZTabRecord {
     }
 
     /**
-     * return user defined optional column,
-     * opt_global_name column's record value.
-     *
-     * If not find the optional column, return null;
+     * Get value from opt_global_name column cell.
      */
-    public String getOptionColumn(String name) {
+    public String getOptionColumnValue(String name) {
         String header = OptionColumn.getHeader(null, name);
         MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
-    public void setOptionColumn(String name, Object value) {
+    /**
+     * Set value for opt_global_name column cell.
+     */
+    public void setOptionColumnValue(String name, Object value) {
         String header = OptionColumn.getHeader(null, name);
         MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {
@@ -376,13 +523,19 @@ public class MZTabRecord {
         }
     }
 
-    public String getOptionColumn(CVParam param) {
+    /**
+     * Get value from opt_global_cv_{accession} column cell.
+     */
+    public String getOptionColumnValue(CVParam param) {
         String header = CVParamOptionColumn.getHeader(null, param);
         MZTabColumn column = factory.findColumnByHeader(header);
         return column == null ? null : getString(column.getLogicPosition());
     }
 
-    public void setOptionColumn(CVParam param, Object value) {
+    /**
+     * Set value for opt_global_cv_{accession} column cell.
+     */
+    public void setOptionColumnValue(CVParam param, Object value) {
         String header = CVParamOptionColumn.getHeader(null, param);
         MZTabColumn column = factory.findColumnByHeader(header);
         if (column != null) {

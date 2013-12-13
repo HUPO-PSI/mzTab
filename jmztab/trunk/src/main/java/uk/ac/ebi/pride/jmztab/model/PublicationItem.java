@@ -1,6 +1,11 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
+ * There are two kinds of publication items, PubMed and doi. Both of them used in create a list of
+ * publication, which split by "|" character.
+ *
+ * @see Publication
+ *
  * User: qingwei
  * Date: 29/04/13
  */
@@ -22,11 +27,17 @@ public class PublicationItem {
         }
     }
 
+    /**
+     * Create a publication item.
+     *
+     * @param type SHOULD NOT set null
+     * @param accession SHOULD NOT empty
+     */
     public PublicationItem(Type type, String accession) {
         if (type == null) {
             throw new NullPointerException("Publication type can not set null!");
         }
-        if (accession == null) {
+        if (MZTabUtils.isEmpty(accession)) {
             throw new IllegalArgumentException("Publication accession can not empty!");
         }
 
@@ -42,6 +53,9 @@ public class PublicationItem {
         return accession;
     }
 
+    /**
+     * PubMed ids must be prefixed by "pubmed:", DOIs by "doi:"
+     */
     public String toString() {
         return type.getName() + ":" + accession;
     }

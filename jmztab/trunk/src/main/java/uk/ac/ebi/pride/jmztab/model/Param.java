@@ -10,6 +10,9 @@ import java.util.List;
  * Parameters are always reported as [CV label, accession, name, value].
  * Any field that is not available MUST be left empty.
  *
+ * @see UserParam
+ * @see CVParam
+ *
  * User: Qingwei, Johannes Griss
  * Date: 30/01/13
  */
@@ -22,26 +25,34 @@ public class Param {
     protected String name;
     protected String value;
 
+    /**
+     * If there exists reserved characters in value, remove them all.
+     */
     private void setValue(String value) {
         if (value == null) {
             this.value = value;
         } else {
             value = value.trim();
-            List<String> charList = new ArrayList<String>();
 
-            charList.add("\"");
-            charList.add("\'");
-            charList.add(",");
-            charList.add("\\[");
-            charList.add("\\]");
+            // define a reserved character list.
+            List<String> reserveCharList = new ArrayList<String>();
 
-            for (String c : charList) {
+            reserveCharList.add("\"");
+            reserveCharList.add("\'");
+            reserveCharList.add(",");
+            reserveCharList.add("\\[");
+            reserveCharList.add("\\]");
+
+            for (String c : reserveCharList) {
                 value = value.replaceAll(c, "");
             }
             this.value = value;
         }
     }
 
+    /**
+     * Create a {@link CVParam} object. Notice: name item never set null!
+     */
     protected Param(String cvLabel, String accession, String name, String value) {
         if (name == null || name.trim().length() == 0) {
             throw new IllegalArgumentException(CV_PARAM + "'s name can not set empty!");
@@ -53,31 +64,49 @@ public class Param {
         setValue(value);
     }
 
+    /**
+     * Create a {@link UserParam} object. Notice: name item never set null!
+     */
     protected Param(String name, String value) {
         if (name == null || name.trim().length() == 0) {
             throw new IllegalArgumentException(USER_PARAM + "'s name can not set empty!");
         }
 
-        this.name = name;
+        this.name = name.trim();
         setValue(value);
     }
 
+    /**
+     * @return label of parameter.
+     */
     public String getCvLabel() {
         return cvLabel;
     }
 
+    /**
+     * @return accession of parameter
+     */
     public String getAccession() {
         return accession;
     }
 
+    /**
+     * @return name of parameter
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return value of parameter.
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Judge the parameter equal with another on based on its accession number.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,6 +124,12 @@ public class Param {
         return accession != null ? accession.hashCode() : 0;
     }
 
+    /**
+     * In case, the name of the param contains commas, quotes MUST be added to avoid problems with the parsing:
+     * [label, accession, "first part of the param name , second part of the name", value].
+     *
+     * For example: [MOD, MOD:00648, "N,O-diacetylated L-serine",]
+     */
     private void printReserveString(String name, StringBuilder sb) {
         List<String> charList = new ArrayList<String>();
 
@@ -118,6 +153,12 @@ public class Param {
         }
     }
 
+    /**
+     * In case, the name of the param contains commas, quotes MUST be added to avoid problems with the parsing:
+     * [label, accession, "first part of the param name , second part of the name", value].
+     *
+     * For example: [MOD, MOD:00648, "N,O-diacetylated L-serine",]
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -1,6 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
+ * Define a property in metadata, which depend on the {@link MetadataElement} or {@link MetadataSubElement}
+ *
  * User: Qingwei
  * Date: 23/05/13
  */
@@ -68,38 +70,61 @@ public enum MetadataProperty {
     private MetadataElement element;
     private MetadataSubElement subElement;
 
+    /**
+     * Define a property depend on {@link MetadataElement}
+     * For example: assay[1-n]-sample_ref, assay[1-n] is {@link MetadataElement#ASSAY},
+     * sample_ref is {@link MetadataProperty#ASSAY_SAMPLE_REF}
+     */
     private MetadataProperty(MetadataElement element, String name) {
         this.element = element;
         this.subElement = null;
         this.name = name;
     }
 
+    /**
+     * Define a property depend on {@link MetadataSubElement}
+     * For example: assay[1-n]-quantification_mod[1-n]-position, assay[1-n] is {@link MetadataElement#ASSAY},
+     * quantification_mod[1-n] is {@link MetadataSubElement#ASSAY_QUANTIFICATION_MOD} and position is {@link #name}
+     */
     private MetadataProperty(MetadataSubElement subElement, String name) {
         this.element = subElement.getElement();
         this.subElement = subElement;
         this.name = name;
     }
 
+    /**
+     * @return dependent {@link MetadataElement}
+     */
     public MetadataElement getElement() {
         return element;
     }
 
+    /**
+     * @return dependent {@link MetadataSubElement}
+     */
     public MetadataSubElement getSubElement() {
         return subElement;
     }
 
+    /**
+     * @return property name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return property name
+     *
+     * @see #getName()
+     */
     @Override
     public String toString() {
         return name;
     }
 
     /**
-     * element.getName_propertyName.
-     * @see uk.ac.ebi.pride.jmztab.model.MetadataElement#getName()
+     * Find property by {@link MetadataElement} and property name with case-insensitive. If not find, return null.
      */
     public static MetadataProperty findProperty(MetadataElement element, String propertyName) {
         if (element == null || propertyName == null) {
@@ -117,8 +142,8 @@ public enum MetadataProperty {
     }
 
     /**
-     * subElement.getName_propertyName
-     * @see uk.ac.ebi.pride.jmztab.model.MetadataSubElement#getName()
+     * Find property by {@link MetadataElement}_{@link MetadataSubElement} and property name with case-insensitive.
+     * If not find, return null.
      */
     public static MetadataProperty findProperty(MetadataSubElement subElement, String propertyName) {
         if (subElement == null || propertyName == null) {

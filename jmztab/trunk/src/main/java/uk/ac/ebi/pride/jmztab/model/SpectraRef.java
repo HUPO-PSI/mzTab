@@ -27,7 +27,7 @@ public class SpectraRef {
     /**
      * Creates a new SpectraRef object.
      *
-     * @param reference The reference to the spectrum in the MS fiile.
+     * @param reference The reference to the spectrum in the MS run.
      */
     public SpectraRef(MsRun msRun, String reference) {
         if (msRun == null) {

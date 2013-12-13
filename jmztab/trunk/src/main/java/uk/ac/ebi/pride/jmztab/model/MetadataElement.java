@@ -1,6 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
+ * Define all elements used in metadata.
+ *
  * User: Qingwei
  * Date: 23/05/13
  */
@@ -35,15 +37,24 @@ public enum MetadataElement {
         this.name = name;
     }
 
+    /**
+     * @return element name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return element name.
+     */
     @Override
     public String toString() {
         return name;
     }
 
+    /**
+     * Find element by name with case-insensitive match. If not find, return null.
+     */
     public static MetadataElement findElement(String name) {
         if (name == null) {
             return null;

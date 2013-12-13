@@ -8,6 +8,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 
 /**
+ * Index-organized {@link MetadataElement}, index value is non-negative integer.
+ *
  * User: Qingwei
  * Date: 23/05/13
  */
@@ -15,6 +17,11 @@ public class IndexedElement {
     private MetadataElement element;
     private Integer id;
 
+    /**
+     * Create a index-organized {@link MetadataElement}, index value is non-negative integer.
+     * @param element SHOULD NOT be null.
+     * @param id SHOULD be non-negative integer.
+     */
     public IndexedElement(MetadataElement element, int id) {
         if (element == null) {
             throw new NullPointerException("MetadataElement can not set null!");
@@ -27,22 +34,23 @@ public class IndexedElement {
         this.id = id;
     }
 
+    /**
+     * @return Indexed element.
+     */
     public MetadataElement getElement() {
         return element;
     }
 
-    public void setElement(MetadataElement element) {
-        this.element = element;
-    }
-
+    /**
+     * @return indexed number.
+     */
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
+    /**
+     * @return element[id]
+     */
     public String getReference() {
         StringBuilder sb = new StringBuilder();
 
@@ -52,6 +60,7 @@ public class IndexedElement {
     }
 
     /**
+     * Print metadata indexed element line prefix String, structure like:
      * MTD  {...}
      */
     protected StringBuilder printPrefix(StringBuilder sb) {
@@ -59,6 +68,7 @@ public class IndexedElement {
     }
 
     /**
+     * Print indexed element with value to a String, structure like:
      * MTD  {element}[id]    {value.toString}
      */
     protected String printElement(Object value) {
@@ -74,6 +84,8 @@ public class IndexedElement {
     }
 
     /**
+     * Print indexed element with property and value to a String, structure like:
+     *
      * MTD  {element}[id]-{property}    {value.toString}
      */
     protected String printProperty(MetadataProperty property, Object value) {
@@ -89,6 +101,8 @@ public class IndexedElement {
     }
 
     /**
+     * Print indexed element with property and value to a String, the property has sub index, the structure like:
+     *
      * MTD  {element}[id]-{property}[sub-id]    {value.toString}
      */
     protected String printProperty(MetadataProperty property, int subId, Object value) {
@@ -104,7 +118,11 @@ public class IndexedElement {
     }
 
     /**
-     * print a list of metadata line.
+     * Print a list of metadata line. The sub index start from 1.
+     * MTD  {element}[id]-{property}[1]    {value.toString}
+     * MTD  {element}[id]-{property}[2]    {value.toString}
+     * MTD  {element}[id]-{property}[3]    {value.toString}
+     * ....
      */
     protected StringBuilder printList(List<?> list, MetadataProperty property, StringBuilder sb) {
         Object param;

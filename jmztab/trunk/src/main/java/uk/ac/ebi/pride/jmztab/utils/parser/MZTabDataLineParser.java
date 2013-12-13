@@ -152,7 +152,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             return null;
         }
 
-        if (target.equals(NULL)) {
+        if (target.equalsIgnoreCase(NULL)) {
             if (! allowNull || metadata.getMZTabMode() == MZTabDescription.Mode.Complete) {
                 this.errorList.add(new MZTabError(LogicalErrorType.NotNULL, lineNumber, column.getHeader()));
             }
@@ -168,7 +168,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected Integer checkInteger(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(NULL)) {
+        if (result == null || result.equalsIgnoreCase(NULL)) {
             return null;
         }
 
@@ -183,7 +183,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected Double checkDouble(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(NULL)) {
+        if (result == null || result.equalsIgnoreCase(NULL)) {
             return null;
         }
 
@@ -199,7 +199,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<Param> checkParamList(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(NULL)) {
+        if (result == null || result.equalsIgnoreCase(NULL)) {
             return new SplitList<Param>(BAR);
         }
 
@@ -214,7 +214,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<String> checkStringList(MZTabColumn column, String target, char splitChar) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(NULL)) {
+        if (result == null || result.equalsIgnoreCase(NULL)) {
             return new SplitList<String>(splitChar);
         }
 
@@ -229,7 +229,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected MZBoolean checkMZBoolean(MZTabColumn column, String target) {
         String result = checkData(column, target, true);
 
-        if (result == null || result.equals(NULL)) {
+        if (result == null || result.equalsIgnoreCase(NULL)) {
             return null;
         }
 
@@ -292,7 +292,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected Reliability checkReliability(MZTabColumn column, String reliability) {
         String result_reliaility = checkData(column, reliability, true);
 
-        if (result_reliaility == null || result_reliaility.equals(NULL)) {
+        if (result_reliaility == null || result_reliaility.equalsIgnoreCase(NULL)) {
             return null;
         }
 
@@ -328,7 +328,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<Modification> checkModifications(Section section, MZTabColumn column, String target) {
         String result_modifications = checkData(column, target, true);
 
-        if (result_modifications == null || result_modifications.equals(NULL) || result_modifications.equals("0")) {
+        if (result_modifications == null || result_modifications.equalsIgnoreCase(NULL) || result_modifications.equals("0")) {
             return new SplitList<Modification>(COMMA);
         }
 
@@ -343,7 +343,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected java.net.URI checkURI(MZTabColumn column, String uri) {
         String result_uri = checkData(column, uri, true);
 
-        if (result_uri == null || result_uri.equals(NULL)) {
+        if (result_uri == null || result_uri.equalsIgnoreCase(NULL)) {
             return null;
         }
 
@@ -358,7 +358,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected List<SpectraRef> checkSpectraRef(MZTabColumn column, String spectraRef) {
         String result_spectraRef = checkData(column, spectraRef, true);
 
-        if (result_spectraRef == null || result_spectraRef.equals(NULL)) {
+        if (result_spectraRef == null || result_spectraRef.equalsIgnoreCase(NULL)) {
             return new ArrayList<SpectraRef>();
         }
 
@@ -398,7 +398,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<String> checkGOTerms(MZTabColumn column, String go_terms) {
         String result_go_terms = checkData(column, go_terms, true);
 
-        if (result_go_terms == null || result_go_terms.equals(NULL)) {
+        if (result_go_terms == null || result_go_terms.equalsIgnoreCase(NULL)) {
             return new SplitList<String>(COMMA);
         }
 
@@ -491,7 +491,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<Double> checkRetentionTime(MZTabColumn column, String retention_time) {
         String result = checkData(column, retention_time, true);
 
-        if (result == null || result.equals(NULL)) {
+        if (result == null || result.equalsIgnoreCase(NULL)) {
             return new SplitList<Double>(BAR);
         }
 
@@ -506,7 +506,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected SplitList<Double> checkRetentionTimeWindow(MZTabColumn column, String retention_time_window) {
         String result = checkData(column, retention_time_window, true);
 
-        if (result == null || result.equals(NULL)) {
+        if (result == null || result.equalsIgnoreCase(NULL)) {
             return new SplitList<Double>(BAR);
         }
 
