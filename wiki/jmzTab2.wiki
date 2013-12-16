@@ -19,15 +19,15 @@ As shown in the figure, the mainly architecture of jmzTab core model, MZTabFile 
 
 = API Tutorial =
 
-We provide a couple of typical demo class, which stored in [http://code.google.com/p/mztab/source/browse/jmztab/trunk/test/main/java/uk/ac/ebi/pride/jmztab/model/ test] directory. 
+We provide a couple of typical demo class, which stored in [http://code.google.com/p/mztab/source/browse/#svn%2Fjmztab%2Ftrunk%2Fsrc%2Ftest%2Fjava%2Fuk%2Fac%2Febi%2Fpride%2Fjmztab test] directory. 
 
 == Create Metadata and Fill Data ==
 
 The Metadata and MZTabColumnFactory constitute the framework for the MZTabFile class. Here, we provide a couple of demo to introduce how to generate a metadata, different type of section header line by using column factory, and how to fill data into MZTabFile model.
 
-  * [jmzTab2_metadata Create Metadata] : Create a complex metadata, which data coming from section 6.2 (Metadata) in specification. [http://code.google.com/p/mztab/source/browse/jmztab/trunk/test/main/java/uk/ac/ebi/pride/jmztab/model/MetadataRun.java MetadataRun] provide the concrete implementation.
+  * [jmzTab2_metadata Create Metadata] : Create a complex metadata, which data coming from section 6.2 (Metadata) in specification. [http://code.google.com/p/mztab/source/browse/jmztab/trunk/src/test/java/uk/ac/ebi/pride/jmztab/model/MetadataRun.java MetadataRun] provide the concrete implementation.
   * [jmzTab2_column Create Header and Fill Data] : Create Protein/Peptide/PSM/SmallMolecule header line and fill data. 
-  * [http://code.google.com/p/mztab/source/browse/jmztab/trunk/test/main/java/uk/ac/ebi/pride/jmztab/model/ConvertSmallMolecule.java ConvertSmallMolecule] : A typical demo to create MZTabFile by manual step by step. In this demo, we combine the [jmzTab2_metadata Create Metadata] and [jmzTab2_column Create Header and Fill Data] together, and generate a MZTabFile including metadata, small molecule header and one small molecule record. 
+  * [http://code.google.com/p/mztab/source/browse/jmztab/trunk/src/test/java/uk/ac/ebi/pride/jmztab/model/ConvertSmallMolecule.java ConvertSmallMolecule] : A typical demo to create MZTabFile by manual step by step. In this demo, we combine the [jmzTab2_metadata Create Metadata] and [jmzTab2_column Create Header and Fill Data] together, and generate a MZTabFile including metadata, small molecule header and one small molecule record. 
 
 == Convert to MZTabFile ==
 
@@ -35,8 +35,8 @@ Most of time, user would like to convert their data into MZTabFile. Here, we pro
 
 
   * [http://code.google.com/p/mztab/source/browse/jmztab/trunk/src/main/java/uk/ac/ebi/pride/jmztab/utils/convert/ConvertPrideXMLFile.java ConvertPrideXMLFile] : convert PRIDE XML to mzTab. 
-  * [http://code.google.com/p/mztab/source/browse/jmztab/trunk/src/test/java/uk/ac/ebi/pride/jmztab/utils/convert/ConvertPeptideSQ.java ConvertPeptideSQ]: Generate [http://code.google.com/p/mztab/source/browse/examples/SILAC_CQI.mzTab SILAC_CQI.mzTab] metadata, protein header line, one protein record, PSM header line, on PSM record by manual.
-  * [http://code.google.com/p/mztab/source/browse/jmztab/trunk/src/test/java/uk/ac/ebi/pride/jmztab/utils/convert/ConvertSilacExperiment.java ConvertSilacExperiment]: Generate [http://code.google.com/p/mztab/source/browse/examples/peptide_SQ.mzTab peptide_SQ.mzTab] metadata, peptide header line, one peptide record by manual.
+  * [http://code.google.com/p/mztab/source/browse/jmztab/trunk/src/test/java/uk/ac/ebi/pride/jmztab/model/ConvertPeptideSQ.java ConvertPeptideSQ]: Generate [http://code.google.com/p/mztab/source/browse/examples/SILAC_CQI.mzTab SILAC_CQI.mzTab] metadata, protein header line, one protein record, PSM header line, on PSM record by manual.
+  * [http://code.google.com/p/mztab/source/browse/jmztab/trunk/src/test/java/uk/ac/ebi/pride/jmztab/model/ConvertSilacExperiment.java ConvertSilacExperiment]: Generate [http://code.google.com/p/mztab/source/browse/examples/peptide_SQ.mzTab peptide_SQ.mzTab] metadata, peptide header line, one peptide record by manual.
 
 ----
 
