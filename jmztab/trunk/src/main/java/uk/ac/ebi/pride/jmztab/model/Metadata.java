@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.*;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
 import static uk.ac.ebi.pride.jmztab.model.MetadataElement.*;
 import static uk.ac.ebi.pride.jmztab.model.MetadataElement.CV;
 import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
@@ -230,6 +231,8 @@ public class Metadata {
 
     /**
      * Set mzTab-ID.
+     *
+     * @param id SHOULD NOT set empty
      */
     public void setMZTabID(String id) {
         tabDescription.setId(id);
@@ -237,13 +240,19 @@ public class Metadata {
 
     /**
      * Set mzTab-version.
+     *
+     * @param version SHOULD NOT set empty
      */
     public void setMZTabVersion(String version) {
         tabDescription.setVersion(version);
     }
 
     /**
-     * Set mzTab-mode.
+     * Set mzTab-mode. Set the mzTab-mode. The results included in an mzTab file can be reported in 2 ways:
+     * 'Complete' (when results for each assay/replicate are included) and 'Summary',
+     * when only the most representative results are reported.
+     *
+     * @param mode SHOULD NOT be null.
      */
     public void setMZTabMode(MZTabDescription.Mode mode) {
         tabDescription.setMode(mode);
@@ -522,14 +531,14 @@ public class Metadata {
      * Add a sample[id]-species into sample.
      *
      * @param id SHOULD be positive integer.
-     * @param species SHOULD NOT set null.
+     * @param species if null ignore operation.
      */
     public void addSampleSpecies(Integer id, Param species) {
         if (id <= 0) {
             throw new IllegalArgumentException("Sample id should be great than 0!");
         }
         if (species == null) {
-            throw new NullPointerException("Sample species should not set null");
+            return;
         }
 
         Sample sample = sampleMap.get(id);
@@ -546,14 +555,14 @@ public class Metadata {
      * Add a sample[id]-tissue into sample.
      *
      * @param id SHOULD be positive integer.
-     * @param tissue SHOULD NOT set null.
+     * @param tissue if null ignore operation.
      */
     public void addSampleTissue(Integer id, Param tissue) {
         if (id <= 0) {
             throw new IllegalArgumentException("Sample id should be great than 0!");
         }
         if (tissue == null) {
-            throw new NullPointerException("Sample tissue should not set null");
+            return;
         }
 
         Sample sample = sampleMap.get(id);
@@ -570,14 +579,14 @@ public class Metadata {
      * Add a sample[id]-cell_type into sample.
      *
      * @param id SHOULD be positive integer.
-     * @param cellType SHOULD NOT set null.
+     * @param cellType if null ignore operation.
      */
     public void addSampleCellType(Integer id, Param cellType) {
         if (id <= 0) {
             throw new IllegalArgumentException("Sample id should be great than 0!");
         }
         if (cellType == null) {
-            throw new NullPointerException("Sample cell type should not set null");
+            return;
         }
 
         Sample sample = sampleMap.get(id);
@@ -594,14 +603,14 @@ public class Metadata {
      * Add a sample[id]-disease into sample.
      *
      * @param id SHOULD be positive integer.
-     * @param disease SHOULD NOT set null.
+     * @param disease if null ignore operation.
      */
     public void addSampleDisease(Integer id, Param disease) {
         if (id <= 0) {
             throw new IllegalArgumentException("Sample id should be great than 0!");
         }
         if (disease == null) {
-            throw new NullPointerException("Sample disease should not set null");
+            return;
         }
 
         Sample sample = sampleMap.get(id);
@@ -618,10 +627,15 @@ public class Metadata {
      * Add a sample[id]-description into sample.
      *
      * @param id SHOULD be positive integer.
+     * @param description if empty ignore operation.
      */
     public void addSampleDescription(Integer id, String description) {
         if (id <= 0) {
             throw new IllegalArgumentException("Sample id should be great than 0!");
+        }
+
+        if (isEmpty(description)) {
+            return;
         }
 
         Sample sample = sampleMap.get(id);
@@ -638,14 +652,14 @@ public class Metadata {
      * Add a sample[id]-custom into sample.
      *
      * @param id SHOULD be positive integer.
-     * @param custom SHOULD NOT set null.
+     * @param custom if null ignore operation.
      */
     public void addSampleCustom(Integer id, Param custom) {
         if (id <= 0) {
             throw new IllegalArgumentException("Sample id should be great than 0!");
         }
         if (custom == null) {
-            throw new NullPointerException("Sample custom parameter should not set null");
+            return;
         }
 
         Sample sample = sampleMap.get(id);
@@ -662,14 +676,14 @@ public class Metadata {
      * Add a sample_processing[id]
      *
      * @param id SHOULD be positive integer.
-     * @param sampleProcessing SHOULD NOT set null.
+     * @param sampleProcessing if null ignore operation.
      */
     public void addSampleProcessing(Integer id, SplitList<Param> sampleProcessing) {
         if (id <= 0) {
             throw new IllegalArgumentException("Sample id should be great than 0!");
         }
         if (sampleProcessing == null) {
-            throw new NullPointerException("Sample processing parameters should not set null");
+            return;
         }
 
         sampleProcessing.setSplitChar(BAR);
@@ -680,14 +694,14 @@ public class Metadata {
      * Add a processing parameter to sample_processing[id]
      *
      * @param id SHOULD be positive integer.
-     * @param param SHOULD NOT set null.
+     * @param param if null ignore operation.
      */
     public void addSampleProcessingParam(Integer id, Param param) {
         if (id <= 0) {
             throw new IllegalArgumentException("Sample processing id should be great than 0!");
         }
         if (param == null) {
-            throw new NullPointerException("Sample processing parameter should not set null");
+            return;
         }
 
         SplitList<Param> sampleProcessing = sampleProcessingMap.get(id);
@@ -717,11 +731,14 @@ public class Metadata {
      * Add a parameter for instrument[id]-name
      *
      * @param id SHOULD be positive integer.
-     * @param name is null, then not output instrument[id]-name
+     * @param name if null ignore operation.
      */
     public void addInstrumentName(Integer id, Param name) {
         if (id <= 0) {
             throw new IllegalArgumentException("Instrument id should be great than 0!");
+        }
+        if (name == null) {
+            return;
         }
 
         Instrument instrument = instrumentMap.get(id);
@@ -738,11 +755,14 @@ public class Metadata {
      * Add a parameter for instrument[id]-source
      *
      * @param id SHOULD be positive integer.
-     * @param source is null, then not output instrument[id]-source
+     * @param source if null ignore operation.
      */
     public void addInstrumentSource(Integer id, Param source) {
         if (id <= 0) {
             throw new IllegalArgumentException("Instrument id should be great than 0!");
+        }
+        if (source == null) {
+            return;
         }
 
         Instrument instrument = instrumentMap.get(id);
@@ -759,11 +779,14 @@ public class Metadata {
      * Add a parameter for instrument[id]-analyzer
      *
      * @param id SHOULD be positive integer.
-     * @param analyzer is null, then not output instrument[id]-analyzer
+     * @param analyzer if null ignore operation.
      */
     public void addInstrumentAnalyzer(Integer id, Param analyzer) {
         if (id <= 0) {
             throw new IllegalArgumentException("Instrument id should be great than 0!");
+        }
+        if (analyzer == null) {
+            return;
         }
 
         Instrument instrument = instrumentMap.get(id);
@@ -780,11 +803,14 @@ public class Metadata {
      * Add a parameter for instrument[id]-detector
      *
      * @param id SHOULD be positive integer.
-     * @param detector is null, then not output instrument[id]-detector
+     * @param detector if null ignore operation.
      */
     public void addInstrumentDetector(Integer id, Param detector) {
         if (id <= 0) {
             throw new IllegalArgumentException("Instrument id should be great than 0!");
+        }
+        if (detector == null) {
+            return;
         }
 
         Instrument instrument = instrumentMap.get(id);
@@ -814,14 +840,14 @@ public class Metadata {
      * Add a software[id] parameter.
      *
      * @param id SHOULD be positive integer.
-     * @param param SHOULD NOT set null.
+     * @param param if null ignore operation.
      */
     public void addSoftwareParam(Integer id, Param param) {
         if (id <= 0) {
             throw new IllegalArgumentException("Software id should be great than 0!");
         }
         if (param == null) {
-            throw new NullPointerException("Software parameter should not set null");
+            return;
         }
 
         Software software = softwareMap.get(id);
@@ -838,14 +864,14 @@ public class Metadata {
      * Add a software[id]-setting.
      *
      * @param id SHOULD be positive integer.
-     * @param setting SHOULD NOT empty.
+     * @param setting if empty ignore operation.
      */
     public void addSoftwareSetting(Integer id, String setting) {
         if (id <= 0) {
             throw new IllegalArgumentException("Software id should be great than 0!");
         }
-        if (setting == null) {
-            throw new NullPointerException("Software setting should not set null");
+        if (isEmpty(setting)) {
+            return;
         }
 
         Software software = softwareMap.get(id);
@@ -896,7 +922,7 @@ public class Metadata {
         if (type == null) {
             throw new NullPointerException("Publication type should not set null");
         }
-        if (MZTabUtils.isEmpty(accession)) {
+        if (isEmpty(accession)) {
             throw new IllegalArgumentException("Publication accession should not set empty.");
         }
 
@@ -957,7 +983,7 @@ public class Metadata {
         if (id <= 0) {
             throw new IllegalArgumentException("Contact id should be great than 0!");
         }
-        if (MZTabUtils.isEmpty(name)) {
+        if (isEmpty(name)) {
             throw new IllegalArgumentException("Contact name should not set empty.");
         }
 
@@ -981,7 +1007,7 @@ public class Metadata {
         if (id <= 0) {
             throw new IllegalArgumentException("Contact id should be great than 0!");
         }
-        if (MZTabUtils.isEmpty(affiliation)) {
+        if (isEmpty(affiliation)) {
             throw new IllegalArgumentException("Contact affiliation should not set empty.");
         }
 
@@ -1005,7 +1031,7 @@ public class Metadata {
         if (id <= 0) {
             throw new IllegalArgumentException("Contact id should be great than 0!");
         }
-        if (MZTabUtils.isEmpty(email)) {
+        if (isEmpty(email)) {
             throw new IllegalArgumentException("Contact email should not set empty.");
         }
 
@@ -1021,11 +1047,11 @@ public class Metadata {
 
     /**
      * Add uri into metadata.
-     * @param uri SHOULD NOT set null.
+     * @param uri if null ignore operation.
      */
     public void addUri(URI uri) {
         if (uri == null) {
-            throw new NullPointerException("url should not set null!");
+            return;
         }
 
         this.uriList.add(uri);
@@ -1034,11 +1060,11 @@ public class Metadata {
     /**
      * Add fixed_mod[id] into metadata.
      *
-     * @param mod SHOULD NOT set null.
+     * @param mod if null ignore operation.
      */
     public void addFixedMod(FixedMod mod) {
         if (mod == null) {
-            throw new IllegalArgumentException("FixedMod should not be null");
+            return;
         }
 
         this.fixedModMap.put(mod.getId(), mod);
@@ -1048,14 +1074,14 @@ public class Metadata {
      * Add fixed_mod[id] parameter into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param param SHOULD NOT set null.
+     * @param param if null ignore operation.
      */
     public void addFixedModParam(Integer id, Param param) {
         if (id <= 0) {
             throw new IllegalArgumentException("fixed_mod id should be great than 0!");
         }
         if (param == null) {
-            throw new NullPointerException("fixed_mod parameter should not set null.");
+            return;
         }
 
         FixedMod mod = fixedModMap.get(id);
@@ -1078,7 +1104,7 @@ public class Metadata {
         if (id <= 0) {
             throw new IllegalArgumentException("fixed_mod id should be great than 0!");
         }
-        if (MZTabUtils.isEmpty(site)) {
+        if (isEmpty(site)) {
             throw new IllegalArgumentException("fixed_mod site should not set empty.");
         }
 
@@ -1102,7 +1128,7 @@ public class Metadata {
         if (id <= 0) {
             throw new IllegalArgumentException("fixed_mod id should be great than 0!");
         }
-        if (MZTabUtils.isEmpty(position)) {
+        if (isEmpty(position)) {
             throw new IllegalArgumentException("fixed_mod position should not set empty.");
         }
 
@@ -1119,11 +1145,11 @@ public class Metadata {
     /**
      * Add variable_mod[id] into metadata.
      *
-     * @param mod SHOULD NOT set null.
+     * @param mod if null ignore operation.
      */
     public void addVariableMod(VariableMod mod) {
         if (mod == null) {
-            throw new IllegalArgumentException("VariableMod should not be null");
+            return;
         }
 
         this.variableModMap.put(mod.getId(), mod);
@@ -1133,14 +1159,14 @@ public class Metadata {
      * Add variable_mod[id] parameter into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param param SHOULD NOT set null.
+     * @param param if null ignore operation.
      */
     public void addVariableModParam(Integer id, Param param) {
         if (id <= 0) {
             throw new IllegalArgumentException("variable_mod id should be great than 0!");
         }
         if (param == null) {
-            throw new NullPointerException("variable_mod parameter should not set null.");
+            return;
         }
 
         VariableMod mod = variableModMap.get(id);
@@ -1163,7 +1189,7 @@ public class Metadata {
         if (id <= 0) {
             throw new IllegalArgumentException("variable_mod id should be great than 0!");
         }
-        if (MZTabUtils.isEmpty(site)) {
+        if (isEmpty(site)) {
             throw new IllegalArgumentException("variable_mod site should not set empty.");
         }
 
@@ -1187,7 +1213,7 @@ public class Metadata {
         if (id <= 0) {
             throw new IllegalArgumentException("variable_mod id should be great than 0!");
         }
-        if (MZTabUtils.isEmpty(position)) {
+        if (isEmpty(position)) {
             throw new IllegalArgumentException("variable_mod position should not set empty.");
         }
 
@@ -1218,14 +1244,14 @@ public class Metadata {
      * Add ms_run[id]-format into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param format SHOULD NOT set null.
+     * @param format if null ignore operation.
      */
     public void addMsRunFormat(Integer id, Param format) {
         if (id <= 0) {
             throw new IllegalArgumentException("ms_run id should be great than 0!");
         }
         if (format == null) {
-            throw new NullPointerException("ms_run format should not set null.");
+            return;
         }
 
         MsRun msRun = msRunMap.get(id);
@@ -1242,14 +1268,14 @@ public class Metadata {
      * Add ms_run[id]-location into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param location SHOULD NOT set null.
+     * @param location if null ignore operation.
      */
     public void addMsRunLocation(Integer id, URL location) {
         if (id <= 0) {
             throw new IllegalArgumentException("ms_run id should be great than 0!");
         }
         if (location == null) {
-            throw new NullPointerException("ms_run location should not set null.");
+            return;
         }
 
         MsRun msRun = msRunMap.get(id);
@@ -1266,14 +1292,14 @@ public class Metadata {
      * Add ms_run[id]-id_format into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param idFormat SHOULD NOT set null.
+     * @param idFormat if null ignore operation.
      */
     public void addMsRunIdFormat(Integer id, Param idFormat) {
         if (id <= 0) {
             throw new IllegalArgumentException("ms_run id should be great than 0!");
         }
         if (idFormat == null) {
-            throw new NullPointerException("ms_run id_format should not set null.");
+            return;
         }
 
         MsRun msRun = msRunMap.get(id);
@@ -1290,14 +1316,14 @@ public class Metadata {
      * Add ms_run[id]-fragmentation_method into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param fragmentationMethod SHOULD NOT set null.
+     * @param fragmentationMethod if null ignore operation.
      */
     public void addMsRunFragmentationMethod(Integer id, Param fragmentationMethod) {
         if (id <= 0) {
             throw new IllegalArgumentException("ms_run id should be great than 0!");
         }
         if (fragmentationMethod == null) {
-            throw new NullPointerException("ms_run fragmentation_method should not set null.");
+            return;
         }
 
         MsRun msRun = msRunMap.get(id);
@@ -1313,11 +1339,11 @@ public class Metadata {
     /**
      * Add a custom parameter into metadata.
      *
-     * @param custom SHOULD NOT set null.
+     * @param custom if null ignore operation.
      */
     public void addCustom(Param custom) {
         if (custom == null) {
-            throw new NullPointerException("custom parameter should not set null.");
+            return;
         }
 
         this.customList.add(custom);
@@ -1340,14 +1366,14 @@ public class Metadata {
      * Add assay[id]-quantification_reagent into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param quantificationReagent SHOULD NOT set null.
+     * @param quantificationReagent if null ignore operation.
      */
     public void addAssayQuantificationReagent(Integer id, Param quantificationReagent) {
         if (id <= 0) {
             throw new IllegalArgumentException("assay id should be great than 0!");
         }
         if (quantificationReagent == null) {
-            throw new NullPointerException("assay quantification_reagent should not set null.");
+            return;
         }
 
         Assay assay = assayMap.get(id);
@@ -1364,7 +1390,7 @@ public class Metadata {
      * Add assay[id]-sample_ref into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param sample SHOULD NOT set null.
+     * @param sample SHOULD NOT set null, and SHOULD be defined in metadata first.
      */
     public void addAssaySample(Integer id, Sample sample) {
         if (id <= 0) {
@@ -1372,6 +1398,9 @@ public class Metadata {
         }
         if (sample == null) {
             throw new NullPointerException("assay sample_ref should not set null.");
+        }
+        if (! sampleMap.containsValue(sample)) {
+            throw new IllegalArgumentException("Sample not defined in metadata.");
         }
 
         Assay assay = assayMap.get(id);
@@ -1388,7 +1417,7 @@ public class Metadata {
      * Add assay[id]-ms_run_ref into metadata.
      *
      * @param id SHOULD be positive integer.
-     * @param msRun SHOULD NOT set null.
+     * @param msRun SHOULD NOT set null, and SHOULD be defined in metadata first.
      */
     public void addAssayMsRun(Integer id, MsRun msRun) {
         if (id <= 0) {
@@ -1396,6 +1425,9 @@ public class Metadata {
         }
         if (msRun == null) {
             throw new NullPointerException("assay ms_run_ref should not set null.");
+        }
+        if (! msRunMap.containsValue(msRun)) {
+            throw new IllegalArgumentException("ms_run should be defined in metadata first.");
         }
 
         Assay assay = assayMap.get(id);
@@ -1412,14 +1444,14 @@ public class Metadata {
      * Add assay[assayId]-quantification_mod[1-n] into metadata.
      *
      * @param assayId SHOULD be positive integer.
-     * @param mod SHOULD NOT set null.
+     * @param mod if null ignore operation.
      */
     public void addAssayQuantificationMod(Integer assayId, AssayQuantificationMod mod) {
         if (assayId <= 0) {
             throw new IllegalArgumentException("assay id should be great than 0!");
         }
         if (mod == null) {
-            throw new NullPointerException("assay quantification_mod should not set null.");
+            return;
         }
 
         Assay assay = assayMap.get(assayId);
@@ -1437,7 +1469,7 @@ public class Metadata {
      *
      * @param assayId SHOULD be positive integer.
      * @param quanModId SHOULD be positive integer.
-     * @param param SHOULD NOT set null.
+     * @param param if null ignore operation.
      */
     public void addAssayQuantificationModParam(Integer assayId, Integer quanModId, Param param) {
         if (assayId <= 0) {
@@ -1447,7 +1479,7 @@ public class Metadata {
             throw new IllegalArgumentException("quantification_mod id should be great than 0!");
         }
         if (param == null) {
-            throw new NullPointerException("assay quantification_mod parameter should not set null.");
+            return;
         }
 
         Assay assay = assayMap.get(assayId);
@@ -1465,6 +1497,7 @@ public class Metadata {
      *
      * @param assayId SHOULD be positive integer.
      * @param quanModId SHOULD be positive integer.
+     * @param site SHOULD NOT empty.
      */
     public void addAssayQuantificationModSite(Integer assayId, Integer quanModId, String site) {
         if (assayId <= 0) {
@@ -1473,6 +1506,9 @@ public class Metadata {
         if (quanModId <= 0) {
             throw new IllegalArgumentException("quantification_mod id should be great than 0!");
         }
+        if (isEmpty(site)) {
+            throw new IllegalArgumentException("quantification_mod-site should not empty!");
+        }
 
         Assay assay = assayMap.get(assayId);
         if (assay == null) {
@@ -1489,6 +1525,7 @@ public class Metadata {
      *
      * @param assayId SHOULD be positive integer.
      * @param quanModId SHOULD be positive integer.
+     * @param position SHOULD NOT empty.
      */
     public void addAssayQuantificationModPosition(Integer assayId, Integer quanModId, String position) {
         if (assayId <= 0) {
@@ -1496,6 +1533,9 @@ public class Metadata {
         }
         if (quanModId <= 0) {
             throw new IllegalArgumentException("quantification_mod id should be great than 0!");
+        }
+        if (isEmpty(position)) {
+            throw new IllegalArgumentException("quantification_mod position should not empty!");
         }
 
         Assay assay = assayMap.get(assayId);
@@ -1525,7 +1565,7 @@ public class Metadata {
      * Add a study_variable[id]-assay_ref.
      *
      * @param id SHOULD be positive integer.
-     * @param assay SHOULD NOT set null.
+     * @param assay SHOULD NOT set null, and should be defined in metadata first.
      */
     public void addStudyVariableAssay(Integer id, Assay assay) {
         if (id <= 0) {
@@ -1533,6 +1573,9 @@ public class Metadata {
         }
         if (assay == null) {
             throw new NullPointerException("study_variable[n]-assay_ref should not set null.");
+        }
+        if (! assayMap.containsValue(assay)) {
+            throw new IllegalArgumentException("assay should be defined in metadata first");
         }
 
         StudyVariable studyVariable = studyVariableMap.get(id);
@@ -1549,7 +1592,7 @@ public class Metadata {
      * Add a study_variable[id]-sample_ref.
      *
      * @param id SHOULD be positive integer.
-     * @param sample SHOULD NOT set null.
+     * @param sample SHOULD NOT set null, and should be defined in metadata first.
      */
     public void addStudyVariableSample(Integer id, Sample sample) {
         if (id <= 0) {
@@ -1557,6 +1600,9 @@ public class Metadata {
         }
         if (sample == null) {
             throw new NullPointerException("study_variable[n]-sample_ref should not set null.");
+        }
+        if (! sampleMap.containsValue(sample)) {
+            throw new IllegalArgumentException("sample should be defined in metadata first");
         }
 
         StudyVariable studyVariable = studyVariableMap.get(id);

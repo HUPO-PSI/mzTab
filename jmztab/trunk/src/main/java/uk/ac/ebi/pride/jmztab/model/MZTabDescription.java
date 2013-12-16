@@ -98,6 +98,19 @@ public class MZTabDescription {
     }
 
     /**
+     * Find mzTab-mode based on case-insensitive match.
+     */
+    public Mode findMode(String modelLabel) {
+        if (Mode.Complete.name().equalsIgnoreCase(modelLabel)) {
+            return Mode.Complete;
+        } else if (Mode.Summary.name().equalsIgnoreCase(modelLabel)) {
+            return Mode.Summary;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Get mzTab-type value. The results included in an mzTab file MUST be flagged as
      * 'Identification' or 'Quantification'  - the latter encompassing approaches
      * that are quantification only or quantification and identification.
@@ -107,7 +120,7 @@ public class MZTabDescription {
     }
 
     /**
-     * Get mzTab-type value. The results included in an mzTab file MUST be flagged as
+     * Set mzTab-type value. The results included in an mzTab file MUST be flagged as
      * 'Identification' or 'Quantification'  - the latter encompassing approaches
      * that are quantification only or quantification and identification.
      *
@@ -122,6 +135,19 @@ public class MZTabDescription {
     }
 
     /**
+     * Find mzTab-type based on case-insensitive match.
+     */
+    public Type findType(String typeLabel) {
+        if (Type.Identification.name().equalsIgnoreCase(typeLabel)) {
+            return Type.Identification;
+        } else if (Type.Quantification.name().equalsIgnoreCase(typeLabel)) {
+            return Type.Quantification;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Get the mzTab-ID of the mzTab file
      */
     public String getId() {
@@ -129,9 +155,15 @@ public class MZTabDescription {
     }
 
     /**
-     * Set the mzTab-ID of the mzTab file. If mzTab-ID is empty, not output this item.
+     * Set the mzTab-ID of the mzTab file.
+     *
+     * @param id SHOULD NOT set empty
      */
     public void setId(String id) {
+        if (MZTabUtils.isEmpty(id)) {
+            throw new IllegalArgumentException("mzTab-ID SHOULD NOT set empty");
+        }
+
         this.id = id;
     }
 
@@ -157,7 +189,7 @@ public class MZTabDescription {
         printPrefix(sb).append(MZTAB).append(MINUS).append(MZTAB_MODE).append(TAB).append(mode).append(NEW_LINE);
         printPrefix(sb).append(MZTAB).append(MINUS).append(MZTAB_TYPE).append(TAB).append(type).append(NEW_LINE);
 
-        if (id != null) {
+        if (! MZTabUtils.isEmpty(id)) {
             printPrefix(sb).append(MZTAB).append(MINUS).append(MZTAB_ID).append(TAB).append(id).append(NEW_LINE);
         }
 

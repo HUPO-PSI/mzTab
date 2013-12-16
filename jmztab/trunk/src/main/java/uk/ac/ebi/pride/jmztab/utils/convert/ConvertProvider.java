@@ -26,9 +26,6 @@ public abstract class ConvertProvider<T, V> {
     private MZTabFile mzTabFile;
 
     public ConvertProvider(T source, V params) {
-        if (source == null) {
-            throw new NullPointerException("Convert source can not set null!");
-        }
         this.source = source;
         this.params = params;
 
