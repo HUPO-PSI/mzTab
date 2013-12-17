@@ -9,6 +9,8 @@ We create two interfaces, CLI (mzTabCLI) and Simple GUI (mzTabGUI), to simplify 
 
 == Command Line Interface ==
 
+In [http://code.google.com/p/mztab/source/browse/jmztab/trunk/etcs/command_demo.bat mzTabCLI Demo], we provide a couple of demos to help user call command line interface quickly. 
+
   * print command line help
 {{{
 java -jar mzTabCLI.jar -help
@@ -46,7 +48,7 @@ Original:       Column "{0}" is an empty cell, or the current column cannot use 
    Cause:       In the table-based sections (protein, peptide, psm, and small molecule) there MUST NOT be any empty cells. Missing values MUST be reported using "null".
 }}}
     # *    Code:* Unique number for error/warn
-    # *Category:* Currently, there are three types of messages: _*Format, Logical, CrossCheck*_
+    # *Category:* Currently, there are three types of messages: _*Format, Logical*_
     # *Original:* Message expression pattern. "{?}" is a couple of parameters which can be filled during validate processing.
     # *   Cause:* A readable text to describe the reason why raise this error/warn. Currently, these cause message coming from mztab specification mainly.
 
