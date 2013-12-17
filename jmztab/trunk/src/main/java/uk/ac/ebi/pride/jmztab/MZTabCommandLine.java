@@ -3,9 +3,9 @@ package uk.ac.ebi.pride.jmztab;
 import org.apache.commons.cli.*;
 import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
+import uk.ac.ebi.pride.jmztab.model.MZTabUtils;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
-import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorTypeMap;
@@ -20,6 +20,20 @@ import java.io.OutputStream;
  * Date: 17/09/13
  */
 public class MZTabCommandLine {
+    public static MassSpecFileFormat getFormat(String format) {
+        if (MZTabUtils.isEmpty(format)) {
+            return null;
+        }
+
+        if (format.equalsIgnoreCase(MassSpecFileFormat.PRIDE.name())) {
+            return MassSpecFileFormat.PRIDE;
+        } else if (format.equalsIgnoreCase(MassSpecFileFormat.MZIDENTML.name())) {
+            return MassSpecFileFormat.MZIDENTML;
+        } else {
+            return MassSpecFileFormat.PRIDE;
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         MZTabErrorTypeMap typeMap = new MZTabErrorTypeMap();
 
@@ -136,7 +150,7 @@ public class MZTabCommandLine {
                     if (type.equals(inFileOpt)) {
                         inFile = new File(inDir, value.trim());
                     } else if (type.equals(formatOpt)) {
-                        format = ConvertProvider.getFormat(value.trim());
+                        format = getFormat(value.trim());
                     }
                 }
                 if (inFile == null) {

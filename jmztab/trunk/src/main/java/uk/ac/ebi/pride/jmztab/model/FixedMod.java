@@ -1,7 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
- * Fixed Modification used to identify peptides and proteins of the mzTab file (e.g. carbamidomethylation, oxidation, labels/tags).
+ * Fixed Modification used to identify peptides and proteins of the mzTab file (e.g. carbamidomethylation,
+ * oxidation, labels/tags).
  *
  * User: qingwei
  * Date: 14/10/13

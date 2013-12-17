@@ -9,6 +9,14 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 
 /**
+ * Common tab split line parser. If there exists format or logical errors during the parse process,
+ * system will add them into {@link MZTabErrorList}, or break validate and throw {@link MZTabException}
+ * directly.
+ *
+ * @see MZTabHeaderLineParser
+ * @see MZTabDataLineParser
+ * @see MTDLineParser
+ *
  * User: Qingwei
  * Date: 10/02/13
  */
@@ -43,7 +51,7 @@ public class MZTabLineParser {
 
         if (section == null) {
             MZTabError error = new MZTabError(FormatErrorType.LinePrefix, lineNumber, items[0]);
-            errorList.add(error);
+            this.errorList.add(error);
         }
     }
 }

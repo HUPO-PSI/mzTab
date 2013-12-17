@@ -3,6 +3,9 @@ package uk.ac.ebi.pride.jmztab.utils.errors;
 import static uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType.Category.Format;
 
 /**
+ * Diagnose different types of format-related (reporting format problems).
+ * Reference: http://code.google.com/p/mztab/wiki/jmzTab2_message for details.
+ *
  * User: Qingwei
  * Date: 29/01/13
  */

@@ -8,7 +8,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 
 /**
- * Index-organized {@link MetadataElement}, index value is non-negative integer.
+ * Index-organized {@link MetadataElement}, index value is positive integer.
  *
  * User: Qingwei
  * Date: 23/05/13

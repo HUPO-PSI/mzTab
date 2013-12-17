@@ -89,13 +89,13 @@ public abstract class MZTabRecord {
      * Internal function, mainly used to process some special value, such as "null", "NaN" and "INF".
      *
      * In the table-based sections (protein, peptide, and small molecule) there MUST NOT be any empty cells.
-     * In case a given property is not available “null” MUST be used. This is, for example, the case when
-     * a URI is not available for a given protein (i.e. the table cell MUST NOT be empty but “null” has to
-     * be reported). If ratios are included and the denominator is zero, the “INF” value MUST be used. If
-     * the result leads to calculation errors (for example 0/0), this MUST be reported as “not a number”
-     * (“NaN”). In some cases, there is ambiguity with respect to these cases: e.g. in spectral counting
+     * In case a given property is not available "null" MUST be used. This is, for example, the case when
+     * a URI is not available for a given protein (i.e. the table cell MUST NOT be empty but "null" has to
+     * be reported). If ratios are included and the denominator is zero, the "INF" value MUST be used. If
+     * the result leads to calculation errors (for example 0/0), this MUST be reported as "not a number"
+     * ("NaN"). In some cases, there is ambiguity with respect to these cases: e.g. in spectral counting
      * if no peptide spectrum matches are observed for a given protein, it is open for debate as to whether
-     * its abundance is zero or missing (“null”).
+     * its abundance is zero or missing ("null").
      */
     private Object translateValue(Object value) {
         if (value == null) {

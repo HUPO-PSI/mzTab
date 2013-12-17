@@ -216,7 +216,7 @@ public class MZTabInspector extends JFrame {
                         while (elements.hasMoreElements()) {
                             element = elements.nextElement();
                             if (element.isSelected()) {
-                                format = ConvertProvider.getFormat(element.getText());
+                                format = MZTabCommandLine.getFormat(element.getText());
                                 break;
                             }
                         }

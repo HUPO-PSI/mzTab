@@ -10,11 +10,13 @@ import java.util.regex.Pattern;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
-* Metadata Element start with MTD, and structure like:
-* MTD  {MetadataElement}([id])(-{MetadataProperty})
+ * Parse a metadata line  into a element.
+* Metadata Element start with MTD, its structure like:
+* MTD  {@link MetadataElement}([id])(-{@link MetadataSubElement}[pid])(-{@link MetadataProperty})    {Element Value}
 *
-* @see MetadataElement  : Mandatory
-* @see MetadataProperty : Optional.
+* @see MetadataElement     : Mandatory
+* @see MetadataSubElement  : Optional
+* @see MetadataProperty    : Optional.
 *
 * User: Qingwei
 * Date: 08/02/13
@@ -27,10 +29,12 @@ public class MTDLineParser extends MZTabLineParser {
     private Map<String, String> colUnitMap = new HashMap<String, String>();
 
     /**
-     * For facing colunit definition line, for example:
+     * Most of time, we use {@link #parseNormalMetadata(String, String)} to parse defineLabel into
+     * Metadata Element. Except facing colunit definition line, for example:
      * MTD  colunit-protein retention_time=[UO, UO:000031, minute, ]
-     * after parse metadata and header lines, need calling
-     * {@link #refineColUnit(uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)} manually.
+     * which depends on the header line definitions. For this situation, we provide
+     * {@link #refineColUnit(uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)} method, and call it in
+     * the {@link uk.ac.ebi.pride.jmztab.utils.parser.MZTabHeaderLineParser#refine()} by manual.
      */
     public void parse(int lineNumber, String mtdLine, MZTabErrorList errorList) throws MZTabException {
         super.parse(lineNumber, mtdLine, errorList);
@@ -60,6 +64,9 @@ public class MTDLineParser extends MZTabLineParser {
         }
     }
 
+    /**
+     * Parse email format for valueLabel. If exists error, add it into {@link MZTabErrorList}.
+     */
     private String checkEmail(String defineLabel, String valueLabel) {
         String email = parseEmail(valueLabel);
 
@@ -70,6 +77,9 @@ public class MTDLineParser extends MZTabLineParser {
         return email;
     }
 
+    /**
+     * Parse {@link MetadataProperty} which depend on the {@link MetadataElement}
+     */
     private MetadataProperty checkProperty(MetadataElement element, String propertyName) throws MZTabException {
         if (isEmpty(propertyName)) {
             return null;
@@ -84,6 +94,9 @@ public class MTDLineParser extends MZTabLineParser {
         return property;
     }
 
+    /**
+     * Validate {@link MetadataProperty} which depend on the {@link MetadataSubElement}
+     */
     private MetadataProperty checkProperty(MetadataSubElement subElement, String propertyName) throws MZTabException {
         if (isEmpty(propertyName)) {
             return null;

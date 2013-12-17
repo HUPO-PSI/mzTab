@@ -5,6 +5,12 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 /**
+ * Comment line parser.
+ * Comment lines can be placed anywhere in an mzTab file. These lines must start with the three-letter
+ * code COM and are ignored by most parsers. Empty lines can also occur anywhere in an mzTab file and are ignored.
+ *
+ * @see MZTabLineParser
+ *
  * User: Qingwei
  * Date: 10/02/13
  */

@@ -36,11 +36,12 @@ public class Modification {
      * Create a modification in columns of the protein, peptide, small molecule and PSM sections.
      * The structure like: {Type:accession}
      *
-     * NOTICE: {position} is mandatory. However, if it is not known (e.g. MS1 Peptide Mass Fingerprinting), "null" must be used.
-     * Thus, in construct method we not provide position parameter. User can define this by using {@link #addPosition(Integer, CVParam)}
-     * method.
+     * NOTICE: {position} is mandatory. However, if it is not known (e.g. MS1 Peptide Mass Fingerprinting),
+     * "null" must be used. Thus, in construct method we not provide position parameter. User can define
+     * this by using {@link #addPosition(Integer, CVParam)} method.
      *
-     * @param section SHOULD be {@link Section#Protein}, {@link Section#Peptide}, {@link Section#PSM} or {@link Section#Small_Molecule}
+     * @param section SHOULD be {@link Section#Protein}, {@link Section#Peptide}, {@link Section#PSM} or
+     * {@link Section#Small_Molecule}
      * @param type SHOULD NOT be null.
      * @param accession SHOULD not be empty.
      */

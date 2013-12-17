@@ -1,12 +1,14 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
-import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
 import uk.ac.ebi.pride.jmztab.model.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
+ * A framework for convert some other source into mzTab. {@link T} used to set data source,
+ * {@link V} is a object store parameter(s) which maybe used in processing data source.
+ *
  * User: Qingwei
  * Date: 12/03/13
  */
@@ -25,6 +27,10 @@ public abstract class ConvertProvider<T, V> {
 
     private MZTabFile mzTabFile;
 
+    /**
+     * A framework for convert some other source into mzTab. {@link T} used to set data source,
+     * {@link V} is a object store parameter(s) which maybe used in processing data source.
+     */
     public ConvertProvider(T source, V params) {
         this.source = source;
         this.params = params;
@@ -33,30 +39,15 @@ public abstract class ConvertProvider<T, V> {
         createArchitecture();
     }
 
-    public static MassSpecFileFormat getFormat(String format) {
-        if (MZTabUtils.isEmpty(format)) {
-            return null;
-        }
-
-        if (format.equalsIgnoreCase(MassSpecFileFormat.PRIDE.name())) {
-            return MassSpecFileFormat.PRIDE;
-        } else if (format.equalsIgnoreCase(MassSpecFileFormat.MZIDENTML.name())) {
-            return MassSpecFileFormat.MZIDENTML;
-        } else {
-            return MassSpecFileFormat.PRIDE;
-        }
-    }
-
     /**
-     * Do some initial setting operations. This method will be called in Construct method.
+     * Do some initial setting operations before call {@link #convertMetadata()} method.
      */
     protected void init() {
     }
 
     /**
      * create basic mzTab file architecture, including:
-     * metadata, protein/peptide/small_molecule header line
-     * empty table section.
+     * metadata, protein/peptide/small_molecule header line and empty table section.
      */
     private void createArchitecture() {
         this.metadata = convertMetadata();
@@ -82,6 +73,9 @@ public abstract class ConvertProvider<T, V> {
         }
     }
 
+    /**
+     * @return {@link MZTabFile} model.
+     */
     public MZTabFile getMZTabFile() {
         if (this.mzTabFile == null) {
             mzTabFile = new MZTabFile(metadata);
@@ -119,20 +113,35 @@ public abstract class ConvertProvider<T, V> {
         return mzTabFile;
     }
 
+    /**
+     * Generate {@link Metadata}
+     */
     protected abstract Metadata convertMetadata();
 
+    /**
+     * Generate {@link MZTabColumnFactory} which maintain a couple of {@link ProteinColumn}
+     */
     protected MZTabColumnFactory convertProteinColumnFactory() {
         return null;
     }
 
+    /**
+     * Generate {@link MZTabColumnFactory} which maintain a couple of {@link PeptideColumn}
+     */
     protected MZTabColumnFactory convertPeptideColumnFactory() {
         return null;
     }
 
+    /**
+     * Generate {@link MZTabColumnFactory} which maintain a couple of {@link PSMColumn}
+     */
     protected MZTabColumnFactory convertPSMColumnFactory() {
         return null;
     }
 
+    /**
+     * Generate {@link MZTabColumnFactory} which maintain a couple of {@link SmallMoleculeColumn}
+     */
     protected MZTabColumnFactory convertSmallMoleculeColumnFactory() {
         return null;
     }

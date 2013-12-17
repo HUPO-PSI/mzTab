@@ -11,6 +11,15 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataElement.CV;
 import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
 
 /**
+ * The metadata section can provide additional information about the dataset(s) reported in the mzTab file. All fields in
+ * the metadata section are optional apart from five exceptions:
+ *  - "mzTab-version"       MUST always be reported.
+ *  - "mzTab-mode"          MUST always be reported. Two modes are possible: 'Summary' and 'Complete'.
+ *  - "mzTab-type"          MUST  always be reported. Two types are possible: 'Quantification' or 'Identification'.
+ *                          Any analyses generating both quantification and identification results MUST be flagged as 'Quantification'.
+ * - "description"          MUST  always be reported.
+ * - "ms_run-location[1-n]" MUST  always be reported.
+ *
  * User: Qingwei
  * Date: 23/05/13
  */
@@ -195,42 +204,46 @@ public class Metadata {
     }
 
     /**
-     * Get {@link MZTabDescription} object.
+     * Get {@link MZTabDescription} object, a couple of fields which start with "mzTab-" in metadata section.
      */
     public MZTabDescription getTabDescription() {
         return tabDescription;
     }
 
     /**
-     * Get mzTab-mode.
+     * Get the mzTab-mode. The results included in an mzTab file can be reported in 2 ways:
+     * 'Complete' (when results for each assay/replicate are included) and 'Summary',
+     * when only the most representative results are reported.
      */
     public MZTabDescription.Mode getMZTabMode() {
         return tabDescription.getMode();
     }
 
     /**
-     * Get mzTab-version.
+     * Get the version of the mzTab file.
      */
     public String getMZTabVersion() {
         return tabDescription.getVersion();
     }
 
     /**
-     * Get mzTab-type.
+     * Get mzTab-type value. The results included in an mzTab file MUST be flagged as
+     * 'Identification' or 'Quantification'  - the latter encompassing approaches
+     * that are quantification only or quantification and identification.
      */
     public MZTabDescription.Type getMZTabType() {
         return tabDescription.getType();
     }
 
     /**
-     * Get mzTab-ID.
+     * Get the mzTab-ID of the mzTab file
      */
     public String getMZTabID() {
         return tabDescription.getId();
     }
 
     /**
-     * Set mzTab-ID.
+     * Set the mzTab-ID of the mzTab file.
      *
      * @param id SHOULD NOT set empty
      */
@@ -239,9 +252,8 @@ public class Metadata {
     }
 
     /**
-     * Set mzTab-version.
-     *
-     * @param version SHOULD NOT set empty
+     * Set the version of the mzTab file.
+     * @param version SHOULD NOT be empty.
      */
     public void setMZTabVersion(String version) {
         tabDescription.setVersion(version);
@@ -259,14 +271,18 @@ public class Metadata {
     }
 
     /**
-     * Set mzTab-type.
+     * Set mzTab-type value. The results included in an mzTab file MUST be flagged as
+     * 'Identification' or 'Quantification'  - the latter encompassing approaches
+     * that are quantification only or quantification and identification.
+     *
+     * @param type SHOULD NOT be null.
      */
     public void setMZTabType(MZTabDescription.Type type) {
         tabDescription.setType(type);
     }
 
     /**
-     * Set {@link MZTabDescription} object.
+     * Set {@link MZTabDescription} object, which start with "mzTab-" in metadata section.
      *
      * @param tabDescription SHOULD NOT set null.
      */
@@ -279,69 +295,81 @@ public class Metadata {
     }
 
     /**
-     * The file’s human readable title.
+     * Get the file's human readable title.
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * The file’s human readable title.
+     * Set the file's human readable title.
+     *
+     * @param title SHOULD NOT set empty.
      */
     public void setTitle(String title) {
+        if (isEmpty(title)) {
+            throw new IllegalArgumentException("title should not set empty!");
+        }
+
         this.title = title;
     }
 
     /**
-     * The file’s human readable description.
+     * The file's human readable description.
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     * The file’s human readable description.
+     * The file's human readable description.
+     *
+     * @param description SHOULD NOT set empty.
      */
     public void setDescription(String description) {
+        if (isEmpty(description)) {
+            throw new IllegalArgumentException("description should not set empty!");
+        }
+
         this.description = description;
     }
 
     /**
      * A list of parameters describing a sample processing step. The order of the data_processing
      * items should reflect the order these processing steps were performed in. If multiple parameters
-     * are given for a step these MUST be separated by a “|”.
+     * are given for a step these MUST be separated by a "|".
      */
     public SortedMap<Integer, SplitList<Param>> getSampleProcessingMap() {
         return sampleProcessingMap;
     }
 
     /**
-     * The instrument used in the experiment
+     * Get a sorted instrument map used in the experiment, which order by indexed
      */
     public SortedMap<Integer, Instrument> getInstrumentMap() {
         return instrumentMap;
     }
 
     /**
-     * Software used to analyze the data and obtain the reported results.
+     * Get a sorted software map used in the analyze the data and obtain the reported results, which order by indexed
      */
     public SortedMap<Integer, Software> getSoftwareMap() {
         return softwareMap;
     }
 
     /**
-     * The file’s false discovery rate(s) reported at the PSM, peptide, and/or protein level.
+     * Get the file's false discovery rate(s) reported at the PSM, peptide, and/or protein level.
      * False Localization Rate (FLD) for the reporting of modifications can also be reported here.
-     * Multiple parameters MUST be separated by “|”.
+     * Multiple parameters MUST be separated by "|".
      */
     public SplitList<Param> getFalseDiscoveryRate() {
         return falseDiscoveryRate;
     }
 
     /**
-     * The file’s false discovery rate(s) reported at the PSM, peptide, and/or protein level.
+     * Set the file's false discovery rate(s) reported at the PSM, peptide, and/or protein level.
      * False Localization Rate (FLD) for the reporting of modifications can also be reported here.
-     * Multiple parameters MUST be separated by “|”.
+     * Multiple parameters MUST be separated by "|".
      */
     public void setFalseDiscoveryRate(SplitList<Param> falseDiscoveryRate) {
         if (falseDiscoveryRate == null) {
@@ -352,65 +380,70 @@ public class Metadata {
     }
 
     /**
-     * A publication associated with this file. Several publications can be given by indicating the
-     * number in the square brackets after “publication”. PubMed ids must be prefixed by “pubmed:”,
-     * DOIs by “doi:”. Multiple identifiers MUST be separated by “|”.
+     * Get publication associated with this file. Several publications can be given by indicating the
+     * number in the square brackets after "publication". PubMed ids must be prefixed by "pubmed:",
+     * DOIs by "doi:". Multiple identifiers MUST be separated by "|".
      */
     public SortedMap<Integer, Publication> getPublicationMap() {
         return publicationMap;
     }
 
     /**
-     * A contact list associated with this file.
+     * Get contact list associated with this file.
      */
     public SortedMap<Integer, Contact> getContactMap() {
         return contactMap;
     }
 
     /**
-     * A URI pointing to the file's source data.
+     * Get a couple of URIs pointing to the file's source data.
      */
     public List<URI> getUriList() {
         return uriList;
     }
 
     /**
-     * A couple of fixed modifications searched for.
+     * Get a couple of fixed modifications searched for.
+     * Fixed Modification used to identify peptides and proteins of the mzTab file (e.g. carbamidomethylation,
+     * oxidation, labels/tags).
      */
     public SortedMap<Integer, FixedMod> getFixedModMap() {
         return fixedModMap;
     }
 
     /**
-     * A couple of variable modifications searched for.
+     * Get a couple of variable modifications searched for.
+     *
+     * Variable Modification used to identify peptides and proteins of the mzTab file (e.g. carbamidomethylation,
+     * oxidation, labels/tags).
      */
     public SortedMap<Integer, VariableMod> getVariableModMap() {
         return variableModMap;
     }
 
     /**
-     * The quantification method used in the experiment reported in the file.
+     * Get the quantification method parameter used in the experiment reported in the file.
      */
     public Param getQuantificationMethod() {
         return quantificationMethod;
     }
 
     /**
-     * Defines what type of units is reported in the protein quantification fields.
+     * Get the type of units is reported in the protein quantification fields.
      */
     public Param getProteinQuantificationUnit() {
         return proteinQuantificationUnit;
     }
 
     /**
-     * Defines what type of units is reported in the peptide quantification fields.
+     * Get the type of units is reported in the peptide quantification fields.
      */
     public Param getPeptideQuantificationUnit() {
         return peptideQuantificationUnit;
     }
 
     /**
-     * Defines what type of units is reported in the small molecule quantification fields.
+     * Get the type of units is reported in the small molecule quantification fields.
      */
     public Param getSmallMoleculeQuantificationUnit() {
         return smallMoleculeQuantificationUnit;
@@ -418,104 +451,120 @@ public class Metadata {
 
     /**
      * Set the quantification method used in the experiment reported in the file.
+     *
+     * @param quantificationMethod if null, system will not print quantification_method in mzTab file.
      */
     public void setQuantificationMethod(Param quantificationMethod) {
         this.quantificationMethod = quantificationMethod;
     }
 
     /**
-     * Defines what type of units is reported in the protein quantification fields.
+     * Set the type of units is reported in the protein quantification fields.
+     *
+     * @param proteinQuantificationUnit if null, system will not print protein-quantification_unit in mzTab file.
      */
     public void setProteinQuantificationUnit(Param proteinQuantificationUnit) {
         this.proteinQuantificationUnit = proteinQuantificationUnit;
     }
 
     /**
-     * Defines what type of units is reported in the peptide quantification fields.
+     * Set the type of units is reported in the peptide quantification fields.
+     *
+     * @param peptideQuantificationUnit if null, system will not print peptide-quantification_unit in mzTab file.
      */
     public void setPeptideQuantificationUnit(Param peptideQuantificationUnit) {
         this.peptideQuantificationUnit = peptideQuantificationUnit;
     }
 
     /**
-     * Defines what type of units is reported in the small molecule quantification fields.
+     * Set the type of units is reported in the small molecule quantification fields.
+     *
+     * @param smallMoleculeQuantificationUnit  if null, system will not print smallmolecule-quantification_unit in mzTab file.
      */
     public void setSmallMoleculeQuantificationUnit(Param smallMoleculeQuantificationUnit) {
         this.smallMoleculeQuantificationUnit = smallMoleculeQuantificationUnit;
     }
 
     /**
-     * Get the external MS data files
+     * Get the external MS data files. An MS run is effectively one run (or set of runs on pre-fractionated samples)
+     * on an MS instrument, and is referenced from assay in different contexts.
      */
     public SortedMap<Integer, MsRun> getMsRunMap() {
         return msRunMap;
     }
 
     /**
-     * Any additional parameters describing the analysis reported.
+     * Get additional parameters describing the analysis reported.
      */
     public List<Param> getCustomList() {
         return customList;
     }
 
     /**
-     * A biological material that has been analysed, to which descriptors of species, cell/tissue type etc. can be attached.
+     * Get a couple of biological material that has been analysed, to which descriptors of species, cell/tissue type etc.
+     * can be attached. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample
+     * was analysed (e.g. whether biological or technical replication was performed).
      */
     public SortedMap<Integer, Sample> getSampleMap() {
         return sampleMap;
     }
 
     /**
-     * The application of a measurement about the sample.
+     * Get a couple of assay, which ordered by index number.  One assay is typically mapped to one MS run in the case of
+     * label-free MS analysis or multiple assays are mapped to one MS run for multiplexed techniques, along with a
+     * description of the label or tag applied.
      */
     public SortedMap<Integer, Assay> getAssayMap() {
         return assayMap;
     }
 
     /**
-     * The variables about which the final results of a study are reported.
+     * The variables about which the final results of a study are reported, which may have been derived following
+     * averaging across a group of replicate measurements (assays). In files where assays are reported, study variables
+     * have references to assays. The same concept has been defined by others as "experimental factor".
      */
     public SortedMap<Integer, StudyVariable> getStudyVariableMap() {
         return studyVariableMap;
     }
 
     /**
-     * Define the controlled vocabularies/ontologies used in the mzTab file.
+     * Get the definitions of controlled vocabularies/ontologies used in the mzTab file.
      */
     public SortedMap<Integer, CV> getCvMap() {
         return cvMap;
     }
 
     /**
-     * Defines the unit for the data reported in a column of the protein section.
+     * Get the definitions of the unit for the data reported in a column of the protein section.
      */
     public List<ColUnit> getProteinColUnitList() {
         return proteinColUnitList;
     }
 
     /**
-     * Defines the unit for the data reported in a column of the peptide section.
+     *  Get the definitions of the unit for the data reported in a column of the peptide section.
      */
     public List<ColUnit> getPeptideColUnitList() {
         return peptideColUnitList;
     }
 
     /**
-     * Defines the unit for the data reported in a column of the PSM section.
+     *  Get the definitions of the unit for the data reported in a column of the PSM section.
      */
     public List<ColUnit> getPsmColUnitList() {
         return psmColUnitList;
     }
 
     /**
-     * Defines the unit for the data reported in a column of the small molecule section.
+     *  Get the definitions of the unit for the data reported in a column of the small molecule section.
      */
     public List<ColUnit> getSmallMoleculeColUnitList() {
         return smallMoleculeColUnitList;
     }
 
     /**
-     * Add a sample to metadata.
+     * Add a sample to metadata. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what
+     * type of sample was analysed (e.g. whether biological or technical replication was performed).
      *
      * @param sample SHOULD NOT set null.
      */
@@ -649,7 +698,7 @@ public class Metadata {
     }
 
     /**
-     * Add a sample[id]-custom into sample.
+     * Add a sample[id]-custom into sample. Add a custom parameter for sample.
      *
      * @param id SHOULD be positive integer.
      * @param custom if null ignore operation.
@@ -673,7 +722,9 @@ public class Metadata {
     }
 
     /**
-     * Add a sample_processing[id]
+     * Add a sample_processing[id]. A list of parameters describing a sample processing step.
+     * The order of the data_processing items should reflect the order these processing steps
+     * were performed in. If multiple parameters are given for a step these MUST be separated by a "|".
      *
      * @param id SHOULD be positive integer.
      * @param sampleProcessing if null ignore operation.
@@ -824,7 +875,7 @@ public class Metadata {
     }
 
     /**
-     * Add a software to metadata.
+     * Add a software to metadata, which used to analyze the data and obtain the reported results.
      *
      * @param software SHOULD NOT set null
      */
@@ -837,7 +888,8 @@ public class Metadata {
     }
 
     /**
-     * Add a software[id] parameter.
+     * Add a software[id] parameter. The parameter's value SHOULD contain the software's version.
+     * The order (numbering) should reflect the order in which the tools were used.
      *
      * @param id SHOULD be positive integer.
      * @param param if null ignore operation.
@@ -861,7 +913,9 @@ public class Metadata {
     }
 
     /**
-     * Add a software[id]-setting.
+     * Add a software[id]-setting. This field MAY occur multiple times for a single software.
+     * The value of this field is deliberately set as a String, since there currently do not
+     * exist cvParams for every possible setting.
      *
      * @param id SHOULD be positive integer.
      * @param setting if empty ignore operation.
@@ -885,7 +939,10 @@ public class Metadata {
     }
 
     /**
-     * Add a false_discovery_rate parameter to metadata.
+     * Add a false_discovery_rate parameter to metadata. The file's false discovery rate(s) reported at the PSM,
+     * peptide, and/or protein level. False Localization Rate (FLD) for the reporting of modifications can also be
+     * reported here. Multiple parameters MUST be separated by "|".
+     *
      * @param param SHOULD NOT set null.
      */
     public void addFalseDiscoveryRateParam(Param param) {
@@ -897,7 +954,10 @@ public class Metadata {
     }
 
     /**
-     * Add a publiction to metadata.
+     * Add a publiction to metadata. A publication associated with this file. Several publications can be given by
+     * indicating the number in the square brackets after "publication". PubMed ids must be prefixed by "pubmed:",
+     * DOIs by "doi:". Multiple identifiers MUST be separated by "|".
+     *
      * @param publication SHOULD NOT set null.
      */
     public void addPublication(Publication publication) {
@@ -909,7 +969,8 @@ public class Metadata {
     }
 
     /**
-     * Add a publication item to metadata.
+     * Add a publication item to metadata. PubMed ids must be prefixed by "pubmed:", DOIs by "doi:".
+     * Multiple identifiers MUST be separated by "|".
      *
      * @param id SHOULD be positive integer.
      * @param type SHOULD NOT set null.
@@ -937,7 +998,9 @@ public class Metadata {
     }
 
     /**
-     * Add a couple of publication items into publication[id].
+     * Add a couple of publication items into publication[id]. Several publications can be given by
+     * indicating the number in the square brackets after "publication". PubMed ids must be prefixed by "pubmed:",
+     * DOIs by "doi:". Multiple identifiers MUST be separated by "|".
      *
      * @param id SHOULD be positive integer.
      * @param items SHOULD NOT set null.
@@ -974,7 +1037,8 @@ public class Metadata {
     }
 
     /**
-     * Add contact[id]-name
+     * Add contact[id]-name. Several contacts can be given by indicating the number in the square brackets
+     * after "contact". A contact has to be supplied in the format [first name] [initials] [last name] (see example).
      *
      * @param id SHOULD be positive integer.
      * @param name SHOULD NOT set empty.
@@ -998,7 +1062,7 @@ public class Metadata {
     }
 
     /**
-     * Add contact[id]-affiliation
+     * Add contact[id]-affiliation.
      *
      * @param id SHOULD be positive integer.
      * @param affiliation SHOULD NOT set empty.
@@ -1046,7 +1110,7 @@ public class Metadata {
     }
 
     /**
-     * Add uri into metadata.
+     * Add uri into metadata. The URI pointing to the file's source data (e.g., a PRIDE experiment or a PeptideAtlas build).
      * @param uri if null ignore operation.
      */
     public void addUri(URI uri) {
@@ -1058,7 +1122,8 @@ public class Metadata {
     }
 
     /**
-     * Add fixed_mod[id] into metadata.
+     * Add fixed_mod[id] into metadata. A parameter describing a fixed modifications searched for. Multiple
+     * fixed modifications are numbered 1..n.
      *
      * @param mod if null ignore operation.
      */
@@ -1071,7 +1136,7 @@ public class Metadata {
     }
 
     /**
-     * Add fixed_mod[id] parameter into metadata.
+     * Add fixed_mod[id] parameter into metadata. A parameter describing a fixed modifications searched for.
      *
      * @param id SHOULD be positive integer.
      * @param param if null ignore operation.
@@ -1095,7 +1160,9 @@ public class Metadata {
     }
 
     /**
-     * Add fixed_mod[id]-site into metadata.
+     * Add fixed_mod[id]-site into metadata. A string describing a fixed modifications site. Following the unimod
+     * convention, modification site is a residue (e.g. "M"), terminus ("N-term" or "C-term") or both (e.g.
+     * "N-term Q" or "C-term K").
      *
      * @param id SHOULD be positive integer.
      * @param site SHOULD NOT set empty.
@@ -1119,7 +1186,9 @@ public class Metadata {
     }
 
     /**
-     * Add fixed_mod[id]-position into metadata.
+     * Add fixed_mod[id]-position into metadata. A string describing the term specifity of a fixed modification.
+     * Following the unimod convention, term specifity is denoted by the strings "Anywhere", "Any N-term",
+     * "Any C-term", "Protein N-term", "Protein C-term".
      *
      * @param id SHOULD be positive integer.
      * @param position SHOULD NOT set empty.
@@ -1156,7 +1225,8 @@ public class Metadata {
     }
 
     /**
-     * Add variable_mod[id] parameter into metadata.
+     * Add variable_mod[id] parameter into metadata. A parameter describing a variable modifications searched for.
+     * Multiple variable modifications are numbered 1.. n.
      *
      * @param id SHOULD be positive integer.
      * @param param if null ignore operation.
@@ -1180,7 +1250,9 @@ public class Metadata {
     }
 
     /**
-     * Add variable_mod[id]-site into metadata.
+     * Add variable_mod[id]-site into metadata. A string describing a variable modifications site.
+     * Following the unimod convention, modification site is a residue (e.g. "M"), terminus ("N-term"
+     * or "C-term") or both (e.g. "N-term Q" or "C-term K").
      *
      * @param id SHOULD be positive integer.
      * @param site SHOULD NOT set empty.
@@ -1204,7 +1276,9 @@ public class Metadata {
     }
 
     /**
-     * Add variable_mod[id]-position into metadata.
+     * Add variable_mod[id]-position into metadata. A string describing the term specifity of a variable modification.
+     * Following the unimod convention, term specifity is denoted by the strings "Anywhere", "Any N-term",
+     * "Any C-term", "Protein N-term", "Protein C-term".
      *
      * @param id SHOULD be positive integer.
      * @param position SHOULD NOT set empty.
@@ -1228,7 +1302,8 @@ public class Metadata {
     }
 
     /**
-     * Add a ms_run[id] into metadata.
+     * Add a ms_run[id] into metadata. An MS run is effectively one run (or set of runs on pre-fractionated samples)
+     * on an MS instrument, and is referenced from assay in different contexts.
      *
      * @param msRun SHOULD NOT set null.
      */
@@ -1241,7 +1316,7 @@ public class Metadata {
     }
 
     /**
-     * Add ms_run[id]-format into metadata.
+     * Add ms_run[id]-format into metadata. A parameter specifying the data format of the external MS data file.
      *
      * @param id SHOULD be positive integer.
      * @param format if null ignore operation.
@@ -1265,7 +1340,8 @@ public class Metadata {
     }
 
     /**
-     * Add ms_run[id]-location into metadata.
+     * Add ms_run[id]-location into metadata. Location of the external data file. If the actual location
+     * of the MS run is unknown, a "null" MUST be used as a place holder value.
      *
      * @param id SHOULD be positive integer.
      * @param location if null ignore operation.
@@ -1289,7 +1365,7 @@ public class Metadata {
     }
 
     /**
-     * Add ms_run[id]-id_format into metadata.
+     * Add ms_run[id]-id_format into metadata. Parameter specifying the id format used in the external data file.
      *
      * @param id SHOULD be positive integer.
      * @param idFormat if null ignore operation.
@@ -1313,7 +1389,8 @@ public class Metadata {
     }
 
     /**
-     * Add ms_run[id]-fragmentation_method into metadata.
+     * Add ms_run[id]-fragmentation_method into metadata. A list of "|" separated parameters describing
+     * all the types of fragmentation used in a given ms run.
      *
      * @param id SHOULD be positive integer.
      * @param fragmentationMethod if null ignore operation.
@@ -1337,7 +1414,7 @@ public class Metadata {
     }
 
     /**
-     * Add a custom parameter into metadata.
+     * Add a custom parameter into metadata. Any additional parameters describing the analysis reported.
      *
      * @param custom if null ignore operation.
      */
@@ -1350,7 +1427,10 @@ public class Metadata {
     }
 
     /**
-     * Add a assay into metadata.
+     * Add a assay into metadata. The application of a measurement about the sample (in this case through MS) –
+     * producing values about small molecules, peptides or proteins. One assay is typically mapped to one MS run
+     * in the case of label-free MS analysis or multiple assays are mapped to one MS run for multiplexed techniques,
+     * along with a description of the label or tag applied.
      *
      * @param assay SHOULD NOT set null.
      */
@@ -1363,7 +1443,9 @@ public class Metadata {
     }
 
     /**
-     * Add assay[id]-quantification_reagent into metadata.
+     * Add assay[id]-quantification_reagent into metadata. The reagent used to label the sample in the assay.
+     * For label-free analyses the "unlabeled sample" CV term SHOULD be used. For the "light" channel in
+     * label-based experiments the appropriate CV term specifying the labelling channel should be used.
      *
      * @param id SHOULD be positive integer.
      * @param quantificationReagent if null ignore operation.
@@ -1387,7 +1469,7 @@ public class Metadata {
     }
 
     /**
-     * Add assay[id]-sample_ref into metadata.
+     * Add assay[id]-sample_ref into metadata. An association from a given assay to the sample analysed.
      *
      * @param id SHOULD be positive integer.
      * @param sample SHOULD NOT set null, and SHOULD be defined in metadata first.
@@ -1414,7 +1496,7 @@ public class Metadata {
     }
 
     /**
-     * Add assay[id]-ms_run_ref into metadata.
+     * Add assay[id]-ms_run_ref into metadata. An association from a given assay to the source MS run.
      *
      * @param id SHOULD be positive integer.
      * @param msRun SHOULD NOT set null, and SHOULD be defined in metadata first.
@@ -1441,7 +1523,8 @@ public class Metadata {
     }
 
     /**
-     * Add assay[assayId]-quantification_mod[1-n] into metadata.
+     * Add assay[assayId]-quantification_mod[1-n] into metadata. A parameter describing a modification
+     * associated with a quantification_reagent. Multiple modifications are numbered 1..n.
      *
      * @param assayId SHOULD be positive integer.
      * @param mod if null ignore operation.
@@ -1465,7 +1548,8 @@ public class Metadata {
     }
 
     /**
-     * Add assay[assayId]-quantification_mod[quanModId] into metadata.
+     * Add assay[assayId]-quantification_mod[quanModId] into metadata. A parameter describing a modification
+     * associated with a quantification_reagent.
      *
      * @param assayId SHOULD be positive integer.
      * @param quanModId SHOULD be positive integer.
@@ -1493,7 +1577,9 @@ public class Metadata {
     }
 
     /**
-     * Add assay[assayId]-quantification_mod[quanModId]-site into metadata.
+     * Add assay[assayId]-quantification_mod[quanModId]-site into metadata. A string describing the modifications
+     * site. Following the unimod convention, modification site is a residue (e.g. "M"), terminus ("N-term"
+     * or "C-term") or both (e.g. "N-term Q" or "C-term K").
      *
      * @param assayId SHOULD be positive integer.
      * @param quanModId SHOULD be positive integer.
@@ -1521,7 +1607,9 @@ public class Metadata {
     }
 
     /**
-     * Add assay[assayId]-quantification_mod[quanModId]-site into metadata.
+     * Add assay[assayId]-quantification_mod[quanModId]-site into metadata. A string describing the term specifity
+     * of the modification. Following the unimod convention, term specifity is denoted by the strings "Anywhere",
+     * "Any N-term", "Any C-term", "Protein N-term", "Protein C-term".
      *
      * @param assayId SHOULD be positive integer.
      * @param quanModId SHOULD be positive integer.
@@ -1549,7 +1637,9 @@ public class Metadata {
     }
 
     /**
-     * Add a study variable into metadata.
+     * Add a study variable into metadata. The variables about which the final results of a study are reported, which
+     * may have been derived following averaging across a group of replicate measurements (assays). In files where assays
+     * are reported, study variables have references to assays. The same concept has been defined by others as "experimental factor".
      *
      * @param studyVariable SHOULD NOT set null.
      */
@@ -1562,7 +1652,7 @@ public class Metadata {
     }
 
     /**
-     * Add a study_variable[id]-assay_ref.
+     * Add a study_variable[id]-assay_refs. Comma-separated references to the IDs of assays grouped in the study variable.
      *
      * @param id SHOULD be positive integer.
      * @param assay SHOULD NOT set null, and should be defined in metadata first.
@@ -1589,7 +1679,7 @@ public class Metadata {
     }
 
     /**
-     * Add a study_variable[id]-sample_ref.
+     * Add a study_variable[id]-sample_refs. Comma-separated references to the samples that were analysed in the study variable.
      *
      * @param id SHOULD be positive integer.
      * @param sample SHOULD NOT set null, and should be defined in metadata first.
@@ -1616,13 +1706,17 @@ public class Metadata {
     }
 
     /**
-     * Add a study_variable[id]-sample_ref.
+     * Add a study_variable[id]-description. A textual description of the study variable.
      *
      * @param id SHOULD be positive integer.
+     * @param description if empty ignore operation.
      */
     public void addStudyVariableDescription(Integer id, String description) {
         if (id <= 0) {
             throw new IllegalArgumentException("study variable id should be great than 0!");
+        }
+        if (isEmpty(description)) {
+            return;
         }
 
         StudyVariable studyVariable = studyVariableMap.get(id);
@@ -1635,7 +1729,8 @@ public class Metadata {
     }
 
     /**
-     * Add a controlled vocabularies/ontologies into metadata.
+     * Add a controlled vocabularies/ontologies into metadata. Define the controlled vocabularies/ontologies
+     * used in the mzTab file.
      *
      * @param cv SHOULD NOT set null.
      */
@@ -1648,7 +1743,7 @@ public class Metadata {
     }
 
     /**
-     * Add a cv[id]-label.
+     * Add a cv[id]-label. A string describing the labels of the controlled vocabularies/ontologies used in the mzTab file
      *
      * @param id SHOULD be positive integer.
      */
@@ -1667,7 +1762,8 @@ public class Metadata {
     }
 
     /**
-     * Add a cv[id]-full_name.
+     * Add a cv[id]-full_name. A string describing the full names of the controlled vocabularies/ontologies used in
+     * the mzTab file
      *
      * @param id SHOULD be positive integer.
      */
@@ -1686,7 +1782,8 @@ public class Metadata {
     }
 
     /**
-     * Add a cv[id]-version.
+     * Add a cv[id]-version. A string describing the version of the controlled vocabularies/ontologies used in
+     * the mzTab file
      *
      * @param id SHOULD be positive integer.
      */
@@ -1705,7 +1802,8 @@ public class Metadata {
     }
 
     /**
-     * Add a cv[id]-url.
+     * Add a cv[id]-url. A string containing the URLs of the controlled vocabularies/ontologies used in the
+     * mzTab file
      *
      * @param id SHOULD be positive integer.
      */
@@ -1724,7 +1822,10 @@ public class Metadata {
     }
 
     /**
-     * Defines the unit for the data reported in a column of the protein section.
+     * Defines the unit for the data reported in a column of the protein section. Defines the unit for the data reported
+     * in a column of the protein section. The format of the value has to be {column name}={Parameter defining the unit}
+     * This field MUST NOT be used to define a unit for quantification columns. The unit used for protein quantification
+     * values MUST be set in protein-quantification_unit.
      *
      * @param column SHOULD NOT set null
      * @param param SHOULD NOT set null
@@ -1734,7 +1835,11 @@ public class Metadata {
     }
 
     /**
-     * Defines the unit for the data reported in a column of the peptide section.
+     * Defines the unit for the data reported in a column of the peptide section. Defines the used unit for a column in the
+     * peptide section. The format of the value has to be {column name}={Parameter defining the unit}. This field MUST NOT
+     * be used to define a unit for quantification columns. The unit used for peptide quantification values MUST be set in
+     * peptide-quantification_unit.
+
      *
      * @param column SHOULD NOT set null
      * @param param SHOULD NOT set null
@@ -1744,7 +1849,11 @@ public class Metadata {
     }
 
     /**
-     * Defines the unit for the data reported in a column of the PSM section.
+     * Defines the unit for the data reported in a column of the PSM section. Defines the used unit for a column in the PSM
+     * section. The format of the value has to be {column name}={Parameter defining the unit} This field MUST NOT be used to
+     * define a unit for quantification columns. The unit used for peptide quantification values MUST be set in
+     * peptide-quantification_unit.
+
      *
      * @param column SHOULD NOT set null
      * @param param SHOULD NOT set null
@@ -1754,7 +1863,10 @@ public class Metadata {
     }
 
     /**
-     * Defines the unit for the data reported in a column of the small molecule section.
+     * Defines the unit for the data reported in a column of the small molecule section. Defines the used unit for a column
+     * in the small molecule section. The format of the value has to be {column name}={Parameter defining the unit}
+     * This field MUST NOT be used to define a unit for quantification columns. The unit used for small molecule quantification
+     * values MUST be set in small_molecule-quantification_unit.
      *
      * @param column SHOULD NOT set null
      * @param param SHOULD NOT set null

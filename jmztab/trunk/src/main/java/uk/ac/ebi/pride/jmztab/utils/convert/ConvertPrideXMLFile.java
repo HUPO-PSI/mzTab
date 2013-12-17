@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
 
 /**
+ * Convert PRIDE XML v2.1 file to mzTab.
+ *
  * User: Qingwei
  * Date: 07/06/13
  */
@@ -37,20 +39,27 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         super(source, null);
     }
 
+    /**
+     * Load PRIDE XML file.
+     */
     @Override
     protected void init() {
         this.reader = new PrideXmlReader(source);
     }
 
+    /**
+     * Generate {@link Metadata}
+     */
     @Override
     protected Metadata convertMetadata() {
         this.metadata = new Metadata();
 
+        // using experiment accession number as mzTab-ID
         metadata.setMZTabID(reader.getExpAccession());
         metadata.setTitle(reader.getExpTitle());
 
+        // process the software
         loadSoftware(reader.getDataProcessing().getSoftware());
-
         // process the references
         loadReferences(reader.getReferences());
         // process the contacts
@@ -59,13 +68,14 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         loadExperimentParams(reader.getAdditionalParams());
         // process the instrument information
         loadInstrument(reader.getInstrument());
-        // set the accession as URI if there's one
+        // set the accession as URI if exists.
         loadURI(reader.getExpAccession());
         // set Ms Run
         loadMsRun(reader.getExpAccession());
+        // process samples
+        loadSamples(reader.getAdmin().getSampleDescription());
 
-        loadSubSamples(reader.getAdmin().getSampleDescription());
-
+        // set mzTab- description
         if (isIdentification()) {
             metadata.setMZTabType(MZTabDescription.Type.Identification);
             metadata.setMZTabMode(MZTabDescription.Mode.Complete);
@@ -78,6 +88,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         return metadata;
     }
 
+    /**
+     * Load software. We use a common parameter [MS, MS:1001456, analysis software, ...] to express software[n].
+     */
     private void loadSoftware(uk.ac.ebi.pride.jaxb.model.Software software) {
         StringBuilder sb = new StringBuilder();
 
@@ -94,7 +107,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     }
 
     /**
-     * Converts the experiment's references into the reference string (DOIs and PubMed ids)
+     * Converts the experiment's references into a couple of {@link PublicationItem} (including DOIs and PubMed ids)
      */
     private void loadReferences(List<Reference> references) {
         if (references == null || references.size() == 0) {
@@ -125,6 +138,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
     }
 
+    /**
+     * Extract publication accession number from CVParam.
+     */
     private String getPublicationAccession(uk.ac.ebi.pride.jaxb.model.Param param, String name) {
         if (param == null || isEmpty(name)) {
             return null;
@@ -162,8 +178,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     }
 
     /**
-     * Processes the experiment additional params
-     * (f.e. quant method, description...).
+     * Processes the experiment additional params: (f.e. quant method, description...).
      */
     private void loadExperimentParams(uk.ac.ebi.pride.jaxb.model.Param param) {
         if (param == null) {
@@ -278,7 +293,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     /**
      * Adds the sample parameters (species, tissue, cell type, disease) to the unit and the various subsamples.
      */
-    private void loadSubSamples(SampleDescription sampleDescription) {
+    private void loadSamples(SampleDescription sampleDescription) {
         if (sampleDescription == null) {
             return;
         }
@@ -453,6 +468,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         return metadata.getSampleMap().size() == 1;
     }
 
+    /**
+     * Generate {@link MZTabColumnFactory} which maintain a couple of {@link ProteinColumn}
+     */
     @Override
     protected MZTabColumnFactory convertProteinColumnFactory() {
         this.proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
@@ -477,12 +495,18 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         return proteinColumnFactory;
     }
 
+    /**
+     * Generate {@link MZTabColumnFactory} which maintain a couple of {@link PSMColumn}
+     */
     @Override
     protected MZTabColumnFactory convertPSMColumnFactory() {
         this.psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
         return this.psmColumnFactory;
     }
 
+    /**
+     * Fill records into model. This method will be called in {@link #getMZTabFile()} method.
+     */
     @Override
     protected void fillData() {
         // Get a list of Identification ids

@@ -7,8 +7,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
 /**
  * A publication associated with this file. Several publications can be given by indicating the number
- * in the square brackets after “publication”. PubMed ids must be prefixed by “pubmed:”, DOIs by “doi:”.
- * Multiple identifiers MUST be separated by “|”.
+ * in the square brackets after "publication". PubMed ids must be prefixed by "pubmed:", DOIs by "doi:".
+ * Multiple identifiers MUST be separated by "|".
  *
  * User: Qingwei
  * Date: 23/05/13

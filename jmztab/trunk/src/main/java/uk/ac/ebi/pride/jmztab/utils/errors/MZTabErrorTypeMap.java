@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 /**
  * This list class used to storage all types of MZTabError, and provide query service based on
- * the error/warn code.
+ * the error/warn code. This class used to generate mzTab help document.
  *
  * User: qingwei
  * Date: 27/02/13

@@ -6,11 +6,9 @@ import java.util.TreeMap;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
- * The application of a measurement about the sample (in this case through MS) –
- * producing values about small molecules, peptides or proteins. One assay is
- * typically mapped to one MS run in the case of label-free MS analysis or
- * multiple assays are mapped to one MS run for multiplexed techniques,
- * along with a description of the label or tag applied.
+ * The application of a measurement about the sample (in this case through MS) – producing values about small molecules,
+ * peptides or proteins. One assay is typically mapped to one MS run in the case of label-free MS analysis or
+ * multiple assays are mapped to one MS run for multiplexed techniques, along with a description of the label or tag applied.
  *
  * User: Qingwei
  * Date: 23/05/13
