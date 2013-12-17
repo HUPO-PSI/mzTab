@@ -8,7 +8,8 @@ mzTab is a standard format developed by the Proteomics Standards Initiative (PSI
 
 The software allows easy and efficient processing of mzTab files, providing read and write capabilities, and is designed to be embedded in other software packages. The second key feature of the jmzTab model is its flexible framework to maintain the logical integrity between the metadata and the table-based sections in the files. In this article, as an example implementation, we also describe a Graphical User Interface (GUI)-based tool that can be used to validate mzTab files and to convert PRIDE XML files to mzTab. 
 
-Detailed examples on how to use the library can be found in the [jmzTab2 jmzTab interface] documentation page.
+===jmzTab Publication===
+jmzTab has not been published yet. Please cite the mzTab format specification if you use jmzTab for your work.
 
 ----
 
@@ -34,6 +35,11 @@ We provide a [jmzTab2 tutorial] document and a couple of demos to help you to cr
 
 == Utilities ==
 
-Overall two tools for the library were created: i) MZTabInspector, a simple desktop application for providing mzTab validation service based on Warn or Error level. Besides this, converting PRIDE XML service also be added for PRIDE project internal use. ii) MZTabCommandLine, a Command Line Interface to provide more flexible way for batch processing mzTab files. 
+As examples of implementation, two [jmzTab2_utils Utilities] were developed: 
 
-Currently, user can download them from [http://code.google.com/p/mztab/downloads/list repository]. 
+  * mzTabGUI, which a simple desktop application which provides mzTab validation functionality (for Warn or Error levels), and conversion of PRIDE XML files to mzTab. After the conversion, the tool will also perform an automatic validation of the mzTab file.
+  * mzTabCLI, a command line interface (CLI), which provides a more flexible way of processing mzTab files in a batch mode. It also has validation and conversion functionality. 
+
+Currently, both tools can be downloaded them from  [http://code.google.com/p/mztab/downloads/list repository]. 
+
+In addition, it is important to highlight that jmzTab is already integrated and used in external software such as the [http://genome.tugraz.at/lda/ LipidDataAnalyzer], and in an mzQuantML to mzTab converter included in the [https://mzq-lib.googlecode.com/ mzq-lib] library.

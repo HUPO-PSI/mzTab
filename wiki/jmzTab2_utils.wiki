@@ -5,13 +5,13 @@
 ----
 = Introduction =
 
-We create two interfaces, CLI (MZTabCommandLine) and Simple GUI (MZTabInspector), to simplify the usage of jmzTab APIs. Compared with GUI, command line provides more flexible way to batch process the mzTab files.
+We create two interfaces, CLI (mzTabCLI) and Simple GUI (mzTabGUI), to simplify the usage of jmzTab APIs. Compared with GUI, command line provides more flexible way to batch process the mzTab files.
 
 == Command Line Interface ==
 
   * print command line help
 {{{
-java -jar MZTabCommandLine.jar -help
+java -jar mzTabCLI.jar -help
 }}}
 The output will like following: 
 {{{
@@ -36,7 +36,7 @@ usage: jmztab
 
   * print special error/warn message based on code, see details of [jmzTab2_message Error/Warn Message List].
 {{{
-java -jar MZTabCommandLine.jar -message code=2000
+java -jar mzTabCLI.jar -message code=2000
 }}}
 The output will like:
 {{{
@@ -54,7 +54,7 @@ Original:       Column "{0}" is an empty cell, or the current column cannot use 
 
   * Exists warn/error messages during validate, print messages on screen:
 {{{
-java -Xms2048m -jar MZTabCommandLine.jar -inDir temp -check inFile=SILAC_CQI.mzTab
+java -Xms2048m -jar mzTabCLI.jar -inDir temp -check inFile=SILAC_CQI.mzTab
 }}}
 
 The output like:
@@ -68,18 +68,18 @@ Finish!
 
   * Exists warn/error messages during validate, print messages into SILAC_CQI.err file:
 {{{
-java -Xms2048m -jar MZTabCommandLine.jar -inDir temp -check inFile=SILAC_CQI.mzTab -outFile SILAC_CQI.err
+java -Xms2048m -jar mzTabCLI.jar -inDir temp -check inFile=SILAC_CQI.mzTab -outFile SILAC_CQI.err
 }}}
 
 
   * Convert PRIDE_Exp_Complete_Ac_16649.xml, and print mzTab file to screen:
 {{{
-java -Xms2048m -jar MZTabCommandLine.jar -inDir temp -convert inFile=PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE
+java -Xms2048m -jar mzTabCLI.jar -inDir temp -convert inFile=PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE
 }}}
 
-  * Convert PRIDE_Exp_Complete_Ac_16649.xml, and print mzTab file to PRIDE_Exp_Complete_Ac_16649_xml.mztab:
+  * Convert PRIDE_Exp_Complete_Ac_16649.xml, and print mzTab file to PRIDE_Exp_Complete_Ac_16649.mztab:
 {{{
-java -Xms2048m -jar MZTabCommandLine.jar -inDir temp -convert inFile=PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE -outFile PRIDE_Exp_Complete_Ac_16649_xml.mztab
+java -Xms2048m -jar mzTabCLI.jar -inDir temp -convert inFile=PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE -outFile PRIDE_Exp_Complete_Ac_16649.mztab
 }}}
 
 
