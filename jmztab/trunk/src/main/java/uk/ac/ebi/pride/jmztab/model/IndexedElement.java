@@ -26,12 +26,9 @@ public class IndexedElement {
         if (element == null) {
             throw new NullPointerException("MetadataElement can not set null!");
         }
-        if (id <= 0) {
-            throw new IllegalArgumentException("id value should great than 0!");
-        }
-
         this.element = element;
-        this.id = id;
+
+        setId(id);
     }
 
     /**
@@ -46,6 +43,14 @@ public class IndexedElement {
      */
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("id value should great than 0!");
+        }
+
+        this.id = id;
     }
 
     /**

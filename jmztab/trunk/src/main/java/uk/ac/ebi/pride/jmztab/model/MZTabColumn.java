@@ -101,6 +101,10 @@ public class MZTabColumn {
         return header;
     }
 
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
     /**
      * Get the column logical position. For stable column, order and logical position are same. But for optional column,
      * the logical position need to calculate by concatenate order and index element id. For example, optional column
@@ -118,6 +122,10 @@ public class MZTabColumn {
      */
     public String getLogicPosition() {
         return logicPosition;
+    }
+
+    public void setLogicPosition(String logicPosition) {
+        this.logicPosition = logicPosition;
     }
 
     /**
