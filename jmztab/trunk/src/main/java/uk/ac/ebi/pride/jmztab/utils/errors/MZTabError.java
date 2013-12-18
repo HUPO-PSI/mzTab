@@ -35,7 +35,7 @@ public class MZTabError {
      * during parse {@link #lineNumber} line in mzTab file.
      *
      * @param type SHOULD NOT null.
-     * @param lineNumber SHOULD be positive integer.
+     * @param lineNumber SHOULD be positive integer. Except "-1", which means the line number unknown.
      * @param values May be null, if no variable in error's original pattern.
      */
     public MZTabError(MZTabErrorType type, int lineNumber, String... values) {
@@ -44,9 +44,6 @@ public class MZTabError {
         }
         this.type = type;
 
-        if (lineNumber <= 0) {
-            throw new IllegalArgumentException("Line number should be a positive integer.");
-        }
         this.lineNumber = lineNumber;
 
         List<String> valueList = new ArrayList<String>();

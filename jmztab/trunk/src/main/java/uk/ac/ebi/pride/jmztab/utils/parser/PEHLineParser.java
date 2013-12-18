@@ -7,6 +7,8 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 /**
+ * Parse and validate Peptide header line into a {@link MZTabColumnFactory}.
+ *
  * User: Qingwei
  * Date: 10/02/13
  */
@@ -19,6 +21,23 @@ public class PEHLineParser extends MZTabHeaderLineParser {
         super.parse(lineNumber, line, errorList);
     }
 
+    /**
+     * In "Quantification" file, following optional columns are mandatory provide:
+     * 1. peptide_abundance_study_variable[1-n]
+     * 2. peptide_abundance_stdev_study_variable[1-n]
+     * 3. peptide_abundance_std_error_study_variable[1-n]
+     *
+     * Beside above, in "Complete" and "Quantification" file, following optional columns also mandatory provide:
+     * 1. search_engine_score_ms_run[1-n]
+     * 2. peptide_abundance_assay[1-n]
+     * 3. spectra_ref             // This is special, currently all "Quantification" file's peptide line header
+     *                            // should provide, because it is difficult to judge MS2 based quantification employed.
+     *
+     * NOTICE: this hock method will be called at end of parse() function.
+     *
+     * @see MZTabHeaderLineParser#parse(int, String, uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList)
+     * @see #refineOptionalColumn(uk.ac.ebi.pride.jmztab.model.MZTabDescription.Mode, uk.ac.ebi.pride.jmztab.model.MZTabDescription.Type, String)
+     */
     @Override
     protected void refine() throws MZTabException {
         MZTabDescription.Mode mode = metadata.getMZTabMode();

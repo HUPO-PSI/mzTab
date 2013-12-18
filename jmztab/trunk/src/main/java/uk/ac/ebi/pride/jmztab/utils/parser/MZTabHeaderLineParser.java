@@ -8,9 +8,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
-* The class used to do common operations in protein/peptide/psm/small_molecular
-* header line. There are two main categories in columns: stable columns and
-* optional columns.
+* A couple of common method used to parse a header line into {@link MZTabColumnFactory} structure.
+ *
+ * NOTICE: {@link MZTabColumnFactory} maintain a couple of {@link MZTabColumn} which have internal logical
+ * position and order. In physical mzTab file, we allow user not obey this logical position organized way,
+ * and provide their date with own order. In order to distinguish them, we use physical position (a positive
+ * integer) to record the column location in mzTab file. And use {@link PositionMapping} structure the maintain
+ * the mapping between them.
+ *
+ * @see PRHLineParser
+ * @see PEHLineParser
+ * @see PSHLineParser
+ * @see SMHLineParser
 *
 * User: Qingwei
 * Date: 11/02/13
@@ -19,6 +28,12 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     protected MZTabColumnFactory factory;
     protected Metadata metadata;
 
+    /**
+     * Parse a header line into {@link MZTabColumnFactory} structure.
+     *
+     * @param factory SHOULD NOT set null
+     * @param metadata SHOULD NOT set null
+     */
     protected MZTabHeaderLineParser(MZTabColumnFactory factory, Metadata metadata) {
         if (factory == null) {
             throw new NullPointerException("Header line should be parse first!");
@@ -31,8 +46,17 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
         this.metadata = metadata;
     }
 
+    /**
+     * Some validate operation need to be done after the whole {@link MZTabColumnFactory} created.
+     * Thus, user can add them, and called at the end of the
+     * {@link #parse(int, String, uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList)} method.
+     */
     protected abstract void refine() throws MZTabException;
 
+    /**
+     * Refine optional columns based one {@link MZTabDescription.Mode} and {@link MZTabDescription.Type}
+     * These re-validate operation will called in {@link #refine()} method.
+     */
     protected void refineOptionalColumn(MZTabDescription.Mode mode, MZTabDescription.Type type,
                                         String columnHeader) throws MZTabException {
         if (factory.findColumnByHeader(columnHeader) == null) {
@@ -41,22 +65,28 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     }
 
     /**
-     * We assume that user before call this method, have parse the raw line
-     * is not empty line and start with section prefix.
+     * Parse a header line into {@link MZTabColumnFactory} structure. There are two steps in this method:
+     * Step 1: {@link #parseStableOrderColumns()} focus on validate and parse for stable columns and optional
+     * columns which have stable order; and Step 2: {@link #parseOptionalColumns(int)} focus on {@link AbundanceColumn},
+     * {@link OptionColumn} and {@link CVParamOptionColumn} parse and validation.
      */
     protected void parse(int lineNumber, String line, MZTabErrorList errorList) throws MZTabException {
         super.parse(lineNumber, line, errorList);
 
         int offset = parseStableOrderColumns();
         if (offset < items.length) {
-            matchOptionalColumns(offset);
+            parseOptionalColumns(offset);
         }
 
         refine();
     }
 
     /**
-     * Checking these columns' which order stable. Just not care about abundance columns and opt_ columns.
+     * Focus on validate and parse for stable columns and optional columns which have stable order;
+     * All of them defined in the {@link ProteinColumn}, {@link PeptideColumn}, {@link PSMColumn}
+     * or {@link SmallMoleculeColumn}.
+     *
+     * NOTICE: there not exist optional columns with stable order in {@link PSMColumn}
      */
     private int parseStableOrderColumns() throws MZTabException {
         List<String> headerList = Arrays.asList(items);
@@ -112,6 +142,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
                             column = ProteinColumn.NUM_PEPTIDES_UNIQUE;
                         } else if (header.startsWith("opt_")) {
                             // ignore opt_ms_run....
+                            // This kind of optional columns will be processed in the parseOptionalColumns() method.
                         } else {
                             throw new MZTabException(new MZTabError(FormatErrorType.MsRunOptionalColumn, lineNumber, header, section.getName()));
                         }
@@ -121,6 +152,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
                             column = PeptideColumn.SEARCH_ENGINE_SCORE;
                         } else if (header.startsWith("opt_")) {
                             // ignore opt_ms_run....
+                            // This kind of optional columns will be processed in the parseOptionalColumns() method.
                         } else {
                             throw new MZTabException(new MZTabError(FormatErrorType.MsRunOptionalColumn, lineNumber, header, section.getName()));
                         }
@@ -130,6 +162,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
                             column = SmallMoleculeColumn.SEARCH_ENGINE_SCORE;
                         } else if (header.startsWith("opt_")) {
                             // ignore opt_ms_run....
+                            // This kind of optional columns will be processed in the parseOptionalColumns() method.
                         } else {
                             throw new MZTabException(new MZTabError(FormatErrorType.MsRunOptionalColumn, lineNumber, header, section.getName()));
                         }
@@ -145,7 +178,15 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
         return factory.getStableColumnMapping().values().size();
     }
 
-    private void matchOptionalColumns(int offset) throws MZTabException {
+    /**
+     * Iterative parse optional columns with dynamic logical position and order. These optional column including:
+     * {@link AbundanceColumn}, {@link OptionColumn} and {@link CVParamOptionColumn} parse and validation.
+     * All of these optional columns always put the end of the table, thus, we use offset to locate the last
+     * column position.
+     *
+     * @param offset the cursor to locate the optional columns locate the end of the table.
+     */
+    private void parseOptionalColumns(int offset) throws MZTabException {
         String columnName = items[offset].trim();
 
         if (columnName.startsWith("opt_")) {
@@ -156,10 +197,18 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
 
         if (offset < items.length - 1) {
             offset++;
-            matchOptionalColumns(offset);
+            parseOptionalColumns(offset);
         }
     }
 
+    /**
+     * Some {@link CVParamOptionColumn}, their data type have defined. Currently, we provide two {@link CVParam}
+     * which defined in the mzTab specification. One is "emPAI value" (MS:1001905), data type is Double;
+     * another is "decoy peptide" (MS:1002217), the data type is Boolean (0/1). Besides them, "opt_" start optional
+     * column data type is String.
+     *
+     * @see #checkOptColumnName(String)
+     */
     private Class getDataType(CVParam param) {
         Class dataType;
 
@@ -177,7 +226,10 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     }
 
     /**
-     * opt_{assay_id|study_variable_id|ms_run_id|global}_value
+     * Additional columns can be added to the end of the protein table. These column headers MUST start with the prefix "opt_".
+     * Column names MUST only contain the following characters: 'A’-'Z’, 'a’-'z’, '0’-'9’, '_’, '-’, '[’, ']’, and ':’.
+     *
+     * the format: opt_{IndexedElement[id]}_{value}. Spaces within the parameter's name MUST be replaced by '_'.
      */
     private boolean checkOptColumnName(String nameLabel) throws MZTabException {
         nameLabel = nameLabel.trim();
@@ -253,7 +305,8 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     }
 
     /**
-     * opt_cv_{accession}_{parameter name}
+     * An kind of {@link CVParamOptionColumn} which use CV parameter accessions in following the format:
+     * opt_{OBJECT_ID}_cv_{accession}_{parameter name}. Spaces within the parameter' s name MUST be replaced by '_'.
      */
     private CVParam checkCVParamOptColumnName(String nameLabel, String valueLabel) throws MZTabException {
         nameLabel = nameLabel.trim();
@@ -280,7 +333,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     }
 
     /**
-     * abundance_assay[id], abundance_study_variable[id] abundance_stdev_sub_study_variable[id],
+     * Abundance_assay[id], abundance_study_variable[id] abundance_stdev_sub_study_variable[id],
      * abundance_std_error_study_variable[id]. The last three columns should be display together.
      * Thus, this method will parse three abundance columns as a group, and return the offset of next
      */
@@ -320,7 +373,10 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
         return oldName;
     }
 
-    // the id is not correct number in the define label.
+    /**
+     * Parse header to a index id number.
+     * If exists parse error, stop validate and throw {@link MZTabException} directly.
+     */
     private int checkIndex(String header, String id) throws MZTabException {
         try {
             Integer index = Integer.parseInt(id);
@@ -363,7 +419,8 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     }
 
     /**
-     * check XXXX_abundance_assay[id]
+     * Check XXXX_abundance_assay[id] column header. If parse error, stop validate and raise
+     * {@link MZTabException}.
      */
     private void checkAbundanceAssayColumn(String abundanceHeader) throws MZTabException {
         String valueLabel = checkAbundanceSection(abundanceHeader);
@@ -385,6 +442,10 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
         factory.addAbundanceOptionalColumn(assay);
     }
 
+    /**
+     * Check XXXX_abundance_study_variable[id], XXXX_abundance_stdev_study_variable[id], XXXX_abundance_std_error_study_variable[id]
+     * column header. If parse error, stop validate and raise {@link MZTabException}.
+     */
     private StudyVariable checkAbundanceStudyVariableColumn(String abundanceHeader) throws MZTabException {
         String valueLabel = checkAbundanceSection(abundanceHeader);
 
@@ -405,6 +466,10 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
         return studyVariable;
     }
 
+    /**
+     * Check XXXX_abundance_study_variable[id], XXXX_abundance_stdev_study_variable[id], XXXX_abundance_std_error_study_variable[id]
+     * column header. If parse error, stop validate and raise {@link MZTabException}.
+     */
     private void checkAbundanceStudyVariableColumns(String abundanceHeader,
                                                     String abundanceStdevHeader,
                                                     String abundanceStdErrorHeader) throws MZTabException {

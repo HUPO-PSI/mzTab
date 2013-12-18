@@ -13,6 +13,12 @@ import java.io.File;
 import java.util.SortedMap;
 
 /**
+ * Convert third-party data source to mzTab file, and do whole {@link MZTabFile} consistency check.
+ * Currently, only PRIDE XML v2.1 has been integrated into this framework.
+ *
+ * @see uk.ac.ebi.pride.jmztab.MZTabInspector
+ * @see uk.ac.ebi.pride.jmztab.MZTabCommandLine
+ *
  * User: qingwei
  * Date: 17/09/13
  */
@@ -36,6 +42,15 @@ public class MZTabFileConverter {
         check(convertProvider.getMZTabFile());
     }
 
+    /**
+     * Do whole {@link MZTabFile} consistency check.
+     *
+     * @see #checkMetadata(uk.ac.ebi.pride.jmztab.model.Metadata)
+     * @see #checkProtein(uk.ac.ebi.pride.jmztab.model.Metadata, uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)
+     * @see #checkPeptide(uk.ac.ebi.pride.jmztab.model.Metadata, uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)
+     * @see #checkPSM(uk.ac.ebi.pride.jmztab.model.Metadata, uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)
+     * @see #checkSmallMolecule(uk.ac.ebi.pride.jmztab.model.Metadata, uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)
+     */
     private void check(MZTabFile mzTabFile) {
         Metadata metadata = mzTabFile.getMetadata();
         MZTabColumnFactory proteinFactory = mzTabFile.getProteinColumnFactory();
@@ -50,6 +65,9 @@ public class MZTabFileConverter {
         checkSmallMolecule(metadata, smlFactory);
     }
 
+    /**
+     *
+     */
     private void checkMetadata(Metadata metadata) {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();

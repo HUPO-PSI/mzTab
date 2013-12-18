@@ -64,7 +64,8 @@ public class PositionMapping {
     }
 
     /**
-     * Exchange "LogicalPosition, PhysicalPosition"
+     * Exchange key and value to "LogicalPosition, PhysicalPosition". This method used to simply the locate
+     * operation by logical position to physical position.
      */
     public SortedMap<String, Integer> exchange() {
         SortedMap<String, Integer> exchangeMappings = new TreeMap<String, Integer>();

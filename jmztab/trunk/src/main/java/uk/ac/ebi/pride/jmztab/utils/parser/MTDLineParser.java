@@ -65,7 +65,7 @@ public class MTDLineParser extends MZTabLineParser {
     }
 
     /**
-     * Parse email format for valueLabel. If exists error, add it into {@link MZTabErrorList}.
+     * Parse valueLabel based on email format. If exists parse error, add it into {@link MZTabErrorList}.
      */
     private String checkEmail(String defineLabel, String valueLabel) {
         String email = parseEmail(valueLabel);
@@ -78,7 +78,8 @@ public class MTDLineParser extends MZTabLineParser {
     }
 
     /**
-     * Parse {@link MetadataProperty} which depend on the {@link MetadataElement}
+     * Parse {@link MetadataProperty} which depend on the {@link MetadataElement}.
+     * If exists parse error, stop validate and throw {@link MZTabException} directly.
      */
     private MetadataProperty checkProperty(MetadataElement element, String propertyName) throws MZTabException {
         if (isEmpty(propertyName)) {
@@ -95,7 +96,8 @@ public class MTDLineParser extends MZTabLineParser {
     }
 
     /**
-     * Validate {@link MetadataProperty} which depend on the {@link MetadataSubElement}
+     * Parse {@link MetadataProperty} which depend on the {@link MetadataSubElement}
+     * If exists parse error, stop validate and throw {@link MZTabException} directly.
      */
     private MetadataProperty checkProperty(MetadataSubElement subElement, String propertyName) throws MZTabException {
         if (isEmpty(propertyName)) {
@@ -111,6 +113,10 @@ public class MTDLineParser extends MZTabLineParser {
         return property;
     }
 
+    /**
+     * Parse valueLabel to {@link MZTabDescription.Mode}
+     * If exists parse error, stop validate and throw {@link MZTabException} directly.
+     */
     private MZTabDescription.Mode checkMZTabMode(String defineLabel, String valueLabel) throws MZTabException {
         try {
             return MZTabDescription.Mode.valueOf(valueLabel);
@@ -120,6 +126,10 @@ public class MTDLineParser extends MZTabLineParser {
         }
     }
 
+    /**
+     * Parse valueLabel to {@link MZTabDescription.Mode}
+     * If exists parse error, stop validate and throw {@link MZTabException} directly.
+     */
     private MZTabDescription.Type checkMZTabType(String defineLabel, String valueLabel) throws MZTabException {
         try {
             return MZTabDescription.Type.valueOf(valueLabel);
@@ -129,6 +139,10 @@ public class MTDLineParser extends MZTabLineParser {
         }
     }
 
+    /**
+     * Parse valueLabel to {@link Param}
+     * If exists parse error, add it into {@link MZTabErrorList}
+     */
     private Param checkParam(String defineLabel, String valueLabel) {
         Param param = parseParam(valueLabel);
         if (param == null) {
@@ -137,6 +151,10 @@ public class MTDLineParser extends MZTabLineParser {
         return param;
     }
 
+    /**
+     * Parse valueLabel to a list of '|' separated parameters.
+     * If exists parse error, add it into {@link MZTabErrorList}
+     */
     private SplitList<Param> checkParamList(String defineLabel, String valueLabel) {
         SplitList<Param> paramList = parseParamList(valueLabel);
 
@@ -147,6 +165,10 @@ public class MTDLineParser extends MZTabLineParser {
         return paramList;
     }
 
+    /**
+     * Parse valueLabel to a list of '|' separated parameters.
+     * If exists parse error, add it into {@link MZTabErrorList}
+     */
     private SplitList<PublicationItem> checkPublication(String defineLabel, String valueLabel) {
         SplitList<PublicationItem> publications = parsePublicationItems(valueLabel);
         if (publications.size() == 0) {
@@ -156,6 +178,10 @@ public class MTDLineParser extends MZTabLineParser {
         return publications;
     }
 
+    /**
+     * Parse valueLabel to a {@link java.net.URI}
+     * If exists parse error, add it into {@link MZTabErrorList}
+     */
     private java.net.URI checkURI(String defineLabel, String valueLabel) {
         java.net.URI uri = parseURI(valueLabel);
         if (uri == null) {
@@ -165,6 +191,10 @@ public class MTDLineParser extends MZTabLineParser {
         return uri;
     }
 
+    /**
+     * Parse valueLabel to {@link java.net.URL}
+     * If exists parse error, add it into {@link MZTabErrorList}
+     */
     private java.net.URL checkURL(String defineLabel, String valueLabel) {
         java.net.URL url = parseURL(valueLabel);
         if (url == null) {
@@ -174,7 +204,10 @@ public class MTDLineParser extends MZTabLineParser {
         return url;
     }
 
-    // the id is not correct number in the define label.
+    /**
+     * Parse defineLabel to a index id number.
+     * If exists parse error, stop validate and throw {@link MZTabException} directly.
+     */
     private int checkIndex(String defineLabel, String id) throws MZTabException {
         try {
             Integer index = Integer.parseInt(id);
@@ -189,6 +222,10 @@ public class MTDLineParser extends MZTabLineParser {
         }
     }
 
+    /**
+     * Parse valueLabel to a {@link IndexedElement}
+     * If exists parse error, stop validate and throw {@link MZTabException} directly.
+     */
     private IndexedElement checkIndexedElement(String defineLabel, String valueLabel, MetadataElement element) throws MZTabException {
         IndexedElement indexedElement = parseIndexedElement(valueLabel, element);
         if (indexedElement == null) {
@@ -199,6 +236,10 @@ public class MTDLineParser extends MZTabLineParser {
         return indexedElement;
     }
 
+    /**
+     * Parse valueLabel to a {@link IndexedElement} list.
+     * If exists parse error, stop validate and throw {@link MZTabException} directly.
+     */
     private List<IndexedElement> checkIndexedElementList(String defineLabel, String valueLabel, MetadataElement element) throws MZTabException {
         List<IndexedElement> indexedElementList = parseIndexedElementList(valueLabel, element);
         if (indexedElementList == null || indexedElementList.size() == 0) {
@@ -211,15 +252,16 @@ public class MTDLineParser extends MZTabLineParser {
 
     /**
      * The metadata line including three parts:
-     * MTD  {define}    {value}
+     * MTD  {defineLabel}    {valueLabel}
      *
      * In normal, define label structure like:
-     * {element}([{id}])(-property)
+     * {@link MetadataElement}([id])(-{@link MetadataSubElement}[pid])(-{@link MetadataProperty})
      *
-     * ([{id}]) and {-property} are optional.
+     * @see MetadataElement     : Mandatory
+     * @see MetadataSubElement  : Optional
+     * @see MetadataProperty    : Optional.
      *
-     * parse label and generate Unit, MetadataElement, id, MetadataProperty objects.
-     * If optional item not exists, return null.
+     * If exists parse error, add it into {@link MZTabErrorList}
      */
     private void parseNormalMetadata(String defineLabel, String valueLabel) throws MZTabException {
         String regexp = "(\\w+)(\\[(\\w+)\\])?(-(\\w+)(\\[(\\w+)\\])?)?(-(\\w+))?";
@@ -695,10 +737,10 @@ public class MTDLineParser extends MZTabLineParser {
     }
 
     /**
-     * Based on factory, navigate colUnitMap<defineLabel, valueLabel>
-     * and refine colunit columns are correct or not.
-     *
-     * Notice: after refined phase, colunit definition can be record in the metadata.
+     * Facing colunit definition line, for example:
+     * MTD  colunit-protein retention_time=[UO, UO:000031, minute, ]
+     * which depends on the header line definitions. For this situation, user need call this method in
+     * the {@link uk.ac.ebi.pride.jmztab.utils.parser.MZTabHeaderLineParser#refine()} by manual.
      */
     public void refineColUnit(MZTabColumnFactory factory) throws MZTabException {
         String valueLabel;

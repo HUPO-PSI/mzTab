@@ -149,7 +149,7 @@ public class PRTLineParser extends MZTabDataLineParser {
 
     /**
      * accession should not null.
-     * accession MUST be unique
+     * accession MUST be unique, otherwise raise {@link LogicalErrorType#DuplicationAccession} error.
      *
      * If check error return null, else return accession String.
      */

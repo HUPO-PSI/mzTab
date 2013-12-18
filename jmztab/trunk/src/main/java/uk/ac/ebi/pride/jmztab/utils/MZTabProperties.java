@@ -41,12 +41,9 @@ public class MZTabProperties {
             "protein/peptide/small_molecule header section! Validation will stop, and ignore data table check!" + NEW_LINE;
     public final static String MZTabErrorOverflowExceptionMessage = "System error queue overflow!" + NEW_LINE;
 
-//    public final static String Version = getProperty("mztab.version");
     public final static String ENCODE = getProperty("mztab.encode");
     public final static int MAX_ERROR_COUNT = Integer.parseInt(getProperty("mztab.max_error_count"));
     public final static LogicalErrorType.Level LEVEL = LogicalErrorType.findLevel(getProperty("mztab.level"));
     public final static boolean CVPARAM_CHECK = Boolean.parseBoolean(getProperty("mztab.cvparam_webservice"));
-
-//    public final static boolean BUFFERED = Boolean.parseBoolean(getProperty("mztab.buffered"));
 
 }

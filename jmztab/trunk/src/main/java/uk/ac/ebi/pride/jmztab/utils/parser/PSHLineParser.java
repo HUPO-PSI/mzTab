@@ -10,6 +10,8 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 /**
+ * Parse and validate PSM header line into a {@link MZTabColumnFactory}.
+ *
  * User: Qingwei
  * Date: 05/06/13
  */
@@ -22,6 +24,9 @@ public class PSHLineParser extends MZTabHeaderLineParser {
         super.parse(lineNumber, line, errorList);
     }
 
+    /**
+     * No optional columns defined in the PSM header line, so no refine check for it.
+     */
     @Override
     protected void refine() throws MZTabException {
         // if PSM section is present, fixed_mod[1-n] and variable_mod[1-n] should be defined.

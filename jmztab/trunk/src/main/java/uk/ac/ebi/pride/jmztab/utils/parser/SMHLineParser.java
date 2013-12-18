@@ -7,6 +7,8 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 /**
+ * Parse and validate Small Molecule header line into a {@link MZTabColumnFactory}.
+ *
  * User: Qingwei
  * Date: 10/02/13
  */
@@ -19,10 +21,33 @@ public class SMHLineParser extends MZTabHeaderLineParser {
         super.parse(lineNumber, line, errorList);
     }
 
+    /**
+     * In "Quantification" file, following optional columns are mandatory provide:
+     * 1. smallmolecule_abundance_study_variable[1-n]
+     * 2. smallmolecule_abundance_stdev_study_variable[1-n]
+     * 3. smallmolecule_abundance_std_error_study_variable[1-n]
+     *
+     * Beside above, in "Complete" and "Quantification" file, following optional columns also mandatory provide:
+     * 1. search_engine_score_ms_run[1-n]
+     *
+     * NOTICE: this hock method will be called at end of parse() function.
+     *
+     * @see MZTabHeaderLineParser#parse(int, String, uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList)
+     * @see #refineOptionalColumn(uk.ac.ebi.pride.jmztab.model.MZTabDescription.Mode, uk.ac.ebi.pride.jmztab.model.MZTabDescription.Type, String)
+     */
     @Override
     protected void refine() throws MZTabException {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
+
+        if (mode == MZTabDescription.Mode.Complete) {
+            if (type == MZTabDescription.Type.Quantification) {
+                for (MsRun msRun : metadata.getMsRunMap().values()) {
+                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
+                    refineOptionalColumn(mode, type, "search_engine_score" + msRunLabel);
+                }
+            }
+        }
 
         if (type == MZTabDescription.Type.Quantification) {
             if (metadata.getSmallMoleculeQuantificationUnit() == null) {

@@ -297,6 +297,10 @@ public class MZTabUtils {
         return integer;
     }
 
+    /**
+     * NOTICE: If ratios are included and the denominator is zero, the "INF" value MUST be used. If the result leads
+     * to calculation errors (for example 0/0), this MUST be reported as "not a number" ("NaN").
+     */
     public static Double parseDouble(String target) {
         target = parseString(target);
         if (target == null) {
