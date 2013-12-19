@@ -186,7 +186,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         for (uk.ac.ebi.pride.jaxb.model.CvParam p : param.getCvParam()) {
-            if (DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession().equals(p.getAccession()) && ! isEmpty(p.getValue())) {
                 metadata.setDescription(p.getValue());
             } else if (QuantitationCvParams.isQuantificationMethod(p.getAccession())) {
                 // check if it's a quantification method
@@ -536,41 +536,25 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     }
 
     private void loadSearchEngineScore(Protein protein, Identification identification) {
-        if (identification.getScore() != null) {
-            CVParam score = null;
-            for (PeptideItem peptideItem : identification.getPeptideItem()) {
-                score = getSearchEngineScores(peptideItem.getAdditional().getCvParam());
+        Double score = identification.getScore();
 
-                if (score != null) {
-                    protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
-                }
+        if (score != null) {
+            String searchEngineName = identification.getSearchEngine();
+            CVParam scoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByName(searchEngineName, score.toString());
+            if (scoreParam != null) {
+                protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), scoreParam);
             }
+        }
+    }
 
-            if (score == null) {
-                String searchEngineName = identification.getSearchEngine();
-                String searchEngineScore = identification.getScore().toString();
-
-                SearchEngineParam searchEngineParam = SearchEngineParam.findParam(searchEngineName);
-                if (SearchEngineParam.MASCOT.equals(searchEngineParam)) {
-                    score = SearchEngineScoreParam.MASCOT_SCORE.setScore(searchEngineScore);
-                } else if (SearchEngineParam.OMSSA.equals(searchEngineParam)) {
-                    score = SearchEngineScoreParam.OMSSA_EVALUE.setScore(searchEngineScore);
-                } else if (SearchEngineParam.SEQUEST.equals(searchEngineParam)) {
-                    score = SearchEngineScoreParam.SEQUEST_SCORE.setScore(searchEngineScore);
-                } else if (SearchEngineParam.SPECTRUM_MILL_PEPTIDE.equals(searchEngineParam)) {
-                    score = SearchEngineScoreParam.SPECTRUMMILL_SCORE.setScore(searchEngineScore);
-                } else if (SearchEngineParam.XTANDEM.equals(searchEngineParam)) {
-                    score = SearchEngineScoreParam.XTANDEM_HYPERSCORE.setScore(searchEngineScore);
-                } else if (SearchEngineParam.SPECTRA_ST.equals(searchEngineParam)) {
-                    score = new CVParam(null, null, "SpectraST score", searchEngineScore);
-                }
-
-                // in PRIDE XML, best_search_engine_score and search_engine_score_ms_run[1] are same.
-                if (score != null) {
-                    protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), score);
-                }
+    private void loadSearchEngineScore(PSM psm, PeptideItem peptideItem) {
+        SearchEngineScoreParam scoreParam;
+        for (CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
+            scoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
+            if (scoreParam != null) {
+                psm.addSearchEngineScoreParam(scoreParam.toCVParam(cvParam.getValue()));
+                psm.addSearchEngineParam(scoreParam.getSearchEngineParam().toCVParam());
             }
-
         }
     }
 
@@ -585,7 +569,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         protein.setDatabase(identification.getDatabase());
         protein.setDatabaseVersion(identification.getDatabaseVersion());
 
-        uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = SearchEngineParam.findParam(identification.getSearchEngine());
+        uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = SearchEngineParam.findParamByName(identification.getSearchEngine()).toCVParam();
         if (searchEngineParam != null) {
             protein.addSearchEngineParam(searchEngineParam);
         }
@@ -691,20 +675,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         return protein;
     }
 
-    /**
-     * Extracts all search engine score related parameters from a peptide object and returns them in a list of
-     * mzTab Params.
-     */
-    private CVParam getSearchEngineScores(List<CvParam> cvParamList) {
-        for (CvParam param : cvParamList) {
-            if (Utils.PEPTIDE_SCORE_PARAM.isScoreAccession(param.getAccession())) {
-                return convertParam(param);
-            }
-        }
-
-        return null;
-    }
-
     private Collection<Modification> getPeptideModifications(PeptideItem item) {
         HashMap<String, Modification> modifications = new HashMap<String, Modification>();
 
@@ -745,11 +715,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             psm.setDatabaseVersion(identification.getDatabaseVersion());
 
             // set the search engine - is possible
-            uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = SearchEngineParam.findParam(identification.getSearchEngine());
-            if (searchEngineParam != null) {
-                psm.addSearchEngineParam(searchEngineParam);
-                psm.addSearchEngineScoreParam(getSearchEngineScores(peptideItem.getAdditional().getCvParam()));
-            }
+            loadSearchEngineScore(psm, peptideItem);
 
             // set the modifications
             for (Modification modification : getPeptideModifications(peptideItem)) {

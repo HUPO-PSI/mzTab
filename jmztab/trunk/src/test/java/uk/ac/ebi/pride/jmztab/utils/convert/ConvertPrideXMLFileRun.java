@@ -41,10 +41,10 @@ public class ConvertPrideXMLFileRun {
 
     public static void main(String[] args) throws Exception {
         ConvertPrideXMLFileRun run = new ConvertPrideXMLFileRun();
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_16649.xml"), new File("temp/Pride_16649.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_17910.xml"), new File("temp/Pride_17910.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_1643.xml"), new File("temp/Pride_1643.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_2030.xml"), new File("temp/Pride_2030.mztab"));
-        run.convert(new File("temp/PRIDE_Exp_Complete_Ac_31257.xml"), new File("temp/PRIDE_Exp_Complete_Ac_31257.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_16649.xml"), new File("temp/PRIDE_Exp_Complete_Ac_16649.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_17910.xml"), new File("temp/PRIDE_Exp_Complete_Ac_17910.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_1643.xml"), new File("temp/PRIDE_Exp_Complete_Ac_1643.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_2030.xml"), new File("temp/PRIDE_Exp_Complete_Ac_2030.mztab"));
+        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_31257.xml"), new File("temp/PRIDE_Exp_Complete_Ac_31257.mztab"));
     }
 }

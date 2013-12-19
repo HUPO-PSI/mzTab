@@ -344,6 +344,15 @@ public class Metadata {
     }
 
     /**
+     * A list of parameters describing a sample processing step. The order of the data_processing
+     * items should reflect the order these processing steps were performed in. If multiple parameters
+     * are given for a step these MUST be separated by a "|".
+     */
+    public void setSampleProcessingMap(SortedMap<Integer, SplitList<Param>> sampleProcessingMap) {
+        this.sampleProcessingMap = sampleProcessingMap;
+    }
+
+    /**
      * Get a sorted instrument map used in the experiment, which order by indexed
      */
     public SortedMap<Integer, Instrument> getInstrumentMap() {
@@ -351,10 +360,24 @@ public class Metadata {
     }
 
     /**
+     * Get a sorted instrument map used in the experiment, which order by indexed
+     */
+    public void setInstrumentMap(SortedMap<Integer, Instrument> instrumentMap) {
+        this.instrumentMap = instrumentMap;
+    }
+
+    /**
      * Get a sorted software map used in the analyze the data and obtain the reported results, which order by indexed
      */
     public SortedMap<Integer, Software> getSoftwareMap() {
         return softwareMap;
+    }
+
+    /**
+     * Set a sorted software map used in the analyze the data and obtain the reported results, which order by indexed
+     */
+    public void setSoftwareMap(SortedMap<Integer, Software> softwareMap) {
+        this.softwareMap = softwareMap;
     }
 
     /**
@@ -389,6 +412,15 @@ public class Metadata {
     }
 
     /**
+     * Set publication associated with this file. Several publications can be given by indicating the
+     * number in the square brackets after "publication". PubMed ids must be prefixed by "pubmed:",
+     * DOIs by "doi:". Multiple identifiers MUST be separated by "|".
+     */
+    public void setPublicationMap(SortedMap<Integer, Publication> publicationMap) {
+        this.publicationMap = publicationMap;
+    }
+
+    /**
      * Get contact list associated with this file.
      */
     public SortedMap<Integer, Contact> getContactMap() {
@@ -396,10 +428,24 @@ public class Metadata {
     }
 
     /**
+     * Set contact list associated with this file.
+     */
+    public void setContactMap(SortedMap<Integer, Contact> contactMap) {
+        this.contactMap = contactMap;
+    }
+
+    /**
      * Get a couple of URIs pointing to the file's source data.
      */
     public List<URI> getUriList() {
         return uriList;
+    }
+
+    /**
+     * Set a couple of URIs pointing to the file's source data.
+     */
+    public void setUriList(List<URI> uriList) {
+        this.uriList = uriList;
     }
 
     /**
@@ -412,6 +458,15 @@ public class Metadata {
     }
 
     /**
+     * Set a couple of fixed modifications searched for.
+     * Fixed Modification used to identify peptides and proteins of the mzTab file (e.g. carbamidomethylation,
+     * oxidation, labels/tags).
+     */
+    public void setFixedModMap(SortedMap<Integer, FixedMod> fixedModMap) {
+        this.fixedModMap = fixedModMap;
+    }
+
+    /**
      * Get a couple of variable modifications searched for.
      *
      * Variable Modification used to identify peptides and proteins of the mzTab file (e.g. carbamidomethylation,
@@ -419,6 +474,16 @@ public class Metadata {
      */
     public SortedMap<Integer, VariableMod> getVariableModMap() {
         return variableModMap;
+    }
+
+    /**
+     * Set a couple of variable modifications searched for.
+     *
+     * Variable Modification used to identify peptides and proteins of the mzTab file (e.g. carbamidomethylation,
+     * oxidation, labels/tags).
+     */
+    public void setVariableModMap(SortedMap<Integer, VariableMod> variableModMap) {
+        this.variableModMap = variableModMap;
     }
 
     /**
@@ -494,10 +559,25 @@ public class Metadata {
     }
 
     /**
+     * Set the external MS data files. An MS run is effectively one run (or set of runs on pre-fractionated samples)
+     * on an MS instrument, and is referenced from assay in different contexts.
+     */
+    public void setMsRunMap(SortedMap<Integer, MsRun> msRunMap) {
+        this.msRunMap = msRunMap;
+    }
+
+    /**
      * Get additional parameters describing the analysis reported.
      */
     public List<Param> getCustomList() {
         return customList;
+    }
+
+    /**
+     * Set additional parameters describing the analysis reported.
+     */
+    public void setCustomList(List<Param> customList) {
+        this.customList = customList;
     }
 
     /**
@@ -510,12 +590,30 @@ public class Metadata {
     }
 
     /**
+     * Set a couple of biological material that has been analysed, to which descriptors of species, cell/tissue type etc.
+     * can be attached. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample
+     * was analysed (e.g. whether biological or technical replication was performed).
+     */
+    public void setSampleMap(SortedMap<Integer, Sample> sampleMap) {
+        this.sampleMap = sampleMap;
+    }
+
+    /**
      * Get a couple of assay, which ordered by index number.  One assay is typically mapped to one MS run in the case of
      * label-free MS analysis or multiple assays are mapped to one MS run for multiplexed techniques, along with a
      * description of the label or tag applied.
      */
     public SortedMap<Integer, Assay> getAssayMap() {
         return assayMap;
+    }
+
+    /**
+     * Set a couple of assay, which ordered by index number.  One assay is typically mapped to one MS run in the case of
+     * label-free MS analysis or multiple assays are mapped to one MS run for multiplexed techniques, along with a
+     * description of the label or tag applied.
+     */
+    public void setAssayMap(SortedMap<Integer, Assay> assayMap) {
+        this.assayMap = assayMap;
     }
 
     /**
@@ -528,10 +626,26 @@ public class Metadata {
     }
 
     /**
+     * The variables about which the final results of a study are reported, which may have been derived following
+     * averaging across a group of replicate measurements (assays). In files where assays are reported, study variables
+     * have references to assays. The same concept has been defined by others as "experimental factor".
+     */
+    public void setStudyVariableMap(SortedMap<Integer, StudyVariable> studyVariableMap) {
+        this.studyVariableMap = studyVariableMap;
+    }
+
+    /**
      * Get the definitions of controlled vocabularies/ontologies used in the mzTab file.
      */
     public SortedMap<Integer, CV> getCvMap() {
         return cvMap;
+    }
+
+    /**
+     * Set the definitions of controlled vocabularies/ontologies used in the mzTab file.
+     */
+    public void setCvMap(SortedMap<Integer, CV> cvMap) {
+        this.cvMap = cvMap;
     }
 
     /**
@@ -542,10 +656,24 @@ public class Metadata {
     }
 
     /**
+     * Set the definitions of the unit for the data reported in a column of the protein section.
+     */
+    public void setProteinColUnitList(List<ColUnit> proteinColUnitList) {
+        this.proteinColUnitList = proteinColUnitList;
+    }
+
+    /**
      *  Get the definitions of the unit for the data reported in a column of the peptide section.
      */
     public List<ColUnit> getPeptideColUnitList() {
         return peptideColUnitList;
+    }
+
+    /**
+     *  Set the definitions of the unit for the data reported in a column of the peptide section.
+     */
+    public void setPeptideColUnitList(List<ColUnit> peptideColUnitList) {
+        this.peptideColUnitList = peptideColUnitList;
     }
 
     /**
@@ -556,10 +684,24 @@ public class Metadata {
     }
 
     /**
+     *  Set the definitions of the unit for the data reported in a column of the PSM section.
+     */
+    public void setPsmColUnitList(List<ColUnit> psmColUnitList) {
+        this.psmColUnitList = psmColUnitList;
+    }
+
+    /**
      *  Get the definitions of the unit for the data reported in a column of the small molecule section.
      */
     public List<ColUnit> getSmallMoleculeColUnitList() {
         return smallMoleculeColUnitList;
+    }
+
+    /**
+     *  Set the definitions of the unit for the data reported in a column of the small molecule section.
+     */
+    public void setSmallMoleculeColUnitList(List<ColUnit> smallMoleculeColUnitList) {
+        this.smallMoleculeColUnitList = smallMoleculeColUnitList;
     }
 
     /**
