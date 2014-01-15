@@ -8,7 +8,6 @@ import uk.ac.ebi.pride.jmztab.model.Param;
 import uk.ac.ebi.pride.jmztab.model.UserParam;
 import uk.ac.ebi.pride.mol.PTModification;
 import uk.ac.ebi.pride.tools.converter.dao.DAOCvParams;
-import uk.ac.ebi.pride.tools.converter.dao.Utils;
 import uk.ac.ebi.pride.tools.converter.dao.handler.QuantitationCvParams;
 
 import java.io.File;
@@ -364,7 +363,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         // Identification
         if (metadata.getSampleMap().isEmpty()) {
             for (CvParam p : sampleDescription.getCvParam()) {
-                if (isEmpty(p.getValue())) {
+                if (! isEmpty(p.getCvLabel())) {
                     if ("NEWT".equals(p.getCvLabel())) {
                         metadata.addSampleSpecies(1, convertParam(p));
                     }
@@ -379,7 +378,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                         //IDO: Infectious Disease Ontology
                         metadata.addSampleDisease(1, convertParam(p));
                     }
-                    else {
+                    else if (! isEmpty(p.getName())){
                         metadata.addSampleCustom(1, convertParam(p));
                     }
                 }
@@ -453,8 +452,10 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     modifications.put(ptm.getModAccession(), mod);
                 }
 
-                Integer position = item.getStart().intValue() + ptm.getModLocation().intValue();
-                mod.addPosition(position, null);
+                if (mod != null) {
+                    Integer position = item.getStart().intValue() + ptm.getModLocation().intValue();
+                    mod.addPosition(position, null);
+                }
             }
         }
 
@@ -569,21 +570,27 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         protein.setDatabase(identification.getDatabase());
         protein.setDatabaseVersion(identification.getDatabaseVersion());
 
-        uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = SearchEngineParam.findParamByName(identification.getSearchEngine()).toCVParam();
-        if (searchEngineParam != null) {
-            protein.addSearchEngineParam(searchEngineParam);
+        if (identification.getSearchEngine() != null) {
+            uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = SearchEngineParam.findParamByName(identification.getSearchEngine()).toCVParam();
+            if (searchEngineParam != null) {
+                protein.addSearchEngineParam(searchEngineParam);
+            }
+            loadSearchEngineScore(protein, identification);
         }
-        loadSearchEngineScore(protein, identification);
 
         // set the description if available
         String description = getCvParamValue(identification.getAdditional(), DAOCvParams.PROTEIN_NAME.getAccession());
         protein.setDescription(description);
 
         // set protein species and taxid.
-        Sample sample = metadata.getSampleMap().get(1);
-        Param speciesParam = sample.getSpeciesList().get(0);
-        protein.setSpecies(speciesParam.getName());
-        protein.setTaxid(speciesParam.getAccession());
+        if (! metadata.getSampleMap().isEmpty()) {
+            Sample sample = metadata.getSampleMap().get(1);
+            if (! sample.getSpeciesList().isEmpty()) {
+                Param speciesParam = sample.getSpeciesList().get(0);
+                protein.setSpecies(speciesParam.getName());
+                protein.setTaxid(speciesParam.getAccession());
+            }
+        }
 
         // get the number of psms and distinct peptides
         List<PeptideItem> items = identification.getPeptideItem();
@@ -690,8 +697,10 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 modifications.put(ptm.getModAccession(), mod);
             }
 
-            Integer position = ptm.getModLocation().intValue();
-            mod.addPosition(position, null);
+            if (mod != null) {
+                Integer position = ptm.getModLocation().intValue();
+                mod.addPosition(position, null);
+            }
         }
 
         return modifications.values();
@@ -723,18 +732,22 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             }
 
             // set exp m/z
-            List<Precursor> precursorList = peptideItem.getSpectrum().getSpectrumDesc().getPrecursorList().getPrecursor();
-            for (Precursor precursor : precursorList) {
-                if (precursor.getMsLevel() != 1) {
-                    continue;
-                }
+            try {
+                List<Precursor> precursorList = peptideItem.getSpectrum().getSpectrumDesc().getPrecursorList().getPrecursor();
+                for (Precursor precursor : precursorList) {
+                    if (precursor.getMsLevel() != 1) {
+                        continue;
+                    }
 
-                for (CvParam c : precursor.getIonSelection().getCvParam()) {
-                    if (DAOCvParams.PRECURSOR_MZ.getAccession().equalsIgnoreCase(c.getAccession())) {
-                        psm.setExpMassToCharge(c.getValue());
-                        break;
+                    for (CvParam c : precursor.getIonSelection().getCvParam()) {
+                        if (DAOCvParams.PRECURSOR_MZ.getAccession().equalsIgnoreCase(c.getAccession())) {
+                            psm.setExpMassToCharge(c.getValue());
+                            break;
+                        }
                     }
                 }
+            } catch (NullPointerException e) {
+                // ignore no precursor ion.
             }
 
             // set the peptide spectrum reference
@@ -772,16 +785,22 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 }
                 // Step 2: calculate based on sequence + modification + charge.
                 if (! success) {
-                    uk.ac.ebi.pride.mol.Peptide peptide = new uk.ac.ebi.pride.mol.Peptide(peptideItem.getSequence());
-                    for (ModificationItem modificationItem : peptideItem.getModificationItem()) {
-                        int location = modificationItem.getModLocation().intValue();
-                        double mass = Double.parseDouble(modificationItem.getModMonoDelta().get(0));
-                        List<Double> monoMassList = new ArrayList<Double>();
-                        monoMassList.add(mass);
-                        peptide.addModification(location, new PTModification("","","", monoMassList, null));
+                    try {
+                        uk.ac.ebi.pride.mol.Peptide peptide = new uk.ac.ebi.pride.mol.Peptide(peptideItem.getSequence());
+                        for (ModificationItem modificationItem : peptideItem.getModificationItem()) {
+                            int location = modificationItem.getModLocation().intValue();
+                            double mass = Double.parseDouble(modificationItem.getModMonoDelta().get(0));
+                            List<Double> monoMassList = new ArrayList<Double>();
+                            monoMassList.add(mass);
+                            peptide.addModification(location, new PTModification("","","", monoMassList, null));
+                        }
+                        DefaultPeptideIon peptideIon = new DefaultPeptideIon(peptide, psm.getCharge());
+                        psm.setCalcMassToCharge(peptideIon.getMassOverCharge());
+                    } catch (IllegalArgumentException e) {
+                        // ignore unrecognized amino acid Peptide sequence.
+                        // need solved in the future.
                     }
-                    DefaultPeptideIon peptideIon = new DefaultPeptideIon(peptide, psm.getCharge());
-                    psm.setCalcMassToCharge(peptideIon.getMassOverCharge());
+
                 }
             }
 

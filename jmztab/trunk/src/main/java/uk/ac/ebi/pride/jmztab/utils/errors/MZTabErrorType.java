@@ -4,8 +4,6 @@ import uk.ac.ebi.pride.jmztab.model.MZTabUtils;
 import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
 
 /**
- *
- *
  * User: Qingwei
  * Date: 28/01/13
  */
@@ -18,10 +16,10 @@ public class MZTabErrorType {
 
     /**
      * We classify diagnosis message types into three levels: Info, Warn and Error, all of them coming from
-     * the notational conventions of the specification. All diagnosis rules, which use “MUST”, “MUST NOT”,
-     * “REQUIRED” keywords, are defined for Error level; use “SHALL”, “SHALL NOT”, “SHOULD”,
-     * “SHOULD NOT” keywords are defined for Warn Level; and others keywords, such as “RECOMMENDED”,
-     * “MAY” and “OPTIONAL”, are defined for Info Level.
+     * the notational conventions of the specification. All diagnosis rules, which use "MUST", "MUST NOT",
+     * "REQUIRED" keywords, are defined for Error level; use "SHALL", "SHALL NOT", "SHOULD",
+     * "SHOULD NOT" keywords are defined for Warn Level; and others keywords, such as "RECOMMENDED",
+     * "MAY" and "OPTIONAL", are defined for Info Level.
      */
     public enum Level {
         Warn,

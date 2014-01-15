@@ -45,6 +45,16 @@ public class ConvertPrideXMLFileRun {
 //        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_17910.xml"), new File("temp/PRIDE_Exp_Complete_Ac_17910.mztab"));
 //        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_1643.xml"), new File("temp/PRIDE_Exp_Complete_Ac_1643.mztab"));
 //        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_2030.xml"), new File("temp/PRIDE_Exp_Complete_Ac_2030.mztab"));
-        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_31257.xml"), new File("temp/PRIDE_Exp_Complete_Ac_31257.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_31257.xml"), new File("temp/PRIDE_Exp_Complete_Ac_31257.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_108.xml"), new File("temp/PRIDE_Exp_Complete_Ac_108.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_1650.xml"), new File("temp/PRIDE_Exp_Complete_Ac_1650.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_1889.xml"), new File("temp/PRIDE_Exp_Complete_Ac_1889.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_2375.xml"), new File("temp/PRIDE_Exp_Complete_Ac_2375.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_3217.xml"), new File("temp/PRIDE_Exp_Complete_Ac_3217.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_3483.xml"), new File("temp/PRIDE_Exp_Complete_Ac_3483.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_11797.xml"), new File("temp/PRIDE_Exp_Complete_Ac_11797.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_8696.xml"), new File("temp/PRIDE_Exp_Complete_Ac_8696.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_20601.xml"), new File("temp/PRIDE_Exp_Complete_Ac_20601.mztab"));
+        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_16912.xml"), new File("temp/PRIDE_Exp_Complete_Ac_16912.mztab"));
     }
 }
