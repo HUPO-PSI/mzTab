@@ -148,7 +148,7 @@ public class PSM extends MZTabRecord {
     }
 
     /**
-     * The protein database's version – in case there is no version available (custom build) the creation
+     * The protein database's version - in case there is no version available (custom build) the creation
      * download (e.g., for NCBI nr) date should be given. Additionally, the number of entries in the database
      * MAY be reported in round brackets after the version in the format: {version} ({#entries} entries),
      * for example "2011-11 (1234 entries)".
@@ -158,7 +158,7 @@ public class PSM extends MZTabRecord {
     }
 
     /**
-     * The protein database's version – in case there is no version available (custom build) the creation
+     * The protein database's version - in case there is no version available (custom build) the creation
      * download (e.g., for NCBI nr) date should be given. Additionally, the number of entries in the database
      * MAY be reported in round brackets after the version in the format: {version} ({#entries} entries),
      * for example "2011-11 (1234 entries)".

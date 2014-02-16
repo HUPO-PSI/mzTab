@@ -7,7 +7,7 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
  * Define a MS instrument.
  * The name of the instrument used in the experiment. Multiple instruments are numbered 1..n
  * The instrument's source used in the experiment. Multiple instruments are numbered 1..n
- * The instrument’s analyzer type used in the experiment. Multiple instruments are enumerated 1..n
+ * The instrument's analyzer type used in the experiment. Multiple instruments are enumerated 1..n
  * The instrument's detector type used in the experiment. Multiple instruments are numbered 1..n
  *
  * User: Qingwei
@@ -57,14 +57,14 @@ public class Instrument extends IndexedElement {
     }
 
     /**
-     * The instrument’s analyzer type used in the experiment. Multiple instruments are enumerated 1..n
+     * The instrument's analyzer type used in the experiment. Multiple instruments are enumerated 1..n
      */
     public Param getAnalyzer() {
         return analyzer;
     }
 
     /**
-     * The instrument’s analyzer type used in the experiment. Multiple instruments are enumerated 1..n
+     * The instrument's analyzer type used in the experiment. Multiple instruments are enumerated 1..n
      */
     public void setAnalyzer(Param analyzer) {
         this.analyzer = analyzer;

@@ -6,7 +6,7 @@ import java.util.TreeMap;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
- * The application of a measurement about the sample (in this case through MS) – producing values about small molecules,
+ * The application of a measurement about the sample (in this case through MS) - producing values about small molecules,
  * peptides or proteins. One assay is typically mapped to one MS run in the case of label-free MS analysis or
  * multiple assays are mapped to one MS run for multiplexed techniques, along with a description of the label or tag applied.
  *
@@ -189,8 +189,8 @@ public class Assay extends IndexedElement {
      *     <li>MTD	assay[1]-quantification_mod[1]-position	Anywhere</li>
      * </ul>
      *
-     * @see {@link uk.ac.ebi.pride.jmztab.model.Metadata#toString()}
-     * @see {@link MZTabFile#printMZTab(java.io.OutputStream)}
+     * @see uk.ac.ebi.pride.jmztab.model.Metadata#toString()
+     * @see MZTabFile#printMZTab(java.io.OutputStream)
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();

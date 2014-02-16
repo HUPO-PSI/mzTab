@@ -13,8 +13,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
  * a factory class that can be used to generate stable {@link MZTabColumn} elements, and to add dynamically different
  * optional columns (like e.g. protein and peptide abundance related columns). The {@link Metadata} and {@link MZTabColumnFactory}
  * constitute the framework for the MZTabFile class; and iii) Consistency constraints among the different sections
- * of the model. For example, the MZTabFile class supports the iterative modification of the elements ‘{@link MsRun}’,
- * ‘{@link Sample}’, ‘{@link StudyVariable}’, and ‘{@link Assay}’ assigned numbers (1-n) and its location in the file,
+ * of the model. For example, the MZTabFile class supports the iterative modification of the elements '{@link MsRun}',
+ * '{@link Sample}', '{@link StudyVariable}', and '{@link Assay}' assigned numbers (1-n) and its location in the file,
  * maintaining the  internal consistency between the Metadata section and the optional elements in the table-based sections.
  * These methods are particularly useful when information coming from different experiments (e.g. ms runs) is
  * condensed in a single mzTab file.

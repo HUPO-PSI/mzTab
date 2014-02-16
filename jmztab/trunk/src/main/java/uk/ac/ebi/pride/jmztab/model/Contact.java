@@ -38,28 +38,28 @@ public class Contact extends IndexedElement {
     }
 
     /**
-     * The contact’s e-mail address.
+     * The contact's e-mail address.
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * The contact’s e-mail address.
+     * The contact's e-mail address.
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * The contact’s affiliation.
+     * The contact's affiliation.
      */
     public String getAffiliation() {
         return affiliation;
     }
 
     /**
-     * The contact’s affiliation.
+     * The contact's affiliation.
      */
     public void setAffiliation(String affiliation) {
         this.affiliation = affiliation;

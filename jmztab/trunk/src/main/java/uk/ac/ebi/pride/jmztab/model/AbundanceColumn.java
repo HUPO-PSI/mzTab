@@ -4,7 +4,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * If the data exporter wishes to report only final results for ‘Summary’ files (i.e. following averaging over replicates),
+ * If the data exporter wishes to report only final results for 'Summary' files (i.e. following averaging over replicates),
  * then these MUST be reported as quantitative values in the columns associated with the study_variable[1-n] (e.g.
  * protein_abundance_study_variable[1]). mzTab allows the reporting of abundance, standard deviation, and standard error
  * for any study_variable. The unit of values in the abundance column MUST be specified in the metadata section of the mzTab file.

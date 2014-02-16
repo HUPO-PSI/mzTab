@@ -54,7 +54,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     protected abstract void refine() throws MZTabException;
 
     /**
-     * Refine optional columns based one {@link MZTabDescription.Mode} and {@link MZTabDescription.Type}
+     * Refine optional columns based one {@link MZTabDescription#mode} and {@link MZTabDescription#type}
      * These re-validate operation will called in {@link #refine()} method.
      */
     protected void refineOptionalColumn(MZTabDescription.Mode mode, MZTabDescription.Type type,
@@ -227,7 +227,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
 
     /**
      * Additional columns can be added to the end of the protein table. These column headers MUST start with the prefix "opt_".
-     * Column names MUST only contain the following characters: 'A’-'Z’, 'a’-'z’, '0’-'9’, '_’, '-’, '[’, ']’, and ':’.
+     * Column names MUST only contain the following characters: 'A'-'Z', 'a'-'z', '0'-'9', '_', '-', '[', ']', and ':'.
      *
      * the format: opt_{IndexedElement[id]}_{value}. Spaces within the parameter's name MUST be replaced by '_'.
      */

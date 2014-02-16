@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * A framework for convert some other source into mzTab. {@link T} used to set data source,
- * {@link V} is a object store parameter(s) which maybe used in processing data source.
+ * A framework for convert some other source into mzTab. T used to set data source,
+ * V is a object store parameter(s) which maybe used in processing data source.
  *
  * User: Qingwei
  * Date: 12/03/13
@@ -28,8 +28,8 @@ public abstract class ConvertProvider<T, V> {
     private MZTabFile mzTabFile;
 
     /**
-     * A framework for convert some other source into mzTab. {@link T} used to set data source,
-     * {@link V} is a object store parameter(s) which maybe used in processing data source.
+     * A framework for convert some other source into mzTab. T used to set data source,
+     * V is a object store parameter(s) which maybe used in processing data source.
      */
     public ConvertProvider(T source, V params) {
         this.source = source;

@@ -64,7 +64,7 @@ public class Sample extends IndexedElement {
     }
 
     /**
-     * @return Parameters describing the sample’s additional properties
+     * @return Parameters describing the sample's additional properties
      */
     public List<Param> getCustomList() {
         return customList;

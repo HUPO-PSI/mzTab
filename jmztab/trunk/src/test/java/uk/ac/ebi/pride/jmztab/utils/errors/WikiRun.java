@@ -63,7 +63,7 @@ public class WikiRun {
         writeLine("");
         writeLine("*Table 2*. Mandatory columns in mzTab 'Summary' files. Where noted, these columns " +
             "are mandatory for every study_variable[1-n] or every ms_run[1-n] reported in the file. Note" +
-            " – any Quantification file type MAY include any of the Columns or Sections required for an Identification file type.");
+            " - any Quantification file type MAY include any of the Columns or Sections required for an Identification file type.");
         writeLine("");
         writeLine("");
     }
