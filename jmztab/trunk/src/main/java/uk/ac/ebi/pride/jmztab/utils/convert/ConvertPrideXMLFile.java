@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,6 +54,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     protected Metadata convertMetadata() {
         this.metadata = new Metadata();
 
+        String mzTabId = getFileNameWithoutExtension(source.getName());
+        metadata.setMZTabID(mzTabId);
         metadata.setTitle(reader.getExpTitle());
 
         // process the software
@@ -83,6 +86,11 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         metadata.setDescription("date of export: " + new Date());
         return metadata;
+    }
+
+    private String getFileNameWithoutExtension(String fileName) {
+        int lastIndexOfDot = fileName.lastIndexOf(".");
+        return fileName.substring(0, lastIndexOfDot);
     }
 
     /**
@@ -282,7 +290,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         metadata.addMsRunIdFormat(1, new CVParam("MS", "MS:1000777", "spectrum identifier nativeID format", null));
 
         try {
-            metadata.addMsRunLocation(1, source.toURI().toURL());
+            metadata.addMsRunLocation(1, new URL("file:/" + source.getName()));
         } catch (MalformedURLException e) {
             throw new MZTabConversionException("Error while adding ms run location", e);
         }
