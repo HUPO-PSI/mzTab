@@ -6,7 +6,7 @@
     <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab</artifactId>
     <!-- based on mzTab specification version 1.0 RC5-->
-    <version>2.1.5-SNAPSHOT</version>
+    <version>2.1.6-SNAPSHOT</version>
 
     <licenses>
         <license>
@@ -114,6 +114,7 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -123,77 +124,110 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>true</overWriteReleases>
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <!--<finalName>mzTabCLI</finalName>-->
-                    <finalName>mzTabGUI</finalName>
-                    <!-- comment exclusion section out if want to run batch dbtest -->
-                    <excludes>
-                        <exclude>**/test</exclude>
-                        <exclude>**/test/*.class</exclude>
-                    </excludes>
-                    <archive>
-                        <manifest>
-                            <!--provide a CLI for jmztab-->
-                            <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>-->
-                            <!--export prideq to mztab for unique-->
-                            <!--<mainClass>uk.ac.ebi.pride.jmztab.prideq.PrideqExportRun</mainClass>-->
-                            <!--provide a simple GUI for jmztab-->
-                            <mainClass>uk.ac.ebi.pride.jmztab.MZTabInspector</mainClass>
 
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>${project.basedir}/assembly.xml</descriptor>
-                    </descriptors>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>assembly</id>
-                        <phase>package</phase>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>jmztab-deployment-build</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.8</version>
+                        <executions>
+                            <execution>
+                                <id>copy-dependency</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                    <overWriteReleases>true</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                    <overWriteIfNewer>true</overWriteIfNewer>
+                                    <excludeTransitive>false</excludeTransitive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!--jar-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <!--NOTE: you must have this version number, otherwise, the build will not be able to find Validator-->
+                        <version>2.4</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/test</exclude>
+                                <exclude>**/test/*.class</exclude>
+                            </excludes>
+                            <archive>
+                                <manifest>
+                                    <!--provide a CLI for jmztab-->
+                                    <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>-->
+                                    <!--export prideq to mztab for unique-->
+                                    <!--<mainClass>uk.ac.ebi.pride.jmztab.prideq.PrideqExportRun</mainClass>-->
+                                    <!--provide a simple GUI for jmztab-->
+                                    <mainClass>uk.ac.ebi.pride.jmztab.MZTabInspector</mainClass>
+
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>lib</classpathPrefix>
+                                    <useUniqueVersions>false</useUniqueVersions>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!--assembly to zip-->
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>${project.basedir}/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 
     <repositories>
         <!-- EBI repo -->

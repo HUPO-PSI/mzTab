@@ -6,6 +6,7 @@ import uk.ac.ebi.pride.jaxb.xml.PrideXmlReader;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.model.Param;
 import uk.ac.ebi.pride.jmztab.model.UserParam;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabConversionException;
 import uk.ac.ebi.pride.mol.PTModification;
 import uk.ac.ebi.pride.tools.converter.dao.DAOCvParams;
 import uk.ac.ebi.pride.tools.converter.dao.handler.QuantitationCvParams;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +23,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
 
 /**
  * Convert PRIDE XML v2.1 file to mzTab.
- *
+ * <p/>
  * User: Qingwei
  * Date: 07/06/13
  */
@@ -53,8 +53,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     protected Metadata convertMetadata() {
         this.metadata = new Metadata();
 
-        // using experiment accession number as mzTab-ID
-        metadata.setMZTabID(reader.getExpAccession());
         metadata.setTitle(reader.getExpTitle());
 
         // process the software
@@ -67,10 +65,10 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         loadExperimentParams(reader.getAdditionalParams());
         // process the instrument information
         loadInstrument(reader.getInstrument());
-        // set the accession as URI if exists.
-        loadURI(reader.getExpAccession());
+
         // set Ms Run
-        loadMsRun(reader.getExpAccession());
+        loadMsRun();
+
         // process samples
         loadSamples(reader.getAdmin().getSampleDescription());
 
@@ -93,15 +91,15 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     private void loadSoftware(uk.ac.ebi.pride.jaxb.model.Software software) {
         StringBuilder sb = new StringBuilder();
 
-        if (! isEmpty(software.getName())) {
+        if (!isEmpty(software.getName())) {
             sb.append(software.getName());
         }
-        if (! isEmpty(software.getVersion())) {
+        if (!isEmpty(software.getVersion())) {
             sb.append(" v").append(software.getVersion());
         }
 
         if (sb.length() > 0) {
-            metadata.addSoftwareParam(1, new CVParam("MS", "MS:1001456", "analysis software", sb.toString().replaceAll("," , "")));
+            metadata.addSoftwareParam(1, new CVParam("MS", "MS:1001456", "analysis software", sb.toString().replaceAll(",", "")));
         }
     }
 
@@ -123,13 +121,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
             // check if there's a DOI
             String doi = getPublicationAccession(param, DAOCvParams.REFERENCE_DOI.getName());
-            if (! isEmpty(doi)) {
+            if (!isEmpty(doi)) {
                 items.add(new PublicationItem(PublicationItem.Type.DOI, doi));
             }
 
             // check if there's a pubmed id
             String pubmed = getPublicationAccession(param, DAOCvParams.REFERENCE_PUBMED.getName());
-            if (! isEmpty(pubmed)) {
+            if (!isEmpty(pubmed)) {
                 items.add(new PublicationItem(PublicationItem.Type.PUBMED, pubmed));
             }
 
@@ -158,7 +156,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     /**
      * Converts a list of PRIDE JAXB Contacts into an ArrayList of mzTab Contacts.
      */
-    private void loadContacts(List<uk.ac.ebi.pride.jaxb.model.Contact> contactList)  {
+    private void loadContacts(List<uk.ac.ebi.pride.jaxb.model.Contact> contactList) {
         // make sure there are contacts to be processed
         if (contactList == null || contactList.size() == 0) {
             return;
@@ -185,7 +183,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         for (uk.ac.ebi.pride.jaxb.model.CvParam p : param.getCvParam()) {
-            if (DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession().equals(p.getAccession()) && ! isEmpty(p.getValue())) {
+            if (DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession().equals(p.getAccession()) && !isEmpty(p.getValue())) {
                 metadata.setDescription(p.getValue());
             } else if (QuantitationCvParams.isQuantificationMethod(p.getAccession())) {
                 // check if it's a quantification method
@@ -238,7 +236,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             return;
         }
 
-        if (! isEmpty(instrument.getInstrumentName())) {
+        if (!isEmpty(instrument.getInstrumentName())) {
             metadata.addInstrumentName(1, new CVParam("PRIDE", "PRIDE:0000131", "Instrument model", instrument.getInstrumentName()));
         }
 
@@ -272,20 +270,21 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         try {
-            URI uri = new URI("http://www.ebi.ac.uk/pride/experiment.do?experimentAccessionNumber=" + expAccession);
+            URI uri = new URI("http://www.ebi.ac.uk/pride/archive/assays/" + expAccession);
             metadata.addUri(uri);
         } catch (URISyntaxException e) {
-            // do nothing
+            throw new MZTabConversionException("Error while building URI at the metadata section", e);
         }
     }
 
-    private void loadMsRun(String expAccession) {
+    private void loadMsRun() {
         metadata.addMsRunFormat(1, new CVParam("MS", "MS:1000564", "PSI mzData file", null));
         metadata.addMsRunIdFormat(1, new CVParam("MS", "MS:1000777", "spectrum identifier nativeID format", null));
+
         try {
-            metadata.addMsRunLocation(1, new URL("ftp://ftp.ebi.ac.uk/pub/databases/pride/PRIDE_Exp_Complete_Ac_" + expAccession + ".xml"));
+            metadata.addMsRunLocation(1, source.toURI().toURL());
         } catch (MalformedURLException e) {
-            // do nothing
+            throw new MZTabConversionException("Error while adding ms run location", e);
         }
     }
 
@@ -334,7 +333,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             }
 
             // check if it belongs to a sample
-            if (! isEmpty(p.getValue()) && p.getValue().startsWith("subsample")) {
+            if (!isEmpty(p.getValue()) && p.getValue().startsWith("subsample")) {
                 // get the subsample number
                 Pattern subsampleNumberPattern = Pattern.compile("subsample(\\d+)");
                 Matcher matcher = subsampleNumberPattern.matcher(p.getValue());
@@ -363,22 +362,18 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         // Identification
         if (metadata.getSampleMap().isEmpty()) {
             for (CvParam p : sampleDescription.getCvParam()) {
-                if (! isEmpty(p.getCvLabel())) {
+                if (!isEmpty(p.getCvLabel())) {
                     if ("NEWT".equals(p.getCvLabel())) {
                         metadata.addSampleSpecies(1, convertParam(p));
-                    }
-                    else if ("BTO".equals(p.getCvLabel())) {
+                    } else if ("BTO".equals(p.getCvLabel())) {
                         metadata.addSampleTissue(1, convertParam(p));
-                    }
-                    else if ("CL".equals(p.getCvLabel())) {
+                    } else if ("CL".equals(p.getCvLabel())) {
                         metadata.addSampleCellType(1, convertParam(p));
-                    }
-                    else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
+                    } else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
                         //DOID: Human Disease Ontology
                         //IDO: Infectious Disease Ontology
                         metadata.addSampleDisease(1, convertParam(p));
-                    }
-                    else if (! isEmpty(p.getName())){
+                    } else if (!isEmpty(p.getName())) {
                         metadata.addSampleCustom(1, convertParam(p));
                     }
                 }
@@ -477,7 +472,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         this.proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
 
         // If not provide protein_quantification_unit in metadata, default value is Ratio
-        if (! isIdentification() && metadata.getProteinQuantificationUnit() == null) {
+        if (!isIdentification() && metadata.getProteinQuantificationUnit() == null) {
             metadata.setProteinQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000395", "Ratio", null));
         }
 
@@ -487,7 +482,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, metadata.getMsRunMap().get(1));
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, metadata.getMsRunMap().get(1));
         // for quantification file, need provide all optional columns for each ms_run.
-        if (! isIdentification()) {
+        if (!isIdentification()) {
             for (Assay assay : metadata.getAssayMap().values()) {
                 proteinColumnFactory.addAbundanceOptionalColumn(assay);
             }
@@ -514,7 +509,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         List<String> ids = reader.getIdentIds();
 
         // Iterate over each identification
-        for(String id : ids) {
+        for (String id : ids) {
             Identification identification = reader.getIdentById(id);
 
             // ignore any decoy hits
@@ -583,9 +578,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         protein.setDescription(description);
 
         // set protein species and taxid.
-        if (! metadata.getSampleMap().isEmpty()) {
+        if (!metadata.getSampleMap().isEmpty()) {
             Sample sample = metadata.getSampleMap().get(1);
-            if (! sample.getSpeciesList().isEmpty()) {
+            if (!sample.getSpeciesList().isEmpty()) {
                 Param speciesParam = sample.getSpeciesList().get(0);
                 protein.setSpecies(speciesParam.getName());
                 protein.setTaxid(speciesParam.getAccession());
@@ -634,7 +629,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         // process the additional params
         for (CvParam p : identification.getAdditional().getCvParam()) {
             // check if there's a quant unit set
-            if (! isIdentification() && (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession()))) {
+            if (!isIdentification() && (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession()))) {
                 CVParam param = convertParam(p);
                 if (param != null && metadata.getProteinQuantificationUnit() == null) {
                     metadata.setProteinQuantificationUnit(param);
@@ -643,29 +638,21 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             // Quantification values
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE1.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(1), p.getValue());
-            }
-            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {
+            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(2), p.getValue());
-            }
-            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession().equalsIgnoreCase(p.getAccession())) {
+            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(3), p.getValue());
-            }
-            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession().equalsIgnoreCase(p.getAccession())) {
+            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(4), p.getValue());
-            }
-            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession().equalsIgnoreCase(p.getAccession())) {
+            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(5), p.getValue());
-            }
-            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession().equalsIgnoreCase(p.getAccession())) {
+            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(6), p.getValue());
-            }
-            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession().equalsIgnoreCase(p.getAccession())) {
+            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(7), p.getValue());
-            }
-            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession().equalsIgnoreCase(p.getAccession())) {
+            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(8), p.getValue());
-            }
-            else {
+            } else {
                 // check optional column.
                 if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
                     addOptionalColumnValue(protein, proteinColumnFactory, "empai", p.getValue());
@@ -784,7 +771,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     }
                 }
                 // Step 2: calculate based on sequence + modification + charge.
-                if (! success) {
+                if (!success) {
                     try {
                         uk.ac.ebi.pride.mol.Peptide peptide = new uk.ac.ebi.pride.mol.Peptide(peptideItem.getSequence());
                         for (ModificationItem modificationItem : peptideItem.getModificationItem()) {
@@ -792,7 +779,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                             double mass = Double.parseDouble(modificationItem.getModMonoDelta().get(0));
                             List<Double> monoMassList = new ArrayList<Double>();
                             monoMassList.add(mass);
-                            peptide.addModification(location, new PTModification("","","", monoMassList, null));
+                            peptide.addModification(location, new PTModification("", "", "", monoMassList, null));
                         }
                         DefaultPeptideIon peptideIon = new DefaultPeptideIon(peptide, psm.getCharge());
                         psm.setCalcMassToCharge(peptideIon.getMassOverCharge());
