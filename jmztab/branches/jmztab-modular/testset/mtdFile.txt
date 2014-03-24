@@ -1,0 +1,92 @@
+MTD	mzTab-version	1.0 rc5
+MTD	mzTab-mode	Summary
+MTD	mzTab-type	Identification
+MTD	mzTab-ID	PRIDE_1234
+MTD	title	My first test experiment
+MTD	description	An experiment investigating the effects of Il-6.
+MTD	sample_processing[1]	[SEP, SEP:00173, SDS PAGE, ]
+MTD	sample_processing[2]	[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, Trypsin, ]
+MTD	instrument[1]-name	[MS, MS:100049, LTQ Orbitrap, ]
+MTD	instrument[1]-source	[MS, MS:1000073, ESI, ]
+MTD	instrument[1]-analyzer	[MS, MS:1000291, linear ion trap, ]
+MTD	instrument[1]-detector	[MS, MS:1000253, electron multiplier, ]
+MTD	instrument[2]-name	[MS, MS:1000031, Instrument model, name of the instrument not included in the CV]
+MTD	instrument[2]-source	[MS, MS:1000598, ETD, ]
+MTD	instrument[2]-analyzer	[MS, MS:1000484, orbitrap, ]
+MTD	instrument[2]-detector	[MS, MS:1000348, focal plane collector, ]
+MTD	software[1]	[MS, MS:1001207, Mascot, 2.3]
+MTD	software[1]-setting[1]	Fragment tolerance = 0.1Da
+MTD	software[1]-setting[2]	Parent tolerance = 0.5Da
+MTD	software[2]	[MS, MS:1001561, Scaffold, 1.0]
+MTD	false_discovery_rate	[MS, MS:1001364, pep:global FDR, 0.01]|[MS, MS:1001214, pep:global FDR, 0.08]
+MTD	publication[1]	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
+MTD	publication[2]	pubmed:20615486|doi:10.1016/j.jprot.2010.06.008
+MTD	contact[1]-name	James D. Watson
+MTD	contact[1]-affiliation	Cambridge University, UK
+MTD	contact[1]-email	watson@cam.ac.uk
+MTD	contact[2]-name	Francis Crick
+MTD	contact[2]-affiliation	Cambridge University, UK
+MTD	contact[2]-email	crick@cam.ac.uk
+MTD	uri[1]	http://www.ebi.ac.uk/pride/url/to/experiment
+MTD	uri[2]	http://proteomecentral.proteomexchange.org/cgi/GetDataset
+MTD	fixed_mod[1]	[UNIMOD, UNIMOD:4, Carbamidomethyl, ]
+MTD	fixed_mod[1]-site	M
+MTD	fixed_mod[2]	[UNIMOD, UNIMOD:35, Oxidation, ]
+MTD	fixed_mod[2]-site	N-term
+MTD	fixed_mod[3]	[UNIMOD, UNIMOD:1, Acetyl, ]
+MTD	fixed_mod[3]-position	Protein C-term
+MTD	variable_mod[1]	[UNIMOD, UNIMOD:21, Phospho, ]
+MTD	variable_mod[1]-site	M
+MTD	variable_mod[2]	[UNIMOD, UNIMOD:35, Oxidation, ]
+MTD	variable_mod[2]-site	N-term
+MTD	variable_mod[3]	[UNIMOD, UNIMOD:1, Acetyl, ]
+MTD	variable_mod[3]-position	Protein C-term
+MTD	quantification_method	[MS, MS:1001837, iTRAQ quantitation analysis, ]
+MTD	protein-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
+MTD	peptide-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
+MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
+MTD	ms_run[1]-format	[MS, MS:1000584, mzML file, ]
+MTD	ms_run[1]-location	file://C:/path/to/my/file
+MTD	ms_run[1]-id_format	[MS, MS:1001530, mzML unique identifier, ]
+MTD	ms_run[1]-fragmentation_method	[MS, MS:1000133, CID, ]
+MTD	ms_run[2]-format	[MS, MS:1001062, Mascot MGF file, ]
+MTD	ms_run[2]-location	ftp://ftp.ebi.ac.uk/path/to/file
+MTD	ms_run[2]-fragmentation_method	[MS, MS:1000422, HCD, ]
+MTD	sample[1]-species[1]	[NEWT, 9606, Homo sapiens (Human), ]
+MTD	sample[1]-species[2]	[NEWT, 573824, Human rhinovirus 1, ]
+MTD	sample[1]-tissue[1]	[BTO, BTO:0000759, liver, ]
+MTD	sample[1]-cell_type[1]	[CL, CL:0000182, hepatocyte, ]
+MTD	sample[1]-disease[1]	[DOID, DOID:684, hepatocellular carcinoma, ]
+MTD	sample[1]-disease[2]	[DOID, DOID:9451, alcoholic fatty liver, ]
+MTD	sample[1]-description	Hepatocellular carcinoma samples.
+MTD	sample[1]-custom[1]	[, , Extraction date, 2011-12-21]
+MTD	sample[1]-custom[2]	[, , Extraction reason, liver biopsy]
+MTD	sample[2]-species[1]	[NEWT, 9606, Homo sapiens (Human), ]
+MTD	sample[2]-species[2]	[NEWT, 12130, Human rhinovirus 2, ]
+MTD	sample[2]-description	Healthy control samples.
+MTD	assay[1]-quantification_reagent	[PRIDE, MS:1002038, unlabeled sample, ]
+MTD	assay[1]-sample_ref	sample[1]
+MTD	assay[1]-ms_run_ref	ms_run[1]
+MTD	assay[2]-quantification_reagent	[PRIDE, PRIDE:0000115, iTRAQ reagent, 115]
+MTD	assay[2]-sample_ref	sample[2]
+MTD	assay[2]-quantification_mod[1]	[UNIMOD, UNIMOD:188, Label:13C(6), ]
+MTD	assay[2]-quantification_mod[1]-site	R
+MTD	assay[2]-quantification_mod[1]-position	Anywhere
+MTD	assay[2]-quantification_mod[2]	[UNIMOD, UNIMOD:188, Label:13C(6), ]
+MTD	assay[2]-quantification_mod[2]-site	K
+MTD	assay[2]-quantification_mod[2]-position	Anywhere
+MTD	study_variable[1]-description	description Group B (spike-in 0.74 fmol/uL)
+MTD	study_variable[1]-assay_refs	assay[1], assay[2]
+MTD	study_variable[1]-sample_refs	sample[1]
+MTD	study_variable[2]-description	description Group B (spike-in 0.74 fmol/uL)
+MTD	study_variable[2]-assay_refs	assay[1], assay[2]
+MTD	study_variable[2]-sample_refs	sample[1]
+MTD	cv[1]-label	MS
+MTD	cv[1]-full_name	MS
+MTD	cv[1]-version	3.54.0
+MTD	cv[1]-url	http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo
+MTD	colunit-protein	reliability=[MS, MS:00001231, PeptideProphet:Score, ]
+MTD	colunit-peptide	retention_time=[UO, UO:0000031, minute, ]
+MTD	colunit-psm	retention_time=[UO, UO:0000031, minute, ]
+MTD	colunit-small_molecule	retention_time=[UO, UO:0000031, minute, ]
+MTD	custom[1]	[, , MS operator, Florian]
