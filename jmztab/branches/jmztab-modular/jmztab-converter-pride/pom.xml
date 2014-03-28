@@ -9,12 +9,11 @@
         <version>2.1.6-SNAPSHOT</version>
     </parent>
 
-	<groupId>uk.ac.ebi.pride</groupId>
+    <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab-modular-converter-pride</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <assembly.dir>jmztab</assembly.dir>
         <ion-generator.version>1.0-SNAPSHOT</ion-generator.version>
         <pride-jaxb.version>1.0.7</pride-jaxb.version>
         <dao-api.version>1.0.1-SNAPSHOT</dao-api.version>
@@ -51,12 +50,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jmztab-model</artifactId>
+            <artifactId>jmztab-modular-model</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jmztab-util</artifactId>
+            <artifactId>jmztab-modular-util</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

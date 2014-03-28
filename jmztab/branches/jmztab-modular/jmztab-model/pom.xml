@@ -9,12 +9,11 @@
         <version>2.1.6-SNAPSHOT</version>
     </parent>
     
-	<groupId>uk.ac.ebi.pride</groupId>
+    <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab-modular-model</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <assembly.dir>jmztab</assembly.dir>
         <jaxb-xjc.version>2.1.7</jaxb-xjc.version>
     </properties>
 

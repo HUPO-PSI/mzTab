@@ -5,16 +5,15 @@
 
     <parent>
         <groupId>uk.ac.ebi.pride</groupId>
-        <artifactId>jmztab</artifactId>
+        <artifactId>jmztab-modular</artifactId>
         <version>2.1.6-SNAPSHOT</version>
     </parent>
     
-	<groupId>uk.ac.ebi.pride</groupId>
+    <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab-modular-util</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <assembly.dir>jmztab</assembly.dir>
     </properties>
 
     <dependencies>
@@ -26,7 +25,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jmztab-model</artifactId>
+            <artifactId>jmztab-modular-model</artifactId>
             <version>${project.version}</version>
         </dependency>
         

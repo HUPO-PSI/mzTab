@@ -14,7 +14,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <assembly.dir>jmztab</assembly.dir>
         <commons-cli.version>1.2</commons-cli.version>
     </properties>
 
@@ -26,17 +25,17 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jmztab-model</artifactId>
+            <artifactId>jmztab-modular-model</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jmztab-util</artifactId>
+            <artifactId>jmztab-modular-util</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jmztab-converter-pride</artifactId>
+            <artifactId>jmztab-modular-converter-pride</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
