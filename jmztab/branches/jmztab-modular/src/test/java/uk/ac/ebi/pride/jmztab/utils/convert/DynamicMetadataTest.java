@@ -4,7 +4,6 @@ import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.*;
 
 import java.net.URI;
-import java.net.URL;
 import java.util.SortedMap;
 
 import static junit.framework.Assert.assertFalse;
@@ -80,8 +79,6 @@ public class DynamicMetadataTest {
 
         mtd.addMsRunFormat(1, new CVParam("MS", "MS:1000584", "mzML file", null));
         mtd.addMsRunFormat(2, new CVParam("MS", "MS:1001062", "Mascot MGF file", null));
-        mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file"));
-        mtd.addMsRunLocation(2, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
         mtd.addMsRunIdFormat(1, new CVParam("MS", "MS:1001530", "mzML unique identifier", null));
         mtd.addMsRunFragmentationMethod(1, new CVParam("MS", "MS:1000133", "CID", null));
         mtd.addMsRunFragmentationMethod(2, new CVParam("MS", "MS:1000422", "HCD", null));
