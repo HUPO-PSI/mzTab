@@ -4,9 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uk.ac.ebi.pride</groupId>
-    <artifactId>jmztab</artifactId>
+    <artifactId>jmztab-modular</artifactId>
     <!-- based on mzTab specification version 1.0 RC5-->
     <version>2.1.6-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <licenses>
         <license>
@@ -27,76 +28,30 @@
         <assembly.dir>jmztab</assembly.dir>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.3.1</version>
-            <scope>test</scope>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.3.1</version>
+                <scope>test</scope>
+            </dependency>
 
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.13</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!--used to provide command line interface-->
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
-        </dependency>
-
-        <!--used to convert PRIDE XML to mzTab-->
-        <dependency>
-            <groupId>uk.ac.ebi.pride.jaxb</groupId>
-            <artifactId>pride-jaxb</artifactId>
-            <version>1.0.7</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>uk.ac.ebi.pride.tools.converter</groupId>
-            <artifactId>dao-api</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>uk.ac.ebi.jmzidml</groupId>
-            <artifactId>jmzidentml</artifactId>
-            <version>1.1.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-xjc</artifactId>
-            <version>2.1.7</version>
-        </dependency>
-
-        <!--used to calculate mass to charge-->
-        <dependency>
-            <groupId>uk.ac.ebi.pride</groupId>
-            <artifactId>ion-generator</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>uk.ac.ebi.pride</groupId>
-            <artifactId>px-submission-core</artifactId>
-            <version>1.13-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+<!--            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.13</version>
+                <scope>test</scope>
+            </dependency>-->
+            
+            <dependency>
+                <artifactId>com.springsource.org.apache.log4j</artifactId>
+                <groupId>org.apache.log4j</groupId>
+                <type>jar</type>
+                <version>1.2.15</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <resources>
@@ -105,6 +60,121 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+<<<<<<< .mine
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.16</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/db/*.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.8</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    
+    <profiles>
+        <profile>
+            <id>src</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>javadoc</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>jmztab-deployment-build</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.8</version>
+                        <executions>
+                            <execution>
+                                <id>copy-dependency</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                    <overWriteReleases>true</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                    <overWriteIfNewer>true</overWriteIfNewer>
+                                    <excludeTransitive>false</excludeTransitive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!--jar-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <!--NOTE: you must have this version number, otherwise, the build will not be able to find Validator-->
+                        <version>2.4</version>
+=======
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -135,11 +205,71 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+>>>>>>> .r450
+<<<<<<< .mine
+                        <configuration>
+                            <excludes>
+                                <exclude>**/test</exclude>
+                                <exclude>**/test/*.class</exclude>
+                            </excludes>
+                            <archive>
+                                <manifest>
+                                    <!--provide a CLI for jmztab-->
+                                    <!--<mainClass>uk.ac.ebi.pride.jmztab.MZTabCommandLine</mainClass>-->
+                                    <!--export prideq to mztab for unique-->
+                                    <!--<mainClass>uk.ac.ebi.pride.jmztab.prideq.PrideqExportRun</mainClass>-->
+                                    <!--provide a simple GUI for jmztab-->
+                                    <mainClass>uk.ac.ebi.pride.jmztab.MZTabInspector</mainClass>
+
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>lib</classpathPrefix>
+                                    <useUniqueVersions>false</useUniqueVersions>
+                                </manifest>
+                            </archive>
+                        </configuration>
+=======
+>>>>>>> .r450
+<<<<<<< .mine
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!--assembly to zip-->
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>${project.basedir}/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+=======
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+>>>>>>> .r450
 
     <profiles>
         <profile>
@@ -261,6 +391,18 @@
             <url>http://genesis.UGent.be/maven2</url>
             <layout>default</layout>
         </repository>
+        
+        <!-- spring source osgi bundles -->
+        <repository> 
+            <id>com.springsource.repository.bundles.release</id> 
+            <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name> 
+            <url>http://repository.springsource.com/maven/bundles/release</url> 
+        </repository> 
+        <repository> 
+            <id>com.springsource.repository.bundles.external</id> 
+            <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name> 
+            <url>http://repository.springsource.com/maven/bundles/external</url> 
+        </repository>
     </repositories>
 
     <distributionManagement>
@@ -275,5 +417,13 @@
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+    
+    <modules>
+        <module>jmztab-model</module>
+        <module>jmztab-gui</module>
+        <module>jmztab-cli</module>
+        <module>jmztab-converter-pride</module>
+        <module>jmztab-util</module>
+    </modules>
 
 </project>

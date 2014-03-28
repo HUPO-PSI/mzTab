@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>uk.ac.ebi.pride</groupId>
+        <artifactId>jmztab-modular</artifactId>
+        <version>2.1.6-SNAPSHOT</version>
+    </parent>
+
+	<groupId>uk.ac.ebi.pride</groupId>
+    <artifactId>jmztab-modular-converter-pride</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <assembly.dir>jmztab</assembly.dir>
+        <ion-generator.version>1.0-SNAPSHOT</ion-generator.version>
+        <pride-jaxb.version>1.0.7</pride-jaxb.version>
+        <dao-api.version>1.0.1-SNAPSHOT</dao-api.version>
+        <px-submission-core.version>1.13-SNAPSHOT</px-submission-core.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--used to calculate mass to charge-->
+        <dependency>
+            <groupId>uk.ac.ebi.pride</groupId>
+            <artifactId>ion-generator</artifactId>
+            <version>${ion-generator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.pride.jaxb</groupId>
+            <artifactId>pride-jaxb</artifactId>
+            <version>${pride-jaxb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.pride.tools.converter</groupId>
+            <artifactId>dao-api</artifactId>
+            <version>${dao-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.pride</groupId>
+            <artifactId>px-submission-core</artifactId>
+            <version>${px-submission-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jmztab-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jmztab-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,5 +1,5 @@
 <assembly>
-
+    <id>bin</id>
     <formats>
         <format>zip</format>
     </formats>
@@ -41,7 +41,7 @@
             <outputDirectory>${assembly.dir}/conf</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>/${project.basedir}/../examples</directory>
+            <directory>${project.basedir}/../examples</directory>
             <outputDirectory>${assembly.dir}/examples</outputDirectory>
             <includes>
                 <include>*.*</include>
