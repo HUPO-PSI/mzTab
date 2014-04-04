@@ -64,7 +64,7 @@ public class PSM extends MZTabRecord {
      * the same PSM should be represented on multiple rows with different accessions and the same PSM_ID.
      */
     public String getPSM_ID() {
-        return getString(PSMColumn.PSM_ID.getOrder());
+        return ""+getInteger(PSMColumn.PSM_ID.getOrder());
     }
 
     /**
