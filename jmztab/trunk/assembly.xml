@@ -1,4 +1,5 @@
 <assembly>
+    <id>jmztab-deployment</id>
 
     <formats>
         <format>zip</format>
