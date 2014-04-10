@@ -149,7 +149,15 @@ public abstract class MZTabRecord {
             return null;
         }
 
-        return (String) record.get(logicalPosition);
+        //We need to check that the retrieved string is not the "NULL" string
+        String val = (String) record.get(logicalPosition);
+        if(val!= null && !val.isEmpty()){
+            if(val.trim().equalsIgnoreCase("null")){
+                val = null;
+            }
+        }
+
+        return val;
     }
 
     /**
