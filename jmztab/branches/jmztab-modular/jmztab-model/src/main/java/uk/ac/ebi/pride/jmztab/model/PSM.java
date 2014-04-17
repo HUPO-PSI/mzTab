@@ -1,11 +1,19 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import java.net.URI;
-
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.BAR;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.COMMA;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
-import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseDouble;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseDoubleList;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseInteger;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseModificationList;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseParam;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseParamList;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseSpectraRefList;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseURI;
 
 /**
  * The PSM section is table-based. The PSM section MUST always come after the metadata section,
@@ -64,7 +72,7 @@ public class PSM extends MZTabRecord {
      * the same PSM should be represented on multiple rows with different accessions and the same PSM_ID.
      */
     public String getPSM_ID() {
-        return getString(PSMColumn.PSM_ID.getOrder());
+        return ""+getInteger(PSMColumn.PSM_ID.getOrder());
     }
 
     /**

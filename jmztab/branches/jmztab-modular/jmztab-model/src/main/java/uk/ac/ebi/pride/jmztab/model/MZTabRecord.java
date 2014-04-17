@@ -4,8 +4,10 @@ import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
-
-import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.CALCULATE_ERROR;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.INFINITY;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NULL;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseDouble;
 
 /**
@@ -149,7 +151,15 @@ public abstract class MZTabRecord {
             return null;
         }
 
-        return (String) record.get(logicalPosition);
+         //We need to check that the retrieved string is not the "NULL" string
+        String val = (String) record.get(logicalPosition);
+        if (val != null && !val.isEmpty()) {
+            if (val.trim().equalsIgnoreCase("null")) {
+                val = null;
+            }
+        }
+
+        return val;
     }
 
     /**

@@ -6,7 +6,7 @@
     <parent>
         <groupId>uk.ac.ebi.pride</groupId>
         <artifactId>jmztab-modular</artifactId>
-        <version>2.1.6-SNAPSHOT</version>
+        <version>2.1.7-SNAPSHOT</version>
     </parent>
 
     <groupId>uk.ac.ebi.pride</groupId>
@@ -17,7 +17,7 @@
         <ion-generator.version>1.0-SNAPSHOT</ion-generator.version>
         <pride-jaxb.version>1.0.7</pride-jaxb.version>
         <dao-api.version>1.0.1-SNAPSHOT</dao-api.version>
-        <px-submission-core.version>1.13-SNAPSHOT</px-submission-core.version>
+        <px-submission-core.version>1.15</px-submission-core.version>
     </properties>
 
     <dependencies>
