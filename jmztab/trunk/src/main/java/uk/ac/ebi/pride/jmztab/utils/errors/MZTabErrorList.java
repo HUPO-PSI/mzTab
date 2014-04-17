@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.LEVEL;
 import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.MAX_ERROR_COUNT;
 
 /**
@@ -21,6 +20,7 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.MAX_ERROR_COUNT;
  * Date: 29/01/13
  */
 public class MZTabErrorList {
+    private final int maxErrorCount;
     private List<MZTabError> errorList;
     private MZTabErrorType.Level level;
 
@@ -51,7 +51,8 @@ public class MZTabErrorList {
      */ 
     public MZTabErrorList(MZTabErrorType.Level level, int maxErrorCount) {
         this.level = level == null ? MZTabErrorType.Level.Error : level;
-        this.errorList = new ArrayList<MZTabError>(maxErrorCount>=0?maxErrorCount:0);
+        this.maxErrorCount = maxErrorCount>=0?maxErrorCount:0;
+        this.errorList = new ArrayList<MZTabError>(this.maxErrorCount);
     }
 
     /**
@@ -71,7 +72,7 @@ public class MZTabErrorList {
             return false;
         }
 
-        if (errorList.size() >= MAX_ERROR_COUNT) {
+        if (errorList.size() >= maxErrorCount) {
             throw new MZTabErrorOverflowException();
         }
 
