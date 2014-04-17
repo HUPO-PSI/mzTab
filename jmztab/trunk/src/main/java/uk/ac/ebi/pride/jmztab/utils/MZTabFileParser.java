@@ -31,15 +31,43 @@ public class MZTabFileParser {
         this.tabFile = tabFile;
     }
 
+    /**
+     * Create a new {@code MZTabFileParser} for the given file. Parsing output and errors
+     * are written to the provided {@link OutputStream}.
+     * @param tabFile the MZTab file
+     * @param out the output stream for parsing messages
+     * @throws IOException 
+     */
     public MZTabFileParser(File tabFile, OutputStream out) throws IOException {
         this(tabFile, out, LEVEL);
     }
 
+    /**
+     * Create a new {@code MZTabFileParser} for the given file. Parsing output and errors
+     * are written to the provided {@link OutputStream}.
+     * @param tabFile the MZTab file
+     * @param out the output stream for parsing messages
+     * @param level the minimum error level to report errors for
+     * @throws IOException 
+     */
     public MZTabFileParser(File tabFile, OutputStream out, MZTabErrorType.Level level) throws IOException {
+        this(tabFile, out, LEVEL, MAX_ERROR_COUNT);
+    }
+    
+    /**
+     * Create a new {@code MZTabFileParser} for the given file. Parsing output and errors
+     * are written to the provided {@link OutputStream}.
+     * @param tabFile the MZTab file
+     * @param out the output stream for parsing messages
+     * @param level the minimum error level to report errors for
+     * @param maxErrorCount the maximum number of errors to report in {@see MZTabFileParser#getErrorList()} 
+     * @throws IOException 
+     */
+    public MZTabFileParser(File tabFile, OutputStream out, MZTabErrorType.Level level, int maxErrorCount) throws IOException {
         init(tabFile);
 
         try {
-            errorList = new MZTabErrorList(level);
+            errorList = new MZTabErrorList(level, maxErrorCount);
             check();
             refine();
         } catch (MZTabException e) {
@@ -51,7 +79,7 @@ public class MZTabFileParser {
 
         errorList.print(out);
         if (errorList.isEmpty()) {
-            out.write(("not errors in " + tabFile + " file!" + NEW_LINE).getBytes());
+            out.write(("No errors in " + tabFile + " file!" + NEW_LINE).getBytes());
         }
     }
 
