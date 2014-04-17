@@ -41,10 +41,17 @@ public class MZTabErrorList {
     public MZTabErrorList(MZTabErrorType.Level level) {
         this(level, MAX_ERROR_COUNT);
     }
-    
+   
+    /**
+     * Generate a error list, with given error level and maximum error count.
+     *
+     * @param level if null, default level is {@link} MZTabErrorType.Level#Error}
+     * @param maxErrorCount the maximum number of errors recorded by this list before an 
+     *        {@link MZTabErrorOverflowException} is thrown
+     */ 
     public MZTabErrorList(MZTabErrorType.Level level, int maxErrorCount) {
         this.level = level == null ? MZTabErrorType.Level.Error : level;
-        this.errorList = new ArrayList<MZTabError>(maxErrorCount);
+        this.errorList = new ArrayList<MZTabError>(maxErrorCount>=0?maxErrorCount:0);
     }
 
     /**
