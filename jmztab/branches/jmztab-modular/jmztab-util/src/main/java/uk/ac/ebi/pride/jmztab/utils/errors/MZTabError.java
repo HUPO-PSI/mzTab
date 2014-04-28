@@ -88,6 +88,14 @@ public class MZTabError {
     public String getMessage() {
         return message;
     }
+    
+    /**
+     * 
+     * @return the line number.
+     */
+    public int getLineNumber() {
+        return lineNumber;
+    }
 
     /**
      * Code: Unique number for error/warn
