@@ -11,6 +11,10 @@ public class PSMColumn extends MZTabColumn {
         super(name, columnType, optional, order);
     }
 
+    PSMColumn(String name, Class columnType, boolean optional, String order, Integer id) {
+        super(name, columnType, optional, order, id);
+    }
+
     public static PSMColumn SEQUENCE = new PSMColumn("sequence", String.class, false, "01");
     public static PSMColumn PSM_ID = new PSMColumn("PSM_ID", Integer.class, false, "02");
     public static PSMColumn ACCESSION = new PSMColumn("accession", String.class, false, "03");
@@ -18,7 +22,7 @@ public class PSMColumn extends MZTabColumn {
     public static PSMColumn DATABASE = new PSMColumn("database", String.class, false, "05");
     public static PSMColumn DATABASE_VERSION = new PSMColumn("database_version", String.class, false, "06");
     public static PSMColumn SEARCH_ENGINE = new PSMColumn("search_engine", SplitList.class, false, "07");
-    public static PSMColumn SEARCH_ENGINE_SCORE = new PSMColumn("search_engine_score", SplitList.class, false, "08");
+    public static PSMColumn SEARCH_ENGINE_SCORE = new PSMColumn("search_engine_score", Double.class, true, "08");
     public static PSMColumn RELIABILITY = new PSMColumn("reliability", Reliability.class, true, "09");
     public static PSMColumn MODIFICATIONS = new PSMColumn("modifications", SplitList.class, false, "10");
     public static PSMColumn RETENTION_TIME = new PSMColumn("retention_time", SplitList.class, false, "11");

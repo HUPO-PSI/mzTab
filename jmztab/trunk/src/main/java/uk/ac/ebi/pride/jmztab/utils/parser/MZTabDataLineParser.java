@@ -192,6 +192,34 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     /**
+     * load best_search_engine_score[id], read id value.
+     */
+    protected Integer loadBestSearchEngineScoreId(String bestSearchEngineScoreLabel) {
+        Pattern pattern = Pattern.compile("search_engine_score\\[(\\d+)\\](\\w+)?");
+        Matcher matcher = pattern.matcher(bestSearchEngineScoreLabel);
+
+        if (matcher.find()) {
+            return new Integer(matcher.group(1));
+        }
+
+        return null;
+    }
+
+    /**
+     * load search_engine_score[id]_ms_run[..], read id value.
+     */
+    protected Integer loadSearchEngineScoreId(String searchEngineLabel) {
+        Pattern pattern = Pattern.compile("search_engine_score\\[(\\d+)\\]\\w*");
+        Matcher matcher = pattern.matcher(searchEngineLabel);
+
+        if (matcher.find()) {
+            return new Integer(matcher.group(1));
+        }
+
+        return null;
+    }
+
+    /**
      * In the table-based sections (protein, peptide, and small molecule) there MUST NOT be any empty cells.
      * Some field not allow "null" value, for example unit_id, accession and so on. In "Complete" file, in
      * general "null" values SHOULD not be given.
@@ -423,45 +451,27 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     /**
-     * Check and translate bestSearchEngineScore string into parameter list which split by '|' character..
-     * If parse incorrect, raise {@link FormatErrorType#ParamList} error. If parameter is not {@link CVParam},
-     * or parameter value is empty (score should be provide), system raise {@link FormatErrorType#SearchEngineScore}.
-     * Normally, bestSearchEngineScore can set "null", but in "Complete" file, in general "null" values SHOULD not be given.
+     * The best search engine score (for this type of score) for the given peptide across all replicates
+     * reported. The type of score MUST be defined in the metadata section. If the peptide was not identified
+     * by the specified search engine, “null” MUST be reported.
      *
      * @param column SHOULD NOT set null
      * @param bestSearchEngineScore SHOULD NOT be empty.
      */
-    protected SplitList<Param> checkBestSearchEngineScore(MZTabColumn column, String bestSearchEngineScore) {
-        SplitList<Param> paramList = checkParamList(column, bestSearchEngineScore);
-
-        for (Param param : paramList) {
-            if (! (param instanceof CVParam) || (isEmpty(param.getValue()))) {
-                this.errorList.add(new MZTabError(FormatErrorType.SearchEngineScore, lineNumber, column.getHeader(), bestSearchEngineScore));
-            }
-        }
-
-        return paramList;
+    protected Double checkBestSearchEngineScore(MZTabColumn column, String bestSearchEngineScore) {
+        return checkDouble(column, bestSearchEngineScore);
     }
 
     /**
-     * Check and translate searchEngineScore string into parameter list which split by '|' character..
-     * If parse incorrect, raise {@link FormatErrorType#ParamList} error. If parameter is not {@link CVParam},
-     * or parameter value is empty (score should be provide), system raise {@link FormatErrorType#SearchEngineScore}.
-     * Normally, searchEngineScore can set "null", but in "Complete" file, in general "null" values SHOULD not be given.
+     * The search engine score for the given peptide in the defined ms run. The type of score MUST be
+     * defined in the metadata section. If the peptide was not identified by the specified search engine
+     * “null” must be reported.
      *
      * @param column SHOULD NOT set null
      * @param searchEngineScore SHOULD NOT be empty.
      */
-    protected SplitList<Param> checkSearchEngineScore(MZTabColumn column, String searchEngineScore) {
-        SplitList<Param> paramList = checkParamList(column, searchEngineScore);
-
-        for (Param param : paramList) {
-            if (! (param instanceof CVParam) || (isEmpty(param.getValue()))) {
-                this.errorList.add(new MZTabError(FormatErrorType.SearchEngineScore, lineNumber, column.getHeader(), searchEngineScore));
-            }
-        }
-
-        return paramList;
+    protected Double checkSearchEngineScore(MZTabColumn column, String searchEngineScore) {
+        return checkDouble(column, searchEngineScore);
     }
 
     /**

@@ -30,6 +30,7 @@ public class Metadata {
     private SortedMap<Integer, SplitList<Param>> sampleProcessingMap = new TreeMap<Integer, SplitList<Param>>();
     private SortedMap<Integer, Instrument> instrumentMap = new TreeMap<Integer, Instrument>();
     private SortedMap<Integer, Software> softwareMap = new TreeMap<Integer, Software>();
+    private SortedMap<Integer, SearchEngineScore> searchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
     private SplitList<Param> falseDiscoveryRate = new SplitList<Param>(BAR);
     private SortedMap<Integer, Publication> publicationMap = new TreeMap<Integer, Publication>();
     private SortedMap<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
@@ -149,6 +150,7 @@ public class Metadata {
         sb = printMap(sampleProcessingMap, SAMPLE_PROCESSING.toString(), sb);
         sb = printMap(instrumentMap, INSTRUMENT.toString(), sb);
         sb = printMap(softwareMap, SOFTWARE.toString(), sb);
+        sb = printMap(searchEngineScoreMap, SEARCH_ENGINE_SCORE.toString(), sb);
 
         if (! falseDiscoveryRate.isEmpty()) {
             printPrefix(sb).append(FALSE_DISCOVERY_RATE).append(TAB).append(falseDiscoveryRate).append(NEW_LINE);
@@ -378,6 +380,14 @@ public class Metadata {
      */
     public void setSoftwareMap(SortedMap<Integer, Software> softwareMap) {
         this.softwareMap = softwareMap;
+    }
+
+    public SortedMap<Integer, SearchEngineScore> getSearchEngineScoreMap() {
+        return searchEngineScoreMap;
+    }
+
+    public void setSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> searchEngineScoreMap) {
+        this.searchEngineScoreMap = searchEngineScoreMap;
     }
 
     /**
@@ -1080,6 +1090,24 @@ public class Metadata {
         }
     }
 
+    public void addSearchEngineScoreParam(Integer id, Param param) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Search engine score id should be great than 0!");
+        }
+        if (param == null) {
+            return;
+        }
+
+        SearchEngineScore searchEngineScore = searchEngineScoreMap.get(id);
+        if (searchEngineScore == null) {
+            searchEngineScore = new SearchEngineScore(id);
+            searchEngineScore.setParam(param);
+            searchEngineScoreMap.put(id, searchEngineScore);
+        } else {
+            searchEngineScore.setParam(param);
+        }
+    }
+
     /**
      * Add a false_discovery_rate parameter to metadata. The file's false discovery rate(s) reported at the PSM,
      * peptide, and/or protein level. False Localization Rate (FLD) for the reporting of modifications can also be
@@ -1552,6 +1580,42 @@ public class Metadata {
             msRunMap.put(id, msRun);
         } else {
             msRun.setFragmentationMethod(fragmentationMethod);
+        }
+    }
+
+    public void addMsRunHash(Integer id, String hash) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("ms_run id should be great than 0!");
+        }
+        if (isEmpty(hash)) {
+            throw new IllegalArgumentException("ms_run hash should not set empty.");
+        }
+
+        MsRun msRun = msRunMap.get(id);
+        if (msRun == null) {
+            msRun = new MsRun(id);
+            msRun.setHash(hash);
+            msRunMap.put(id, msRun);
+        } else {
+            msRun.setHash(hash);
+        }
+    }
+
+    public void addMsRunHashMethod(Integer id, Param hashMethod) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("ms_run id should be great than 0!");
+        }
+        if (hashMethod == null) {
+            return;
+        }
+
+        MsRun msRun = msRunMap.get(id);
+        if (msRun == null) {
+            msRun = new MsRun(id);
+            msRun.setHashMethod(hashMethod);
+            msRunMap.put(id, msRun);
+        } else {
+            msRun.setHashMethod(hashMethod);
         }
     }
 

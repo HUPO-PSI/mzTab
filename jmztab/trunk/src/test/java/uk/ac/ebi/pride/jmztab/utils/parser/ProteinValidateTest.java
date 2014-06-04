@@ -36,8 +36,8 @@ public class ProteinValidateTest {
             "database\t" +
             "database_version\t" +
             "search_engine\t" +
-            "best_search_engine_score\t" +
-            "search_engine_score_ms_run[1]\t" +
+            "best_search_engine_score[1]\t" +
+            "search_engine_score[1]_ms_run[1]\t" +
             "reliability\t" +
             "num_psms_ms_run[1]\t" +
             "num_peptides_distinct_ms_run[1]\t" +
@@ -84,16 +84,10 @@ public class ProteinValidateTest {
     public void testParameterList() throws Exception {
         assertTrue(prtParser.checkSearchEngine(prhFactory.findColumnByHeader("search_engine"), "[MS,MS:1001207,,]").size() == 0);
         assertError(FormatErrorType.ParamList);
-        assertTrue(prtParser.checkBestSearchEngineScore(prhFactory.findColumnByHeader("best_search_engine_score"), "[MS,MS:1001207,Mascot,]|[MS,MS:1001208,,]").size() == 0);
+//        assertTrue(prtParser.checkBestSearchEngineScore(prhFactory.findColumnByHeader("best_search_engine_score"), "[MS,MS:1001207,Mascot,]|[MS,MS:1001208,,]").size() == 0);
         assertError(FormatErrorType.ParamList);
         assertTrue(prtParser.checkSearchEngine(prhFactory.findColumnByHeader("search_engine"), "[MS,MS:1001207,Mascot,]/[MS,MS:1001208,Sequest,]").size() == 0);
         assertError(FormatErrorType.ParamList);
-    }
-
-    @Test
-    public void testSearchEngineScore() throws Exception {
-        assertTrue(prtParser.checkBestSearchEngineScore(prhFactory.findColumnByHeader("best_search_engine_score"), "[MS,MS:1001171,Mascot score,50]|[,,my custom,my_value]").size() == 2);
-        assertError(FormatErrorType.SearchEngineScore);
     }
 
     @Test
@@ -138,8 +132,8 @@ public class ProteinValidateTest {
             "Rattus norvegicus (Rat)\t" +
             "UniProtKB\t2011_11\t" +
             "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\t" +
-            "[MS,MS:1001171,Mascot score,50]|[MS,MS:1001155,Sequest:xcorr,2]\t" +
-            "[MS,MS:1001171,Mascot score,50]|[MS,MS:1001155,Sequest:xcorr,2]\t" +
+            "50\t" +
+            "2\t" +
             "1\t" +
             "4\t" +
             "3\t" +

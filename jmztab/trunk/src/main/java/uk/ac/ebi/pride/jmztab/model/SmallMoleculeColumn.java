@@ -11,6 +11,10 @@ public class SmallMoleculeColumn extends MZTabColumn {
         super(name, columnType, optional, order);
     }
 
+    SmallMoleculeColumn(String name, Class columnType, boolean optional, String order, Integer id) {
+        super(name, columnType, optional, order, id);
+    }
+
     public static SmallMoleculeColumn IDENTIFIER = new SmallMoleculeColumn("identifier", SplitList.class, false, "01");
     public static SmallMoleculeColumn CHEMICAL_FORMULA = new SmallMoleculeColumn("chemical_formula", String.class, false, "02");
     public static SmallMoleculeColumn SMILES = new SmallMoleculeColumn("smiles", SplitList.class, false, "03");
@@ -28,7 +32,7 @@ public class SmallMoleculeColumn extends MZTabColumn {
     public static SmallMoleculeColumn URI = new SmallMoleculeColumn("uri", java.net.URI.class, true, "15");
     public static SmallMoleculeColumn SPECTRA_REF = new SmallMoleculeColumn("spectra_ref", SplitList.class, false, "16");
     public static SmallMoleculeColumn SEARCH_ENGINE = new SmallMoleculeColumn("search_engine", SplitList.class, false, "17");
-    public static SmallMoleculeColumn BEST_SEARCH_ENGINE_SCORE = new SmallMoleculeColumn("best_search_engine_score", SplitList.class, false, "18");
-    public static SmallMoleculeColumn SEARCH_ENGINE_SCORE = new SmallMoleculeColumn("search_engine_score", SplitList.class, true, "19");
+    public static SmallMoleculeColumn BEST_SEARCH_ENGINE_SCORE = new SmallMoleculeColumn("best_search_engine_score", Double.class, true, "18");
+    public static SmallMoleculeColumn SEARCH_ENGINE_SCORE = new SmallMoleculeColumn("search_engine_score", Double.class, true, "19");
     public static SmallMoleculeColumn MODIFICATIONS = new SmallMoleculeColumn("modifications", SplitList.class, false, "20");
 }

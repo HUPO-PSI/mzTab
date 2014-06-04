@@ -35,8 +35,8 @@ public class MZTabDataLineParserTest {
             "database\t" +
             "database_version\t" +
             "search_engine\t" +
-            "best_search_engine_score\t" +
-            "search_engine_score_ms_run[1]\t" +
+            "best_search_engine_score[1]\t" +
+            "search_engine_score[1]_ms_run[1]\t" +
             "reliability\t" +
             "num_psms_ms_run[1]\t" +
             "num_peptides_distinct_ms_run[1]\t" +
@@ -72,8 +72,8 @@ public class MZTabDataLineParserTest {
             "Rattus norvegicus (Rat)\t" +
             "UniProtKB\t2011_11\t" +
             "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\t" +
-            "[MS,MS:1001171,Mascot score,50]|[MS,MS:1001155,Sequest:xcorr,2]\t" +
-            "[MS,MS:1001171,Mascot score,50]|[MS,MS:1001155,Sequest:xcorr,2]\t" +
+            "50\t" +
+            "2\t" +
             "1\t" +
             "4\t" +
             "3\t" +
@@ -102,13 +102,35 @@ public class MZTabDataLineParserTest {
         assertTrue(record.getReliability().equals(Reliability.findReliability(items[10])));
 
         // check optional columns which have stable order
-        data = "PRT\tP12345\tAspartate aminotransferase, mitochondrial\t10116\tnull\tnull\tnull\t" +
-                "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\tnull\t" +
-                "[MS, MS:1001171, Mascot score, 50]|[MS, MS:1001155, Sequest:xcorr, 2]\t1\t4\t3\t2\tnull\tnull\t" +
-                "null\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull";
+        data = "PRT\t" +
+                "P12345\t" +
+                "Aspartate aminotransferase, mitochondrial\t" +
+                "10116\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\t" +
+                "null\t" +
+                "2\t" +
+                "1\t" +
+                "4\t" +
+                "3\t" +
+                "2\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null\t" +
+                "null";
         record = dataParser.getRecord(data);
         items = data.split("\t");
-        assertTrue(record.getSearchEngineScore(metadata.getMsRunMap().get(1)).equals(MZTabUtils.parseParamList(items[9])));
+//        assertTrue(record.getSearchEngineScore(metadata.getMsRunMap().get(1)).equals(MZTabUtils.parseParamList(items[9])));
         assertTrue(record.getNumPSMs(metadata.getMsRunMap().get(1)).equals(new Integer(items[11])));
         assertTrue(record.getNumPeptidesDistinct(metadata.getMsRunMap().get(1)).equals(new Integer(items[12])));
         assertTrue(record.getNumPeptidesUnique(metadata.getMsRunMap().get(1)).equals(new Integer(items[13])));
@@ -116,7 +138,7 @@ public class MZTabDataLineParserTest {
         // check abundance optional columns
         data = "PRT\tP12345\tAspartate aminotransferase, mitochondrial\t10116\tnull\tnull\tnull\t" +
                 "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\tnull\t" +
-                "[MS, MS:1001171, Mascot score, 50]|[MS, MS:1001155, Sequest:xcorr, 2]\t1\t4\t3\t2\tnull\tnull\t" +
+                "50\t1\t4\t3\t2\tnull\tnull\t" +
                 "null\tnull\tnull\t0.4\t0.2\t0.4\t0.3\t0.2\tnull\tnull";
         record = dataParser.getRecord(data);
         items = data.split("\t");
@@ -134,7 +156,7 @@ public class MZTabDataLineParserTest {
         // check user defined optional columns
         data = "PRT\tP12345\tAspartate aminotransferase, mitochondrial\t10116\tnull\tnull\tnull\t" +
                 "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\tnull\t" +
-                "[MS, MS:1001171, Mascot score, 50]|[MS, MS:1001155, Sequest:xcorr, 2]\t1\t4\t3\t2\tnull\tnull\t" +
+                "50\t1\t4\t3\t2\tnull\tnull\t" +
                 "null\tnull\tnull\t0.4\t0.2\t0.4\t0.3\t0.2\tMy value about assay[1]\tTOM value";
         record = dataParser.getRecord(data);
         items = data.split("\t");
@@ -156,8 +178,8 @@ public class MZTabDataLineParserTest {
             "database\t" +
             "database_version\t" +
             "search_engine\t" +
-            "best_search_engine_score\t" +
-            "search_engine_score_ms_run[1]\t" +
+            "best_search_engine_score[1]\t" +
+            "search_engine_score[1]_ms_run[1]\t" +
             "reliability\t" +
             "modifications\t" +
             "retention_time\t" +
@@ -181,8 +203,8 @@ public class MZTabDataLineParserTest {
             "UniProtKB\t" +
             "2011_11\t" +
             "[MS,MS:1001207,Mascot,]|[MS,MS:1001208,Sequest,]\t" +
-            "[MS,MS:1001155,Sequest:xcorr,2]\t" +
-            "[MS,MS:1001155,Sequest:xcorr,2]\t" +
+            "2\t" +
+            "2\t" +
             "3\t" +
             "8-MOD:00397\t" +
             "10.2\t" +
@@ -209,7 +231,7 @@ public class MZTabDataLineParserTest {
             "database\t" +
             "database_version\t" +
             "search_engine\t" +
-            "search_engine_score\t" +
+            "search_engine_score[1]\t" +
             "reliability\t" +
             "modifications\t" +
             "retention_time\t" +
@@ -246,7 +268,7 @@ public class MZTabDataLineParserTest {
             "UniProtKB\t" +
             "2011_11\t" +
             "[MS, MS:1001207, Mascot, ]\t" +
-            "[MS, MS:1001171, Mascot:score, 62.93]\t" +
+            "62.93\t" +
             "3\t" +
             "10[MS,MS:100xxxx,Probability Score Y,0.8]-MOD:00412\t" +
             "10.2\t" +
@@ -268,7 +290,7 @@ public class MZTabDataLineParserTest {
         items = data.split("\t");
         assertTrue(psm.getSequence().equals(items[1]));
         assertTrue(psm.getSearchEngine().get(0).getAccession().equals("MS:1001207"));
-        assertTrue(psm.getSearchEngineScore().get(0).getAccession().equals("MS:1001171"));
+        assertTrue(psm.getSearchEngineScore(1).toString().equals("62.93"));
         assertTrue(psm.getModifications().get(0).getType() == Modification.Type.MOD);
         assertTrue(psm.getModifications().get(0).getAccession().equals("00412"));
         assertTrue(psm.getCharge().equals(new Integer(items[12])));
@@ -301,8 +323,8 @@ public class MZTabDataLineParserTest {
             "uri\t" +
             "spectra_ref\t" +
             "search_engine\t" +
-            "best_search_engine_score\t" +
-            "search_engine_score_ms_run[1]\t" +
+            "best_search_engine_score[1]\t" +
+            "search_engine_score[1]_ms_run[1]\t" +
             "modifications\t" +
             "smallmolecule_abundance_assay[1]\t" +
             "smallmolecule_abundance_study_variable[1]\t" +
@@ -336,8 +358,8 @@ public class MZTabDataLineParserTest {
             "http://www.ebi.ac.uk/pride/link/to/identification\t" +
             "ms_run[1]:index=1002\t" +
             "[MS, MS:1001477, SpectraSt,]\t" +
-            "[MS, MS:1001419, SpectraST:discriminant score F, 0.7]\t" +
-            "[MS, MS:1001419, SpectraST:discriminant score F, 0.7]\t" +
+            "0.7\t" +
+            "0.7\t" +
             "CHEMMOD:-NH4\t" +
             "0.3\t" +
             "0.1\t" +

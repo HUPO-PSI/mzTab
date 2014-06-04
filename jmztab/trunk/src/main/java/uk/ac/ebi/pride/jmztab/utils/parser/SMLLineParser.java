@@ -68,9 +68,9 @@ public class SMLLineParser extends MZTabDataLineParser {
                     checkSpectraRef(column, target);
                 } else if (columnName.equals(SmallMoleculeColumn.SEARCH_ENGINE.getName())) {
                     checkSearchEngine(column, target);
-                } else if (columnName.equals(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                } else if (columnName.startsWith(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
                     checkBestSearchEngineScore(column, target);
-                } else if (columnName.equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
+                } else if (columnName.startsWith(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
                     checkSearchEngineScore(column, target);
                 } else if (columnName.equals(SmallMoleculeColumn.MODIFICATIONS.getName())) {
                     checkModifications(column, target);
@@ -130,10 +130,13 @@ public class SMLLineParser extends MZTabDataLineParser {
                 smallMolecule.setSpectraRef(target);
             } else if (columnName.equals(SmallMoleculeColumn.SEARCH_ENGINE.getName())) {
                 smallMolecule.setSearchEngine(target);
-            } else if (columnName.equals(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
-                smallMolecule.setBestSearchEngineScore(target);
-            } else if (columnName.equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
-                smallMolecule.setSearchEngineScore(logicalPosition, target);
+            } else if (columnName.startsWith(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                int id = loadBestSearchEngineScoreId(column.getHeader());
+                smallMolecule.setBestSearchEngineScore(id, target);
+            } else if (columnName.startsWith(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
+                int id = loadSearchEngineScoreId(column.getHeader());
+                MsRun msRun = (MsRun) column.getElement();
+                smallMolecule.setSearchEngineScore(id, msRun, target);
             } else if (columnName.equals(SmallMoleculeColumn.MODIFICATIONS.getName())) {
                 smallMolecule.setModifications(target);
             }

@@ -228,9 +228,26 @@ public abstract class MZTabRecord {
 
     /**
      * Get logical position based on column's order and element id.
+     *
+     * order + id + element.id
      */
-    protected String getPosition(MZTabColumn column, IndexedElement element) {
-        return column.getOrder() + element.getId();
+    protected String getLogicalPosition(MZTabColumn column, Integer id, IndexedElement element) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(column.getOrder());
+        if (id != null) {
+            // generate id string which length is 2. Eg. 12, return 12; 1, return 01
+            sb.append(String.format("%02d", id));
+        } else {
+            sb.append("00");
+        }
+        if (element != null) {
+            sb.append(String.format("%02d", element.getId()));
+        } else {
+            sb.append("00");
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -269,6 +286,10 @@ public abstract class MZTabRecord {
      * @param assay SHOULD NOT be null.
      */
     public void setAbundanceColumnValue(Assay assay, Double value) {
+        if (assay == null) {
+            return;
+        }
+
         MZTabColumn column = getAbundanceColumn("_abundance_", assay);
         if (column != null) {
             setValue(column.getLogicPosition(), value);

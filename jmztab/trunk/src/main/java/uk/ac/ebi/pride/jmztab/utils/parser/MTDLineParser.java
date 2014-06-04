@@ -360,6 +360,10 @@ public class MTDLineParser extends MZTabLineParser {
                     }
 
                     break;
+                case SEARCH_ENGINE_SCORE:
+                    id = checkIndex(defineLabel, matcher.group(3));
+                    metadata.addSearchEngineScoreParam(id, checkParam(defineLabel, valueLabel));
+                    break;
                 case FALSE_DISCOVERY_RATE:
                     if (metadata.getFalseDiscoveryRate().size() > 0) {
                         throw new MZTabException(new MZTabError(LogicalErrorType.DuplicationDefine, lineNumber, defineLabel));
@@ -485,6 +489,12 @@ public class MTDLineParser extends MZTabLineParser {
                             break;
                         case MS_RUN_FRAGMENTATION_METHOD:
                             metadata.addMsRunFragmentationMethod(id, checkParam(defineLabel, valueLabel));
+                            break;
+                        case MS_RUN_HASH:
+                            metadata.addMsRunHash(id, valueLabel);
+                            break;
+                        case MS_RUN_HASH_METHOD:
+                            metadata.addMsRunHashMethod(id, checkParam(defineLabel, valueLabel));
                             break;
                     }
 

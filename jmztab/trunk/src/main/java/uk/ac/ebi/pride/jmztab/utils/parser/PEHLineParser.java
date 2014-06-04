@@ -46,8 +46,8 @@ public class PEHLineParser extends MZTabHeaderLineParser {
         if (mode == MZTabDescription.Mode.Complete) {
             if (type == MZTabDescription.Type.Quantification) {
                 for (MsRun msRun : metadata.getMsRunMap().values()) {
-                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
-                    refineOptionalColumn(mode, type, "search_engine_score" + msRunLabel);
+//                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
+//                    refineOptionalColumn(mode, type, "search_engine_score" + msRunLabel);
                 }
                 for (Assay assay : metadata.getAssayMap().values()) {
                     String assayLabel = "_assay[" + assay.getId() + "]";

@@ -546,7 +546,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             String searchEngineName = identification.getSearchEngine();
             CVParam scoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByName(searchEngineName, score.toString());
             if (scoreParam != null) {
-                protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), scoreParam);
+//                protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), scoreParam);
             }
         }
     }
@@ -556,7 +556,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         for (CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
             scoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
             if (scoreParam != null) {
-                psm.addSearchEngineScoreParam(scoreParam.toCVParam(cvParam.getValue()));
+//                psm.addSearchEngineScoreParam(scoreParam.toCVParam(cvParam.getValue()));
                 psm.addSearchEngineParam(scoreParam.getSearchEngineParam().toCVParam());
             }
         }

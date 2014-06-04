@@ -38,7 +38,7 @@ public class PSMValidateTest {
             "database\t" +
             "database_version\t" +
             "search_engine\t" +
-            "search_engine_score\t" +
+            "search_engine_score[1]\t" +
             "reliability\t" +
             "modifications\t" +
             "retention_time\t" +

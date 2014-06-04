@@ -52,14 +52,14 @@ public class Peptide extends MZTabRecord {
      * The peptide's sequence
      */
     public String getSequence() {
-        return getString(PeptideColumn.SEQUENCE.getOrder());
+        return getString(PeptideColumn.SEQUENCE.getLogicPosition());
     }
 
     /**
      * The peptide's sequence
      */
     public void setSequence(String sequence) {
-        setValue(PeptideColumn.SEQUENCE.getOrder(), parseString(sequence));
+        setValue(PeptideColumn.SEQUENCE.getLogicPosition(), parseString(sequence));
     }
 
     /**
@@ -68,7 +68,7 @@ public class Peptide extends MZTabRecord {
      * be assigned to more than one protein, multiple rows SHOULD be provided for each peptide to protein mapping.
      */
     public String getAccession() {
-        return getString(PeptideColumn.ACCESSION.getOrder());
+        return getString(PeptideColumn.ACCESSION.getLogicPosition());
     }
 
     /**
@@ -77,21 +77,21 @@ public class Peptide extends MZTabRecord {
      * be assigned to more than one protein, multiple rows SHOULD be provided for each peptide to protein mapping.
      */
     public void setAccession(String accession) {
-        setValue(PeptideColumn.ACCESSION.getOrder(), parseString(accession));
+        setValue(PeptideColumn.ACCESSION.getLogicPosition(), parseString(accession));
     }
 
     /**
      * Indicates whether the peptide is unique for this protein in respect to the searched database.
      */
     public MZBoolean getUnique() {
-        return getMZBoolean(PeptideColumn.UNIQUE.getOrder());
+        return getMZBoolean(PeptideColumn.UNIQUE.getLogicPosition());
     }
 
     /**
      * Indicates whether the peptide is unique for this protein in respect to the searched database.
      */
     public void setUnique(MZBoolean unique) {
-        setValue(PeptideColumn.UNIQUE.getOrder(), unique);
+        setValue(PeptideColumn.UNIQUE.getLogicPosition(), unique);
     }
 
     /**
@@ -108,7 +108,7 @@ public class Peptide extends MZTabRecord {
      * the peptide sequence comes from.
      */
     public String getDatabase() {
-        return getString(PeptideColumn.DATABASE.getOrder());
+        return getString(PeptideColumn.DATABASE.getLogicPosition());
     }
 
     /**
@@ -116,7 +116,7 @@ public class Peptide extends MZTabRecord {
      * the peptide sequence comes from.
      */
     public void setDatabase(String database) {
-        setValue(PeptideColumn.DATABASE.getOrder(), parseString(database));
+        setValue(PeptideColumn.DATABASE.getLogicPosition(), parseString(database));
     }
 
     /**
@@ -125,7 +125,7 @@ public class Peptide extends MZTabRecord {
      * in round brackets after the version in the format: {version} ({#entries} entries), for example "2011-11 (1234 entries)".
      */
     public String getDatabaseVersion() {
-        return getString(PeptideColumn.DATABASE_VERSION.getOrder());
+        return getString(PeptideColumn.DATABASE_VERSION.getLogicPosition());
     }
 
     /**
@@ -134,14 +134,14 @@ public class Peptide extends MZTabRecord {
      * in round brackets after the version in the format: {version} ({#entries} entries), for example "2011-11 (1234 entries)".
      */
     public void setDatabaseVersion(String databaseVersion) {
-        setValue(PeptideColumn.DATABASE_VERSION.getOrder(), parseString(databaseVersion));
+        setValue(PeptideColumn.DATABASE_VERSION.getLogicPosition(), parseString(databaseVersion));
     }
 
     /**
      * A "|" delimited list of search engine(s) used to identify this peptide. Search engines must be supplied as parameters.
      */
     public SplitList<Param> getSearchEngine() {
-        return getSplitList(PeptideColumn.SEARCH_ENGINE.getOrder());
+        return getSplitList(PeptideColumn.SEARCH_ENGINE.getLogicPosition());
     }
 
     /**
@@ -177,7 +177,7 @@ public class Peptide extends MZTabRecord {
      * A "|" delimited list of search engine(s) used to identify this peptide. Search engines must be supplied as parameters.
      */
     public void setSearchEngine(SplitList<Param> searchEngine) {
-        setValue(PeptideColumn.SEARCH_ENGINE.getOrder(), searchEngine);
+        setValue(PeptideColumn.SEARCH_ENGINE.getLogicPosition(), searchEngine);
     }
 
     /**
@@ -190,127 +190,77 @@ public class Peptide extends MZTabRecord {
     }
 
     /**
-     * A "|" delimited list of best search engine score(s) for the given peptide across all replicates. Scores SHOULD be
-     * reported using CV parameters whenever possible.
-     */
-    public SplitList<Param> getBestSearchEngineScore() {
-        return getSplitList(PeptideColumn.BEST_SEARCH_ENGINE_SCORE.getOrder());
-    }
-
-    /**
-     * Add best search engine score(s) for the given peptide across all replicates. Scores SHOULD be
-     * reported using CV parameters whenever possible.
-     */
-    public boolean addBestSearchEngineScoreParam(Param param) {
-        if (param == null) {
-            return false;
-        }
-
-        SplitList<Param> params = getBestSearchEngineScore();
-        if (params == null) {
-            params = new SplitList<Param>(BAR);
-            this.setBestSearchEngineScore(params);
-        }
-
-        return params.add(param);
-    }
-
-    /**
-     * Add best search engine score(s) for the given peptide across all replicates. Scores SHOULD be
-     * reported using CV parameters whenever possible.
+     * The best search engine score (for this type of score) for the given protein across
+     * all replicates reported. The type of score MUST be defined in the metadata section.
+     * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param paramLabel parsed by {@link MZTabUtils#parseParam(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
      */
-    public boolean addBestSearchEngineScoreParam(String paramLabel) {
-        return !isEmpty(paramLabel) && addBestSearchEngineScoreParam(parseParam(paramLabel));
+    public Double getBestSearchEngineScore(Integer id) {
+        return getDouble(getLogicalPosition(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, id, null));
     }
 
-    /**
-     * A "|" delimited list of best search engine score(s) for the given peptide across all replicates. Scores SHOULD be
-     * reported using CV parameters whenever possible.
-     */
-    public void setBestSearchEngineScore(SplitList<Param> bestSearchEngineScore) {
-        setValue(PeptideColumn.BEST_SEARCH_ENGINE_SCORE.getOrder(), bestSearchEngineScore);
-    }
 
     /**
-     * A "|" delimited list of best search engine score(s) for the given peptide across all replicates. Scores SHOULD be
-     * reported using CV parameters whenever possible.
+     * The best search engine score (for this type of score) for the given protein across
+     * all replicates reported. The type of score MUST be defined in the metadata section.
+     * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param  bestSearchEngineScoreLabel parsed by {@link MZTabUtils#parseParamList(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
      */
-    public void setBestSearchEngineScore(String bestSearchEngineScoreLabel) {
-        this.setBestSearchEngineScore(parseParamList(bestSearchEngineScoreLabel));
+    public void setBestSearchEngineScore(Integer id, Double bestSearchEngineScore) {
+        setValue(getLogicalPosition(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, id, null), bestSearchEngineScore);
     }
 
     /**
-     * A "|" delimited list of search engine score(s) for the given peptide from a given MS run. Scores SHOULD be reported
-     * using CV parameters whenever possible.
+     * The best search engine score (for this type of score) for the given protein across
+     * all replicates reported. The type of score MUST be defined in the metadata section.
+     * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param msRun SHOULD NOT set null.
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
      */
-    public SplitList<Param> getSearchEngineScore(MsRun msRun) {
-        return getSplitList(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msRun));
+    public void setBestSearchEngineScore(Integer id, String searchEngineScoreLabel) {
+        setBestSearchEngineScore(id, parseDouble(searchEngineScoreLabel));
     }
 
-    /**
-     * A "|" delimited list of search engine score(s) for the given peptide from a given MS run. Scores SHOULD be reported
-     * using CV parameters whenever possible.
-     */
-    public void setSearchEngineScore(String logicalPosition, SplitList<Param> searchEngineScore) {
-        setValue(logicalPosition, searchEngineScore);
-    }
 
     /**
-     * A "|" delimited list of search engine score(s) for the given peptide from a given MS run. Scores SHOULD be reported
-     * using CV parameters whenever possible.
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
      *
-     * @param msRun SHOULD NOT set null.
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param msRun SHOULD NOT set null
+     * @return
      */
-    public void setSearchEngineScore(MsRun msRun, SplitList<Param> searchEngineScore) {
-        setSearchEngineScore(getPosition(PeptideColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
-    }
-    /**
-     * A "|" delimited list of search engine score(s) for the given peptide from a given MS run. Scores SHOULD be reported
-     * using CV parameters whenever possible.
-     *
-     * @param msRun SHOULD NOT set null.
-     */
-
-    public boolean addSearchEngineScoreParam(MsRun msRun, CVParam param) {
-        if (param == null) {
-            return false;
-        }
-
-        SplitList<Param> params = getSearchEngineScore(msRun);
-        if (params == null) {
-            params = new SplitList<Param>(BAR);
-            setSearchEngineScore(msRun, params);
-        }
-        params.add(param);
-
-        return true;
+    public Double getSearchEngineScore(Integer id, MsRun msRun) {
+        return getDouble(getLogicalPosition(PeptideColumn.SEARCH_ENGINE_SCORE, id, msRun));
     }
 
     /**
-     * A "|" delimited list of search engine score(s) for the given peptide from a given MS run. Scores SHOULD be reported
-     * using CV parameters whenever possible.
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
      *
-     * @param paramsLabel parsed by {@link MZTabUtils#parseParamList(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param msRun SHOULD NOT set null
+     * @return
      */
-    public void setSearchEngineScore(String logicalPosition, String paramsLabel) {
-        setSearchEngineScore(logicalPosition, parseParamList(paramsLabel));
+    public void setSearchEngineScore(Integer id, MsRun msRun, Double searchEngineScore) {
+        setValue(getLogicalPosition(PeptideColumn.SEARCH_ENGINE_SCORE, id, msRun), searchEngineScore);
     }
 
     /**
-     * A "|" delimited list of search engine score(s) for the given peptide from a given MS run. Scores SHOULD be reported
-     * using CV parameters whenever possible.
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
      *
-     * @param msRun SHOULD NOT set null.
-     * @param paramsLabel parsed by {@link MZTabUtils#parseParamList(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param msRun SHOULD NOT set null
+     * @return
      */
-    public void setSearchEngineScore(MsRun msRun, String paramsLabel) {
-        setSearchEngineScore(msRun, parseParamList(paramsLabel));
+    public void setSearchEngineScore(Integer id, MsRun msRun, String paramsLabel) {
+        setSearchEngineScore(id, msRun, parseDouble(paramsLabel));
     }
 
     /**
@@ -322,7 +272,7 @@ public class Peptide extends MZTabRecord {
      * </ol>
      */
     public Reliability getReliability() {
-        return getReliability(PeptideColumn.RELIABILITY.getOrder());
+        return getReliability(PeptideColumn.RELIABILITY.getLogicPosition());
     }
 
     /**
@@ -334,7 +284,7 @@ public class Peptide extends MZTabRecord {
      * </ol>
      */
     public void setReliability(Reliability reliability) {
-        setValue(PeptideColumn.RELIABILITY.getOrder(), reliability);
+        setValue(PeptideColumn.RELIABILITY.getLogicPosition(), reliability);
     }
 
     /**
@@ -360,7 +310,7 @@ public class Peptide extends MZTabRecord {
      * It is thus also expected that modification reliability scores will typically be reported at the PSM-level only.
      */
     public SplitList<Modification> getModifications() {
-        return getSplitList(PeptideColumn.MODIFICATIONS.getOrder());
+        return getSplitList(PeptideColumn.MODIFICATIONS.getLogicPosition());
     }
 
     /**
@@ -394,7 +344,7 @@ public class Peptide extends MZTabRecord {
      * It is thus also expected that modification reliability scores will typically be reported at the PSM-level only.
      */
     public void setModifications(SplitList<Modification> modifications) {
-        setValue(PeptideColumn.MODIFICATIONS.getOrder(), modifications);
+        setValue(PeptideColumn.MODIFICATIONS.getLogicPosition(), modifications);
     }
 
     /**
@@ -420,7 +370,7 @@ public class Peptide extends MZTabRecord {
      * Retention time MUST be reported in seconds. Otherwise, units MUST be reported in the Metadata Section ("colunit-peptide").
      */
     public SplitList<Double> getRetentionTime() {
-        return getSplitList(PeptideColumn.RETENTION_TIME.getOrder());
+        return getSplitList(PeptideColumn.RETENTION_TIME.getLogicPosition());
     }
 
     /**
@@ -468,7 +418,7 @@ public class Peptide extends MZTabRecord {
      * Retention time MUST be reported in seconds. Otherwise, units MUST be reported in the Metadata Section ("colunit-peptide").
      */
     public void setRetentionTime(SplitList<Double> retentionTime) {
-        setValue(PeptideColumn.RETENTION_TIME.getOrder(), retentionTime);
+        setValue(PeptideColumn.RETENTION_TIME.getLogicPosition(), retentionTime);
     }
 
     /**
@@ -494,7 +444,7 @@ public class Peptide extends MZTabRecord {
      * ("colunit-peptide").
      */
     public SplitList<Double> getRetentionTimeWindow() {
-        return getSplitList(PeptideColumn.RETENTION_TIME_WINDOW.getOrder());
+        return getSplitList(PeptideColumn.RETENTION_TIME_WINDOW.getLogicPosition());
     }
 
     /**
@@ -542,7 +492,7 @@ public class Peptide extends MZTabRecord {
      * ("colunit-peptide").
      */
     public void setRetentionTimeWindow(SplitList<Double> retentionTimeWindow) {
-        setValue(PeptideColumn.RETENTION_TIME_WINDOW.getOrder(), retentionTimeWindow);
+        setValue(PeptideColumn.RETENTION_TIME_WINDOW.getLogicPosition(), retentionTimeWindow);
     }
 
     /**
@@ -564,7 +514,7 @@ public class Peptide extends MZTabRecord {
      * these should be reported as distinct entries in the peptide table. In case the charge is unknown "null" MUST be used.
      */
     public Integer getCharge() {
-        return getInteger(PeptideColumn.CHARGE.getOrder());
+        return getInteger(PeptideColumn.CHARGE.getLogicPosition());
     }
 
     /**
@@ -572,7 +522,7 @@ public class Peptide extends MZTabRecord {
      * these should be reported as distinct entries in the peptide table. In case the charge is unknown "null" MUST be used.
      */
     public void setCharge(Integer charge) {
-        setValue(PeptideColumn.CHARGE.getOrder(), charge);
+        setValue(PeptideColumn.CHARGE.getLogicPosition(), charge);
     }
 
     /**
@@ -591,7 +541,7 @@ public class Peptide extends MZTabRecord {
      * values for all assays, this can be done using optional columns.
      */
     public Double getMassToCharge() {
-        return getDouble(PeptideColumn.MASS_TO_CHARGE.getOrder());
+        return getDouble(PeptideColumn.MASS_TO_CHARGE.getLogicPosition());
     }
 
     /**
@@ -600,7 +550,7 @@ public class Peptide extends MZTabRecord {
      * values for all assays, this can be done using optional columns.
      */
     public void setMassToCharge(Double massToCharge) {
-        setValue(PeptideColumn.MASS_TO_CHARGE.getOrder(), massToCharge);
+        setValue(PeptideColumn.MASS_TO_CHARGE.getLogicPosition(), massToCharge);
     }
 
     /**
@@ -618,14 +568,14 @@ public class Peptide extends MZTabRecord {
      * A URI pointing to the peptide's entry in the experiment it was identified in (e.g., the peptide's PRIDE entry).
      */
     public URI getURI() {
-        return getURI(PeptideColumn.URI.getOrder());
+        return getURI(PeptideColumn.URI.getLogicPosition());
     }
 
     /**
      * A URI pointing to the peptide's entry in the experiment it was identified in (e.g., the peptide's PRIDE entry).
      */
     public void setURI(URI uri) {
-        setValue(PeptideColumn.URI.getOrder(), uri);
+        setValue(PeptideColumn.URI.getLogicPosition(), uri);
     }
 
     /**
@@ -644,7 +594,7 @@ public class Peptide extends MZTabRecord {
      * Multiple spectra MUST be referenced using a "|" delimited list.
      */
     public SplitList<SpectraRef> getSpectraRef() {
-        return getSplitList(PeptideColumn.SPECTRA_REF.getOrder());
+        return getSplitList(PeptideColumn.SPECTRA_REF.getLogicPosition());
     }
 
     /**
@@ -676,7 +626,7 @@ public class Peptide extends MZTabRecord {
      * Multiple spectra MUST be referenced using a "|" delimited list.
      */
     public void setSpectraRef(SplitList<SpectraRef> spectraRef) {
-        setValue(PeptideColumn.SPECTRA_REF.getOrder(), spectraRef);
+        setValue(PeptideColumn.SPECTRA_REF.getLogicPosition(), spectraRef);
     }
 
     /**

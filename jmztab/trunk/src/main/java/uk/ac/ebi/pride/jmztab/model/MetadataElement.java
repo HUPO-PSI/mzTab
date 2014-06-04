@@ -13,6 +13,7 @@ public enum MetadataElement {
     SAMPLE_PROCESSING                 ("sample_processing"),
     INSTRUMENT                        ("instrument"),
     SOFTWARE                          ("software"),
+    SEARCH_ENGINE_SCORE               ("search_engine_score"),
     FALSE_DISCOVERY_RATE              ("false_discovery_rate"),
     PUBLICATION                       ("publication"),
     CONTACT                           ("contact"),

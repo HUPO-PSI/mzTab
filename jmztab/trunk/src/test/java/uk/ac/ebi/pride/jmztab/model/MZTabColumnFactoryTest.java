@@ -18,7 +18,7 @@ public class MZTabColumnFactoryTest {
         SortedMap<String, MZTabColumn> stableColumns = factory.getStableColumnMapping();
         SortedMap<String, MZTabColumn> optionalColumns = factory.getOptionalColumnMapping();
 
-        assertTrue(stableColumns.size() == 11);
+        assertTrue(stableColumns.size() == 10);
         assertTrue(optionalColumns.size() == 0);
         int optionSize = 0;
 
@@ -35,21 +35,22 @@ public class MZTabColumnFactoryTest {
         StudyVariable studyVariable2 = new StudyVariable(2);
         MZTabColumn column;
 
-        factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun1);
         factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun1);
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun1);
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun1);
-        optionSize += 4;
+        optionSize += 3;
         assertTrue(optionalColumns.size() == optionSize);
-        column = optionalColumns.get(ProteinColumn.SEARCH_ENGINE_SCORE.getLogicPosition() + msRun1.getId());
-        assertTrue(column != null);
 
         factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun2);
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun2);
         optionSize += 2;
         assertTrue(optionalColumns.size() == optionSize);
-        column = optionalColumns.get(ProteinColumn.NUM_PEPTIDES_UNIQUE.getLogicPosition() + msRun2.getId());
-        assertTrue(column == null);
+
+        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
+        factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
+        optionSize += 2;
+        assertTrue(optionalColumns.size() == optionSize);
+        System.out.println(factory);
 
         factory.addAbundanceOptionalColumn(assay1);
         optionSize += 1;

@@ -36,7 +36,7 @@ public class MZTabFileParser {
      * are written to the provided {@link OutputStream}.
      * @param tabFile the MZTab file
      * @param out the output stream for parsing messages
-     * @throws IOException 
+     * @throws IOException
      */
     public MZTabFileParser(File tabFile, OutputStream out) throws IOException {
         this(tabFile, out, LEVEL);
@@ -48,20 +48,20 @@ public class MZTabFileParser {
      * @param tabFile the MZTab file
      * @param out the output stream for parsing messages
      * @param level the minimum error level to report errors for
-     * @throws IOException 
+     * @throws IOException
      */
     public MZTabFileParser(File tabFile, OutputStream out, MZTabErrorType.Level level) throws IOException {
-        this(tabFile, out, LEVEL, MAX_ERROR_COUNT);
+        this(tabFile, out, level, MAX_ERROR_COUNT);
     }
-    
+
     /**
      * Create a new {@code MZTabFileParser} for the given file. Parsing output and errors
      * are written to the provided {@link OutputStream}.
      * @param tabFile the MZTab file
      * @param out the output stream for parsing messages
      * @param level the minimum error level to report errors for
-     * @param maxErrorCount the maximum number of errors to report in {@see MZTabFileParser#getErrorList()} 
-     * @throws IOException 
+     * @param maxErrorCount the maximum number of errors to report in {@see MZTabFileParser#getErrorList()}
+     * @throws IOException
      */
     public MZTabFileParser(File tabFile, OutputStream out, MZTabErrorType.Level level, int maxErrorCount) throws IOException {
         init(tabFile);
@@ -128,6 +128,13 @@ public class MZTabFileParser {
         MZTabColumnFactory peptideFactory = mzTabFile.getPeptideColumnFactory();
         MZTabColumnFactory psmFactory = mzTabFile.getPsmColumnFactory();
         MZTabColumnFactory smlFactory = mzTabFile.getSmallMoleculeColumnFactory();
+
+        //If ms_run[1-n]-hash is present,  ms_run[1-n]-hash_method SHOULD also be present
+        for (MsRun msRun : metadata.getMsRunMap().values()) {
+            if (msRun.getHash() != null && msRun.getHashMethod() == null)  {
+                throw new MZTabException(new MZTabError(LogicalErrorType.MsRunHashMethodNotDefined, -1, msRun.getId().toString()));
+            }
+        }
 
         // If mzTab-type is "Quantification", then at least one section with {protein|peptide|small_molecule}_abundance* columns MUST be present
         boolean hasAbundance = false;

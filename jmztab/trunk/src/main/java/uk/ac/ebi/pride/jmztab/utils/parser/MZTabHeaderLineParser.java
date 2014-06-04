@@ -81,6 +81,34 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
         refine();
     }
 
+    private void addSearchEngineColumn(String searchEngineHeader, MsRun msRun) throws MZTabException {
+        Pattern pattern = Pattern.compile("search_engine_score\\[(\\d+)\\]");
+        Matcher matcher = pattern.matcher(searchEngineHeader);
+
+        if (matcher.find()) {
+            Integer id = checkIndex(searchEngineHeader, matcher.group(1));
+            if (! metadata.getSearchEngineScoreMap().containsKey(id)) {
+                throw new MZTabException(new MZTabError(LogicalErrorType.SearchEngineScoreNotDefined, lineNumber, searchEngineHeader));
+            }
+
+            switch (section) {
+                case Protein_Header:
+                    factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    break;
+                case Peptide_Header:
+                    factory.addSearchEngineScoreOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    break;
+                case PSM_Header:
+                    factory.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, id, null);
+                    break;
+                case Small_Molecule_Header:
+                    factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    break;
+            }
+
+        }
+    }
+
     /**
      * Focus on validate and parse for stable columns and optional columns which have stable order;
      * All of them defined in the {@link ProteinColumn}, {@link PeptideColumn}, {@link PSMColumn}
@@ -112,13 +140,38 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
             }
         }
 
-        // step 3: checking some flexible optional columns which have stable order.
+        // step 3: checking best_search_engine_score columns which have stable order.
         String header;
-        Pattern pattern = Pattern.compile("(\\w+)_ms_run\\[(\\d+)\\]");
+        Pattern pattern = Pattern.compile("best_search_engine_score\\[(\\d+)\\]");
         Matcher matcher;
         MZTabColumn column = null;
-        MsRun msRun;
         int id;
+        for (int i = 1; i < items.length; i++) {
+            header = items[i];
+            matcher = pattern.matcher(header);
+            if (matcher.find()) {
+                id = checkIndex(header, matcher.group(1));
+                if (! metadata.getSearchEngineScoreMap().containsKey(id)) {
+                     throw new MZTabException(new MZTabError(LogicalErrorType.SearchEngineScoreNotDefined, lineNumber, header));
+                }
+
+                switch (section) {
+                    case Protein_Header:
+                        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        break;
+                    case Peptide_Header:
+                        factory.addBestSearchEngineScoreOptionalColumn(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        break;
+                    case Small_Molecule_Header:
+                        factory.addBestSearchEngineScoreOptionalColumn(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        break;
+                }
+            }
+        }
+
+        // step 4: checking ms_run flexible optional columns which have stable order.
+        pattern = Pattern.compile("(.+)_ms_run\\[(\\d+)\\]");
+        MsRun msRun;
         for (int i = 1; i < items.length; i++) {
             header = items[i];
             matcher = pattern.matcher(header);
@@ -133,7 +186,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
                 switch (section) {
                     case Protein_Header:
                         if (header.startsWith(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
-                            column = ProteinColumn.SEARCH_ENGINE_SCORE;
+                            addSearchEngineColumn(matcher.group(1), msRun);
                         } else if (header.startsWith(ProteinColumn.NUM_PSMS.getName())) {
                             column = ProteinColumn.NUM_PSMS;
                         } else if (header.startsWith(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName())) {
@@ -149,7 +202,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
                         break;
                     case Peptide_Header:
                         if (header.startsWith(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
-                            column = PeptideColumn.SEARCH_ENGINE_SCORE;
+                            addSearchEngineColumn(matcher.group(1), msRun);
                         } else if (header.startsWith("opt_")) {
                             // ignore opt_ms_run....
                             // This kind of optional columns will be processed in the parseOptionalColumns() method.
@@ -159,7 +212,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
                         break;
                     case Small_Molecule_Header:
                         if (header.startsWith(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
-                            column = SmallMoleculeColumn.SEARCH_ENGINE_SCORE;
+                            addSearchEngineColumn(matcher.group(1), msRun);
                         } else if (header.startsWith("opt_")) {
                             // ignore opt_ms_run....
                             // This kind of optional columns will be processed in the parseOptionalColumns() method.
@@ -174,6 +227,18 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
                 }
             }
         }
+
+        // Step 6: PSM section, parse search_engine_score[id]
+        if (section == Section.PSM_Header) {
+            for (int i = 1; i < items.length; i++) {
+                header = items[i];
+
+                if (header.startsWith(PSMColumn.SEARCH_ENGINE_SCORE.getName())) {
+                    addSearchEngineColumn(header, null);
+                }
+            }
+        }
+
 
         return factory.getStableColumnMapping().values().size();
     }

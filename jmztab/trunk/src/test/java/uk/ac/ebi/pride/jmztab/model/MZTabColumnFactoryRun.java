@@ -1,7 +1,5 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import static junit.framework.Assert.assertTrue;
-
 /**
  * User: Qingwei
  * Date: 24/05/13
@@ -24,13 +22,23 @@ public class MZTabColumnFactoryRun {
         factory.addReliabilityOptionalColumn();
         factory.addURIOptionalColumn();
 
-        factory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun1);
         factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun1);
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun1);
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun1);
 
         factory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun2);
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun2);
+        System.out.println(factory);
+        System.out.println();
+
+        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
+        factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
+        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 2);
+        factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 2, msRun1);
+        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
+        factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 1, msRun2);
+        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 2);
+        factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 2, msRun2);
         System.out.println(factory);
         System.out.println();
 
@@ -66,7 +74,8 @@ public class MZTabColumnFactoryRun {
         factory.addReliabilityOptionalColumn();
         factory.addURIOptionalColumn();
 
-        factory.addOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, msRun1);
+        factory.addSearchEngineScoreOptionalColumn(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, 1, msRun1);
+        factory.addSearchEngineScoreOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
         System.out.println(factory);
         System.out.println();
 
@@ -99,6 +108,8 @@ public class MZTabColumnFactoryRun {
         factory.addReliabilityOptionalColumn();
         factory.addURIOptionalColumn();
 
+        factory.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, 1, null);
+
         // add user defined optional columns
         factory.addOptionalColumn(assay1, "my_value", String.class);
         CVParam param = new CVParam("MS", "MS:1002217", "decoy peptide", null);
@@ -125,7 +136,8 @@ public class MZTabColumnFactoryRun {
         factory.addURIOptionalColumn();
 
         // add optional columns which have stable order.
-        factory.addOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, msRun1);
+        factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE, 1, msRun1);
+        factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
         System.out.println(factory);
         System.out.println();
 

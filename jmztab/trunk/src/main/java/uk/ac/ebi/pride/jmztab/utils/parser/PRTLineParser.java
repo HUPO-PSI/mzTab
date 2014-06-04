@@ -4,7 +4,6 @@ import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
-import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseInteger;
-import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseParamList;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
 
 /**
@@ -53,9 +50,9 @@ public class PRTLineParser extends MZTabDataLineParser {
                     checkDatabaseVersion(column, target);
                 } else if (columnName.equals(ProteinColumn.SEARCH_ENGINE.getName())) {
                     checkSearchEngine(column, target);
-                } else if (columnName.equals(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                } else if (columnName.startsWith(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
                     checkBestSearchEngineScore(column, target);
-                } else if (columnName.equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
+                } else if (columnName.startsWith(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
                     checkSearchEngineScore(column, target);
                 } else if (columnName.equals(ProteinColumn.RELIABILITY.getName())) {
                     checkReliability(column, target);
@@ -111,10 +108,13 @@ public class PRTLineParser extends MZTabDataLineParser {
                 protein.setDatabaseVersion(target);
             } else if (columnName.equals(ProteinColumn.SEARCH_ENGINE.getName())) {
                 protein.setSearchEngine(target);
-            } else if (columnName.equals(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
-                protein.setBestSearchEngineScore(target);
-            } else if (columnName.equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
-                protein.setSearchEngineScore(logicalPosition, target);
+            } else if (columnName.startsWith(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                int id = loadBestSearchEngineScoreId(column.getHeader());
+                protein.setBestSearchEngineScore(id, target);
+            } else if (columnName.startsWith(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
+                int id = loadSearchEngineScoreId(column.getHeader());
+                MsRun msRun = (MsRun) column.getElement();
+                protein.setSearchEngineScore(id, msRun, target);
             } else if (columnName.equals(ProteinColumn.RELIABILITY.getName())) {
                 protein.setReliability(target);
             } else if (columnName.equals(ProteinColumn.NUM_PSMS.getName())) {

@@ -38,7 +38,7 @@ public class Protein extends MZTabRecord {
      * P12345[1], P12345[2].
      */
     public String getAccession() {
-        return getString(ProteinColumn.ACCESSION.getOrder());
+        return getString(ProteinColumn.ACCESSION.getLogicPosition());
     }
 
     /**
@@ -48,35 +48,35 @@ public class Protein extends MZTabRecord {
      * P12345[1], P12345[2].
      */
     public void setAccession(String accession) {
-        setValue(ProteinColumn.ACCESSION.getOrder(), parseString(accession));
+        setValue(ProteinColumn.ACCESSION.getLogicPosition(), parseString(accession));
     }
 
     /**
      * The protein's name and or description line.
      */
     public String getDescription() {
-        return getString(ProteinColumn.DESCRIPTION.getOrder());
+        return getString(ProteinColumn.DESCRIPTION.getLogicPosition());
     }
 
     /**
      * The protein's name and or description line.
      */
     public void setDescription(String description) {
-        setValue(ProteinColumn.DESCRIPTION.getOrder(), parseString(description));
+        setValue(ProteinColumn.DESCRIPTION.getLogicPosition(), parseString(description));
     }
 
     /**
      * The NCBI/NEWT taxonomy id for the species the protein was identified in.
      */
     public Integer getTaxid() {
-        return getInteger(ProteinColumn.TAXID.getOrder());
+        return getInteger(ProteinColumn.TAXID.getLogicPosition());
     }
 
     /**
      * The NCBI/NEWT taxonomy id for the species the protein was identified in.
      */
     public void setTaxid(Integer taxid) {
-        setValue(ProteinColumn.TAXID.getOrder(), taxid);
+        setValue(ProteinColumn.TAXID.getLogicPosition(), taxid);
     }
 
     /**
@@ -92,14 +92,14 @@ public class Protein extends MZTabRecord {
      * The human readable species the protein was identified in - this SHOULD be the NCBI entry's name.
      */
     public String getSpecies() {
-        return getString(ProteinColumn.SPECIES.getOrder());
+        return getString(ProteinColumn.SPECIES.getLogicPosition());
     }
 
     /**
      * The human readable species the protein was identified in - this SHOULD be the NCBI entry's name.
      */
     public void setSpecies(String species) {
-        setValue(ProteinColumn.SPECIES.getOrder(), parseString(species));
+        setValue(ProteinColumn.SPECIES.getLogicPosition(), parseString(species));
     }
 
     /**
@@ -107,7 +107,7 @@ public class Protein extends MZTabRecord {
      * Wherever possible the Miriam (http://www.ebi.ac.uk/miriam) assigned name SHOULD be used.
      */
     public String getDatabase() {
-        return getString(ProteinColumn.DATABASE.getOrder());
+        return getString(ProteinColumn.DATABASE.getLogicPosition());
     }
 
     /**
@@ -115,7 +115,7 @@ public class Protein extends MZTabRecord {
      * Wherever possible the Miriam (http://www.ebi.ac.uk/miriam) assigned name SHOULD be used.
      */
     public void setDatabase(String database) {
-        setValue(ProteinColumn.DATABASE.getOrder(), parseString(database));
+        setValue(ProteinColumn.DATABASE.getLogicPosition(), parseString(database));
     }
 
     /**
@@ -125,7 +125,7 @@ public class Protein extends MZTabRecord {
      * for example "2011-11 (1234 entries)".
      */
     public String getDatabaseVersion() {
-        return getString(ProteinColumn.DATABASE_VERSION.getOrder());
+        return getString(ProteinColumn.DATABASE_VERSION.getLogicPosition());
     }
 
     /**
@@ -135,21 +135,21 @@ public class Protein extends MZTabRecord {
      * for example "2011-11 (1234 entries)".
      */
     public void setDatabaseVersion(String databaseVersion) {
-        setValue(ProteinColumn.DATABASE_VERSION.getOrder(), parseString(databaseVersion));
+        setValue(ProteinColumn.DATABASE_VERSION.getLogicPosition(), parseString(databaseVersion));
     }
 
     /**
      * A "|" delimited list of search engine(s) used to identify this protein. Search engines MUST be supplied as parameters.
      */
     public SplitList<Param> getSearchEngine() {
-        return getSplitList(ProteinColumn.SEARCH_ENGINE.getOrder());
+        return getSplitList(ProteinColumn.SEARCH_ENGINE.getLogicPosition());
     }
 
     /**
      * A "|" delimited list of search engine(s) used to identify this protein. Search engines MUST be supplied as parameters.
      */
     public void setSearchEngine(SplitList<Param> searchEngine) {
-        setValue(ProteinColumn.SEARCH_ENGINE.getOrder(), searchEngine);
+        setValue(ProteinColumn.SEARCH_ENGINE.getLogicPosition(), searchEngine);
     }
 
     /**
@@ -188,121 +188,77 @@ public class Protein extends MZTabRecord {
     }
 
     /**
-     * A "|" delimited list of the best search engine score(s) for the given protein across all replicates reported.
-     * Scores SHOULD be reported using CV parameters whenever possible.
-     */
-    public SplitList<Param> getBestSearchEngineScore() {
-        return getSplitList(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getOrder());
-    }
-
-    /**
-     * A "|" delimited list of the best search engine score(s) for the given protein across all replicates reported.
-     * Scores SHOULD be reported using CV parameters whenever possible.
-     */
-    public void setBestSearchEngineScore(SplitList<Param> bestSearchEngineScore) {
-        setValue(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getOrder(), bestSearchEngineScore);
-    }
-
-    /**
-     * Add a best search engine score(s) for the given protein across all replicates reported.
-     * Scores SHOULD be reported using CV parameters whenever possible.
-     */
-    public boolean addBestSearchEngineScoreParam(Param param) {
-        if (param == null) {
-            return false;
-        }
-
-        SplitList<Param> params = getBestSearchEngineScore();
-        if (params == null) {
-            params = new SplitList<Param>(BAR);
-            setBestSearchEngineScore(params);
-        }
-
-        return params.add(param);
-    }
-
-    /**
-     * Add a best search engine score(s) for the given protein across all replicates reported.
-     * Scores SHOULD be reported using CV parameters whenever possible.
+     * The best search engine score (for this type of score) for the given protein across
+     * all replicates reported. The type of score MUST be defined in the metadata section.
+     * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param paramLabel parsed by {@link MZTabUtils#parseParam(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
      */
-    public boolean addBestSearchEngineScoreParam(String paramLabel) {
-        return !isEmpty(paramLabel) && addBestSearchEngineScoreParam(parseParam(paramLabel));
+    public Double getBestSearchEngineScore(Integer id) {
+        return getDouble(getLogicalPosition(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id, null));
     }
 
+
     /**
-     * A "|" delimited list of the best search engine score(s) for the given protein across all replicates reported.
-     * Scores SHOULD be reported using CV parameters whenever possible.
+     * The best search engine score (for this type of score) for the given protein across
+     * all replicates reported. The type of score MUST be defined in the metadata section.
+     * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param searchEngineScoreLabel parsed by {@link MZTabUtils#parseParamList(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
      */
-    public void setBestSearchEngineScore(String searchEngineScoreLabel) {
-        setBestSearchEngineScore(parseParamList(searchEngineScoreLabel));
+    public void setBestSearchEngineScore(Integer id, Double bestSearchEngineScore) {
+        setValue(getLogicalPosition(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id, null), bestSearchEngineScore);
     }
 
     /**
-     * A "|" delimited list of search engine score(s) for the given protein.
-     * Scores SHOULD be reported using CV parameters whenever possible.
-     */
-    public SplitList<Param> getSearchEngineScore(MsRun msRun) {
-        return getSplitList(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msRun));
-    }
-
-    /**
-     * A "|" delimited list of search engine score(s) for the given protein.
-     * Scores SHOULD be reported using CV parameters whenever possible.
-     */
-    public void setSearchEngineScore(String logicalPosition, SplitList<Param> searchEngineScore) {
-        setValue(logicalPosition, searchEngineScore);
-    }
-
-    /**
-     * A "|" delimited list of search engine score(s) for the given protein.
-     * Scores SHOULD be reported using CV parameters whenever possible.
-     */
-    public void setSearchEngineScore(MsRun msRun, SplitList<Param> searchEngineScore) {
-        setSearchEngineScore(getPosition(ProteinColumn.SEARCH_ENGINE_SCORE, msRun), searchEngineScore);
-    }
-
-    /**
-     * Add a search engine score(s) for the given protein.
-     * Scores SHOULD be reported using CV parameters whenever possible.
-     */
-    public boolean addSearchEngineScoreParam(MsRun msRun, CVParam param) {
-        if (param == null) {
-            return false;
-        }
-
-        SplitList<Param> params = getSearchEngineScore(msRun);
-        if (params == null) {
-            params = new SplitList<Param>(BAR);
-            setSearchEngineScore(msRun, params);
-        }
-        params.add(param);
-
-        return true;
-    }
-
-    /**
-     * A "|" delimited list of search engine score(s) for the given protein.
-     * Scores SHOULD be reported using CV parameters whenever possible.
+     * The best search engine score (for this type of score) for the given protein across
+     * all replicates reported. The type of score MUST be defined in the metadata section.
+     * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param paramsLabel parsed by {@link MZTabUtils#parseParamList(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
      */
-    public void setSearchEngineScore(String logicalPosition, String paramsLabel) {
-        setSearchEngineScore(logicalPosition, parseParamList(paramsLabel));
+    public void setBestSearchEngineScore(Integer id, String searchEngineScoreLabel) {
+        setBestSearchEngineScore(id, parseDouble(searchEngineScoreLabel));
+    }
+
+
+    /**
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
+     *
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param msRun SHOULD NOT set null
+     * @return
+     */
+    public Double getSearchEngineScore(Integer id, MsRun msRun) {
+        return getDouble(getLogicalPosition(ProteinColumn.SEARCH_ENGINE_SCORE, id, msRun));
     }
 
     /**
-     * A "|" delimited list of search engine score(s) for the given protein.
-     * Scores SHOULD be reported using CV parameters whenever possible.
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
      *
-     * @param msRun SHOULD NOT set null.
-     * @param paramsLabel parsed by {@link MZTabUtils#parseParamList(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param msRun SHOULD NOT set null
+     * @return
      */
-    public void setSearchEngineScore(MsRun msRun, String paramsLabel) {
-        setSearchEngineScore(msRun, parseParamList(paramsLabel));
+    public void setSearchEngineScore(Integer id, MsRun msRun, Double searchEngineScore) {
+        setValue(getLogicalPosition(ProteinColumn.SEARCH_ENGINE_SCORE, id, msRun), searchEngineScore);
+    }
+
+    /**
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
+     *
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param msRun SHOULD NOT set null
+     * @return
+     */
+    public void setSearchEngineScore(Integer id, MsRun msRun, String paramsLabel) {
+        setSearchEngineScore(id, msRun, parseDouble(paramsLabel));
     }
 
     /**
@@ -314,7 +270,7 @@ public class Protein extends MZTabRecord {
      * </ol>
      */
     public Reliability getReliability() {
-        return getReliability(ProteinColumn.RELIABILITY.getOrder());
+        return getReliability(ProteinColumn.RELIABILITY.getLogicPosition());
     }
 
     /**
@@ -326,7 +282,7 @@ public class Protein extends MZTabRecord {
      * </ol>
      */
     public void setReliability(Reliability reliability) {
-        setValue(ProteinColumn.RELIABILITY.getOrder(), reliability);
+        setValue(ProteinColumn.RELIABILITY.getLogicPosition(), reliability);
     }
 
     /**
@@ -349,7 +305,7 @@ public class Protein extends MZTabRecord {
      * @param msRun SHOULD NOT set null.
      */
     public Integer getNumPSMs(MsRun msRun) {
-        return getInteger(getPosition(ProteinColumn.NUM_PSMS, msRun));
+        return getInteger(getLogicalPosition(ProteinColumn.NUM_PSMS, null, msRun));
     }
 
     /**
@@ -365,7 +321,7 @@ public class Protein extends MZTabRecord {
      * @param msRun SHOULD NOT set null.
      */
     public void setNumPSMs(MsRun msRun, Integer numPSMs) {
-        setNumPSMs(getPosition(ProteinColumn.NUM_PSMS, msRun), numPSMs);
+        setNumPSMs(getLogicalPosition(ProteinColumn.NUM_PSMS, null, msRun), numPSMs);
     }
 
     /**
@@ -394,7 +350,7 @@ public class Protein extends MZTabRecord {
      * @param msRun SHOULD NOT set null.
      */
     public Integer getNumPeptidesDistinct(MsRun msRun) {
-        return getInteger(getPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun));
+        return getInteger(getLogicalPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, null, msRun));
     }
 
     /**
@@ -404,7 +360,7 @@ public class Protein extends MZTabRecord {
      * @param msRun SHOULD NOT set null.
      */
     public void setNumPeptidesDistinct(MsRun msRun, Integer numPeptidesDistinct) {
-        setNumPeptidesDistinct(getPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun), numPeptidesDistinct);
+        setNumPeptidesDistinct(getLogicalPosition(ProteinColumn.NUM_PEPTIDES_DISTINCT, null, msRun), numPeptidesDistinct);
     }
 
     /**
@@ -444,7 +400,7 @@ public class Protein extends MZTabRecord {
      * @param msRun SHOULD NOT set null.
      */
     public Integer getNumPeptidesUnique(MsRun msRun) {
-        return getInteger(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun));
+        return getInteger(getLogicalPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, null, msRun));
     }
 
     /**
@@ -464,7 +420,7 @@ public class Protein extends MZTabRecord {
      * @param msRun SHOULD NOT set null.
      */
     public void setNumPeptidesUnique(MsRun msRun, Integer numPeptidesUnique) {
-        setNumPeptidesUnique(getPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun), numPeptidesUnique);
+        setNumPeptidesUnique(getLogicalPosition(ProteinColumn.NUM_PEPTIDES_UNIQUE, null, msRun), numPeptidesUnique);
     }
 
     /**
@@ -499,7 +455,7 @@ public class Protein extends MZTabRecord {
      * that cannot be separated based on the peptide evidence.
      */
     public SplitList<String> getAmbiguityMembers() {
-        return getSplitList(ProteinColumn.AMBIGUITY_MEMBERS.getOrder());
+        return getSplitList(ProteinColumn.AMBIGUITY_MEMBERS.getLogicPosition());
     }
 
     /**
@@ -533,7 +489,7 @@ public class Protein extends MZTabRecord {
      * that cannot be separated based on the peptide evidence.
      */
     public void setAmbiguityMembers(SplitList<String> ambiguityMembers) {
-        setValue(ProteinColumn.AMBIGUITY_MEMBERS.getOrder(), ambiguityMembers);
+        setValue(ProteinColumn.AMBIGUITY_MEMBERS.getLogicPosition(), ambiguityMembers);
     }
 
     /**
@@ -561,7 +517,7 @@ public class Protein extends MZTabRecord {
      * reported but not present on a given protein, a "0" MUST be reported.
      */
     public SplitList<Modification> getModifications() {
-        return getSplitList(ProteinColumn.MODIFICATIONS.getOrder());
+        return getSplitList(ProteinColumn.MODIFICATIONS.getLogicPosition());
     }
 
     /**
@@ -599,7 +555,7 @@ public class Protein extends MZTabRecord {
      * reported but not present on a given protein, a "0" MUST be reported.
      */
     public void setModifications(SplitList<Modification> modifications) {
-        setValue(ProteinColumn.MODIFICATIONS.getOrder(), modifications);
+        setValue(ProteinColumn.MODIFICATIONS.getLogicPosition(), modifications);
     }
 
     /**
@@ -623,7 +579,7 @@ public class Protein extends MZTabRecord {
      * or a local database / file identifier).
      */
     public URI getURI() {
-        return getURI(ProteinColumn.URI.getOrder());
+        return getURI(ProteinColumn.URI.getLogicPosition());
     }
 
     /**
@@ -631,7 +587,7 @@ public class Protein extends MZTabRecord {
      * or a local database / file identifier).
      */
     public void setURI(URI uri) {
-        setValue(ProteinColumn.URI.getOrder(), uri);
+        setValue(ProteinColumn.URI.getLogicPosition(), uri);
     }
 
     /**
@@ -648,7 +604,7 @@ public class Protein extends MZTabRecord {
      * A '|'-delimited list of GO accessions for this protein.
      */
     public SplitList<String> getGOTerms() {
-        return getSplitList(ProteinColumn.GO_TERMS.getOrder());
+        return getSplitList(ProteinColumn.GO_TERMS.getLogicPosition());
     }
 
     /**
@@ -672,7 +628,7 @@ public class Protein extends MZTabRecord {
      * A '|'-delimited list of GO accessions for this protein.
      */
     public void setGOTerms(SplitList<String> goTerms) {
-        setValue(ProteinColumn.GO_TERMS.getOrder(), goTerms);
+        setValue(ProteinColumn.GO_TERMS.getLogicPosition(), goTerms);
     }
 
     /**
@@ -688,14 +644,14 @@ public class Protein extends MZTabRecord {
      * A value between 0 and 1 defining the protein coverage.
      */
     public Double getProteinCoverage() {
-        return getDouble(ProteinColumn.PROTEIN_COVERAGE.getOrder());
+        return getDouble(ProteinColumn.PROTEIN_COVERAGE.getLogicPosition());
     }
 
     /**
      * A value between 0 and 1 defining the protein coverage.
      */
     public void setProteinConverage(Double proteinConverage) {
-        setValue(ProteinColumn.PROTEIN_COVERAGE.getOrder(), proteinConverage);
+        setValue(ProteinColumn.PROTEIN_COVERAGE.getLogicPosition(), proteinConverage);
     }
 
     /**

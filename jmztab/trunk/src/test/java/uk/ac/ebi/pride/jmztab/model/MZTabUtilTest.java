@@ -161,6 +161,9 @@ public class MZTabUtilTest {
         assertTrue(modification.getPositionMap().containsKey(4));
         assertTrue(modification.getType().name().equals("UNIMOD"));
         assertTrue(modification.getAccession().equals("00412"));
+        System.out.println(modification);
+        modification.setAmbiguity(false);
+        System.out.println(modification);
 
         sb.append(", 3[MS, MS:100xxxx, Probability Score Y, 0.8]|4[MS, MS:100xxxx, Probability Score Y, 0.2]-MOD:00412|[MS, MS:1001524, fragment neutral loss, 63.998285]");
         modList = parseModificationList(Section.Protein, sb.toString());
