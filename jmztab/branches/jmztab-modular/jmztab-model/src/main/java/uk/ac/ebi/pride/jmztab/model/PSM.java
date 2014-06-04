@@ -57,14 +57,14 @@ public class PSM extends MZTabRecord {
      * The peptide's sequence corresponding to the PSM
      */
     public String getSequence() {
-        return getString(PSMColumn.SEQUENCE.getOrder());
+        return getString(PSMColumn.SEQUENCE.getLogicPosition());
     }
 
     /**
      * The peptide's sequence corresponding to the PSM
      */
     public void setSequence(String sequence) {
-        setValue(PSMColumn.SEQUENCE.getOrder(), parseString(sequence));
+        setValue(PSMColumn.SEQUENCE.getLogicPosition(), parseString(sequence));
     }
 
     /**
@@ -72,7 +72,7 @@ public class PSM extends MZTabRecord {
      * the same PSM should be represented on multiple rows with different accessions and the same PSM_ID.
      */
     public String getPSM_ID() {
-        return ""+getInteger(PSMColumn.PSM_ID.getOrder());
+        return ""+getInteger(PSMColumn.PSM_ID.getLogicPosition());
     }
 
     /**
@@ -80,7 +80,7 @@ public class PSM extends MZTabRecord {
      * the same PSM should be represented on multiple rows with different accessions and the same PSM_ID.
      */
     public void setPSM_ID(Integer psmId) {
-        setValue(PSMColumn.PSM_ID.getOrder(), psmId);
+        setValue(PSMColumn.PSM_ID.getLogicPosition(), psmId);
     }
 
     /**
@@ -90,7 +90,7 @@ public class PSM extends MZTabRecord {
      * @param psmIdLabel parsed by {@link MZTabUtils#parseInteger(String)}
      */
     public void setPSM_ID(String psmIdLabel) {
-        setValue(PSMColumn.PSM_ID.getOrder(), parseInteger(psmIdLabel));
+        setValue(PSMColumn.PSM_ID.getLogicPosition(), parseInteger(psmIdLabel));
     }
 
     /**
@@ -100,7 +100,7 @@ public class PSM extends MZTabRecord {
      * PSM should be represented on multiple rows with the same unique identifier.
      */
     public String getAccession() {
-        return getString(PSMColumn.ACCESSION.getOrder());
+        return getString(PSMColumn.ACCESSION.getLogicPosition());
     }
 
     /**
@@ -110,7 +110,7 @@ public class PSM extends MZTabRecord {
      * PSM should be represented on multiple rows with the same unique identifier.
      */
     public void setAccession(String accession) {
-        setValue(PSMColumn.ACCESSION.getOrder(), parseString(accession));
+        setValue(PSMColumn.ACCESSION.getLogicPosition(), parseString(accession));
     }
 
     /**
@@ -118,7 +118,7 @@ public class PSM extends MZTabRecord {
      * the searched database. Boolean (0/1)
      */
     public MZBoolean getUnique() {
-        return getMZBoolean(PSMColumn.UNIQUE.getOrder());
+        return getMZBoolean(PSMColumn.UNIQUE.getLogicPosition());
     }
 
     /**
@@ -126,7 +126,7 @@ public class PSM extends MZTabRecord {
      * the searched database. Boolean (0/1)
      */
     public void setUnique(MZBoolean unique) {
-        setValue(PSMColumn.UNIQUE.getOrder(), unique);
+        setValue(PSMColumn.UNIQUE.getLogicPosition(), unique);
     }
 
     /**
@@ -144,7 +144,7 @@ public class PSM extends MZTabRecord {
      * peptide sequence comes from.
      */
     public String getDatabase() {
-        return getString(PSMColumn.DATABASE.getOrder());
+        return getString(PSMColumn.DATABASE.getLogicPosition());
     }
 
     /**
@@ -152,7 +152,7 @@ public class PSM extends MZTabRecord {
      * peptide sequence comes from.
      */
     public void setDatabase(String database) {
-        setValue(PSMColumn.DATABASE.getOrder(), parseString(database));
+        setValue(PSMColumn.DATABASE.getLogicPosition(), parseString(database));
     }
 
     /**
@@ -162,7 +162,7 @@ public class PSM extends MZTabRecord {
      * for example "2011-11 (1234 entries)".
      */
     public String getDatabaseVersion() {
-        return getString(PSMColumn.DATABASE_VERSION.getOrder());
+        return getString(PSMColumn.DATABASE_VERSION.getLogicPosition());
     }
 
     /**
@@ -172,14 +172,14 @@ public class PSM extends MZTabRecord {
      * for example "2011-11 (1234 entries)".
      */
     public void setDatabaseVersion(String databaseVersion) {
-        setValue(PSMColumn.DATABASE_VERSION.getOrder(), parseString(databaseVersion));
+        setValue(PSMColumn.DATABASE_VERSION.getLogicPosition(), parseString(databaseVersion));
     }
 
     /**
      * A "|" delimited list of search engine(s) used to create the PSM. Search engines must be supplied as parameters.
      */
     public SplitList<Param> getSearchEngine() {
-        return getSplitList(PSMColumn.SEARCH_ENGINE.getOrder());
+        return getSplitList(PSMColumn.SEARCH_ENGINE.getLogicPosition());
     }
 
     /**
@@ -215,7 +215,7 @@ public class PSM extends MZTabRecord {
      * A "|" delimited list of search engine(s) used to create the PSM. Search engines must be supplied as parameters.
      */
     public void setSearchEngine(SplitList<Param> searchEngine) {
-        setValue(PSMColumn.SEARCH_ENGINE.getOrder(), searchEngine);
+        setValue(PSMColumn.SEARCH_ENGINE.getLogicPosition(), searchEngine);
     }
 
     /**
@@ -228,52 +228,36 @@ public class PSM extends MZTabRecord {
     }
 
     /**
-     * A "|" delimited list of search engine score(s) for the given PSM.
-     */
-    public SplitList<Param> getSearchEngineScore() {
-        return getSplitList(PSMColumn.SEARCH_ENGINE_SCORE.getOrder());
-    }
-
-    /**
-     * Add a search engine score for the given PSM.
-     */
-    public boolean addSearchEngineScoreParam(Param param) {
-        if (param == null) {
-            return false;
-        }
-
-        SplitList<Param> params = getSearchEngineScore();
-        if (params == null) {
-            params = new SplitList<Param>(BAR);
-            this.setSearchEngineScore(params);
-        }
-
-        return params.add(param);
-    }
-
-    /**
-     * Add a search engine score for the given PSM.
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
      *
-     * @param paramLabel parsed by {@link MZTabUtils#parseParam(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
      */
-    public boolean addSearchEngineScoreParam(String paramLabel) {
-        return !isEmpty(paramLabel) && addSearchEngineScoreParam(parseParam(paramLabel));
+    public Double getSearchEngineScore(Integer id) {
+        return getDouble(getLogicalPosition(PSMColumn.SEARCH_ENGINE_SCORE, id, null));
     }
 
     /**
-     * A "|" delimited list of search engine score(s) for the given PSM.
-     */
-    public void setSearchEngineScore(SplitList<Param> searchEngineScore) {
-        setValue(PSMColumn.SEARCH_ENGINE_SCORE.getOrder(), searchEngineScore);
-    }
-
-    /**
-     * A "|" delimited list of search engine score(s) for the given PSM.
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
      *
-     * @param searchEngineScoreLabel parsed by {@link MZTabUtils#parseParamList(String)}
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
      */
-    public void setSearchEngineScore(String searchEngineScoreLabel) {
-        this.setSearchEngineScore(parseParamList(searchEngineScoreLabel));
+    public void setSearchEngineScore(Integer id, Double searchEngineScore) {
+        setValue(getLogicalPosition(PSMColumn.SEARCH_ENGINE_SCORE, id, null), searchEngineScore);
+    }
+
+    /**
+     * The search engine score for the given protein in the defined ms run. The type of score
+     * MUST be defined in the metadata section. If the protein was not identified by the specified
+     * search engine “null” must be reported
+     *
+     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     */
+    public void setSearchEngineScore(Integer id, String paramsLabel) {
+        setSearchEngineScore(id, parseDouble(paramsLabel));
     }
 
     /**
@@ -285,7 +269,7 @@ public class PSM extends MZTabRecord {
      * </ol>
      */
     public Reliability getReliability() {
-        return getReliability(PSMColumn.RELIABILITY.getOrder());
+        return getReliability(PSMColumn.RELIABILITY.getLogicPosition());
     }
 
     /**
@@ -297,7 +281,7 @@ public class PSM extends MZTabRecord {
      * </ol>
      */
     public void setReliability(Reliability reliability) {
-        setValue(PSMColumn.RELIABILITY.getOrder(), reliability);
+        setValue(PSMColumn.RELIABILITY.getLogicPosition(), reliability);
     }
 
     /**
@@ -320,7 +304,7 @@ public class PSM extends MZTabRecord {
      * those induced by quantification reagents) MUST BE reported in the PSM section.
      */
     public SplitList<Modification> getModifications() {
-        return getSplitList(PSMColumn.MODIFICATIONS.getOrder());
+        return getSplitList(PSMColumn.MODIFICATIONS.getLogicPosition());
     }
 
     /**
@@ -352,7 +336,7 @@ public class PSM extends MZTabRecord {
      * those induced by quantification reagents) MUST BE reported in the PSM section.
      */
     public void setModifications(SplitList<Modification> modifications) {
-        setValue(PSMColumn.MODIFICATIONS.getOrder(), modifications);
+        setValue(PSMColumn.MODIFICATIONS.getLogicPosition(), modifications);
     }
 
     /**
@@ -374,7 +358,7 @@ public class PSM extends MZTabRecord {
      * in the Metadata Section ('columnit_psm').
      */
     public SplitList<Double> getRetentionTime() {
-        return getSplitList(PSMColumn.RETENTION_TIME.getOrder());
+        return getSplitList(PSMColumn.RETENTION_TIME.getLogicPosition());
     }
 
     /**
@@ -413,7 +397,7 @@ public class PSM extends MZTabRecord {
      * in the Metadata Section ('columnit_psm').
      */
     public void setRetentionTime(SplitList<Double> retentionTime) {
-        setValue(PSMColumn.RETENTION_TIME.getOrder(), retentionTime);
+        setValue(PSMColumn.RETENTION_TIME.getLogicPosition(), retentionTime);
     }
 
     /**
@@ -431,14 +415,14 @@ public class PSM extends MZTabRecord {
      * The charge assigned by the search engine/software.
      */
     public Integer getCharge() {
-        return getInteger(PSMColumn.CHARGE.getOrder());
+        return getInteger(PSMColumn.CHARGE.getLogicPosition());
     }
 
     /**
      * The charge assigned by the search engine/software.
      */
     public void setCharge(Integer charge) {
-        setValue(PSMColumn.CHARGE.getOrder(), charge);
+        setValue(PSMColumn.CHARGE.getLogicPosition(), charge);
     }
 
     /**
@@ -454,14 +438,14 @@ public class PSM extends MZTabRecord {
      * The PSM's experimental mass to charge (m/z).
      */
     public Double getExpMassToCharge() {
-        return getDouble(PSMColumn.EXP_MASS_TO_CHARGE.getOrder());
+        return getDouble(PSMColumn.EXP_MASS_TO_CHARGE.getLogicPosition());
     }
 
     /**
      * The PSM's experimental mass to charge (m/z).
      */
     public void setExpMassToCharge(Double expMassToCharge) {
-        setValue(PSMColumn.EXP_MASS_TO_CHARGE.getOrder(), expMassToCharge);
+        setValue(PSMColumn.EXP_MASS_TO_CHARGE.getLogicPosition(), expMassToCharge);
     }
 
     /**
@@ -477,14 +461,14 @@ public class PSM extends MZTabRecord {
      * The PSM's calculated (theoretical) mass to charge (m/z).
      */
     public Double getCalcMassToCharge() {
-        return getDouble(PSMColumn.CALC_MASS_TO_CHARGE.getOrder());
+        return getDouble(PSMColumn.CALC_MASS_TO_CHARGE.getLogicPosition());
     }
 
     /**
      * The PSM's calculated (theoretical) mass to charge (m/z).
      */
     public void setCalcMassToCharge(Double calcMassToCharge) {
-        setValue(PSMColumn.CALC_MASS_TO_CHARGE.getOrder(), calcMassToCharge);
+        setValue(PSMColumn.CALC_MASS_TO_CHARGE.getLogicPosition(), calcMassToCharge);
     }
 
     /**
@@ -500,14 +484,14 @@ public class PSM extends MZTabRecord {
      * A URI pointing to the PSM's entry in the experiment it was identified in (e.g., the peptide's PRIDE entry).
      */
     public URI getURI() {
-        return getURI(PSMColumn.URI.getOrder());
+        return getURI(PSMColumn.URI.getLogicPosition());
     }
 
     /**
      * A URI pointing to the PSM's entry in the experiment it was identified in (e.g., the peptide's PRIDE entry).
      */
     public void setURI(URI uri) {
-        setValue(PSMColumn.URI.getOrder(), uri);
+        setValue(PSMColumn.URI.getLogicPosition(), uri);
     }
 
     /**
@@ -526,7 +510,7 @@ public class PSM extends MZTabRecord {
      * Multiple spectra MUST be referenced using a "|" delimited list.
      */
     public SplitList<SpectraRef> getSpectraRef() {
-        return getSplitList(PSMColumn.SPECTRA_REF.getOrder());
+        return getSplitList(PSMColumn.SPECTRA_REF.getLogicPosition());
     }
 
     /**
@@ -558,7 +542,7 @@ public class PSM extends MZTabRecord {
      * Multiple spectra MUST be referenced using a "|" delimited list.
      */
     public void setSpectraRef(SplitList<SpectraRef> spectraRef) {
-        setValue(PSMColumn.SPECTRA_REF.getOrder(), spectraRef);
+        setValue(PSMColumn.SPECTRA_REF.getLogicPosition(), spectraRef);
     }
 
     /**
@@ -578,7 +562,7 @@ public class PSM extends MZTabRecord {
      * if the peptide is N-terminal "-" MUST be used.
      */
     public String getPre() {
-        return getString(PSMColumn.PRE.getOrder());
+        return getString(PSMColumn.PRE.getLogicPosition());
     }
 
     /**
@@ -586,7 +570,7 @@ public class PSM extends MZTabRecord {
      * if the peptide is N-terminal "-" MUST be used.
      */
     public void setPre(String pre) {
-        setValue(PSMColumn.PRE.getOrder(), parseString(pre));
+        setValue(PSMColumn.PRE.getLogicPosition(), parseString(pre));
     }
 
     /**
@@ -594,7 +578,7 @@ public class PSM extends MZTabRecord {
      * if the peptide is C-terminal "-" MUST be used.
      */
     public String getPost() {
-        return getString(PSMColumn.POST.getOrder());
+        return getString(PSMColumn.POST.getLogicPosition());
     }
 
     /**
@@ -602,35 +586,35 @@ public class PSM extends MZTabRecord {
      * if the peptide is C-terminal "-" MUST be used.
      */
     public void setPost(String post) {
-        setValue(PSMColumn.POST.getOrder(), parseString(post));
+        setValue(PSMColumn.POST.getLogicPosition(), parseString(post));
     }
 
     /**
      * The start position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
      */
     public String getStart() {
-        return getString(PSMColumn.START.getOrder());
+        return getString(PSMColumn.START.getLogicPosition());
     }
 
     /**
      * The start position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
      */
     public void setStart(String start) {
-        setValue(PSMColumn.START.getOrder(), parseString(start));
+        setValue(PSMColumn.START.getLogicPosition(), parseString(start));
     }
 
     /**
      * The end position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
      */
     public String getEnd() {
-        return getString(PSMColumn.END.getOrder());
+        return getString(PSMColumn.END.getLogicPosition());
     }
 
     /**
      * The end position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
      */
     public void setEnd(String end) {
-        setValue(PSMColumn.END.getOrder(), parseString(end));
+        setValue(PSMColumn.END.getLogicPosition(), parseString(end));
     }
 
     /**

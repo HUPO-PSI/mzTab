@@ -1,8 +1,9 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
+
 import java.net.MalformedURLException;
 import java.net.URL;
-import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
 
 /**
  * Create a SILAC experiment mzTab file, with quantification on 2 study variables (control/treatment),
@@ -14,7 +15,6 @@ import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
  * Date: 13/12/13
  */
 public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
-
     private Metadata mtd;
 
     private MZTabColumnFactory prh;   // Protein Header Column Factory
@@ -29,7 +29,7 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
      * Generate metadata section by manual.
      */
     @Override
-    protected Metadata convertMetadata() {
+    protected Metadata convertMetadata(){
         this.mtd = new Metadata();
 
         // setting mzTab- description.
@@ -39,14 +39,14 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
 
         // create ms_run[1-6]-location
         try {
-            mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file1.mzML"));
-            mtd.addMsRunLocation(2, new URL("file://C:\\path\\to\\my\\file2.mzML"));
-            mtd.addMsRunLocation(3, new URL("file://C:\\path\\to\\my\\file3.mzML"));
-            mtd.addMsRunLocation(4, new URL("file://C:\\path\\to\\my\\file4.mzML"));
-            mtd.addMsRunLocation(5, new URL("file://C:\\path\\to\\my\\file5.mzML"));
-            mtd.addMsRunLocation(6, new URL("file://C:\\path\\to\\my\\file6.mzML"));
+            mtd.addMsRunLocation(1, new URL("file://path/to/my/file1.mzML"));
+            mtd.addMsRunLocation(2, new URL("file://path/to/my/file2.mzML"));
+            mtd.addMsRunLocation(3, new URL("file://path/to/my/file3.mzML"));
+            mtd.addMsRunLocation(4, new URL("file://path/to/my/file4.mzML"));
+            mtd.addMsRunLocation(5, new URL("file://path/to/my/file5.mzML"));
+            mtd.addMsRunLocation(6, new URL("file://path/to/my/file6.mzML"));
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         // set protein-quantification_unit
@@ -147,16 +147,16 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
         protein.setDatabase("UniProtKB");
         protein.setDatabaseVersion("2013_08");
         protein.setSearchEngine("[MS,MS:1001207,Mascot,]");
-        protein.setBestSearchEngineScore("[MS,MS:1001171,Mascot:score,46]");
+//        protein.setBestSearchEngineScore("[MS,MS:1001171,Mascot:score,46]");
 
         // add parameter value for search_engine_score_ms_run[1-6]
         // NOTICE: ms_run[1-6] SHOULD be defined in the metadata, otherwise throw exception.
-        protein.setSearchEngineScore(mtd.getMsRunMap().get(1), "[MS,MS:1001171,Mascot:score,46]");
-        protein.setSearchEngineScore(mtd.getMsRunMap().get(2), "[MS,MS:1001171,Mascot:score,26]");
-        protein.setSearchEngineScore(mtd.getMsRunMap().get(3), "[MS,MS:1001171,Mascot:score,36]");
-        protein.setSearchEngineScore(mtd.getMsRunMap().get(4), "[MS,MS:1001171,Mascot:score,126]");
-        protein.setSearchEngineScore(mtd.getMsRunMap().get(5), "[MS,MS:1001171,Mascot:score,63]");
-        protein.setSearchEngineScore(mtd.getMsRunMap().get(6), "null");
+        protein.setSearchEngineScore(1, mtd.getMsRunMap().get(1), "46");
+        protein.setSearchEngineScore(1, mtd.getMsRunMap().get(2), "26");
+        protein.setSearchEngineScore(1, mtd.getMsRunMap().get(3), "36");
+        protein.setSearchEngineScore(1, mtd.getMsRunMap().get(4), "126");
+        protein.setSearchEngineScore(1, mtd.getMsRunMap().get(5), "63");
+        protein.setSearchEngineScore(1, mtd.getMsRunMap().get(6), "null");
 
         // add parameter value for num_psms_ms_run[1-6]
         protein.setNumPSMs(mtd.getMsRunMap().get(1), "1");
@@ -218,7 +218,7 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
         psm.setDatabase("UniProtKB");
         psm.setDatabaseVersion("2013_08");
         psm.setSearchEngine("[MS,MS:1001207,Mascot,]");
-        psm.setSearchEngineScore("[MS,MS:1001171,Mascot:score,46]");
+        psm.setSearchEngineScore(1, "46");
         psm.setModifications("17-UNIMOD:188");
         psm.setSpectraRef("ms_run[1]:scan=1296");
         psm.setRetentionTime("1336.62");

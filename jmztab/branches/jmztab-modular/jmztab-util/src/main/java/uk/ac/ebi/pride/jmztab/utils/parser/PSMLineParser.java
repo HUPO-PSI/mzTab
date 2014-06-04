@@ -43,7 +43,7 @@ public class PSMLineParser extends MZTabDataLineParser {
                     checkDatabaseVersion(column, target);
                 } else if (columnName.equals(PSMColumn.SEARCH_ENGINE.getName())) {
                     checkSearchEngine(column, target);
-                } else if (columnName.equals(PSMColumn.SEARCH_ENGINE_SCORE.getName())) {
+                } else if (columnName.startsWith(PSMColumn.SEARCH_ENGINE_SCORE.getName())) {
                     checkSearchEngineScore(column, target);
                 } else if (columnName.equals(PSMColumn.RELIABILITY.getName())) {
                     checkReliability(column, target);
@@ -111,8 +111,9 @@ public class PSMLineParser extends MZTabDataLineParser {
                 psm.setDatabaseVersion(target);
             } else if (columnName.equals(PSMColumn.SEARCH_ENGINE.getName())) {
                 psm.setSearchEngine(target);
-            } else if (columnName.equals(PSMColumn.SEARCH_ENGINE_SCORE.getName())) {
-                psm.setSearchEngineScore(target);
+            } else if (columnName.startsWith(PSMColumn.SEARCH_ENGINE_SCORE.getName())) {
+                int id = loadSearchEngineScoreId(column.getHeader());
+                psm.setSearchEngineScore(id, target);
             } else if (columnName.equals(PSMColumn.RELIABILITY.getName())) {
                 psm.setReliability(target);
             } else if (columnName.equals(PSMColumn.MODIFICATIONS.getName())) {

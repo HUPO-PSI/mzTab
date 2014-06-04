@@ -21,6 +21,7 @@ package uk.ac.ebi.pride.jmztab.model;
 public class MZTabColumn {
     private final String name;
     private final String order;
+    private Integer id;
     private String header;
     private String logicPosition;
     private Class dataType;
@@ -40,6 +41,41 @@ public class MZTabColumn {
      *              logical position in {@link MZTabColumnFactory}
      */
     public MZTabColumn(String name, Class dataType, boolean optional, String order) {
+        this(name, dataType, optional, order, null);
+    }
+
+    private String generateHeader(String name) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(name);
+        if (id != null) {
+            sb.append("[").append(id).append("]");
+        }
+
+        return sb.toString();
+    }
+
+    private String generateLogicalPosition() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(order);
+        if (id != null) {
+            // generate id string which length is 2. Eg. 12, return 12; 1, return 01
+            sb.append(String.format("%02d", id));
+        } else {
+            sb.append("00");
+        }
+
+        if (element != null) {
+            sb.append(String.format("%02d", element.getId()));
+        } else {
+            sb.append("00");
+        }
+
+        return sb.toString();
+    }
+
+    public MZTabColumn(String name, Class dataType, boolean optional, String order, Integer id) {
         if (MZTabUtils.isEmpty(name)) {
             throw new IllegalArgumentException("Column name should not empty.");
         }
@@ -49,11 +85,12 @@ public class MZTabColumn {
             throw new NullPointerException("Column data type should not set null!");
         }
         this.dataType = dataType;
-
         this.optional = optional;
         this.order = order;
-        this.header = name;
-        this.logicPosition = order;
+        this.id = id;
+
+        this.header = generateHeader(name);
+        this.logicPosition = generateLogicalPosition();
     }
 
     /**
@@ -174,7 +211,7 @@ public class MZTabColumn {
         }
         this.element = element;
 
-        this.logicPosition = logicPosition + element.getId();
+        this.logicPosition = generateLogicalPosition();
         StringBuilder sb = new StringBuilder();
         sb.append(this.header).append("_").append(element.getReference());
         this.header = sb.toString();
@@ -190,7 +227,7 @@ public class MZTabColumn {
      *
      * @see MZTabColumnFactory#addOptionalColumn(MZTabColumn, MsRun)
      */
-    static MZTabColumn createOptionalColumn(Section section, MZTabColumn column, IndexedElement element) {
+    static MZTabColumn createOptionalColumn(Section section, MZTabColumn column, Integer id, IndexedElement element) {
         if (! column.isOptional()) {
             throw new IllegalArgumentException(column + " is not optional column!");
         }
@@ -198,20 +235,20 @@ public class MZTabColumn {
         MZTabColumn optionColumn = null;
         switch (section) {
             case Protein_Header:
-                optionColumn = new ProteinColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
+                optionColumn = new ProteinColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder(), id);
                 break;
             case Peptide_Header:
-                optionColumn = new PeptideColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
+                optionColumn = new PeptideColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder(), id);
                 break;
             case PSM_Header:
-                optionColumn = new PSMColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
+                optionColumn = new PSMColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder(), id);
                 break;
             case Small_Molecule_Header:
-                optionColumn = new SmallMoleculeColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder());
+                optionColumn = new SmallMoleculeColumn(column.getName(), column.getDataType(), column.isOptional(), column.getOrder(), id);
                 break;
         }
 
-        if (optionColumn != null) {
+        if (optionColumn != null && element != null) {
             optionColumn.setElement(element);
         }
 

@@ -118,11 +118,11 @@ public class ConvertSmallMolecule {
         sm.setURI("http://www.ebi.ac.uk/pride/link/to/identification");
         sm.setSpectraRef("ms_run[2]:index=7|ms_run[2]:index=9");
         sm.setSearchEngine("[MS, MS:1001477, SpectraST,]");
-        sm.setBestSearchEngineScore("[MS, MS:1001419, SpectraST:discriminant score F, 0.7]");
+        sm.setBestSearchEngineScore(1, "0.7");
         sm.setModifications("CHEMMOD:+Na-H");
 
-        // set search_engine_score_ms_run[1]
-        sm.setSearchEngineScore(msRun1, "[MS,MS:1001171,Mascot score,50]|[MS,MS:1001155,Sequest:xcorr,2]");
+        // set search_engine_score[1]_ms_run[1]
+        sm.setSearchEngineScore(1, msRun1, "50");
 
         // set smallmolecule_abundance_assay[1]
         sm.setAbundanceColumnValue(assay1, "12.3");

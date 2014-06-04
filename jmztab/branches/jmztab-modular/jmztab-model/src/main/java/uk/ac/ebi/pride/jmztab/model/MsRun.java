@@ -17,6 +17,8 @@ public class MsRun extends IndexedElement {
     private Param idFormat;
     private URL location;
     private Param fragmentationMethod;
+    private String hash;
+    private Param hashMethod;
 
     public MsRun(int id) {
         super(MetadataElement.MS_RUN, id);
@@ -78,6 +80,22 @@ public class MsRun extends IndexedElement {
         this.fragmentationMethod = fragmentationMethod;
     }
 
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public Param getHashMethod() {
+        return hashMethod;
+    }
+
+    public void setHashMethod(Param hashMethod) {
+        this.hashMethod = hashMethod;
+    }
+
     /**
      * Print a MsRun to a String. The format like:
      * <ul>
@@ -102,6 +120,12 @@ public class MsRun extends IndexedElement {
         }
         if (fragmentationMethod != null) {
             sb.append(printProperty(MS_RUN_FRAGMENTATION_METHOD, fragmentationMethod)).append(NEW_LINE);
+        }
+        if (hash != null) {
+            sb.append(printProperty(MS_RUN_HASH, hash)).append(NEW_LINE);
+        }
+        if (hashMethod != null) {
+            sb.append(printProperty(MS_RUN_HASH_METHOD, hashMethod)).append(NEW_LINE);
         }
 
         return sb.toString();

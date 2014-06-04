@@ -36,8 +36,8 @@ public class PeptideValidateTest {
             "database\t" +
             "database_version\t" +
             "search_engine\t" +
-            "best_search_engine_score\t" +
-            "search_engine_score_ms_run[1]\t" +
+            "best_search_engine_score[1]\t" +
+            "search_engine_score[1]_ms_run[1]\t" +
             "reliability\t" +
             "modifications\t" +
             "retention_time\t" +
@@ -78,8 +78,8 @@ public class PeptideValidateTest {
             "UniProtKB\t" +
             "2011_11\t" +
             "[MS,MS:1001207,Mascot,]|[MS,MS:1001208,Sequest,]\t" +
-            "[MS,MS:1001155,Sequest:xcorr,2]\t" +
-            "[MS,MS:1001155,Sequest:xcorr,2]\t" +
+            "2\t" +
+            "2\t" +
             "3\t" +
             "8-MOD:00397\t" +                                    // position overflow
             "10.2\t" +

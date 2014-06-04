@@ -1,32 +1,19 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
+import org.junit.Test;
+import uk.ac.ebi.pride.jmztab.model.*;
+
 import java.net.URI;
 import java.util.SortedMap;
+
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import org.junit.Test;
-import uk.ac.ebi.pride.jmztab.model.Assay;
-import uk.ac.ebi.pride.jmztab.model.CVParam;
-import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
-import uk.ac.ebi.pride.jmztab.model.MZTabDescription;
-import uk.ac.ebi.pride.jmztab.model.Metadata;
-import uk.ac.ebi.pride.jmztab.model.MsRun;
-import uk.ac.ebi.pride.jmztab.model.PSMColumn;
-import uk.ac.ebi.pride.jmztab.model.PeptideColumn;
-import uk.ac.ebi.pride.jmztab.model.ProteinColumn;
-import uk.ac.ebi.pride.jmztab.model.PublicationItem;
-import uk.ac.ebi.pride.jmztab.model.Sample;
-import uk.ac.ebi.pride.jmztab.model.Section;
-import uk.ac.ebi.pride.jmztab.model.SmallMoleculeColumn;
-import uk.ac.ebi.pride.jmztab.model.StudyVariable;
-import uk.ac.ebi.pride.jmztab.model.UserParam;
 
 /**
  * User: qingwei
  * Date: 29/11/13
  */
 public class DynamicMetadataTest {
-
     public Metadata getMetadata() throws Exception {
         MZTabDescription tabDescription = new MZTabDescription(MZTabDescription.Mode.Summary, MZTabDescription.Type.Identification);
         tabDescription.setId("PRIDE_1234");
@@ -52,6 +39,10 @@ public class DynamicMetadataTest {
         mtd.addSoftwareParam(2, new CVParam("MS", "MS:1001561", "Scaffold", "1.0"));
         mtd.addSoftwareSetting(1, "Fragment tolerance = 0.1Da");
         mtd.addSoftwareSetting(1, "Parent tolerance = 0.5Da");
+
+        mtd.addSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+        mtd.addSearchEngineScoreParam(2, new CVParam("MS", "MS:1001330", "X!Tandem:expect", null));
+        mtd.addSearchEngineScoreParam(3, new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", null));
 
         mtd.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001364", "pep:global FDR", "0.01"));
         mtd.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001214", "pep:global FDR", "0.08"));

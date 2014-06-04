@@ -94,6 +94,13 @@ public class MTDLineParserTest {
         List<String> settingList = metadata.getSoftwareMap().get(2).getSettingList();
         assertTrue(settingList.size() == 2);
 
+        parser.parse(1, "MTD\tsearch_engine_score[1]\t[MS, MS:1001171, Mascot:score,]", errorList);
+        parser.parse(1, "MTD\tsearch_engine_score[2]\t[MS, MS:1001330, X!Tandem:expect,]", errorList);
+        parser.parse(1, "MTD\tsearch_engine_score[3]\t[MS, MS:1001331, X!Tandem:hyperscore,]", errorList);
+        assertTrue(metadata.getSearchEngineScoreMap().size() == 3);
+        param = metadata.getSearchEngineScoreMap().get(2).getParam();
+        assertTrue(param.toString().contains("expect"));
+
         parser.parse(1, "MTD\tfalse_discovery_rate\t[MS, MS:1234, pep-fdr, 0.5]|[MS, MS:1001364, pep:global FDR, 0.01]|[MS, MS:1001214, pep:global FDR, 0.08]", errorList);
         assertTrue(metadata.getFalseDiscoveryRate().size() == 3);
 
@@ -180,6 +187,11 @@ public class MTDLineParserTest {
         MsRun msRun2 = metadata.getMsRunMap().get(2);
         assertTrue(msRun2.getLocation().toString().equals("file://C:/path/to/my/file"));
         assertTrue(msRun2.getFragmentationMethod().getAccession().equals("MS:1000133"));
+
+        parser.parse(1, "MTD\tms_run[2]-hash\tde9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3", errorList);
+        parser.parse(1, "MTD\tms_run[2]-hash_method\t[MS, MS: MS:1000569, SHA-1, ]", errorList);
+        assertTrue(msRun2.getHash().equals("de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3"));
+        assertTrue(msRun2.getHashMethod().getName().equals("SHA-1"));
     }
 
     @Test

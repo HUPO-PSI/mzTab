@@ -5,11 +5,9 @@ import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
-import java.util.Collection;
 import java.util.SortedMap;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
-import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseParamList;
 
 /**
 * User: Qingwei
@@ -43,9 +41,9 @@ public class PEPLineParser extends MZTabDataLineParser {
                     checkDatabaseVersion(column, target);
                 } else if (columnName.equals(PeptideColumn.SEARCH_ENGINE.getName())) {
                     checkSearchEngine(column, target);
-                } else if (columnName.equals(PeptideColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                } else if (columnName.startsWith(PeptideColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
                     checkBestSearchEngineScore(column, target);
-                } else if (columnName.equals(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
+                } else if (columnName.startsWith(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
                     checkSearchEngineScore(column, target);
                 } else if (columnName.equals(PeptideColumn.RELIABILITY.getName())) {
                     checkReliability(column, target);
@@ -98,10 +96,13 @@ public class PEPLineParser extends MZTabDataLineParser {
                 peptide.setDatabaseVersion(target);
             } else if (columnName.equals(PeptideColumn.SEARCH_ENGINE.getName())) {
                 peptide.setSearchEngine(target);
-            } else if (columnName.equals(PeptideColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
-                peptide.setBestSearchEngineScore(target);
-            } else if (columnName.equals(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
-                peptide.setSearchEngineScore(logicalPosition, target);
+            } else if (columnName.startsWith(PeptideColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                int id = loadBestSearchEngineScoreId(column.getHeader());
+                peptide.setBestSearchEngineScore(id, target);
+            } else if (columnName.startsWith(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
+                int id = loadSearchEngineScoreId(column.getHeader());
+                MsRun msRun = (MsRun) column.getElement();
+                peptide.setSearchEngineScore(id, msRun, target);
             } else if (columnName.equals(PeptideColumn.RELIABILITY.getName())) {
                 peptide.setReliability(target);
             } else if (columnName.equals(PeptideColumn.MODIFICATIONS.getName())) {

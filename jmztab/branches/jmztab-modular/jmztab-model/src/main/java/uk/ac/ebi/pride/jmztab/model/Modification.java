@@ -32,6 +32,8 @@ public class Modification {
     private String accession;
     private CVParam neutralLoss;
 
+    private boolean ambiguity = true;
+
     /**
      * Create a modification in columns of the protein, peptide, small molecule and PSM sections.
      * The structure like: {Type:accession}
@@ -75,6 +77,26 @@ public class Modification {
      */
     public Section getSection() {
         return section;
+    }
+
+    /**
+     * Check the modification is ambiguity or not. If false, export ambiguity in the position of the modification,
+     * these modifications are three different modifications (even if the accession is the same) with a well defined
+     * position. For example, 1|9|11-MOD:01214 (ambiguity=true), while 1-MOD:01214,9-MOD:01214,11-MOD:01214
+     * (ambiguity=false). Default value is true.
+     */
+    public boolean isAmbiguity() {
+        return ambiguity;
+    }
+
+    /**
+     * Check the modification is ambiguity or not. If false, export ambiguity in the position of the modification,
+     * these modifications are three different modifications (even if the accession is the same) with a well defined
+     * position. For example, 1|9|11-MOD:01214 (ambiguity=true), while 1-MOD:01214,9-MOD:01214,11-MOD:01214
+     * (ambiguity=false). Default value is true.
+     */
+    public void setAmbiguity(boolean ambiguity) {
+        this.ambiguity = ambiguity;
     }
 
     /**
@@ -168,29 +190,51 @@ public class Modification {
         Param param;
         Iterator<Integer> it;
         int count = 0;
-        if (! positionMap.isEmpty()) {
-            it = positionMap.keySet().iterator();
-            while (it.hasNext()) {
-                id = it.next();
-                param = positionMap.get(id);
-                if (count++ == 0) {
-                    sb.append(id);
-                } else {
-                    sb.append(BAR).append(id);
-                }
-                if (param != null) {
-                    sb.append(param);
+        if (ambiguity) {
+            if (! positionMap.isEmpty()) {
+                it = positionMap.keySet().iterator();
+                while (it.hasNext()) {
+                    id = it.next();
+                    param = positionMap.get(id);
+                    if (count++ == 0) {
+                        sb.append(id);
+                    } else {
+                        sb.append(BAR).append(id);
+                    }
+                    if (param != null) {
+                        sb.append(param);
+                    }
                 }
             }
-        }
 
-        if (positionMap.size() > 0) {
-            sb.append(MINUS);
-        }
-        sb.append(type).append(COLON).append(accession);
+            if (positionMap.size() > 0) {
+                sb.append(MINUS);
+            }
+            sb.append(type).append(COLON).append(accession);
 
-        if (neutralLoss != null) {
-            sb.append(BAR).append(neutralLoss);
+            if (neutralLoss != null) {
+                sb.append(BAR).append(neutralLoss);
+            }
+        } else {
+            if (! positionMap.isEmpty()) {
+                it = positionMap.keySet().iterator();
+                while (it.hasNext()) {
+                    id = it.next();
+                    param = positionMap.get(id);
+                    if (count++ == 0) {
+                        sb.append(id);
+                    } else {
+                        sb.append(COMMA).append(id);
+                    }
+                    if (param != null) {
+                        sb.append(param);
+                    }
+                    sb.append(MINUS).append(type).append(COLON).append(accession);
+                    if (neutralLoss != null) {
+                        sb.append(BAR).append(neutralLoss);
+                    }
+                }
+            }
         }
 
         return sb.toString();

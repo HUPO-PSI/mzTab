@@ -49,7 +49,7 @@ public class MZTabColumnFactory {
     private MZTabColumnFactory() {}
 
     private static void addStableColumn(MZTabColumnFactory factory, MZTabColumn column) {
-        factory.stableColumnMapping.put(column.getOrder(), column);
+        factory.stableColumnMapping.put(column.getLogicPosition(), column);
     }
 
     /**
@@ -77,7 +77,6 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, ProteinColumn.DATABASE);
                 addStableColumn(factory, ProteinColumn.DATABASE_VERSION);
                 addStableColumn(factory, ProteinColumn.SEARCH_ENGINE);
-                addStableColumn(factory, ProteinColumn.BEST_SEARCH_ENGINE_SCORE);
                 addStableColumn(factory, ProteinColumn.AMBIGUITY_MEMBERS);
                 addStableColumn(factory, ProteinColumn.MODIFICATIONS);
                 addStableColumn(factory, ProteinColumn.PROTEIN_COVERAGE);
@@ -89,7 +88,6 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, PeptideColumn.DATABASE);
                 addStableColumn(factory, PeptideColumn.DATABASE_VERSION);
                 addStableColumn(factory, PeptideColumn.SEARCH_ENGINE);
-                addStableColumn(factory, PeptideColumn.BEST_SEARCH_ENGINE_SCORE);
                 addStableColumn(factory, PeptideColumn.MODIFICATIONS);
                 addStableColumn(factory, PeptideColumn.RETENTION_TIME);
                 addStableColumn(factory, PeptideColumn.RETENTION_TIME_WINDOW);
@@ -105,7 +103,6 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, PSMColumn.DATABASE);
                 addStableColumn(factory, PSMColumn.DATABASE_VERSION);
                 addStableColumn(factory, PSMColumn.SEARCH_ENGINE);
-                addStableColumn(factory, PSMColumn.SEARCH_ENGINE_SCORE);
                 addStableColumn(factory, PSMColumn.MODIFICATIONS);
                 addStableColumn(factory, PSMColumn.RETENTION_TIME);
                 addStableColumn(factory, PSMColumn.CHARGE);
@@ -133,7 +130,6 @@ public class MZTabColumnFactory {
                 addStableColumn(factory, SmallMoleculeColumn.DATABASE_VERSION);
                 addStableColumn(factory, SmallMoleculeColumn.SPECTRA_REF);
                 addStableColumn(factory, SmallMoleculeColumn.SEARCH_ENGINE);
-                addStableColumn(factory, SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE);
                 addStableColumn(factory, SmallMoleculeColumn.MODIFICATIONS);
                 break;
             default:
@@ -198,7 +194,7 @@ public class MZTabColumnFactory {
     /**
      * Add a optional column which has stable order and name, into {@link #optionalColumnMapping} and {@link #columnMapping}.
      *
-     * @see MZTabColumn#createOptionalColumn(Section, MZTabColumn, IndexedElement)
+     * @see MZTabColumn#createOptionalColumn(Section, MZTabColumn, Integer, IndexedElement)
      *
      * @exception IllegalArgumentException: If user would like to add duplicate optional columns.
      * @param column SHOULD NOT set null.
@@ -211,23 +207,107 @@ public class MZTabColumnFactory {
         }
 
         MZTabColumn newColumn = null;
+//        switch (section) {
+//            case Protein_Header:
+//                if (column.getName().equals(ProteinColumn.NUM_PSMS.getName()) ||
+//                        column.getName().equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName()) ||
+//                        column.getName().equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getName())) {
+//                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
+//                }
+//
+//                if (position.equals(ProteinColumn.SEARCH_ENGINE_SCORE.getOrder()) ||
+//                    position.equals(ProteinColumn.NUM_PSMS.getOrder()) ||
+//                    position.equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getOrder()) ||
+//                    position.equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getOrder())) {
+//                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
+//                }
+//                break;
+//            case Peptide_Header:
+//                if (position.equals(PeptideColumn.SEARCH_ENGINE_SCORE.getOrder())) {
+//                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
+//                }
+//                break;
+//            case Small_Molecule_Header:
+//                if (position.equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getOrder())) {
+//                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
+//                }
+//                break;
+//        }
+
+        if (section == Section.Protein_Header) {
+            if (column.getName().equals(ProteinColumn.NUM_PSMS.getName()) ||
+                column.getName().equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName()) ||
+                column.getName().equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getName())) {
+                newColumn = MZTabColumn.createOptionalColumn(section, column, null, msRun);
+            }
+        }
+
+        if (newColumn != null) {
+            optionalColumnMapping.put(newColumn.getLogicPosition(), newColumn);
+            columnMapping.put(newColumn.getLogicPosition(), newColumn);
+        }
+    }
+
+    public void addBestSearchEngineScoreOptionalColumn(MZTabColumn column, Integer id) {
+        String position = column.getLogicPosition();
+        if (optionalColumnMapping.containsKey(position)) {
+            throw new IllegalArgumentException("There exists column " + optionalColumnMapping.get(position) + " in position " + position);
+        }
+
+        MZTabColumn newColumn = null;
+
         switch (section) {
             case Protein_Header:
-                if (position.equals(ProteinColumn.SEARCH_ENGINE_SCORE.getOrder()) ||
-                    position.equals(ProteinColumn.NUM_PSMS.getOrder()) ||
-                    position.equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getOrder()) ||
-                    position.equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getOrder())) {
-                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
+                if (column.getName().equals(ProteinColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, id, null);
                 }
                 break;
             case Peptide_Header:
-                if (position.equals(PeptideColumn.SEARCH_ENGINE_SCORE.getOrder())) {
-                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
+                if (column.getName().equals(PeptideColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, id, null);
                 }
                 break;
             case Small_Molecule_Header:
-                if (position.equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getOrder())) {
-                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
+                if (column.getName().equals(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE.getName())) {
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, id, null);
+                }
+                break;
+            //TODO add a warning for PSMs, combination not possible
+        }
+
+        if (newColumn != null) {
+            optionalColumnMapping.put(newColumn.getLogicPosition(), newColumn);
+            columnMapping.put(newColumn.getLogicPosition(), newColumn);
+        }
+    }
+
+    public void addSearchEngineScoreOptionalColumn(MZTabColumn column, Integer id, MsRun msRun) {
+        String position = column.getLogicPosition();
+        if (optionalColumnMapping.containsKey(position)) {
+            throw new IllegalArgumentException("There exists column " + optionalColumnMapping.get(position) + " in position " + position);
+        }
+
+        MZTabColumn newColumn = null;
+
+        switch (section) {
+            case Protein_Header:
+                if (column.getName().equals(ProteinColumn.SEARCH_ENGINE_SCORE.getName())) {
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, id, msRun);
+                }
+                break;
+            case Peptide_Header:
+                if (column.getName().equals(PeptideColumn.SEARCH_ENGINE_SCORE.getName())) {
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, id, msRun);
+                }
+                break;
+            case Small_Molecule_Header:
+                if (column.getName().equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getName())) {
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, id, msRun);
+                }
+                break;
+            case PSM_Header:
+                if (column.getName().equals(PSMColumn.SEARCH_ENGINE_SCORE.getName())) {
+                    newColumn = MZTabColumn.createOptionalColumn(section, column, id, null);
                 }
                 break;
         }
@@ -237,6 +317,7 @@ public class MZTabColumnFactory {
             columnMapping.put(newColumn.getLogicPosition(), newColumn);
         }
     }
+
 
     /**
      * Extract the order from logical position. Normally, the order is coming from top two characters of logical position.

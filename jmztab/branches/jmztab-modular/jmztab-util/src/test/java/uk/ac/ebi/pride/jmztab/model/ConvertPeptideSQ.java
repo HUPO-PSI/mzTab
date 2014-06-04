@@ -10,7 +10,6 @@ import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
  * Date: 16/12/13
  */
 public class ConvertPeptideSQ extends ConvertProvider<Void, Void> {
-
     private Metadata mtd;
     private MZTabColumnFactory peh;
 
@@ -88,7 +87,7 @@ public class ConvertPeptideSQ extends ConvertProvider<Void, Void> {
         peptide.setDatabase("UniProtKB");
         peptide.setDatabaseVersion("2013_08");
         peptide.setSearchEngine("[MS,MS:1001207,Mascot,]");
-        peptide.setBestSearchEngineScore("[MS,MS:1001171,Mascot:score,46]");
+        peptide.setBestSearchEngineScore(1, "46");
         peptide.setRetentionTime("5498.3");
         peptide.setCharge("2");
         peptide.setMassToCharge("649.8875");

@@ -1,4 +1,4 @@
-MTD	mzTab-version	1.0 rc5
+MTD	mzTab-version	1.0
 MTD	mzTab-mode	Summary
 MTD	mzTab-type	Identification
 MTD	mzTab-ID	PRIDE_1234
@@ -18,6 +18,9 @@ MTD	software[1]	[MS, MS:1001207, Mascot, 2.3]
 MTD	software[1]-setting[1]	Fragment tolerance = 0.1Da
 MTD	software[1]-setting[2]	Parent tolerance = 0.5Da
 MTD	software[2]	[MS, MS:1001561, Scaffold, 1.0]
+MTD	search_engine_score[1]	[MS, MS:1001171, Mascot:score, ]
+MTD	search_engine_score[2]	[MS, MS:1001330, X!Tandem:expect, ]
+MTD	search_engine_score[3]	[MS, MS:1001331, X!Tandem:hyperscore, ]
 MTD	false_discovery_rate	[MS, MS:1001364, pep:global FDR, 0.01]|[MS, MS:1001214, pep:global FDR, 0.08]
 MTD	publication[1]	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
 MTD	publication[2]	pubmed:20615486|doi:10.1016/j.jprot.2010.06.008
@@ -46,12 +49,13 @@ MTD	protein-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	peptide-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	ms_run[1]-format	[MS, MS:1000584, mzML file, ]
-MTD	ms_run[1]-location	file://C:/path/to/my/file
 MTD	ms_run[1]-id_format	[MS, MS:1001530, mzML unique identifier, ]
 MTD	ms_run[1]-fragmentation_method	[MS, MS:1000133, CID, ]
+MTD	ms_run[1]-location	ftp://ftp.ebi.ac.uk/path/to/file
 MTD	ms_run[2]-format	[MS, MS:1001062, Mascot MGF file, ]
 MTD	ms_run[2]-location	ftp://ftp.ebi.ac.uk/path/to/file
-MTD	ms_run[2]-fragmentation_method	[MS, MS:1000422, HCD, ]
+MTD	ms_run[2]-hash	de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
+MTD	ms_run[2]-hash_method	[MS, MS:1000569, SHA-1, ]
 MTD	sample[1]-species[1]	[NEWT, 9606, Homo sapiens (Human), ]
 MTD	sample[1]-species[2]	[NEWT, 573824, Human rhinovirus 1, ]
 MTD	sample[1]-tissue[1]	[BTO, BTO:0000759, liver, ]

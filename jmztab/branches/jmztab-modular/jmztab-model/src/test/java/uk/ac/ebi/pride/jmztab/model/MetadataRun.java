@@ -34,6 +34,10 @@ public class MetadataRun {
         mtd.addSoftwareSetting(1, "Fragment tolerance = 0.1Da");
         mtd.addSoftwareSetting(1, "Parent tolerance = 0.5Da");
 
+        mtd.addSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+        mtd.addSearchEngineScoreParam(2, new CVParam("MS", "MS:1001330", "X!Tandem:expect", null));
+        mtd.addSearchEngineScoreParam(3, new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", null));
+
         mtd.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001364", "pep:global FDR", "0.01"));
         mtd.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001214", "pep:global FDR", "0.08"));
 
@@ -73,11 +77,13 @@ public class MetadataRun {
 
         mtd.addMsRunFormat(1, new CVParam("MS", "MS:1000584", "mzML file", null));
         mtd.addMsRunFormat(2, new CVParam("MS", "MS:1001062", "Mascot MGF file", null));
-        mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file"));
+//        mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file"));
         mtd.addMsRunLocation(2, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
         mtd.addMsRunIdFormat(1, new CVParam("MS", "MS:1001530", "mzML unique identifier", null));
         mtd.addMsRunFragmentationMethod(1, new CVParam("MS", "MS:1000133", "CID", null));
-        mtd.addMsRunFragmentationMethod(2, new CVParam("MS", "MS:1000422", "HCD", null));
+        mtd.addMsRunHash(2, "de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3");
+        mtd.addMsRunHashMethod(2, new CVParam("MS", "MS:1000569", "SHA-1", null));
+//        mtd.addMsRunFragmentationMethod(2, new CVParam("MS", "MS:1000422", "HCD", null));
 
         mtd.addCustom(new UserParam("MS operator", "Florian"));
 
