@@ -1,50 +1,27 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import uk.ac.ebi.pride.iongen.model.impl.DefaultPeptideIon;
-import uk.ac.ebi.pride.jaxb.model.CvParam;
-import uk.ac.ebi.pride.jaxb.model.Identification;
-import uk.ac.ebi.pride.jaxb.model.ModificationItem;
-import uk.ac.ebi.pride.jaxb.model.PeptideItem;
-import uk.ac.ebi.pride.jaxb.model.Precursor;
-import uk.ac.ebi.pride.jaxb.model.Reference;
-import uk.ac.ebi.pride.jaxb.model.SampleDescription;
+import uk.ac.ebi.pride.jaxb.model.*;
 import uk.ac.ebi.pride.jaxb.xml.PrideXmlReader;
-import uk.ac.ebi.pride.jmztab.model.Assay;
-import uk.ac.ebi.pride.jmztab.model.CVParam;
-import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
-import uk.ac.ebi.pride.jmztab.model.MZTabDescription;
-import uk.ac.ebi.pride.jmztab.model.MZTabRecord;
-import uk.ac.ebi.pride.jmztab.model.MZTabUtils;
-import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
-import uk.ac.ebi.pride.jmztab.model.Metadata;
-import uk.ac.ebi.pride.jmztab.model.Modification;
-import uk.ac.ebi.pride.jmztab.model.PSM;
-import uk.ac.ebi.pride.jmztab.model.PSMColumn;
+import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.model.Param;
-import uk.ac.ebi.pride.jmztab.model.Protein;
-import uk.ac.ebi.pride.jmztab.model.ProteinColumn;
-import uk.ac.ebi.pride.jmztab.model.PublicationItem;
-import uk.ac.ebi.pride.jmztab.model.Sample;
-import uk.ac.ebi.pride.jmztab.model.Section;
-import uk.ac.ebi.pride.jmztab.model.SpectraRef;
 import uk.ac.ebi.pride.jmztab.model.UserParam;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabConversionException;
 import uk.ac.ebi.pride.mol.PTModification;
 import uk.ac.ebi.pride.tools.converter.dao.DAOCvParams;
 import uk.ac.ebi.pride.tools.converter.dao.handler.QuantitationCvParams;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
+
 /**
  * Convert PRIDE XML v2.1 file to mzTab.
  * <p/>
@@ -93,6 +70,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         // process the instrument information
         loadInstrument(reader.getInstrument());
 
+        // process search engines. The information is in every identification, we assume that is going to be the same per
+        // protein and psm (constant number of scores in all the proteins and constant number of score per psm)
+        // They can not be added while processing proteins and psm identification because the initialization of the protein/psms
+        // need to know in advance all the columns for the factory, they can not grow dynamically inside (the values are
+        // not properly shifted)
+        loadSearchEngineScores(reader.getIdentIds());
+
         // set Ms Run
         loadMsRun();
 
@@ -108,8 +92,110 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             metadata.setMZTabMode(MZTabDescription.Mode.Summary);
         }
 
-        metadata.setDescription("date of export: " + new Date());
+        //Pending of convert
+        //Fragmentation methods
+        //Sample processing (protocol steps)
+        //MODS
+        loadURI(reader.getExpAccession());
+
+        //QUANT METADATA and units
+        //CV Info
+        //Study vars
+
+        //The description should be added in loadExperiment()
+        if (metadata.getDescription()==null || metadata.getDescription().isEmpty()){
+            metadata.setDescription("date of export: " + new Date());
+        }
+
         return metadata;
+    }
+
+    private void loadSearchEngineScores(List<String> identIds) {
+
+        //Future optimization, avoid loop all the identifications, only the n-first
+        //TODO Sorting the search engines if we need
+
+        Identification identification;
+        Double score;
+        String searchEngineName;
+
+        SearchEngineScoreParam searchEngineScoreParam;
+        SearchEngineScoreParam psm_searchEngineScoreParam;
+
+        List<PeptideItem> peptideItems;
+        CVParam psm_scoreParam;
+        Integer id;
+        Integer psm_id;
+
+        // Iterate over each identification
+        for (String identId : identIds) {
+            identification = reader.getIdentById(identId);
+
+            // ignore any decoy hits for search engines values
+            //TODO
+            if (isDecoyHit(identification)) {
+                continue;
+            }
+
+            score = identification.getScore();
+            searchEngineName = identification.getSearchEngine();
+
+            //protein scores
+            if (score != null) {
+                searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByName(searchEngineName);
+                id = -1;
+
+                if (searchEngineScoreParam != null) {
+                    //CVParam for the metadata section
+                    CVParam scoreParam = searchEngineScoreParam.toCVParam(null);
+
+                    for (Map.Entry<Integer, SearchEngineScore> entry : metadata.getSearchEngineScoreMap().entrySet()) {
+                        if (entry.getValue().getParam().equals(scoreParam)) {
+                            id = entry.getKey();
+                            break;
+                        }
+                    }
+
+                    //Add the search engine score in the metadata section and extend the column factories with the new columns.
+                    if (id <= 0) {
+                        id = metadata.getSearchEngineScoreMap().size() + 1;
+                        metadata.addSearchEngineScoreParam(id, scoreParam);
+                    }
+
+                    // We look in the psm to be sure that we have all the possible search engines scores before we write
+                    // proteins and psms.
+                    peptideItems = identification.getPeptideItem();
+
+                    for (PeptideItem peptideItem : peptideItems) {
+                        for (CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
+                            psm_searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
+                            psm_id = -1;
+
+                            if (psm_searchEngineScoreParam != null) {
+                                psm_scoreParam = psm_searchEngineScoreParam.toCVParam(null);
+
+                                for (Map.Entry<Integer, SearchEngineScore> entry : metadata.getSearchEngineScoreMap().entrySet()) {
+                                    if (entry.getValue().getParam().equals(psm_scoreParam)) {
+                                        psm_id = entry.getKey();
+                                        break;
+                                    }
+                                }
+
+                                //Add the search engine score in the metadata section and extend the column factories with the new columns.
+                                if (psm_id <= 0) {
+                                    psm_id = metadata.getSearchEngineScoreMap().size() + 1;
+                                    metadata.addSearchEngineScoreParam(psm_id, psm_scoreParam);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(metadata.getSearchEngineScoreMap().isEmpty()){
+            metadata.addSearchEngineScoreParam(1, SearchEngineScoreParam.SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+        }
     }
 
     private String getFileNameWithoutExtension(String fileName) {
@@ -511,7 +597,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         // ms_run[1] optional columns
-        proteinColumnFactory.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, metadata.getMsRunMap().get(1));
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PSMS, metadata.getMsRunMap().get(1));
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, metadata.getMsRunMap().get(1));
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, metadata.getMsRunMap().get(1));
@@ -520,6 +605,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             for (Assay assay : metadata.getAssayMap().values()) {
                 proteinColumnFactory.addAbundanceOptionalColumn(assay);
             }
+        }
+
+        //TODO check identification and summary
+        for(Integer id : metadata.getSearchEngineScoreMap().keySet()){
+            //To be compliance with the specification you need the columns in the psms too
+            proteinColumnFactory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id);
+            proteinColumnFactory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, id, metadata.getMsRunMap().get(1));
         }
 
         return proteinColumnFactory;
@@ -531,6 +623,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     @Override
     protected MZTabColumnFactory convertPSMColumnFactory() {
         this.psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
+
+        //Search engine score information (mandatory for all)
+        for(Integer id : metadata.getSearchEngineScoreMap().keySet()){
+            psmColumnFactory.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, id, null);
+        }
+
         return this.psmColumnFactory;
     }
 
@@ -547,11 +645,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             Identification identification = reader.getIdentById(id);
 
             // ignore any decoy hits
+            //TODO
             if (isDecoyHit(identification)) {
                 continue;
             }
 
             Protein protein = loadProtein(identification);
+            //create a check for duplicated proteins ids (hash instead of array list)
             proteins.add(protein);
 
             // convert psm
@@ -566,24 +666,85 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     }
 
     private void loadSearchEngineScore(Protein protein, Identification identification) {
+
+        //Search Engine score value to store
+        //PRIDEXML only contain one score in this level, this implies only one search engine and search score
+        SearchEngineScoreParam searchEngineScoreParam;
+        SearchEngineScoreParam psm_searchEngineScoreParam;
         Double score = identification.getScore();
+        String searchEngineName = identification.getSearchEngine();
+        List<PeptideItem> peptideItems = identification.getPeptideItem();
+        CVParam psm_scoreParam;
+        Integer id;
+        Integer psm_id;
 
         if (score != null) {
-            String searchEngineName = identification.getSearchEngine();
-            CVParam scoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByName(searchEngineName, score.toString());
-            if (scoreParam != null) {
-                protein.addSearchEngineScoreParam(metadata.getMsRunMap().get(1), scoreParam);
+            //CVParam for the metadata section
+            searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByName(searchEngineName);
+            id = -1;
+
+            if (searchEngineScoreParam != null) {
+                CVParam scoreParam = searchEngineScoreParam.toCVParam(null);
+
+                //Add the search engine score in the metadata section if it has been stored.
+                for (Map.Entry<Integer, SearchEngineScore> entry : metadata.getSearchEngineScoreMap().entrySet()) {
+                    if (entry.getValue().getParam().equals(scoreParam)) {
+                        id = entry.getKey();
+                        break;
+                    }
+                }
+
+                if (id <= 0) { //if the search engine score is not in the metadata we have a problem
+                    //TODO report problem
+                    return;
+                }
+
+                //We assume the search engine scores has been detected previously
+                protein.setSearchEngineScore(id, metadata.getMsRunMap().get(1), score);
+                protein.setBestSearchEngineScore(id, score);
+                protein.addSearchEngineParam(searchEngineScoreParam.getSearchEngineParam().toCVParam());
+            }
+
+        } else { //It tries to find the search engine at least
+            CVParam searchEngineParam = SearchEngineParam.findParamByName(searchEngineName).toCVParam();
+
+            if (searchEngineParam != null) {
+                protein.addSearchEngineParam(searchEngineParam);
             }
         }
     }
 
     private void loadSearchEngineScore(PSM psm, PeptideItem peptideItem) {
-        SearchEngineScoreParam scoreParam;
+
+        SearchEngineScoreParam searchEngineScoreParam;
+        CVParam scoreParam;
+        String  score;
+        Integer id;
+
         for (CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
-            scoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
-            if (scoreParam != null) {
-                psm.addSearchEngineScoreParam(scoreParam.toCVParam(cvParam.getValue()));
-                psm.addSearchEngineParam(scoreParam.getSearchEngineParam().toCVParam());
+            searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
+            id = -1;
+
+            if (searchEngineScoreParam != null) {
+                scoreParam = searchEngineScoreParam.toCVParam(null);
+                score = cvParam.getValue();
+
+                //Add the search engine score in the metadata section if it has been stored.
+                for (Map.Entry<Integer, SearchEngineScore> entry : metadata.getSearchEngineScoreMap().entrySet()) {
+                    if (entry.getValue().getParam().equals(scoreParam)) {
+                        id = entry.getKey();
+                        break;
+                    }
+                }
+
+                if (id <= 0) { //if the search engine score is not in the metadata we have a problem
+                    //TODO report problem
+                    return;
+                }
+
+                psm.setSearchEngineScore(id, score);
+                psm.addSearchEngineParam(searchEngineScoreParam.getSearchEngineParam().toCVParam());
+
             }
         }
     }
@@ -600,10 +761,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         protein.setDatabaseVersion(identification.getDatabaseVersion());
 
         if (identification.getSearchEngine() != null) {
-            uk.ac.ebi.pride.jmztab.model.Param searchEngineParam = SearchEngineParam.findParamByName(identification.getSearchEngine()).toCVParam();
-            if (searchEngineParam != null) {
-                protein.addSearchEngineParam(searchEngineParam);
-            }
             loadSearchEngineScore(protein, identification);
         }
 
@@ -653,6 +810,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         // set the modifications
+        // check ambiguous modifications
+        //Update the metadata with modifications
         for (Modification modification : getProteinModifications(items)) {
             protein.addModification(modification);
         }
@@ -668,7 +827,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 if (param != null && metadata.getProteinQuantificationUnit() == null) {
                     metadata.setProteinQuantificationUnit(param);
                 }
-            } // Quantification values
+            }
+            // Quantification values
             else if (QuantitationCvParams.INTENSITY_SUBSAMPLE1.getAccession().equalsIgnoreCase(p.getAccession())) {
                 protein.setAbundanceColumnValue(metadata.getAssayMap().get(1), p.getValue());
             } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {

@@ -55,6 +55,10 @@ public class ConvertPrideXMLFileRun {
 //        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_11797.xml"), new File("temp/PRIDE_Exp_Complete_Ac_11797.mztab"));
 //        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_8696.xml"), new File("temp/PRIDE_Exp_Complete_Ac_8696.mztab"));
 //        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_20601.xml"), new File("temp/PRIDE_Exp_Complete_Ac_20601.mztab"));
-        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_16912.xml"), new File("temp/PRIDE_Exp_Complete_Ac_16912.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_16912.xml"), new File("temp/PRIDE_Exp_Complete_Ac_16912.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_27061.xml"), new File("temp/PRIDE_Exp_Complete_Ac_27061.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_27555.xml"), new File("temp/PRIDE_Exp_Complete_Ac_27555.mztab"));
+//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_30351.xml"), new File("temp/PRIDE_Exp_Complete_Ac_30351.mztab"));
+        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_28622.xml"), new File("temp/PRIDE_Exp_Complete_Ac_28622.mztab"));
     }
 }

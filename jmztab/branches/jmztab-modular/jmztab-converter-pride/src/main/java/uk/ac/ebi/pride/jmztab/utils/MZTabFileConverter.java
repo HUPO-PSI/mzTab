@@ -27,6 +27,11 @@ public class MZTabFileConverter {
     private ConvertProvider convertProvider;
 
     public MZTabFileConverter(File inFile, MassSpecFileFormat format) {
+        this(inFile, format, true);
+    }
+
+
+    public MZTabFileConverter(File inFile, MassSpecFileFormat format, boolean validate) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
@@ -39,7 +44,10 @@ public class MZTabFileConverter {
                 throw new IllegalArgumentException("Can not convert " + format + " to mztab.");
         }
 
-        check(convertProvider.getMZTabFile());
+        if(validate)
+            check(convertProvider.getMZTabFile());
+        else
+            convertProvider.getMZTabFile();
     }
 
     /**
@@ -138,16 +146,32 @@ public class MZTabFileConverter {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
+
+        //Mandatory in all modes
+        for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+            String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+            refineOptionalColumn(mode, type, proteinFactory, "best_search_engine_score" + searchEngineScoreLabel);
+        }
+
         if (mode == MZTabDescription.Mode.Complete) {
+
+            //Mandatory for all complete (Quantification and Identification)
+            for (MsRun msRun : metadata.getMsRunMap().values()) {
+                String msRunLabel = "_ms_run[" + msRun.getId() + "]";
+                for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                    String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+                    refineOptionalColumn(mode, type, proteinFactory, "search_engine_score" + searchEngineScoreLabel + msRunLabel);
+                }
+            }
+
             if (type == MZTabDescription.Type.Identification) {
                 for (MsRun msRun : metadata.getMsRunMap().values()) {
                     String msRunLabel = "_ms_run[" + msRun.getId() + "]";
-                    refineOptionalColumn(mode, type, proteinFactory, "search_engine_score" + msRunLabel);
                     refineOptionalColumn(mode, type, proteinFactory, "num_psms" + msRunLabel);
                     refineOptionalColumn(mode, type, proteinFactory, "num_peptides_distinct" + msRunLabel);
                     refineOptionalColumn(mode, type, proteinFactory, "num_peptides_unique" + msRunLabel);
                 }
-            } else {
+            } else { // Quantification and Complete
                 for (Assay assay : metadata.getAssayMap().values()) {
                     String assayLabel = "_assay[" + assay.getId() + "]";
                     refineOptionalColumn(mode, type, proteinFactory, "protein_abundance" + assayLabel);
@@ -155,7 +179,7 @@ public class MZTabFileConverter {
             }
         }
 
-        if (type == MZTabDescription.Type.Quantification) {
+        if (type == MZTabDescription.Type.Quantification) { //Summary and Complete
             if (metadata.getProteinQuantificationUnit() == null) {
                 errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "protein-quantification_unit", mode.toString(), type.toString()));
             }
@@ -176,32 +200,33 @@ public class MZTabFileConverter {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
-        if (mode == MZTabDescription.Mode.Complete) {
-            if (type == MZTabDescription.Type.Identification) {
-                for (MsRun msRun : metadata.getMsRunMap().values()) {
-                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
-                    refineOptionalColumn(mode, type, peptideFactory, "search_engine_score" + msRunLabel);
-                    refineOptionalColumn(mode, type, peptideFactory, "num_psms" + msRunLabel);
-                    refineOptionalColumn(mode, type, peptideFactory, "num_peptides_distinct" + msRunLabel);
-                    refineOptionalColumn(mode, type, peptideFactory, "num_peptides_unique" + msRunLabel);
-                }
-            } else {
-                for (Assay assay : metadata.getAssayMap().values()) {
-                    String assayLabel = "_assay[" + assay.getId() + "]";
-                    refineOptionalColumn(mode, type, peptideFactory, "protein_abundance" + assayLabel);
-                }
-            }
-        }
-
         if (type == MZTabDescription.Type.Quantification) {
-            if (metadata.getProteinQuantificationUnit() == null) {
-                errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "protein-quantification_unit", mode.toString(), type.toString()));
+            if (metadata.getPeptideQuantificationUnit() == null) {
+                errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "peptide-quantification_unit", mode.toString(), type.toString()));
             }
+            for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+                refineOptionalColumn(mode, type, peptideFactory, "best_search_engine_score" + searchEngineScoreLabel);
+            }
+
             for (StudyVariable studyVariable : metadata.getStudyVariableMap().values()) {
                 String svLabel = "_study_variable[" + studyVariable.getId() + "]";
-                refineOptionalColumn(mode, type, peptideFactory, "protein_abundance" + svLabel);
-                refineOptionalColumn(mode, type, peptideFactory, "protein_abundance_stdev" + svLabel);
-                refineOptionalColumn(mode, type, peptideFactory, "protein_abundance_std_error" + svLabel);
+                refineOptionalColumn(mode, type, peptideFactory, "peptide_abundance" + svLabel);
+                refineOptionalColumn(mode, type, peptideFactory, "peptide_abundance_stdev" + svLabel);
+                refineOptionalColumn(mode, type, peptideFactory, "peptide_abundance_std_error" + svLabel);
+            }
+            if (mode == MZTabDescription.Mode.Complete) {
+                for (MsRun msRun : metadata.getMsRunMap().values()) {
+                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
+                    for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                        String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+                        refineOptionalColumn(mode, type, peptideFactory, "search_engine_score" + searchEngineScoreLabel + msRunLabel);
+                    }
+                }
+                for (Assay assay : metadata.getAssayMap().values()) {
+                    String assayLabel = "_assay[" + assay.getId() + "]";
+                    refineOptionalColumn(mode, type, peptideFactory, "peptide_abundance" + assayLabel);
+                }
             }
         }
     }
@@ -210,6 +235,17 @@ public class MZTabFileConverter {
         if (psmFactory == null) {
             return;
         }
+
+        MZTabDescription.Mode mode = metadata.getMZTabMode();
+        MZTabDescription.Type type = metadata.getMZTabType();
+
+        //Mandatory in all modes
+        for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+            String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+            refineOptionalColumn(mode, type, psmFactory, "search_engine_score" + searchEngineScoreLabel);
+        }
+
+
     }
 
     private void checkSmallMolecule(Metadata metadata, MZTabColumnFactory smlFactory) {
@@ -229,6 +265,20 @@ public class MZTabFileConverter {
                 refineOptionalColumn(mode, type, smlFactory, "smallmolecule_abundance" + svLabel);
                 refineOptionalColumn(mode, type, smlFactory, "smallmolecule_abundance_stdev" + svLabel);
                 refineOptionalColumn(mode, type, smlFactory, "smallmolecule_abundance_std_error" + svLabel);
+            }
+            for (Assay assay : metadata.getAssayMap().values()) {
+                String assayLabel = "_assay[" + assay.getId() + "]";
+                refineOptionalColumn(mode, type, smlFactory, "smallmolecule_abundance" + assayLabel);
+            }
+
+            if (mode == MZTabDescription.Mode.Complete) {
+                for (MsRun msRun : metadata.getMsRunMap().values()) {
+                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
+                    for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                        String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+                        refineOptionalColumn(mode, type, smlFactory, "search_engine_score" + searchEngineScoreLabel + msRunLabel);
+                    }
+                }
             }
         }
     }
