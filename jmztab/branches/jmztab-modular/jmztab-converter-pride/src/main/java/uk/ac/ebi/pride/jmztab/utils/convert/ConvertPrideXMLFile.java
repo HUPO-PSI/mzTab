@@ -94,7 +94,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             metadata.setMZTabMode(MZTabDescription.Mode.Summary);
         }
 
-        //Pending of convert
         //Fragmentation methods
         //Sample processing (protocol steps)
         //MODS
@@ -187,9 +186,14 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             psms.addAll(psmList);
         }
 
-        Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
-        getMZTabFile().addComment(1, comment);
-
+        if(metadata.getFixedModMap().isEmpty()){
+            Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
+            getMZTabFile().addComment(1, comment);
+            metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
+        }
+        if(metadata.getVariableModMap().isEmpty()){
+            metadata.addFixedModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
+        }
     }
 
 
