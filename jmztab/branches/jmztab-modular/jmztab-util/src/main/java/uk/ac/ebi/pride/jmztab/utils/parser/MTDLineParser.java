@@ -686,7 +686,6 @@ public class MTDLineParser extends MZTabLineParser {
                     }
                 }
             }
-
         }
 
         // Complete and Summary should provide following information.
@@ -698,6 +697,19 @@ public class MTDLineParser extends MZTabLineParser {
             if (runMap.get(id).getLocation() == null) {
                 throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "ms_run[" + id + "]-location", mode.toString(), type.toString()));
             }
+        }
+        //search_engine_score
+        if (metadata.getSearchEngineScoreMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "search_engine_score[1-n]", mode.toString(), type.toString()));
+        }
+        //mods
+        //fixed
+        if (metadata.getFixedModMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "fixed_mod[1-n]", mode.toString(), type.toString()));
+        }
+        //variable
+        if (metadata.getVariableModMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "variable_mod[1-n]", mode.toString(), type.toString()));
         }
 
         if (type == MZTabDescription.Type.Quantification) {

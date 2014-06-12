@@ -21,7 +21,8 @@ public class MZTabFileParserRun {
 
         File inDir = new File("temp");
         for (File tabFile : inDir.listFiles()) {
-            run.check(tabFile);
+            if(tabFile.isFile() && !tabFile.isHidden())
+                run.check(tabFile);
         }
     }
 }

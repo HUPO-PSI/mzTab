@@ -21,7 +21,7 @@ public class PRHLineParser extends MZTabHeaderLineParser {
         super.parse(lineNumber, line, errorList);
     }
 
-    //TODO Review
+    //TODO review doc
 
     /**
      * Principle 1: in "Quantification" file, following optional columns are mandatory provide:
@@ -49,16 +49,31 @@ public class PRHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
+        //Mandatory in all modes
+        for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+            String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+            refineOptionalColumn(mode, type, "best_search_engine_score" + searchEngineScoreLabel);
+        }
+
         if (mode == MZTabDescription.Mode.Complete) {
+
+            //Mandatory for all complete (Quantification and Identification)
+            for (MsRun msRun : metadata.getMsRunMap().values()) {
+                String msRunLabel = "_ms_run[" + msRun.getId() + "]";
+                for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                    String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+                    refineOptionalColumn(mode, type, "search_engine_score" + searchEngineScoreLabel + msRunLabel);
+                }
+            }
+
             if (type == MZTabDescription.Type.Identification) {
                 for (MsRun msRun : metadata.getMsRunMap().values()) {
                     String msRunLabel = "_ms_run[" + msRun.getId() + "]";
-                    refineOptionalColumn(mode, type, "search_engine_score" + msRunLabel);
                     refineOptionalColumn(mode, type, "num_psms" + msRunLabel);
                     refineOptionalColumn(mode, type, "num_peptides_distinct" + msRunLabel);
                     refineOptionalColumn(mode, type, "num_peptides_unique" + msRunLabel);
                 }
-            } else {
+            } else { // Quantification and Complete
                 for (Assay assay : metadata.getAssayMap().values()) {
                     String assayLabel = "_assay[" + assay.getId() + "]";
                     refineOptionalColumn(mode, type, "protein_abundance" + assayLabel);
@@ -66,7 +81,7 @@ public class PRHLineParser extends MZTabHeaderLineParser {
             }
         }
 
-        if (type == MZTabDescription.Type.Quantification) {
+        if (type == MZTabDescription.Type.Quantification) { //Summary and Complete
             if (metadata.getProteinQuantificationUnit() == null) {
                 throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "protein-quantification_unit", mode.toString(), type.toString()));
             }

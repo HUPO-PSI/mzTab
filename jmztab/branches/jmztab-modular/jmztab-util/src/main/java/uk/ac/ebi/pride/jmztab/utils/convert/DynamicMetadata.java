@@ -18,6 +18,8 @@ public class DynamicMetadata implements PropertyChangeListener {
     public final static String CHANGE_ASSAY_INDEX = "change_assay_index";
     public final static String CHANGE_MS_RUN_INDEX = "change_ms_run_index";
 
+    //TODO extend for search engine score
+
     private Metadata metadata;
     private PropertyChangeSupport changeSupport;
 

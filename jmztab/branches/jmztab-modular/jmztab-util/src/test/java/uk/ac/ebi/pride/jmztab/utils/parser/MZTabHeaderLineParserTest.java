@@ -6,8 +6,11 @@ import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.Set;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
@@ -24,7 +27,14 @@ public class MZTabHeaderLineParserTest {
     @Before
     public void setUp() throws Exception {
         MTDLineParserTest test = new MTDLineParserTest();
-        metadata = test.parseMetadata("testset/mtdFile.txt");
+        String fileName = "testset/mtdFile.txt";
+
+        URL uri = MZTabHeaderLineParserTest.class.getClassLoader().getResource(fileName);
+        if(uri!=null) {
+            metadata = test.parseMetadata(uri.getFile());
+        } else {
+            throw new FileNotFoundException(fileName);
+        }
         errorList = new MZTabErrorList();
     }
 
@@ -34,36 +44,32 @@ public class MZTabHeaderLineParserTest {
         PRHLineParser parser = new PRHLineParser(metadata);
 
         // check stable columns with stable order.
-        String headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
-            "search_engine\tambiguity_members\tmodifications\tprotein_coverage";
-        parser.parse(1, headerLine, errorList);
-        assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
-        assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getStableColumnMapping().size());
-
         // check best_search_engine_score[1] and best_search_engine_score[2]
-        headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
-                "search_engine\tbest_search_engine_score[1]\tbest_search_engine_score[2]\tambiguity_members\tmodifications\t" +
+        String headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
+                "search_engine\tbest_search_engine_score[1]\tbest_search_engine_score[2]\tbest_search_engine_score[3]\tambiguity_members\tmodifications\t" +
                 "protein_coverage";
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 2);
+        assertEquals(3, parser.getFactory().getOptionalColumnMapping().size());
+        assertTrue(headerLine.split("\t").length - parser.getFactory().getOptionalColumnMapping().size() - 1 == parser.getFactory().getStableColumnMapping().size());
 
 
         // check reliability, go_terms and uri, optional columns have stable order.
         headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
-            "search_engine\tbest_search_engine_score[1]\tbest_search_engine_score[2]\treliability\tambiguity_members\tmodifications\t" +
+            "search_engine\tbest_search_engine_score[1]\tbest_search_engine_score[2]\tbest_search_engine_score[3]\treliability\tambiguity_members\tmodifications\t" +
             "uri\tgo_terms\tprotein_coverage";
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 5);
+        assertEquals(6, parser.getFactory().getOptionalColumnMapping().size());
 
         // check flexible optional columns with stable order.
         headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\tsearch_engine\t" +
-            "best_search_engine_score[1]\tbest_search_engine_score[2]\tsearch_engine_score[1]_ms_run[1]\tsearch_engine_score[2]_ms_run[1]\t" +
+            "best_search_engine_score[1]\tbest_search_engine_score[2]\tbest_search_engine_score[3]\t" +
+            "search_engine_score[1]_ms_run[1]\tsearch_engine_score[2]_ms_run[1]\tsearch_engine_score[3]_ms_run[1]\t" +
             "reliability\tnum_psms_ms_run[1]\tnum_psms_ms_run[2]\tnum_peptides_distinct_ms_run[1]\tnum_peptides_distinct_ms_run[2]\t" +
             "num_peptides_unique_ms_run[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
         parser.parse(1, headerLine, errorList);
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == 12);
+        assertEquals(14, parser.getFactory().getOptionalColumnMapping().size());
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
 
         // check Abundance Columns
@@ -137,21 +143,21 @@ public class MZTabHeaderLineParserTest {
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
         count = 2;
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == count);
+        assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
 
         // check reliability and uri optional columns
         headerLine += "\treliability\turi";
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
         count += 2;
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == count);
+        assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
 
         // test search_engine_score[1]_ms_run[1]	search_engine_score[2]_ms_run[1]
         headerLine += "\tsearch_engine_score[1]_ms_run[1]\tsearch_engine_score[2]_ms_run[1]";
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
         count += 2;
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == count);
+        assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
         column = parser.getFactory().findColumnByHeader("search_engine_score[1]_ms_run[1]");
         assertNotNull(column);
 
@@ -215,26 +221,25 @@ public class MZTabHeaderLineParserTest {
         MZTabColumn column;
         int count;
 
-        // check stable columns
+        // check columns
         String headerLine = "PSH\tsequence\tPSM_ID\taccession\tunique\tdatabase\tdatabase_version\t" +
-            "search_engine\tmodifications\tretention_time\tcharge\t" +
+            "search_engine\t" +
+            "search_engine_score[1]\tsearch_engine_score[2]\tsearch_engine_score[3]\t" +
+            "modifications\tretention_time\tcharge\t" +
             "exp_mass_to_charge\tcalc_mass_to_charge\tspectra_ref\tpre\tpost\tstart\tend";
-        parser.parse(1, headerLine, errorList);
-        assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
-        assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getStableColumnMapping().size());
 
-        headerLine += "\tsearch_engine_score[1]\tsearch_engine_score[2]";
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
-        count = 2;
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == count);
+        count = 3;
+        assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
+        assertTrue(headerLine.split("\t").length - 1 - parser.getFactory().getOptionalColumnMapping().size() == parser.getFactory().getStableColumnMapping().size());
 
         // check optional columns with stable order.
         headerLine += "\treliability\turi";
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
         count += 2;
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == count);
+        assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
 
         // check Optional Column which start with opt_
         headerLine += "\topt_ms_run[1]_my_value";
@@ -274,24 +279,20 @@ public class MZTabHeaderLineParserTest {
         // check stable columns
         String headerLine = "SMH\tidentifier\tchemical_formula\tsmiles\tinchi_key\tdescription\t" +
             "exp_mass_to_charge\tcalc_mass_to_charge\tcharge\tretention_time\ttaxid\tspecies\tdatabase\t" +
-            "database_version\tspectra_ref\tsearch_engine\tmodifications";
+            "database_version\tspectra_ref\tsearch_engine\tbest_search_engine_score[1]\tbest_search_engine_score[2]\tbest_search_engine_score[3]\tmodifications";
 
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
-        assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getStableColumnMapping().size());
-
-        headerLine += "\tbest_search_engine_score[1]\tbest_search_engine_score[2]";
-        parser.parse(1, headerLine, errorList);
-        assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
-        count = 2;
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == count);
+        count = 3;
+        assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
+        assertTrue(headerLine.split("\t").length - 1 - count == parser.getFactory().getStableColumnMapping().size());
 
         // check optional columns with stable order.
         headerLine += "\treliability\turi";
         parser.parse(1, headerLine, errorList);
         assertTrue(headerLine.split("\t").length - 1 == parser.getFactory().getColumnMapping().size());
         count += 2;
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == count);
+        assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
 
         // check flexible optional columns with stable order.
         headerLine += "\tsearch_engine_score[1]_ms_run[1]\tsearch_engine_score[1]_ms_run[2]";
@@ -299,7 +300,7 @@ public class MZTabHeaderLineParserTest {
         column = parser.getFactory().findColumnByHeader("search_engine_score[1]_ms_run[2]");
         assertNotNull(column);
         count += 2;
-        assertTrue(parser.getFactory().getOptionalColumnMapping().size() == count);
+        assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
 
         // check Abundance Columns
         headerLine += "\tsmallmolecule_abundance_assay[1]";
@@ -336,7 +337,9 @@ public class MZTabHeaderLineParserTest {
 
         // check stable columns with stable order.
         String headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\tsearch_engine\t" +
-            "best_search_engine_score\tsearch_engine_score_ms_run[1]\treliability\tnum_psms_ms_run[1]\t" +
+            "best_search_engine_score[1]\tbest_search_engine_score[2]\tbest_search_engine_score[3]\t" +
+            "search_engine_score[1]_ms_run[1]\tsearch_engine_score[2]_ms_run[1]\tsearch_engine_score[3]_ms_run[1]\t" +
+            "reliability\tnum_psms_ms_run[1]\t" +
             "num_psms_ms_run[2]\tnum_peptides_distinct_ms_run[1]\tnum_peptides_distinct_ms_run[2]\t" +
             "num_peptides_unique_ms_run[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
         factory = parser.getFactory();
@@ -346,7 +349,9 @@ public class MZTabHeaderLineParserTest {
 
         // change physical position of taxid
         headerLine = "PRH\taccession\tdescription\tspecies\tdatabase\tdatabase_version\tsearch_engine\ttaxid\t" +
-            "best_search_engine_score\tsearch_engine_score_ms_run[1]\treliability\tnum_psms_ms_run[1]\t" +
+            "best_search_engine_score[1]\tbest_search_engine_score[2]\tbest_search_engine_score[3]\t" +
+            "search_engine_score[1]_ms_run[1]\tsearch_engine_score[2]_ms_run[1]\tsearch_engine_score[3]_ms_run[1]\t" +
+            "reliability\tnum_psms_ms_run[1]\t" +
             "num_psms_ms_run[2]\tnum_peptides_distinct_ms_run[1]\tnum_peptides_distinct_ms_run[2]\t" +
             "num_peptides_unique_ms_run[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
         factory = parser.getFactory();

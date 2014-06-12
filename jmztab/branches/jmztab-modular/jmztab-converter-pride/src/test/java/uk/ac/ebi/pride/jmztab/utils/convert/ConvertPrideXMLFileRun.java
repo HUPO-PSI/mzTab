@@ -6,10 +6,8 @@ import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URL;
 
 /**
  * User: qingwei
@@ -41,24 +39,20 @@ public class ConvertPrideXMLFileRun {
 
     public static void main(String[] args) throws Exception {
         ConvertPrideXMLFileRun run = new ConvertPrideXMLFileRun();
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_16649.xml"), new File("temp/PRIDE_Exp_Complete_Ac_16649.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_17910.xml"), new File("temp/PRIDE_Exp_Complete_Ac_17910.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_1643.xml"), new File("temp/PRIDE_Exp_Complete_Ac_1643.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_2030.xml"), new File("temp/PRIDE_Exp_Complete_Ac_2030.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_31257.xml"), new File("temp/PRIDE_Exp_Complete_Ac_31257.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_108.xml"), new File("temp/PRIDE_Exp_Complete_Ac_108.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_1650.xml"), new File("temp/PRIDE_Exp_Complete_Ac_1650.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_1889.xml"), new File("temp/PRIDE_Exp_Complete_Ac_1889.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_2375.xml"), new File("temp/PRIDE_Exp_Complete_Ac_2375.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_3217.xml"), new File("temp/PRIDE_Exp_Complete_Ac_3217.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_3483.xml"), new File("temp/PRIDE_Exp_Complete_Ac_3483.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_11797.xml"), new File("temp/PRIDE_Exp_Complete_Ac_11797.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_8696.xml"), new File("temp/PRIDE_Exp_Complete_Ac_8696.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_20601.xml"), new File("temp/PRIDE_Exp_Complete_Ac_20601.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_16912.xml"), new File("temp/PRIDE_Exp_Complete_Ac_16912.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_27061.xml"), new File("temp/PRIDE_Exp_Complete_Ac_27061.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_27555.xml"), new File("temp/PRIDE_Exp_Complete_Ac_27555.mztab"));
-//        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_30351.xml"), new File("temp/PRIDE_Exp_Complete_Ac_30351.mztab"));
-        run.convert(new File("testset/PRIDE_Exp_Complete_Ac_28622.xml"), new File("temp/PRIDE_Exp_Complete_Ac_28622.mztab"));
+
+        String dirName = "testset";
+
+        URL input = ConvertPrideXMLFileRun.class.getClassLoader().getResource(dirName);
+
+        if(input != null) {
+            File inputDir = new File(input.getFile());
+
+            for (File tabFile : inputDir.listFiles()) {
+                if(tabFile.isFile() && !tabFile.isHidden())
+                    run.convert(tabFile, new File("temp", tabFile.getName().replace(".xml", ".mztab")));
+            }
+        } else {
+            throw new FileNotFoundException(dirName);
+        }
     }
 }

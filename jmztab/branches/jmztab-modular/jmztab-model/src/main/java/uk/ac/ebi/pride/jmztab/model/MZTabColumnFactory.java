@@ -272,7 +272,9 @@ public class MZTabColumnFactory {
                     newColumn = MZTabColumn.createOptionalColumn(section, column, id, null);
                 }
                 break;
-            //TODO add a warning for PSMs, combination not possible
+            //
+            //
+            // TODO add a warning for PSMs, combination not possible
         }
 
         if (newColumn != null) {

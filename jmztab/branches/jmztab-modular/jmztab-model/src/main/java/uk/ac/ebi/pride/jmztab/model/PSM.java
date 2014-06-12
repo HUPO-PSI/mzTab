@@ -592,29 +592,43 @@ public class PSM extends MZTabRecord {
     /**
      * The start position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
      */
-    public String getStart() {
-        return getString(PSMColumn.START.getLogicPosition());
+    public Integer getStart() {
+        return getInteger(PSMColumn.START.getLogicPosition());
+    }
+
+    /**
+     * The start position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
+     */
+    public void setStart(Integer start) {
+        setValue(PSMColumn.START.getLogicPosition(), start);
     }
 
     /**
      * The start position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
      */
     public void setStart(String start) {
-        setValue(PSMColumn.START.getLogicPosition(), parseString(start));
+        setValue(PSMColumn.START.getLogicPosition(), parseInteger(start));
     }
 
     /**
      * The end position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
      */
-    public String getEnd() {
-        return getString(PSMColumn.END.getLogicPosition());
+    public Integer getEnd() {
+        return getInteger(PSMColumn.END.getLogicPosition());
+    }
+
+    /**
+     * The end position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
+     */
+    public void setEnd(Integer end) {
+        setValue(PSMColumn.END.getLogicPosition(), end);
     }
 
     /**
      * The end position of the peptide (coming from the PSM) within the protein, counting 1 as the N-terminus of the protein.
      */
     public void setEnd(String end) {
-        setValue(PSMColumn.END.getLogicPosition(), parseString(end));
+        setValue(PSMColumn.END.getLogicPosition(), parseInteger(end));
     }
 
     /**

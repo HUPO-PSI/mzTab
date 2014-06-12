@@ -8,7 +8,6 @@ import uk.ac.ebi.pride.jmztab.model.CVParam;
  */
 public enum SearchEngineScoreParam {
 
-    //TODO: Map synonyms and sort
     // coming from children terms of MS:1001153 (search engine specific score)
     SEARCH_ENGINE_SPECIFIC_SCORE(SearchEngineParam.ANALYSIS_SOFTWARE, "MS", "MS:1001153", "search engine specific score", null),
 

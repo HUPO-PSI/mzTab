@@ -67,6 +67,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         loadContacts(reader.getAdmin().getContact());
         // process the experiment params
         loadExperimentParams(reader.getAdditionalParams());
+        //process the sample processing information
+        loadSampleProcessing(reader.getProtocol());
         // process the instrument information
         loadInstrument(reader.getInstrument());
 
@@ -81,7 +83,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         loadMsRun();
 
         // process samples
-        loadSamples(reader.getAdmin().getSampleDescription());
+        loadSamples(reader.getAdmin().getSampleDescription(),reader.getAdmin().getSampleName());
 
         // set mzTab- description
         if (isIdentification()) {
@@ -171,7 +173,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             Identification identification = reader.getIdentById(id);
 
             // ignore any decoy hits
-            //TODO
+            //TODO decoy
             if (isDecoyHit(identification)) {
                 continue;
             }
@@ -184,6 +186,10 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             List<PSM> psmList = loadPSMs(identification);
             psms.addAll(psmList);
         }
+
+        Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
+        getMZTabFile().addComment(1, comment);
+
     }
 
 
@@ -191,7 +197,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     private void loadSearchEngineScores(List<String> identIds) {
 
         //Future optimization, avoid loop all the identifications, only the n-first
-        //TODO Sorting the search engines if we need
+        //TODO sorting the search engines if we need
 
         Identification identification;
         Double score;
@@ -210,7 +216,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             identification = reader.getIdentById(identId);
 
             // ignore any decoy hits for search engines values
-            //TODO
+            //TODO decoy
             if (isDecoyHit(identification)) {
                 continue;
             }
@@ -390,6 +396,24 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
     }
 
+    /**
+     * Processes the sample processing information contained in protocol
+     */
+    private void loadSampleProcessing(Protocol protocol) {
+        if(protocol == null){
+            return;
+        }
+
+        int i=1;
+        if(protocol.getProtocolSteps() != null){
+            for (uk.ac.ebi.pride.jaxb.model.Param param : protocol.getProtocolSteps().getStepDescription()) {
+                metadata.addSampleProcessingParam(i++, convertParam(getFirstCvParam(param)));
+            }
+            //If the protocol was reported as a UserParam, it can not be converted for now
+
+        }
+    }
+
     private void loadInstrument(uk.ac.ebi.pride.jaxb.model.Instrument instrument) {
         if (instrument == null) {
             return;
@@ -414,11 +438,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         // handle the analyzer information
         if (instrument.getAnalyzerList().getCount() > 0) {
-            uk.ac.ebi.pride.jaxb.model.Param analyzerParam = instrument.getAnalyzerList().getAnalyzer().iterator().next();
-            param = getFirstCvParam(analyzerParam);
-            if (param != null) {
-                metadata.addInstrumentAnalyzer(1, convertParam(param));
+            for (uk.ac.ebi.pride.jaxb.model.Param analyzerParam : instrument.getAnalyzerList().getAnalyzer()) {
+                param = getFirstCvParam(analyzerParam);  //The PRIDE XML file should have only one cvParam here
+                if (param != null) {
+                    metadata.addInstrumentAnalyzer(1, convertParam(param));
+                }
             }
+            //If the analyzer was reported as a UserParam, it can not be converted for now
         }
 
     }
@@ -450,7 +476,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     /**
      * Adds the sample parameters (species, tissue, cell type, disease) to the unit and the various subsamples.
      */
-    private void loadSamples(SampleDescription sampleDescription) {
+    private void loadSamples(SampleDescription sampleDescription, String sampleName) {
         if (sampleDescription == null) {
             return;
         }
@@ -536,6 +562,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                         metadata.addSampleCustom(1, convertParam(p));
                     }
                 }
+            }
+            if(sampleName!= null && !sampleName.isEmpty()) {
+                metadata.addSampleDescription(1, sampleName);
             }
         }
 
@@ -642,6 +671,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
         protein.setNumPSMs(metadata.getMsRunMap().get(1), allPeptideList.size());
         protein.setNumPeptidesDistinct(metadata.getMsRunMap().get(1), distinctPeptideList.size());
+
+        //TODO num_peptides_unique_ms_run
+//        protein.setNumPeptidesUnique();
 
         // add the indistinguishable accessions to the ambiguity members
         List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
@@ -789,7 +821,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
                     // only biological significant modifications are propagated to the protein
                     if (ModParam.isBiological(ptm.getModAccession())) {
-                        // if we can calculate the position we add it to the modification
+                        // if we can calculate the position, we add it to the modification
                         if (item.getStart() != null && ptm.getModLocation() != null) {
                             Integer position = item.getStart().intValue() + ptm.getModLocation().intValue();
                             mod.addPosition(position, null);
@@ -874,7 +906,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 for (CvParam p : peptideItem.getAdditional().getCvParam()) {
                     if (DAOCvParams.CHARGE_STATE.getAccession().equalsIgnoreCase(p.getAccession())) {
                         psm.setCharge(p.getValue());
-                        break;
+                    }
+                    if(DAOCvParams.UPSTREAM_FLANKING_SEQUENCE.getAccession().equalsIgnoreCase(p.getAccession())){
+                        psm.setPre(p.getValue());
+                    }
+                    if(DAOCvParams.DOWNSTREAM_FLANKING_SEQUENCE.getAccession().equalsIgnoreCase(p.getAccession())){
+                        psm.setPost(p.getValue());
                     }
                 }
             }
@@ -973,7 +1010,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 psm.addModification(mod);
 
                 // an additional param should exist with the cv name.
-                // if not, we can not convert the modification to the header becasue we don't store all the mod cv termn
+                // if not, we can not convert the modification to the header because we don't store all the mod cv terms
                 // in this moment
                 CvParam additional = ptm.getAdditional().getCvParamByAcc(ptm.getModAccession());
                 if (additional != null) {
@@ -982,28 +1019,20 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     // propagate the modification to the metadata section
                     boolean found = false;
 
-                    if (ModParam.isFixed(ptm.getModAccession())){
-                        for (FixedMod fixedMod : metadata.getFixedModMap().values()) {
-                            if(fixedMod.getParam().getAccession().equals(ptm.getModAccession())){
-                                found = true;
-                                break;
-                            }
+                    //For PRIDEXML converter all the modifications are considered variables because
+                    // we don't have the information form the original experiment
+                    for (VariableMod variableMod : metadata.getVariableModMap().values()) {
+                        if (variableMod.getParam().getAccession().equals(ptm.getModAccession())) {
+                            found = true;
+                            break;
                         }
-                        if(!found)
-                            metadata.addFixedModParam(metadata.getFixedModMap().size() + 1, metadataParam);
-                    } else {
-                        for (VariableMod variableMod : metadata.getVariableModMap().values()) {
-                            if(variableMod.getParam().getAccession().equals(ptm.getModAccession())){
-                                found = true;
-                                break;
-                            }
-                        }
-                        if(!found)
-                            metadata.addVariableModParam(metadata.getVariableModMap().size() + 1, metadataParam);
                     }
+                    if (!found)
+                        metadata.addVariableModParam(metadata.getVariableModMap().size() + 1, metadataParam);
+
                 }
                 else {
-                    //TODO: report a warning and/or enrich with database information
+                    //TODO report a warning and/or enrich with database information
                 }
             }
         }

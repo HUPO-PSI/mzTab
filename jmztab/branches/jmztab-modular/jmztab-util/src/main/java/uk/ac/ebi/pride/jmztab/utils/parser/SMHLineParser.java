@@ -40,13 +40,10 @@ public class SMHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
-        if (mode == MZTabDescription.Mode.Complete) {
-            if (type == MZTabDescription.Type.Quantification) {
-                for (MsRun msRun : metadata.getMsRunMap().values()) {
-                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
-                    refineOptionalColumn(mode, type, "search_engine_score" + msRunLabel);
-                }
-            }
+        //Mandatory in all modes
+        for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+            String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+            refineOptionalColumn(mode, type, "best_search_engine_score" + searchEngineScoreLabel);
         }
 
         if (type == MZTabDescription.Type.Quantification) {
@@ -58,6 +55,20 @@ public class SMHLineParser extends MZTabHeaderLineParser {
                 refineOptionalColumn(mode, type, "smallmolecule_abundance" + svLabel);
                 refineOptionalColumn(mode, type, "smallmolecule_abundance_stdev" + svLabel);
                 refineOptionalColumn(mode, type, "smallmolecule_abundance_std_error" + svLabel);
+            }
+            for (Assay assay : metadata.getAssayMap().values()) {
+                String assayLabel = "_assay[" + assay.getId() + "]";
+                refineOptionalColumn(mode, type, "smallmolecule_abundance" + assayLabel);
+            }
+
+            if (mode == MZTabDescription.Mode.Complete) {
+                for (MsRun msRun : metadata.getMsRunMap().values()) {
+                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
+                    for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                        String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+                        refineOptionalColumn(mode, type, "search_engine_score" + searchEngineScoreLabel + msRunLabel);
+                    }
+                }
             }
         }
     }

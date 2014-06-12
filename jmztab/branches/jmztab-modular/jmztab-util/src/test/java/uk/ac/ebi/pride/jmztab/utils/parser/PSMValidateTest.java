@@ -11,6 +11,9 @@ import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -26,7 +29,16 @@ public class PSMValidateTest {
 
     public PSMValidateTest() throws Exception {
         MTDLineParserTest test = new MTDLineParserTest();
-        Metadata metadata = test.parseMetadata("testset/mtdFile.txt");
+        String fileName = "testset/mtdFile.txt";
+        Metadata metadata;
+
+        URL uri = PSMValidateTest.class.getClassLoader().getResource(fileName);
+        if(uri != null) {
+            metadata = test.parseMetadata(uri.getFile());
+        } else {
+            throw new FileNotFoundException(fileName);
+        }
+
         errorList = new MZTabErrorList();
 
         PSHLineParser pshParser = new PSHLineParser(metadata);
@@ -39,6 +51,8 @@ public class PSMValidateTest {
             "database_version\t" +
             "search_engine\t" +
             "search_engine_score[1]\t" +
+            "search_engine_score[2]\t" +
+            "search_engine_score[3]\t" +
             "reliability\t" +
             "modifications\t" +
             "retention_time\t" +

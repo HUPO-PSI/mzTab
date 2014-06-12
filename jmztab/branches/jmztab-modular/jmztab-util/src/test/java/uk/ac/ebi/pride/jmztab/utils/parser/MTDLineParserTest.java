@@ -6,7 +6,10 @@ import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
@@ -74,13 +77,13 @@ public class MTDLineParserTest {
         assertTrue(MZTabUtils.isEmpty(cvParam.getValue()));
 
         parser.parse(1, "MTD\tinstrument[1]-name\t[MS, MS:100049, LTQ Orbitrap, ]", errorList);
-        parser.parse(1, "MTD\tinstrument[1]-analyzer\t[MS, MS:1000291, linear ion trap, ]", errorList);
+        parser.parse(1, "MTD\tinstrument[1]-analyzer[1]\t[MS, MS:1000291, linear ion trap, ]", errorList);
         parser.parse(1, "MTD\tinstrument[2]-source\t[MS, MS:1000598, ETD, ]", errorList);
         parser.parse(1, "MTD\tinstrument[13]-detector\t[MS, MS:1000253, electron multiplier, ]", errorList);
         param = metadata.getInstrumentMap().get(1).getName();
         assertTrue(param.toString().contains("LTQ Orbitrap"));
-        param = metadata.getInstrumentMap().get(1).getAnalyzer();
-        assertTrue(param.toString().contains("linear ion trap"));
+        List<Param> analyzerList = metadata.getInstrumentMap().get(1).getAnalyzerList();
+        assertTrue(analyzerList.size() == 1);
         param = metadata.getInstrumentMap().get(2).getSource();
         assertTrue(param.toString().contains("ETD"));
         param = metadata.getInstrumentMap().get(13).getDetector();
@@ -307,6 +310,13 @@ public class MTDLineParserTest {
 
     @Test
     public void testCreateMetadata() throws Exception {
-        parseMetadata("testset/mtdFile.txt");
+        String fileName = "testset/mtdFile.txt";
+
+        URL uri = MTDLineParserTest.class.getClassLoader().getResource(fileName);
+        if(uri!=null) {
+            parseMetadata(uri.getFile());
+        } else {
+            throw new FileNotFoundException(fileName);
+        }
     }
 }

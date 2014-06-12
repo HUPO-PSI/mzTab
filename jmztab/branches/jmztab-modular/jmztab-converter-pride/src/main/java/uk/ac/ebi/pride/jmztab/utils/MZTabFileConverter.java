@@ -109,23 +109,36 @@ public class MZTabFileConverter {
                     }
                 }
             }
+        }
 
-            // Complete and Summary should provide following information.
-            // mzTab-version, mzTab-mode and mzTab-type have default values in create metadata. Not check here.
-            if (metadata.getDescription() == null) {
-                errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "description", mode.toString(), type.toString()));
+        // Complete and Summary should provide following information.
+        // mzTab-version, mzTab-mode and mzTab-type have default values in create metadata. Not check here.
+        if (metadata.getDescription() == null) {
+            errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "description", mode.toString(), type.toString()));
+        }
+        for (Integer id : runMap.keySet()) {
+            if (runMap.get(id).getLocation() == null) {
+                errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "ms_run[" + id + "]-location", mode.toString(), type.toString()));
             }
-            for (Integer id : runMap.keySet()) {
-                if (runMap.get(id).getLocation() == null) {
-                    errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "ms_run[" + id + "]-location", mode.toString(), type.toString()));
-                }
-            }
+        }
+        //search_engine_score
+        if (metadata.getSearchEngineScoreMap().size() == 0) {
+            errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "search_engine_score[1-n]", mode.toString(), type.toString()));
+        }
+        //mods
+        //fixed
+        if (metadata.getFixedModMap().size() == 0) {
+            errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "fixed_mod[1-n]", mode.toString(), type.toString()));
+        }
+        //variable
+        if (metadata.getVariableModMap().size() == 0) {
+            errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "variable_mod[1-n]", mode.toString(), type.toString()));
+        }
 
-            if (type == MZTabDescription.Type.Quantification) {
-                for (Integer id : svMap.keySet()) {
-                    if (svMap.get(id).getDescription() == null) {
-                        errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "study_variable[" + id + "]-description", mode.toString(), type.toString()));
-                    }
+        if (type == MZTabDescription.Type.Quantification) {
+            for (Integer id : svMap.keySet()) {
+                if (svMap.get(id).getDescription() == null) {
+                    errorList.add(new MZTabError(LogicalErrorType.NotDefineInMetadata, -1, "study_variable[" + id + "]-description", mode.toString(), type.toString()));
                 }
             }
         }
@@ -255,6 +268,12 @@ public class MZTabFileConverter {
 
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
+
+        //Mandatory in all modes
+        for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+            String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+            refineOptionalColumn(mode, type, smlFactory, "best_search_engine_score" + searchEngineScoreLabel);
+        }
 
         if (type == MZTabDescription.Type.Quantification) {
             if (metadata.getSmallMoleculeQuantificationUnit() == null) {

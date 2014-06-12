@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
+import uk.ac.ebi.pride.jmztab.utils.convert.SearchEngineParam;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,6 +49,8 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
         } catch (MalformedURLException e) {
 //            e.printStackTrace();
         }
+
+        mtd.addSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
 
         // set protein-quantification_unit
         mtd.setProteinQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000393", "Relative quantification unit", null));
@@ -103,9 +106,11 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
     protected MZTabColumnFactory convertProteinColumnFactory() {
         prh = MZTabColumnFactory.getInstance(Section.Protein_Header);
 
+        prh.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
+
         // optional columns: search_engine_score_ms_run[1-6], num_psms_ms_run[1-6], num_peptides_distinct_ms_run[1-6] and num_peptides_unique_ms_run[1-6]
         for (MsRun msRun : mtd.getMsRunMap().values()) {
-            prh.addOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, msRun);
+            prh.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 1, msRun);
             prh.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun);
             prh.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun);
             prh.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun);
@@ -125,11 +130,13 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
     }
 
     /**
-     * Generate standard psm header line. No optional columns included in it.
+     * Generate standard psm header line.
      */
     @Override
     protected MZTabColumnFactory convertPSMColumnFactory() {
         psh = MZTabColumnFactory.getInstance(Section.PSM_Header);
+
+        psh.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, 1, null);
 
         return psh;
     }
@@ -147,10 +154,10 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
         protein.setDatabase("UniProtKB");
         protein.setDatabaseVersion("2013_08");
         protein.setSearchEngine("[MS,MS:1001207,Mascot,]");
-//        protein.setBestSearchEngineScore("[MS,MS:1001171,Mascot:score,46]");
+        protein.setBestSearchEngineScore(1, "46");
 
         // add parameter value for search_engine_score_ms_run[1-6]
-        // NOTICE: ms_run[1-6] SHOULD be defined in the metadata, otherwise throw exception.
+        // NOTICE: ms_run[1-6] and search_engine_score[1] SHOULD be defined in the metadata, otherwise throw exception.
         protein.setSearchEngineScore(1, mtd.getMsRunMap().get(1), "46");
         protein.setSearchEngineScore(1, mtd.getMsRunMap().get(2), "26");
         protein.setSearchEngineScore(1, mtd.getMsRunMap().get(3), "36");

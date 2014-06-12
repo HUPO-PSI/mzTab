@@ -42,6 +42,9 @@ public class ConvertPeptideSQ extends ConvertProvider<Void, Void> {
         mtd.addMsRunLocation(5, MZTabUtils.parseURL("file://C:\\path\\to\\my\\file5.mzML"));
         mtd.addMsRunLocation(6, MZTabUtils.parseURL("file://C:\\path\\to\\my\\file6.mzML"));
 
+        //set search_engine_score[1]
+        mtd.addSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+
         // set fixed_mod[1] and variable_mod[1]
         mtd.addFixedModParam(1, MZTabUtils.parseParam("[UNIMOD, UNIMOD:4, Carbamidomethyl, ]"));
         mtd.addVariableModParam(1, MZTabUtils.parseParam("[UNIMOD, UNIMOD:35, Oxidation, ]"));
@@ -68,6 +71,9 @@ public class ConvertPeptideSQ extends ConvertProvider<Void, Void> {
     @Override
     protected MZTabColumnFactory convertPeptideColumnFactory() {
         peh = MZTabColumnFactory.getInstance(Section.Peptide_Header);
+
+        // add best_search_engine_score column
+        peh.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
 
         // abundance optional columns: peptide_abundance_study_variable[1-2], peptide_abundance_stdev_study_variable[1-2] and peptide_abundance_std_error_study_variable[1-2]
         for (StudyVariable studyVariable : mtd.getStudyVariableMap().values()) {

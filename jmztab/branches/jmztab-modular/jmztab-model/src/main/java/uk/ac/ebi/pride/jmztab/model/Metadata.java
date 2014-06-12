@@ -979,7 +979,7 @@ public class Metadata {
     }
 
     /**
-     * Add a parameter for instrument[id]-analyzer
+     * Add a parameter for instrument[id]-analyzer[i]
      *
      * @param id SHOULD be positive integer.
      * @param analyzer if null ignore operation.
@@ -995,10 +995,10 @@ public class Metadata {
         Instrument instrument = instrumentMap.get(id);
         if (instrument == null) {
             instrument = new Instrument(id);
-            instrument.setAnalyzer(analyzer);
+            instrument.addAnalyzer(analyzer);
             instrumentMap.put(id, instrument);
         } else {
-            instrument.setAnalyzer(analyzer);
+            instrument.addAnalyzer(analyzer);
         }
     }
 

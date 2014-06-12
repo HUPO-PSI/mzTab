@@ -8,7 +8,7 @@
         <artifactId>jmztab-modular</artifactId>
         <version>2.1.7-SNAPSHOT</version>
     </parent>
-    
+
     <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab-modular-util</artifactId>
 
@@ -28,7 +28,7 @@
             <artifactId>jmztab-modular-model</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
         <dependency>
             <artifactId>com.springsource.org.apache.log4j</artifactId>
             <groupId>org.apache.log4j</groupId>

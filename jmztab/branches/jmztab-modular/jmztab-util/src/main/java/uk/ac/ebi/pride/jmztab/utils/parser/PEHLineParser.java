@@ -21,6 +21,8 @@ public class PEHLineParser extends MZTabHeaderLineParser {
         super.parse(lineNumber, line, errorList);
     }
 
+    //TODO review doc
+
     /**
      * In "Quantification" file, following optional columns are mandatory provide:
      * 1. peptide_abundance_study_variable[1-n]
@@ -43,28 +45,33 @@ public class PEHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
-        if (mode == MZTabDescription.Mode.Complete) {
-            if (type == MZTabDescription.Type.Quantification) {
-                for (MsRun msRun : metadata.getMsRunMap().values()) {
-//                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
-//                    refineOptionalColumn(mode, type, "search_engine_score" + msRunLabel);
-                }
-                for (Assay assay : metadata.getAssayMap().values()) {
-                    String assayLabel = "_assay[" + assay.getId() + "]";
-                    refineOptionalColumn(mode, type, "peptide_abundance" + assayLabel);
-                }
-            }
-        }
-
         if (type == MZTabDescription.Type.Quantification) {
             if (metadata.getPeptideQuantificationUnit() == null) {
                 throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "peptide-quantification_unit", mode.toString(), type.toString()));
             }
+            for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+                refineOptionalColumn(mode, type, "best_search_engine_score" + searchEngineScoreLabel);
+            }
+
             for (StudyVariable studyVariable : metadata.getStudyVariableMap().values()) {
                 String svLabel = "_study_variable[" + studyVariable.getId() + "]";
                 refineOptionalColumn(mode, type, "peptide_abundance" + svLabel);
                 refineOptionalColumn(mode, type, "peptide_abundance_stdev" + svLabel);
                 refineOptionalColumn(mode, type, "peptide_abundance_std_error" + svLabel);
+            }
+            if (mode == MZTabDescription.Mode.Complete) {
+                for (MsRun msRun : metadata.getMsRunMap().values()) {
+                    String msRunLabel = "_ms_run[" + msRun.getId() + "]";
+                    for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                        String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
+                        refineOptionalColumn(mode, type, "search_engine_score" + searchEngineScoreLabel + msRunLabel);
+                    }
+                }
+                for (Assay assay : metadata.getAssayMap().values()) {
+                    String assayLabel = "_assay[" + assay.getId() + "]";
+                    refineOptionalColumn(mode, type, "peptide_abundance" + assayLabel);
+                }
             }
         }
     }

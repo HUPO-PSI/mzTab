@@ -56,7 +56,7 @@ public class MTDLineValidateTest {
         } catch (MZTabException e) {
             assertTrue(e.getError().getType() == FormatErrorType.MZTabType);
             logger.debug(e.getMessage());
-        }        
+        }
     }
 
     @Test
@@ -86,7 +86,7 @@ public class MTDLineValidateTest {
         }
 
         // param error.
-        parser.parse(1, "MTD\tinstrument[1]-analyzer\t[MS, MS:1000291, ,]", errorList);
+        parser.parse(1, "MTD\tinstrument[1]-analyzer[1]\t[MS, MS:1000291, ,]", errorList);
         assertTrue(errorList.size() == 4);
         assertTrue(errorList.getError(3).getType() ==  FormatErrorType.Param);
     }

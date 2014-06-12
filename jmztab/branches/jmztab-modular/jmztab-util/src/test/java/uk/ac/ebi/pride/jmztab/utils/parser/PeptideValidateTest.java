@@ -10,6 +10,9 @@ import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -25,7 +28,15 @@ public class PeptideValidateTest {
 
     public PeptideValidateTest() throws Exception {
         MTDLineParserTest test = new MTDLineParserTest();
-        Metadata metadata = test.parseMetadata("testset/mtdFile.txt");
+        String fileName = "testset/mtdFile.txt";
+        Metadata metadata;
+
+        URL uri = PSMValidateTest.class.getClassLoader().getResource(fileName);
+        if(uri != null) {
+            metadata = test.parseMetadata(uri.getFile());
+        } else {
+            throw new FileNotFoundException(fileName);
+        }
         errorList = new MZTabErrorList();
 
         PEHLineParser pehParser = new PEHLineParser(metadata);

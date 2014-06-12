@@ -9,6 +9,9 @@ import uk.ac.ebi.pride.jmztab.model.Reliability;
 import uk.ac.ebi.pride.jmztab.model.Section;
 import uk.ac.ebi.pride.jmztab.utils.errors.*;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -24,7 +27,16 @@ public class ProteinValidateTest {
 
     public ProteinValidateTest() throws Exception {
         MTDLineParserTest test = new MTDLineParserTest();
-        Metadata metadata = test.parseMetadata("testset/mtdFile.txt");
+        String fileName = "testset/mtdFile.txt";
+        Metadata metadata;
+
+        URL uri = ProteinValidateTest.class.getClassLoader().getResource(fileName);
+        if(uri != null) {
+            metadata = test.parseMetadata(uri.getFile());
+        } else {
+            throw new FileNotFoundException(fileName);
+        }
+
         errorList = new MZTabErrorList(MZTabErrorType.Level.Warn);
 
         PRHLineParser prhParser = new PRHLineParser(metadata);
@@ -37,7 +49,11 @@ public class ProteinValidateTest {
             "database_version\t" +
             "search_engine\t" +
             "best_search_engine_score[1]\t" +
+            "best_search_engine_score[2]\t" +
+            "best_search_engine_score[3]\t" +
             "search_engine_score[1]_ms_run[1]\t" +
+            "search_engine_score[2]_ms_run[1]\t" +
+            "search_engine_score[3]_ms_run[1]\t" +
             "reliability\t" +
             "num_psms_ms_run[1]\t" +
             "num_peptides_distinct_ms_run[1]\t" +
@@ -133,7 +149,11 @@ public class ProteinValidateTest {
             "UniProtKB\t2011_11\t" +
             "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\t" +
             "50\t" +
+            "null\t" +
+            "null\t" +
             "2\t" +
+            "null\t" +
+            "null\t" +
             "1\t" +
             "4\t" +
             "3\t" +

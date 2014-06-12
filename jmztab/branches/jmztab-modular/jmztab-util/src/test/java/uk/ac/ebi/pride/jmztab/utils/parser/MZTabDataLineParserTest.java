@@ -6,6 +6,9 @@ import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
+
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -14,13 +17,21 @@ import static junit.framework.Assert.assertTrue;
  */
 public class MZTabDataLineParserTest {
     private static Logger logger = Logger.getLogger(MZTabDataLineParserTest.class);
-    
+
     private Metadata metadata;
 
     @Before
     public void setUp() throws Exception {
         MTDLineParserTest test = new MTDLineParserTest();
-        metadata = test.parseMetadata("testset/mtdFile.txt");
+        String fileName = "testset/mtdFile.txt";
+
+        URL uri = MZTabDataLineParserTest.class.getClassLoader().getResource(fileName);
+        if(uri!=null) {
+            metadata = test.parseMetadata(uri.getFile());
+        } else {
+            throw new FileNotFoundException(fileName);
+        }
+
     }
 
     @Test
@@ -36,7 +47,11 @@ public class MZTabDataLineParserTest {
             "database_version\t" +
             "search_engine\t" +
             "best_search_engine_score[1]\t" +
+            "best_search_engine_score[2]\t" +
+            "best_search_engine_score[3]\t" +
             "search_engine_score[1]_ms_run[1]\t" +
+            "search_engine_score[2]_ms_run[1]\t" +
+            "search_engine_score[3]_ms_run[1]\t" +
             "reliability\t" +
             "num_psms_ms_run[1]\t" +
             "num_peptides_distinct_ms_run[1]\t" +
@@ -70,10 +85,15 @@ public class MZTabDataLineParserTest {
             "Aspartate aminotransferase, mitochondrial\t" +
             "10116\t" +
             "Rattus norvegicus (Rat)\t" +
-            "UniProtKB\t2011_11\t" +
+            "UniProtKB\t" +
+            "2011_11\t" +
             "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\t" +
             "50\t" +
+            "null\t" +
+            "null\t" +
             "2\t" +
+            "null\t" +
+            "null\t" +
             "1\t" +
             "4\t" +
             "3\t" +
@@ -99,7 +119,7 @@ public class MZTabDataLineParserTest {
         assertTrue(record.getDescription().equals(items[2]));
         assertTrue(record.getTaxid().equals(new Integer(items[3])));
         assertTrue(record.getSearchEngine().equals(MZTabUtils.parseParamList(items[7])));
-        assertTrue(record.getReliability().equals(Reliability.findReliability(items[10])));
+        assertTrue(record.getReliability().equals(Reliability.findReliability(items[14])));
 
         // check optional columns which have stable order
         data = "PRT\t" +
@@ -111,7 +131,11 @@ public class MZTabDataLineParserTest {
                 "null\t" +
                 "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\t" +
                 "null\t" +
+                "null\t" +
+                "null\t" +
                 "2\t" +
+                "null\t" +
+                "null\t" +
                 "1\t" +
                 "4\t" +
                 "3\t" +
@@ -131,40 +155,50 @@ public class MZTabDataLineParserTest {
         record = dataParser.getRecord(data);
         items = data.split("\t");
 //        assertTrue(record.getSearchEngineScore(metadata.getMsRunMap().get(1)).equals(MZTabUtils.parseParamList(items[9])));
-        assertTrue(record.getNumPSMs(metadata.getMsRunMap().get(1)).equals(new Integer(items[11])));
-        assertTrue(record.getNumPeptidesDistinct(metadata.getMsRunMap().get(1)).equals(new Integer(items[12])));
-        assertTrue(record.getNumPeptidesUnique(metadata.getMsRunMap().get(1)).equals(new Integer(items[13])));
+        assertTrue(record.getNumPSMs(metadata.getMsRunMap().get(1)).equals(new Integer(items[15])));
+        assertTrue(record.getNumPeptidesDistinct(metadata.getMsRunMap().get(1)).equals(new Integer(items[16])));
+        assertTrue(record.getNumPeptidesUnique(metadata.getMsRunMap().get(1)).equals(new Integer(items[17])));
 
         // check abundance optional columns
         data = "PRT\tP12345\tAspartate aminotransferase, mitochondrial\t10116\tnull\tnull\tnull\t" +
                 "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\tnull\t" +
-                "50\t1\t4\t3\t2\tnull\tnull\t" +
+                "null\t" +
+                "null\t" +
+                "50\t" +
+                "null\t" +
+                "null\t" +
+                "1\t4\t3\t2\tnull\tnull\t" +
                 "null\tnull\tnull\t0.4\t0.2\t0.4\t0.3\t0.2\tnull\tnull";
         record = dataParser.getRecord(data);
         items = data.split("\t");
         // protein_abundance_assay[1]
-        assertTrue(record.getAbundanceColumnValue(metadata.getAssayMap().get(1)).toString().equals(items[19]));
+        assertTrue(record.getAbundanceColumnValue(metadata.getAssayMap().get(1)).toString().equals(items[23]));
         // protein_abundance_assay[2]
-        assertTrue(record.getAbundanceColumnValue(metadata.getAssayMap().get(2)).toString().equals(items[20]));
+        assertTrue(record.getAbundanceColumnValue(metadata.getAssayMap().get(2)).toString().equals(items[24]));
         // protein_abundance_study_variable[1]
-        assertTrue(record.getAbundanceColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[21]));
+        assertTrue(record.getAbundanceColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[25]));
         // protein_abundance_stdev_study_variable[1]
-        assertTrue(record.getAbundanceStdevColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[22]));
+        assertTrue(record.getAbundanceStdevColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[26]));
         // protein_abundance_std_error_study_variable[1]
-        assertTrue(record.getAbundanceStdErrorColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[23]));
+        assertTrue(record.getAbundanceStdErrorColumnValue(metadata.getStudyVariableMap().get(1)).toString().equals(items[27]));
 
         // check user defined optional columns
         data = "PRT\tP12345\tAspartate aminotransferase, mitochondrial\t10116\tnull\tnull\tnull\t" +
                 "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\tnull\t" +
-                "50\t1\t4\t3\t2\tnull\tnull\t" +
+                "null\t" +
+                "null\t" +
+                "50\t" +
+                "null\t" +
+                "null\t" +
+                "1\t4\t3\t2\tnull\tnull\t" +
                 "null\tnull\tnull\t0.4\t0.2\t0.4\t0.3\t0.2\tMy value about assay[1]\tTOM value";
         record = dataParser.getRecord(data);
         items = data.split("\t");
         // opt_assay[1]_my_value
-        assertTrue(record.getOptionColumnValue(metadata.getAssayMap().get(1), "my value").equals(items[24]));
+        assertTrue(record.getOptionColumnValue(metadata.getAssayMap().get(1), "my value").equals(items[28]));
         // opt_global_cv_MS:1001208_TOM
         CVParam param = new CVParam("MS", "MS:1001208", "TOM", null);
-        assertTrue(record.getOptionColumnValue(param).equals(items[25]));
+        assertTrue(record.getOptionColumnValue(param).equals(items[29]));
     }
 
     @Test
@@ -179,7 +213,11 @@ public class MZTabDataLineParserTest {
             "database_version\t" +
             "search_engine\t" +
             "best_search_engine_score[1]\t" +
+            "best_search_engine_score[2]\t" +
+            "best_search_engine_score[3]\t" +
             "search_engine_score[1]_ms_run[1]\t" +
+            "search_engine_score[2]_ms_run[1]\t" +
+            "search_engine_score[3]_ms_run[1]\t" +
             "reliability\t" +
             "modifications\t" +
             "retention_time\t" +
@@ -204,7 +242,11 @@ public class MZTabDataLineParserTest {
             "2011_11\t" +
             "[MS,MS:1001207,Mascot,]|[MS,MS:1001208,Sequest,]\t" +
             "2\t" +
+            "null\t" +
+            "null\t" +
             "2\t" +
+            "null\t" +
+            "null\t" +
             "3\t" +
             "8-MOD:00397\t" +
             "10.2\t" +
@@ -232,6 +274,8 @@ public class MZTabDataLineParserTest {
             "database_version\t" +
             "search_engine\t" +
             "search_engine_score[1]\t" +
+            "search_engine_score[2]\t" +
+            "search_engine_score[3]\t" +
             "reliability\t" +
             "modifications\t" +
             "retention_time\t" +
@@ -269,6 +313,8 @@ public class MZTabDataLineParserTest {
             "2011_11\t" +
             "[MS, MS:1001207, Mascot, ]\t" +
             "62.93\t" +
+            "null\t" +
+            "null\t" +
             "3\t" +
             "10[MS,MS:100xxxx,Probability Score Y,0.8]-MOD:00412\t" +
             "10.2\t" +
@@ -293,8 +339,8 @@ public class MZTabDataLineParserTest {
         assertTrue(psm.getSearchEngineScore(1).toString().equals("62.93"));
         assertTrue(psm.getModifications().get(0).getType() == Modification.Type.MOD);
         assertTrue(psm.getModifications().get(0).getAccession().equals("00412"));
-        assertTrue(psm.getCharge().equals(new Integer(items[12])));
-        assertTrue(psm.getExpMassToCharge().toString().equals(items[13]));
+        assertTrue(psm.getCharge().equals(new Integer(items[14])));
+        assertTrue(psm.getExpMassToCharge().toString().equals(items[15]));
 
         // opt_global_cv_MS:1000879_PubMed_identifier
         CVParam param = new CVParam("MS", "MS:1000879", "PubMed identifier", null);
@@ -324,7 +370,11 @@ public class MZTabDataLineParserTest {
             "spectra_ref\t" +
             "search_engine\t" +
             "best_search_engine_score[1]\t" +
+            "best_search_engine_score[2]\t" +
+            "best_search_engine_score[3]\t" +
             "search_engine_score[1]_ms_run[1]\t" +
+            "search_engine_score[2]_ms_run[1]\t" +
+            "search_engine_score[3]_ms_run[1]\t" +
             "modifications\t" +
             "smallmolecule_abundance_assay[1]\t" +
             "smallmolecule_abundance_study_variable[1]\t" +
@@ -359,7 +409,11 @@ public class MZTabDataLineParserTest {
             "ms_run[1]:index=1002\t" +
             "[MS, MS:1001477, SpectraSt,]\t" +
             "0.7\t" +
+            "null\t" +
+            "null\t" +
             "0.7\t" +
+            "null\t" +
+            "null\t" +
             "CHEMMOD:-NH4\t" +
             "0.3\t" +
             "0.1\t" +

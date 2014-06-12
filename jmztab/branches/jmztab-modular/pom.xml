@@ -28,6 +28,14 @@
         <assembly.dir>jmztab</assembly.dir>
     </properties>
 
+    <modules>
+        <module>jmztab-model</module>
+        <module>jmztab-gui</module>
+        <module>jmztab-cli</module>
+        <module>jmztab-converter-pride</module>
+        <module>jmztab-util</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -43,7 +51,7 @@
                 <version>1.2.13</version>
                 <scope>test</scope>
             </dependency>-->
-            
+
             <dependency>
                 <artifactId>com.springsource.org.apache.log4j</artifactId>
                 <groupId>org.apache.log4j</groupId>
@@ -90,6 +98,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.4</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/test</exclude>
+                            <exclude>**/test/*.class</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -99,7 +113,7 @@
             </plugins>
         </pluginManagement>
     </build>
-    
+
     <profiles>
         <profile>
             <id>src</id>
@@ -258,17 +272,17 @@
             <url>http://genesis.UGent.be/maven2</url>
             <layout>default</layout>
         </repository>
-        
+
         <!-- spring source osgi bundles -->
-        <repository> 
-            <id>com.springsource.repository.bundles.release</id> 
-            <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name> 
-            <url>http://repository.springsource.com/maven/bundles/release</url> 
-        </repository> 
-        <repository> 
-            <id>com.springsource.repository.bundles.external</id> 
-            <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name> 
-            <url>http://repository.springsource.com/maven/bundles/external</url> 
+        <repository>
+            <id>com.springsource.repository.bundles.release</id>
+            <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+        <repository>
+            <id>com.springsource.repository.bundles.external</id>
+            <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
         </repository>
     </repositories>
 
@@ -284,13 +298,5 @@
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-    
-    <modules>
-        <module>jmztab-model</module>
-        <module>jmztab-gui</module>
-        <module>jmztab-cli</module>
-        <module>jmztab-converter-pride</module>
-        <module>jmztab-util</module>
-    </modules>
 
 </project>
