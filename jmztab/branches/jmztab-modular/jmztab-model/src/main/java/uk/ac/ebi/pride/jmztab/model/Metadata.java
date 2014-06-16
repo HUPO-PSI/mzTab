@@ -30,7 +30,11 @@ public class Metadata {
     private SortedMap<Integer, SplitList<Param>> sampleProcessingMap = new TreeMap<Integer, SplitList<Param>>();
     private SortedMap<Integer, Instrument> instrumentMap = new TreeMap<Integer, Instrument>();
     private SortedMap<Integer, Software> softwareMap = new TreeMap<Integer, Software>();
-    private SortedMap<Integer, SearchEngineScore> searchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
+    private SortedMap<Integer, SearchEngineScore> proteinSearchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
+    private SortedMap<Integer, SearchEngineScore> peptideSearchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
+    private SortedMap<Integer, SearchEngineScore> psmSearchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
+    private SortedMap<Integer, SearchEngineScore> smallMoleculeSearchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
+
     private SplitList<Param> falseDiscoveryRate = new SplitList<Param>(BAR);
     private SortedMap<Integer, Publication> publicationMap = new TreeMap<Integer, Publication>();
     private SortedMap<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
@@ -150,7 +154,11 @@ public class Metadata {
         sb = printMap(sampleProcessingMap, SAMPLE_PROCESSING.toString(), sb);
         sb = printMap(instrumentMap, INSTRUMENT.toString(), sb);
         sb = printMap(softwareMap, SOFTWARE.toString(), sb);
-        sb = printMap(searchEngineScoreMap, SEARCH_ENGINE_SCORE.toString(), sb);
+        sb = printMap(proteinSearchEngineScoreMap, PROTEIN_SEARCH_ENGINE_SCORE.toString(), sb);
+        sb = printMap(peptideSearchEngineScoreMap, PEPTIDE_SEARCH_ENGINE_SCORE.toString(), sb);
+        sb = printMap(psmSearchEngineScoreMap, PSM_SEARCH_ENGINE_SCORE.toString(), sb);
+        sb = printMap(smallMoleculeSearchEngineScoreMap, SMALLMOLECULE_SEARCH_ENGINE_SCORE.toString(), sb);
+
 
         if (! falseDiscoveryRate.isEmpty()) {
             printPrefix(sb).append(FALSE_DISCOVERY_RATE).append(TAB).append(falseDiscoveryRate).append(NEW_LINE);
@@ -382,12 +390,60 @@ public class Metadata {
         this.softwareMap = softwareMap;
     }
 
-    public SortedMap<Integer, SearchEngineScore> getSearchEngineScoreMap() {
-        return searchEngineScoreMap;
+    /**
+     * Get a sorted protein search engine score map, which order by indexed
+     */
+    public SortedMap<Integer, SearchEngineScore> getProteinSearchEngineScoreMap() {
+        return proteinSearchEngineScoreMap;
     }
 
-    public void setSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> searchEngineScoreMap) {
-        this.searchEngineScoreMap = searchEngineScoreMap;
+    /**
+     * Set a sorted protein search engine score map, which order by indexed
+     */
+    public void setProteinSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> proteinSearchEngineScoreMap) {
+        this.proteinSearchEngineScoreMap = proteinSearchEngineScoreMap;
+    }
+
+    /**
+     * Get a sorted peptide search engine score map, which order by indexed
+     */
+    public SortedMap<Integer, SearchEngineScore> getPeptideSearchEngineScoreMap() {
+        return peptideSearchEngineScoreMap;
+    }
+
+    /**
+     * Set a sorted peptide search engine score map, which order by indexed
+     */
+    public void setPeptideSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> peptideSearchEngineScoreMap) {
+        this.peptideSearchEngineScoreMap = peptideSearchEngineScoreMap;
+    }
+
+    /**
+     * Get a sorted psm search engine score map, which order by indexed
+     */
+    public SortedMap<Integer, SearchEngineScore> getPsmSearchEngineScoreMap() {
+        return psmSearchEngineScoreMap;
+    }
+
+    /**
+     * Set a sorted psm search engine score map, which order by indexed
+     */
+    public void setPsmSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> psmSearchEngineScoreMap) {
+        this.psmSearchEngineScoreMap = psmSearchEngineScoreMap;
+    }
+
+    /**
+     * Get a sorted small molecule search engine score map, which order by indexed
+     */
+    public SortedMap<Integer, SearchEngineScore> getSmallMoleculeSearchEngineScoreMap() {
+        return smallMoleculeSearchEngineScoreMap;
+    }
+
+    /**
+     * Set a sorted small molecule search engine score map, which order by indexed
+     */
+    public void setSmallMoleculeSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> smallMoleculeSearchEngineScoreMap) {
+        this.smallMoleculeSearchEngineScoreMap = smallMoleculeSearchEngineScoreMap;
     }
 
     /**
@@ -1091,29 +1147,51 @@ public class Metadata {
     }
 
     /**
-     * Add a search_engine_score[id] parameter. The parameter's value SHOULD contain the engine score cv param.
+     * Add a protein_search_engine_score[id] parameter. The parameter's value SHOULD contain the engine score cv param.
      * The order (numbering) SHOULD reflect their importance for the identification and be used to determine
      * the identification's rank.
      *
      * @param id SHOULD be positive integer.
      * @param param if null ignore operation.
      */
-    public void addSearchEngineScoreParam(Integer id, Param param) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("Search engine score id should be great than 0!");
-        }
-        if (param == null) {
-            return;
-        }
+    public void addProteinSearchEngineScoreParam(Integer id, Param param) {
+        addSearchEngineScoreParam(id, param, proteinSearchEngineScoreMap);
+    }
 
-        SearchEngineScore searchEngineScore = searchEngineScoreMap.get(id);
-        if (searchEngineScore == null) {
-            searchEngineScore = new SearchEngineScore(id);
-            searchEngineScore.setParam(param);
-            searchEngineScoreMap.put(id, searchEngineScore);
-        } else {
-            searchEngineScore.setParam(param);
-        }
+    /**
+     * Add a peptide_search_engine_score[id] parameter. The parameter's value SHOULD contain the engine score cv param.
+     * The order (numbering) SHOULD reflect their importance for the identification and be used to determine
+     * the identification's rank.
+     *
+     * @param id SHOULD be positive integer.
+     * @param param if null ignore operation.
+     */
+    public void addPeptideSearchEngineScoreParam(Integer id, Param param) {
+        addSearchEngineScoreParam(id, param, peptideSearchEngineScoreMap);
+    }
+
+    /**
+     * Add a psm_search_engine_score[id] parameter. The parameter's value SHOULD contain the engine score cv param.
+     * The order (numbering) SHOULD reflect their importance for the identification and be used to determine
+     * the identification's rank.
+     *
+     * @param id SHOULD be positive integer.
+     * @param param if null ignore operation.
+     */
+    public void addPsmsSearchEngineScoreParam(Integer id, Param param) {
+        addSearchEngineScoreParam(id, param, psmSearchEngineScoreMap);
+    }
+
+    /**
+     * Add a smallmolecule_search_engine_score[id] parameter. The parameter's value SHOULD contain the engine score cv param.
+     * The order (numbering) SHOULD reflect their importance for the identification and be used to determine
+     * the identification's rank.
+     *
+     * @param id SHOULD be positive integer.
+     * @param param if null ignore operation.
+     */
+    public void addSmallMoleculeSearchEngineScoreParam(Integer id, Param param) {
+        addSearchEngineScoreParam(id, param, smallMoleculeSearchEngineScoreMap);
     }
 
     /**
@@ -2087,5 +2165,32 @@ public class Metadata {
      */
     public void addSmallMoleculeColUnit(MZTabColumn column, Param param) {
         this.smallMoleculeColUnitList.add(new ColUnit(column, param));
+    }
+
+    /**
+     * Add a *_search_engine_score[id] parameter. The parameter's value SHOULD contain the engine score cv param.
+     * The order (numbering) SHOULD reflect their importance for the identification and be used to determine
+     * the identification's rank.
+     *
+     * @param id SHOULD be positive integer.
+     * @param param if null ignore operation.
+     * @param searchEngineScoreMap sorted engine score map for the corresponding section.
+     */
+    private void addSearchEngineScoreParam(Integer id, Param param, SortedMap<Integer, SearchEngineScore> searchEngineScoreMap, Class<? extends SearchEngineScore> clazz) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Search engine score id should be great than 0!");
+        }
+        if (param == null) {
+            return;
+        }
+
+        SearchEngineScore searchEngineScore = searchEngineScoreMap.get(id);
+        if (searchEngineScore == null) {
+            searchEngineScore = new SearchEngineScore(id);
+            searchEngineScore.setParam(param);
+            searchEngineScoreMap.put(id, searchEngineScore);
+        } else {
+            searchEngineScore.setParam(param);
+        }
     }
 }

@@ -2,7 +2,7 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
-public class SearchEngineScore extends IndexedElement {
+public abstract class SearchEngineScore extends IndexedElement {
     private Param param;
 
     /**
@@ -10,8 +10,8 @@ public class SearchEngineScore extends IndexedElement {
      *
      * @param id      SHOULD be non-negative integer.
      */
-    public SearchEngineScore(int id) {
-        super(MetadataElement.SEARCH_ENGINE_SCORE, id);
+    public SearchEngineScore(MetadataElement element, int id) {
+        super(element, id);
     }
 
     public Param getParam() {
