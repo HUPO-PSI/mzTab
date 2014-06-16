@@ -192,7 +192,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
         }
         if(metadata.getVariableModMap().isEmpty()){
-            metadata.addFixedModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
+            metadata.addVariableModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
         }
     }
 
@@ -317,6 +317,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             return;
         }
 
+        int i=1;
         for (Reference ref : references) {
             uk.ac.ebi.pride.jaxb.model.Param param = ref.getAdditional();
             if (param == null) {
@@ -337,7 +338,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 items.add(new PublicationItem(PublicationItem.Type.PUBMED, pubmed));
             }
 
-            metadata.addPublicationItems(1, items);
+            metadata.addPublicationItems(i++, items);
         }
     }
 

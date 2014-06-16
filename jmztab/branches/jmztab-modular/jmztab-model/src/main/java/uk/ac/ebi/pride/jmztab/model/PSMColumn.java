@@ -33,6 +33,6 @@ public class PSMColumn extends MZTabColumn {
     public static PSMColumn SPECTRA_REF = new PSMColumn("spectra_ref", SplitList.class, false, "16");
     public static PSMColumn PRE = new PSMColumn("pre", String.class, false, "17");
     public static PSMColumn POST = new PSMColumn("post", String.class, false, "18");
-    public static PSMColumn START = new PSMColumn("start", String.class, false, "19");
-    public static PSMColumn END = new PSMColumn("end", String.class, false, "20");
+    public static PSMColumn START = new PSMColumn("start", Integer.class, false, "19");
+    public static PSMColumn END = new PSMColumn("end", Integer.class, false, "20");
 }
