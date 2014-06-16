@@ -50,10 +50,6 @@
 || *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" label free experiment, quantification on 2 study variables (control/treatment), 3+3 assays (replicates) reported, identifications reported.||
 || *Link*: || [https://mztab.googlecode.com/svn/examples/labelfree_CQI.mzTab labelfree_CQI.mzTab] ||
 || || ||
-|| *Name*: || MaxQuant example. Two B-cell lymphoma cell lines ||
-|| *Description*: || Quantification of a subset of two B-cell lymphoma cell lines using the Super SILAC approach measured as single shots in three replicates.||
-|| *Link*: || [https://mztab.googlecode.com/svn/examples/MaxQuant_SILAC.zip MaxQuant_SILAC.mzTab] ||
-|| || ||
 || *Name*: || Cytidine ||
 || *Description*: || Cytidine reference spectrum example.||
 || *Link*: || [https://mztab.googlecode.com/svn/examples/Cytidine.mzTab Cytidine.mzTab] ||
