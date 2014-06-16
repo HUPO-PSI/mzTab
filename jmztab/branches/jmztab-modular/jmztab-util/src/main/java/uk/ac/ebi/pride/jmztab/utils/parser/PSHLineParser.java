@@ -29,7 +29,7 @@ public class PSHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Type type = metadata.getMZTabType();
 
         //Mandatory in all modes
-        for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+        for (SearchEngineScore searchEngineScore : metadata.getPsmSearchEngineScoreMap().values()) {
             String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
             refineOptionalColumn(mode, type, "search_engine_score" + searchEngineScoreLabel);
         }

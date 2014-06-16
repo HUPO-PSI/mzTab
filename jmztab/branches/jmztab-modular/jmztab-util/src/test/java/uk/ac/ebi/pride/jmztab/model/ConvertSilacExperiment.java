@@ -1,7 +1,6 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
-import uk.ac.ebi.pride.jmztab.utils.convert.SearchEngineParam;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -50,7 +49,7 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
 //            e.printStackTrace();
         }
 
-        mtd.addSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+        mtd.addProteinSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
 
         // set protein-quantification_unit
         mtd.setProteinQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000393", "Relative quantification unit", null));

@@ -82,30 +82,47 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     }
 
     private void addSearchEngineColumn(String searchEngineHeader, MsRun msRun) throws MZTabException {
-        Pattern pattern = Pattern.compile("search_engine_score\\[(\\d+)\\]");
+        Pattern pattern = Pattern.compile("(.+)_search_engine_score\\[(\\d+)\\]");
         Matcher matcher = pattern.matcher(searchEngineHeader);
 
         if (matcher.find()) {
             Integer id = checkIndex(searchEngineHeader, matcher.group(1));
-            if (! metadata.getSearchEngineScoreMap().containsKey(id)) {
-                throw new MZTabException(new MZTabError(LogicalErrorType.SearchEngineScoreNotDefined, lineNumber, searchEngineHeader));
-            }
+
 
             switch (section) {
                 case Protein_Header:
-                    factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    if (!metadata.getProteinSearchEngineScoreMap().containsKey(id) ||
+                            !searchEngineHeader.startsWith(MetadataElement.PROTEIN_SEARCH_ENGINE_SCORE.getName())) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.ProteinSearchEngineScoreNotDefined, lineNumber, searchEngineHeader));
+                    } else {
+                        factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    }
                     break;
                 case Peptide_Header:
-                    factory.addSearchEngineScoreOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    if (!metadata.getPeptideSearchEngineScoreMap().containsKey(id) ||
+                            !searchEngineHeader.startsWith(MetadataElement.PEPTIDE_SEARCH_ENGINE_SCORE.getName())) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.PeptideSearchEngineScoreNotDefined, lineNumber, searchEngineHeader));
+                    } else {
+                        factory.addSearchEngineScoreOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    }
                     break;
                 case PSM_Header:
-                    factory.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, id, null);
+                    if (!metadata.getPsmSearchEngineScoreMap().containsKey(id) ||
+                            !searchEngineHeader.startsWith(MetadataElement.PSM_SEARCH_ENGINE_SCORE.getName())) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.PSMSearchEngineScoreNotDefined, lineNumber, searchEngineHeader));
+                    } else {
+                        factory.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    }
                     break;
                 case Small_Molecule_Header:
-                    factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    if (!metadata.getSmallMoleculeSearchEngineScoreMap().containsKey(id) ||
+                            !searchEngineHeader.startsWith(MetadataElement.SMALL_MOLECULE.getName())) {
+                        throw new MZTabException(new MZTabError(LogicalErrorType.SmallMoleculeSearchEngineScoreNotDefined, lineNumber, searchEngineHeader));
+                    } else {
+                        factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, id, msRun);
+                    }
                     break;
             }
-
         }
     }
 
@@ -151,19 +168,31 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
             matcher = pattern.matcher(header);
             if (matcher.find()) {
                 id = checkIndex(header, matcher.group(1));
-                if (! metadata.getSearchEngineScoreMap().containsKey(id)) {
-                     throw new MZTabException(new MZTabError(LogicalErrorType.SearchEngineScoreNotDefined, lineNumber, header));
-                }
 
                 switch (section) {
                     case Protein_Header:
-                        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        if (!metadata.getProteinSearchEngineScoreMap().containsKey(id) ||
+                                !header.startsWith(MetadataElement.PROTEIN_SEARCH_ENGINE_SCORE.getName())) {
+                            throw new MZTabException(new MZTabError(LogicalErrorType.ProteinSearchEngineScoreNotDefined, lineNumber, header));
+                        } else {
+                            factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        }
                         break;
                     case Peptide_Header:
-                        factory.addBestSearchEngineScoreOptionalColumn(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        if (!metadata.getPeptideSearchEngineScoreMap().containsKey(id) ||
+                                !header.startsWith(MetadataElement.PEPTIDE_SEARCH_ENGINE_SCORE.getName())) {
+                            throw new MZTabException(new MZTabError(LogicalErrorType.PeptideSearchEngineScoreNotDefined, lineNumber, header));
+                        } else {
+                            factory.addBestSearchEngineScoreOptionalColumn(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        }
                         break;
                     case Small_Molecule_Header:
-                        factory.addBestSearchEngineScoreOptionalColumn(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        if (!metadata.getSmallMoleculeSearchEngineScoreMap().containsKey(id) ||
+                                !header.startsWith(MetadataElement.SMALL_MOLECULE.getName())) {
+                            throw new MZTabException(new MZTabError(LogicalErrorType.SmallMoleculeSearchEngineScoreNotDefined, lineNumber, header));
+                        } else {
+                            factory.addBestSearchEngineScoreOptionalColumn(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE, id);
+                        }
                         break;
                 }
             }

@@ -43,7 +43,7 @@ public class ConvertPeptideSQ extends ConvertProvider<Void, Void> {
         mtd.addMsRunLocation(6, MZTabUtils.parseURL("file://C:\\path\\to\\my\\file6.mzML"));
 
         //set search_engine_score[1]
-        mtd.addSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+        mtd.addProteinSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
 
         // set fixed_mod[1] and variable_mod[1]
         mtd.addFixedModParam(1, MZTabUtils.parseParam("[UNIMOD, UNIMOD:4, Carbamidomethyl, ]"));

@@ -135,7 +135,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         //TODO check identification and summary
-        for (Integer id : metadata.getSearchEngineScoreMap().keySet()) {
+        for (Integer id : metadata.getProteinSearchEngineScoreMap().keySet()) {
             //To be compliance with the specification you need the columns in the psms too
             proteinColumnFactory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id);
             proteinColumnFactory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, id, metadata.getMsRunMap().get(1));
@@ -152,7 +152,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         this.psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
 
         //Search engine score information (mandatory for all)
-        for (Integer id : metadata.getSearchEngineScoreMap().keySet()) {
+        for (Integer id : metadata.getPsmSearchEngineScoreMap().keySet()) {
             psmColumnFactory.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, id, null);
         }
 
@@ -237,7 +237,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     //CVParam for the metadata section
                     CVParam scoreParam = searchEngineScoreParam.toCVParam(null);
 
-                    for (Map.Entry<Integer, SearchEngineScore> entry : metadata.getSearchEngineScoreMap().entrySet()) {
+                    for (Map.Entry<Integer, ProteinSearchEngineScore> entry : metadata.getProteinSearchEngineScoreMap().entrySet()) {
                         if (entry.getValue().getParam().equals(scoreParam)) {
                             id = entry.getKey();
                             break;
@@ -246,8 +246,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
                     //Add the search engine score in the metadata section and extend the column factories with the new columns.
                     if (id <= 0) {
-                        id = metadata.getSearchEngineScoreMap().size() + 1;
-                        metadata.addSearchEngineScoreParam(id, scoreParam);
+                        id = metadata.getProteinSearchEngineScoreMap().size() + 1;
+                        metadata.addProteinSearchEngineScoreParam(id, scoreParam);
                     }
 
                     // We look in the psm to be sure that we have all the possible search engines scores before we write
@@ -262,7 +262,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                             if (psm_searchEngineScoreParam != null) {
                                 psm_scoreParam = psm_searchEngineScoreParam.toCVParam(null);
 
-                                for (Map.Entry<Integer, SearchEngineScore> entry : metadata.getSearchEngineScoreMap().entrySet()) {
+                                for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
                                     if (entry.getValue().getParam().equals(psm_scoreParam)) {
                                         psm_id = entry.getKey();
                                         break;
@@ -271,8 +271,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
                                 //Add the search engine score in the metadata section and extend the column factories with the new columns.
                                 if (psm_id <= 0) {
-                                    psm_id = metadata.getSearchEngineScoreMap().size() + 1;
-                                    metadata.addSearchEngineScoreParam(psm_id, psm_scoreParam);
+                                    psm_id = metadata.getPsmSearchEngineScoreMap().size() + 1;
+                                    metadata.addPsmSearchEngineScoreParam(psm_id, psm_scoreParam);
                                 }
                             }
                         }
@@ -281,8 +281,11 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             }
         }
 
-        if (metadata.getSearchEngineScoreMap().isEmpty()) {
-            metadata.addSearchEngineScoreParam(1, SearchEngineScoreParam.SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+        if (metadata.getProteinSearchEngineScoreMap().isEmpty()) {
+            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+        }
+        if (metadata.getPsmSearchEngineScoreMap().isEmpty()) {
+            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
         }
     }
 
@@ -758,8 +761,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             if (searchEngineScoreParam != null) {
                 CVParam scoreParam = searchEngineScoreParam.toCVParam(null);
 
-                //Add the search engine score in the metadata section if it has been stored.
-                for (Map.Entry<Integer, SearchEngineScore> entry : metadata.getSearchEngineScoreMap().entrySet()) {
+                //Look for the search engine score in the metadata section if it has been stored.
+                for (Map.Entry<Integer, ProteinSearchEngineScore> entry : metadata.getProteinSearchEngineScoreMap().entrySet()) {
                     if (entry.getValue().getParam().equals(scoreParam)) {
                         id = entry.getKey();
                         break;
@@ -976,7 +979,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 score = cvParam.getValue();
 
                 //Add the search engine score in the metadata section if it has been stored.
-                for (Map.Entry<Integer, SearchEngineScore> entry : metadata.getSearchEngineScoreMap().entrySet()) {
+                for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
                     if (entry.getValue().getParam().equals(scoreParam)) {
                         id = entry.getKey();
                         break;

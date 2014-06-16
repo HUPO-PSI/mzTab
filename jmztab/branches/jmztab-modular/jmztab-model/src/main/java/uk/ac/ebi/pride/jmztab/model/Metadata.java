@@ -30,10 +30,10 @@ public class Metadata {
     private SortedMap<Integer, SplitList<Param>> sampleProcessingMap = new TreeMap<Integer, SplitList<Param>>();
     private SortedMap<Integer, Instrument> instrumentMap = new TreeMap<Integer, Instrument>();
     private SortedMap<Integer, Software> softwareMap = new TreeMap<Integer, Software>();
-    private SortedMap<Integer, SearchEngineScore> proteinSearchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
-    private SortedMap<Integer, SearchEngineScore> peptideSearchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
-    private SortedMap<Integer, SearchEngineScore> psmSearchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
-    private SortedMap<Integer, SearchEngineScore> smallMoleculeSearchEngineScoreMap = new TreeMap<Integer, SearchEngineScore>();
+    private SortedMap<Integer, ProteinSearchEngineScore> proteinSearchEngineScoreMap = new TreeMap<Integer, ProteinSearchEngineScore>();
+    private SortedMap<Integer, PeptideSearchEngineScore> peptideSearchEngineScoreMap = new TreeMap<Integer, PeptideSearchEngineScore>();
+    private SortedMap<Integer, PSMSearchEngineScore> psmSearchEngineScoreMap = new TreeMap<Integer, PSMSearchEngineScore>();
+    private SortedMap<Integer, SmallMoleculeSearchEngineScore> smallMoleculeSearchEngineScoreMap = new TreeMap<Integer, SmallMoleculeSearchEngineScore>();
 
     private SplitList<Param> falseDiscoveryRate = new SplitList<Param>(BAR);
     private SortedMap<Integer, Publication> publicationMap = new TreeMap<Integer, Publication>();
@@ -393,56 +393,56 @@ public class Metadata {
     /**
      * Get a sorted protein search engine score map, which order by indexed
      */
-    public SortedMap<Integer, SearchEngineScore> getProteinSearchEngineScoreMap() {
+    public SortedMap<Integer, ProteinSearchEngineScore> getProteinSearchEngineScoreMap() {
         return proteinSearchEngineScoreMap;
     }
 
     /**
      * Set a sorted protein search engine score map, which order by indexed
      */
-    public void setProteinSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> proteinSearchEngineScoreMap) {
+    public void setProteinSearchEngineScoreMap(SortedMap<Integer, ProteinSearchEngineScore> proteinSearchEngineScoreMap) {
         this.proteinSearchEngineScoreMap = proteinSearchEngineScoreMap;
     }
 
     /**
      * Get a sorted peptide search engine score map, which order by indexed
      */
-    public SortedMap<Integer, SearchEngineScore> getPeptideSearchEngineScoreMap() {
+    public SortedMap<Integer, PeptideSearchEngineScore> getPeptideSearchEngineScoreMap() {
         return peptideSearchEngineScoreMap;
     }
 
     /**
      * Set a sorted peptide search engine score map, which order by indexed
      */
-    public void setPeptideSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> peptideSearchEngineScoreMap) {
+    public void setPeptideSearchEngineScoreMap(SortedMap<Integer, PeptideSearchEngineScore> peptideSearchEngineScoreMap) {
         this.peptideSearchEngineScoreMap = peptideSearchEngineScoreMap;
     }
 
     /**
      * Get a sorted psm search engine score map, which order by indexed
      */
-    public SortedMap<Integer, SearchEngineScore> getPsmSearchEngineScoreMap() {
+    public SortedMap<Integer, PSMSearchEngineScore> getPsmSearchEngineScoreMap() {
         return psmSearchEngineScoreMap;
     }
 
     /**
      * Set a sorted psm search engine score map, which order by indexed
      */
-    public void setPsmSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> psmSearchEngineScoreMap) {
+    public void setPsmSearchEngineScoreMap(SortedMap<Integer, PSMSearchEngineScore> psmSearchEngineScoreMap) {
         this.psmSearchEngineScoreMap = psmSearchEngineScoreMap;
     }
 
     /**
      * Get a sorted small molecule search engine score map, which order by indexed
      */
-    public SortedMap<Integer, SearchEngineScore> getSmallMoleculeSearchEngineScoreMap() {
+    public SortedMap<Integer, SmallMoleculeSearchEngineScore> getSmallMoleculeSearchEngineScoreMap() {
         return smallMoleculeSearchEngineScoreMap;
     }
 
     /**
      * Set a sorted small molecule search engine score map, which order by indexed
      */
-    public void setSmallMoleculeSearchEngineScoreMap(SortedMap<Integer, SearchEngineScore> smallMoleculeSearchEngineScoreMap) {
+    public void setSmallMoleculeSearchEngineScoreMap(SortedMap<Integer, SmallMoleculeSearchEngineScore> smallMoleculeSearchEngineScoreMap) {
         this.smallMoleculeSearchEngineScoreMap = smallMoleculeSearchEngineScoreMap;
     }
 
@@ -1155,7 +1155,21 @@ public class Metadata {
      * @param param if null ignore operation.
      */
     public void addProteinSearchEngineScoreParam(Integer id, Param param) {
-        addSearchEngineScoreParam(id, param, proteinSearchEngineScoreMap);
+        if (id <= 0) {
+            throw new IllegalArgumentException("Protein search engine score id should be great than 0!");
+        }
+        if (param == null) {
+            return;
+        }
+
+        ProteinSearchEngineScore searchEngineScore = proteinSearchEngineScoreMap.get(id);
+        if (searchEngineScore == null) {
+            searchEngineScore = new ProteinSearchEngineScore(id);
+            searchEngineScore.setParam(param);
+            proteinSearchEngineScoreMap.put(id, searchEngineScore);
+        } else {
+            searchEngineScore.setParam(param);
+        }
     }
 
     /**
@@ -1167,7 +1181,21 @@ public class Metadata {
      * @param param if null ignore operation.
      */
     public void addPeptideSearchEngineScoreParam(Integer id, Param param) {
-        addSearchEngineScoreParam(id, param, peptideSearchEngineScoreMap);
+        if (id <= 0) {
+            throw new IllegalArgumentException("Peptide search engine score id should be great than 0!");
+        }
+        if (param == null) {
+            return;
+        }
+
+        PeptideSearchEngineScore searchEngineScore = peptideSearchEngineScoreMap.get(id);
+        if (searchEngineScore == null) {
+            searchEngineScore = new PeptideSearchEngineScore(id);
+            searchEngineScore.setParam(param);
+            peptideSearchEngineScoreMap.put(id, searchEngineScore);
+        } else {
+            searchEngineScore.setParam(param);
+        }
     }
 
     /**
@@ -1178,8 +1206,22 @@ public class Metadata {
      * @param id SHOULD be positive integer.
      * @param param if null ignore operation.
      */
-    public void addPsmsSearchEngineScoreParam(Integer id, Param param) {
-        addSearchEngineScoreParam(id, param, psmSearchEngineScoreMap);
+    public void addPsmSearchEngineScoreParam(Integer id, Param param) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("PSM search engine score id should be great than 0!");
+        }
+        if (param == null) {
+            return;
+        }
+
+        PSMSearchEngineScore searchEngineScore = psmSearchEngineScoreMap.get(id);
+        if (searchEngineScore == null) {
+            searchEngineScore = new PSMSearchEngineScore(id);
+            searchEngineScore.setParam(param);
+            psmSearchEngineScoreMap.put(id, searchEngineScore);
+        } else {
+            searchEngineScore.setParam(param);
+        }
     }
 
     /**
@@ -1191,7 +1233,21 @@ public class Metadata {
      * @param param if null ignore operation.
      */
     public void addSmallMoleculeSearchEngineScoreParam(Integer id, Param param) {
-        addSearchEngineScoreParam(id, param, smallMoleculeSearchEngineScoreMap);
+        if (id <= 0) {
+            throw new IllegalArgumentException("PSM search engine score id should be great than 0!");
+        }
+        if (param == null) {
+            return;
+        }
+
+        SmallMoleculeSearchEngineScore searchEngineScore = smallMoleculeSearchEngineScoreMap.get(id);
+        if (searchEngineScore == null) {
+            searchEngineScore = new SmallMoleculeSearchEngineScore(id);
+            searchEngineScore.setParam(param);
+            smallMoleculeSearchEngineScoreMap.put(id, searchEngineScore);
+        } else {
+            searchEngineScore.setParam(param);
+        }
     }
 
     /**
@@ -2165,32 +2221,5 @@ public class Metadata {
      */
     public void addSmallMoleculeColUnit(MZTabColumn column, Param param) {
         this.smallMoleculeColUnitList.add(new ColUnit(column, param));
-    }
-
-    /**
-     * Add a *_search_engine_score[id] parameter. The parameter's value SHOULD contain the engine score cv param.
-     * The order (numbering) SHOULD reflect their importance for the identification and be used to determine
-     * the identification's rank.
-     *
-     * @param id SHOULD be positive integer.
-     * @param param if null ignore operation.
-     * @param searchEngineScoreMap sorted engine score map for the corresponding section.
-     */
-    private void addSearchEngineScoreParam(Integer id, Param param, SortedMap<Integer, SearchEngineScore> searchEngineScoreMap, Class<? extends SearchEngineScore> clazz) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("Search engine score id should be great than 0!");
-        }
-        if (param == null) {
-            return;
-        }
-
-        SearchEngineScore searchEngineScore = searchEngineScoreMap.get(id);
-        if (searchEngineScore == null) {
-            searchEngineScore = new SearchEngineScore(id);
-            searchEngineScore.setParam(param);
-            searchEngineScoreMap.put(id, searchEngineScore);
-        } else {
-            searchEngineScore.setParam(param);
-        }
     }
 }

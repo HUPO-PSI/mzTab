@@ -40,9 +40,9 @@ public class DynamicMetadataTest {
         mtd.addSoftwareSetting(1, "Fragment tolerance = 0.1Da");
         mtd.addSoftwareSetting(1, "Parent tolerance = 0.5Da");
 
-        mtd.addSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
-        mtd.addSearchEngineScoreParam(2, new CVParam("MS", "MS:1001330", "X!Tandem:expect", null));
-        mtd.addSearchEngineScoreParam(3, new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", null));
+        mtd.addProteinSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+        mtd.addPsmSearchEngineScoreParam(1, new CVParam("MS", "MS:1001330", "X!Tandem:expect", null));
+        mtd.addPsmSearchEngineScoreParam(2, new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", null));
 
         mtd.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001364", "pep:global FDR", "0.01"));
         mtd.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001214", "pep:global FDR", "0.08"));

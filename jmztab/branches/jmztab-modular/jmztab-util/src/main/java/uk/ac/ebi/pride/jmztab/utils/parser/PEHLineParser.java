@@ -49,7 +49,7 @@ public class PEHLineParser extends MZTabHeaderLineParser {
             if (metadata.getPeptideQuantificationUnit() == null) {
                 throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "peptide-quantification_unit", mode.toString(), type.toString()));
             }
-            for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+            for (SearchEngineScore searchEngineScore : metadata.getPeptideSearchEngineScoreMap().values()) {
                 String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
                 refineOptionalColumn(mode, type, "best_search_engine_score" + searchEngineScoreLabel);
             }
@@ -63,7 +63,7 @@ public class PEHLineParser extends MZTabHeaderLineParser {
             if (mode == MZTabDescription.Mode.Complete) {
                 for (MsRun msRun : metadata.getMsRunMap().values()) {
                     String msRunLabel = "_ms_run[" + msRun.getId() + "]";
-                    for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                    for (SearchEngineScore searchEngineScore : metadata.getPeptideSearchEngineScoreMap().values()) {
                         String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
                         refineOptionalColumn(mode, type, "search_engine_score" + searchEngineScoreLabel + msRunLabel);
                     }

@@ -50,7 +50,7 @@ public class PRHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Type type = metadata.getMZTabType();
 
         //Mandatory in all modes
-        for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+        for (SearchEngineScore searchEngineScore : metadata.getProteinSearchEngineScoreMap().values()) {
             String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
             refineOptionalColumn(mode, type, "best_search_engine_score" + searchEngineScoreLabel);
         }
@@ -60,7 +60,7 @@ public class PRHLineParser extends MZTabHeaderLineParser {
             //Mandatory for all complete (Quantification and Identification)
             for (MsRun msRun : metadata.getMsRunMap().values()) {
                 String msRunLabel = "_ms_run[" + msRun.getId() + "]";
-                for (SearchEngineScore searchEngineScore : metadata.getSearchEngineScoreMap().values()) {
+                for (SearchEngineScore searchEngineScore : metadata.getProteinSearchEngineScoreMap().values()) {
                     String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
                     refineOptionalColumn(mode, type, "search_engine_score" + searchEngineScoreLabel + msRunLabel);
                 }

@@ -6,7 +6,6 @@ import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
@@ -97,12 +96,12 @@ public class MTDLineParserTest {
         List<String> settingList = metadata.getSoftwareMap().get(2).getSettingList();
         assertTrue(settingList.size() == 2);
 
-        parser.parse(1, "MTD\tsearch_engine_score[1]\t[MS, MS:1001171, Mascot:score,]", errorList);
-        parser.parse(1, "MTD\tsearch_engine_score[2]\t[MS, MS:1001330, X!Tandem:expect,]", errorList);
-        parser.parse(1, "MTD\tsearch_engine_score[3]\t[MS, MS:1001331, X!Tandem:hyperscore,]", errorList);
-        assertTrue(metadata.getSearchEngineScoreMap().size() == 3);
-        param = metadata.getSearchEngineScoreMap().get(2).getParam();
-        assertTrue(param.toString().contains("expect"));
+        parser.parse(1, "MTD\tprotein_search_engine_score[1]\t[MS, MS:1001171, Mascot:score,]", errorList);
+        parser.parse(1, "MTD\tpsm_search_engine_score[2]\t[MS, MS:1001330, X!Tandem:expect,]", errorList);
+        parser.parse(1, "MTD\tpsm_search_engine_score[3]\t[MS, MS:1001331, X!Tandem:hyperscore,]", errorList);
+        assertTrue(metadata.getProteinSearchEngineScoreMap().size() == 1);
+        param = metadata.getProteinSearchEngineScoreMap().get(1).getParam();
+        assertTrue(param.toString().contains("score"));
 
         parser.parse(1, "MTD\tfalse_discovery_rate\t[MS, MS:1234, pep-fdr, 0.5]|[MS, MS:1001364, pep:global FDR, 0.01]|[MS, MS:1001214, pep:global FDR, 0.08]", errorList);
         assertTrue(metadata.getFalseDiscoveryRate().size() == 3);

@@ -19,7 +19,11 @@ public class LogicalErrorType extends MZTabErrorType {
     public static MZTabErrorType MsRunNotDefined = createError(Category.Logical, "MsRunNotDefined");
     public static MZTabErrorType AssayNotDefined = createError(Category.Logical, "AssayNotDefined");
     public static MZTabErrorType StudyVariableNotDefined = createError(Category.Logical, "StudyVariableNotDefined");
-    public static MZTabErrorType SearchEngineScoreNotDefined = createWarn(Category.Logical, "SearchEngineScoreNotDefined");
+    public static MZTabErrorType ProteinSearchEngineScoreNotDefined = createWarn(Category.Logical, "ProteinSearchEngineScoreNotDefined");
+    public static MZTabErrorType PeptideSearchEngineScoreNotDefined = createWarn(Category.Logical, "PeptideSearchEngineScoreNotDefined");
+    public static MZTabErrorType PSMSearchEngineScoreNotDefined = createWarn(Category.Logical, "PSMSearchEngineScoreNotDefined");
+    public static MZTabErrorType SmallMoleculeSearchEngineScoreNotDefined = createWarn(Category.Logical, "SmallMoleculeSearchEngineScoreNotDefined");
+
     public static MZTabErrorType MsRunHashMethodNotDefined = createError(Category.Logical, "MsRunHashMethodNotDefined");
 
     public static MZTabErrorType NotDefineInMetadata = createError(Category.Logical, "NotDefineInMetadata");
