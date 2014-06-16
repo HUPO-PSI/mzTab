@@ -6,11 +6,12 @@ MTD	title	Comparative LC/MS-based profiling of silver nitrate-treated Arabidopsi
 MTD	description	Indole-3-acetaldoxime (IAOx) represents an early intermediate of the biosynthesis of a variety of indolic secondary metabolites including the phytoanticipin indol-3-ylmethyl glucosinolate and the phytoalexin camalexin (3-thiazol-2_-yl-indole). Arabidopsis thaliana cyp79B2 cyp79B3 double knockout plants are completely impaired in the conversion of tryptophan to indole-3-acetaldoxime and do not accumulate IAOx-derived metabolites any longer. Consequently, comparative analysis of wild-type and cyp79B2 cyp79B3 plant lines has the potential to explore the complete range of IAOx-derived indolic secondary metabolites.
 MTD	instrument[1]-name	[MS, MS:1000703, micrOTOF-Q,]
 MTD	instrument[1]-source	[MS, MS:1000008, Ionization Type, ESI]
-MTD	instrument[1]-analyzer	[MS, MS:1000443, Mass Analyzer Type, Orbitrap]
+MTD	instrument[1]-analyzer[1]	[MS, MS:1000443, Mass Analyzer Type, Orbitrap]
 MTD	instrument[1]-detector	[MS, MS:1000253, electron multiplier,]
 MTD	software[1]	[MS, MS:1000717, CompassXport,]
 MTD	software[1]-setting[1]	[MS, MS:1000546, Conversion to mzData,]
 MTD	Software[2]	[MS, MS:1001582, XCMS, ]
+MTD	smallmolecule_search_engine_score[1]	[MS, MS:1001153, search engine specific score, ]
 MTD	contact[1]-name	Christoph Böttcher
 MTD	contact[1]-affiliation	IPB Halle
 MTD	contact[1]-email	boettch@ipb-halle.de
@@ -18,9 +19,11 @@ MTD	contact[2]-name	Steffen Neumann
 MTD	contact[2]-affiliation	IPB Halle
 MTD	contact[2]-email	sneumann@ipb-halle.de
 MTD	uri[1]	http://www.ebi.ac.uk/metabolights/MTBLS2
+MTD	fixed_mod[1]	[MS, MS:1002453, No fixed modifications searched, ]
+MTD	variable_mod[1]	[MS, MS:1002454, No variable modifications searched, ]
 MTD	ms_run[1]-location	ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/MTBLS2
 
-SMH	identifier	chemical_formula	smiles	inchi_key	description	exp_mass_to_charge	calc_mass_to_charge	charge	retention_time	taxid	species	database	database_version	spectra_ref	search_engine	best_search_engine_score	modifications
+SMH	identifier	chemical_formula	smiles	inchi_key	description	exp_mass_to_charge	calc_mass_to_charge	charge	retention_time	taxid	species	database	database_version	spectra_ref	search_engine	best_search_engine_score[1]	modifications
 SML	CID472107	C9H10N2	null	null	Indol-3-ylmethylamine	130.06545	130.06545	0	121.3092	null	null	PubChem	null	null	null	null	null
 SML	CID9576738	C17H22N2O10S2	null	null	4-Methoxy-indol-3-ylmethylglucosinolate	161.07827	161.07827	0	270.7944	null	null	PubChem	null	null	null	null	null
 SML	CID589098	C10H9NO2	null	null	Methyl indole-3-carboxylate	176.07003	176.07003	0	630.681	null	null	PubChem	null	null	null	null	null
