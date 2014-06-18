@@ -2,13 +2,21 @@
 
 = mzTab Example files =
 
-|| *Name*: || SILAC example: complete quantification report ||
+|| *Name*: || SILAC example: Complete Quantification report ||
 || *Description*: || Report of a minimal "Complete Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment), 3+3 assays (replicates) reported, identifications reported. ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/SILAC_CQI.mzTab  SILAC_CQI.mzTab]||
 || || ||
-|| *Name*: || iTRAQ example: complete Quantification report ||
-|| *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3), 4*3 assays (3 replicate experiments) reported, identifications reported. ||
+|| *Name*: || SILAC example: Summary Quantification report ||
+|| *Description*: || Report of a minimal Summary Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment) reported, identifications reported. ||
+|| *Link*: || [http://mztab.googlecode.com/svn/examples/SILAC_SQI.mzTab  SILAC_SQI.mzTab]||
+|| || ||
+|| *Name*: || iTRAQ example: Complete Quantification report ||
+|| *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3), 4*3 assays (3 replicate experiments) reported, identifications reported.
 || *Link*: || [http://mztab.googlecode.com/svn/examples/iTRAQ_CQI.mzTab iTRAQ_CQI.mzTab] ||
+|| || ||
+|| *Name*: || iTRAQ example: Summary Quantification report ||
+|| *Description*: || (hand crafted) Report of a minimal Summary Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3) reported, identifications reported. 
+|| *Link*: || [http://mztab.googlecode.com/svn/examples/iTRAQ_SQI.mzTab iTRAQ_SQI.mzTab] ||
 || || ||
 || *Name*: || Protein Summary Quantification example ||
 || *Description*: || (hand crafted) Report of a minimal "Summary Quantification report" experiment, quantification on 2 study variables (control/treatment), no assays (replicates) reported, no identifications reported.||
@@ -46,9 +54,13 @@
 || *Description*: || File generated LDA mzTab export for small molecules. Report of a "Complete Quanification report" lipidomics experiment for the lipid classes SM, PE, PC, LPC, DG, PS. Quantification on 3 study variables (HFD/FED/FAS), 6+6+6 assays (biological replicates) reported, identifications reported. The analysis contains lipid extracts from lipid droplets of mouse hepatocytes. Study variable (feeding conditions): HFD = high fat diet; FED = normal diet and fed before sacrifice; FAS = normal diet and fasted before sacrifice. ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/lipidomics-HFD-LD-study-PL-DG-SM.mzTab lipicomics-HFD-LD-study-PL-DG-SM.mzTab] ||
 || || ||
-|| *Name*: || Label-free example ||
+|| *Name*: || Label-free example: Complete Quantification report ||
 || *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" label free experiment, quantification on 2 study variables (control/treatment), 3+3 assays (replicates) reported, identifications reported.||
 || *Link*: || [https://mztab.googlecode.com/svn/examples/labelfree_CQI.mzTab labelfree_CQI.mzTab] ||
+|| || ||
+|| *Name*: || Label-free example: Summary Quantification report ||
+|| *Description*: || (hand crafted) Report of a minimal "Summary Quantification report" label free experiment, quantification on 2 study variables (control/treatment) reported, identifications reported.||
+|| *Link*: || [https://mztab.googlecode.com/svn/examples/labelfree_SQI.mzTab labelfree_SQI.mzTab] ||
 || || ||
 || *Name*: || Cytidine ||
 || *Description*: || Cytidine reference spectrum example.||
