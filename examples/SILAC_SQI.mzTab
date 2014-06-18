@@ -1,5 +1,5 @@
 COM	This	line	serves	as	a	size	and	separator	hint	for	spreadsheet	applications.	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-COM	Report of a minimal Summary Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment) reported, identifications reported.
+COM	Report of a minimal "Summary Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment) reported, identifications reported.
 MTD	mzTab-version	1.0.0
 MTD	mzTab-mode	Summary
 MTD	mzTab-type	Quantification
