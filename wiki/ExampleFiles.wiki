@@ -11,11 +11,11 @@
 || *Link*: || [http://mztab.googlecode.com/svn/examples/SILAC_SQI.mzTab  SILAC_SQI.mzTab]||
 || || ||
 || *Name*: || iTRAQ example: Complete Quantification report ||
-|| *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3), 4*3 assays (3 replicate experiments) reported, identifications reported.
+|| *Description*: || (hand crafted) Report of a minimal "Complete Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3), 4*3 assays (3 replicate experiments) reported, identifications reported.||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/iTRAQ_CQI.mzTab iTRAQ_CQI.mzTab] ||
 || || ||
 || *Name*: || iTRAQ example: Summary Quantification report ||
-|| *Description*: || (hand crafted) Report of a minimal Summary Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3) reported, identifications reported. 
+|| *Description*: || (hand crafted) Report of a minimal Summary Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3) reported, identifications reported.||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/iTRAQ_SQI.mzTab iTRAQ_SQI.mzTab] ||
 || || ||
 || *Name*: || Protein Summary Quantification example ||
