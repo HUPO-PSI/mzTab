@@ -1,41 +1,42 @@
-COM	Report of a minimal "Complete Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment), 3+3 assays (replicates) reported, no identifications reported.																												
-COM	Internally 3 replicates/assays have been used to obtain quantification values, stdev and stderror																												
-MTD	mzTab-version	1.0.0																											
-MTD	mzTab-mode	Complete																											
-MTD	mzTab-type	Quantification																											
-MTD	description	mzTab example file for reporting a summary report of quantification data quantified on the protein level																											
-MTD	ms_run[1]-location	file://C:\path\to\my\file1.mzML																											
-MTD	ms_run[2]-location	file://C:\path\to\my\file2.mzML																											
-MTD	ms_run[3]-location	file://C:\path\to\my\file3.mzML																											
-MTD	ms_run[4]-location	file://C:\path\to\my\file4.mzML																											
-MTD	ms_run[5]-location	file://C:\path\to\my\file5.mzML																											
-MTD	ms_run[6]-location	file://C:\path\to\my\file6.mzML																											
-MTD	protein-quantification_unit	[PRIDE, PRIDE:0000393, Relative quantification unit,]																											
-MTD	software[1]	[MS, MS:1001583, MaxQuant,]																											
-MTD	fixed_mod[1]	[UNIMOD, UNIMOD:4, Carbamidomethyl, ]																											
-MTD	fixed_mod[2]	[UNIMOD, UNIMOD:188, Label:13C(6), ]																											
-MTD	variable_mod[1]	[UNIMOD, UNIMOD:35, Oxidation, ]																											
-MTD	quantification_method	[MS, MS:1001835, SILAC, ]																											
-MTD	assay[1]-quantification_reagent	[PRIDE, PRIDE:0000326, SILAC light, ]																											
-MTD	assay[2]-quantification_reagent	[PRIDE, PRIDE:0000325, SILAC heavy, ] 																											
-MTD	assay[3]-quantification_reagent	[PRIDE, PRIDE:0000326, SILAC light, ]																											
-MTD	assay[4]-quantification_reagent	[PRIDE, PRIDE:0000325, SILAC heavy, ]																											
-MTD	assay[5]-quantification_reagent	[PRIDE, PRIDE:0000326, SILAC light, ]																											
-MTD	assay[6]-quantification_reagent	[PRIDE, PRIDE:0000325, SILAC heavy, ]																											
-MTD	assay[1]-ms_run_ref	ms_run[1]																																													
-MTD	assay[2]-ms_run_ref	ms_run[1]																																													
-MTD	assay[3]-ms_run_ref	ms_run[2]																																													
-MTD	assay[4]-ms_run_ref	ms_run[2]																																													
-MTD	assay[5]-ms_run_ref	ms_run[3]																																													
-MTD	assay[6]-ms_run_ref	ms_run[3]																																													
-MTD	study_variable[1]-assay_refs	assay[1],assay[3],assay[5]																																													
-MTD	study_variable[2]-assay_refs	assay[2],assay[4],assay[6]																										
-MTD	study_variable[1]-description	heat shock response of control																											
-MTD	study_variable[2]-description	heat shock response of treatment																											
-																													
-PRH	accession	description	taxid	species	database	database_version	search_engine	best_search_engine_score	search_engine_score_ms_run[1]	search_engine_score_ms_run[2]	search_engine_score_ms_run[3]	search_engine_score_ms_run[4]	search_engine_score_ms_run[5]	search_engine_score_ms_run[6]	ambiguity_members	modifications	protein_coverage	protein_abundance_assay[1]	protein_abundance_assay[2]	protein_abundance_assay[3]	protein_abundance_assay[4]	protein_abundance_assay[5]	protein_abundance_assay[6]	protein_abundance_study_variable[1]	protein_abundance_stdev_study_variable[1]	protein_abundance_std_error_study_variable[1]	protein_abundance_study_variable[2]	protein_abundance_stdev_study_variable[2]	protein_abundance_std_error_study_variable[2]
-PRT	P63017	Heat shock cognate 71 kDa protein	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,46]	[MS,MS:1001171,Mascot:score,20]	[MS,MS:1001171,Mascot:score,31]	null	[MS,MS:1001171,Mascot:score,46]	[MS,MS:1001171,Mascot:score,22]	null	null	null	0.34	1	17.3	1	26.7	1	12.3	1	null	null	18.76666667	7.311178656	4.221110965
-PRT	P14602	Heat shock protein beta-1	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,100]	[MS,MS:1001171,Mascot:score,80]	[MS,MS:1001171,Mascot:score,86]	[MS,MS:1001171,Mascot:score,65]	[MS,MS:1001171,Mascot:score,64]	[MS,MS:1001171,Mascot:score,77]	[MS,MS:1001171,Mascot:score,100]	Q340U4,Q5K0U2,P8L901	null	0.12	1	0.43	1	0.82	1	0.07	1	null	null	0.44	0.375099987	0.216564078
-PRT	Q8K0U4	Heat shock 70 kDa protein 12A	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,120]	[MS,MS:1001171,Mascot:score,98]	null	[MS,MS:1001171,Mascot:score,120]	[MS,MS:1001171,Mascot:score,67]	[MS,MS:1001171,Mascot:score,56]	[MS,MS:1001171,Mascot:score,96]	null	null	0.14	1	21.3	1	25.5	1	17.8	1	null	null	21.53333333	3.855299383	2.225858137
-PRT	Q61699	Heat shock protein 105 kDa	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,30]	null	null	[MS,MS:1001171,Mascot:score,30]	null	null	null	null	null	0.08	1	1232.5	1	1654.6	1	989.2	1	null	null	1292.1	336.6799816	194.382278
-PRT	P07901	Heat shock protein HSP 90-alpha	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	[MS,MS:1001171,Mascot:score,120]	[MS,MS:1001171,Mascot:score,102]	[MS,MS:1001171,Mascot:score,107]	[MS,MS:1001171,Mascot:score,97]	[MS,MS:1001171,Mascot:score,99]	[MS,MS:1001171,Mascot:score,105]	[MS,MS:1001171,Mascot:score,107]	null	null	0.21	1	123.3	1	110.2	1	157.4	1	null	null	130.3	24.36616507	14.06781196
+COM	Report of a minimal "Complete Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment), 3+3 assays (replicates) reported, no identifications reported.
+COM	Internally 3 replicates/assays have been used to obtain quantification values, stdev and stderror
+MTD	mzTab-version	1.0.0
+MTD	mzTab-mode	Complete
+MTD	mzTab-type	Quantification
+MTD	description	mzTab example file for reporting a summary report of quantification data quantified on the protein level
+MTD	protein_search_engine_score[1]	[MS,MS:1001171,Mascot:score, ]
+MTD	ms_run[1]-location	file://C:/path/to/my/file1.mzML
+MTD	ms_run[2]-location	file://C:/path/to/my/file2.mzML
+MTD	ms_run[3]-location	file://C:/path/to/my/file3.mzML
+MTD	ms_run[4]-location	file://C:/path/to/my/file4.mzML
+MTD	ms_run[5]-location	file://C:/path/to/my/file5.mzML
+MTD	ms_run[6]-location	file://C:/path/to/my/file6.mzML
+MTD	protein-quantification_unit	[PRIDE, PRIDE:0000393, Relative quantification unit,]
+MTD	software[1]	[MS, MS:1001583, MaxQuant,]
+MTD	fixed_mod[1]	[UNIMOD, UNIMOD:4, Carbamidomethyl, ]
+MTD	fixed_mod[2]	[UNIMOD, UNIMOD:188, Label:13C(6), ]
+MTD	variable_mod[1]	[UNIMOD, UNIMOD:35, Oxidation, ]
+MTD	quantification_method	[MS, MS:1001835, SILAC, ]
+MTD	assay[1]-quantification_reagent	[PRIDE, PRIDE:0000326, SILAC light, ]
+MTD	assay[2]-quantification_reagent	[PRIDE, PRIDE:0000325, SILAC heavy, ]
+MTD	assay[3]-quantification_reagent	[PRIDE, PRIDE:0000326, SILAC light, ]
+MTD	assay[4]-quantification_reagent	[PRIDE, PRIDE:0000325, SILAC heavy, ]
+MTD	assay[5]-quantification_reagent	[PRIDE, PRIDE:0000326, SILAC light, ]
+MTD	assay[6]-quantification_reagent	[PRIDE, PRIDE:0000325, SILAC heavy, ]
+MTD	assay[1]-ms_run_ref	ms_run[1]
+MTD	assay[2]-ms_run_ref	ms_run[1]
+MTD	assay[3]-ms_run_ref	ms_run[2]
+MTD	assay[4]-ms_run_ref	ms_run[2]
+MTD	assay[5]-ms_run_ref	ms_run[3]
+MTD	assay[6]-ms_run_ref	ms_run[3]
+MTD	study_variable[1]-assay_refs	assay[1],assay[3],assay[5]
+MTD	study_variable[2]-assay_refs	assay[2],assay[4],assay[6]
+MTD	study_variable[1]-description	heat shock response of control
+MTD	study_variable[2]-description	heat shock response of treatment
+
+PRH	accession	description	taxid	species	database	database_version	search_engine	best_search_engine_score[1]	search_engine_score[1]_ms_run[1]	search_engine_score[1]_ms_run[2]	search_engine_score[1]_ms_run[3]	search_engine_score[1]_ms_run[4]	search_engine_score[1]_ms_run[5]	search_engine_score[1]_ms_run[6]	ambiguity_members	modifications	protein_coverage	protein_abundance_assay[1]	protein_abundance_assay[2]	protein_abundance_assay[3]	protein_abundance_assay[4]	protein_abundance_assay[5]	protein_abundance_assay[6]	protein_abundance_study_variable[1]	protein_abundance_stdev_study_variable[1]	protein_abundance_std_error_study_variable[1]	protein_abundance_study_variable[2]	protein_abundance_stdev_study_variable[2]	protein_abundance_std_error_study_variable[2]
+PRT	P63017	Heat shock cognate 71 kDa protein	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	46	20	31	null	46	22	null	null	null	0.34	1	17.3	1	26.7	1	12.3	1	null	null	18.76666667	7.311178656	4.221110965
+PRT	P14602	Heat shock protein beta-1	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	100	80	86	65	64	77	100	Q340U4,Q5K0U2,P8L901	null	0.12	1	0.43	1	0.82	1	0.07	1	null	null	0.44	0.375099987	0.216564078
+PRT	Q8K0U4	Heat shock 70 kDa protein 12A	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	120	98	null	120	67	56	96	null	null	0.14	1	21.3	1	25.5	1	17.8	1	null	null	21.53333333	3.855299383	2.225858137
+PRT	Q61699	Heat shock protein 105 kDa	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	30	null	null	30	null	null	null	null	null	0.08	1	1232.5	1	1654.6	1	989.2	1	null	null	1292.1	336.6799816	194.382278
+PRT	P07901	Heat shock protein HSP 90-alpha	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	120	102	107	97	99	105	107	null	null	0.21	1	123.3	1	110.2	1	157.4	1	null	null	130.3	24.36616507	14.06781196
