@@ -7,7 +7,7 @@
 || *Link*: || [http://mztab.googlecode.com/svn/examples/SILAC_CQI.mzTab  SILAC_CQI.mzTab]||
 || || ||
 || *Name*: || SILAC example: Summary Quantification report ||
-|| *Description*: || Report of a minimal Summary Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment) reported, identifications reported. ||
+|| *Description*: || Report of a minimal "Summary Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment) reported, identifications reported. ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/SILAC_SQI.mzTab  SILAC_SQI.mzTab]||
 || || ||
 || *Name*: || iTRAQ example: Complete Quantification report ||
