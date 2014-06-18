@@ -1,5 +1,5 @@
 COM	This	line	serves	as	a	size	and	separator	hint	for	spreadsheet	applications.	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-COM	Report of a minimal Summary Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3) reported, identifications reported.
+COM	Report of a minimal "Summary Quantification report" iTRAQ experiment, quantification on 4 study variables (t=0, t=1, t=2, t=3) reported, identifications reported.
 MTD	mzTab-version	1.0.0
 MTD	mzTab-mode	Summary
 MTD	mzTab-type	Quantification
