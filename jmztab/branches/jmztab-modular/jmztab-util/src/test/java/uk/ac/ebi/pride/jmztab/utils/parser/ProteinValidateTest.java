@@ -49,11 +49,8 @@ public class ProteinValidateTest {
             "database_version\t" +
             "search_engine\t" +
             "best_search_engine_score[1]\t" +
-            "best_search_engine_score[2]\t" +
-            "best_search_engine_score[3]\t" +
             "search_engine_score[1]_ms_run[1]\t" +
-            "search_engine_score[2]_ms_run[1]\t" +
-            "search_engine_score[3]_ms_run[1]\t" +
+            "search_engine_score[1]_ms_run[2]\t" +
             "reliability\t" +
             "num_psms_ms_run[1]\t" +
             "num_peptides_distinct_ms_run[1]\t" +
@@ -147,11 +144,8 @@ public class ProteinValidateTest {
             "10116\t" +
             "Rattus norvegicus (Rat)\t" +
             "UniProtKB\t2011_11\t" +
-            "[MS, MS:1001207, Mascot, ]|[MS, MS:1001208, Sequest, ]\t" +
+            "[MS, MS:1001207, Mascot, ]\t" +
             "50\t" +
-            "null\t" +
-            "null\t" +
-            "2\t" +
             "null\t" +
             "null\t" +
             "1\t" +

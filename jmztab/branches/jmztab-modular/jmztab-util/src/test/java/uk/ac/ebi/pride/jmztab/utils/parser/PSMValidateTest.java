@@ -52,7 +52,6 @@ public class PSMValidateTest {
             "search_engine\t" +
             "search_engine_score[1]\t" +
             "search_engine_score[2]\t" +
-            "search_engine_score[3]\t" +
             "reliability\t" +
             "modifications\t" +
             "retention_time\t" +
