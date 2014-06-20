@@ -1,8 +1,8 @@
 #summary List of example files showing the usage of mzTab.
 
 = mzTab Example files =
-|
-| *Name*: || SILAC example: Summary Quantification report ||
+
+|| *Name*: || SILAC example: Summary Quantification report ||
 || *Description*: || (hand crafted) Report of a minimal "Summary Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment) reported. ||
 || *Link*: || [http://mztab.googlecode.com/svn/examples/SILAC_SQ.mzTab  SILAC_SQ.mzTab]||
 || || ||
