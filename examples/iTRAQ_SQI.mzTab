@@ -4,13 +4,11 @@ MTD	mzTab-version	1.0.0
 MTD	mzTab-mode	Summary
 MTD	mzTab-type	Quantification
 MTD	description	mzTab example file for reporting a summary report of quantification data quantified on the protein level
-MTD	protein_search_engine_score[1]	[MS,MS:1001171,Mascot:score,]
-MTD	psm_search_engine_score[1]	[MS,MS:1001171,Mascot:score,]
+MTD	protein_search_engine_score[1]	[MS, MS:1001171, Mascot:score,]
+MTD	psm_search_engine_score[1]	[MS, MS:1001171, Mascot:score,]
 MTD	ms_run[1]-location	file://C:/path/to/my/file1.mzML
 MTD	ms_run[2]-location	file://C:/path/to/my/file2.mzML
 MTD	ms_run[3]-location	file://C:/path/to/my/file3.mzML
-MTD	protein_search_engine_score[1]	[MS, MS:1001171, Mascot:score,]
-MTD	psm_search_engine_score[1]	[MS, MS:1001171, Mascot:score,]
 MTD	protein-quantification_unit	[PRIDE, PRIDE:0000393, Relative quantification unit,]
 MTD	fixed_mod[1]	[UNIMOD, UNIMOD:4, Carbamidomethyl, ]
 MTD	fixed_mod[2]	[UNIMOD, UNIMOD:214, iTRAQ4plex, ]
