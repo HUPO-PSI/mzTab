@@ -1,0 +1,24 @@
+COM	This	line	serves	as	a	size	and	separator	hint	for	spreadsheet	applications.	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+COM	Report of a minimal "Summary Quantification report" SILAC experiment, quantification on 2 study variables (control/treatment) reported
+MTD	mzTab-version	1.0.0
+MTD	mzTab-mode	Summary
+MTD	mzTab-type	Quantification
+MTD	description	mzTab example file for reporting a summary report of quantification data quantified on the protein level
+MTD	ms_run[1]-location	file://C:/path/to/my/file1.mzML
+MTD	ms_run[2]-location	file://C:/path/to/my/file2.mzML
+MTD	ms_run[3]-location	file://C:/path/to/my/file3.mzML
+MTD	protein-quantification_unit	[PRIDE, PRIDE:0000393, Relative quantification unit,]
+MTD	protein_search_engine_score[1]	[MS,MS:1001171,Mascot:score,]
+MTD	fixed_mod[1]	[UNIMOD, UNIMOD:4, Carbamidomethyl, ]
+MTD	fixed_mod[2]	[UNIMOD, UNIMOD:188, Label:13C(6), ]
+MTD	variable_mod[1]	[UNIMOD, UNIMOD:35, Oxidation, ]
+MTD	study_variable[1]-description	heat shock response of control
+MTD	study_variable[2]-description	heat shock response of treatment
+
+PRH	accession	description	taxid	species	database	database_version	search_engine	best_search_engine_score[1]	ambiguity_members	modifications	protein_abundance_study_variable[1]	protein_abundance_stdev_study_variable[1]	protein_abundance_std_error_study_variable[1]	protein_abundance_study_variable[2]	protein_abundance_stdev_study_variable[2]	protein_abundance_std_error_study_variable[2]
+COM	Accession	Description	Taxonomie ID	Species	Database	Version	Search Engine	best Mascot score	Ambiguity Members	Modifications	Abundance (HSPControl)	Standard Deviation (HSPControl)	Standard Error (HSPControl)	Abundance (HSPTreatment)	Standard Deviation (HSPTreatment)	Stdandard Error (HSPTreatment)
+PRT	P63017	Heat shock cognate 71 kDa protein	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	46	null	0	34.476	10.1346	5.85119	1576.05	311.399	179.786
+PRT	P14602	Heat shock protein beta-1	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	100	Q340U4,Q5K0U2,P8L901	0	375.74	84.6393	48.8665	44183.8	74794.1	43182.4
+PRT	Q8K0U4	Heat shock 70 kDa protein 12A	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	120	null	0	3684.4	418.102	241.391	769002	597373	344894
+PRT	Q61699	Heat shock protein 105 kDa	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	39	null	0	36.435	2.90488	1.67713	11.1244	3.9066	2.25547
+PRT	P07901	Heat shock protein HSP 90-alpha	10090	Mus musculus	UniProtKB	2013_08	[MS,MS:1001207,Mascot,]	45	null	12-UNIMOD:35, 98-UNIMOD:35,727-UNIMOD:35	3.2585	0.82735	0.47767	2.61161	2.82646	1.63186
