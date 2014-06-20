@@ -1,7 +1,7 @@
 COM	This	line	serves	as	a	size	and	separator	hint	for	spreadsheet	applications.	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 COM	Report of a minimal "Summary Quantification report" label free experiment, quantification on 2 study variables (control/treatment) reported,identifications reported.
 MTD	mzTab-version	1.0.0
-MTD	mzTab-mode	Complete
+MTD	mzTab-mode	Summary
 MTD	mzTab-type	Quantification
 MTD	description	mzTab example file for reporting a summary report of quantification data quantified on the protein level
 MTD	protein_search_engine_score[1]	[MS,MS:1001171,Mascot:score,]
