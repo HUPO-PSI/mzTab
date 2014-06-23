@@ -230,6 +230,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
             //protein scores
             if (score != null) {
+                //Todo: when more than one score is added at protein level the information is missing
                 searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByName(searchEngineName);
                 id = -1;
 

@@ -3,6 +3,7 @@ package uk.ac.ebi.pride.jmztab.utils;
 
 import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
 import uk.ac.ebi.pride.jmztab.model.*;
+import uk.ac.ebi.pride.jmztab.utils.convert.ConvertMZidentMLFile;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
 import uk.ac.ebi.pride.jmztab.utils.convert.ConvertPrideXMLFile;
 import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
@@ -39,6 +40,9 @@ public class MZTabFileConverter {
         switch (format) {
             case PRIDE:
                 convertProvider = new ConvertPrideXMLFile(inFile);
+                break;
+            case MZIDENTML:
+                convertProvider = new ConvertMZidentMLFile(inFile);
                 break;
             default:
                 throw new IllegalArgumentException("Can not convert " + format + " to mztab.");

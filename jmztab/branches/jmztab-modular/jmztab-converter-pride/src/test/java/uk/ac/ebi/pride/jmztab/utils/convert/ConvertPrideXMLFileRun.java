@@ -18,23 +18,29 @@ public class ConvertPrideXMLFileRun {
 
     private void convert(File inFile, File outFile) throws Exception {
         logger.debug("Input file name is: " + inFile.getAbsoluteFile());
-        MZTabFileConverter converter = new MZTabFileConverter(inFile, MassSpecFileFormat.PRIDE);
-        MZTabErrorList errorList = converter.getErrorList();
+        MassSpecFileFormat spectrumTyp = detectFileType(inFile);
+        if(spectrumTyp != null){
+            MZTabFileConverter converter = new MZTabFileConverter(inFile, spectrumTyp);
+            MZTabErrorList errorList = converter.getErrorList();
 
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));
-        if (errorList.isEmpty()) {
-            MZTabFile tabFile = converter.getMZTabFile();
-            if (tabFile.isEmpty()) {
-                logger.debug("Not data included in mztab file.");
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));
+            if (errorList.isEmpty()) {
+                MZTabFile tabFile = converter.getMZTabFile();
+                if (tabFile.isEmpty()) {
+                    logger.debug("Not data included in mztab file.");
+                } else {
+                    logger.debug("Finish convert, no error in it. Output file name is " + outFile.getAbsoluteFile());
+                    tabFile.printMZTab(out);
+                }
             } else {
-                logger.debug("Finish convert, no error in it. Output file name is " + outFile.getAbsoluteFile());
-                tabFile.printMZTab(out);
+                logger.debug("There exists errors in convert files.");
+                logger.debug(errorList);
             }
-        } else {
-            logger.debug("There exists errors in convert files.");
-            logger.debug(errorList);
+            out.close();
+        }else{
+            logger.debug("The file types supported in current mztab converter are PRIDE XML (.xml) and MZIdentML (.mzid)");
         }
-        out.close();
+
     }
 
     public static void main(String[] args) throws Exception {
@@ -48,11 +54,23 @@ public class ConvertPrideXMLFileRun {
             File inputDir = new File(input.getFile());
 
             for (File tabFile : inputDir.listFiles()) {
-                if(tabFile.isFile() && !tabFile.isHidden())
-                    run.convert(tabFile, new File("temp", tabFile.getName().replace(".xml", ".mztab")));
+                if(tabFile.isFile() && !tabFile.isHidden()){
+                    String tabFileName = (tabFile.getName().contains(".xml"))?tabFile.getName().replace(".xml", ".mztab"):tabFile.getName();
+                    tabFileName        = (tabFileName.contains(".mzid"))?tabFile.getName().replace(".mzid", ".mztab"):tabFileName;
+                    run.convert(tabFile, new File("temp", tabFileName));
+                }
             }
         } else {
             throw new FileNotFoundException(dirName);
         }
+    }
+
+    private static MassSpecFileFormat detectFileType(File inFile){
+        if(inFile.getAbsolutePath().contains(".xml"))
+            return MassSpecFileFormat.PRIDE;
+        else if (inFile.getAbsolutePath().contains(".mzid"))
+            return MassSpecFileFormat.MZIDENTML;
+
+        return null;
     }
 }
