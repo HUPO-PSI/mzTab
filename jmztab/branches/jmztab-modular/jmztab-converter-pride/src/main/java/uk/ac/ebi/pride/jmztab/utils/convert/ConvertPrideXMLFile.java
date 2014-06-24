@@ -105,8 +105,11 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         //The description should be added in loadExperiment()
         if (metadata.getDescription() == null || metadata.getDescription().isEmpty()) {
-            metadata.setDescription("date of export: " + new Date());
+            metadata.setDescription("Description not available");
         }
+
+        metadata.addCustom(new UserParam("Date of export", new Date().toString()));
+        metadata.addCustom(new UserParam("Original converted file",source.toURI().toString()));
 
         return metadata;
     }
@@ -188,7 +191,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         if(metadata.getFixedModMap().isEmpty()){
             Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
-            getMZTabFile().addComment(1, comment);
+            getMZTabFile().addComment(getMZTabFile().getComments().size() + 1, comment);
             metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
         }
         if(metadata.getVariableModMap().isEmpty()){
@@ -646,15 +649,16 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         String description = getCvParamValue(identification.getAdditional(), DAOCvParams.PROTEIN_NAME.getAccession());
         protein.setDescription(description);
 
-        // set protein species and taxid.
-        if (!metadata.getSampleMap().isEmpty()) {
-            Sample sample = metadata.getSampleMap().get(1);
-            if (!sample.getSpeciesList().isEmpty()) {
-                Param speciesParam = sample.getSpeciesList().get(0);
-                protein.setSpecies(speciesParam.getName());
-                protein.setTaxid(speciesParam.getAccession());
-            }
-        }
+        // set protein species and taxid. We are not sure about the origin of the protein. So we keep this value as
+        // null to avoid discrepancies
+//        if (!metadata.getSampleMap().isEmpty()) {
+//            Sample sample = metadata.getSampleMap().get(1);
+//            if (!sample.getSpeciesList().isEmpty()) {
+//                Param speciesParam = sample.getSpeciesList().get(0);
+//                protein.setSpecies(speciesParam.getName());
+//                protein.setTaxid(speciesParam.getAccession());
+//            }
+//        }
 
         // get the number of psms and distinct peptides
         List<PeptideItem> items = identification.getPeptideItem();
@@ -749,10 +753,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         SearchEngineScoreParam psm_searchEngineScoreParam;
         Double score = identification.getScore();
         String searchEngineName = identification.getSearchEngine();
-        List<PeptideItem> peptideItems = identification.getPeptideItem();
-        CVParam psm_scoreParam;
         Integer id;
-        Integer psm_id;
 
         if (score != null) {
             //CVParam for the metadata section

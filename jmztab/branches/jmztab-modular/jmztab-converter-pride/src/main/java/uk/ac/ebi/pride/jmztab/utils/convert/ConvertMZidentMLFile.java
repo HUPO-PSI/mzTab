@@ -85,7 +85,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         // process the software
         loadSoftware(reader.getSoftwares(), reader.getProteinDetectionProtocol(), reader.getSpectrumIdentificationProtocol());
 
-        // Get the information of the search engine for metadata from all different objects. The information is in every identification, we assume that is going to be the same per
+        // Get the information of the search engine for metadata from all different objects. The information is in every
+        // identification, we assume that is going to be the same per
         // protein and psm (constant number of scores in all the proteins and constant number of score per psm)
         // They can not be added while processing proteins and psm identification because the initialization of the protein/psms
         // need to know in advance all the columns for the factory, they can not grow dynamically inside (the values are
@@ -124,9 +125,12 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
         //The description should be added in loadExperiment()
         if (metadata.getDescription() == null || metadata.getDescription().isEmpty()) {
-            metadata.setDescription("date of export: " + new Date());
+            //TODO: Yasset add the custom description
+            metadata.setDescription("Descripion not available");
         }
 
+        metadata.addCustom(new uk.ac.ebi.pride.jmztab.model.UserParam("Date of export", new Date().toString()));
+        metadata.addCustom(new uk.ac.ebi.pride.jmztab.model.UserParam("Original converted file", source.getAbsolutePath()));
 
         return metadata;
     }
@@ -243,7 +247,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
 
         if(metadata.getFixedModMap().isEmpty()){
-            Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
+            Comment comment = new Comment("Only variable modifications can be reported when the original source is a MZIdentML XML file");
             getMZTabFile().addComment(1, comment);
             metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
         }
@@ -370,6 +374,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     private void loadSoftware(List<AnalysisSoftware> softwareList, ProteinDetectionProtocol proteinDetectionProtocol,
                               List<SpectrumIdentificationProtocol> spectrumIdentificationProtocolList) {
 
+        //TODO Review
         if(!softwareList.isEmpty()){
             for(int i = 0; i < softwareList.size(); i++){
                 CvParam nameCVparam = softwareList.get(i).getSoftwareName().getCvParam();
@@ -561,11 +566,13 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             // Identification
             int idSample = 1;
 
+            //TODO Review
+            int specieId = 1;
+            int tissueId = 1;
+            int cellTypeId = 1;
+            int diseaseId = 1;
+
             for(uk.ac.ebi.jmzidml.model.mzidml.Sample sample: sampleList){
-                int specieId = 1;
-                int tissueId = 1;
-                int cellTypeId = 1;
-                int diseaseId = 1;
 
                 for (CvParam cv: sample.getCvParam()){
                     if ("NEWT".equals(cv.getCvRef())) {
@@ -745,6 +752,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
              protein.setDescription(description);
 
         //Todo: MzIdentml the samples are completely disconnected from proteins and peptides.
+        // set protein species and taxid. We are not sure about the origin of the protein. So we keep this value as
+        // null to avoid discrepancies
 
         Map<Integer, Integer> totalPSM = new HashMap<Integer, Integer>();
 
