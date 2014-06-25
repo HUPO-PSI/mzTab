@@ -19,8 +19,12 @@ import java.net.URL;
 import java.util.*;
 
 /**
+ * Class that convert a mzIdentML to a mzTab file using the mzTab library. This Class extends the @ConvertProvider<File, Void>  class
+ * and add new methods to handle specifications in the mzidentml files.
+ *
  * Created by yperez on 13/06/2014.
  */
+
 public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private MzIdentMLUnmarshallerAdaptor reader;
@@ -35,9 +39,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private Map<String, Integer> psmScoreToScoreIndex;
 
-    private static Integer THRESHOLD_LOOP_FOR_SCORE = 100;
-
-    private Map<Comparable, Integer> indexSpectrumID;
+    private final static Integer THRESHOLD_LOOP_FOR_SCORE = 100;
 
     public ConvertMZidentMLFile(File source) {
         super(source, null);
@@ -75,6 +77,9 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
          */
         String title = reader.getMzIdentMLName() != null?reader.getMzIdentMLName():reader.getMzIdentMLId();
         metadata.setTitle(title);
+
+        //Description
+        loadExperimentParams();
 
         /**
          * Get sample processing steps or CvTerms associated with it.
@@ -125,7 +130,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
         //The description should be added in loadExperiment()
         if (metadata.getDescription() == null || metadata.getDescription().isEmpty()) {
-            //TODO: Yasset add the custom description
             metadata.setDescription("Descripion not available");
         }
 
@@ -171,11 +175,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     protected MZTabColumnFactory convertProteinColumnFactory() {
         this.proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
 
-        // If not provide protein_quantification_unit in metadata, default value is Ratio
-        if (!isIdentification() && metadata.getProteinQuantificationUnit() == null) {
-            metadata.setProteinQuantificationUnit(new CVParam("PRIDE", "PRIDE:0000395", "Ratio", null));
-        }
-
         // ms_run[1] optional columns
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PSMS, metadata.getMsRunMap().get(1));
         proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, metadata.getMsRunMap().get(1));
@@ -204,6 +203,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     protected MZTabColumnFactory convertPSMColumnFactory() {
         this.psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
         psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_ID_COLUMN,String.class);
+        psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_DECOY_COLUMN, Integer.class);
 
         //Search engine score information (mandatory for all)
         for (Integer id : metadata.getPsmSearchEngineScoreMap().keySet()) {
@@ -298,9 +298,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         proteinScoreToScoreIndex = new HashMap<String, Integer>();
         psmScoreToScoreIndex = new HashMap<String, Integer>();
 
-        //Todo: In future version of mzidentml peptides also will contains scores.
-        Map<CVParam, Integer> peptideScores = new HashMap<CVParam, Integer>();
-        /**
+       /**
          * Look for all scores are protein level, PSM, and ProteinHypothesis, PeptideHypothesis. We should
          * implement a way to keep track the order of Score in the mzTab related with the rank
          */
@@ -374,27 +372,39 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     private void loadSoftware(List<AnalysisSoftware> softwareList, ProteinDetectionProtocol proteinDetectionProtocol,
                               List<SpectrumIdentificationProtocol> spectrumIdentificationProtocolList) {
 
-        //TODO Review
+
         if(!softwareList.isEmpty()){
+
             for(int i = 0; i < softwareList.size(); i++){
                 CvParam nameCVparam = softwareList.get(i).getSoftwareName().getCvParam();
                 if(nameCVparam!=null){
+
                     String version = (softwareList.get(i).getVersion() != null && !softwareList.get(i).getVersion().isEmpty())? softwareList.get(i).getVersion():"";
                     CVParam nameCV = new CVParam(nameCVparam.getCvRef(),nameCVparam.getAccession(),nameCVparam.getName(),version);
                      metadata.addSoftwareParam(i+1, nameCV);
                      if(proteinDetectionProtocol.getAnalysisSoftware() != null &&
-                             proteinDetectionProtocol.getAnalysisSoftware().getId() == softwareList.get(i).getId()){
+                             proteinDetectionProtocol.getAnalysisSoftware().getId().equals(softwareList.get(i).getId())){
                          if(proteinDetectionProtocol.getThreshold() != null){
                             loadCvParamSettings(i+1, proteinDetectionProtocol.getThreshold());
+
+                            //Add FDR at Protein level if is annotated
+                            for(CvParam cvParam: proteinDetectionProtocol.getThreshold().getCvParam())
+                              if(Arrays.asList(MZIdentMLUtils.CVTERMS_FDR_PROTEIN).contains(cvParam.getAccession()))
+                                  metadata.addFalseDiscoveryRateParam(convertParam(cvParam));
                          }
                          if(proteinDetectionProtocol.getAnalysisParams() != null){
                              loadCvParamSettings(i+1, proteinDetectionProtocol.getAnalysisParams());
                          }
                     }
+
                     for(SpectrumIdentificationProtocol spectrumIdentificationProtocol: spectrumIdentificationProtocolList){
-                        if(spectrumIdentificationProtocol.getAnalysisSoftware().getId() == softwareList.get(i).getId()){
+                        if(spectrumIdentificationProtocol.getAnalysisSoftware().getId().equals(softwareList.get(i).getId())){
                             if(spectrumIdentificationProtocol.getThreshold() != null){
                                 loadCvParamSettings(i+1, spectrumIdentificationProtocol.getThreshold());
+                                //Add FDR at PSM level if is annotated
+                                for(CvParam cvParam: proteinDetectionProtocol.getThreshold().getCvParam())
+                                    if(Arrays.asList(MZIdentMLUtils.CVTERMS_FDR_PSM).contains(cvParam.getAccession()))
+                                        metadata.addFalseDiscoveryRateParam(convertParam(cvParam));
                             }
                             if(spectrumIdentificationProtocol.getAdditionalSearchParams() != null){
                                 loadCvParamSettings(i+1, spectrumIdentificationProtocol.getAdditionalSearchParams());
@@ -408,15 +418,17 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                             //Todo: See if we need to capture other objects from fragmentation table, etc.
                         }
                     }
+
                 }
             }
+
         }
     }
 
     /**
      * Load in metadata all possible settings.
-     * @param order
-     * @param paramList
+     * @param order order of the CvParam
+     * @param paramList Param List
      */
     private void loadCvParamSettings(int order, ParamList paramList){
 
@@ -429,8 +441,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     /**
      * Isert in metadata only the CvTerm List Settings in an specific order
-     * @param order
-     * @param paramList
+     * @param order order of the Param
+     * @param paramList Param List
      */
     private void loadCvParamListSettings(int order, List<CvParam> paramList){
         for (CvParam cvParam: paramList){
@@ -448,10 +460,10 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         while(reference.hasNext()){
             BibliographicReference ref = reference.next();
             String doi = ref.getDoi();
-            if(doi != null && !doi.isEmpty())
+            if(doi != null && !doi.isEmpty()){
                 items.add(new PublicationItem(PublicationItem.Type.DOI, doi));
-
-            metadata.addPublicationItems(1, items);
+                metadata.addPublicationItems(1, items);
+            }
         }
     }
 
@@ -491,13 +503,13 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     private String getMailFromCvParam(Person person){
         String mail = "";
         for(CvParam cv: person.getCvParam()){
-            if(cv.getAccession() == MZIdentMLUtils.CVTERM_MAIL || cv.getValue().contains("@") ){
+            if(cv.getAccession().equals(MZIdentMLUtils.CVTERM_MAIL) || cv.getValue().contains("@") ){
                 mail = cv.getValue();
             }
         }
         if(mail.isEmpty()){
             for(UserParam cv: person.getUserParam()){
-                if(cv.getUnitAccession() == MZIdentMLUtils.CVTERM_MAIL || cv.getValue().contains("@") ){
+                if(cv.getUnitAccession().equals(MZIdentMLUtils.CVTERM_MAIL) || cv.getValue().contains("@") ){
                     mail = cv.getValue();
                 }
             }
@@ -508,25 +520,47 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     /**
      * Processes the experiment additional params: (f.e. quant method, description...).
      */
-    private void loadExperimentParams(uk.ac.ebi.pride.jaxb.model.Param param) {
-        //Todo: Convert to Addtional some of the mzidentml data
-        /*
-        for (uk.ac.ebi.pride.jaxb.model.CvParam p : param.getCvParam()) {
-            if (DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession().equals(p.getAccession()) && !isEmpty(p.getValue())) {
-                metadata.setDescription(p.getValue());
-            } else if (DAOCvParams.GEL_BASED_EXPERIMENT.getAccession().equals(p.getAccession())) {
-                metadata.addCustom(convertParam(p));
+    private void loadExperimentParams() {
+        String description = "";
+        description = description + ("Spectrum Identification Protocol: ");
+        List<SpectrumIdentificationProtocol> psmProtocols = reader.getSpectrumIdentificationProtocol();
+        for(SpectrumIdentificationProtocol protocol: psmProtocols){
+            Enzymes enzymes = protocol.getEnzymes();
+            if(enzymes!= null && !enzymes.getEnzyme().isEmpty()){
+                description = description + ("Enzymes - ");
+                for(Enzyme enzyme: enzymes.getEnzyme()){
+                    String name = "";
+                    if(enzyme.getEnzymeName() != null && enzyme.getEnzymeName().getCvParam().size() != 0){
+                        name = enzyme.getEnzymeName().getCvParam().get(0).getName();
+                    }else if(enzyme.getEnzymeName() != null && enzyme.getEnzymeName().getUserParam().size() != 0){
+                        name = (enzyme.getEnzymeName().getUserParam().get(0).getValue() != null)?enzyme.getEnzymeName().getUserParam().get(0).getValue():enzyme.getEnzymeName().getUserParam().get(0).getName();
+                    }
+                    //String name = (enzyme.getEnzymeName() != null && enzyme.getEnzymeName().getCvParam() != null && !enzyme.getEnzymeName().getCvParam().isEmpty())?enzyme.getEnzymeName().getCvParam().get(0).toString():"";
+                    description = (!name.isEmpty())?description + name + " ":description;
+                }
+                description = description.substring(0,description.length()-1);
             }
-        }*/
+            if(protocol.getDatabaseFilters() != null){
+                description = description + ("; Database Filters - ");
+                List<Filter> filters = protocol.getDatabaseFilters().getFilter();
+                for(Filter filter: filters){
+                    String name = (filter.getFilterType().getCvParam() != null)?filter.getFilterType().getCvParam().getName():"";
+                    description = (!name.isEmpty())?description + name + " ":description;
+                }
+                description = description.substring(0,description.length()-1);
+            }
+        }
+        metadata.setDescription(description);
+
     }
 
 
 
     private void loadURI(String expAccession) {
-        if (expAccession.isEmpty()) {
+        if (expAccession == null || expAccession.isEmpty()) {
             return;
         }
-
+        expAccession = expAccession.replaceAll("\\s+","-");
         try {
             URI uri = new URI("http://www.ebi.ac.uk/pride/archive/assays/" + expAccession);
             metadata.addUri(uri);
@@ -537,7 +571,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private void loadMsRun(List<SpectraData> spectraDataList) {
         spectraToRun = new HashMap<Comparable, Integer>(spectraDataList.size());
-        if(spectraDataList != null && !spectraDataList.isEmpty()){
+        if(!spectraDataList.isEmpty()){
             int idRun = 1;
             for(SpectraData spectradata: spectraDataList){
                 metadata.addMsRunFormat(idRun, convertParam(spectradata.getFileFormat().getCvParam()));
@@ -558,7 +592,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     }
 
     /**
-     * Adds the sample parameters (species, tissue, cell type, disease) to the unit and the various subsamples.
+     * Adds the sample parameters (species, tissue, cell type, disease) to the unit and the various sub-samples.
      */
     private void loadSamples(List<uk.ac.ebi.jmzidml.model.mzidml.Sample> sampleList) {
 
@@ -566,29 +600,29 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             // Identification
             int idSample = 1;
 
-            //TODO Review
-            int specieId = 1;
-            int tissueId = 1;
-            int cellTypeId = 1;
-            int diseaseId = 1;
-
             for(uk.ac.ebi.jmzidml.model.mzidml.Sample sample: sampleList){
-
+                int specieId = 1;
+                int tissueId = 1;
+                int cellTypeId = 1;
+                int diseaseId = 1;
                 for (CvParam cv: sample.getCvParam()){
+
                     if ("NEWT".equals(cv.getCvRef())) {
                         metadata.addSampleSpecies(specieId, convertParam(cv));
+                        specieId++;
                     } else if ("BTO".equals(cv.getCvRef())) {
                         metadata.addSampleTissue(tissueId, convertParam(cv));
+                        tissueId++;
                     } else if ("CL".equals(cv.getCvRef())) {
                         metadata.addSampleCellType(cellTypeId, convertParam(cv));
+                        cellTypeId++;
                     } else if ("DOID".equals(cv.getCvRef()) || "IDO".equals(cv.getCvRef())) {
                         metadata.addSampleDisease(diseaseId, convertParam(cv));
+                        diseaseId++;
                     }
                 }
-                specieId++;
-                tissueId++;
-                cellTypeId++;
-                diseaseId++;
+                idSample++;
+
                 metadata.addSampleDescription(idSample, sample.getName());
             }
         }
@@ -607,7 +641,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
      * Converts the passed Identification object into an MzTab PSM.
      */
     private List<PSM> loadPSMs(Set<String> oldpsmList) throws JAXBException {
-        indexSpectrumID = new HashMap<Comparable, Integer>();
+
+        Map<Comparable, Integer> indexSpectrumID = new HashMap<Comparable, Integer>();
         List<PSM> psmList = new ArrayList<PSM>();
 
         for (String oldPsmId : oldpsmList) {
@@ -618,26 +653,32 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 psm.setPSM_ID(oldPSM.getId());
                 psm.setAccession(peptideEvidenceRef.getPeptideEvidence().getDBSequence().getAccession());
                 psm.setDatabase(getDatabaseName(peptideEvidenceRef.getPeptideEvidence().getDBSequence().getSearchDatabase().getDatabaseName().getCvParam(),peptideEvidenceRef.getPeptideEvidence().getDBSequence().getSearchDatabase().getDatabaseName().getUserParam()));
-                psm.setDatabaseVersion(peptideEvidenceRef.getPeptideEvidence().getDBSequence().getSearchDatabase().getVersion());
+                String version = (peptideEvidenceRef.getPeptideEvidence().getDBSequence().getSearchDatabase().getVersion() != null && !peptideEvidenceRef.getPeptideEvidence().getDBSequence().getSearchDatabase().getVersion().isEmpty())?peptideEvidenceRef.getPeptideEvidence().getDBSequence().getSearchDatabase().getVersion():null;
+                psm.setDatabaseVersion(version);
 
                 psm.setStart(peptideEvidenceRef.getPeptideEvidence().getStart());
                 psm.setEnd(peptideEvidenceRef.getPeptideEvidence().getEnd());
                 psm.setPre(peptideEvidenceRef.getPeptideEvidence().getPre());
                 psm.setPost(peptideEvidenceRef.getPeptideEvidence().getPost());
 
-                // set the search engine - if possible
+
                 List<Modification> mods = new ArrayList<Modification>();
                 for(uk.ac.ebi.jmzidml.model.mzidml.Modification oldMod: oldPSM.getPeptide().getModification()){
-                    Modification mod = new Modification(Section.PSM, Modification.Type.MOD, oldMod.getCvParam().get(0).getAccession());
+                    Modification mod = MZTabUtils.parseModification(Section.PSM, oldMod.getCvParam().get(0).getAccession());
                     mod.addPosition(oldMod.getLocation(), null);
                     for(CvParam param: oldMod.getCvParam()) {
                         if(param.getAccession().equalsIgnoreCase(MZIdentMLUtils.CVTERM_NEUTRAL_LOST)){
                             CVParam lost = convertParam(param);
-                            mod.setNeutralLoss(lost);
+                            Modification modNeutral = new Modification(Section.PSM,Modification.Type.NEUTRAL_LOSS, lost.getAccession());
+                            modNeutral.setNeutralLoss(lost);
+                            modNeutral.addPosition(oldMod.getLocation(), null);
+                            mods.add(modNeutral);
+                            //mod.setNeutralLoss(lost);
                         }
                     }
-
+                    mods.add(mod);
                 }
+
                 for(Modification mod: mods) psm.addModification(mod);
 
                 psm.setExpMassToCharge(oldPSM.getExperimentalMassToCharge());
@@ -659,14 +700,11 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                         psm.setSearchEngineScore(idCount, param.getValue());
                     }
                 }
-                loadModifications(psm,peptideEvidenceRef.getPeptideEvidence());
+                //loadModifications(psm,peptideEvidenceRef.getPeptideEvidence());
                 if(!indexSpectrumID.containsKey(oldPSM.getId())){
                     int index = indexSpectrumID.size()+1;
                     indexSpectrumID.put(oldPSM.getId(), index);
-                    System.out.println(index);
                 }
-
-                //Set SearchEnine
 
                 //Set Search Engine
                 Set<SearchEngineParam> searchEngines = new HashSet<SearchEngineParam>();
@@ -680,6 +718,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
                 psm.setPSM_ID(indexSpectrumID.get(oldPSM.getId()));
                 psm.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_ID_COLUMN, oldPSM.getId());
+                Boolean decoy = peptideEvidenceRef.getPeptideEvidence().isIsDecoy();
+                psm.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_DECOY_COLUMN, (!decoy)?0:1);
                 psmList.add(psm);
             }
         }
@@ -688,54 +728,16 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     }
 
 
-
-
     /* Utils */
 
     private CVParam convertParam(CvParam param) {
         return new CVParam(param.getCvRef(), param.getAccession(), param.getName(), param.getValue());
     }
 
-    private uk.ac.ebi.pride.jaxb.model.CvParam getFirstCvParam(uk.ac.ebi.pride.jaxb.model.Param param) {
-        if (param == null) {
-            return null;
-        }
-
-        if (param.getCvParam().iterator().hasNext()) {
-            return param.getCvParam().iterator().next();
-        }
-
-        return null;
-    }
-
-    private String getCvParamValue(List<CvParam> param, String accession) {
-        if (param == null || accession == null || accession.isEmpty()) {
-            return null;
-        }
-
-        // this only makes sense if we have a list of params and an accession!
-        for (CvParam p : param) {
-            if (accession.equals(p.getAccession())) {
-                return p.getValue();
-            }
-        }
-
-        return null;
-    }
-
-    private void addOptionalColumnValue(MZTabRecord record, MZTabColumnFactory columnFactory, String name, String value) {
-        String logicalPosition = columnFactory.addOptionalColumn(name, String.class);
-        record.setValue(logicalPosition, value);
-    }
-
-    public Protein getProteinById(Comparable proteinId) throws ConfigurationException, JAXBException {
-        Protein protein = null;
-        DBSequence dbSequence = null;
-        List<SpectrumIdentificationItem> spectrumIdentificationItems = null;
-        dbSequence = reader.getDBSequenceById(proteinId);
-        spectrumIdentificationItems = getScannedSpectrumIdentificationItems(proteinId);
-        protein = loadProtein(dbSequence, spectrumIdentificationItems);
-        return protein;
+    private Protein getProteinById(Comparable proteinId) throws JAXBException {
+        DBSequence dbSequence = reader.getDBSequenceById(proteinId);
+        List<SpectrumIdentificationItem> spectrumIdentificationItems = getScannedSpectrumIdentificationItems(proteinId);
+        return loadProtein(dbSequence, spectrumIdentificationItems);
     }
 
     private Protein loadProtein(DBSequence sequence, List<SpectrumIdentificationItem> spectrumItems){
@@ -744,7 +746,9 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
         protein.setAccession(sequence.getAccession());
         protein.setDatabase(getDatabaseName(sequence.getSearchDatabase().getDatabaseName().getCvParam(), sequence.getSearchDatabase().getDatabaseName().getUserParam()));
-        protein.setDatabaseVersion(sequence.getSearchDatabase().getVersion());
+        String version = (sequence.getSearchDatabase().getVersion() != null && !sequence.getSearchDatabase().getVersion().isEmpty())?sequence.getSearchDatabase().getVersion():null;
+
+        protein.setDatabaseVersion(version);
 
         // set the description if available
         String description = getDescriptionFromCVParams(sequence.getCvParam());
@@ -815,7 +819,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             if (mod != null) {
             // only biological significant modifications are propagated to the protein
                    if (peptideEvidence.getStart() != null && ptm.getLocation() != null) {
-                       Integer position = peptideEvidence.getStart().intValue() + ptm.getLocation().intValue();
+                       Integer position = peptideEvidence.getStart() + ptm.getLocation();
                        mod.addPosition(position, null);
                    }
                       //if position is not set null is reported
@@ -863,8 +867,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                     // only biological significant modifications are propagated to the protein
                     if (ModParam.isBiological(ptm.getCvParam().get(0).getAccession())) {
                         // if we can calculate the position, we add it to the modification
-                        if (peptideEvidence.getStart() != null && ptm.getLocation() != null) {
-                            Integer position = peptideEvidence.getStart().intValue() + ptm.getLocation().intValue();
+                        if (peptideEvidence != null && peptideEvidence.getStart() != null && ptm.getLocation() != null) {
+                            Integer position = peptideEvidence.getStart() + ptm.getLocation();
                             mod.addPosition(position, null);
 
                         }
@@ -909,7 +913,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         return reader.getSpectrumIdentificationsByIds(spectrumIdentIds);
    }
 
-    private List<SpectrumIdentificationItem> getScannedSpectrumIdentificationItems(ProteinDetectionHypothesis proteinDetectionHypothesis) throws JAXBException {
+    private List<SpectrumIdentificationItem> getScannedSpectrumIdentificationItems(ProteinDetectionHypothesis proteinDetectionHypothesis){
         List<SpectrumIdentificationItem> spectrumIdentIds = new ArrayList<SpectrumIdentificationItem>();
         List<PeptideHypothesis> peptideHypothesises = proteinDetectionHypothesis.getPeptideHypothesis();
         for(PeptideHypothesis peptideHypothesis: peptideHypothesises){
@@ -917,7 +921,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
           for(SpectrumIdentificationItemRef spectrumIdentificationItemRef: specRefs)
               spectrumIdentIds.add(spectrumIdentificationItemRef.getSpectrumIdentificationItem());
         }
-
         return spectrumIdentIds;
     }
 

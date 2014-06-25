@@ -23,7 +23,8 @@ public class Modification {
         UNIMOD,
         CHEMMOD,
         SUBST,           // to report substitutions of amino acids
-        UNKNOW           // Unrecognized modification
+        UNKNOW,          // Unrecognized modification
+        NEUTRAL_LOSS
     }
 
     private Map<Integer, CVParam> positionMap = new TreeMap<Integer, CVParam>();
@@ -210,10 +211,11 @@ public class Modification {
             if (positionMap.size() > 0) {
                 sb.append(MINUS);
             }
-            sb.append(type).append(COLON).append(accession);
+            if(type != Type.NEUTRAL_LOSS)
+                sb.append(type).append(COLON).append(accession);
 
             if (neutralLoss != null) {
-                sb.append(BAR).append(neutralLoss);
+                sb.append(neutralLoss);
             }
         } else {
             if (! positionMap.isEmpty()) {
@@ -229,9 +231,10 @@ public class Modification {
                     if (param != null) {
                         sb.append(param);
                     }
-                    sb.append(MINUS).append(type).append(COLON).append(accession);
+                    if(type != Type.NEUTRAL_LOSS)
+                        sb.append(MINUS).append(type).append(COLON).append(accession);
                     if (neutralLoss != null) {
-                        sb.append(BAR).append(neutralLoss);
+                        sb.append(neutralLoss);
                     }
                 }
             }

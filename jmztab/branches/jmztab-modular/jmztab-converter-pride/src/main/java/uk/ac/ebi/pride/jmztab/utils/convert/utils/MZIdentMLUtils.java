@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * MzIdentML utilities to convert mzIdentML files to mzTab.
+ *
  * Created by yperez on 13/06/2014.
  */
 public final class MZIdentMLUtils {
@@ -18,12 +20,15 @@ public final class MZIdentMLUtils {
     public static String CVTERM_NEUTRAL_LOST = "MS:1001524";
     public static String OPTIONAL_ID_COLUMN  = "mzidentml_original_ID";
     public static String OPTIONAL_SEQUENCE_COLUMN = "protein_sequence";
+    public static String[] CVTERMS_FDR_PSM = {"MS:1002260", "MS:1002350", "MS:1002351"};
+    public static String[] CVTERMS_FDR_PROTEIN = {"MS:1001447", "MS:1002364", "MS:1001214"};
+    public static String OPTIONAL_DECOY_COLUMN = "cv_MS:1002217_decoy_peptide";
 
     /** algebraic sign */
     private static final String SIGN = "[+-]";
 
     /** integer expression */
-    public static final String INTEGER = SIGN + "?\\d+";
+    private static final String INTEGER = SIGN + "?\\d+";
 
 
     /**
@@ -54,41 +59,6 @@ public final class MZIdentMLUtils {
         NONE
     }
 
-    public static SpecFileFormat getSpecFileFormat(String fileFormat) {
-        if (fileFormat != null && fileFormat.length() > 0) {
-            if (SpecFileFormat.MZXML.toString().equalsIgnoreCase(fileFormat))
-                return SpecFileFormat.MZXML;
-            if (SpecFileFormat.DTA.toString().equalsIgnoreCase(fileFormat))
-                return SpecFileFormat.DTA;
-            if (SpecFileFormat.MGF.toString().equalsIgnoreCase(fileFormat))
-                return SpecFileFormat.MGF;
-            if (SpecFileFormat.MZDATA.toString().equalsIgnoreCase(fileFormat))
-                return SpecFileFormat.MZDATA;
-            if (SpecFileFormat.MZML.toString().equalsIgnoreCase(fileFormat))
-                return SpecFileFormat.MZML;
-            if (SpecFileFormat.PKL.toString().equalsIgnoreCase(fileFormat))
-                return SpecFileFormat.PKL;
-        }
-        return SpecFileFormat.NONE;
-    }
-
-    /**
-     * Search and find a list of search engine types from input parameter group.
-     *
-     * @return List<SearchEngineType>  a list of search engine
-     */
-    public static List<SearchEngineScoreParam> getSearchEngineScoreTypes(List<CvParam> cvParams) {
-        if (cvParams == null) {
-            throw new IllegalArgumentException("Input argument for getSearchEngineScoreTypes can not be null");
-        }
-        List<SearchEngineScoreParam> scores = new ArrayList<SearchEngineScoreParam>();
-        for(CvParam param: cvParams)
-          if(SearchEngineScoreParam.getSearchEngineScoreParamByAccession(param.getAccession()) != null)
-              scores.add(SearchEngineScoreParam.getSearchEngineScoreParamByAccession(param.getAccession()));
-
-        return scores;
-    }
-
     /**
      * Search and find a list of search engine types from input parameter group.
      *
@@ -110,37 +80,6 @@ public final class MZIdentMLUtils {
     }
 
 
-    /**
-     * Get cv param by accession number and cv label.
-     * This method tries to find the CvParam for the given accession and cvLabel.
-     * IMPORTANT NOTE: As the cvLabel may not always be present, the method will
-     * assume a valid match if the accession alone matches.
-     * <p/>
-     * ToDo: perhaps separate method without cvLabel would be better (then this one could fail if no cvLabel was found)
-     *
-     * @param cvLabel    cv label.
-     * @param accession  cv accession.
-     * @return CvParam  cv param.
-     */
-    public static List<CvParam> getCvParam(List<CvParam> cvParams, String cvLabel, String accession) {
-        if (cvParams == null || cvLabel == null || accession == null) {
-            throw new IllegalArgumentException("Input arguments for getCvParam can not be null");
-        }
-
-        List<CvParam> cps = new ArrayList<CvParam>();
-        for (CvParam param : cvParams) {
-            if (param.getAccession().equalsIgnoreCase(accession)) {
-//                if (param.getCvLookupID() != null && !param.getCvLookupID().equalsIgnoreCase(cvLabel)) {
-//                    // this could be the wrong CV param!!
-//                    logger.warn("We may have got the wrong CV param: " + param.toString() + " compare to cvLabel: [" + cvLabel + "] accession: [" + accession + "]");
-//                    // ToDo: proper logging (should perhaps fail, see comment above)
-//                }
-                cps.add(param);
-            }
-        }
-        return cps;
-    }
-
     public static List<SearchEngineScoreParam> getSearchEngineScoreTerm(List<CvParam> params) {
         List<SearchEngineScoreParam> scores = new ArrayList<SearchEngineScoreParam>();
         if (params != null)
@@ -150,7 +89,7 @@ public final class MZIdentMLUtils {
         return scores;
     }
 
-    public static SpecIdFormat getSpectraDataIdFormat(uk.ac.ebi.jmzidml.model.mzidml.SpectraData spectraData) {
+    private static SpecIdFormat getSpectraDataIdFormat(uk.ac.ebi.jmzidml.model.mzidml.SpectraData spectraData) {
         CvParam specIdFormat = spectraData.getSpectrumIDFormat().getCvParam();
         return getSpectraDataIdFormat(specIdFormat.getAccession());
     }

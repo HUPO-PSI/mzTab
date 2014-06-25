@@ -557,6 +557,7 @@ public class MZTabUtils {
         }
 
         target = translateTabToComma(target);
+        target = translateMinusToTab(target);
         String[] items = target.split("\\-");
         String modLabel;
         String positionLabel;
@@ -577,6 +578,7 @@ public class MZTabUtils {
         CVParam neutralLoss;
 
         modLabel = translateUnicodeToMinus(modLabel);
+        modLabel = translateTabToMinus(modLabel);
         Pattern pattern = Pattern.compile("(MOD|UNIMOD|CHEMMOD|SUBST):([^\\|]+)(\\|\\[([^,]+)?,([^,]+)?,([^,]+),([^,]*)\\])?");
         Matcher matcher = pattern.matcher(modLabel);
         if (matcher.find()) {
@@ -589,6 +591,15 @@ public class MZTabUtils {
 
             neutralLoss = matcher.group(6) == null ? null : new CVParam(matcher.group(4), matcher.group(5), matcher.group(6), matcher.group(7));
             modification.setNeutralLoss(neutralLoss);
+        }else if(parseParam(modLabel) != null){
+           // Check if is a Neutral Loss
+            CVParam param = (CVParam) parseParam(modLabel);
+            modification = new Modification(section, Modification.Type.NEUTRAL_LOSS, param.getAccession());
+            modification.setNeutralLoss(param);
+            if (positionLabel != null) {
+                parseModificationPosition(positionLabel, modification);
+            }
+
         }
 
         return modification;
@@ -631,6 +642,50 @@ public class MZTabUtils {
             end = matcher.start(1);
             sb.append(target.substring(start, end));
             sb.append(matcher.group(1).replaceAll("\t", ","));
+            start = matcher.end(1);
+        }
+        sb.append(target.substring(start, target.length()));
+
+        return sb.toString();
+    }
+
+    //Solve the problem for Neutral losses in CvTerm format
+
+    private static String translateMinusToTab(String target){
+        Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
+        Matcher matcher = pattern.matcher(target);
+
+        StringBuilder sb = new StringBuilder();
+
+        int start = 0;
+        int end;
+        while (matcher.find()) {
+            end = matcher.start(1);
+            sb.append(target.substring(start, end));
+            sb.append(matcher.group(1).replaceAll("-", "\t"));
+            start = matcher.end(1);
+        }
+        sb.append(target.substring(start, target.length()));
+
+        return sb.toString();
+
+    }
+
+    /**
+     * solve the conflict about comma char which used in split modification and split cv param components.
+     */
+    private static String translateTabToMinus(String target) {
+        Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
+        Matcher matcher = pattern.matcher(target);
+
+        StringBuilder sb = new StringBuilder();
+
+        int start = 0;
+        int end;
+        while (matcher.find()) {
+            end = matcher.start(1);
+            sb.append(target.substring(start, end));
+            sb.append(matcher.group(1).replaceAll("\t", "-"));
             start = matcher.end(1);
         }
         sb.append(target.substring(start, target.length()));
