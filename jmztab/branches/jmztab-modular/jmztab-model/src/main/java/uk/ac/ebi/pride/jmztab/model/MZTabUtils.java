@@ -414,15 +414,29 @@ public class MZTabUtils {
                 itemList.clear();
                 break;
             }
-            String[] items = pub.split("" + COLON);
-            if (items.length != 2 || (type = PublicationItem.findType(items[0].trim())) == null) {
+
+            if(pub.startsWith(PublicationItem.Type.DOI.getName())){
+                type = PublicationItem.Type.DOI;
+            } else if(pub.startsWith(PublicationItem.Type.PUBMED.getName())){
+                type = PublicationItem.Type.PUBMED;
+            }
+            else {
                 itemList.clear();
+                //Publication not supported
                 break;
-            } else {
+            }
+
+            String[] items = pub.split(type.getName() + COLON);
+            if (items.length == 2) {
                 accession = items[1].trim();
                 item = new PublicationItem(type, accession);
                 itemList.add(item);
+            }  else {
+                itemList.clear();
+                //Publication not supported
+                break;
             }
+
         }
 
         return itemList;

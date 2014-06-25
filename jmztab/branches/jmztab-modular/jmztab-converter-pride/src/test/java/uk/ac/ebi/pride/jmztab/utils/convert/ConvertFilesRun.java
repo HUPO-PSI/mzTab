@@ -13,7 +13,7 @@ import java.net.URL;
  * User: qingwei
  * Date: 17/09/13
  */
-public class ConvertPrideXMLFileRun {
+public class ConvertFilesRun {
     private static Logger logger = Logger.getLogger(ConvertPrideXMLFile.class);
 
     private void convert(File inFile, File outFile) throws Exception {
@@ -44,11 +44,11 @@ public class ConvertPrideXMLFileRun {
     }
 
     public static void main(String[] args) throws Exception {
-        ConvertPrideXMLFileRun run = new ConvertPrideXMLFileRun();
+        ConvertFilesRun run = new ConvertFilesRun();
 
         String dirName = "testset";
 
-        URL input = ConvertPrideXMLFileRun.class.getClassLoader().getResource(dirName);
+        URL input = ConvertFilesRun.class.getClassLoader().getResource(dirName);
 
         if(input != null) {
             File inputDir = new File(input.getFile());

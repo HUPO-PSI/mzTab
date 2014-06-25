@@ -23,6 +23,8 @@ import java.util.SortedMap;
  * User: qingwei
  * Date: 17/09/13
  */
+
+@Deprecated
 public class MZTabFileConverter {
     private MZTabErrorList errorList = new MZTabErrorList();
     private ConvertProvider convertProvider;
@@ -30,7 +32,6 @@ public class MZTabFileConverter {
     public MZTabFileConverter(File inFile, MassSpecFileFormat format) {
         this(inFile, format, true);
     }
-
 
     public MZTabFileConverter(File inFile, MassSpecFileFormat format, boolean validate) {
         if (format == null) {
