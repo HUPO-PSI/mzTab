@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
+import org.apache.log4j.Logger;
 import uk.ac.ebi.jmzidml.model.mzidml.*;
 import uk.ac.ebi.jmzidml.model.mzidml.UserParam;
 import uk.ac.ebi.pride.jmztab.model.*;
@@ -28,6 +29,8 @@ import java.util.*;
 public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private MzIdentMLUnmarshallerAdaptor reader;
+
+    private static Logger logger = Logger.getLogger(ConvertMZidentMLFile.class);
 
     private Metadata metadata;
     private MZTabColumnFactory proteinColumnFactory;
@@ -667,7 +670,12 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 List<Modification> mods = new ArrayList<Modification>();
                 for(uk.ac.ebi.jmzidml.model.mzidml.Modification oldMod: oldPSM.getPeptide().getModification()){
                     Modification mod = MZTabUtils.parseModification(Section.PSM, oldMod.getCvParam().get(0).getAccession());
-                    mod.addPosition(oldMod.getLocation(), null);
+                    if(mod != null){
+                        mod.addPosition(oldMod.getLocation(), null);
+                        mods.add(mod);
+                    }else{
+                        logger.warn("Your mzidentml contains an UNKNOWN modification which is not supported by mzTab format");
+                    }
                     for(CvParam param: oldMod.getCvParam()) {
                         if(param.getAccession().equalsIgnoreCase(MZIdentMLUtils.CVTERM_NEUTRAL_LOST)){
                             CVParam lost = convertParam(param);
@@ -678,7 +686,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                             //mod.setNeutralLoss(lost);
                         }
                     }
-                    mods.add(mod);
                 }
 
                 for(Modification mod: mods) psm.addModification(mod);
