@@ -473,8 +473,10 @@ public class MzIdentMLUnmarshallerAdaptor extends MzIdentMLUnmarshaller {
         List<SearchModification> modifications = new ArrayList<SearchModification>();
         List<SpectrumIdentificationProtocol> spectrumProtocol = this.getSpectrumIdentificationProtocol();
         for(SpectrumIdentificationProtocol spec: spectrumProtocol){
-            List<SearchModification> specMods = spec.getModificationParams().getSearchModification();
-            modifications.addAll(specMods);
+            if(spec.getModificationParams() != null){
+                 List<SearchModification> specMods = spec.getModificationParams().getSearchModification();
+                 modifications.addAll(specMods);
+            }
         }
         return modifications;
     }
