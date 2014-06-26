@@ -178,25 +178,29 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         // Get a list of Identification ids
         List<String> ids = reader.getIdentIds();
 
-        // Iterate over each identification
-        for (String id : ids) {
-            Identification identification = reader.getIdentById(id);
+        if (!ids.isEmpty()) {
+            // Iterate over each identification
+            for (String id : ids) {
+                Identification identification = reader.getIdentById(id);
 
-            Protein protein = loadProtein(identification);
-            //create a check for duplicated proteins ids (hash instead of array list)
-            proteins.add(protein);
+                Protein protein = loadProtein(identification);
+                //create a check for duplicated proteins ids (hash instead of array list)
+                proteins.add(protein);
 
-            // convert psm
-            List<PSM> psmList = loadPSMs(identification);
-            psms.addAll(psmList);
+                // convert psm
+                List<PSM> psmList = loadPSMs(identification);
+                psms.addAll(psmList);
+            }
+        } else {
+            logger.warn("There is not identification information in the file.");
         }
 
-        if(metadata.getFixedModMap().isEmpty()){
+        if (metadata.getFixedModMap().isEmpty()) {
             Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
             getMZTabFile().addComment(getMZTabFile().getComments().size() + 1, comment);
             metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
         }
-        if(metadata.getVariableModMap().isEmpty()){
+        if (metadata.getVariableModMap().isEmpty()) {
             metadata.addVariableModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
         }
     }

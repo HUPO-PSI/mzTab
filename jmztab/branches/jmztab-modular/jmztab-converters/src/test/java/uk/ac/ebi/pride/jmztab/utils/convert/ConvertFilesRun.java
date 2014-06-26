@@ -37,7 +37,7 @@ public class ConvertFilesRun {
                 logger.debug(errorList);
             }
             out.close();
-        }else{
+        } else {
             logger.debug("The file types supported in current mztab converter are PRIDE XML (.xml) and MZIdentML (.mzid)");
         }
 

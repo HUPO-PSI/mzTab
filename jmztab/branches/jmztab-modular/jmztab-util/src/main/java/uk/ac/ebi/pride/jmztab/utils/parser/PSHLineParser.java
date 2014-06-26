@@ -1,6 +1,8 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
 import uk.ac.ebi.pride.jmztab.model.*;
+import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.MZTabError;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 
@@ -28,6 +30,12 @@ public class PSHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
+        //psm_search_engine_score
+        if (metadata.getPsmSearchEngineScoreMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "psm_search_engine_score[1-n]", mode.toString(), type.toString()));
+        }
+
+
         //Mandatory in all modes
         for (SearchEngineScore searchEngineScore : metadata.getPsmSearchEngineScoreMap().values()) {
             String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";
@@ -35,12 +43,12 @@ public class PSHLineParser extends MZTabHeaderLineParser {
         }
 
         // if PSM section is present, fixed_mod[1-n] and variable_mod[1-n] should be defined.
-//        if (metadata.getFixedModMap().size() == 0) {
-//            throw new MZTabException(new MZTabError(LogicalErrorType.FixedMod, lineNumber));
-//        }
-//
-//        if (metadata.getVariableModMap().size() == 0) {
-//            throw new MZTabException(new MZTabError(LogicalErrorType.VariableMod, lineNumber));
-//        }
+        if (metadata.getFixedModMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.FixedMod, lineNumber));
+        }
+
+        if (metadata.getVariableModMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.VariableMod, lineNumber));
+        }
     }
 }

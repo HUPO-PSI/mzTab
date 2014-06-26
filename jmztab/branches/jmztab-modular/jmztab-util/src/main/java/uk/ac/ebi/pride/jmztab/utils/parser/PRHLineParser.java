@@ -49,6 +49,11 @@ public class PRHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
+        //protein_search_engine_score
+        if (metadata.getProteinSearchEngineScoreMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "protein_search_engine_score[1-n]", mode.toString(), type.toString()));
+        }
+
         //Mandatory in all modes
         for (SearchEngineScore searchEngineScore : metadata.getProteinSearchEngineScoreMap().values()) {
             String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";

@@ -438,10 +438,10 @@ public class MTDLineParser extends MZTabLineParser {
                     } else {
                         switch (property) {
                             case VARIABLE_MOD_POSITION:
-                                metadata.addFixedModPosition(id, valueLabel);
+                                metadata.addVariableModPosition(id, valueLabel);
                                 break;
                             case VARIABLE_MOD_SITE:
-                                metadata.addFixedModSite(id, valueLabel);
+                                metadata.addVariableModSite(id, valueLabel);
                                 break;
                         }
                     }
@@ -710,24 +710,6 @@ public class MTDLineParser extends MZTabLineParser {
                 throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "ms_run[" + id + "]-location", mode.toString(), type.toString()));
             }
         }
-
-        //TODO only if the secion exists
-//        //protein_search_engine_score
-//        if (metadata.getProteinSearchEngineScoreMap().size() == 0) {
-//            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "protein_search_engine_score[1-n]", mode.toString(), type.toString()));
-//        }
-//        //peptide_search_engine_score
-//        if (metadata.getPeptideSearchEngineScoreMap().size() == 0) {
-//            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "peptide_search_engine_score[1-n]", mode.toString(), type.toString()));
-//        }
-//        //psm_search_engine_score
-//        if (metadata.getPsmSearchEngineScoreMap().size() == 0) {
-//            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "psm_search_engine_score[1-n]", mode.toString(), type.toString()));
-//        }
-//        //smallmolecule_search_engine_score
-//        if (metadata.getSmallMoleculeSearchEngineScoreMap().size() == 0) {
-//            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "smallmolecule_search_engine_score[1-n]", mode.toString(), type.toString()));
-//        }
 
         //mods
         //fixed

@@ -40,6 +40,11 @@ public class SMHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
+        //smallmolecule_search_engine_score
+        if (metadata.getSmallMoleculeSearchEngineScoreMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "smallmolecule_search_engine_score[1-n]", mode.toString(), type.toString()));
+        }
+
         //Mandatory in all modes
         for (SearchEngineScore searchEngineScore : metadata.getSmallMoleculeSearchEngineScoreMap().values()) {
             String searchEngineScoreLabel = "[" + searchEngineScore.getId() + "]";

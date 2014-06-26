@@ -45,6 +45,11 @@ public class PEHLineParser extends MZTabHeaderLineParser {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
 
+        //peptide_search_engine_score
+        if (metadata.getPeptideSearchEngineScoreMap().size() == 0) {
+            throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "peptide_search_engine_score[1-n]", mode.toString(), type.toString()));
+        }
+
         if (type == MZTabDescription.Type.Quantification) {
             if (metadata.getPeptideQuantificationUnit() == null) {
                 throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "peptide-quantification_unit", mode.toString(), type.toString()));
