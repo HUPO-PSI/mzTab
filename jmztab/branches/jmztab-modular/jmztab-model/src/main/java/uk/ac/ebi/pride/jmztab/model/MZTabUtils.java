@@ -415,9 +415,9 @@ public class MZTabUtils {
                 break;
             }
 
-            if(pub.startsWith(PublicationItem.Type.DOI.getName())){
+            if(pub.startsWith(PublicationItem.Type.DOI.getName()) && !pub.contains(PublicationItem.Type.PUBMED.getName())){
                 type = PublicationItem.Type.DOI;
-            } else if(pub.startsWith(PublicationItem.Type.PUBMED.getName())){
+            } else if(pub.startsWith(PublicationItem.Type.PUBMED.getName()) && !pub.contains(PublicationItem.Type.DOI.getName())){
                 type = PublicationItem.Type.PUBMED;
             }
             else {

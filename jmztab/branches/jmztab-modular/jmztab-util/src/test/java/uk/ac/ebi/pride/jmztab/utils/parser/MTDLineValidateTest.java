@@ -93,6 +93,11 @@ public class MTDLineValidateTest {
 
     @Test
     public void testPublication() throws Exception {
+
+        // no error.
+        parser.parse(1, "MTD\tpublication[1]\tpubmed:21063943|doi:10.1007/978-1-60761-987-1_6", errorList);
+        assertTrue(errorList.size() == 0);
+
         // split char error.
         parser.parse(1, "MTD\tpublication[1]\tpubmed:21063943/doi:10.1007/978-1-60761-987-1_6", errorList);
         assertTrue(errorList.size() == 1);

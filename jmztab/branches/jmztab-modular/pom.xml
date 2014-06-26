@@ -32,7 +32,7 @@
         <module>jmztab-model</module>
         <module>jmztab-gui</module>
         <module>jmztab-cli</module>
-        <module>jmztab-converter-pride</module>
+        <module>jmztab-converters</module>
         <module>jmztab-util</module>
     </modules>
 

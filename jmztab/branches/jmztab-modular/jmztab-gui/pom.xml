@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jmztab-modular-converter-pride</artifactId>
+            <artifactId>jmztab-modular-converters</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
