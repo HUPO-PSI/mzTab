@@ -305,6 +305,8 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
             dataType = Double.class;
         } else if (param.getAccession().equals("MS:1002217")) {
             dataType = MZBoolean.class;
+        }else if(param.getAccession().equals("PRIDE:0000303")){
+            dataType = MZBoolean.class;
         } else {
             dataType = String.class;
         }

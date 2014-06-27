@@ -128,7 +128,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         }
 
         int offset = loadStableData(record, line);
-        if (offset == items.length - 1) {
+        if (offset == items.length) {
             return record;
         }
 

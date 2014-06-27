@@ -719,22 +719,22 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             String header = CVParamOptionColumn.getHeader(null, DECOY_PROTEIN_CV);
             MZTabColumn column = proteinColumnFactory.findColumnByHeader(header);
             if(column !=null) {
-                protein.setOptionColumnValue(DECOY_PROTEIN_CV, MZBoolean.True);
+                protein.setOptionColumnValue(DECOY_PROTEIN_CV, 1);
             }
             else {
-                proteinColumnFactory.addOptionalColumn(DECOY_PROTEIN_CV, MZBoolean.class);
-                protein.setOptionColumnValue(DECOY_PROTEIN_CV, MZBoolean.True);
+                proteinColumnFactory.addOptionalColumn(DECOY_PROTEIN_CV, Integer.class);
+                protein.setOptionColumnValue(DECOY_PROTEIN_CV, 1);
                 logger.debug("The protein decoy column has been added.");
             }
         } else {
             String header = CVParamOptionColumn.getHeader(null, DECOY_PROTEIN_CV);
             MZTabColumn column = proteinColumnFactory.findColumnByHeader(header);
             if(column !=null) {
-                protein.setOptionColumnValue(DECOY_PROTEIN_CV, MZBoolean.False);
+                protein.setOptionColumnValue(DECOY_PROTEIN_CV, 0);
             }
             else {
-                proteinColumnFactory.addOptionalColumn(DECOY_PROTEIN_CV, MZBoolean.class);
-                protein.setOptionColumnValue(DECOY_PROTEIN_CV, MZBoolean.False);
+                proteinColumnFactory.addOptionalColumn(DECOY_PROTEIN_CV, Integer.class);
+                protein.setOptionColumnValue(DECOY_PROTEIN_CV, 0);
                 logger.debug("The protein decoy column has been added.");
             }
         }
@@ -979,22 +979,22 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             if (isDecoyHit(identification)) {
                 MZTabColumn column = psmColumnFactory.findColumnByHeader(header);
                 if(column != null) {
-                    psm.setOptionColumnValue(DECOY_PSM_CV,  MZBoolean.True);
+                    psm.setOptionColumnValue(DECOY_PSM_CV,  1);
                 }
                 else {
-                    psmColumnFactory.addOptionalColumn(DECOY_PSM_CV, MZBoolean.class);
-                    psm.setOptionColumnValue(DECOY_PSM_CV, MZBoolean.True);
+                    psmColumnFactory.addOptionalColumn(DECOY_PSM_CV, Integer.class);
+                    psm.setOptionColumnValue(DECOY_PSM_CV, 1);
                     logger.debug("The psm decoy column has been added.");
                 }
             }
             else {
                 MZTabColumn column = psmColumnFactory.findColumnByHeader(header);
                 if(column != null) {
-                    psm.setOptionColumnValue(DECOY_PSM_CV, MZBoolean.False);
+                    psm.setOptionColumnValue(DECOY_PSM_CV, 0);
                 }
                 else {
-                    psmColumnFactory.addOptionalColumn(DECOY_PSM_CV, MZBoolean.class);
-                    psm.setOptionColumnValue(DECOY_PSM_CV, MZBoolean.False);
+                    psmColumnFactory.addOptionalColumn(DECOY_PSM_CV, Integer.class);
+                    psm.setOptionColumnValue(DECOY_PSM_CV, 0);
                     logger.debug("The psm decoy column has been added.");
                 }
             }
