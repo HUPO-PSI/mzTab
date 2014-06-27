@@ -17,7 +17,7 @@ public class ConvertFilesRun {
     private static Logger logger = Logger.getLogger(ConvertPrideXMLFile.class);
 
     private void convert(File inFile, File outFile) throws Exception {
-        logger.debug("Input file name is: " + inFile.getAbsoluteFile());
+        logger.warn("Input file name is: " + inFile.getAbsoluteFile());
         MassSpecFileFormat spectrumTyp = detectFileType(inFile);
         if(spectrumTyp != null){
             MZTabFileConverter converter = new MZTabFileConverter(inFile, spectrumTyp);
