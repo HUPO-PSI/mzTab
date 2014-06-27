@@ -100,6 +100,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         } else {
             metadata.setMZTabType(MZTabDescription.Type.Quantification);
             metadata.setMZTabMode(MZTabDescription.Mode.Summary);
+            logger.debug("Converting quantification file from PRIDE XML.");
         }
 
         //Fragmentation methods
@@ -832,6 +833,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         for (uk.ac.ebi.pride.jaxb.model.CvParam p : param.getCvParam()) {
             if (accession.equals(p.getAccession())) {
                 ambiguityMembers.add(p.getValue());
+                logger.debug("Ambiguity member added from PRIDE XML file");
             }
         }
 
