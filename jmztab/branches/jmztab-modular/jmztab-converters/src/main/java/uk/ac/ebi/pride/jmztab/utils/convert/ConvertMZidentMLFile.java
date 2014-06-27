@@ -574,11 +574,14 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private void loadMsRun(List<SpectraData> spectraDataList) {
         spectraToRun = new HashMap<Comparable, Integer>(spectraDataList.size());
-        if(!spectraDataList.isEmpty()){
+        if(spectraDataList != null && !spectraDataList.isEmpty()){
             int idRun = 1;
             for(SpectraData spectradata: spectraDataList){
-                metadata.addMsRunFormat(idRun, convertParam(spectradata.getFileFormat().getCvParam()));
-                metadata.addMsRunIdFormat(idRun, convertParam(spectradata.getSpectrumIDFormat().getCvParam()));
+                if(spectradata.getFileFormat() != null && spectradata.getFileFormat().getCvParam() != null)
+                   metadata.addMsRunFormat(idRun, convertParam(spectradata.getFileFormat().getCvParam()));
+                if(spectradata.getSpectrumIDFormat() != null && spectradata.getSpectrumIDFormat().getCvParam() != null)
+                   metadata.addMsRunIdFormat(idRun, convertParam(spectradata.getSpectrumIDFormat().getCvParam()));
+
                 String location = (spectradata.getLocation() != null && !spectradata.getLocation().isEmpty())?spectradata.getLocation():spectradata.getName();
                 if(location != null && !location.isEmpty() && !location.contains("file:/")) location = "file:/"+location;
                 if(location == null) location="";
