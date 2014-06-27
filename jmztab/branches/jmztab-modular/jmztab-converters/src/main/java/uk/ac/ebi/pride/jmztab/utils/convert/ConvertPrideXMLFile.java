@@ -3,10 +3,8 @@ package uk.ac.ebi.pride.jmztab.utils.convert;
 import org.apache.log4j.Logger;
 import uk.ac.ebi.pride.iongen.model.impl.DefaultPeptideIon;
 import uk.ac.ebi.pride.jaxb.model.*;
-import uk.ac.ebi.pride.jaxb.model.CvParam;
 import uk.ac.ebi.pride.jaxb.xml.PrideXmlReader;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.model.Modification;
 import uk.ac.ebi.pride.jmztab.model.Param;
 import uk.ac.ebi.pride.jmztab.model.UserParam;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabConversionException;
@@ -35,6 +33,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
     private static final CVParam DECOY_PROTEIN_CV = new CVParam("PRIDE", "PRIDE:0000303","Decoy hit", null);
     private static final CVParam DECOY_PSM_CV = new CVParam("MS", "MS:1002217","decoy peptide", null);
+    private static final String ORIGINAL_AC_DUPLICATED_PROTEIN = "Original_Ac_Duplicated_Protein";
+    private static final String DUPLICATED_SUFFIX = "_DUP_";
 
     private static Logger logger = Logger.getLogger(ConvertPrideXMLFile.class);
 
@@ -43,6 +43,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     private Metadata metadata;
     private MZTabColumnFactory proteinColumnFactory;
     private MZTabColumnFactory psmColumnFactory;
+
+    private SortedMap<String, Map<Protein, List<PSM>>> accessionProteinMap =
+            new TreeMap<String, Map<Protein, List<PSM>>>();
 
     public ConvertPrideXMLFile(File source) {
         super(source, null);
@@ -117,6 +120,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             metadata.setDescription("Description not available");
         }
 
+        if (metadata.getFixedModMap().isEmpty()) {
+             metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
+        }
+        if (metadata.getVariableModMap().isEmpty()) {
+            metadata.addVariableModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
+        }
+
         metadata.addCustom(new UserParam("Date of export", new Date().toString()));
         metadata.addCustom(new UserParam("Original converted file",source.toURI().toString()));
 
@@ -185,13 +195,74 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 Identification identification = reader.getIdentById(id);
 
                 Protein protein = loadProtein(identification);
-                //create a check for duplicated proteins ids (hash instead of array list)
-                proteins.add(protein);
+                if(protein != null) {
+                    // we create a check for duplicated proteins ids.
+                    // If the protein is null, it represents that have been
+                    // already added and we need to merge the information in the original
+                    Map<Protein,List<PSM>> inference = accessionProteinMap.get(protein.getAccession());
+                    if(inference == null){
+                        inference = new HashMap<Protein, List<PSM>>();
+                    }
+                    // convert psm
+                    List<PSM> psmList = loadPSMs(identification);
 
-                // convert psm
-                List<PSM> psmList = loadPSMs(identification);
-                psms.addAll(psmList);
+                    inference.put(protein, psmList);
+                    accessionProteinMap.put(protein.getAccession(), inference);
+
+                }
+
             }
+
+            //TODO Add PSMs
+            if(!accessionProteinMap.isEmpty()){
+                for (Map<Protein, List<PSM>> proteinListMap : accessionProteinMap.values()) {
+                    if(proteinListMap.size()==1){
+                        //Only one protein with this accession and the PSM
+                        proteins.add(proteinListMap.entrySet().iterator().next().getKey());
+                        psms.addAll(proteinListMap.entrySet().iterator().next().getValue());
+
+                    }
+                    else {
+                        int i=0;
+                        for (Map.Entry<Protein, List<PSM>> proteinListEntry : proteinListMap.entrySet()) {
+                            if(i<=0){
+                                //The first accession that we have is not modified, we don't need to merge
+                                proteins.add(proteinListEntry.getKey());
+                                psms.addAll(proteinListEntry.getValue());
+
+                            }
+                            else
+                            {
+                                Protein protein = proteinListEntry.getKey();
+                                String newAccession = protein.getAccession() + DUPLICATED_SUFFIX + i;
+
+                                String header = OptionColumn.getHeader(null, ORIGINAL_AC_DUPLICATED_PROTEIN);
+                                MZTabColumn column = proteinColumnFactory.findColumnByHeader(header);
+                                if(column !=null) {
+                                    protein.setOptionColumnValue(ORIGINAL_AC_DUPLICATED_PROTEIN, protein.getAccession());
+                                }
+                                else {
+                                    proteinColumnFactory.addOptionalColumn(ORIGINAL_AC_DUPLICATED_PROTEIN, String.class);
+                                    protein.setOptionColumnValue(ORIGINAL_AC_DUPLICATED_PROTEIN, protein.getAccession());
+                                    logger.debug("The protein was duplicated and we need to rename the accession.");
+                                }
+
+                                protein.setAccession(newAccession);
+
+                                List<PSM> psmsList = proteinListEntry.getValue();
+                                for (PSM psm : psmsList) {
+                                    psm.setAccession(newAccession);
+                                }
+                                proteins.add(protein);
+                                psms.addAll(psmsList);
+
+                            }
+                            i++;
+                        }
+                    }
+                }
+            }
+
         } else {
             logger.warn("There is not identification information in the file.");
         }
@@ -199,10 +270,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         if (metadata.getFixedModMap().isEmpty()) {
             Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
             getMZTabFile().addComment(getMZTabFile().getComments().size() + 1, comment);
-            metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
-        }
-        if (metadata.getVariableModMap().isEmpty()) {
-            metadata.addVariableModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
         }
     }
 
