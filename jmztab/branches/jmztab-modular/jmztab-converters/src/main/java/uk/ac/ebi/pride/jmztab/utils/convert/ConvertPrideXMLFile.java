@@ -450,9 +450,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         int id = 1;
         for (uk.ac.ebi.pride.jaxb.model.Contact c : contactList) {
             metadata.addContactName(id, c.getName());
+            String originalContact = c.getContactInfo();
+            //Some files are annotated using more than one email, we will use the first one
+            if(originalContact.contains(";")) originalContact=originalContact.split(";")[0];
             metadata.addContactAffiliation(id, c.getInstitution());
-            if (c.getContactInfo() != null && c.getContactInfo().contains("@")) {
-                metadata.addContactEmail(id, c.getContactInfo());
+            if (originalContact != null && originalContact.contains("@")) {
+                metadata.addContactEmail(id, originalContact);
             }
             id++;
         }
