@@ -574,7 +574,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 items.add(new PublicationItem(PublicationItem.Type.PUBMED, pubmed));
             }
 
-            metadata.addPublicationItems(i++, items);
+            if(!items.isEmpty())
+                metadata.addPublicationItems(i++, items);
         }
     }
 
@@ -588,8 +589,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         // this only makes sense if we have a list of params and an accession!
         for (uk.ac.ebi.pride.jaxb.model.CvParam p : param.getCvParam()) {
-            if (name.equals(p.getCvLabel())) {
-                return p.getAccession();
+            if (name.equalsIgnoreCase(p.getName())) {
+                return p.getValue();
             }
         }
 
