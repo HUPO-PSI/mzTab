@@ -460,12 +460,14 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
      */
     private void loadReferences(Iterator<BibliographicReference> reference) {
         List<PublicationItem> items = new ArrayList<PublicationItem>();
+        int i = 1;
         while(reference.hasNext()){
             BibliographicReference ref = reference.next();
             String doi = ref.getDoi();
             if(doi != null && !doi.isEmpty()){
                 items.add(new PublicationItem(PublicationItem.Type.DOI, doi));
-                metadata.addPublicationItems(1, items);
+                metadata.addPublicationItems(i, items);
+                i++;
             }
         }
     }
@@ -629,7 +631,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 }
                 idSample++;
 
-                metadata.addSampleDescription(idSample, sample.getName());
+                //metadata.addSampleDescription(idSample, sample.getName());
             }
         }
     }

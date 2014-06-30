@@ -651,7 +651,11 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         int i = 1;
         if (protocol.getProtocolSteps() != null) {
             for (uk.ac.ebi.pride.jaxb.model.Param param : protocol.getProtocolSteps().getStepDescription()) {
-                metadata.addSampleProcessingParam(i++, convertParam(getFirstCvParam(param)));
+                if(getFirstCvParam(param) != null)
+                    metadata.addSampleProcessingParam(i++, convertParam(getFirstCvParam(param)));
+                else if(getFirstUserParam(param) != null)
+                    metadata.addSampleProcessingParam(i++, convertUserParam(getFirstUserParam(param)));
+
             }
             //If the protocol was reported as a UserParam, it can not be converted for now
 
@@ -873,7 +877,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         protein.setAccession(identification.getAccession());
         protein.setDatabase(identification.getDatabase());
-        protein.setDatabaseVersion(identification.getDatabaseVersion());
+        String version = (identification.getDatabaseVersion() != null && ! identification.getDatabaseVersion().isEmpty())?identification.getDatabaseVersion():null;
+        protein.setDatabaseVersion(version);
 
         // We mark the decoy hits
         // The optional column was added previously
@@ -1133,7 +1138,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             psm.setPSM_ID(peptideItem.getSpectrum().getId());
             psm.setAccession(identification.getAccession());
             psm.setDatabase(identification.getDatabase());
-            psm.setDatabaseVersion(identification.getDatabaseVersion());
+            String version = (identification.getDatabaseVersion() != null && ! identification.getDatabaseVersion().isEmpty())?identification.getDatabaseVersion():null;
+            psm.setDatabaseVersion(version);
 
 
             if (isDecoyHit(identification)) {
@@ -1340,6 +1346,10 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         return new CVParam(param.getCvLabel(), param.getAccession(), param.getName(), param.getValue());
     }
 
+    private CVParam convertUserParam(uk.ac.ebi.pride.jaxb.model.UserParam param) {
+        return new CVParam(null, null, param.getName(), param.getValue());
+    }
+
     private uk.ac.ebi.pride.jaxb.model.CvParam getFirstCvParam(uk.ac.ebi.pride.jaxb.model.Param param) {
         if (param == null) {
             return null;
@@ -1347,6 +1357,18 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         if (param.getCvParam().iterator().hasNext()) {
             return param.getCvParam().iterator().next();
+        }
+
+        return null;
+    }
+
+    private uk.ac.ebi.pride.jaxb.model.UserParam getFirstUserParam(uk.ac.ebi.pride.jaxb.model.Param param) {
+        if (param == null) {
+            return null;
+        }
+
+        if (param.getUserParam().iterator().hasNext()) {
+            return param.getUserParam().iterator().next();
         }
 
         return null;
