@@ -179,9 +179,12 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         this.proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
 
         // ms_run[1] optional columns
-        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PSMS, metadata.getMsRunMap().get(1));
-        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, metadata.getMsRunMap().get(1));
-        proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, metadata.getMsRunMap().get(1));
+        for(MsRun msRun: metadata.getMsRunMap().values()){
+            proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PSMS, msRun);
+            proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun);
+            proteinColumnFactory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_UNIQUE, msRun);
+        }
+
         // for quantification file, need provide all optional columns for each ms_run.
         if (!isIdentification()) {
             for (Assay assay : metadata.getAssayMap().values()) {
@@ -193,8 +196,12 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         for (Integer id : metadata.getProteinSearchEngineScoreMap().keySet()) {
             //To be compliance with the specification you need the columns in the psms too
             proteinColumnFactory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id);
-            proteinColumnFactory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, id, metadata.getMsRunMap().get(1));
+            //proteinColumnFactory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, id, metadata.getMsRunMap().get(1));
         }
+
+        for(MsRun msRun: metadata.getMsRunMap().values())
+           for(Integer idScore: metadata.getProteinSearchEngineScoreMap().keySet())
+               proteinColumnFactory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, idScore, msRun);
 
         return proteinColumnFactory;
     }
@@ -271,20 +278,25 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         membersString = (membersString.isEmpty())?membersString:membersString.substring(0,membersString.length()-1);
         protein.addAmbiguityMembers(membersString);
 
-        //Loop for spectrum to get all the ms_run to repeate the score at protein level
+        //Loop for spectrum to get all the ms_run to repeat the score at protein level
         Set<MsRun> msRuns = new HashSet<MsRun>();
         for(SpectrumIdentificationItem spec: spectra){
             String[] spectumMap = reader.getIdentSpectrumMap().get(spec.getId());
             MsRun msRun = metadata.getMsRunMap().get(spectraToRun.get(spectumMap[1]));
             msRuns.add(msRun);
         }
-        // See wich protein scores are supported
+        // See which protein scores are supported
+
         for(CvParam cvPAram: firstProteinDetectionHypothesis.getCvParam()){
             if(proteinScoreToScoreIndex.containsKey(cvPAram.getAccession())){
                CVParam param = convertParam(cvPAram);
                int idCount = proteinScoreToScoreIndex.get(cvPAram.getAccession());
-               for (MsRun msRun: msRuns)
-                    protein.setSearchEngineScore(idCount,msRun, param.getValue());
+               for (MsRun msRun: metadata.getMsRunMap().values()){
+                    String value = null;
+                    if(msRuns.contains(msRun))
+                        value = param.getValue();
+                    protein.setSearchEngineScore(idCount,msRun, value);
+               }
             }
         }
 
@@ -700,7 +712,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 String[] spectumMap = reader.getIdentSpectrumMap().get(oldPsmId);
 
                 String spectrumReference = spectumMap[0];
-                psm.addSpectraRef(new SpectraRef(metadata.getMsRunMap().get(spectraToRun.get(spectumMap[1])), spectrumReference));
+                if(spectumMap[1] != null && spectrumReference != null)
+                    psm.addSpectraRef(new SpectraRef(metadata.getMsRunMap().get(spectraToRun.get(spectumMap[1])), spectrumReference));
                 psm.setStart(peptideEvidenceRef.getPeptideEvidence().getStart());
                 psm.setEnd(peptideEvidenceRef.getPeptideEvidence().getEnd());
 
@@ -755,23 +768,23 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     private Protein loadProtein(DBSequence sequence, List<SpectrumIdentificationItem> spectrumItems){
         // create the protein object
         Protein protein = new Protein(proteinColumnFactory);
-
         protein.setAccession(sequence.getAccession());
         protein.setDatabase(getDatabaseName(sequence.getSearchDatabase().getDatabaseName().getCvParam(), sequence.getSearchDatabase().getDatabaseName().getUserParam()));
         String version = (sequence.getSearchDatabase().getVersion() != null && !sequence.getSearchDatabase().getVersion().isEmpty())?sequence.getSearchDatabase().getVersion():null;
-
         protein.setDatabaseVersion(version);
 
         // set the description if available
-        String description = getDescriptionFromCVParams(sequence.getCvParam());
-        if(description != null)
-             protein.setDescription(description);
+        String description = (getDescriptionFromCVParams(sequence.getCvParam()) != null && !getDescriptionFromCVParams(sequence.getCvParam()).isEmpty())?getDescriptionFromCVParams(sequence.getCvParam()):null;
+        protein.setDescription(description);
+
+
 
         //Todo: MzIdentml the samples are completely disconnected from proteins and peptides.
         // set protein species and taxid. We are not sure about the origin of the protein. So we keep this value as
         // null to avoid discrepancies
 
         Map<Integer, Integer> totalPSM = new HashMap<Integer, Integer>();
+        Set<Integer> msRunforProtein = new HashSet<Integer>();
 
         for(SpectrumIdentificationItem specItem: spectrumItems){
             String ref = reader.getIdentSpectrumMap().get(specItem.getId())[1];
@@ -780,9 +793,15 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 if(totalPSM.containsKey(spectraToRun.get(ref))){
                      value = totalPSM.get(spectraToRun.get(ref)) + 1;
                 }
+                msRunforProtein.add(spectraToRun.get(ref));
                 totalPSM.put(spectraToRun.get(ref), value);
             }
         }
+
+        //Scores for Proteins
+
+
+
         for(Integer msRunId: totalPSM.keySet())
             protein.setNumPSMs(metadata.getMsRunMap().get(msRunId), totalPSM.get(msRunId));
 

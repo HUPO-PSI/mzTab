@@ -24,6 +24,7 @@ public final class MZIdentMLUtils {
     public static String[] CVTERMS_FDR_PROTEIN = {"MS:1001447", "MS:1002364", "MS:1001214"};
     public static String OPTIONAL_DECOY_COLUMN = "cv_MS:1002217_decoy_peptide";
 
+
     /** algebraic sign */
     private static final String SIGN = "[+-]";
 

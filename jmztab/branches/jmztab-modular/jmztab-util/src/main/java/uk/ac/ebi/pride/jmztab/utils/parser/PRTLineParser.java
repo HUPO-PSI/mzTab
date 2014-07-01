@@ -80,7 +80,6 @@ public class PRTLineParser extends MZTabDataLineParser {
     protected int loadStableData(MZTabRecord record, String line) {
         items = line.split("\\s*" + TAB + "\\s*");
         items[items.length - 1] = items[items.length - 1].trim();
-
         Protein protein = (Protein) record;
         MZTabColumn column;
         String columnName;
