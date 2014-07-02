@@ -33,6 +33,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     private MzIdentMLUnmarshallerAdaptor reader;
 
     private Metadata metadata;
+
     private MZTabColumnFactory proteinColumnFactory;
     private MZTabColumnFactory psmColumnFactory;
 
@@ -43,6 +44,9 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     private Map<String, Integer> psmScoreToScoreIndex;
 
     private final static Integer THRESHOLD_LOOP_FOR_SCORE = 100;
+
+    private Map<Param, Set<String>> variableModifications;
+
 
     public ConvertMZidentMLFile(File source) {
         super(source, null);
@@ -102,7 +106,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         loadSearchEngineScores();
 
         //load modifications
-        loadModifications(reader.getModificationIds());
+        //loadModifications(reader.getModificationIds());
 
         // process the references
         loadReferences(reader.getReferences());
@@ -142,34 +146,39 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         return metadata;
     }
 
-    private void loadModifications(List<SearchModification> modifications){
-        int fixedId = 1;
-        int varId   = 1;
-        if(modifications != null && !modifications.isEmpty()){
-            for(SearchModification mod: modifications){
-                List<CvParam> cvParams = mod.getCvParam();
-                Param param = null;
-                if(!cvParams.isEmpty()){
-                    //Todo: This code assume that the first CvTerm is the name of the modification but it could be another Cvterm
-                    param = convertParam(cvParams.get(0));
-                }
-                String siteString = "";
-                for(String site: mod.getResidues()){
-                    siteString=siteString+" "+ site;
-                }
-                siteString = siteString.trim();
-                if(mod.isFixedMod()){
-                    metadata.addFixedModParam(fixedId, param);
-                    metadata.addFixedModSite(fixedId,siteString);
-                    fixedId++;
-                }else{
-                    metadata.addVariableModParam(varId, param);
-                    metadata.addVariableModSite(varId, siteString);
-                    varId++;
-                }
-            }
-        }
-    }
+//    private void loadModifications(List<SearchModification> modifications){
+//        int fixedId = 1;
+//        int varId   = 1;
+//        /** In the current implementation on mzidentml one modification can be Variable modification and fixed modification because
+//         *  They are associated with different protocols. We will try to keep this information, means that if one modification is annotated as
+//         *  fixed and variable we will annotated as is.
+//         */
+//        variableModifications = new HashMap<Param, Set<String>>();
+//
+//        if(modifications != null && !modifications.isEmpty()){
+//            for(SearchModification mod: modifications) {
+//                List<CvParam> cvParams = mod.getCvParam();
+//                Param param = null;
+//                if (!cvParams.isEmpty()) {
+//                    //Todo: This code assume that the first CvTerm is the name of the modification but it could be another Cvterm
+//                    param = convertParam(cvParams.get(0));
+//                }
+//                for(String site: mod.getResidues()) {
+//                    if(mod.isFixedMod() && (!fixedModifications.containsKey(param) || !fixedModifications.get(param).contains(site))){
+//                        Set<String> sites = new HashSet<String>();
+//                        sites = (fixedModifications.containsKey(param.getAccession()))?fixedModifications.get(param.getAccession()):sites;
+//                        sites.add(site);
+//                        fixedModifications.put(param, sites);
+//                    }else if(!mod.isFixedMod() && (!variableModifications.containsKey(param) || !variableModifications.get(param).contains(site))){
+//                        Set<String> sites = new HashSet<String>();
+//                        sites = (variableModifications.containsKey(param.getAccession()))?variableModifications.get(param.getAccession()):sites;
+//                        sites.add(site);
+//                        variableModifications.put(param, sites);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Generate {@link uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory} which maintain a couple of {@link uk.ac.ebi.pride.jmztab.model.ProteinColumn}
@@ -664,6 +673,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
         Map<Comparable, Integer> indexSpectrumID = new HashMap<Comparable, Integer>();
         List<PSM> psmList = new ArrayList<PSM>();
+        variableModifications = new HashMap<Param, Set<String>>();
 
         for (String oldPsmId : oldpsmList) {
             SpectrumIdentificationItem oldPSM = reader.getSpectrumIdentificationItem(oldPsmId);
@@ -688,6 +698,20 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                     if(mod != null){
                         mod.addPosition(oldMod.getLocation(), null);
                         mods.add(mod);
+                        String site = null;
+                        if(oldMod.getLocation()-1 < 0)
+                            site = "N-Term";
+                        else if(peptideEvidenceRef.getPeptideEvidence().getPeptide().getPeptideSequence().length() <= oldMod.getLocation() -1)
+                            site = "C-Term";
+                        else
+                          site = String.valueOf(peptideEvidenceRef.getPeptideEvidence().getPeptide().getPeptideSequence().charAt(oldMod.getLocation()-1));
+                        Param param = convertParam(oldMod.getCvParam().get(0));
+                        if(!variableModifications.containsKey(param) || !variableModifications.get(param).contains(site)){
+                            Set<String> sites = new HashSet<String>();
+                            sites = (variableModifications.containsKey(param.getAccession()))?variableModifications.get(param.getAccession()):sites;
+                            sites.add(site);
+                            variableModifications.put(param, sites);
+                        }
                     }else{
                         logger.warn("Your mzidentml contains an UNKNOWN modification which is not supported by mzTab format");
                     }
@@ -749,6 +773,19 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             }
         }
 
+        //Load the modifications in case some of modifications are not reported in the SpectrumIdentificationProtocol
+        int varId = 1;
+        for(Param param: variableModifications.keySet()){
+            String siteString = "";
+            for(String site: variableModifications.get(param)){
+                siteString=siteString+" "+ site;
+            }
+            siteString = siteString.trim();
+            metadata.addVariableModParam(varId, param);
+            metadata.addVariableModSite(varId, siteString);
+            varId++;
+        }
+
         return psmList;
     }
 
@@ -799,8 +836,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         }
 
         //Scores for Proteins
-
-
 
         for(Integer msRunId: totalPSM.keySet())
             protein.setNumPSMs(metadata.getMsRunMap().get(msRunId), totalPSM.get(msRunId));
