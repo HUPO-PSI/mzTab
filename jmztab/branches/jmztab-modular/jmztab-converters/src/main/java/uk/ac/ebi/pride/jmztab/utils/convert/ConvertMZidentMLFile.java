@@ -271,7 +271,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
         }
         if(metadata.getVariableModMap().isEmpty()){
-            metadata.addFixedModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
+            metadata.addVariableModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
         }
     }
 
@@ -406,7 +406,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                     String version = (softwareList.get(i).getVersion() != null && !softwareList.get(i).getVersion().isEmpty())? softwareList.get(i).getVersion():"";
                     CVParam nameCV = new CVParam(nameCVparam.getCvRef(),nameCVparam.getAccession(),nameCVparam.getName(),version);
                      metadata.addSoftwareParam(i+1, nameCV);
-                     if(proteinDetectionProtocol.getAnalysisSoftware() != null &&
+                     if(proteinDetectionProtocol != null && proteinDetectionProtocol.getAnalysisSoftware() != null &&
                              proteinDetectionProtocol.getAnalysisSoftware().getId().equals(softwareList.get(i).getId())){
                          if(proteinDetectionProtocol.getThreshold() != null){
                             loadCvParamSettings(i+1, proteinDetectionProtocol.getThreshold());
@@ -426,7 +426,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                             if(spectrumIdentificationProtocol.getThreshold() != null){
                                 loadCvParamSettings(i+1, spectrumIdentificationProtocol.getThreshold());
                                 //Add FDR at PSM level if is annotated
-                                for(CvParam cvParam: proteinDetectionProtocol.getThreshold().getCvParam())
+                                for(CvParam cvParam: spectrumIdentificationProtocol.getThreshold().getCvParam())
                                     if(Arrays.asList(MZIdentMLUtils.CVTERMS_FDR_PSM).contains(cvParam.getAccession()))
                                         metadata.addFalseDiscoveryRateParam(convertParam(cvParam));
                             }
@@ -785,7 +785,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             metadata.addVariableModSite(varId, siteString);
             varId++;
         }
-
         return psmList;
     }
 
