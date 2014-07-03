@@ -120,6 +120,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         loadURI(reader.getExpAccession());
 
         //The description should be added in loadExperiment()
+        //TODO: Move to the right place, it is a default checking (ConverterProvider)
         if (metadata.getDescription() == null || metadata.getDescription().isEmpty()) {
             metadata.setDescription("Description not available");
         }
@@ -221,12 +222,14 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         //This check can not be move to the metadata section
+        //TODO: Move to the right place, it is a default checking (ConverterProvider)
         if (metadata.getFixedModMap().isEmpty()) {
             metadata.addFixedModParam(1, FIXED_MOD_DEFAULT_CV);
             Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
             getMZTabFile().addComment(getMZTabFile().getComments().size() + 1, comment);
         }
 
+        //TODO: Move to the right place, it is a default checking (ConverterProvider)
         if (metadata.getVariableModMap().isEmpty()) {
             metadata.addVariableModParam(1, VAR_MOD_DEFAULT_CV);
         }

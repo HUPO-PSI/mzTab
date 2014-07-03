@@ -14,7 +14,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jaxb-xjc.version>2.1.7</jaxb-xjc.version>
     </properties>
 
     <dependencies>
@@ -28,12 +27,6 @@
             <artifactId>com.springsource.org.apache.log4j</artifactId>
             <groupId>org.apache.log4j</groupId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-xjc</artifactId>
-            <version>${jaxb-xjc.version}</version>
         </dependency>
     </dependencies>
 

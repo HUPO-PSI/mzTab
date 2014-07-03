@@ -23,7 +23,7 @@ public class Modification {
         UNIMOD,
         CHEMMOD,
         SUBST,           // to report substitutions of amino acids
-        UNKNOW,          // Unrecognized modification
+        UNKNOWN,          // Unrecognized modification
         NEUTRAL_LOSS
     }
 
@@ -67,10 +67,10 @@ public class Modification {
 
     /**
      * If the software has determined that there are no modifications to a given protein, "0" MUST be used.
-     * In this situation, we define a {@link Type#UNKNOW} modification, which accession is "0".
+     * In this situation, we define a {@link Type#UNKNOWN} modification, which accession is "0".
      */
     public static Modification createNoModification(Section section) {
-        return new Modification(section, Type.UNKNOW, "0");
+        return new Modification(section, Type.UNKNOWN, "0");
     }
 
     /**
@@ -183,7 +183,7 @@ public class Modification {
         StringBuilder sb = new StringBuilder();
 
         // no modification.
-        if (type == Type.UNKNOW) {
+        if (type == Type.UNKNOWN) {
             return accession;
         }
 
