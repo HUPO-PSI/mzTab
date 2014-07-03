@@ -716,7 +716,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         metadata.addMsRunIdFormat(1, SPEC_NATIVE_ID_FORMAT_CV);
 
         try {
-            metadata.addMsRunLocation(1, new URL("file://" + source.getName()));
+            metadata.addMsRunLocation(1, new URL("file:/" + source.getName()));
         } catch (MalformedURLException e) {
             throw new MZTabConversionException("Error while adding ms run location", e);
         }

@@ -606,7 +606,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                    metadata.addMsRunIdFormat(idRun, convertParam(spectradata.getSpectrumIDFormat().getCvParam()));
 
                 String location = (spectradata.getLocation() != null && !spectradata.getLocation().isEmpty())?spectradata.getLocation():spectradata.getName();
-                if(location != null && !location.isEmpty() && !location.contains("file:/")) location = "file:/"+location;
+                if(location != null && !location.isEmpty() && !location.contains("file:")) location = "file:"+location;
                 if(location == null) location="";
                 try{
                     metadata.addMsRunLocation(idRun, new URL(location));
