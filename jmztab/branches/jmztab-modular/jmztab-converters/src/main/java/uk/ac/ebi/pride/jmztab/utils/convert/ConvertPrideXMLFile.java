@@ -280,7 +280,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     //Information mergeable
                     if (duplicated.getModifications() != null) {
                         for (Modification modification : duplicated.getModifications()) {
-                            if (!protein.getModifications().contains(modification)) {
+                            if (protein.getModifications() != null) {
+                                if (!protein.getModifications().contains(modification)) {
+                                    protein.addModification(modification);
+                                }
+                            } else {
+                                //initialize the splitList and add the modification
                                 protein.addModification(modification);
                             }
                         }
@@ -288,7 +293,11 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
                     if (duplicated.getAmbiguityMembers() != null) {
                         for (String ambiguityMember : duplicated.getAmbiguityMembers()) {
-                            if (!protein.getAmbiguityMembers().contains(ambiguityMember)) {
+                            if(protein.getAmbiguityMembers() != null) {
+                                if (!protein.getAmbiguityMembers().contains(ambiguityMember)) {
+                                    protein.addAmbiguityMembers(ambiguityMember);
+                                }
+                            } else {
                                 protein.addAmbiguityMembers(ambiguityMember);
                             }
                         }
