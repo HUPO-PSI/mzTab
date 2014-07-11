@@ -377,10 +377,10 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         }
 
         if (metadata.getProteinSearchEngineScoreMap().isEmpty()) {
-            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
         }
         if (metadata.getPsmSearchEngineScoreMap().isEmpty()) {
-            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
         }
 
     }

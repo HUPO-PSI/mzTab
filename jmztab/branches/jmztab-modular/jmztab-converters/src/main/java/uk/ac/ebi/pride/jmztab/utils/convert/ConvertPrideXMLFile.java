@@ -52,6 +52,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
     private PrideXmlReader reader;
 
+    private int alternativeId = 0;
+
     private Metadata metadata;
     private MZTabColumnFactory proteinColumnFactory;
     private MZTabColumnFactory psmColumnFactory;
@@ -195,8 +197,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 Protein protein = loadProtein(identification);
                 if (protein != null) {
                     // we create a check for duplicated proteins ids.
-                    // If the protein is null, it represents that have been
-                    // already added and we need to merge the information in the original
+                    // If the protein is not null, it represents that have been
+                    // already added and we need to merge the information with the original
                     List<Protein> proteinList = accessionProteinMap.get(protein.getAccession());
                     if (proteinList == null) {
                         proteinList = new ArrayList<Protein>();
@@ -206,10 +208,11 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
                 }
                 // convert psm
-                // they don't jave problems with duplications
+                // they don't have problems with duplications
                 List<PSM> psmList = loadPSMs(identification);
                 psms.addAll(psmList);
             }
+
             if (!accessionProteinMap.isEmpty()) {
                 for (List<Protein> proteinList : accessionProteinMap.values()) {
                         Protein protein = merge(proteinList);
@@ -492,45 +495,49 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                         id = metadata.getProteinSearchEngineScoreMap().size() + 1;
                         metadata.addProteinSearchEngineScoreParam(id, scoreParam);
                     }
+                } else {
+                    logger.debug("Protein search engine score param was not found for search engine name " + searchEngineName + ". It can not be added to the metadata section");
+                }
+            }
 
-                    // We look in the psm to be sure that we have all the possible search engines scores before we write
-                    // proteins and psms.
-                    peptideItems = identification.getPeptideItem();
+            //psms scores
+            // We look in the psm to be sure that we have all the possible search engines scores before we write
+            // proteins and psms.
+            peptideItems = identification.getPeptideItem();
 
-                    for (PeptideItem peptideItem : peptideItems) {
-                        for (CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
-                            psm_searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
-                            psm_id = -1;
+            for (PeptideItem peptideItem : peptideItems) {
+                for (CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
+                    psm_searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
+                    psm_id = -1;
 
-                            if (psm_searchEngineScoreParam != null) {
-                                psm_scoreParam = psm_searchEngineScoreParam.toCVParam(null);
+                    if (psm_searchEngineScoreParam != null) {
+                        psm_scoreParam = psm_searchEngineScoreParam.toCVParam(null);
 
-                                for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
-                                    if (entry.getValue().getParam().equals(psm_scoreParam)) {
-                                        psm_id = entry.getKey();
-                                        break;
-                                    }
-                                }
-
-                                //Add the search engine score in the metadata section and extend the column factories with the new columns.
-                                if (psm_id <= 0) {
-                                    psm_id = metadata.getPsmSearchEngineScoreMap().size() + 1;
-                                    metadata.addPsmSearchEngineScoreParam(psm_id, psm_scoreParam);
-                                }
+                        for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
+                            if (entry.getValue().getParam().equals(psm_scoreParam)) {
+                                psm_id = entry.getKey();
+                                break;
                             }
                         }
+
+                        //Add the search engine score in the metadata section and extend the column factories with the new columns.
+                        if (psm_id <= 0) {
+                            psm_id = metadata.getPsmSearchEngineScoreMap().size() + 1;
+                            metadata.addPsmSearchEngineScoreParam(psm_id, psm_scoreParam);
+                        }
                     }
-                } else {
-                    logger.debug("Search engine score param was not found. It can not be added to the metadata section");
+                    else {
+                        logger.debug("Psm search engine score param was not found for accession " + cvParam.getAccession() + ". It can not be added to the metadata section");
+                    }
                 }
             }
         }
 
         if (metadata.getProteinSearchEngineScoreMap().isEmpty()) {
-            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
         }
         if (metadata.getPsmSearchEngineScoreMap().isEmpty()) {
-            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
         }
     }
 
@@ -623,8 +630,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         for (uk.ac.ebi.pride.jaxb.model.Contact c : contactList) {
             metadata.addContactName(id, c.getName());
             String originalContact = c.getContactInfo();
+
             //Some files are annotated using more than one email, we will use the first one
-            if(originalContact.contains(";")) originalContact=originalContact.split(";")[0];
+            if(originalContact != null && originalContact.contains(";")){
+                originalContact=originalContact.split(";")[0];
+            }
+
             metadata.addContactAffiliation(id, c.getInstitution());
             if (originalContact != null && originalContact.contains("@")) {
                 metadata.addContactEmail(id, originalContact);
@@ -864,15 +875,17 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
      * @return Boolean indicating whether the passed identification is a decoy hit.
      */
     private boolean isDecoyHit(Identification identification) {
-        for (uk.ac.ebi.pride.jaxb.model.CvParam param : identification.getAdditional().getCvParam()) {
-            if (param.getAccession().equals(DAOCvParams.DECOY_HIT.getAccession())) {
-                return true;
+        if (identification.getAdditional() != null) {
+            for (uk.ac.ebi.pride.jaxb.model.CvParam param : identification.getAdditional().getCvParam()) {
+                if (param.getAccession().equals(DAOCvParams.DECOY_HIT.getAccession())) {
+                    return true;
+                }
             }
-        }
 
-        for (uk.ac.ebi.pride.jaxb.model.UserParam param : identification.getAdditional().getUserParam()) {
-            if ("Decoy Hit".equals(param.getName())) {
-                return true;
+            for (uk.ac.ebi.pride.jaxb.model.UserParam param : identification.getAdditional().getUserParam()) {
+                if ("Decoy Hit".equals(param.getName())) {
+                    return true;
+                }
             }
         }
 
@@ -965,11 +978,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         //TODO num_peptides_unique_ms_run
 //        protein.setNumPeptidesUnique();
 
-        // add the indistinguishable accessions to the ambiguity members
-        List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
-        for (String member : ambiguityMembers) {
-            protein.addAmbiguityMembers(member);
-        }
+
 
         // set the modifications
         // is not necessary check by ambiguous modifications because are not supported in PRIDEXML
@@ -980,45 +989,53 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         protein.setProteinConverage(identification.getSequenceCoverage());
 
         // process the additional params
-        for (CvParam p : identification.getAdditional().getCvParam()) {
-            // check if there's a quant unit set
-            if (!isIdentification() && (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession()))) {
-                CVParam param = convertParam(p);
-                if (param != null && metadata.getProteinQuantificationUnit() == null) {
-                    metadata.setProteinQuantificationUnit(param);
+        if (identification.getAdditional() != null) {
+            for (CvParam p : identification.getAdditional().getCvParam()) {
+                // check if there's a quant unit set
+                if (!isIdentification() && (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession()))) {
+                    CVParam param = convertParam(p);
+                    if (param != null && metadata.getProteinQuantificationUnit() == null) {
+                        metadata.setProteinQuantificationUnit(param);
+                    }
+                }
+                // Quantification values
+                else if (QuantitationCvParams.INTENSITY_SUBSAMPLE1.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    protein.setAbundanceColumnValue(metadata.getAssayMap().get(1), p.getValue());
+                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    protein.setAbundanceColumnValue(metadata.getAssayMap().get(2), p.getValue());
+                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    protein.setAbundanceColumnValue(metadata.getAssayMap().get(3), p.getValue());
+                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    protein.setAbundanceColumnValue(metadata.getAssayMap().get(4), p.getValue());
+                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    protein.setAbundanceColumnValue(metadata.getAssayMap().get(5), p.getValue());
+                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    protein.setAbundanceColumnValue(metadata.getAssayMap().get(6), p.getValue());
+                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    protein.setAbundanceColumnValue(metadata.getAssayMap().get(7), p.getValue());
+                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    protein.setAbundanceColumnValue(metadata.getAssayMap().get(8), p.getValue());
+                } else {
+                    // check optional column.
+                    if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
+                        addOptionalColumnValue(protein, proteinColumnFactory, "empai", p.getValue());
+                    } else if (DAOCvParams.GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
+                        // check if there's gel spot identifier
+                        addOptionalColumnValue(protein, proteinColumnFactory, "gel_spotidentifier", p.getValue());
+                    } else if (DAOCvParams.GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
+                        // check if there's gel identifier
+                        addOptionalColumnValue(protein, proteinColumnFactory, "gel_identifier", p.getValue());
+                    }
                 }
             }
-            // Quantification values
-            else if (QuantitationCvParams.INTENSITY_SUBSAMPLE1.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumnValue(metadata.getAssayMap().get(1), p.getValue());
-            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumnValue(metadata.getAssayMap().get(2), p.getValue());
-            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumnValue(metadata.getAssayMap().get(3), p.getValue());
-            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumnValue(metadata.getAssayMap().get(4), p.getValue());
-            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumnValue(metadata.getAssayMap().get(5), p.getValue());
-            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumnValue(metadata.getAssayMap().get(6), p.getValue());
-            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumnValue(metadata.getAssayMap().get(7), p.getValue());
-            } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession().equalsIgnoreCase(p.getAccession())) {
-                protein.setAbundanceColumnValue(metadata.getAssayMap().get(8), p.getValue());
-            } else {
-                // check optional column.
-                if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
-                    addOptionalColumnValue(protein, proteinColumnFactory, "empai", p.getValue());
-                } else if (DAOCvParams.GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
-                    // check if there's gel spot identifier
-                    addOptionalColumnValue(protein, proteinColumnFactory, "gel_spotidentifier", p.getValue());
-                } else if (DAOCvParams.GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
-                    // check if there's gel identifier
-                    addOptionalColumnValue(protein, proteinColumnFactory, "gel_identifier", p.getValue());
-                }
-            }
-        }
 
+            // add the indistinguishable accessions to the ambiguity members
+            List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
+            for (String member : ambiguityMembers) {
+                protein.addAmbiguityMembers(member);
+            }
+
+        }
         return protein;
     }
 
@@ -1140,15 +1157,26 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         String header = CVParamOptionColumn.getHeader(null, DECOY_PSM_CV);
 
         for (PeptideItem peptideItem : identification.getPeptideItem()) {
-            if (peptideItem.getSpectrum() == null) {
-                continue;
-            }
 
             // create the peptide object
             PSM psm = new PSM(psmColumnFactory, metadata);
 
             psm.setSequence(peptideItem.getSequence());
-            psm.setPSM_ID(peptideItem.getSpectrum().getId());
+
+            String spectrumReference;
+
+            if (peptideItem.getSpectrum() != null) {
+                psm.setPSM_ID(peptideItem.getSpectrum().getId());
+                spectrumReference = "spectrum=" + Integer.toString(peptideItem.getSpectrum().getId());
+                // set the peptide spectrum reference
+                psm.addSpectraRef(new SpectraRef(metadata.getMsRunMap().get(1),  spectrumReference));
+
+            }
+            else{
+                psm.setPSM_ID(alternativeId++);
+                logger.debug("There is no spectrum available, using an alternative id as PSM id.");
+            }
+
             psm.setAccession(identification.getAccession());
             psm.setDatabase(identification.getDatabase());
             String version = (identification.getDatabaseVersion() != null && ! identification.getDatabaseVersion().isEmpty())?identification.getDatabaseVersion():null;
@@ -1202,10 +1230,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             } catch (NullPointerException e) {
                 // ignore no precursor ion.
             }
-
-            // set the peptide spectrum reference
-            String spectrumReference = peptideItem.getSpectrum() == null ? "null" : Integer.toString(peptideItem.getSpectrum().getId());
-            psm.addSpectraRef(new SpectraRef(metadata.getMsRunMap().get(1), "spectrum=" + spectrumReference));
 
             if (peptideItem.getStart() != null) {
                 psm.setStart(peptideItem.getStart().toString());
@@ -1292,7 +1316,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 }
 
                 if (id <= 0) { //if the search engine score is not in the metadata we have a problem
-                    logger.warn("The search engine score value can not be converted because the search engine score is not defined  in the metadata section.");
+                    logger.warn("The search engine score value can not be converted because the search engine score is not defined in the metadata section.");
                     return;
                 }
 
@@ -1325,28 +1349,31 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 // an additional param should exist with the cv name.
                 // if not, we can not convert the modification to the header because we don't store all the mod cv terms
                 // in this moment
-                CvParam additional = ptm.getAdditional().getCvParamByAcc(ptm.getModAccession());
-                if (additional != null) {
-                    Param metadataParam = convertParam(additional);
+                if (ptm.getAdditional() != null) {
+                    CvParam additional = ptm.getAdditional().getCvParamByAcc(ptm.getModAccession());
+                    if (additional != null) {
+                        Param metadataParam = convertParam(additional);
 
-                    // propagate the modification to the metadata section
-                    boolean found = false;
+                        // propagate the modification to the metadata section
+                        boolean found = false;
 
-                    //For PRIDEXML converter all the modifications are considered variables because
-                    // we don't have the information form the original experiment
-                    for (VariableMod variableMod : metadata.getVariableModMap().values()) {
-                        if (variableMod.getParam().getAccession().equals(ptm.getModAccession())) {
-                            found = true;
-                            break;
+                        //For PRIDEXML converter all the modifications are considered variables because
+                        // we don't have the information form the original experiment
+                        for (VariableMod variableMod : metadata.getVariableModMap().values()) {
+                            if (variableMod.getParam().getAccession().equals(ptm.getModAccession())) {
+                                found = true;
+                                break;
+                            }
                         }
+                        if (!found) {
+                            //TODO Add the modification site in the future
+                            metadata.addVariableModParam(metadata.getVariableModMap().size() + 1, metadataParam);
+                        }
+                    } else {
+                        logger.warn("A CvParam with the modification information is not provided. The modification can not be propagated to the metadata section.");
                     }
-                    if (!found) {
-                        //TODO Add the modification site in the future
-                        metadata.addVariableModParam(metadata.getVariableModMap().size() + 1, metadataParam);
-                    }
-
                 } else {
-                    logger.warn("A CvParam with the modification information is not provided. The modification can not be propagated to the metada section.");
+                    logger.warn("A CvParam with the modification information is not provided. The modification can not be propagated to the metadata section.");
                 }
             }
         }
@@ -1403,7 +1430,19 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     }
 
     private void addOptionalColumnValue(MZTabRecord record, MZTabColumnFactory columnFactory, String name, String value) {
-        String logicalPosition = columnFactory.addOptionalColumn(name, String.class);
+
+        String header = OptionColumn.getHeader(null, name);
+        MZTabColumn column = columnFactory.findColumnByHeader(header);
+
+        String logicalPosition;
+
+        if (column == null) {
+            logicalPosition =  columnFactory.addOptionalColumn(name, String.class);
+        }
+        else {
+            logicalPosition = column.getLogicPosition();
+        }
+
         record.setValue(logicalPosition, value);
     }
 
