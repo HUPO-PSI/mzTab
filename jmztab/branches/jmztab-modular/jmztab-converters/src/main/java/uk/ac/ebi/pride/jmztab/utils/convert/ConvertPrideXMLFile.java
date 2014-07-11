@@ -53,12 +53,15 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     private PrideXmlReader reader;
 
     private int alternativeId = 0;
+    private boolean gelExperiment = false;
 
     private Metadata metadata;
     private MZTabColumnFactory proteinColumnFactory;
     private MZTabColumnFactory psmColumnFactory;
 
     private SortedMap<String, List<Protein>> accessionProteinMap = new TreeMap<String, List<Protein>>();
+
+
 
     public ConvertPrideXMLFile(File source) {
         super(source, null);
@@ -127,6 +130,11 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             metadata.setDescription("Description not available");
         }
 
+        //This will generate the columns for the gels in the protein columns factory
+        if(reader.getTwoDimIdentIds()!= null && reader.getTwoDimIdentIds().size() > 0){
+            gelExperiment = true;
+        }
+
         metadata.addCustom(new UserParam("Date of export", new Date().toString()));
         metadata.addCustom(new UserParam("Original converted file", source.toURI().toString()));
 
@@ -161,6 +169,14 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             //To be compliance with the specification you need the columns in the psms too
             proteinColumnFactory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id);
             proteinColumnFactory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, id, metadata.getMsRunMap().get(1));
+        }
+
+        if(gelExperiment) {
+            proteinColumnFactory.addOptionalColumn("gel_spotidentifier", String.class);
+            logger.debug("Optional column gel_spotidentifier added;");
+
+            proteinColumnFactory.addOptionalColumn("gel_identifier", String.class);
+            logger.debug("Optional column gel_identifier added;");
         }
 
         return proteinColumnFactory;
@@ -249,6 +265,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         int numProteinSearchEngineScore = metadata.getProteinSearchEngineScoreMap().size();
         int numDupProteins = proteinList.size();
+        MZBoolean hadQuant = MZBoolean.False;
 
         StringBuilder dupProteinsSearchEngine;
         StringBuilder dupProteinsSearchEngineScore;
@@ -262,127 +279,126 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         //We fill/initialize the information with the first one and we put in optional columns or merge the rest of information
         Protein protein = new Protein(proteinColumnFactory);
-        MZBoolean hadQuant = MZBoolean.False;
 
         //More than one protein. Merge and record the problem
         int i = 0;
 
         for (Protein duplicated : proteinList) {
-                if (i == 0) {
+            if (i == 0) {
 
-                    protein = proteinList.get(0);
+                protein = proteinList.get(0);
 
-                    if(proteinList.size()==1){
-                        //We don't need to merge proteins
-                        dupProteinsSearchEngine.append("null");
-                        dupProteinsSearchEngineScore.append("null");
-                        dupProteinsBestSearchEngineScore.append("null");
-                    }
+                if (proteinList.size() == 1) {
+                    //We don't need to merge proteins
+                    dupProteinsSearchEngine.append("null");
+                    dupProteinsSearchEngineScore.append("null");
+                    dupProteinsBestSearchEngineScore.append("null");
+                }
 
-                } else {
-                    //Information mergeable
-                    if (duplicated.getModifications() != null) {
-                        for (Modification modification : duplicated.getModifications()) {
-                            if (protein.getModifications() != null) {
-                                if (!protein.getModifications().contains(modification)) {
-                                    protein.addModification(modification);
-                                }
-                            } else {
-                                //initialize the splitList and add the modification
+            } else {
+                //Information mergeable
+                if (duplicated.getModifications() != null) {
+                    for (Modification modification : duplicated.getModifications()) {
+                        if (protein.getModifications() != null) {
+                            if (!protein.getModifications().contains(modification)) {
                                 protein.addModification(modification);
                             }
+                        } else {
+                            //initialize the splitList and add the modification
+                            protein.addModification(modification);
                         }
                     }
+                }
 
-                    if (duplicated.getAmbiguityMembers() != null) {
-                        for (String ambiguityMember : duplicated.getAmbiguityMembers()) {
-                            if(protein.getAmbiguityMembers() != null) {
-                                if (!protein.getAmbiguityMembers().contains(ambiguityMember)) {
-                                    protein.addAmbiguityMembers(ambiguityMember);
-                                }
-                            } else {
+                if (duplicated.getAmbiguityMembers() != null) {
+                    for (String ambiguityMember : duplicated.getAmbiguityMembers()) {
+                        if (protein.getAmbiguityMembers() != null) {
+                            if (!protein.getAmbiguityMembers().contains(ambiguityMember)) {
                                 protein.addAmbiguityMembers(ambiguityMember);
                             }
+                        } else {
+                            protein.addAmbiguityMembers(ambiguityMember);
                         }
                     }
+                }
 
-                    //Counts
+                //Counts
+                for (MsRun msRun : metadata.getMsRunMap().values()) {
+                    Integer numPeptidesDistinct = duplicated.getNumPeptidesDistinct(msRun);
+                    Integer numPeptidesUnique = duplicated.getNumPeptidesUnique(msRun);
+                    Integer numPSMs = duplicated.getNumPSMs(msRun);
+
+                    if (numPeptidesDistinct != null) {
+                        protein.setNumPeptidesDistinct(msRun, protein.getNumPeptidesDistinct(msRun) + numPeptidesDistinct);
+                    }
+                    if (numPeptidesUnique != null) {
+                        protein.setNumPeptidesUnique(msRun, protein.getNumPeptidesUnique(msRun) + numPeptidesUnique);
+                    }
+                    if (numPSMs != null) {
+                        protein.setNumPSMs(msRun, protein.getNumPSMs(msRun) + numPSMs);
+                    }
+                }
+
+                //Not mergeable  search_engine
+                //Same columns and appended by "|"
+                SplitList<Param> searchEngine = duplicated.getSearchEngine();
+                if (searchEngine != null) {
+                    dupProteinsSearchEngine.append(searchEngine.toString());
+                } else {
+                    dupProteinsSearchEngine.append((String) null);
+                }
+
+                if (i < numDupProteins - 1) {
+                    dupProteinsSearchEngine.append(";");
+                }
+
+                //Not mergeable  search_engine_score per ms_run
+                for (ProteinSearchEngineScore proteinSearchEngineScore : metadata.getProteinSearchEngineScoreMap().values()) {
+                    Param ro_param = proteinSearchEngineScore.getParam();   //not setValue allow in Param
                     for (MsRun msRun : metadata.getMsRunMap().values()) {
-                        Integer numPeptidesDistinct = duplicated.getNumPeptidesDistinct(msRun);
-                        Integer numPeptidesUnique = duplicated.getNumPeptidesUnique(msRun);
-                        Integer numPSMs = duplicated.getNumPSMs(msRun);
 
-                        if (numPeptidesDistinct!=null){
-                            protein.setNumPeptidesDistinct(msRun, protein.getNumPeptidesDistinct(msRun) + numPeptidesDistinct);
-                        }
-                        if (numPeptidesUnique!=null){
-                            protein.setNumPeptidesUnique(msRun, protein.getNumPeptidesUnique(msRun) + numPeptidesUnique);
-                        }
-                        if (numPSMs!=null){
-                            protein.setNumPSMs(msRun, protein.getNumPSMs(msRun) + numPSMs);
-                        }
-                    }
-
-                    //Not mergeable  search_engine
-                    //Same columns and appended by "|"
-                    SplitList<Param> searchEngine = duplicated.getSearchEngine();
-                    if (searchEngine != null) {
-                        dupProteinsSearchEngine.append(searchEngine.toString());
-                    } else {
-                        dupProteinsSearchEngine.append((String) null);
-                    }
-
-                    if (i < numDupProteins - 1) {
-                        dupProteinsSearchEngine.append(";");
-                    }
-
-                    //Not mergeable  search_engine_score per ms_run
-                    for (ProteinSearchEngineScore proteinSearchEngineScore : metadata.getProteinSearchEngineScoreMap().values()) {
-                        Param ro_param = proteinSearchEngineScore.getParam();   //not setValue allow in Param
-                        for (MsRun msRun : metadata.getMsRunMap().values()) {
-
-                            Double searchEngineScore = duplicated.getSearchEngineScore(proteinSearchEngineScore.getId(), msRun);
-                            CVParam cvParam;
-                            if (searchEngineScore != null) {
-                                cvParam = new CVParam(ro_param.getCvLabel(), ro_param.getAccession(), ro_param.getName(), searchEngineScore.toString());
-                            } else {
-                                cvParam = new CVParam(ro_param.getCvLabel(), ro_param.getAccession(), ro_param.getName(), null);
-                            }
-                            dupProteinsSearchEngineScore.append(cvParam.toString());
-                            if (proteinSearchEngineScore.getId() < numProteinSearchEngineScore) {
-                                dupProteinsBestSearchEngineScore.append("|");
-                            }
-                        }
-                    }
-
-                    if (i < numDupProteins - 1) {
-                        dupProteinsSearchEngineScore.append(";");
-                    }
-
-                    //Not mergeable  best_search_engine_score
-                    for (ProteinSearchEngineScore proteinSearchEngineScore : metadata.getProteinSearchEngineScoreMap().values()) {
-                        Param ro_param = proteinSearchEngineScore.getParam();   //not setValue allow
-
-                        Double bestSearchEngineScore = duplicated.getBestSearchEngineScore(proteinSearchEngineScore.getId());
+                        Double searchEngineScore = duplicated.getSearchEngineScore(proteinSearchEngineScore.getId(), msRun);
                         CVParam cvParam;
-                        if (bestSearchEngineScore != null) {
-                            cvParam = new CVParam(ro_param.getCvLabel(), ro_param.getAccession(), ro_param.getName(), bestSearchEngineScore.toString());
+                        if (searchEngineScore != null) {
+                            cvParam = new CVParam(ro_param.getCvLabel(), ro_param.getAccession(), ro_param.getName(), searchEngineScore.toString());
                         } else {
                             cvParam = new CVParam(ro_param.getCvLabel(), ro_param.getAccession(), ro_param.getName(), null);
                         }
-
-                        dupProteinsBestSearchEngineScore.append(cvParam.toString());
+                        dupProteinsSearchEngineScore.append(cvParam.toString());
                         if (proteinSearchEngineScore.getId() < numProteinSearchEngineScore) {
                             dupProteinsBestSearchEngineScore.append("|");
                         }
                     }
+                }
 
-                    if (i < numDupProteins - 1) {
-                        dupProteinsBestSearchEngineScore.append(";");
+                if (i < numDupProteins - 1) {
+                    dupProteinsSearchEngineScore.append(";");
+                }
+
+                //Not mergeable  best_search_engine_score
+                for (ProteinSearchEngineScore proteinSearchEngineScore : metadata.getProteinSearchEngineScoreMap().values()) {
+                    Param ro_param = proteinSearchEngineScore.getParam();   //not setValue allow
+
+                    Double bestSearchEngineScore = duplicated.getBestSearchEngineScore(proteinSearchEngineScore.getId());
+                    CVParam cvParam;
+                    if (bestSearchEngineScore != null) {
+                        cvParam = new CVParam(ro_param.getCvLabel(), ro_param.getAccession(), ro_param.getName(), bestSearchEngineScore.toString());
+                    } else {
+                        cvParam = new CVParam(ro_param.getCvLabel(), ro_param.getAccession(), ro_param.getName(), null);
+                    }
+
+                    dupProteinsBestSearchEngineScore.append(cvParam.toString());
+                    if (proteinSearchEngineScore.getId() < numProteinSearchEngineScore) {
+                        dupProteinsBestSearchEngineScore.append("|");
                     }
                 }
-                i++;
+
+                if (i < numDupProteins - 1) {
+                    dupProteinsBestSearchEngineScore.append(";");
+                }
             }
+            i++;
+        }
 
 
 
@@ -403,7 +419,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         protein.setOptionColumnValue(DUP_PROTEINS_HAD_QUANT, hadQuant);
 
         if(hadQuant == MZBoolean.True){
-            logger.warn(numDupProteins + " duplicated proteins with accession " + protein.getAccession() + " have been merge");
+            logger.warn(numDupProteins + " duplicated proteins with accession " + protein.getAccession() + " contained quantification information");
         }
 
         return protein;
@@ -527,7 +543,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                         }
                     }
                     else {
-                        logger.debug("Psm search engine score param was not found for accession " + cvParam.getAccession() + ". It can not be added to the metadata section");
+                        logger.debug("Psm search engine score param was not found for name \"" + cvParam.getName() + "\". It can not be added to the metadata section");
                     }
                 }
             }
@@ -659,6 +675,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 // check if it's a quantification method
                 metadata.setQuantificationMethod(convertParam(p));
             } else if (DAOCvParams.GEL_BASED_EXPERIMENT.getAccession().equals(p.getAccession())) {
+                //If it a gel we add the optional columns for gel
+                gelExperiment = true;
                 metadata.addCustom(convertParam(p));
             }
         }
@@ -934,10 +952,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             loadSearchEngineScore(protein, identification);
         }
 
-        // set the description if available
-        String description = getCvParamValue(identification.getAdditional(), DAOCvParams.PROTEIN_NAME.getAccession());
-        protein.setDescription(description);
-
         //TODO protein, species and taxid
         // set protein species and taxid. We are not sure about the origin of the protein. So we keep this value as
         // null to avoid discrepancies, we don't copy from metadata
@@ -977,8 +991,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         //TODO num_peptides_unique_ms_run
 //        protein.setNumPeptidesUnique();
-
-
 
         // set the modifications
         // is not necessary check by ambiguous modifications because are not supported in PRIDEXML
@@ -1029,6 +1041,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 }
             }
 
+            // set the description if available
+            String description = getCvParamValue(identification.getAdditional(), DAOCvParams.PROTEIN_NAME.getAccession());
+            if(description!= null && !description.isEmpty()) {
+                protein.setDescription(description.trim());
+            }
+
             // add the indistinguishable accessions to the ambiguity members
             List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
             for (String member : ambiguityMembers) {
@@ -1036,6 +1054,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             }
 
         }
+
         return protein;
     }
 
