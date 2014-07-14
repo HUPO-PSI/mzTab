@@ -47,6 +47,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private Map<Param, Set<String>> variableModifications;
 
+    private Set<Comparable> proteinIds;
+
 
     public ConvertMZidentMLFile(File source) {
         super(source, null);
@@ -146,40 +148,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         return metadata;
     }
 
-//    private void loadModifications(List<SearchModification> modifications){
-//        int fixedId = 1;
-//        int varId   = 1;
-//        /** In the current implementation on mzidentml one modification can be Variable modification and fixed modification because
-//         *  They are associated with different protocols. We will try to keep this information, means that if one modification is annotated as
-//         *  fixed and variable we will annotated as is.
-//         */
-//        variableModifications = new HashMap<Param, Set<String>>();
-//
-//        if(modifications != null && !modifications.isEmpty()){
-//            for(SearchModification mod: modifications) {
-//                List<CvParam> cvParams = mod.getCvParam();
-//                Param param = null;
-//                if (!cvParams.isEmpty()) {
-//                    //Todo: This code assume that the first CvTerm is the name of the modification but it could be another Cvterm
-//                    param = convertParam(cvParams.get(0));
-//                }
-//                for(String site: mod.getResidues()) {
-//                    if(mod.isFixedMod() && (!fixedModifications.containsKey(param) || !fixedModifications.get(param).contains(site))){
-//                        Set<String> sites = new HashSet<String>();
-//                        sites = (fixedModifications.containsKey(param.getAccession()))?fixedModifications.get(param.getAccession()):sites;
-//                        sites.add(site);
-//                        fixedModifications.put(param, sites);
-//                    }else if(!mod.isFixedMod() && (!variableModifications.containsKey(param) || !variableModifications.get(param).contains(site))){
-//                        Set<String> sites = new HashSet<String>();
-//                        sites = (variableModifications.containsKey(param.getAccession()))?variableModifications.get(param.getAccession()):sites;
-//                        sites.add(site);
-//                        variableModifications.put(param, sites);
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     /**
      * Generate {@link uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory} which maintain a couple of {@link uk.ac.ebi.pride.jmztab.model.ProteinColumn}
      */
@@ -238,6 +206,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     @Override
     protected void fillData() {
         // Get a list of Identification ids
+        proteinIds = new HashSet<Comparable>();
         try{
             if(!reader.hasProteinGroup()){
                 List<Comparable> proteinIds = reader.getProteinIds();
@@ -279,6 +248,11 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         ProteinAmbiguityGroup proteinAmbiguityGroup = reader.getProteinAmbiguityGroup(proteinGroupId);
         //Todo: We will annotated only the first protein, the core protein.
         ProteinDetectionHypothesis firstProteinDetectionHypothesis = proteinAmbiguityGroup.getProteinDetectionHypothesis().get(0);
+        if (proteinIds.contains(firstProteinDetectionHypothesis.getDBSequence().getAccession()))
+            throw new MZTabConversionException(MZTabConversionException.ERROR_AMBIGUITY);
+        else
+            proteinIds.add(firstProteinDetectionHypothesis.getDBSequence().getAccession());
+
         List<SpectrumIdentificationItem> spectra = getScannedSpectrumIdentificationItems(firstProteinDetectionHypothesis);
         Protein protein = loadProtein(firstProteinDetectionHypothesis.getDBSequence(), spectra);
         String membersString = "";

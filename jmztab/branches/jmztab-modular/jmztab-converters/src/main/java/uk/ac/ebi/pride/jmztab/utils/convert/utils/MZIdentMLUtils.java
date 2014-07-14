@@ -25,6 +25,7 @@ public final class MZIdentMLUtils {
     public static String OPTIONAL_DECOY_COLUMN = "cv_MS:1002217_decoy_peptide";
 
 
+
     /** algebraic sign */
     private static final String SIGN = "[+-]";
 
