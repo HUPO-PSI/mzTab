@@ -1,0 +1,7 @@
+uk.ac.ebi.pride.jmztab
+uk.ac.ebi.pride.jmztab.gui
+uk.ac.ebi.pride.jmztab.model
+uk.ac.ebi.pride.jmztab.utils
+uk.ac.ebi.pride.jmztab.utils.convert
+uk.ac.ebi.pride.jmztab.utils.errors
+uk.ac.ebi.pride.jmztab.utils.parser
