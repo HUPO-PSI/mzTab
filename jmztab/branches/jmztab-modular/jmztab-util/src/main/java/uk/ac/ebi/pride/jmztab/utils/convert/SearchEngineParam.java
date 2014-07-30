@@ -120,7 +120,7 @@ public enum SearchEngineParam {
         this.value = value;
     }
 
-    public CVParam toCVParam() {
+    public CVParam getParam() {
         return new CVParam(cvLabel, accession, name, value);
     }
 
@@ -184,7 +184,7 @@ public enum SearchEngineParam {
     public static CVParam findParamByAccession(String accession) {
         for (SearchEngineParam searchEngineParam : values()) {
             if (searchEngineParam.accession.equalsIgnoreCase(accession)) {
-                return searchEngineParam.toCVParam();
+                return searchEngineParam.getParam();
             }
         }
 

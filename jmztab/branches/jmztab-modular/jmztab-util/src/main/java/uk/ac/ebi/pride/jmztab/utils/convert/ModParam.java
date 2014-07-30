@@ -213,11 +213,6 @@ public enum ModParam {
         return true;
     }
 
-//    MOD:01060	Carbamidomethylation
-//    MOD:00397	Carbamidomethylation
-//    MOD:01153	Methylthio
-
-
     public String getCvLabel() {
         return cvLabel;
     }

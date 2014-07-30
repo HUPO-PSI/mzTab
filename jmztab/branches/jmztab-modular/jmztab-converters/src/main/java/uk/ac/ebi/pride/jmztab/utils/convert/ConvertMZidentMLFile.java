@@ -336,13 +336,13 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
             for(SearchEngineScoreParam param: psmScores.keySet()){
                 int idCount = metadata.getPsmSearchEngineScoreMap().size() + 1;
-                metadata.addPsmSearchEngineScoreParam(idCount,param.toCVParam(null));
-                psmScoreToScoreIndex.put(param.toCVParam(null).getAccession(),idCount);
+                metadata.addPsmSearchEngineScoreParam(idCount,param.getParam(null));
+                psmScoreToScoreIndex.put(param.getParam(null).getAccession(),idCount);
             }
             for(SearchEngineScoreParam param: proteinScores.keySet()){
                 int idCount = metadata.getProteinSearchEngineScoreMap().size() + 1;
-                metadata.addProteinSearchEngineScoreParam(idCount, param.toCVParam(null));
-                proteinScoreToScoreIndex.put(param.toCVParam(null).getAccession(),idCount);
+                metadata.addProteinSearchEngineScoreParam(idCount, param.getParam(null));
+                proteinScoreToScoreIndex.put(param.getParam(null).getAccession(),idCount);
             }
         }catch(ConfigurationException ex){
             ex.printStackTrace();
@@ -351,10 +351,10 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         }
 
         if (metadata.getProteinSearchEngineScoreMap().isEmpty()) {
-            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.getParam(null));
         }
         if (metadata.getPsmSearchEngineScoreMap().isEmpty()) {
-            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.getParam(null));
         }
 
     }
@@ -735,7 +735,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 searchEngines.addAll(searchEngineParams);
 
                 for(SearchEngineParam searchEngineParam: searchEngines)
-                    psm.addSearchEngineParam(searchEngineParam.toCVParam());
+                    psm.addSearchEngineParam(searchEngineParam.getParam());
 
                 //Set optional parameter
 
@@ -820,7 +820,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             searchEngines.addAll(searchEngineParams);
         }
         for(SearchEngineParam searchEngineParam: searchEngines)
-                protein.addSearchEngineParam(searchEngineParam.toCVParam());
+                protein.addSearchEngineParam(searchEngineParam.getParam());
 
         // set the modifications
         // is not necessary check by ambiguous modifications because are not supported in PRIDEXML

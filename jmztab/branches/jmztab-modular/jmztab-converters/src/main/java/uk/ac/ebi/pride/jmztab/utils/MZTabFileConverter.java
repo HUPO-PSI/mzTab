@@ -13,6 +13,11 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import java.io.File;
 import java.util.SortedMap;
 
+/*
+ * User: qingwei
+ * Date: 17/09/13
+ */
+
 /**
  * Convert third-party data source to mzTab file, and do whole {@link MZTabFile} consistency check.
  * Currently, only PRIDE XML v2.1 has been integrated into this framework.
@@ -20,10 +25,7 @@ import java.util.SortedMap;
  * @see uk.ac.ebi.pride.jmztab.MZTabInspector
  * @see uk.ac.ebi.pride.jmztab.MZTabCommandLine
  *
- * User: qingwei
- * Date: 17/09/13
  */
-
 @Deprecated
 public class MZTabFileConverter {
     private MZTabErrorList errorList = new MZTabErrorList();

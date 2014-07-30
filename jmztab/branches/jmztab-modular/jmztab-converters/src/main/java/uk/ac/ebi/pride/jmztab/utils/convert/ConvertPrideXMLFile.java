@@ -9,8 +9,6 @@ import uk.ac.ebi.pride.jmztab.model.Param;
 import uk.ac.ebi.pride.jmztab.model.UserParam;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabConversionException;
 import uk.ac.ebi.pride.mol.PTModification;
-import uk.ac.ebi.pride.tools.converter.dao.DAOCvParams;
-import uk.ac.ebi.pride.tools.converter.dao.handler.QuantitationCvParams;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -31,21 +29,11 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
  */
 public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
-    private static final CVParam DECOY_PROTEIN_CV = new CVParam("PRIDE", "PRIDE:0000303", "Decoy hit", null);
-    private static final CVParam DECOY_PSM_CV = new CVParam("MS", "MS:1002217", "decoy peptide", null);
-
-    private static final CVParam PSI_MZDATA_FILE_CV = new CVParam("MS", "MS:1000564", "PSI mzData file", null);
-    private static final CVParam SPEC_NATIVE_ID_FORMAT_CV = new CVParam("MS", "MS:1000777", "spectrum identifier nativeID format", null);
-
-    private static final CVParam FIXED_MOD_DEFAULT_CV = new CVParam("MS", "MS:1002453", "No fixed modifications searched", null);
-    private static final CVParam VAR_MOD_DEFAULT_CV = new CVParam("MS", "MS:1002454", "No variable modifications searched", null);
-
     private static final String DUP_PROTEINS_SEARCH_ENGINES = "duplicated_proteins_search_engines";
     private static final String DUP_PROTEINS_SEARCH_ENGINES_SCORES = "duplicated_proteins_search_engines_scores";
     private static final String DUP_PROTEINS_BEST_SEARCH_ENGINES_SCORE = "duplicated_proteins_best_search_engines_score";
     private static final String DUP_PROTEINS_HAD_QUANT = "duplicated_proteins_had_quantification";
     private static final String NUM_MERGE_PROTEINS = "num_merge_proteins";
-
 
 
     private static Logger logger = Logger.getLogger(ConvertPrideXMLFile.class);
@@ -243,14 +231,14 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         //This check can not be move to the metadata section
         //TODO: Move to the right place, it is a default checking (ConverterProvider)
         if (metadata.getFixedModMap().isEmpty()) {
-            metadata.addFixedModParam(1, FIXED_MOD_DEFAULT_CV);
+            metadata.addFixedModParam(1, ConverterCVParam.MS_FIXED_MOD.getParam());
             Comment comment = new Comment("Only variable modifications can be reported when the original source is a PRIDE XML file");
             getMZTabFile().addComment(getMZTabFile().getComments().size() + 1, comment);
         }
 
         //TODO: Move to the right place, it is a default checking (ConverterProvider)
         if (metadata.getVariableModMap().isEmpty()) {
-            metadata.addVariableModParam(1, VAR_MOD_DEFAULT_CV);
+            metadata.addVariableModParam(1, ConverterCVParam.MS_VAR_MOD.getParam());
         }
     }
 
@@ -497,7 +485,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
                 if (searchEngineScoreParam != null) {
                     //CVParam for the metadata section
-                    CVParam scoreParam = searchEngineScoreParam.toCVParam(null);
+                    CVParam scoreParam = searchEngineScoreParam.getParam(null);
 
                     for (Map.Entry<Integer, ProteinSearchEngineScore> entry : metadata.getProteinSearchEngineScoreMap().entrySet()) {
                         if (entry.getValue().getParam().equals(scoreParam)) {
@@ -522,12 +510,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             peptideItems = identification.getPeptideItem();
 
             for (PeptideItem peptideItem : peptideItems) {
-                for (CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
+                for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
                     psm_searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
                     psm_id = -1;
 
                     if (psm_searchEngineScoreParam != null) {
-                        psm_scoreParam = psm_searchEngineScoreParam.toCVParam(null);
+                        psm_scoreParam = psm_searchEngineScoreParam.getParam(null);
 
                         for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
                             if (entry.getValue().getParam().equals(psm_scoreParam)) {
@@ -550,10 +538,10 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         if (metadata.getProteinSearchEngineScoreMap().isEmpty()) {
-            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+            metadata.addProteinSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.getParam(null));
         }
         if (metadata.getPsmSearchEngineScoreMap().isEmpty()) {
-            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.toCVParam(null));
+            metadata.addPsmSearchEngineScoreParam(1, SearchEngineScoreParam.MS_SEARCH_ENGINE_SPECIFIC_SCORE.getParam(null));
         }
     }
 
@@ -598,13 +586,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             List<PublicationItem> items = new ArrayList<PublicationItem>();
 
             // check if there's a DOI
-            String doi = getPublicationAccession(param, DAOCvParams.REFERENCE_DOI.getName());
+            String doi = getPublicationAccession(param, ConverterCVParam.PRIDE_REFERENCE_DOI.getName());
             if (!isEmpty(doi)) {
                 items.add(new PublicationItem(PublicationItem.Type.DOI, doi));
             }
 
             // check if there's a pubmed id
-            String pubmed = getPublicationAccession(param, DAOCvParams.REFERENCE_PUBMED.getName());
+            String pubmed = getPublicationAccession(param, ConverterCVParam.PRIDE_REFERENCE_PUBMED.getName());
             if (!isEmpty(pubmed)) {
                 items.add(new PublicationItem(PublicationItem.Type.PUBMED, pubmed));
             }
@@ -669,12 +657,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         for (uk.ac.ebi.pride.jaxb.model.CvParam p : param.getCvParam()) {
-            if (DAOCvParams.EXPERIMENT_DESCRIPTION.getAccession().equals(p.getAccession()) && !isEmpty(p.getValue())) {
+            if (ConverterCVParam.PRIDE_EXPERIMENT_DESCRIPTION.getAccession().equals(p.getAccession()) && !isEmpty(p.getValue())) {
                 metadata.setDescription(p.getValue());
-            } else if (QuantitationCvParams.isQuantificationMethod(p.getAccession())) {
+            } else if (QuantitationCVParam.isQuantificationMethod(p.getAccession())) {
                 // check if it's a quantification method
                 metadata.setQuantificationMethod(convertParam(p));
-            } else if (DAOCvParams.GEL_BASED_EXPERIMENT.getAccession().equals(p.getAccession())) {
+            } else if (ConverterCVParam.PRIDE_GEL_BASED_EXPERIMENT.getAccession().equals(p.getAccession())) {
                 //If it a gel we add the optional columns for gel
                 gelExperiment = true;
                 metadata.addCustom(convertParam(p));
@@ -715,7 +703,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         // handle the source information
         uk.ac.ebi.pride.jaxb.model.Param sourceParam = instrument.getSource();
-        CvParam param = getFirstCvParam(sourceParam);
+        uk.ac.ebi.pride.jaxb.model.CvParam param = getFirstCvParam(sourceParam);
         if (param != null) {
             metadata.addInstrumentSource(1, convertParam(param));
         }
@@ -753,8 +741,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     }
 
     private void loadMsRun() {
-        metadata.addMsRunFormat(1, PSI_MZDATA_FILE_CV);
-        metadata.addMsRunIdFormat(1, SPEC_NATIVE_ID_FORMAT_CV);
+        metadata.addMsRunFormat(1, ConverterCVParam.MS_PSI_MZDATA_FILE.getParam());
+        metadata.addMsRunIdFormat(1, ConverterCVParam.MS_SPEC_NATIVE_ID_FORMAT.getParam());
 
         try {
             metadata.addMsRunLocation(1, new URL("file:/" + source.getName()));
@@ -772,37 +760,37 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         // Quantification
-        for (CvParam p : sampleDescription.getCvParam()) {
+        for (uk.ac.ebi.pride.jaxb.model.CvParam p : sampleDescription.getCvParam()) {
             // check for subsample descriptions
-            if (QuantitationCvParams.SUBSAMPLE1_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (QuantitationCVParam.SUBSAMPLE1_DESCRIPTION.getAccession().equals(p.getAccession())) {
                 metadata.addSampleDescription(1, p.getValue());
                 continue;
             }
-            if (QuantitationCvParams.SUBSAMPLE2_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (QuantitationCVParam.SUBSAMPLE2_DESCRIPTION.getAccession().equals(p.getAccession())) {
                 metadata.addSampleDescription(2, p.getValue());
                 continue;
             }
-            if (QuantitationCvParams.SUBSAMPLE3_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (QuantitationCVParam.SUBSAMPLE3_DESCRIPTION.getAccession().equals(p.getAccession())) {
                 metadata.addSampleDescription(3, p.getValue());
                 continue;
             }
-            if (QuantitationCvParams.SUBSAMPLE4_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (QuantitationCVParam.SUBSAMPLE4_DESCRIPTION.getAccession().equals(p.getAccession())) {
                 metadata.addSampleDescription(4, p.getValue());
                 continue;
             }
-            if (QuantitationCvParams.SUBSAMPLE5_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (QuantitationCVParam.SUBSAMPLE5_DESCRIPTION.getAccession().equals(p.getAccession())) {
                 metadata.addSampleDescription(5, p.getValue());
                 continue;
             }
-            if (QuantitationCvParams.SUBSAMPLE6_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (QuantitationCVParam.SUBSAMPLE6_DESCRIPTION.getAccession().equals(p.getAccession())) {
                 metadata.addSampleDescription(6, p.getValue());
                 continue;
             }
-            if (QuantitationCvParams.SUBSAMPLE7_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (QuantitationCVParam.SUBSAMPLE7_DESCRIPTION.getAccession().equals(p.getAccession())) {
                 metadata.addSampleDescription(7, p.getValue());
                 continue;
             }
-            if (QuantitationCvParams.SUBSAMPLE8_DESCRIPTION.getAccession().equals(p.getAccession())) {
+            if (QuantitationCVParam.SUBSAMPLE8_DESCRIPTION.getAccession().equals(p.getAccession())) {
                 metadata.addSampleDescription(8, p.getValue());
                 continue;
             }
@@ -825,7 +813,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                         metadata.addSampleCellType(id, convertParam(p));
                     } else if ("DOID".equals(p.getCvLabel()) || "IDO".equals(p.getCvLabel())) {
                         metadata.addSampleDisease(id, convertParam(p));
-                    } else if (QuantitationCvParams.isQuantificationReagent(p.getAccession())) {
+                    } else if (QuantitationCVParam.isQuantificationReagent(p.getAccession())) {
                         metadata.addAssayQuantificationReagent(id, convertParam(p));
                     } else {
                         metadata.addSampleCustom(id, convertParam(p));
@@ -836,7 +824,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         // Identification
         if (metadata.getSampleMap().isEmpty()) {
-            for (CvParam p : sampleDescription.getCvParam()) {
+            for (uk.ac.ebi.pride.jaxb.model.CvParam p : sampleDescription.getCvParam()) {
                 if (!isEmpty(p.getCvLabel())) {
                     if ("NEWT".equals(p.getCvLabel())) {
                         metadata.addSampleSpecies(1, convertParam(p));
@@ -895,7 +883,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     private boolean isDecoyHit(Identification identification) {
         if (identification.getAdditional() != null) {
             for (uk.ac.ebi.pride.jaxb.model.CvParam param : identification.getAdditional().getCvParam()) {
-                if (param.getAccession().equals(DAOCvParams.DECOY_HIT.getAccession())) {
+                if (param.getAccession().equals(ConverterCVParam.PRIDE_DECOY_HIT.getAccession())) {
                     return true;
                 }
             }
@@ -926,24 +914,26 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         // We mark the decoy hits
         // The optional column was added previously
+        CVParam decoyProtein = ConverterCVParam.PRIDE_DECOY_HIT.getParam();
+
         if (isDecoyHit(identification)) {
-            String header = CVParamOptionColumn.getHeader(null, DECOY_PROTEIN_CV);
+            String header = CVParamOptionColumn.getHeader(null, decoyProtein);
             MZTabColumn column = proteinColumnFactory.findColumnByHeader(header);
             if (column != null) {
-                protein.setOptionColumnValue(DECOY_PROTEIN_CV, MZBoolean.True);
+                protein.setOptionColumnValue(decoyProtein, MZBoolean.True);
             } else {
-                proteinColumnFactory.addOptionalColumn(DECOY_PROTEIN_CV, MZBoolean.class);
-                protein.setOptionColumnValue(DECOY_PROTEIN_CV, MZBoolean.True);
+                proteinColumnFactory.addOptionalColumn(decoyProtein, MZBoolean.class);
+                protein.setOptionColumnValue(decoyProtein, MZBoolean.True);
                 logger.debug("The protein decoy column has been added.");
             }
         } else {
-            String header = CVParamOptionColumn.getHeader(null, DECOY_PROTEIN_CV);
+            String header = CVParamOptionColumn.getHeader(null, decoyProtein);
             MZTabColumn column = proteinColumnFactory.findColumnByHeader(header);
             if (column != null) {
-                protein.setOptionColumnValue(DECOY_PROTEIN_CV, MZBoolean.False);
+                protein.setOptionColumnValue(decoyProtein, MZBoolean.False);
             } else {
-                proteinColumnFactory.addOptionalColumn(DECOY_PROTEIN_CV, MZBoolean.class);
-                protein.setOptionColumnValue(DECOY_PROTEIN_CV, MZBoolean.False);
+                proteinColumnFactory.addOptionalColumn(decoyProtein, MZBoolean.class);
+                protein.setOptionColumnValue(decoyProtein, MZBoolean.False);
                 logger.debug("The protein decoy column has been added.");
             }
         }
@@ -976,8 +966,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 sb.append(mod.getModAccession()).append(mod.getModLocation());
             }
             sb.append(item.getSequence());
-            for (CvParam cvParam : item.getAdditional().getCvParam()) {
-                if (DAOCvParams.CHARGE_STATE.getAccession().equalsIgnoreCase(cvParam.getAccession())) {
+            for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : item.getAdditional().getCvParam()) {
+                if (ConverterCVParam.MS_CHARGE_STATE.getAccession().equalsIgnoreCase(cvParam.getAccession())) {
                     sb.append(cvParam.getValue());
                     break;
                 }
@@ -1002,39 +992,40 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         // process the additional params
         if (identification.getAdditional() != null) {
-            for (CvParam p : identification.getAdditional().getCvParam()) {
+            for (uk.ac.ebi.pride.jaxb.model.CvParam p : identification.getAdditional().getCvParam()) {
                 // check if there's a quant unit set
-                if (!isIdentification() && (QuantitationCvParams.UNIT_RATIO.getAccession().equals(p.getAccession()) || QuantitationCvParams.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession()))) {
+                if (!isIdentification() && (QuantitationCVParam.UNIT_RATIO.getAccession().equals(p.getAccession()) ||
+                        QuantitationCVParam.UNIT_COPIES_PER_CELL.getAccession().equals(p.getAccession()))) {
                     CVParam param = convertParam(p);
                     if (param != null && metadata.getProteinQuantificationUnit() == null) {
                         metadata.setProteinQuantificationUnit(param);
                     }
                 }
                 // Quantification values
-                else if (QuantitationCvParams.INTENSITY_SUBSAMPLE1.getAccession().equalsIgnoreCase(p.getAccession())) {
+                else if (QuantitationCVParam.INTENSITY_SUBSAMPLE1.getAccession().equalsIgnoreCase(p.getAccession())) {
                     protein.setAbundanceColumnValue(metadata.getAssayMap().get(1), p.getValue());
-                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {
+                } else if (QuantitationCVParam.INTENSITY_SUBSAMPLE2.getAccession().equalsIgnoreCase(p.getAccession())) {
                     protein.setAbundanceColumnValue(metadata.getAssayMap().get(2), p.getValue());
-                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE3.getAccession().equalsIgnoreCase(p.getAccession())) {
+                } else if (QuantitationCVParam.INTENSITY_SUBSAMPLE3.getAccession().equalsIgnoreCase(p.getAccession())) {
                     protein.setAbundanceColumnValue(metadata.getAssayMap().get(3), p.getValue());
-                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE4.getAccession().equalsIgnoreCase(p.getAccession())) {
+                } else if (QuantitationCVParam.INTENSITY_SUBSAMPLE4.getAccession().equalsIgnoreCase(p.getAccession())) {
                     protein.setAbundanceColumnValue(metadata.getAssayMap().get(4), p.getValue());
-                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE5.getAccession().equalsIgnoreCase(p.getAccession())) {
+                } else if (QuantitationCVParam.INTENSITY_SUBSAMPLE5.getAccession().equalsIgnoreCase(p.getAccession())) {
                     protein.setAbundanceColumnValue(metadata.getAssayMap().get(5), p.getValue());
-                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE6.getAccession().equalsIgnoreCase(p.getAccession())) {
+                } else if (QuantitationCVParam.INTENSITY_SUBSAMPLE6.getAccession().equalsIgnoreCase(p.getAccession())) {
                     protein.setAbundanceColumnValue(metadata.getAssayMap().get(6), p.getValue());
-                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE7.getAccession().equalsIgnoreCase(p.getAccession())) {
+                } else if (QuantitationCVParam.INTENSITY_SUBSAMPLE7.getAccession().equalsIgnoreCase(p.getAccession())) {
                     protein.setAbundanceColumnValue(metadata.getAssayMap().get(7), p.getValue());
-                } else if (QuantitationCvParams.INTENSITY_SUBSAMPLE8.getAccession().equalsIgnoreCase(p.getAccession())) {
+                } else if (QuantitationCVParam.INTENSITY_SUBSAMPLE8.getAccession().equalsIgnoreCase(p.getAccession())) {
                     protein.setAbundanceColumnValue(metadata.getAssayMap().get(8), p.getValue());
                 } else {
                     // check optional column.
-                    if (QuantitationCvParams.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
+                    if (QuantitationCVParam.EMPAI_VALUE.getAccession().equals(p.getAccession())) {
                         addOptionalColumnValue(protein, proteinColumnFactory, "empai", p.getValue());
-                    } else if (DAOCvParams.GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
+                    } else if (ConverterCVParam.PRIDE_GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
                         // check if there's gel spot identifier
                         addOptionalColumnValue(protein, proteinColumnFactory, "gel_spotidentifier", p.getValue());
-                    } else if (DAOCvParams.GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
+                    } else if (ConverterCVParam.PRIDE_GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
                         // check if there's gel identifier
                         addOptionalColumnValue(protein, proteinColumnFactory, "gel_identifier", p.getValue());
                     }
@@ -1042,13 +1033,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             }
 
             // set the description if available
-            String description = getCvParamValue(identification.getAdditional(), DAOCvParams.PROTEIN_NAME.getAccession());
+            String description = getCvParamValue(identification.getAdditional(), ConverterCVParam.PRIDE_PROTEIN_NAME.getAccession());
             if(description!= null && !description.isEmpty()) {
                 protein.setDescription(description.trim());
             }
 
             // add the indistinguishable accessions to the ambiguity members
-            List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), DAOCvParams.INDISTINGUISHABLE_ACCESSION.getAccession());
+            List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), ConverterCVParam.PRIDE_INDISTINGUISHABLE_ACCESSION.getAccession());
             for (String member : ambiguityMembers) {
                 protein.addAmbiguityMembers(member);
             }
@@ -1074,7 +1065,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             id = -1;
 
             if (searchEngineScoreParam != null) {
-                CVParam scoreParam = searchEngineScoreParam.toCVParam(null);
+                CVParam scoreParam = searchEngineScoreParam.getParam(null);
 
                 //Look for the search engine score in the metadata section if it has been stored.
                 for (Map.Entry<Integer, ProteinSearchEngineScore> entry : metadata.getProteinSearchEngineScoreMap().entrySet()) {
@@ -1092,11 +1083,11 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 //We assume the search engine scores has been detected previously
                 protein.setSearchEngineScore(id, metadata.getMsRunMap().get(1), score);
                 protein.setBestSearchEngineScore(id, score);
-                protein.addSearchEngineParam(searchEngineScoreParam.getSearchEngineParam().toCVParam());
+                protein.addSearchEngineParam(searchEngineScoreParam.getSearchEngineParam().getParam());
             }
 
         } else { //It tries to find the search engine at least
-            CVParam searchEngineParam = SearchEngineParam.findParamByName(searchEngineName).toCVParam();
+            CVParam searchEngineParam = SearchEngineParam.findParamByName(searchEngineName).getParam();
 
             if (searchEngineParam != null) {
                 protein.addSearchEngineParam(searchEngineParam);
@@ -1173,7 +1164,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         List<PSM> psmList = new ArrayList<PSM>();
 
-        String header = CVParamOptionColumn.getHeader(null, DECOY_PSM_CV);
+        CVParam decoyPSM = ConverterCVParam.MS_DECOY_PEPTIDE.getParam();
+        String header = CVParamOptionColumn.getHeader(null, decoyPSM);
 
         for (PeptideItem peptideItem : identification.getPeptideItem()) {
 
@@ -1205,19 +1197,19 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             if (isDecoyHit(identification)) {
                 MZTabColumn column = psmColumnFactory.findColumnByHeader(header);
                 if (column != null) {
-                    psm.setOptionColumnValue(DECOY_PSM_CV, MZBoolean.True);
+                    psm.setOptionColumnValue(decoyPSM, MZBoolean.True);
                 } else {
-                    psmColumnFactory.addOptionalColumn(DECOY_PSM_CV, MZBoolean.class);
-                    psm.setOptionColumnValue(DECOY_PSM_CV, MZBoolean.True);
+                    psmColumnFactory.addOptionalColumn(decoyPSM, MZBoolean.class);
+                    psm.setOptionColumnValue(decoyPSM, MZBoolean.True);
                     logger.debug("The psm decoy column has been added.");
                 }
             } else {
                 MZTabColumn column = psmColumnFactory.findColumnByHeader(header);
                 if (column != null) {
-                    psm.setOptionColumnValue(DECOY_PSM_CV, MZBoolean.False);
+                    psm.setOptionColumnValue(decoyPSM, MZBoolean.False);
                 } else {
-                    psmColumnFactory.addOptionalColumn(DECOY_PSM_CV, MZBoolean.class);
-                    psm.setOptionColumnValue(DECOY_PSM_CV, MZBoolean.False);
+                    psmColumnFactory.addOptionalColumn(decoyPSM, MZBoolean.class);
+                    psm.setOptionColumnValue(decoyPSM, MZBoolean.False);
                     logger.debug("The psm decoy column has been added.");
                 }
             }
@@ -1239,8 +1231,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                         continue;
                     }
 
-                    for (CvParam c : precursor.getIonSelection().getCvParam()) {
-                        if (DAOCvParams.PRECURSOR_MZ.getAccession().equalsIgnoreCase(c.getAccession())) {
+                    for (uk.ac.ebi.pride.jaxb.model.CvParam c : precursor.getIonSelection().getCvParam()) {
+                        if (ConverterCVParam.MS_PRECURSOR_MZ.getAccession().equalsIgnoreCase(c.getAccession())) {
                             psm.setExpMassToCharge(c.getValue());
                             break;
                         }
@@ -1259,14 +1251,14 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
             // process the additional params -- mainly check for quantity units
             if (peptideItem.getAdditional() != null) {
-                for (CvParam p : peptideItem.getAdditional().getCvParam()) {
-                    if (DAOCvParams.CHARGE_STATE.getAccession().equalsIgnoreCase(p.getAccession())) {
+                for (uk.ac.ebi.pride.jaxb.model.CvParam p : peptideItem.getAdditional().getCvParam()) {
+                    if (ConverterCVParam.MS_CHARGE_STATE.getAccession().equalsIgnoreCase(p.getAccession())) {
                         psm.setCharge(p.getValue());
                     }
-                    if (DAOCvParams.UPSTREAM_FLANKING_SEQUENCE.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    if (ConverterCVParam.PRIDE_UPSTREAM_FLANKING_SEQUENCE.getAccession().equalsIgnoreCase(p.getAccession())) {
                         psm.setPre(p.getValue());
                     }
-                    if (DAOCvParams.DOWNSTREAM_FLANKING_SEQUENCE.getAccession().equalsIgnoreCase(p.getAccession())) {
+                    if (ConverterCVParam.PRIDE_DOWNSTREAM_FLANKING_SEQUENCE.getAccession().equalsIgnoreCase(p.getAccession())) {
                         psm.setPost(p.getValue());
                     }
                 }
@@ -1276,7 +1268,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             if (psm.getCharge() != null) {
                 boolean success = false;
                 // Step 1: additional cv param list contains theoretical mass
-                for (CvParam c : peptideItem.getAdditional().getCvParam()) {
+                for (uk.ac.ebi.pride.jaxb.model.CvParam c : peptideItem.getAdditional().getCvParam()) {
                     if (c.getName().trim().equalsIgnoreCase("Theoretical Mass")) {
                         Double mass = Double.parseDouble(c.getValue());
                         psm.setCalcMassToCharge(mass / psm.getCharge());
@@ -1318,12 +1310,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         String score;
         Integer id;
 
-        for (CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
+        for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
             searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
             id = -1;
 
             if (searchEngineScoreParam != null) {
-                scoreParam = searchEngineScoreParam.toCVParam(null);
+                scoreParam = searchEngineScoreParam.getParam(null);
                 score = cvParam.getValue();
 
                 //Add the search engine score in the metadata section if it has been stored.
@@ -1340,7 +1332,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 }
 
                 psm.setSearchEngineScore(id, score);
-                psm.addSearchEngineParam(searchEngineScoreParam.getSearchEngineParam().toCVParam());
+                psm.addSearchEngineParam(searchEngineScoreParam.getSearchEngineParam().getParam());
 
             }
         }
@@ -1369,7 +1361,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 // if not, we can not convert the modification to the header because we don't store all the mod cv terms
                 // in this moment
                 if (ptm.getAdditional() != null) {
-                    CvParam additional = ptm.getAdditional().getCvParamByAcc(ptm.getModAccession());
+                    uk.ac.ebi.pride.jaxb.model.CvParam additional = ptm.getAdditional().getCvParamByAcc(ptm.getModAccession());
                     if (additional != null) {
                         Param metadataParam = convertParam(additional);
 

@@ -180,7 +180,11 @@ public enum SearchEngineScoreParam {
         this.searchEngineParam = searchEngineParam;
     }
 
-    public CVParam toCVParam(String score) {
+    public CVParam getParam(String score) {
+        return new CVParam(cvLabel, accession, name, score);
+    }
+
+    public CVParam getParam() {
         return new CVParam(cvLabel, accession, name, score);
     }
 
