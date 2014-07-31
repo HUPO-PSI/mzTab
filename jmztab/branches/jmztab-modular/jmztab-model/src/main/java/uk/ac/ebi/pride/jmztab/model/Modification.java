@@ -14,8 +14,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
  *
  * Detail information, please reference 5.8 in mzTab specification v1.0
  *
- * User: Qingwei
- * Date: 30/01/13
+ * @author qingwei
+ * @since 30/01/13
  */
 public class Modification {
     public enum Type {

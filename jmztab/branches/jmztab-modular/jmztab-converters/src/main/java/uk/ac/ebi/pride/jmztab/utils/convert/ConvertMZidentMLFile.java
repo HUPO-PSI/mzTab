@@ -23,9 +23,9 @@ import java.util.*;
  * Class that convert a mzIdentML to a mzTab file using the mzTab library. This Class extends the @ConvertProvider<File, Void>  class
  * and add new methods to handle specifications in the mzidentml files.
  *
- * Created by yperez on 13/06/2014.
+ * @author yperez
+ * @since 13/06/2014.
  */
-
 public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private static Logger logger = Logger.getLogger(ConvertMZidentMLFile.class);

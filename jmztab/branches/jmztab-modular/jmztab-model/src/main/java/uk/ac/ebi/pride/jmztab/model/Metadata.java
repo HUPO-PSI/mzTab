@@ -20,8 +20,8 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
  * - "description"          MUST  always be reported.
  * - "ms_run-location[1-n]" MUST  always be reported.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class Metadata {
     private MZTabDescription tabDescription;

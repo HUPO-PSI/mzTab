@@ -4,8 +4,8 @@ package uk.ac.ebi.pride.jmztab.model;
  * Additional columns can be added to the end of the protein table. These column headers MUST start with the prefix "opt_".
  * Column names MUST only contain the following characters: 'A'-'Z', 'a'-'z', '0'-'9', '_', '-', '[', ']', and ':'.
  *
- * User: Qingwei
- * Date: 28/05/13
+ * @author qingwei
+ * @since 28/05/13
  */
 public class OptionColumn extends MZTabColumn {
     public static final String OPT = "opt";

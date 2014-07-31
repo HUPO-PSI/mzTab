@@ -13,8 +13,8 @@ import java.util.TreeMap;
  * Physical position: Integer, the position of mzTab file.
  * Logical position: String, the internal order of specification.
  *
- * User: qingwei
- * Date: 16/10/13
+ * @author qingwei
+ * @since 16/10/13
  */
 public class PositionMapping {
     // physicalPosition <--> logicalPosition

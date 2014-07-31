@@ -10,8 +10,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 /**
  * Index-organized {@link MetadataElement}, index value is positive integer.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class IndexedElement {
     private MetadataElement element;
@@ -32,7 +32,7 @@ public class IndexedElement {
     }
 
     /**
-     * @return Indexed element.
+     * @return indexed element.
      */
     public MetadataElement getElement() {
         return element;

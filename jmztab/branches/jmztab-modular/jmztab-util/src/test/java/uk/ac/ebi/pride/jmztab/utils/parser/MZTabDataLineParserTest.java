@@ -12,8 +12,8 @@ import java.net.URL;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * User: Qingwei
- * Date: 20/02/13
+ * @author qingwei
+ * @since 20/02/13
  */
 public class MZTabDataLineParserTest {
     private static Logger logger = Logger.getLogger(MZTabDataLineParserTest.class);

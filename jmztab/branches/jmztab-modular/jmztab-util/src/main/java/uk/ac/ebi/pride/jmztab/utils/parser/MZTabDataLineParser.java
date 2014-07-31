@@ -29,8 +29,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * @see PSMLineParser
  * @see SMLLineParser
  *
- * User: Qingwei
- * Date: 14/02/13
+ * @author qingwei
+ * @since 14/02/13
  */
 public abstract class MZTabDataLineParser extends MZTabLineParser {
     protected MZTabColumnFactory factory;
@@ -76,7 +76,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Validate the data line, if there exist errors, add them into {@link MZTabErrorList}.
      *
      * NOTICE: this step just do validate, not do convert operation. Convert the data line into
-     * {@link MZTabRecord} implemented by {@link #getRecord(uk.ac.ebi.pride.jmztab.model.Section, String)}
+     * {@link MZTabRecord} implemented by {@link #getRecord(Section, String)}
      * method.
      */
     public void parse(int lineNumber, String line, MZTabErrorList errorList) throws MZTabException {
@@ -107,7 +107,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      *
      * NOTICE: Normally, we suggest user do convert operation after validate successfully.
      *
-     * @see #parse(int, String, uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList)
+     * @see #parse(int, String, MZTabErrorList)
      */
     protected MZTabRecord getRecord(Section section, String line) {
         MZTabRecord record = null;
@@ -379,7 +379,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check target string. Normally, description can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param description SHOULD NOT be empty.
@@ -403,7 +403,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check target string. Normally, species can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param species SHOULD NOT be empty.
@@ -416,7 +416,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check target string. Normally, database can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param database SHOULD NOT be empty.
@@ -429,7 +429,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check target string. Normally, databaseVersion can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param databaseVersion SHOULD NOT be empty.
@@ -620,7 +620,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check target string. Normally, pre can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param pre SHOULD NOT be empty.
@@ -633,7 +633,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check target string. Normally, post can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param post SHOULD NOT be empty.
@@ -646,7 +646,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check target string. Normally, start can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param start SHOULD NOT be empty.
@@ -659,7 +659,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check target string. Normally, end can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param end SHOULD NOT be empty.
@@ -831,7 +831,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * Check chemical_formula string. Normally, chemical_formula can set "null". But
      * in "Complete" file, in general "null" values SHOULD not be given.
      *
-     * @see #checkData(uk.ac.ebi.pride.jmztab.model.MZTabColumn, String, boolean)
+     * @see #checkData(MZTabColumn, String, boolean)
      *
      * @param column SHOULD NOT set null
      * @param chemical_formula SHOULD NOT be empty.

@@ -6,8 +6,8 @@ import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
 import java.io.File;
 
 /**
- * User: qingwei
- * Date: 02/12/13
+ * @author qingwei
+ * @since 02/12/13
  */
 public class DynamicMZTabFileRun {
 

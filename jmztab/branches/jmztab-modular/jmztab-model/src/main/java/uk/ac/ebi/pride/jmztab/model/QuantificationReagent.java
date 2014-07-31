@@ -9,8 +9,8 @@ import java.util.Set;
  *
  * Notice: This class will be used in the next version of jmzTab.
  *
- * User: qingwei
- * Date: 17/09/13
+ * @author qingwei
+ * @since 17/09/13
  */
 public class QuantificationReagent extends CVParam {
     private QuantificationReagent(String accession, String name, String value) {

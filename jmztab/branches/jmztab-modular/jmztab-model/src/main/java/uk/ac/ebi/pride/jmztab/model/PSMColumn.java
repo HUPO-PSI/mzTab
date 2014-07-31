@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.model;
 /**
  * Define the stable columns and optional columns which have stable order in PSM header line.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class PSMColumn extends MZTabColumn {
     PSMColumn(String name, Class columnType, boolean optional, String order) {

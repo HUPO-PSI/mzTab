@@ -1,8 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
- * User: Qingwei
- * Date: 29/05/13
+ * @author qingwei
+ * @since 29/05/13
  */
 public class MZTabRecordRun {
     private void addProteinValue() {

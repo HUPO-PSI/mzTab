@@ -14,8 +14,12 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.*;
 
 /**
- * User: Qingwei
- * Date: 21/02/13
+ *
+ * MZTabFileParser provides reading functionality of the mzTab file. During the parsing process, minimal
+ * integrity checks are preformed.
+ *
+ * @author qingwei
+ * @since 21/02/13
  */
 public class MZTabFileParser {
     private MZTabFile mzTabFile;
@@ -34,7 +38,7 @@ public class MZTabFileParser {
     /**
      * Create a new {@code MZTabFileParser} for the given file. Parsing output and errors
      * are written to the provided {@link java.io.OutputStream}.
-     * @param tabFile the MZTab file
+     * @param tabFile the MZTab file. The file SHOULD not be null and MUST exist
      * @param out the output stream for parsing messages
      * @throws java.io.IOException
      */
@@ -45,7 +49,7 @@ public class MZTabFileParser {
     /**
      * Create a new {@code MZTabFileParser} for the given file. Parsing output and errors
      * are written to the provided {@link java.io.OutputStream}.
-     * @param tabFile the MZTab file
+     * @param tabFile the MZTab file. The file SHOULD not be null and MUST exist
      * @param out the output stream for parsing messages
      * @param level the minimum error level to report errors for
      * @throws java.io.IOException
@@ -57,10 +61,11 @@ public class MZTabFileParser {
     /**
      * Create a new {@code MZTabFileParser} for the given file. Parsing output and errors
      * are written to the provided {@link java.io.OutputStream}.
-     * @param tabFile the MZTab file
+     * @param tabFile the MZTab file. The file SHOULD not be null and MUST exist
      * @param out the output stream for parsing messages
      * @param level the minimum error level to report errors for
-     * @param maxErrorCount the maximum number of errors to report in {@see MZTabFileParser#getErrorList()}
+     * @param maxErrorCount the maximum number of errors to report in the {@link MZTabErrorList} return by
+     * {@link MZTabFileParser#getErrorList()}
      * @throws java.io.IOException
      */
     public MZTabFileParser(File tabFile, OutputStream out, MZTabErrorType.Level level, int maxErrorCount) throws IOException {
@@ -155,7 +160,7 @@ public class MZTabFileParser {
     }
 
     /**
-     * Query {@link uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList} to check exist errors or not.
+     * Query {@link MZTabErrorList} to check exist errors or not.
      * @throws java.io.IOException
      * @throws uk.ac.ebi.pride.jmztab.utils.errors.MZTabException during parse metadata, protein/peptide/small_molecule header line, exists error.
      * @throws uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorOverflowException reference mztab.properties file mztab.max_error_count parameter.

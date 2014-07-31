@@ -9,8 +9,9 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 /**
  * Parse and validate Small Molecule header line into a {@link MZTabColumnFactory}.
  *
- * User: Qingwei
- * Date: 10/02/13
+ * @author qingwei
+ * @author ntoro
+ * @since 10/02/13
  */
 public class SMHLineParser extends MZTabHeaderLineParser {
     public SMHLineParser(Metadata metadata) {
@@ -22,18 +23,18 @@ public class SMHLineParser extends MZTabHeaderLineParser {
     }
 
     /**
-     * In "Quantification" file, following optional columns are mandatory provide:
+     * In "Quantification" file, following optional columns are mandatory:
      * 1. smallmolecule_abundance_study_variable[1-n]
      * 2. smallmolecule_abundance_stdev_study_variable[1-n]
      * 3. smallmolecule_abundance_std_error_study_variable[1-n]
      *
-     * Beside above, in "Complete" and "Quantification" file, following optional columns also mandatory provide:
+     * Beside above, in "Complete" and "Quantification" file, following optional columns also mandatory:
      * 1. search_engine_score_ms_run[1-n]
      *
      * NOTICE: this hock method will be called at end of parse() function.
      *
-     * @see MZTabHeaderLineParser#parse(int, String, uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList)
-     * @see #refineOptionalColumn(uk.ac.ebi.pride.jmztab.model.MZTabDescription.Mode, uk.ac.ebi.pride.jmztab.model.MZTabDescription.Type, String)
+     * @see MZTabHeaderLineParser#parse(int, String, MZTabErrorList)
+     * @see #refineOptionalColumn(MZTabDescription.Mode, MZTabDescription.Type, String)
      */
     @Override
     protected void refine() throws MZTabException {

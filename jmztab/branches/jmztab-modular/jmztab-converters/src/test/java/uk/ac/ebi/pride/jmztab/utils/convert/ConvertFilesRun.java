@@ -10,8 +10,8 @@ import java.io.*;
 import java.net.URL;
 
 /**
- * User: qingwei
- * Date: 17/09/13
+ * @author qingwei
+ * @since 17/09/13
  */
 public class ConvertFilesRun {
     private static Logger logger = Logger.getLogger(ConvertPrideXMLFile.class);

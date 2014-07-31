@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.utils.convert;
 import uk.ac.ebi.pride.jmztab.model.CVParam;
 
 /**
- * User: qingwei
- * Date: 25/11/13
+ * @author qingwei
+ * @since 25/11/13
  */
 public enum SearchEngineScoreParam {
 

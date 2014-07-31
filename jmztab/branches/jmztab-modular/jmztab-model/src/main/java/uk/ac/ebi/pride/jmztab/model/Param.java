@@ -13,8 +13,9 @@ import java.util.List;
  * @see UserParam
  * @see CVParam
  *
- * User: Qingwei, Johannes Griss
- * Date: 30/01/13
+ * @author qingwei
+ * @author jgriss
+ * @since 30/01/13
  */
 public class Param {
     private final static String CV_PARAM = "CV Param";

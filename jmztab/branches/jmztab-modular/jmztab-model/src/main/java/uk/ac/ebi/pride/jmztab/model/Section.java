@@ -14,8 +14,9 @@ package uk.ac.ebi.pride.jmztab.model;
  * - SML for rows of the small molecule table
  * - COM for comment lines
  *
- * User: Qingwei, Johannes Griss
- * Date: 31/01/13
+ * @author qingwei
+ * @author jgriss
+ * @since 31/01/13
  */
 public enum Section {
     Comment                  ("COM", "comment",                  0),

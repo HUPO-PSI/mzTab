@@ -10,8 +10,8 @@ package uk.ac.ebi.pride.jmztab.utils.errors;
  * the value format, system will add the {@link MZTabError} into {@link MZTabErrorList}, instead of raise
  * the exception directly. And all errors will output after validate the whole mzTab file.
  *
- * User: Qingwei
- * Date: 29/01/13
+ * @author qingwei
+ * @since 29/01/13
  */
 public class MZTabException extends Exception {
     private MZTabError error;

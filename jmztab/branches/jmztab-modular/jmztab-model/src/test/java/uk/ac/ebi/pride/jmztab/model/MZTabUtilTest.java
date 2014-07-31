@@ -9,8 +9,8 @@ import static junit.framework.Assert.assertTrue;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
- * User: Qingwei
- * Date: 09/07/13
+ * @author qingwei
+ * @since 09/07/13
  */
 public class MZTabUtilTest {
     private static Logger logger = Logger.getLogger(MZTabUtilTest.class);

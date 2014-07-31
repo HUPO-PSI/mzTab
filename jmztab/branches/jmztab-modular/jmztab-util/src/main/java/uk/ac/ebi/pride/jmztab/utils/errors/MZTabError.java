@@ -22,8 +22,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
  * and are classified in three levels: Info, Warn and Error, according to the requirements included in
  * the specification document.
  *
- * User: Qingwei
- * Date: 06/02/13
+ * @author qingwei
+ * @since 06/02/13
  */
 public class MZTabError {
     private int lineNumber;
@@ -88,9 +88,9 @@ public class MZTabError {
     public String getMessage() {
         return message;
     }
-    
+
     /**
-     * 
+     *
      * @return the line number.
      */
     public int getLineNumber() {

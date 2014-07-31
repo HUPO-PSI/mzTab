@@ -11,8 +11,8 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
  *
  * @see MZTabLineParser
  *
- * User: Qingwei
- * Date: 10/02/13
+ * @author qingwei
+ * @since 10/02/13
  */
 public class COMLineParser extends MZTabLineParser {
     public void parse(int lineNumber, String line, MZTabErrorList errorList) throws MZTabException {

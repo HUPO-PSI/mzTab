@@ -15,8 +15,8 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 /**
-* User: Qingwei
-* Date: 18/02/13
+* @author qingwei
+* @since 18/02/13
 */
 public class MZTabHeaderLineParserTest {
     private static Logger logger = Logger.getLogger(MZTabHeaderLineParserTest.class);

@@ -16,8 +16,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 /**
- * User: qingwei
- * Date: 17/09/13
+ * @author qingwei
+ * @since 17/09/13
  */
 public class MZTabCommandLine {
     public static MassSpecFileFormat getFormat(String format) {

@@ -11,8 +11,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * reported using "null". Most columns are mandatory. The order of columns is not specified although
  * for ease of human interpretation, it is RECOMMENDED to follow the order specified below.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class Protein extends MZTabRecord {
     /**
@@ -192,7 +192,7 @@ public class Protein extends MZTabRecord {
      * all replicates reported. The type of score MUST be defined in the metadata section.
      * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param id protein_search_engine_score[id] which MUST be defined in the metadata section.
      */
     public Double getBestSearchEngineScore(Integer id) {
         return getDouble(getLogicalPosition(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id, null));
@@ -204,7 +204,7 @@ public class Protein extends MZTabRecord {
      * all replicates reported. The type of score MUST be defined in the metadata section.
      * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param id protein_search_engine_score[id] which MUST be defined in the metadata section.
      */
     public void setBestSearchEngineScore(Integer id, Double bestSearchEngineScore) {
         setValue(getLogicalPosition(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, id, null), bestSearchEngineScore);
@@ -215,7 +215,7 @@ public class Protein extends MZTabRecord {
      * all replicates reported. The type of score MUST be defined in the metadata section.
      * If the protein was not identified by the specified search engine “null” must be reported
      *
-     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param id protein_search_engine_score[id] which MUST be defined in the metadata section.
      */
     public void setBestSearchEngineScore(Integer id, String searchEngineScoreLabel) {
         setBestSearchEngineScore(id, parseDouble(searchEngineScoreLabel));
@@ -227,9 +227,8 @@ public class Protein extends MZTabRecord {
      * MUST be defined in the metadata section. If the protein was not identified by the specified
      * search engine “null” must be reported
      *
-     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param id protein_search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
      */
     public Double getSearchEngineScore(Integer id, MsRun msRun) {
         return getDouble(getLogicalPosition(ProteinColumn.SEARCH_ENGINE_SCORE, id, msRun));
@@ -240,9 +239,8 @@ public class Protein extends MZTabRecord {
      * MUST be defined in the metadata section. If the protein was not identified by the specified
      * search engine “null” must be reported
      *
-     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param id protein_search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
      */
     public void setSearchEngineScore(Integer id, MsRun msRun, Double searchEngineScore) {
         setValue(getLogicalPosition(ProteinColumn.SEARCH_ENGINE_SCORE, id, msRun), searchEngineScore);
@@ -253,9 +251,8 @@ public class Protein extends MZTabRecord {
      * MUST be defined in the metadata section. If the protein was not identified by the specified
      * search engine “null” must be reported
      *
-     * @param id search_engine_score[id] which MUST be defined in the metadata section.
+     * @param id protein_search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
      */
     public void setSearchEngineScore(Integer id, MsRun msRun, String paramsLabel) {
         setSearchEngineScore(id, msRun, parseDouble(paramsLabel));

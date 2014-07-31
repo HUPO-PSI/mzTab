@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * User: qingwei
- * Date: 25/11/13
+ * @author qingwei
+ * @since 25/11/13
  */
 public enum SearchEngineParam {
     // all of them are direct children of MS:1001456 (analysis software)

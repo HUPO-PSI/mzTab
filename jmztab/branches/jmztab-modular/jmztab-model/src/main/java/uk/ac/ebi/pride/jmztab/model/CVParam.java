@@ -9,8 +9,8 @@ package uk.ac.ebi.pride.jmztab.model;
  * pair in the CV itself: MS:1001172 "mascot:expectation value" value-type:xsd:double. Terms that need to be qualified with
  * units are denoted with a "has_units" key in the CV itself (relationship: has_units: UO:0000221 ! dalton).
  *
- * User: Qingwei
- * Date: 04/02/13
+ * @author qingwei
+ * @since 04/02/13
  */
 public class CVParam extends Param {
     /**

@@ -6,8 +6,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 /**
  * Define the controlled vocabularies/ontologies used in the mzTab file.
  *
- * User: qingwei
- * Date: 14/10/13
+ * @author qingwei
+ * @since 14/10/13
  */
 public class CV extends IndexedElement {
     private String label;

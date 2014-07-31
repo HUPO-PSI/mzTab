@@ -13,8 +13,8 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
  * The instrument's analyzer type used in the experiment. Multiple instruments are enumerated 1..n
  * The instrument's detector type used in the experiment. Multiple instruments are numbered 1..n
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class Instrument extends IndexedElement {
     private Param name;

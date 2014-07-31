@@ -7,8 +7,8 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
 /**
  * Describe all the fields which start with "mzTab-" in metadata section.
  *
- * User: Qingwei
- * Date: 31/05/13
+ * @author qingwei
+ * @since 31/05/13
  */
 public class MZTabDescription {
     public enum Mode {Complete, Summary}

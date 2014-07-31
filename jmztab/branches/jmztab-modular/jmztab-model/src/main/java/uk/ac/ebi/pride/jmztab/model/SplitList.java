@@ -5,8 +5,8 @@ import java.util.ArrayList;
 /**
  * This is list which each item split by a split char.
  *
- * User: Qingwei
- * Date: 31/01/13
+ * @author qingwei
+ * @since 31/01/13
  */
 public class SplitList<E> extends ArrayList<E> {
     private char splitChar;

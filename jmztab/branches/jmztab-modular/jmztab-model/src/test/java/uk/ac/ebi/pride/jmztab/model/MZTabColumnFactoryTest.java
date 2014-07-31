@@ -8,8 +8,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * User: Qingwei
- * Date: 29/05/13
+ * @author qingwei
+ * @since 29/05/13
  */
 public class MZTabColumnFactoryTest {
     @Test

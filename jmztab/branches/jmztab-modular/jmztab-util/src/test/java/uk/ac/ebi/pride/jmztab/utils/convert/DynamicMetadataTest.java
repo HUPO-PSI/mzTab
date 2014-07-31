@@ -10,8 +10,8 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * User: qingwei
- * Date: 29/11/13
+ * @author qingwei
+ * @since 29/11/13
  */
 public class DynamicMetadataTest {
     public Metadata getMetadata() throws Exception {

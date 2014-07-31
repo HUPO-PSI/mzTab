@@ -6,8 +6,8 @@ package uk.ac.ebi.pride.jmztab.model;
  * This field MUST NOT be used to define a unit for quantification columns. The unit
  * used for protein quantification values MUST be set in protein-quantification_unit.
  *
- * User: Qingwei
- * Date: 04/06/13
+ * @author qingwei
+ * @since 04/06/13
  */
 public class ColUnit {
     private MZTabColumn column;
@@ -17,7 +17,7 @@ public class ColUnit {
      * Defines the used unit for a column in the peptide/protein/PSM/small_molecule section.
      * The format of the value has to be {column name}={Parameter defining the unit}
      *
-     * @param column should not set null, and SHOULD not be a instance of {@link AbundanceColumn}.
+     * @param column SHOULD not set null, and SHOULD not be a instance of {@link AbundanceColumn}.
      * @param value SHOULD be a {@link Param}
      */
     ColUnit(MZTabColumn column, Param value) {

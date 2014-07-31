@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.model;
 /**
  * Define a couple constants used in the jmzTab API.
  *
- * User: Qingwei
- * Date: 08/03/13
+ * @author qingwei
+ * @since 08/03/13
  */
 public class MZTabConstants {
     public final static String NEW_LINE = System.getProperty("line.separator");

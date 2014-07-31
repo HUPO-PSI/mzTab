@@ -14,8 +14,8 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataElement.SOFTWARE;
  * A software setting used. This field MAY occur multiple times for a single software. The value of this field is
  * deliberately set as a String, since there currently do not exist cvParams for every possible setting.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class Software extends IndexedElement {
     private Param param;

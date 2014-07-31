@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.model;
 /**
  * Define all elements used in metadata.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public enum MetadataElement {
     MZTAB                             ("mzTab"),

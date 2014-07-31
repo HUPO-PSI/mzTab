@@ -11,8 +11,8 @@ import java.net.URL;
  *
  * mzTab file coming from : http://mztab.googlecode.com/svn/examples/SILAC_CQI.mzTab
  *
- * User: qingwei
- * Date: 13/12/13
+ * @author qingwei
+ * @since 13/12/13
  */
 public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
     private Metadata mtd;

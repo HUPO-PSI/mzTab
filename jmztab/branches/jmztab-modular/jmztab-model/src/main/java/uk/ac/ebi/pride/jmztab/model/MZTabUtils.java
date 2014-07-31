@@ -15,8 +15,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 /**
  * Provide a couple of functions for translate, parse and print formatted string defined in the mzTab specification.
  *
- * User: Qingwei
- * Date: 30/01/13
+ * @author qingwei
+ * @since 30/01/13
  */
 public class MZTabUtils {
     /**

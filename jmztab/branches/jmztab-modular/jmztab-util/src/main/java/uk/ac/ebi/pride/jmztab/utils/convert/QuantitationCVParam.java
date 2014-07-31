@@ -4,9 +4,9 @@ import uk.ac.ebi.pride.jmztab.model.CVParam;
 
 /**
  * QuantitationCvParam used in PRIDE Converter 2. Original from jgriss
- * User: ntoro
- * Date: 29/07/2014
- * Time: 13:43
+ *
+ * @author ntoro
+ * @since 29/07/2014 13:43
  */
 public enum QuantitationCVParam {
 

@@ -12,8 +12,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * The order of columns is not specified although for ease of human interpretation, it is RECOMMENDED to follow the
  * order specified below.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class SmallMolecule extends MZTabRecord {
     private Metadata metadata;
@@ -581,7 +581,7 @@ public class SmallMolecule extends MZTabRecord {
      *
      * @param id search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
+     * @return search engine score
      */
     public Double getSearchEngineScore(Integer id, MsRun msRun) {
         return getDouble(getLogicalPosition(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, id, msRun));
@@ -594,7 +594,6 @@ public class SmallMolecule extends MZTabRecord {
      *
      * @param id search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
      */
     public void setSearchEngineScore(Integer id, MsRun msRun, Double searchEngineScore) {
         setValue(getLogicalPosition(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, id, msRun), searchEngineScore);
@@ -607,7 +606,6 @@ public class SmallMolecule extends MZTabRecord {
      *
      * @param id search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
      */
     public void setSearchEngineScore(Integer id, MsRun msRun, String paramsLabel) {
         setSearchEngineScore(id, msRun, parseDouble(paramsLabel));

@@ -13,8 +13,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseURI;
  * and or protein section if these are present in the file. All table columns MUST be tab separated.
  * There MUST NOT be any empty cells. Missing values MUST be reported using "null". Most columns are mandatory.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class Peptide extends MZTabRecord {
     private Metadata metadata;
@@ -231,7 +231,7 @@ public class Peptide extends MZTabRecord {
      *
      * @param id search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
+     * @return search engine score
      */
     public Double getSearchEngineScore(Integer id, MsRun msRun) {
         return getDouble(getLogicalPosition(PeptideColumn.SEARCH_ENGINE_SCORE, id, msRun));
@@ -244,7 +244,6 @@ public class Peptide extends MZTabRecord {
      *
      * @param id search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
      */
     public void setSearchEngineScore(Integer id, MsRun msRun, Double searchEngineScore) {
         setValue(getLogicalPosition(PeptideColumn.SEARCH_ENGINE_SCORE, id, msRun), searchEngineScore);
@@ -257,7 +256,6 @@ public class Peptide extends MZTabRecord {
      *
      * @param id search_engine_score[id] which MUST be defined in the metadata section.
      * @param msRun SHOULD NOT set null
-     * @return
      */
     public void setSearchEngineScore(Integer id, MsRun msRun, String paramsLabel) {
         setSearchEngineScore(id, msRun, parseDouble(paramsLabel));

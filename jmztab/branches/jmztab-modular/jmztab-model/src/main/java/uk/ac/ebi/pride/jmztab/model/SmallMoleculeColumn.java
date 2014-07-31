@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.model;
 /**
  * Define the stable columns and optional columns which have stable order in small molecule header line.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class SmallMoleculeColumn extends MZTabColumn {
     SmallMoleculeColumn(String name, Class columnType, boolean optional, String order) {

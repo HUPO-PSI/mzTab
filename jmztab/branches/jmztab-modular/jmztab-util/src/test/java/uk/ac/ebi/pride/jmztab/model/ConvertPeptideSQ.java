@@ -6,8 +6,8 @@ import uk.ac.ebi.pride.jmztab.utils.convert.ConvertProvider;
  * Report of a minimal "Summary Quantification report" experiment, quantification on 2 study variables
  * (control/treatment), no assays (replicates) reported, no identifications reported
  *
- * User: qingwei
- * Date: 16/12/13
+ * @author qingwei
+ * @since 16/12/13
  */
 public class ConvertPeptideSQ extends ConvertProvider<Void, Void> {
     private Metadata mtd;

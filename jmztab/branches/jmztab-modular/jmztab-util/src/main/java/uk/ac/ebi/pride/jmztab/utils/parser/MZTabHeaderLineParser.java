@@ -21,8 +21,8 @@ import java.util.regex.Pattern;
  * @see PSHLineParser
  * @see SMHLineParser
 *
-* User: Qingwei
-* Date: 11/02/13
+* @author qingwei
+* @since 11/02/13
 */
 public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     protected MZTabColumnFactory factory;
@@ -49,7 +49,7 @@ public abstract class MZTabHeaderLineParser extends MZTabLineParser {
     /**
      * Some validate operation need to be done after the whole {@link MZTabColumnFactory} created.
      * Thus, user can add them, and called at the end of the
-     * {@link #parse(int, String, uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList)} method.
+     * {@link #parse(int, String, MZTabErrorList)} method.
      */
     protected abstract void refine() throws MZTabException;
 

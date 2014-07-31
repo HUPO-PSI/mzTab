@@ -5,8 +5,8 @@ package uk.ac.ebi.pride.jmztab.model;
  *
  * {element name}[id]-{subElement subName}
  *
- * User: qingwei
- * Date: 14/10/13
+ * @author qingwei
+ * @since 14/10/13
  */
 public enum MetadataSubElement {
     ASSAY_QUANTIFICATION_MOD                           (MetadataElement.ASSAY,           "quantification_mod");

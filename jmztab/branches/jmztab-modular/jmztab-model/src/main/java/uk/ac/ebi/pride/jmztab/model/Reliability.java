@@ -15,8 +15,8 @@ package uk.ac.ebi.pride.jmztab.model;
  * 2: medium reliability
  * 3: poor reliability
  *
- * User: Qingwei
- * Date: 31/01/13
+ * @author qingwei
+ * @since 31/01/13
  */
 public enum Reliability {
     High(        "high reliability",           1),

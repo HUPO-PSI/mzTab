@@ -10,8 +10,8 @@ import java.util.SortedMap;
 /**
  * User can modify some index for index elements.
  *
- * User: qingwei
- * Date: 29/11/13
+ * @author qingwei
+ * @since 29/11/13
  */
 public class DynamicMetadata implements PropertyChangeListener {
     public final static String CHANGE_SAMPLE_INDEX = "change_sample_index";

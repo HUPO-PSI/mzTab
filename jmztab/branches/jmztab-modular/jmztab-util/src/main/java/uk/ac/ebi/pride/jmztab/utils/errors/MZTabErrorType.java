@@ -4,8 +4,8 @@ import uk.ac.ebi.pride.jmztab.model.MZTabUtils;
 import uk.ac.ebi.pride.jmztab.utils.MZTabProperties;
 
 /**
- * User: Qingwei
- * Date: 28/01/13
+ * @author qingwei
+ * @since 28/01/13
  */
 public class MZTabErrorType {
     protected enum Category {

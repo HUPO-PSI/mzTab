@@ -18,9 +18,8 @@ import java.util.*;
  *
  * methods to access mzidentML files.
  * <p/>
- * User: yperez
- * Date: 23/09/11
- * Time: 15:28
+ * @author yperez
+ * @since 23/09/11 15:28
  */
 public class MzIdentMLUnmarshallerAdaptor extends MzIdentMLUnmarshaller {
 

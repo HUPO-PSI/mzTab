@@ -11,16 +11,16 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
  * Parse a metadata line  into a element.
-* Metadata Element start with MTD, its structure like:
-* MTD  {@link MetadataElement}([id])(-{@link MetadataSubElement}[pid])(-{@link MetadataProperty})    {Element Value}
-*
-* @see MetadataElement     : Mandatory
-* @see MetadataSubElement  : Optional
-* @see MetadataProperty    : Optional.
-*
-* User: Qingwei
-* Date: 08/02/13
-*/
+ * Metadata Element start with MTD, its structure like:
+ * MTD  {@link MetadataElement}([id])(-{@link MetadataSubElement}[pid])(-{@link MetadataProperty})    {Element Value}
+ *
+ * @see MetadataElement
+ * @see MetadataSubElement
+ * @see MetadataProperty
+ *
+ * @author qingwei
+ * @since 08/02/13
+ */
 public class MTDLineParser extends MZTabLineParser {
     private static final String Error_Header = "MTD\t";
 

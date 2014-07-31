@@ -11,8 +11,8 @@ import java.util.TreeMap;
  * The reported values SHOULD represent the final result of the performed data analysis. The exact meaning of the values will
  * thus depend on the used analysis pipeline and quantitation method and is not expected to be comparable across multiple mzTab files.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class AbundanceColumn extends MZTabColumn {
     public enum Field {
@@ -67,8 +67,8 @@ public class AbundanceColumn extends MZTabColumn {
      * @param section SHOULD be {@link Section#Protein}, {@link Section#Peptide}, {@link Section#PSM},
      *                or {@link Section#Small_Molecule}.
      * @param assay SHOULD not be null.
-     * @param offset Normally the last column's position in header, {@link uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory#getColumnMapping()},
-     * @return a abundance optional column as measured in the given assay.
+     * @param offset Normally the last column's position in header, {@link MZTabColumnFactory#getColumnMapping()},
+     * @return an abundance optional column as measured in the given assay.
      */
     public static MZTabColumn createOptionalColumn(Section section, Assay assay, int offset) {
         if (section.isComment() || section.isMetadata()) {
@@ -90,8 +90,8 @@ public class AbundanceColumn extends MZTabColumn {
      * @param section SHOULD be {@link Section#Protein}, {@link Section#Peptide}, {@link Section#PSM},
      *                or {@link Section#Small_Molecule}.
      * @param studyVariable SHOULD not be null.
-     * @param order Normally the last column's position in header, {@link uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory#getColumnMapping()},
-     * @return a abundance optional column as measured in the given study variable.
+     * @param order Normally the last column's position in header, {@link MZTabColumnFactory#getColumnMapping()},
+     * @return an abundance optional column as measured in the given study variable.
      */
     public static SortedMap<String, MZTabColumn> createOptionalColumns(Section section, StudyVariable studyVariable, String order) {
         if (section.isComment() || section.isMetadata()) {

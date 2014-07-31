@@ -9,8 +9,9 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
 /**
  * Parse and validate Protein header line into a {@link MZTabColumnFactory}.
  *
- * User: Qingwei
- * Date: 10/02/13
+ * @author qingwei
+ * @author ntoro
+ * @since 10/02/13
  */
 public class PRHLineParser extends MZTabHeaderLineParser {
     public PRHLineParser(Metadata metadata) {
@@ -21,28 +22,30 @@ public class PRHLineParser extends MZTabHeaderLineParser {
         super.parse(lineNumber, line, errorList);
     }
 
-    //TODO review doc
-
     /**
-     * Principle 1: in "Quantification" file, following optional columns are mandatory provide:
+     * In all the modes following optional columns are mandatory:
+     * 1. best_search_engine_score[1-n]
+     *
+     * In "Quantification" file, following optional columns are mandatory:
      * 1. protein_abundance_study_variable[1-n]
      * 2. protein_abundance_stdev_study_variable[1-n]
      * 3. protein_abundance_std_error_study_variable[1-n]
      *
-     * In "Complete" and "Identification" file, following optional columns also mandatory provide:
-     * 1. search_engine_score_ms_run[1-n]
+     * In "Complete" and "Identification" file, following optional columns are also mandatory:
+     * 1. search_engine_score[1-n]_ms_run[1-n]
      * 2. num_psms_ms_run[1-n]
      * 3. num_peptides_distinct_ms_run[1-n]
      * 4. num_peptides_unique_ms_run[1-n]
      *
-     * Beside principle 1, in "Complete" and "Quantification" file, following optional columns also mandatory provide:
-     * 1. search_engine_score_ms_run[1-n]
+     * In "Complete" and "Quantification" file, following optional columns are also mandatory:
+     * 1. search_engine_score[1-n]_ms_run[1-n]
      * 2. protein_abundance_assay[1-n]
      *
-     * NOTICE: this hock method will be called at end of parse() function.
      *
-     * @see MZTabHeaderLineParser#parse(int, String, uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList)
-     * @see #refineOptionalColumn(uk.ac.ebi.pride.jmztab.model.MZTabDescription.Mode, uk.ac.ebi.pride.jmztab.model.MZTabDescription.Type, String)
+     * NOTICE: this method will be called at end of parse() function.
+     *
+     * @see MZTabHeaderLineParser#parse(int, String, MZTabErrorList)
+     * @see #refineOptionalColumn(MZTabDescription.Mode, MZTabDescription.Type, String)
      */
     @Override
     protected void refine() throws MZTabException {

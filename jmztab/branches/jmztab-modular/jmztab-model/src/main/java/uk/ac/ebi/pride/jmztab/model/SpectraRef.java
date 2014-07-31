@@ -10,8 +10,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.COLON;
  * The following table is implemented in the PSI-MS CV for providing consistent identifiers for
  * different spectrum file formats. This is the exact same approach followed in mzIdentML and mzQuantML.
  *
- * User: Qingwei
- * Date: 29/05/13
+ * @author qingwei
+ * @since 29/05/13
  */
 public class SpectraRef {
     /**

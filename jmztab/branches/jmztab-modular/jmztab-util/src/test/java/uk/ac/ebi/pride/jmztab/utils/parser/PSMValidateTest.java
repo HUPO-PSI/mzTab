@@ -17,8 +17,8 @@ import java.net.URL;
 import static org.junit.Assert.assertTrue;
 
 /**
-* User: qingwei
-* Date: 16/09/13
+* @author qingwei
+* @since 16/09/13
 */
 public class PSMValidateTest {
     private Logger logger = Logger.getLogger(PSMValidateTest.class);

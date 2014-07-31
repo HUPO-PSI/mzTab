@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.model;
 import java.net.URL;
 
 /**
- * User: qingwei
- * Date: 14/11/13
+ * @author qingwei
+ * @since 14/11/13
  */
 public class ConvertSmallMolecule {
     private MsRun msRun1;

@@ -10,8 +10,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
  * in the square brackets after "publication". PubMed ids must be prefixed by "pubmed:", DOIs by "doi:".
  * Multiple identifiers MUST be separated by "|".
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class Publication extends IndexedElement {
     private SplitList<PublicationItem> itemList = new SplitList<PublicationItem>(BAR);

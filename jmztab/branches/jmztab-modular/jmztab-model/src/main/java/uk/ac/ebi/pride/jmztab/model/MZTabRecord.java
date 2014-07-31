@@ -19,8 +19,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseDouble;
  * @see PSM
  * @see SmallMolecule
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public abstract class MZTabRecord {
     protected MZTabColumnFactory factory;

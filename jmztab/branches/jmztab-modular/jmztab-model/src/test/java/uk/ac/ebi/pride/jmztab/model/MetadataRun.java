@@ -4,8 +4,8 @@ import java.net.URI;
 import java.net.URL;
 
 /**
- * User: Qingwei
- * Date: 22/05/13
+ * @author qingwei
+ * @since 22/05/13
  */
 public class MetadataRun {
     public static void main(String[] args) throws Exception {

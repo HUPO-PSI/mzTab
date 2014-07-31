@@ -19,8 +19,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
  * These methods are particularly useful when information coming from different experiments (e.g. ms runs) is
  * condensed in a single mzTab file.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class MZTabFile {
     // The metadata section.

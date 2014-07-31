@@ -16,8 +16,8 @@ import java.net.URL;
 import static org.junit.Assert.assertTrue;
 
 /**
- * User: qingwei
- * Date: 10/09/13
+ * @author qingwei
+ * @since 10/09/13
  */
 public class MZTabHeaderLineValidateTest {
     private static Logger logger = Logger.getLogger(MZTabHeaderLineValidateTest.class);

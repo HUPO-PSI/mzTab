@@ -24,8 +24,9 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
 /**
  * Convert PRIDE XML v2.1 file to mzTab.
  * <p/>
- * User: Qingwei
- * Date: 07/06/13
+ * @author qingwei
+ * @author ntoro
+ * @since 07/06/13
  */
 public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
@@ -245,7 +246,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     /**
      * Function to merge proteins that have the same accession. The search engine score will be written in an
      * optional column. The quantification information of the inference is lost after the merge.
-     * @param proteinList
+     * @param proteinList list of candidate proteins to be merged
      * @return only one protein with merge information
      */
     private Protein merge(List<Protein> proteinList) {

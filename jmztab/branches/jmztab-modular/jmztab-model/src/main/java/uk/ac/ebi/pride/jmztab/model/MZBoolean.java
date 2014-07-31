@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.model;
 /**
  * In mzTab, using 0-false, 1-true to express the boolean value.
  *
- * User: Qingwei
- * Date: 06/02/13
+ * @author qingwei
+ * @since 06/02/13
  */
 public enum MZBoolean {
     True("1"), False("0");

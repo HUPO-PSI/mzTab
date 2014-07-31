@@ -10,8 +10,8 @@ import java.util.SortedMap;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 
 /**
-* User: Qingwei
-* Date: 10/02/13
+* @author qingwei
+* @since 10/02/13
 */
 public class PEPLineParser extends MZTabDataLineParser {
     public PEPLineParser(MZTabColumnFactory factory, PositionMapping positionMapping,

@@ -5,8 +5,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.COMMA;
 /**
  * A list of {@link Modification} reported in the {@link Metadata}, which split with comma character.
  *
- * User: Qingwei
- * Date: 13/02/13
+ * @author qingwei
+ * @since 13/02/13
  */
 public class ModificationList {
     private SplitList<Modification> modList = new SplitList<Modification>(COMMA);

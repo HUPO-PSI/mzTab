@@ -5,8 +5,8 @@ import uk.ac.ebi.pride.jmztab.model.MZTabConstants;
 import java.io.*;
 
 /**
- * User: qingwei
- * Date: 05/11/13
+ * @author qingwei
+ * @since 05/11/13
  */
 public class WikiRun {
     private OutputStream out = System.out;

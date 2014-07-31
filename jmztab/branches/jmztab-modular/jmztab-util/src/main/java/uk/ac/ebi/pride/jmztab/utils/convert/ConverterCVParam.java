@@ -3,9 +3,8 @@ package uk.ac.ebi.pride.jmztab.utils.convert;
 import uk.ac.ebi.pride.jmztab.model.CVParam;
 
 /**
- * User: ntoro
- * Date: 29/07/2014
- * Time: 13:31
+ * @author ntoro
+ * @since 29/07/2014 13:31
  */
 public enum ConverterCVParam {
 

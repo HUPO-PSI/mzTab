@@ -9,8 +9,8 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
  * An MS run is effectively one run (or set of runs on pre-fractionated samples) on an MS instrument,
  * and is referenced from assay in different contexts.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class MsRun extends IndexedElement {
     private Param format;

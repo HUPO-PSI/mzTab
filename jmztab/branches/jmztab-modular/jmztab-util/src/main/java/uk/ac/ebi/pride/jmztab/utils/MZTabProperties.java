@@ -9,8 +9,10 @@ import java.util.Properties;
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
 /**
- * User: Qingwei
- * Date: 29/01/13
+ * This Class will load the properties used by the mzTab library
+ *
+ * @author qingwei
+ * @since 29/01/13
  */
 public class MZTabProperties {
     private static Logger logger = Logger.getLogger(MZTabProperties.class);

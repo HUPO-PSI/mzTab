@@ -14,8 +14,8 @@ import java.util.List;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * User: Qingwei
- * Date: 11/02/13
+ * @author qingwei
+ * @since 11/02/13
  */
 public class MTDLineParserTest {
     private MTDLineParser parser;

@@ -14,8 +14,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.isEmpty;
  * @see FixedMod
  * @see VariableMod
  *
- * User: qingwei
- * Date: 14/10/13
+ * @author qingwei
+ * @since 14/10/13
  */
 public abstract class Mod extends IndexedElement {
     private Param param;

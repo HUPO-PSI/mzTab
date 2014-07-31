@@ -3,8 +3,8 @@ package uk.ac.ebi.pride.jmztab.model;
 /**
  * Define a property in metadata, which depend on the {@link MetadataElement} or {@link MetadataSubElement}
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public enum MetadataProperty {
     MZTAB_VERSION                         (MetadataElement.MZTAB,                               "version"),

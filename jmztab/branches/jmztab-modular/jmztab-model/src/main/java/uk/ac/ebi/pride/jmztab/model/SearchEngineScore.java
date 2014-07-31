@@ -2,11 +2,18 @@ package uk.ac.ebi.pride.jmztab.model;
 
 import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
 
+/**
+ * Search engine score cv param used to identify the type of scoring system used in the values of columns like
+ * best_search_engine_score and/or search_engine_score in the different sections.
+ *
+ * @author qingwei
+ * @since 20/3/14
+ */
 public abstract class SearchEngineScore extends IndexedElement {
     private Param param;
 
     /**
-     * Create a index-organized {@link uk.ac.ebi.pride.jmztab.model.MetadataElement}, index value is non-negative integer.
+     * Create a index-organized {@link MetadataElement}, index value is non-negative integer.
      *
      * @param id      SHOULD be non-negative integer.
      */

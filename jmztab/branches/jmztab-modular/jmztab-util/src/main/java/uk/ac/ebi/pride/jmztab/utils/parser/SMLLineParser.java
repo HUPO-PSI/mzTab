@@ -14,8 +14,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseString;
 
 /**
-* User: Qingwei
-* Date: 10/02/13
+* @author qingwei
+* @since 10/02/13
 */
 public class SMLLineParser extends MZTabDataLineParser {
     public SMLLineParser(MZTabColumnFactory factory, PositionMapping positionMapping,

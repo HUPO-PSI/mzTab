@@ -11,8 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * User: qingwei
- * Date: 29/11/13
+ * @author qingwei
+ * @since 29/11/13
  */
 public class DynamicMZTabFile implements PropertyChangeListener {
     private DynamicMetadata dynamicMetadata;

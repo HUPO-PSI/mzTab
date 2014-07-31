@@ -12,8 +12,8 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
  * Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample was analysed
  * (e.g. whether biological or technical replication was performed).
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class Sample extends IndexedElement {
     private List<Param> speciesList = new ArrayList<Param>();

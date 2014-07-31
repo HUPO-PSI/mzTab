@@ -4,8 +4,8 @@ package uk.ac.ebi.pride.jmztab.model;
  * An kind of {@link OptionColumn} which use CV parameter accessions in following the format:
  * opt_{OBJECT_ID}_cv_{accession}_{parameter name}. Spaces within the parameter' s name MUST be replaced by '_'.
  *
- * User: Qingwei
- * Date: 30/05/13
+ * @author qingwei
+ * @since 30/05/13
  */
 public class CVParamOptionColumn extends OptionColumn {
     public static final String CV = "cv_";

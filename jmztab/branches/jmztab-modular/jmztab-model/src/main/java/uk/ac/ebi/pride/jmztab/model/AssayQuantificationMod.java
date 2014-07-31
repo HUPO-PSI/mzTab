@@ -8,8 +8,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
  *
  * @see Assay
  *
- * User: qingwei
- * Date: 14/10/13
+ * @author qingwei
+ * @since 14/10/13
  */
 public class AssayQuantificationMod extends Mod {
     private Assay assay;

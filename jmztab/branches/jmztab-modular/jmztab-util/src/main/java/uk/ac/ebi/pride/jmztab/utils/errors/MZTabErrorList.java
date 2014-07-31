@@ -16,8 +16,8 @@ import static uk.ac.ebi.pride.jmztab.utils.MZTabProperties.MAX_ERROR_COUNT;
  * add a new {@link MZTabError} object, it's {@link MZTabErrorType#level} SHOULD equal or
  * great than its level setting.
  *
- * User: Qingwei
- * Date: 29/01/13
+ * @author qingwei
+ * @since 29/01/13
  */
 public class MZTabErrorList {
     private final int maxErrorCount;
@@ -45,7 +45,7 @@ public class MZTabErrorList {
     /**
      * Generate a error list, with given error level and maximum error count.
      *
-     * @param level if null, default level is {@link} MZTabErrorType.Level#Error}
+     * @param level if null, default level is {@link MZTabErrorType.Level#Error}
      * @param maxErrorCount the maximum number of errors recorded by this list before an
      *        {@link MZTabErrorOverflowException} is thrown
      */

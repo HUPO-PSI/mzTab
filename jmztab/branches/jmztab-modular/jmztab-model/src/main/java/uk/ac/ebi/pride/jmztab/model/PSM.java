@@ -22,8 +22,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.parseURI;
  * The order of columns is not specified although for ease of human interpretation, it is RECOMMENDED
  * to follow the order specified below.
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class PSM extends MZTabRecord {
     private Metadata metadata;

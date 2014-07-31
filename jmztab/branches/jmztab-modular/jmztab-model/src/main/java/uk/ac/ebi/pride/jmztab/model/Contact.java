@@ -9,8 +9,8 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.CONTACT_NAME;
  * Setting contact name, email, affiliation in {@link Metadata}.
  * Several contacts can be given by indicating the number in the square brackets after "contact".
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class Contact extends IndexedElement {
     private String name;

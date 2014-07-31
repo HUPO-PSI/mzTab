@@ -8,8 +8,8 @@ import java.io.*;
  *
  * @see uk.ac.ebi.pride.jmztab.MZTabInspector
  *
- * User: Qingwei
- * Date: 23/03/13
+ * @author qingwei
+ * @since 23/03/13
  */
 public class MZTabConsolePane extends JScrollPane {
     private JTextArea text;

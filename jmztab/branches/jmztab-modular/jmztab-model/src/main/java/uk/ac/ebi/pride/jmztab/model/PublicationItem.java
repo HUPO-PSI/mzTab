@@ -6,8 +6,8 @@ package uk.ac.ebi.pride.jmztab.model;
  *
  * @see Publication
  *
- * User: qingwei
- * Date: 29/04/13
+ * @author qingwei
+ * @since 29/04/13
  */
 public class PublicationItem {
     private Type type;

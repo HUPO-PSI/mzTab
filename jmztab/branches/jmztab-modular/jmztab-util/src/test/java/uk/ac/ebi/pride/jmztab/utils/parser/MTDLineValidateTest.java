@@ -14,8 +14,8 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Test all parser error.
  *
- * User: qingwei
- * Date: 09/09/13
+ * @author qingwei
+ * @since 09/09/13
  */
 public class MTDLineValidateTest {
     private static Logger logger = Logger.getLogger(MTDLineValidateTest.class);

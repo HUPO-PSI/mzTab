@@ -4,8 +4,8 @@ package uk.ac.ebi.pride.jmztab.utils.errors;
  * Reporting errors related to the logical relationships among the different sections in a file.
  * Reference: http://code.google.com/p/mztab/wiki/jmzTab2_message for details.
  *
- * User: Qingwei
- * Date: 29/01/13
+ * @author qingwei
+ * @since 29/01/13
  */
 public class LogicalErrorType extends MZTabErrorType {
     public static MZTabErrorType NULL = createError(Category.Logical, "NULL");

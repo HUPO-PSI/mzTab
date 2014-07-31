@@ -9,8 +9,8 @@ import java.util.Collection;
  * A framework for convert some other source into mzTab. T used to set data source,
  * V is a object store parameter(s) which maybe used in processing data source.
  *
- * User: Qingwei
- * Date: 12/03/13
+ * @author qingwei
+ * @since 12/03/13
  */
 public abstract class ConvertProvider<T, V> {
     protected T source;

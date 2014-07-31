@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 /**
- * User: Qingwei
- * Date: 26/03/13
+ * @author qingwei
+ * @since 26/03/13
  */
 public class MZTabInspector extends JFrame {
 
@@ -140,7 +140,12 @@ public class MZTabInspector extends JFrame {
     }
 
     private File getConvertFile(String outDir, String fileName) {
-        fileName = fileName.replaceAll(".xml", ".mztab");
+        if(fileName.contains(".xml")) {
+            fileName = fileName.replaceAll(".xml", ".mztab");
+        }
+        else if(fileName.contains(".mzid")){
+            fileName = fileName.replaceAll(".mzid", ".mztab");
+        }
         return new File(outDir, fileName);
     }
 

@@ -13,20 +13,17 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 import java.io.File;
 import java.util.SortedMap;
 
-/*
- * User: qingwei
- * Date: 17/09/13
- */
-
 /**
  * Convert third-party data source to mzTab file, and do whole {@link MZTabFile} consistency check.
- * Currently, only PRIDE XML v2.1 has been integrated into this framework.
+ * Currently, only PRIDE XML v2.1 and MZIdentML v1.0 has been integrated into this framework.
  *
  * @see uk.ac.ebi.pride.jmztab.MZTabInspector
  * @see uk.ac.ebi.pride.jmztab.MZTabCommandLine
  *
+ * @author qingwei
+ * @author ntoro
+ * @since 17/09/13
  */
-@Deprecated
 public class MZTabFileConverter {
     private MZTabErrorList errorList = new MZTabErrorList();
     private ConvertProvider convertProvider;
@@ -35,7 +32,7 @@ public class MZTabFileConverter {
         this(inFile, format, true);
     }
 
-    public MZTabFileConverter(File inFile, MassSpecFileFormat format, boolean validate) {
+    public MZTabFileConverter(File inFile, MassSpecFileFormat format, boolean consistencyCheck) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
@@ -51,15 +48,15 @@ public class MZTabFileConverter {
                 throw new IllegalArgumentException("Can not convert " + format + " to mztab.");
         }
 
-        if(validate)
+        if(consistencyCheck)
             check(convertProvider.getMZTabFile());
         else
             convertProvider.getMZTabFile();
     }
 
     /**
-     * Use this constructor only to check/validate the files without convert them first. The file was generated previously.
-     * It will change in future versions.
+     * Use this constructor only to check the files without convert them first. The file needs to be generated previously.
+     * This constructor will disappear in future versions.
      */
     public MZTabFileConverter() {
     }
@@ -67,12 +64,15 @@ public class MZTabFileConverter {
     /**
      * Do whole {@link MZTabFile} consistency check.
      *
-     * @see #checkMetadata(uk.ac.ebi.pride.jmztab.model.Metadata)
-     * @see #checkProtein(uk.ac.ebi.pride.jmztab.model.Metadata, uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)
-     * @see #checkPeptide(uk.ac.ebi.pride.jmztab.model.Metadata, uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)
-     * @see #checkPSM(uk.ac.ebi.pride.jmztab.model.Metadata, uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)
-     * @see #checkSmallMolecule(uk.ac.ebi.pride.jmztab.model.Metadata, uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)
+     * @see #checkMetadata(Metadata)
+     * @see #checkProtein(Metadata, MZTabColumnFactory)
+     * @see #checkPeptide(Metadata, MZTabColumnFactory)
+     * @see #checkPSM(Metadata, MZTabColumnFactory)
+     * @see #checkSmallMolecule(Metadata, MZTabColumnFactory)
+     *
+     * @deprecated This method will be unified with the one in the parser and would be removed.
      */
+    @Deprecated
     public void check(MZTabFile mzTabFile) {
         Metadata metadata = mzTabFile.getMetadata();
         MZTabColumnFactory proteinFactory = mzTabFile.getProteinColumnFactory();
@@ -87,9 +87,6 @@ public class MZTabFileConverter {
         checkSmallMolecule(metadata, smlFactory);
     }
 
-    /**
-     *
-     */
     private void checkMetadata(Metadata metadata) {
         MZTabDescription.Mode mode = metadata.getMZTabMode();
         MZTabDescription.Type type = metadata.getMZTabType();
@@ -155,7 +152,7 @@ public class MZTabFileConverter {
         }
     }
 
-    protected void refineOptionalColumn(MZTabDescription.Mode mode, MZTabDescription.Type type,
+    private void refineOptionalColumn(MZTabDescription.Mode mode, MZTabDescription.Type type,
                                         MZTabColumnFactory factory, String columnHeader) {
         if (factory.findColumnByHeader(columnHeader) == null) {
             errorList.add(new MZTabError(LogicalErrorType.NotDefineInHeader, -1, columnHeader, mode.toString(), type.toString()));

@@ -1,8 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 /**
- * User: Qingwei
- * Date: 24/05/13
+ * @author qingwei
+ * @since 24/05/13
  */
 public class MZTabColumnFactoryRun {
     public MZTabColumnFactory printProteinHeader() {

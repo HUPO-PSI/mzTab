@@ -5,8 +5,8 @@ import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
 import java.io.File;
 
 /**
- * User: Qingwei
- * Date: 21/02/13
+ * @author qingwei
+ * @since 21/02/13
  */
 public class MZTabFileParserRun {
     public void check(File tabFile) throws Exception {

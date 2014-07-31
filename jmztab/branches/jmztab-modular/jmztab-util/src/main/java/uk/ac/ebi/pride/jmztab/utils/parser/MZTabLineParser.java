@@ -17,8 +17,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
  * @see MZTabDataLineParser
  * @see MTDLineParser
  *
- * User: Qingwei
- * Date: 10/02/13
+ * @author qingwei
+ * @since 10/02/13
  */
 public class MZTabLineParser {
     protected int lineNumber;

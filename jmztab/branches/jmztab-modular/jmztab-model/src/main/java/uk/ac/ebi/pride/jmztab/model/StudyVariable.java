@@ -12,8 +12,8 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.STUDY_VARIABLE_DESCR
  * averaging across a group of replicate measurements (assays). In files where assays are reported, study variables
  * have references to assays. The same concept has been defined by others as "experimental factor".
  *
- * User: Qingwei
- * Date: 23/05/13
+ * @author qingwei
+ * @since 23/05/13
  */
 public class StudyVariable extends IndexedElement {
     private String description;
