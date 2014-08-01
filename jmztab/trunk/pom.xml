@@ -170,7 +170,7 @@
             </build>
         </profile>
         <profile>
-            <id>jmztab-distribution-build</id>  <!--mvn package -P jmztab-deployment-build,gui,cli -->
+            <id>jmztab-distribution-build</id>  <!--mvn package -P jmztab-deployment-build -->
             <build>
                 <plugins>
                     <plugin>
@@ -199,7 +199,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <!--NOTE: you must have this version number, otherwise, the build will not be able to find Validator-->
                         <version>2.4</version>
                         <configuration>
                             <excludes>
@@ -299,5 +298,12 @@
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <!-- scm -->
+    <scm>
+        <connection>scm:svn:https://mztab.googlecode.com/svn/jmztab/trunk</connection>
+        <developerConnection>scm:svn:https://mztab.googlecode.com/svn/jmztab/trunk</developerConnection>
+        <url>https://mztab.googlecode.com/svn/jmztab/trunk</url>
+    </scm>
 
 </project>
