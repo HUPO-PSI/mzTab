@@ -8,10 +8,6 @@ import uk.ac.ebi.pride.jmztab.utils.convert.SearchEngineScoreParam;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-* Created by yperez on 13/06/2014.
-*/
-
 /**
  * MzIdentML utilities to convert mzIdentML files to mzTab.
  *  <p/>

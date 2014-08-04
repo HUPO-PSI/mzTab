@@ -9,6 +9,7 @@ import java.net.URL;
  */
 public class MetadataRun {
     public static void main(String[] args) throws Exception {
+
         MZTabDescription tabDescription = new MZTabDescription(MZTabDescription.Mode.Summary, MZTabDescription.Type.Identification);
         tabDescription.setId("PRIDE_1234");
         Metadata mtd = new Metadata(tabDescription);
@@ -35,6 +36,9 @@ public class MetadataRun {
         mtd.addSoftwareSetting(1, "Parent tolerance = 0.5Da");
 
         mtd.addProteinSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+        mtd.addPeptideSearchEngineScoreParam(1, new CVParam("MS", "MS:1001153", "search engine specific score", null));
+        mtd.addSmallMoleculeSearchEngineScoreParam(1, new CVParam("MS", "MS:1001420", "SpectraST:delta", null));
+
         mtd.addPsmSearchEngineScoreParam(1, new CVParam("MS", "MS:1001330", "X!Tandem:expect", null));
         mtd.addPsmSearchEngineScoreParam(2, new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", null));
 
@@ -77,7 +81,7 @@ public class MetadataRun {
 
         mtd.addMsRunFormat(1, new CVParam("MS", "MS:1000584", "mzML file", null));
         mtd.addMsRunFormat(2, new CVParam("MS", "MS:1001062", "Mascot MGF file", null));
-//        mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file"));
+        mtd.addMsRunLocation(1, new URL("file://ftp.ebi.ac.uk/path/to/file"));
         mtd.addMsRunLocation(2, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
         mtd.addMsRunIdFormat(1, new CVParam("MS", "MS:1001530", "mzML unique identifier", null));
         mtd.addMsRunFragmentationMethod(1, new CVParam("MS", "MS:1000133", "CID", null));
@@ -120,11 +124,16 @@ public class MetadataRun {
 
         Assay assay1 = mtd.getAssayMap().get(1);
         Assay assay2 = mtd.getAssayMap().get(2);
+
         mtd.addStudyVariableAssay(1, assay1);
         mtd.addStudyVariableAssay(1, assay2);
-
         mtd.addStudyVariableSample(1, sample1);
         mtd.addStudyVariableDescription(1, "description Group B (spike-in 0.74 fmol/uL)");
+
+        mtd.addStudyVariableAssay(2, assay1);
+        mtd.addStudyVariableAssay(2, assay2);
+        mtd.addStudyVariableSample(2, sample1);
+        mtd.addStudyVariableDescription(2, "description Group B (spike-in 0.74 fmol/uL)");
 
         mtd.addCVLabel(1, "MS");
         mtd.addCVFullName(1, "MS");
