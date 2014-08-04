@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.io.*;
 
 /**
- * Create a message output console for GUI application -- MZTabInspector.
+ * Create a message output console for GUI application -- MZTabGraphicalInterface.
  *
- * @see uk.ac.ebi.pride.jmztab.MZTabInspector
+ * @see uk.ac.ebi.pride.jmztab.MZTabGraphicalInterface
  *
  * @author qingwei
  * @since 23/03/13

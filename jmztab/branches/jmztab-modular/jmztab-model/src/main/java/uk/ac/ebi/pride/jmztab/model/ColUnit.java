@@ -58,6 +58,26 @@ public class ColUnit {
     }
 
     /**
+     *  Get colunit {@link MZTabColumn} value.
+     */
+    public MZTabColumn getColumn() {
+        return column;
+    }
+
+    /**
+     * Set {@link MZTabColumn} column for colunit.
+     *
+     * @param column should not set null!
+     */
+    public void setColumn(MZTabColumn column) {
+        if (column == null) {
+            throw new NullPointerException("colunit parameter column should not set null!");
+        }
+
+        this.column = column;
+    }
+
+    /**
      * Output like: {column header name}={Parameter defining the unit}
      */
     @Override

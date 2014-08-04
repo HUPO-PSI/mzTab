@@ -1,7 +1,8 @@
 package uk.ac.ebi.pride.jmztab.utils;
 
-import org.apache.log4j.Logger;
-import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.ebi.pride.jmztab.errors.LogicalErrorType;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -15,7 +16,8 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
  * @since 29/01/13
  */
 public class MZTabProperties {
-    private static Logger logger = Logger.getLogger(MZTabProperties.class);
+
+    private static Logger logger = LoggerFactory.getLogger(MZTabProperties.class);
 
     private static Properties properties;
     static {

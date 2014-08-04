@@ -11,14 +11,7 @@ import static uk.ac.ebi.pride.jmztab.model.MetadataElement.CV;
 import static uk.ac.ebi.pride.jmztab.model.MetadataProperty.*;
 
 /**
- * The metadata section can provide additional information about the dataset(s) reported in the mzTab file. All fields in
- * the metadata section are optional apart from five exceptions:
- *  - "mzTab-version"       MUST always be reported.
- *  - "mzTab-mode"          MUST always be reported. Two modes are possible: 'Summary' and 'Complete'.
- *  - "mzTab-type"          MUST  always be reported. Two types are possible: 'Quantification' or 'Identification'.
- *                          Any analyses generating both quantification and identification results MUST be flagged as 'Quantification'.
- * - "description"          MUST  always be reported.
- * - "ms_run-location[1-n]" MUST  always be reported.
+ * The metadata section can provide additional information about the dataset(s) reported in the mzTab file.
  *
  * @author qingwei
  * @since 23/05/13
@@ -40,7 +33,7 @@ public class Metadata {
     private SortedMap<Integer, Contact> contactMap = new TreeMap<Integer, Contact>();
     private List<URI> uriList = new ArrayList<URI>();
     private SortedMap<Integer, FixedMod> fixedModMap = new TreeMap<Integer, FixedMod>();
-    private  SortedMap<Integer, VariableMod> variableModMap = new TreeMap<Integer, VariableMod>();
+    private SortedMap<Integer, VariableMod> variableModMap = new TreeMap<Integer, VariableMod>();
     private Param quantificationMethod;
     private Param proteinQuantificationUnit;
     private Param peptideQuantificationUnit;
@@ -55,6 +48,7 @@ public class Metadata {
     private List<ColUnit> peptideColUnitList = new ArrayList<ColUnit>();
     private List<ColUnit> psmColUnitList = new ArrayList<ColUnit>();
     private List<ColUnit> smallMoleculeColUnitList = new ArrayList<ColUnit>();
+    private Map<String, String> colUnitMap = new HashMap<String, String>();
 
     /**
      * Create a metadata section with default {@link MZTabDescription}:
@@ -2221,5 +2215,12 @@ public class Metadata {
      */
     public void addSmallMoleculeColUnit(MZTabColumn column, Param param) {
         this.smallMoleculeColUnitList.add(new ColUnit(column, param));
+    }
+
+    /**
+     *  Defines a method to access the colUnit to help in the transformation from columnName String -> to columnName MZTabColumn
+     */
+    public Map<String, String> getColUnitMap() {
+        return colUnitMap;
     }
 }

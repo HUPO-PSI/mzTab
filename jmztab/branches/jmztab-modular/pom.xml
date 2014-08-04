@@ -6,7 +6,7 @@
     <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab-modular</artifactId>
     <!-- based on mzTab specification version 1.0 RC5-->
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -34,6 +34,7 @@
         <module>jmztab-cli</module>
         <module>jmztab-converters</module>
         <module>jmztab-util</module>
+        <module>jmztab-parser</module>
     </modules>
 
     <dependencyManagement>
@@ -45,11 +46,16 @@
                 <scope>test</scope>
             </dependency>
 
+            <!--logging-->
             <dependency>
-                <artifactId>com.springsource.org.apache.log4j</artifactId>
-                <groupId>org.apache.log4j</groupId>
-                <type>jar</type>
-                <version>1.2.15</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.7</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.1.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -102,11 +108,31 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>2.4</version>
+                    <configuration>
+                        <appendAssemblyId>false</appendAssemblyId>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.8.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.1</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <remoteTagging>true</remoteTagging>
+                        <goals>deploy</goals>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -114,7 +140,7 @@
 
     <profiles>
         <profile>
-            <id>src</id> <!--mvn clean verify -P src -->
+            <id>src</id> <!--mvn clean package -P src -->
             <build>
                 <plugins>
                     <plugin>
@@ -135,7 +161,7 @@
             </build>
         </profile>
         <profile>
-            <id>javadoc</id> <!--mvn clean verify -P javadoc -->
+            <id>javadoc</id> <!--mvn clean package -P javadoc -->
             <build>
                 <plugins>
                     <plugin>
@@ -170,7 +196,7 @@
             </build>
         </profile>
         <profile>
-            <id>jmztab-distribution-build</id>  <!--mvn package -P jmztab-deployment-build,gui,cli -->
+            <id>jmztab-distribution-build</id>  <!--mvn package -P jmztab-deployment-build -->
             <build>
                 <plugins>
                     <plugin>
@@ -199,7 +225,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <!--NOTE: you must have this version number, otherwise, the build will not be able to find Validator-->
                         <version>2.4</version>
                         <configuration>
                             <excludes>
@@ -299,5 +324,12 @@
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <!-- scm -->
+    <scm>
+        <connection>scm:svn:https://mztab.googlecode.com/svn/jmztab/trunk</connection>
+        <developerConnection>scm:svn:https://mztab.googlecode.com/svn/jmztab/trunk</developerConnection>
+        <url>https://mztab.googlecode.com/svn/jmztab/trunk</url>
+    </scm>
 
 </project>

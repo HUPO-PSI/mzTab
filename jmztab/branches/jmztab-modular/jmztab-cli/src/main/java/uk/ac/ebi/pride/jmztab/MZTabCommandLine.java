@@ -1,38 +1,26 @@
 package uk.ac.ebi.pride.jmztab;
 
 import org.apache.commons.cli.*;
-import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
+import uk.ac.ebi.pride.jmztab.converter.MZTabFileConverter;
+import uk.ac.ebi.pride.jmztab.converter.utils.FileFormat;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
-import uk.ac.ebi.pride.jmztab.model.MZTabUtils;
-import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
-import uk.ac.ebi.pride.jmztab.utils.MZTabFileParser;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorTypeMap;
+import uk.ac.ebi.pride.jmztab.parser.MZTabFileParser;
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorList;
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorType;
+import uk.ac.ebi.pride.jmztab.errors.MZTabErrorTypeMap;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import static uk.ac.ebi.pride.jmztab.converter.utils.FileFormat.getFormat;
+
 /**
  * @author qingwei
  * @since 17/09/13
  */
 public class MZTabCommandLine {
-    public static MassSpecFileFormat getFormat(String format) {
-        if (MZTabUtils.isEmpty(format)) {
-            return null;
-        }
-
-        if (format.equalsIgnoreCase(MassSpecFileFormat.PRIDE.name())) {
-            return MassSpecFileFormat.PRIDE;
-        } else if (format.equalsIgnoreCase(MassSpecFileFormat.MZIDENTML.name())) {
-            return MassSpecFileFormat.MZIDENTML;
-        } else {
-            return MassSpecFileFormat.PRIDE;
-        }
-    }
 
     public static void main(String[] args) throws Exception {
         MZTabErrorTypeMap typeMap = new MZTabErrorTypeMap();
@@ -104,7 +92,7 @@ public class MZTabCommandLine {
             File inDir = null;
             if (line.hasOption(inDirOpt)) {
                 inDir = new File(line.getOptionValue(inDirOpt));
-                if (! inDir.isDirectory()) {
+                if (!inDir.isDirectory()) {
                     throw new IllegalArgumentException("input file directory not setting!");
                 }
             }
@@ -143,7 +131,7 @@ public class MZTabCommandLine {
             } else if (line.hasOption(convertOpt)) {
                 String[] values = line.getOptionValues(convertOpt);
                 File inFile = null;
-                MassSpecFileFormat format = MassSpecFileFormat.PRIDE;
+                FileFormat format = FileFormat.PRIDE;
                 for (int i = 0; i < values.length; i++) {
                     String type = values[i++].trim();
                     String value = values[i].trim();
@@ -176,5 +164,4 @@ public class MZTabCommandLine {
             out.close();
         }
     }
-
 }
