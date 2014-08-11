@@ -34,24 +34,24 @@ import java.util.*;
  */
 public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
-    private static Logger logger = Logger.getLogger(ConvertMZidentMLFile.class);
+    protected static Logger logger = Logger.getLogger(ConvertMZidentMLFile.class);
 
-    private MzIdentMLUnmarshallerAdaptor reader;
+    protected MzIdentMLUnmarshallerAdaptor reader;
 
-    private Metadata metadata;
+    protected Metadata metadata;
 
     private MZTabColumnFactory proteinColumnFactory;
-    private MZTabColumnFactory psmColumnFactory;
+    protected MZTabColumnFactory psmColumnFactory;
 
-    private Map<Comparable, Integer> spectraToRun;
+    protected Map<Comparable, Integer> spectraToRun;
 
     private Map<String, Integer> proteinScoreToScoreIndex;
 
-    private Map<String, Integer> psmScoreToScoreIndex;
+    protected Map<String, Integer> psmScoreToScoreIndex;
 
     private final static Integer THRESHOLD_LOOP_FOR_SCORE = 100;
 
-    private Map<Param, Set<String>> variableModifications;
+    protected Map<Param, Set<String>> variableModifications;
 
     private Set<Comparable> proteinIds;
 
@@ -197,6 +197,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         this.psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
         psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_ID_COLUMN,String.class);
         psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_DECOY_COLUMN, Integer.class);
+        psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_RANK_COLUMN, Integer.class);
 
         //Search engine score information (mandatory for all)
         for (Integer id : metadata.getPsmSearchEngineScoreMap().keySet()) {
@@ -339,7 +340,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 i++;
             }
 
-
             for(SearchEngineScoreParam param: psmScores.keySet()){
                 int idCount = metadata.getPsmSearchEngineScoreMap().size() + 1;
                 metadata.addPsmSearchEngineScoreParam(idCount,param.getParam(null));
@@ -454,8 +454,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         }
     }
 
-
-
     /**
      * Converts the experiment's references into a couple of {@link uk.ac.ebi.pride.jmztab.model.PublicationItem} (including DOIs and PubMed ids)
      */
@@ -561,7 +559,6 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     }
 
 
-
     private void loadURI(String expAccession) {
         if (expAccession == null || expAccession.isEmpty()) {
             return;
@@ -649,7 +646,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     /**
      * Converts the passed Identification object into an MzTab PSM.
      */
-    private List<PSM> loadPSMs(Set<String> oldpsmList) throws JAXBException {
+    protected List<PSM> loadPSMs(Set<String> oldpsmList) throws JAXBException {
 
         Map<Comparable, Integer> indexSpectrumID = new HashMap<Comparable, Integer>();
         List<PSM> psmList = new ArrayList<PSM>();
@@ -749,6 +746,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 psm.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_ID_COLUMN, oldPSM.getId());
                 Boolean decoy = peptideEvidenceRef.getPeptideEvidence().isIsDecoy();
                 psm.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_DECOY_COLUMN, (!decoy)?0:1);
+                psm.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_RANK_COLUMN, oldPSM.getRank());
                 psmList.add(psm);
             }
         }
@@ -771,7 +769,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     /* Utils */
 
-    private CVParam convertParam(CvParam param) {
+    protected CVParam convertParam(CvParam param) {
         return new CVParam(param.getCvRef(), param.getAccession(), param.getName(), param.getValue());
     }
 
@@ -941,7 +939,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         return null;
     }
 
-    private String getDatabaseName(CvParam databaseName, UserParam userParam){
+    protected String getDatabaseName(CvParam databaseName, UserParam userParam){
         if(databaseName != null )
             return (databaseName.getValue()!=null)?databaseName.getValue():databaseName.getName();
         else if(userParam != null){

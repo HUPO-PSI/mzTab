@@ -3,6 +3,7 @@ package uk.ac.ebi.pride.jmztab.converter;
 
 import uk.ac.ebi.pride.jmztab.checker.MZTabFileIntegrityChecker;
 import uk.ac.ebi.pride.jmztab.checker.MZTabIntegrityChecker;
+import uk.ac.ebi.pride.jmztab.converter.mzidentml.ConvertAmbiguityModMZIdentMLFile;
 import uk.ac.ebi.pride.jmztab.converter.mzidentml.ConvertMZidentMLFile;
 import uk.ac.ebi.pride.jmztab.converter.pridexml.ConvertPrideXMLFile;
 import uk.ac.ebi.pride.jmztab.converter.utils.FileFormat;
@@ -28,11 +29,15 @@ public class MZTabFileConverter {
     private MZTabFile mzTabFile;
     private ConvertProvider convertProvider;
 
-    public MZTabFileConverter(File inFile, FileFormat format) {
-        this(inFile, format, true);
+    public MZTabFileConverter(File inFile, FileFormat format){
+        this(inFile,format, false);
     }
 
-    public MZTabFileConverter(File inFile, FileFormat format, boolean integrityCheck) {
+    public MZTabFileConverter(File inFile, FileFormat format, boolean ambiguityMod) {
+        this(inFile, format, ambiguityMod, true);
+    }
+
+    public MZTabFileConverter(File inFile, FileFormat format, boolean ambiguityMod, boolean integrityCheck) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
@@ -42,7 +47,10 @@ public class MZTabFileConverter {
                 convertProvider = new ConvertPrideXMLFile(inFile);
                 break;
             case MZIDENTML:
-                convertProvider = new ConvertMZidentMLFile(inFile);
+                if(!ambiguityMod)
+                   convertProvider = new ConvertMZidentMLFile(inFile);
+                else
+                   convertProvider = new ConvertAmbiguityModMZIdentMLFile(inFile);
                 break;
             default:
                 throw new IllegalArgumentException("Can not convert " + format + " to mztab.");

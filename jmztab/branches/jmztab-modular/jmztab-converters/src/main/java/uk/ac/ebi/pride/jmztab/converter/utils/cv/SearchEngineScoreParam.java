@@ -108,6 +108,8 @@ public enum SearchEngineScoreParam {
     MS_PROTEINSCAPE_SEARCHEVENTID(SearchEngineParam.MS_PROTEINSCAPE, "MS", "MS:1001496", "ProteinScape:SearchEventId", null),
     MS_PROTEINSCAPE_SEARCHRESULTID(SearchEngineParam.MS_PROTEINSCAPE, "MS", "MS:1001495", "ProteinScape:SearchResultId", null),
     MS_PROTEINSCAPE_SEQUESTMETASCORE(SearchEngineParam.MS_PROTEINSCAPE, "MS", "MS:1001506", "ProteinScape:SequestMetaScore", null),
+    MS_PROTEOMEDISCOVERER_PHOSPHORS_SCORE(SearchEngineParam.MS_PROTEOME_DISCOVERER,"MS", "MS:1001969", "ProteomeDiscoverer:phosphoRS score", null),
+    MS_PROTEOMEDISCOVERER_PHOSPHORS_SEQUENCEPROBABILITY(SearchEngineParam.MS_PROTEOME_DISCOVERER,"MS","MS:1001970", "ProteomeDiscoverer:phosphoRS sequence probability", null),
     MS_SCAFFOLD_PEPTIDE_PROBABILITY(SearchEngineParam.MS_SCAFFOLD, "MS", "MS:1001568", "Scaffold:Peptide Probability", null),
     MS_SCAFFOLD_PROTEIN_PROBABILITY(SearchEngineParam.MS_SCAFFOLD, "MS", "MS:1001579", "Scaffold:Protein Probability", null),
     MS_SEQUEST_CONSENSUS_SCORE(SearchEngineParam.MS_SEQUEST, "MS", "MS:1001163", "SEQUEST:consensus score", null),

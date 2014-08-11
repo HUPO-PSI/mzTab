@@ -32,6 +32,9 @@ public class MZTabCommandLine {
         String helpOpt = "help";
         options.addOption("h", helpOpt, false, "print help message");
 
+        String ambiguity = "ambiguity-mod";
+        options.addOption("a", ambiguity, false,"Keep ambiguity modification in mzIdentML 1.1");
+
         String msgOpt = "message";
         String codeOpt = "code";
         Option msgOption = OptionBuilder.withArgName(codeOpt)
@@ -146,7 +149,7 @@ public class MZTabCommandLine {
                 }
 
                 System.out.println("Begin convert " + inFile.getAbsolutePath() + " which format is " + format.name() + " to mztab file.");
-                MZTabFileConverter converter = new MZTabFileConverter(inFile, format);
+                MZTabFileConverter converter = new MZTabFileConverter(inFile, format, false);
                 MZTabFile tabFile = converter.getMZTabFile();
                 MZTabErrorList errorList = converter.getErrorList();
 

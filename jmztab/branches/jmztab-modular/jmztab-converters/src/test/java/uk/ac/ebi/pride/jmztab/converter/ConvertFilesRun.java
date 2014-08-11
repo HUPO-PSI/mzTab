@@ -23,7 +23,7 @@ public class ConvertFilesRun {
         logger.debug("Input file name is: " + inFile.getAbsoluteFile());
         FileFormat spectrumTyp = detectFileType(inFile);
         if(spectrumTyp != null){
-            MZTabFileConverter converter = new MZTabFileConverter(inFile, spectrumTyp);
+            MZTabFileConverter converter = new MZTabFileConverter(inFile, spectrumTyp, false);
             MZTabErrorList errorList = converter.getErrorList();
 
             OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));

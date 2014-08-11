@@ -16,14 +16,20 @@ import java.util.List;
  */
 public final class MZIdentMLUtils {
 
-    public static String CVTERM_MAIL = "MS:1000589";
+    public static String CVTERM_MAIL                = "MS:1000589";
     public static String CVTERM_PROTEIN_DESCRIPTION = "MS:1001088";
-    public static String CVTERM_NEUTRAL_LOST = "MS:1001524";
-    public static String OPTIONAL_ID_COLUMN  = "mzidentml_original_ID";
-    public static String OPTIONAL_SEQUENCE_COLUMN = "protein_sequence";
-    public static String[] CVTERMS_FDR_PSM = {"MS:1002260", "MS:1002350", "MS:1002351"};
-    public static String[] CVTERMS_FDR_PROTEIN = {"MS:1001447", "MS:1002364", "MS:1001214"};
-    public static String OPTIONAL_DECOY_COLUMN = "cv_MS:1002217_decoy_peptide";
+    public static String CVTERM_NEUTRAL_LOST        = "MS:1001524";
+    public static String OPTIONAL_ID_COLUMN         = "mzidentml_original_ID";
+    public static String OPTIONAL_SEQUENCE_COLUMN   = "protein_sequence";
+    public static String[] CVTERMS_FDR_PSM          = {"MS:1002260", "MS:1002350", "MS:1002351"};
+    public static String[] CVTERMS_FDR_PROTEIN      = {"MS:1001447", "MS:1002364", "MS:1001214"};
+    public static String OPTIONAL_DECOY_COLUMN      = "cv_MS:1002217_decoy_peptide";
+    public static String OPTIONAL_RANK_COLUMN       = "cv_PRIDE:0000091_rank";
+    /**
+     * This parameter is a hack to allow in mzIdentML version 1.1 to convert the modification unambiguity position from
+     * proteome discoverer values.
+     */
+    public static String PROTEOMEDISCOVERER_PHOSPHORS_SITE_PROBABILIY = "MS:1001971";
 
 
     /** algebraic sign */
@@ -31,7 +37,6 @@ public final class MZIdentMLUtils {
 
     /** integer expression */
     private static final String INTEGER = SIGN + "?\\d+";
-
 
     /**
      * Supported id format used in the spectrum file.
@@ -143,4 +148,12 @@ public final class MZIdentMLUtils {
             return spectrumID;
         }
     }
+
+    public static CvParam getCVParamByAccession(List<CvParam> cvParam, String accession) {
+        for(CvParam param: cvParam)
+            if(param.getAccession().equalsIgnoreCase(accession))
+                return param;
+        return null;
+    }
+
 }
