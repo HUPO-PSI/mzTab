@@ -1,7 +1,7 @@
   * [Welcome ↑ Home]
   * [ReleaseNotes ReleaseNotes]
   * [ExampleFiles Examples]
-  * [jmzTab2 jmzTab2 Tutorial]    
+  * [jmzTab jmzTab Tutorial]    
     * [jmzTab2_metadata Create Metadata]
     * [jmzTab2_column Create Header and Fill Data]
   * [jmzTab2_utils Utilities]
