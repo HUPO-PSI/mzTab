@@ -5,7 +5,7 @@
 ----
 = Introduction =
 
-These error messages are classified in two categories: 'Format Type' (reporting format problems) and 'Logical Type' (reporting errors related to the logical relationships among the different sections in a file). 
+These error messages are classified in two categories: 'Format Type' (reporting format problems) and 'Logical Type' (reporting errors related to the logical relationships among the different sections in a file).
 
 The validation messages have a unique identifier are classified in three levels: Info, Warn and Error. All of them come from the notational conventions included in the specification document. This way, all the rules in the specification which use "MUST", "MUST NOT", "REQUIRED" as keywords, are defined at the Error level; the ones that use "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT" as keywords are defined at the Warn level. Finally, others keywords such as "RECOMMENDED", "MAY" and "OPTIONAL", are defined at the Info Level.
 
@@ -26,7 +26,7 @@ The validation messages have a unique identifier are classified in three levels:
 || *    Code*: || 1002 ||
 || *   Level*: || Error ||
 || *Original*: || "{0}" value "{1}" is not a valid element name, which is given by indicating the number in square brackets. ||
-|| *   Cause*: || Indexed element structure like: element_name[id]-element_property. "[id]" and "-element_property" are optional.  ||
+|| *   Cause*: || Indexed element structure like: element_name[id]-element_property. "[id]" and "-element_property" are optional. ||
 || || ||
 || || ||
 || *    Code*: || 1003 ||
@@ -44,25 +44,25 @@ The validation messages have a unique identifier are classified in three levels:
 || *    Code*: || 1005 ||
 || *   Level*: || Error ||
 || *Original*: || Optional column headers "{0}" are not allowed to be displayed in "{1}" line. ||
-|| *   Cause*: || Only following ms_run optional columns allowed to be displayed in the header line: Protein header optional columns num_psms_ms_run[1-n], num_peptides_distinct_ms_run[1-n], num_peptides_unique_ms_run[1-n], Peptide header optional column search_engine_score_ms_run[1-n] and Small molecule optional column search_engine_score_ms_run[1-n].  ||
+|| *   Cause*: || Only following ms_run optional columns allowed to be displayed in the header line: Protein header optional columns num_psms_ms_run[1-n], num_peptides_distinct_ms_run[1-n], num_peptides_unique_ms_run[1-n], Peptide header optional column search_engine_score_ms_run[1-n] and Small molecule optional column search_engine_score_ms_run[1-n]. ||
 || || ||
 || || ||
 || *    Code*: || 1007 ||
 || *   Level*: || Error ||
 || *Original*: || Optional CV parameter column headers "{0}" format is not correct. ||
-|| *   Cause*: || Optional column headers MUST start with the prefix "opt_". Column names MUST only contain the following characters: 'A'-'Z', 'a'-'z', '0'-'9', '_', '-', '[', ']', and ':'. CV parameter accessions MAY be used for optional columns following the format: opt_cv_{accession}_{parameter name}. {parameter_name} can not set to ?null?. Spaces within the parameter's name MUST be replaced by '_'.  This is an optional column, and MAY be added at the right of the table.  ||
+|| *   Cause*: || Optional column headers MUST start with the prefix "opt_". Column names MUST only contain the following characters: 'A'-'Z', 'a'-'z', '0'-'9', '_', '-', '[', ']', and ':'. CV parameter accessions MAY be used for optional columns following the format: opt_cv_{accession}_{parameter name}. {parameter_name} can not set to 'null'. Spaces within the parameter's name MUST be replaced by '_'.  This is an optional column, and MAY be added at the right of the table. ||
 || || ||
 || || ||
 || *    Code*: || 1008 ||
 || *   Level*: || Error ||
 || *Original*: || "{0}" should have three parts, which are split by a Tab char. ||
-|| *   Cause*: || MTD line including three parts, which are split by a Tab char. "MTD	{defineLabel}	{valueLabel}". Each of them should not be empty.  ||
+|| *   Cause*: || MTD line including three parts, which are split by a Tab char. "MTD	{defineLabel}	{valueLabel}". Each of them should not be empty. ||
 || || ||
 || || ||
 || *    Code*: || 1009 ||
 || *   Level*: || Error ||
 || *Original*: || Metadata define label "{0}" can not be recognized. ||
-|| *   Cause*: || MTD defineLabel should include "{element}([{id}])-{property}", which is split by "-" char.  ||
+|| *   Cause*: || MTD defineLabel should include "{element}([{id}])-{property}", which is split by "-" char. ||
 || || ||
 || || ||
 || *    Code*: || 1010 ||
@@ -80,19 +80,19 @@ The validation messages have a unique identifier are classified in three levels:
 || *    Code*: || 1012 ||
 || *   Level*: || Error ||
 || *Original*: || "{0}" value "{1}" is not a valid parameter. ||
-|| *   Cause*: || Parameters are always reported as [CV label, accession, name, value]. Any field that is not available MUST be left empty, except ?name?. mzTab makes use of CV parameters. As mzTab is expected to be used in several experimental environments where parameters might not yet be available for the generated scores etc., all parameters can either be reported as CV parameters, or by user parameters that only contain a name and a value. In the case when the name of the param contains commas, quotes MUST be added to avoid problems with the parsing: [label, accession, "first part of the param name , second part of the name", value].  ||
+|| *   Cause*: || Parameters are always reported as [CV label, accession, name, value]. Any field that is not available MUST be left empty, except 'name'. mzTab makes use of CV parameters. As mzTab is expected to be used in several experimental environments where parameters might not yet be available for the generated scores etc., all parameters can either be reported as CV parameters, or by user parameters that only contain a name and a value. In the case when the name of the param contains commas, quotes MUST be added to avoid problems with the parsing: [label, accession, "first part of the param name , second part of the name", value]. ||
 || || ||
 || || ||
 || *    Code*: || 1013 ||
 || *   Level*: || Error ||
 || *Original*: || "{0}" value "{1}" is not a valid list of parameters. ||
-|| *   Cause*: || If multiple parameters are given for a given step, these should be separated by a "|". Parameters are always reported as [CV label, accession, name, value].  ||
+|| *   Cause*: || If multiple parameters are given for a given step, these should be separated by a "|". Parameters are always reported as [CV label, accession, name, value]. ||
 || || ||
 || || ||
 || *    Code*: || 1014 ||
 || *   Level*: || Error ||
 || *Original*: || "{0}" value "{1}" is not a valid publication. ||
-|| *   Cause*: || PubMed ids must be prefixed by "pubmed:", DOIs by "doi:". Multiple identifiers MUST be separated by "|". For example: "MTD  PRIDE_1234-publication  pubmed:21063943|doi:10.1007/978-1-60761-987-1_6". ||
+|| *   Cause*: || PubMed ids must be prefixed by "pubmed:", DOIs by "doi:". Multiple identifiers MUST be separated by "|". For example: "MTD  publication[1]  pubmed:21063943|doi:10.1007/978-1-60761-987-1_6". ||
 || || ||
 || || ||
 || *    Code*: || 1015 ||
@@ -116,13 +116,13 @@ The validation messages have a unique identifier are classified in three levels:
 || *    Code*: || 1018 ||
 || *   Level*: || Error ||
 || *Original*: || Column "{0}" value "{1}" is not a valid Integer value. ||
-|| *   Cause*: || This is not an Integer. Thousand separators MUST NOT be used in mzTab files. If ratios are included and the denominator is zero, the "INF" value MUST be used. If the result leads to calculation errors (for example 0/0), this MUST be reported as "not a number" ("NaN").  ||
+|| *   Cause*: || This is not an Integer. Thousand separators MUST NOT be used in mzTab files. If ratios are included and the denominator is zero, the "INF" value MUST be used. If the result leads to calculation errors (for example 0/0), this MUST be reported as "not a number" ("NaN"). ||
 || || ||
 || || ||
 || *    Code*: || 1019 ||
 || *   Level*: || Error ||
 || *Original*: || Column "{0}" value "{1}" is not a valid Double value. ||
-|| *   Cause*: || In mzTab files the dot (".") MUST be used as decimal separator. Thousand separators MUST NOT be used in mzTab files. If ratios are included and the denominator is zero, the "INF" value MUST be used. If the result leads to calculation errors (for example 0/0), this MUST be reported as "not a number" ("NaN").  ||
+|| *   Cause*: || In mzTab files the dot (".") MUST be used as decimal separator. Thousand separators MUST NOT be used in mzTab files. If ratios are included and the denominator is zero, the "INF" value MUST be used. If the result leads to calculation errors (for example 0/0), this MUST be reported as "not a number" ("NaN"). ||
 || || ||
 || || ||
 || *    Code*: || 1020 ||
@@ -194,13 +194,13 @@ The validation messages have a unique identifier are classified in three levels:
 || *    Code*: || 2001 ||
 || *   Level*: || Warn ||
 || *Original*: || Column "{0}" field value does not allow a "null" value. ||
-|| *   Cause*: || Some kind of field value can not allow a "null" or empty value. In general, "null" values SHOULD not be given within any column of a ?Complete? file. ||
+|| *   Cause*: || Some kind of field value can not allow a "null" or empty value. In general, "null" values SHOULD not be given within any column of a "Complete" file. ||
 || || ||
 || || ||
 || *    Code*: || 2002 ||
 || *   Level*: || Error ||
 || *Original*: || current line belongs to "{0}" section, "{1}" line can not be displayed here. ||
-|| *   Cause*: || mzTab line including five main sections: metadata, protein, peptide, psm, small molecule. Every section in an mzTab file MUST only occur once (if present). The line order MUST be the following one: metadata lines should be displayed first, then the protein header, protein, peptide header, peptide, psm header, psm, small molecule header, and small molecule.  ||
+|| *   Cause*: || mzTab line including five main sections: metadata, protein, peptide, psm, small molecule. Every section in an mzTab file MUST only occur once (if present). The line order MUST be the following one: metadata lines should be displayed first, then the protein header, protein, peptide header, peptide, psm header, psm, small molecule header, and small molecule. ||
 || || ||
 || || ||
 || *    Code*: || 2003 ||
@@ -290,7 +290,7 @@ The validation messages have a unique identifier are classified in three levels:
 || *    Code*: || 2017 ||
 || *   Level*: || Error ||
 || *Original*: || Column "{0}" value "{1}" is not an original, unaltered amino acid sequence. ||
-|| *   Cause*: || It is possible to report substitutions of amino acids using SUBST:{amino acid}. In these cases, the "sequence" column MUST contain the original, unaltered sequence.  ||
+|| *   Cause*: || It is possible to report substitutions of amino acids using SUBST:{amino acid}. In these cases, the "sequence" column MUST contain the original, unaltered sequence. ||
 || || ||
 || || ||
 || *    Code*: || 2018 ||
@@ -357,5 +357,5 @@ The validation messages have a unique identifier are classified in three levels:
 || *   Level*: || Error ||
 || *Original*: || "{0}" contains duplicate identifier. ||
 || *   Cause*: || study_variable[1-n]-assay_refs and study_variable[1-n]-sample_refs MUST NOT contain duplicated identifier. ||
-
-
+|| || ||
+|| || ||

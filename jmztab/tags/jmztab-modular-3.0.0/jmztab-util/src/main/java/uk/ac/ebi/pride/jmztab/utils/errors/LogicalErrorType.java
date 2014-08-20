@@ -2,7 +2,7 @@ package uk.ac.ebi.pride.jmztab.utils.errors;
 
 /**
  * Reporting errors related to the logical relationships among the different sections in a file.
- * Reference: http://code.google.com/p/mztab/wiki/jmzTab2_message for details.
+ * Reference: http://code.google.com/p/mztab/wiki/jmzTab_message for details.
  *
  * @author qingwei
  * @since 29/01/13

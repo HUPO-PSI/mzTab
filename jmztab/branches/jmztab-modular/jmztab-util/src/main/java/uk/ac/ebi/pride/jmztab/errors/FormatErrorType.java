@@ -4,7 +4,7 @@ import static uk.ac.ebi.pride.jmztab.errors.MZTabErrorType.Category.Format;
 
 /**
  * Diagnose different types of format-related (reporting format problems).
- * Reference: http://code.google.com/p/mztab/wiki/jmzTab2_message for details.
+ * Reference: http://code.google.com/p/mztab/wiki/jmzTab_message for details.
  *
  * @author qingwei
  * @since 29/01/13

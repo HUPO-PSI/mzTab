@@ -1,9 +1,18 @@
 #summary Release notes of the mzTab specification.
 
+*jmzTab version 3.0.0 - (1. August 2014)*
+  * update version of the library to the Specification Document 1.0 RC 5 - (30. June 2014)
+  * new modular version of the mzTab library. This version allows a easier integration in other projects because minimizes the number dependencies per module.
+  * first version of mzIdentML converter
+  * general refinements and bug fixing
+  * update mzTab examples
+
+----
 * mzTab Specification Document 1.0 RC 5 - (11. December 2013)*
   * A completely updated version of the mzTab format specification
   * Version currently submitted to the PSI document process
 
+----
 *jmzTab version 2.1.5 - (5. December 2013)*
   * Fixed bugs
   * Add SmallMoleculeTest to generate a mztab file which including small molecule records.
@@ -12,6 +21,7 @@
   * Redefine ConvertProvider class
   * Update mzTab examples
 
+----
 *jmzTab version 2.1.4 - (5. November 2013)*
   * update metadata, add id number for some elements.
   * uploaded new mzTab example files (validated with jmzTab)

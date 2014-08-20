@@ -13,7 +13,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <assembly.dir>jmztab</assembly.dir>
     </properties>
 
     <dependencies>

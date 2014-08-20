@@ -6,7 +6,7 @@
 
 = Introduction =
 
-The metadata section can provide additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from five exceptions: 
+The metadata section can provide additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from five exceptions:
   * "mzTab-version" MUST always be reported.
   * "mzTab-mode" MUST always be reported. Two modes are possible: 'Summary' and 'Complete'.
   * "mzTab-type" MUST  always be reported. Two types are possible: 'Quantification' or 'Identification'. Any analyses generating both quantification and identification results MUST be flagged as 'Quantification'.
@@ -15,7 +15,6 @@ The metadata section can provide additional information about the dataset(s) rep
 
 = Create Metadata =
 {{{
-        // Setting version, mode, and type in MZTabDescription 
         MZTabDescription tabDescription = new MZTabDescription(MZTabDescription.Mode.Summary, MZTabDescription.Type.Identification);
         tabDescription.setId("PRIDE_1234");
         Metadata mtd = new Metadata(tabDescription);
@@ -40,6 +39,10 @@ The metadata section can provide additional information about the dataset(s) rep
         mtd.addSoftwareParam(2, new CVParam("MS", "MS:1001561", "Scaffold", "1.0"));
         mtd.addSoftwareSetting(1, "Fragment tolerance = 0.1Da");
         mtd.addSoftwareSetting(1, "Parent tolerance = 0.5Da");
+
+        mtd.addProteinSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+        mtd.addPsmSearchEngineScoreParam(1, new CVParam("MS", "MS:1001330", "X!Tandem:expect", null));
+        mtd.addPsmSearchEngineScoreParam(2, new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", null));
 
         mtd.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001364", "pep:global FDR", "0.01"));
         mtd.addFalseDiscoveryRateParam(new CVParam("MS", "MS:1001214", "pep:global FDR", "0.08"));
@@ -80,11 +83,13 @@ The metadata section can provide additional information about the dataset(s) rep
 
         mtd.addMsRunFormat(1, new CVParam("MS", "MS:1000584", "mzML file", null));
         mtd.addMsRunFormat(2, new CVParam("MS", "MS:1001062", "Mascot MGF file", null));
-        mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file"));
+//        mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file"));
         mtd.addMsRunLocation(2, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
         mtd.addMsRunIdFormat(1, new CVParam("MS", "MS:1001530", "mzML unique identifier", null));
         mtd.addMsRunFragmentationMethod(1, new CVParam("MS", "MS:1000133", "CID", null));
-        mtd.addMsRunFragmentationMethod(2, new CVParam("MS", "MS:1000422", "HCD", null));
+        mtd.addMsRunHash(2, "de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3");
+        mtd.addMsRunHashMethod(2, new CVParam("MS", "MS:1000569", "SHA-1", null));
+//        mtd.addMsRunFragmentationMethod(2, new CVParam("MS", "MS:1000422", "HCD", null));
 
         mtd.addCustom(new UserParam("MS operator", "Florian"));
 
@@ -142,9 +147,9 @@ The metadata section can provide additional information about the dataset(s) rep
         mtd.addSmallMoleculeColUnit(SmallMoleculeColumn.RETENTION_TIME, new CVParam("UO", "UO:0000031", "minute", null));
 }}}
 
-  * The output 
+  * The output
 {{{
-MTD	mzTab-version	1.0 rc5
+MTD	mzTab-version	1.0
 MTD	mzTab-mode	Summary
 MTD	mzTab-type	Identification
 MTD	mzTab-ID	PRIDE_1234
@@ -154,16 +159,19 @@ MTD	sample_processing[1]	[SEP, SEP:00173, SDS PAGE, ]
 MTD	sample_processing[2]	[SEP, SEP:00142, enzyme digestion, ]|[MS, MS:1001251, Trypsin, ]
 MTD	instrument[1]-name	[MS, MS:100049, LTQ Orbitrap, ]
 MTD	instrument[1]-source	[MS, MS:1000073, ESI, ]
-MTD	instrument[1]-analyzer	[MS, MS:1000291, linear ion trap, ]
+MTD	instrument[1]-analyzer[1]	[MS, MS:1000291, linear ion trap, ]
 MTD	instrument[1]-detector	[MS, MS:1000253, electron multiplier, ]
 MTD	instrument[2]-name	[MS, MS:1000031, Instrument model, name of the instrument not included in the CV]
 MTD	instrument[2]-source	[MS, MS:1000598, ETD, ]
-MTD	instrument[2]-analyzer	[MS, MS:1000484, orbitrap, ]
+MTD	instrument[2]-analyzer[1]	[MS, MS:1000484, orbitrap, ]
 MTD	instrument[2]-detector	[MS, MS:1000348, focal plane collector, ]
 MTD	software[1]	[MS, MS:1001207, Mascot, 2.3]
 MTD	software[1]-setting[1]	Fragment tolerance = 0.1Da
 MTD	software[1]-setting[2]	Parent tolerance = 0.5Da
 MTD	software[2]	[MS, MS:1001561, Scaffold, 1.0]
+MTD	protein_search_engine_score[1]	[MS, MS:1001171, Mascot:score, ]
+MTD	psm_search_engine_score[1]	[MS, MS:1001330, X!Tandem:expect, ]
+MTD	psm_search_engine_score[2]	[MS, MS:1001331, X!Tandem:hyperscore, ]
 MTD	false_discovery_rate	[MS, MS:1001364, pep:global FDR, 0.01]|[MS, MS:1001214, pep:global FDR, 0.08]
 MTD	publication[1]	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
 MTD	publication[2]	pubmed:20615486|doi:10.1016/j.jprot.2010.06.008
@@ -192,12 +200,12 @@ MTD	protein-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	peptide-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	ms_run[1]-format	[MS, MS:1000584, mzML file, ]
-MTD	ms_run[1]-location	file://C:/path/to/my/file
 MTD	ms_run[1]-id_format	[MS, MS:1001530, mzML unique identifier, ]
 MTD	ms_run[1]-fragmentation_method	[MS, MS:1000133, CID, ]
 MTD	ms_run[2]-format	[MS, MS:1001062, Mascot MGF file, ]
 MTD	ms_run[2]-location	ftp://ftp.ebi.ac.uk/path/to/file
-MTD	ms_run[2]-fragmentation_method	[MS, MS:1000422, HCD, ]
+MTD	ms_run[2]-hash	de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
+MTD	ms_run[2]-hash_method	[MS, MS:1000569, SHA-1, ]
 MTD	sample[1]-species[1]	[NEWT, 9606, Homo sapiens (Human), ]
 MTD	sample[1]-species[2]	[NEWT, 573824, Human rhinovirus 1, ]
 MTD	sample[1]-tissue[1]	[BTO, BTO:0000759, liver, ]

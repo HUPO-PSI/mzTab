@@ -9,18 +9,18 @@ We create two interfaces, CLI (mzTabCLI) and Simple GUI (mzTabGUI), to simplify 
 
 == Command Line Interface ==
 
-In [http://code.google.com/p/mztab/source/browse/jmztab/trunk/etcs/command_demo.bat mzTabCLI Demo], we provide a couple of demos to help user call command line interface quickly. 
+In [https://code.google.com/p/mztab/source/browse/jmztab/trunk/etcs/command_demo.bat mzTabCLI Demo], we provide a couple of examples to help user call command line interface quickly.
 
   * print command line help
 {{{
 java -jar mzTabCLI.jar -help
 }}}
-The output will like following: 
+The output will like following:
 {{{
 usage: jmztab
  -check <inFile>             Choose a file from input directory. This
                              parameter should not be null!
- -convert <inFile, format>   Converts the given format file to an mztab
+ -convert <inFile, format>   Converts the given format file (PRIDE or MZIDENTML) to an mztab
                              file.
  -h,--help                   print help message
  -inDir <arg>                Setting input file directory. If not set,
@@ -36,11 +36,11 @@ usage: jmztab
 }}}
 
 
-  * print special error/warn message based on code, see details of [jmzTab2_message Error/Warn Message List].
+  * print special error/warn message based on code, see details of [jmzTab_message Error/Warn Message List].
 {{{
 java -jar mzTabCLI.jar -message code=2000
 }}}
-The output will like:
+The output would be like:
 {{{
     Code:       2000
 Category:       Logical
@@ -59,7 +59,7 @@ Original:       Column "{0}" is an empty cell, or the current column cannot use 
 java -Xms2048m -jar mzTabCLI.jar -inDir temp -check inFile=SILAC_CQI.mzTab
 }}}
 
-The output like:
+The output would be like:
 {{{
 Begin check mztab file: c:\work\jmztab2\target\jmztab\testset\mztab_merged_example.txt
 [Warn-2018] line 13: Software parameter "[MS, MS:1001583, MaxQuant,]" does not contain version information.

@@ -4,9 +4,9 @@ This Wiki holds information about the mzTab format as well as associated project
 
 == Introduction ==
 
-mzTab is a standard format developed by the Proteomics Standards Initiative (PSI). mzTab is a flexible tab-delimited file that can capture identification and quantification results coming from mass spectrometry (MS)-based proteomics and metabolomics approaches. We here present an open-source Java Application Programming Interface (API) for mzTab called jmzTab. 
+mzTab is a standard format developed by the Proteomics Standards Initiative (PSI). mzTab is a flexible tab-delimited file that can capture identification and quantification results coming from mass spectrometry (MS)-based proteomics and metabolomics approaches. We here present an open-source Java Application Programming Interface (API) for mzTab called jmzTab.
 
-The software allows easy and efficient processing of mzTab files, providing read and write capabilities, and is designed to be embedded in other software packages. The second key feature of the jmzTab model is its flexible framework to maintain the logical integrity between the metadata and the table-based sections in the files. In this article, as an example implementation, we also describe a Graphical User Interface (GUI)-based tool that can be used to validate mzTab files and to convert PRIDE XML files to mzTab. 
+The software allows easy and efficient processing of mzTab files, providing read and write capabilities, and is designed to be embedded in other software packages. The second key feature of the jmzTab model is its flexible framework to maintain the logical integrity between the metadata and the table-based sections in the files. As an example implementation, we also describe a Graphical User Interface (GUI)-based tool that can be used to validate and convert mzTab files from PRIDE XML and MZIdentML.
 
 ==jmzTab==
 
@@ -17,7 +17,7 @@ When you use jmzTab library, please cite the following publication:
 
 == mzTab Format File ==
 
-mzTab is a tab-delimited text file format to report proteomics results. The mzTab file format is still under development and not yet stable. The *current format specification* can always be found in the mzTab SVN: 
+mzTab is a tab-delimited text file format to report proteomics results. The mzTab file format is still under development and not yet stable. The *current format specification* can always be found in the mzTab SVN:
  [http://mztab.googlecode.com/svn/specification_document/mzTab_format_specification.docx mzTab_format_specification.docx] <br />
  [http://mztab.googlecode.com/svn/specification_document/mzTab_format_specification.pdf mzTab format specification.pdf]
 
@@ -29,19 +29,19 @@ A quick introduction to the mzTab format is the *20 minute guide to mzTab* ([htt
 
 == jmzTab API Tutorial ==
 
-The main principle behind the design of the jmzTab core model is to provide an independent light-weight architecture for simplifying the integration of the library in different proteomics/metabolomics software applications. Users can integrate the model into their applications, without the need any other third-party packages. Especially, when users want to recode the model by using other programming languages, and migrates jmzTab API into other heterogeneous system. 
+The main principle behind the design of the jmzTab core model is to provide an independent light-weight architecture for simplifying the integration of the library in different proteomics/metabolomics software applications. Users can integrate the model into their applications, without the need any other third-party packages. Especially, when users want to recode the model by using other programming languages, and migrates jmzTab API into other heterogeneous system.
 
-We provide a [jmzTab2 tutorial] document and a couple of demos to help you to create [jmzTab2_metadata metadata] and [jmzTab2_column fill data] by calling jmzTab API.  
+We provide a [jmzTab tutorial] document and a couple of demos to help you to create [jmzTab_metadata metadata] and [jmzTab_column fill data] by calling jmzTab API.
 
 ----
 
 == Utilities ==
 
-As examples of implementation, two [jmzTab2_utils Utilities] were developed: 
+As examples of implementation, two [jmzTab_utils Utilities] were developed:
 
-  * mzTabGUI, which a simple desktop application which provides mzTab validation functionality (for Warn or Error levels), and conversion of PRIDE XML files to mzTab. After the conversion, the tool will also perform an automatic validation of the mzTab file.
-  * mzTabCLI, a command line interface (CLI), which provides a more flexible way of processing mzTab files in a batch mode. It also has validation and conversion functionality. 
+  * mzTabGUI, is a simple desktop application which provides mzTab validation functionality (for Warn or Error levels), and conversion of PRIDE XML and MZIdentML files to mzTab. After the conversion, the tool will also perform an automatic validation of the mzTab file.
+  * mzTabCLI, a command line interface (CLI), which provides a more flexible way of processing mzTab files in a batch mode. It also has validation and conversion functionality.
 
-Currently, both tools can be downloaded them from  the [http://code.google.com/p/mztab/#Download download] section. 
+Currently, both tools can be downloaded from  the [http://code.google.com/p/mztab/#Download download] section.
 
 In addition, it is important to highlight that jmzTab is already integrated and used in external software such as the [http://genome.tugraz.at/lda/ LipidDataAnalyzer], and in an mzQuantML to mzTab converter included in the [https://mzq-lib.googlecode.com/ mzq-lib] library.

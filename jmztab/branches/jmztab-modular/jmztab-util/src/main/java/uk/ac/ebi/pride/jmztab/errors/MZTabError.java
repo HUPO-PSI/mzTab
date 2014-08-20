@@ -17,7 +17,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
  * which can help to diagnose different types of format-related (reporting format problems) and/or
  * logical (reporting errors related to the logical relationships among the different sections in a
  * file) errors. At the moment of writing, there are about sixty types of error messages
- * (http://mztab.googlecode.com/wiki/jmzTab2_message). The validation messages have a unique identifier
+ * (http://mztab.googlecode.com/wiki/jmzTab_message). The validation messages have a unique identifier
  * and are classified in three levels: Info, Warn and Error, according to the requirements included in
  * the specification document.
  *
