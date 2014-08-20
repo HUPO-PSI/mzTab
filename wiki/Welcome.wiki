@@ -34,14 +34,3 @@ The main principle behind the design of the jmzTab core model is to provide an i
 We provide a [jmzTab tutorial] document and a couple of demos to help you to create [jmzTab_metadata metadata] and [jmzTab_column fill data] by calling jmzTab API.
 
 ----
-
-== Utilities ==
-
-As examples of implementation, two [jmzTab_utils Utilities] were developed:
-
-  * mzTabGUI, is a simple desktop application which provides mzTab validation functionality (for Warn or Error levels), and conversion of PRIDE XML and MZIdentML files to mzTab. After the conversion, the tool will also perform an automatic validation of the mzTab file.
-  * mzTabCLI, a command line interface (CLI), which provides a more flexible way of processing mzTab files in a batch mode. It also has validation and conversion functionality.
-
-Currently, both tools can be downloaded from  the [http://code.google.com/p/mztab/#Download download] section.
-
-In addition, it is important to highlight that jmzTab is already integrated and used in external software such as the [http://genome.tugraz.at/lda/ LipidDataAnalyzer], and in an mzQuantML to mzTab converter included in the [https://mzq-lib.googlecode.com/ mzq-lib] library.
