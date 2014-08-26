@@ -12,7 +12,8 @@ import java.io.File;
 import java.util.*;
 
 /**
- * Created by yperez on 10/08/2014.
+ * @author yperez
+ * @since 10/08/2014
  */
 public class ConvertAmbiguityModMZIdentMLFile  extends ConvertMZidentMLFile{
 
@@ -69,7 +70,6 @@ public class ConvertAmbiguityModMZIdentMLFile  extends ConvertMZidentMLFile{
                             //This part can be removed in the future when We supported mzIdentML 1.2. This is a hack to support ambiguity score modification
                             // particulary Phosphorylation.
                             if(modposList != null && (oldMod.getCvParam().get(0).getAccession().equalsIgnoreCase("MOD:00042") || oldMod.getCvParam().get(0).getAccession().equalsIgnoreCase("UNIMOD:21"))){
-                                mod.setAmbiguity(true);
                                 for(String[] value: modposList){
                                     CVParam cvParam = new CVParam("PSI-MS", "MS:1001971","ProteomeDiscoverer:phosphoRS site probabilities",value[2]);
                                     mod.addPosition(Integer.parseInt(value[1]), cvParam);
