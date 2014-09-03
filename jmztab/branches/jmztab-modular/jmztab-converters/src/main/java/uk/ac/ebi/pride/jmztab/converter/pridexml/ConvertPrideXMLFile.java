@@ -785,10 +785,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             }
 
             // add the indistinguishable accessions to the ambiguity members
-            List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), ConverterCVParam.PRIDE_INDISTINGUISHABLE_ACCESSION.getAccession());
-            for (String member : ambiguityMembers) {
-                protein.addAmbiguityMembers(member);
-            }
+            // for now we are not going to look for these cases because for some of them they are annotated as synonyms instead of ambiguity members of the inference problem,
+            // PRIDEXML conversion doesn't support ambiguity members
+//            List<String> ambiguityMembers = getAmbiguityMembers(identification.getAdditional(), ConverterCVParam.PRIDE_INDISTINGUISHABLE_ACCESSION.getAccession());
+//            for (String member : ambiguityMembers) {
+//                protein.addAmbiguityMembers(member);
+//            }
 
         }
 
@@ -1196,17 +1198,19 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     }
                 }
 
-                if (duplicated.getAmbiguityMembers() != null) {
-                    for (String ambiguityMember : duplicated.getAmbiguityMembers()) {
-                        if (protein.getAmbiguityMembers() != null) {
-                            if (!protein.getAmbiguityMembers().contains(ambiguityMember)) {
-                                protein.addAmbiguityMembers(ambiguityMember);
-                            }
-                        } else {
-                            protein.addAmbiguityMembers(ambiguityMember);
-                        }
-                    }
-                }
+                // ambiguityMembers are not support in PRIDEXML
+//                if (duplicated.getAmbiguityMembers() != null) {
+//                    for (String ambiguityMember : duplicated.getAmbiguityMembers()) {
+//                        if (protein.getAmbiguityMembers() != null) {
+//                            if (!protein.getAmbiguityMembers().contains(ambiguityMember)) {
+//                                protein.addAmbiguityMembers(ambiguityMember);
+//                            }
+//                        } else {
+//                            protein.addAmbiguityMembers(ambiguityMember);
+//                        }
+//                    }
+//                }
+
 
                 //Counts
                 for (MsRun msRun : metadata.getMsRunMap().values()) {

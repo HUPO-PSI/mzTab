@@ -156,7 +156,6 @@ public class MzIdentMLUnmarshallerAdaptor extends MzIdentMLUnmarshaller {
             Map<String, String> spectrumIdentificationResultAttributes = getElementAttributes(spectrumIdentResultId, SpectrumIdentificationResult.class);
             String spectrumDataReference = spectrumIdentificationResultAttributes.get("spectraData_ref");
             String spectrumID = spectrumIdentificationResultAttributes.get("spectrumID");
-            SpectraData spectraData = spectraDataIds.get(spectrumDataReference);
 
             // fill the SpectraDataMap
             // for the currently referenced spectra file, retrieve the List (if it exists already) that is to store all the spectra IDs
@@ -174,8 +173,7 @@ public class MzIdentMLUnmarshallerAdaptor extends MzIdentMLUnmarshaller {
             for (String spectrumIdentItemId : spectrumIdentItemIds) {
 
                 // extract the spectrum ID from the provided identifier
-                String formattedSpectrumID = MZIdentMLUtils.getSpectrumId(spectraData, spectrumID);
-                String[] spectrumFeatures = {formattedSpectrumID, spectrumDataReference};
+                String[] spectrumFeatures = {spectrumID, spectrumDataReference};
 
                 identSpectrumMap.put(spectrumIdentItemId, spectrumFeatures);
             }
@@ -257,11 +255,8 @@ public class MzIdentMLUnmarshallerAdaptor extends MzIdentMLUnmarshaller {
             for (String spectrumIdentItemId : spectrumIdentItemIds) {
 
                 // fill the SpectrumIdentification and the Spectrum information
-                SpectraData spectraData = spectraDataIds.get(spectrumDataReference);
-
                 // extract the spectrum ID from the provided identifier
-                String formattedSpectrumID = MZIdentMLUtils.getSpectrumId(spectraData, spectrumID);
-                String[] spectrumFeatures = {formattedSpectrumID, spectrumDataReference};
+                String[] spectrumFeatures = {spectrumID, spectrumDataReference};
 
                 identSpectrumMap.put(spectrumIdentItemId, spectrumFeatures);
 
