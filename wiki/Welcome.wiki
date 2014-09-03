@@ -17,7 +17,7 @@ When you use jmzTab library, please cite the following publication:
 
 == mzTab Format File ==
 
-mzTab is a tab-delimited text file format to report proteomics results. The mzTab file format is still under development and not yet stable. The *current format specification* can always be found in the mzTab SVN:
+mzTab is a tab-delimited text file format to report proteomics results. The *format specification version 1.0.0* can be found in the mzTab SVN:
  [http://mztab.googlecode.com/svn/specification_document/mzTab_format_specification.docx mzTab_format_specification.docx] <br />
  [http://mztab.googlecode.com/svn/specification_document/mzTab_format_specification.pdf mzTab format specification.pdf]
 
