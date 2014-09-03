@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
@@ -17,9 +18,9 @@ public class MZTabUtilTest {
 
     @Test
     public void testParam() throws Exception {
-        logger.debug(new UserParam("Source", "Sigma-Aldrich, catalog #H4522, lot #043K0502"));
-        logger.debug(new UserParam("Source", "Sigma-Aldrich [catalog #H4522, lot #043K0502]"));
-        logger.debug(new UserParam("Source", "Sigma-Aldrich, \"catalog #H4522, lot #043K0502\""));
+        logger.debug(String.valueOf(new UserParam("Source", "Sigma-Aldrich, catalog #H4522, lot #043K0502")));
+        logger.debug(String.valueOf(new UserParam("Source", "Sigma-Aldrich [catalog #H4522, lot #043K0502]")));
+        logger.debug(String.valueOf(new UserParam("Source", "Sigma-Aldrich, \"catalog #H4522, lot #043K0502\"")));
 
         assertTrue(parseParam("[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]") instanceof CVParam);
         assertTrue(parseParam("[, ,tolerance,0.5]") instanceof UserParam);
@@ -27,7 +28,7 @@ public class MZTabUtilTest {
         assertTrue(parseParam("null") == null);
 
         assertTrue(parseParam("[PRIDE,PRIDE:0000114,\"N,O-diacetylated L-serine\",]").getName().contains("N,O-diacetylated L-serine"));
-        logger.debug(parseParam("[PRIDE,PRIDE:0000114,\"N[12],O-diacetylated L-serine\",]"));
+        logger.debug(String.valueOf(parseParam("[PRIDE,PRIDE:0000114,\"N[12],O-diacetylated L-serine\",]")));
     }
 
     @Test
@@ -152,8 +153,9 @@ public class MZTabUtilTest {
         assertTrue(modification.getPositionMap().containsKey(3));
         assertTrue(modification.getType().name().equals("MOD"));
         assertTrue(modification.getAccession().equals("00412"));
+        logger.debug(sb.toString());
 
-        sb.append(", 3|4-UNIMOD:00412");
+        sb.append(",3|4-UNIMOD:00412");
         modList = parseModificationList(Section.Protein, sb.toString());
         assertTrue(modList.size() == 2);
         modification = modList.get(1);
@@ -161,11 +163,9 @@ public class MZTabUtilTest {
         assertTrue(modification.getPositionMap().containsKey(4));
         assertTrue(modification.getType().name().equals("UNIMOD"));
         assertTrue(modification.getAccession().equals("00412"));
-        System.out.println(modification);
-        modification.setAmbiguity(false);
-        System.out.println(modification);
+        logger.debug(sb.toString());
 
-        sb.append(", 3[MS, MS:100xxxx, Probability Score Y, 0.8]|4[MS, MS:100xxxx, Probability Score Y, 0.2]-MOD:00412|[MS, MS:1001524, fragment neutral loss, 63.998285]");
+        sb.append(",3[MS, MS:100xxxx, Probability Score Y, 0.8]|4[MS, MS:100xxxx, Probability Score Y, 0.2]-MOD:00412");
         modList = parseModificationList(Section.Protein, sb.toString());
         assertTrue(modList.size() == 3);
         modification = modList.get(2);
@@ -175,39 +175,54 @@ public class MZTabUtilTest {
         assertTrue(modification.getPositionMap().get(4).getValue().contains("0.2"));
         assertTrue(modification.getType().name().equals("MOD"));
         assertTrue(modification.getAccession().equals("00412"));
-        assertTrue(modification.getNeutralLoss().getName().contains("fragment neutral loss"));
+        logger.debug(sb.toString());
 
-        sb.append(", CHEMMOD:+159.93");
+        sb.append(",4-[MS, MS:1001524, fragment neutral loss, 63.998285]");
         modList = parseModificationList(Section.Protein, sb.toString());
         assertTrue(modList.size() == 4);
         modification = modList.get(3);
-        assertTrue(modification.getPositionMap().isEmpty());
-        assertTrue(modification.getType().name().equals("CHEMMOD"));
-        assertTrue(modification.getAccession().equals("+159.93"));
+        assertTrue(modification.getPositionMap().containsKey(4));
+        assertTrue(modification.getNeutralLoss().getName().contains("fragment neutral loss"));
+        logger.debug(sb.toString());
 
-        sb.append(", 3-SUBST:R");
+        sb.append(",CHEMMOD:+159.93");
         modList = parseModificationList(Section.Protein, sb.toString());
         assertTrue(modList.size() == 5);
         modification = modList.get(4);
+        assertTrue(modification.getPositionMap().isEmpty());
+        assertTrue(modification.getType().name().equals("CHEMMOD"));
+        assertTrue(modification.getAccession().equals("+159.93"));
+        logger.debug(sb.toString());
+
+        sb.append(",3-SUBST:R");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 6);
+        modification = modList.get(5);
         assertTrue(modification.getPositionMap().containsKey(3));
         assertTrue(modification.getType().name().equals("SUBST"));
         assertTrue(modification.getAccession().equals("R"));
+        logger.debug(sb.toString());
 
-        sb.append(", 3-MOD:00412");
-        modList = parseModificationList(Section.Protein, sb.toString());
-        assertTrue(modList.size() == 6);
-
-        sb.append(", 3|4-UNIMOD:00412");
+        sb.append(",3-MOD:00412");
         modList = parseModificationList(Section.Protein, sb.toString());
         assertTrue(modList.size() == 7);
+        logger.debug(sb.toString());
 
-        sb.append(", CHEMMOD:+NH4-H");
+        sb.append(",3|4-UNIMOD:00412");
         modList = parseModificationList(Section.Protein, sb.toString());
         assertTrue(modList.size() == 8);
-        modification = modList.get(7);
+        logger.debug(sb.toString());
+
+        sb.append(",CHEMMOD:+NH4-H");
+        modList = parseModificationList(Section.Protein, sb.toString());
+        assertTrue(modList.size() == 9);
+        modification = modList.get(8);
         assertTrue(modification.getPositionMap().isEmpty());
         assertTrue(modification.getType().name().equals("CHEMMOD"));
         assertTrue(modification.getAccession().equals("+NH4-H"));
+        logger.debug(sb.toString());
+
+        assertEquals(sb.toString(), modList.toString());
 
         // test no modification.
         Modification mod = parseModification(Section.Protein, "0");

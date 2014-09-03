@@ -33,8 +33,6 @@ public class Modification {
     private String accession;
     private CVParam neutralLoss;
 
-    private boolean ambiguity = true;
-
     /**
      * Create a modification in columns of the protein, peptide, small molecule and PSM sections.
      * The structure like: {Type:accession}
@@ -81,23 +79,10 @@ public class Modification {
     }
 
     /**
-     * Check the modification is ambiguity or not. If false, export ambiguity in the position of the modification,
-     * these modifications are three different modifications (even if the accession is the same) with a well defined
-     * position. For example, 1|9|11-MOD:01214 (ambiguity=true), while 1-MOD:01214,9-MOD:01214,11-MOD:01214
-     * (ambiguity=false). Default value is true.
+     * Check if the position of the modification is ambiguous or not (multiple positions associated to the same modification
      */
-    public boolean isAmbiguity() {
-        return ambiguity;
-    }
-
-    /**
-     * Check the modification is ambiguity or not. If false, export ambiguity in the position of the modification,
-     * these modifications are three different modifications (even if the accession is the same) with a well defined
-     * position. For example, 1|9|11-MOD:01214 (ambiguity=true), while 1-MOD:01214,9-MOD:01214,11-MOD:01214
-     * (ambiguity=false). Default value is true.
-     */
-    public void setAmbiguity(boolean ambiguity) {
-        this.ambiguity = ambiguity;
+    public boolean isAmbiguous() {
+        return positionMap.size() > 1;
     }
 
     /**
@@ -175,6 +160,9 @@ public class Modification {
      *     <li>CHEMMOD:-18.0913</li>
      *     <li>UNIMOD:18</li>
      *     <li>SUBST:{amino acid}</li>
+     *     <li>3-UNIMOD:21, 3-[MS, MS:1001524, fragment neutral loss, 63.998285]</li>
+     *     <li>[MS, MS:1001524, fragment neutral loss, 63.998285], 7-UNIMOD:4</li>
+     *     <li>5-[MS, MS:1001524, fragment neutral loss, 63.998285], 7-UNIMOD:4</li>
      *     <li>0</li>
      * </ul>
      */
@@ -191,53 +179,36 @@ public class Modification {
         Param param;
         Iterator<Integer> it;
         int count = 0;
-        if (ambiguity) {
-            if (! positionMap.isEmpty()) {
-                it = positionMap.keySet().iterator();
-                while (it.hasNext()) {
-                    id = it.next();
-                    param = positionMap.get(id);
-                    if (count++ == 0) {
-                        sb.append(id);
-                    } else {
-                        sb.append(BAR).append(id);
-                    }
-                    if (param != null) {
-                        sb.append(param);
-                    }
+
+        //position part example: 3[MS, MS:1001876, modification probability, 0.8]|4[MS, MS:1001876, modification probability, 0.2]
+        if (! positionMap.isEmpty()) {
+            it = positionMap.keySet().iterator();
+            while (it.hasNext()) {
+                id = it.next();
+                param = positionMap.get(id);
+                if (count++ == 0) {
+                    sb.append(id);
+                } else {
+                    sb.append(BAR).append(id);
+                }
+                if (param != null) {
+                    sb.append(param);
                 }
             }
+        }
 
-            if (positionMap.size() > 0) {
-                sb.append(MINUS);
-            }
-            if(type != Type.NEUTRAL_LOSS)
-                sb.append(type).append(COLON).append(accession);
+        //example:  -
+        if (positionMap.size() > 0) {
+            sb.append(MINUS);
+        }
 
-            if (neutralLoss != null) {
-                sb.append(neutralLoss);
-            }
-        } else {
-            if (! positionMap.isEmpty()) {
-                it = positionMap.keySet().iterator();
-                while (it.hasNext()) {
-                    id = it.next();
-                    param = positionMap.get(id);
-                    if (count++ == 0) {
-                        sb.append(id);
-                    } else {
-                        sb.append(COMMA).append(id);
-                    }
-                    if (param != null) {
-                        sb.append(param);
-                    }
-                    if(type != Type.NEUTRAL_LOSS)
-                        sb.append(MINUS).append(type).append(COLON).append(accession);
-                    if (neutralLoss != null) {
-                        sb.append(neutralLoss);
-                    }
-                }
-            }
+        // example: MOD:00412
+        if(type != Type.NEUTRAL_LOSS)
+            sb.append(type).append(COLON).append(accession);
+
+        // example: [MS, MS:1001524, fragment neutral loss, value]
+        if (neutralLoss != null) {
+            sb.append(neutralLoss);
         }
 
         return sb.toString();

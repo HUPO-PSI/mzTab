@@ -92,56 +92,56 @@ public final class MZIdentMLUtils {
         return scores;
     }
 
-    private static SpecIdFormat getSpectraDataIdFormat(uk.ac.ebi.jmzidml.model.mzidml.SpectraData spectraData) {
-        CvParam specIdFormat = spectraData.getSpectrumIDFormat().getCvParam();
-        return getSpectraDataIdFormat(specIdFormat.getAccession());
-    }
+//    private static SpecIdFormat getSpectraDataIdFormat(uk.ac.ebi.jmzidml.model.mzidml.SpectraData spectraData) {
+//        CvParam specIdFormat = spectraData.getSpectrumIDFormat().getCvParam();
+//        return getSpectraDataIdFormat(specIdFormat.getAccession());
+//    }
 
-    private static SpecIdFormat getSpectraDataIdFormat(String accession) {
-        if (accession.equals("MS:1001528"))
-            return SpecIdFormat.MASCOT_QUERY_NUM;
-        if (accession.equals("MS:1000774"))
-            return SpecIdFormat.MULTI_PEAK_LIST_NATIVE_ID;
-        if (accession.equals("MS:1000775"))
-            return SpecIdFormat.SINGLE_PEAK_LIST_NATIVE_ID;
-        if (accession.equals("MS:1001530"))
-            return SpecIdFormat.MZML_ID;
-        if (accession.equals("MS:1000776"))
-            return SpecIdFormat.SCAN_NUMBER_NATIVE_ID;
-        if (accession.equals("MS:1000770"))
-            return SpecIdFormat.WIFF_NATIVE_ID;
-        if (accession.equals("MS:1000777"))
-            return SpecIdFormat.MZDATA_ID;
-        if(accession.equals(("MS:1000768")))
-            return SpecIdFormat.SPECTRUM_NATIVE_ID;
-        return SpecIdFormat.NONE;
-    }
+//    private static SpecIdFormat getSpectraDataIdFormat(String accession) {
+//        if (accession.equals("MS:1001528"))
+//            return SpecIdFormat.MASCOT_QUERY_NUM;
+//        if (accession.equals("MS:1000774"))
+//            return SpecIdFormat.MULTI_PEAK_LIST_NATIVE_ID;
+//        if (accession.equals("MS:1000775"))
+//            return SpecIdFormat.SINGLE_PEAK_LIST_NATIVE_ID;
+//        if (accession.equals("MS:1001530"))
+//            return SpecIdFormat.MZML_ID;
+//        if (accession.equals("MS:1000776"))
+//            return SpecIdFormat.SCAN_NUMBER_NATIVE_ID;
+//        if (accession.equals("MS:1000770"))
+//            return SpecIdFormat.WIFF_NATIVE_ID;
+//        if (accession.equals("MS:1000777"))
+//            return SpecIdFormat.MZDATA_ID;
+//        if(accession.equals(("MS:1000768")))
+//            return SpecIdFormat.SPECTRUM_NATIVE_ID;
+//        return SpecIdFormat.NONE;
+//    }
 
-    public static String getSpectrumId(uk.ac.ebi.jmzidml.model.mzidml.SpectraData spectraData, String spectrumID) {
-        SpecIdFormat fileIdFormat = getSpectraDataIdFormat(spectraData);
-
-        if (fileIdFormat == SpecIdFormat.MASCOT_QUERY_NUM) {
-            String rValueStr = spectrumID.replaceAll("query=", "");
-            String id = null;
-            if(rValueStr.matches(INTEGER)){
-                id = Integer.toString(Integer.parseInt(rValueStr) + 1);
-            }
-            return id;
-        } else if (fileIdFormat == SpecIdFormat.MULTI_PEAK_LIST_NATIVE_ID) {
-            String rValueStr = spectrumID.replaceAll("index=", "");
-            String id = null;
-            if(rValueStr.matches(INTEGER)){
-                id = Integer.toString(Integer.parseInt(rValueStr) + 1);
-            }
-            return id;
-        } else if (fileIdFormat == SpecIdFormat.SINGLE_PEAK_LIST_NATIVE_ID) {
-            return spectrumID.replaceAll("file=", "");
-        } else if (fileIdFormat == SpecIdFormat.MZML_ID) {
-            return spectrumID.replaceAll("mzMLid=", "");
-        } else if (fileIdFormat == SpecIdFormat.SCAN_NUMBER_NATIVE_ID) {
-            return spectrumID.replaceAll("scan=", "");
-        } else {
-            return spectrumID;
-        }
-    }
+//    public static String getSpectrumId(uk.ac.ebi.jmzidml.model.mzidml.SpectraData spectraData, String spectrumID) {
+//        SpecIdFormat fileIdFormat = getSpectraDataIdFormat(spectraData);
+//
+//        if (fileIdFormat == SpecIdFormat.MASCOT_QUERY_NUM) {
+//            String rValueStr = spectrumID.replaceAll("query=", "");
+//            String id = null;
+//            if(rValueStr.matches(INTEGER)){
+//                id = Integer.toString(Integer.parseInt(rValueStr) + 1);
+//            }
+//            return id;
+//        } else if (fileIdFormat == SpecIdFormat.MULTI_PEAK_LIST_NATIVE_ID) {
+//            String rValueStr = spectrumID.replaceAll("index=", "");
+//            String id = null;
+//            if(rValueStr.matches(INTEGER)){
+//                id = Integer.toString(Integer.parseInt(rValueStr) + 1);
+//            }
+//            return id;
+//        } else if (fileIdFormat == SpecIdFormat.SINGLE_PEAK_LIST_NATIVE_ID) {
+//            return spectrumID.replaceAll("file=", "");
+//        } else if (fileIdFormat == SpecIdFormat.MZML_ID) {
+//            return spectrumID.replaceAll("mzMLid=", "");
+//        } else if (fileIdFormat == SpecIdFormat.SCAN_NUMBER_NATIVE_ID) {
+//            return spectrumID.replaceAll("scan=", "");
+//        } else {
+//            return spectrumID;
+//        }
+//    }
 }
