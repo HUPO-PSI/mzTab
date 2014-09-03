@@ -1,5 +1,8 @@
 #summary Release notes of the mzTab specification.
 
+* mzTab Specification Document 1.0.0 - final version (20. June 2014)*
+  * Final version 1.0.0 of the mzTab file format
+----
 *jmzTab version 3.0.0 - (1. August 2014)*
   * update version of the library to the Specification Document 1.0 RC 5 - (30. June 2014)
   * new modular version of the mzTab library. This version allows a easier integration in other projects because minimizes the number dependencies per module.
