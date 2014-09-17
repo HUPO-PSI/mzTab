@@ -854,6 +854,10 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         });
 
         for (PeptideItem item : items) {
+            int seqLength = 0;
+            if(item.getSequence()!= null){
+                seqLength = item.getSequence().length();
+            }
             for (ModificationItem ptm : item.getModificationItem()) {
                 // ignore modifications that can't be processed correctly (can not be mapped to the protein)
                 if (ptm.getModAccession() == null) {
@@ -864,18 +868,27 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 Modification mod = MZTabUtils.parseModification(Section.Protein, ptm.getModAccession());
 
                 if (mod != null) {
-
                     // only biological significant modifications are propagated to the protein
                     if (ModParam.isBiological(ptm.getModAccession())) {
                         // if we can calculate the position, we add it to the modification
+                        // -1 to calculate properly the modification offset
                         if (item.getStart() != null && ptm.getModLocation() != null) {
-                            Integer position = item.getStart().intValue() + ptm.getModLocation().intValue();
-                            mod.addPosition(position, null);
-
+                            int modLocation = ptm.getModLocation().intValue();
+                            int startPos = item.getStart().intValue();
+                            // n-term and c-term mods are not propagated to the protein except the case that the start
+                            // position is 1 (beginning of the protein)
+                            int position = startPos + modLocation - 1;
+                            if (modLocation > 0 && modLocation < (seqLength + 1)) {
+                                mod.addPosition(position, null);
+                                modifications.add(mod);
+                            } else if(position == 0) { //n-term for protein
+                                mod.addPosition(position, null);
+                                modifications.add(mod);
+                            }
+                        } else {
+                            modifications.add(mod);
+                            //if position is not set null is reported
                         }
-                        //if position is not set null is reported
-                        modifications.add(mod);
-
                         // the metadata is updated in the PSM section because the protein modifications are a subset of
                         // the psm modifications
                     }

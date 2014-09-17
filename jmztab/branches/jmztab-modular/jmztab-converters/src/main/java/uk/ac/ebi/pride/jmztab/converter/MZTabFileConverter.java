@@ -34,10 +34,10 @@ public class MZTabFileConverter {
     }
 
     public MZTabFileConverter(File inFile, FileFormat format, boolean ambiguityMod) {
-        this(inFile, format, ambiguityMod, true);
+        this(inFile, format, ambiguityMod, true, true);
     }
 
-    public MZTabFileConverter(File inFile, FileFormat format, boolean ambiguityMod, boolean integrityCheck) {
+    public MZTabFileConverter(File inFile, FileFormat format, boolean ambiguityMod, boolean integrityCheck,  boolean mzIdentMLInMemory) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
@@ -48,7 +48,7 @@ public class MZTabFileConverter {
                 break;
             case MZIDENTML:
                 if(!ambiguityMod)
-                   convertProvider = new ConvertMZidentMLFile(inFile);
+                   convertProvider = new ConvertMZidentMLFile(inFile, mzIdentMLInMemory);
                 else
                    convertProvider = new ConvertAmbiguityModMZIdentMLFile(inFile);
                 break;
