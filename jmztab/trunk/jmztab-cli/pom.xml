@@ -138,6 +138,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <name>jmztab-cli</name>
 </project>
