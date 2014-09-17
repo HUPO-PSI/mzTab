@@ -202,6 +202,9 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             for(Integer idScore: metadata.getProteinSearchEngineScoreMap().keySet())
                 proteinColumnFactory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, idScore, msRun);
 
+        //Protein sequence columns added by default
+        proteinColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, String.class);
+
         return proteinColumnFactory;
     }
 
@@ -850,6 +853,12 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         if(sequence.getSeq() != null && !sequence.getSeq().isEmpty())
             protein.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, sequence.getSeq());
 
+
+        if(sequence.getSeq() != null && !sequence.getSeq().isEmpty()) {
+            logger.debug("Protein sequence value added");
+        }
+
+        protein.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, sequence.getSeq());
 
         return protein;
 
