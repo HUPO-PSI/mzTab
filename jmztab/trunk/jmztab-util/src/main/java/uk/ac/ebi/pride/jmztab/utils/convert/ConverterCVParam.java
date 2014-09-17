@@ -24,6 +24,9 @@ public enum ConverterCVParam {
     PRIDE_DOWNSTREAM_FLANKING_SEQUENCE("PRIDE", "PRIDE:0000066", "Downstream flanking sequence", null),
     PRIDE_UPSTREAM_FLANKING_SEQUENCE("PRIDE", "PRIDE:0000065", "Upstream flanking sequence", null),
 
+    PRIDE_PROTEIN_SEQUENCE("PRIDE", "PRIDE:0000041","Search database protein sequence", null),
+    PRIDE_PROTEIN_LENGTH("PRIDE", "PRIDE:0000172","Search database protein sequence length", null),
+
     MS_CHARGE_STATE("MS", "MS:1000041", "charge state", null),
     MS_PRECURSOR_MZ("MS", "MS:1000744", "selected ion m/z", null),
 
