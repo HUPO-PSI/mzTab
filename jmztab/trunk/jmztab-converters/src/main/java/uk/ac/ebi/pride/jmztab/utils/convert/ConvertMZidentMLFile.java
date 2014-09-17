@@ -49,9 +49,25 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private Set<Comparable> proteinIds;
 
+    private boolean inMemory = true;
 
+
+    /**
+     * Converter from mzIdentML to mzTab
+     * @param source mzIdentML file to convert
+     */
     public ConvertMZidentMLFile(File source) {
         super(source, null);
+    }
+
+    /**
+     * Converter from mzIdentML to mzTab
+     * @param source mzIdentML file to convert
+     * @param inMemory boolean to specified the mode in which the mzIdenML file is going to be read.
+     */
+    public ConvertMZidentMLFile(File source, Boolean inMemory) {
+        super(source, null);
+        this.inMemory = inMemory;
     }
 
     /**
@@ -60,7 +76,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     @Override
     protected void init() {
         try {
-            this.reader = new MzIdentMLUnmarshallerAdaptor(source,true);
+            this.reader = new MzIdentMLUnmarshallerAdaptor(source, inMemory);
         } catch (ConfigurationException e) {
             throw new MZTabConversionException("Error opening the mzidentml file", e);
         }
@@ -892,6 +908,11 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 }
             }
 
+            int seqLength = 0;
+            if(item.getPeptide().getPeptideSequence()!= null){
+                seqLength = item.getPeptide().getPeptideSequence().length();
+            }
+
             for (uk.ac.ebi.jmzidml.model.mzidml.Modification ptm : item.getPeptide().getModification()) {
                 // ignore modifications that can't be processed correctly (can not be mapped to the protein)
                 if (ptm.getCvParam().get(0).getAccession() == null) {
@@ -906,14 +927,24 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                     // only biological significant modifications are propagated to the protein
                     if (ModParam.isBiological(ptm.getCvParam().get(0).getAccession())) {
                         // if we can calculate the position, we add it to the modification
+                        // -1 to calculate properly the modification offset
                         if (peptideEvidence != null && peptideEvidence.getStart() != null && ptm.getLocation() != null) {
-                            Integer position = peptideEvidence.getStart() + ptm.getLocation();
-                            mod.addPosition(position, null);
-
+                            int modLocation = ptm.getLocation();
+                            int startPos = peptideEvidence.getStart();
+                            // n-term and c-term mods are not propagated to the protein except the case that the start
+                            // position is 1 (beginning of the protein)
+                            int position = startPos + modLocation - 1;
+                            if (modLocation > 0 && modLocation < (seqLength + 1)) {
+                                mod.addPosition(position, null);
+                                modifications.add(mod);
+                            } else if (position == 0) { //n-term for protein
+                                mod.addPosition(position, null);
+                                modifications.add(mod);
+                            }
+                        } else {
+                            modifications.add(mod);
+                            //if position is not set null is reported
                         }
-                        //if position is not set null is reported
-                        modifications.add(mod);
-
                         // the metadata is updated in the PSM section because the protein modifications are a subset of
                         // the psm modifications
                     }

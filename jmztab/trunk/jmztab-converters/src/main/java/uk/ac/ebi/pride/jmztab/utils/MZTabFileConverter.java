@@ -29,10 +29,11 @@ public class MZTabFileConverter {
     private ConvertProvider convertProvider;
 
     public MZTabFileConverter(File inFile, MassSpecFileFormat format) {
-        this(inFile, format, true);
+        this(inFile, format, true, true);
     }
 
-    public MZTabFileConverter(File inFile, MassSpecFileFormat format, boolean consistencyCheck) {
+    //Allows load mzIdentML in memory or not (only for this case)
+    public MZTabFileConverter(File inFile, MassSpecFileFormat format, boolean consistencyCheck, boolean mzIdentMLInMemory) {
         if (format == null) {
             throw new NullPointerException("Source file format is null");
         }
@@ -42,7 +43,7 @@ public class MZTabFileConverter {
                 convertProvider = new ConvertPrideXMLFile(inFile);
                 break;
             case MZIDENTML:
-                convertProvider = new ConvertMZidentMLFile(inFile);
+                convertProvider = new ConvertMZidentMLFile(inFile, mzIdentMLInMemory);
                 break;
             default:
                 throw new IllegalArgumentException("Can not convert " + format + " to mztab.");
