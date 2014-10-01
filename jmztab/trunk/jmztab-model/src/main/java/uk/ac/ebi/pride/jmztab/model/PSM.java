@@ -349,7 +349,7 @@ public class PSM extends MZTabRecord {
      * @param modificationsLabel parsed by {@link MZTabUtils#parseModificationList(Section, String)}
      */
     public void setModifications(String modificationsLabel) {
-        setModifications(parseModificationList(Section.Peptide, modificationsLabel));
+        setModifications(parseModificationList(Section.PSM, modificationsLabel));
     }
 
     /**

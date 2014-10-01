@@ -340,6 +340,10 @@ public class MZTabFile {
         return Collections.unmodifiableCollection(peptides.values());
     }
 
+    public SortedMap<Integer, Peptide> getPeptidesWithLineNumber() {
+        return Collections.unmodifiableSortedMap(peptides);
+    }
+
     /**
      * Returns a Collection holding all PSMs found in the mzTab file.
      *
@@ -347,6 +351,10 @@ public class MZTabFile {
      */
     public Collection<PSM> getPSMs() {
         return Collections.unmodifiableCollection(psms.values());
+    }
+
+    public SortedMap<Integer, PSM> getPSMsWithLineNumber() {
+        return Collections.unmodifiableSortedMap(psms);
     }
 
     /**
@@ -357,6 +365,11 @@ public class MZTabFile {
     public Collection<SmallMolecule> getSmallMolecules() {
         return Collections.unmodifiableCollection(smallMolecules.values());
     }
+
+    public SortedMap<Integer, SmallMolecule> getSmallMoleculesWithLineNumber() {
+        return Collections.unmodifiableSortedMap(smallMolecules);
+    }
+
 
     /**
      * Judge there exists records in MZTabFile or not.
