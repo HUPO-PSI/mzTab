@@ -23,8 +23,10 @@ public class MZTabFileParserRun {
 
         File inDir = new File("temp");
         for (File tabFile : inDir.listFiles()) {
-            if(tabFile.isFile() && !tabFile.isHidden())
+            if(tabFile.isFile() && !tabFile.isHidden()){
+                System.out.println(tabFile.getAbsolutePath());
                 run.check(tabFile);
+            }
         }
     }
 
