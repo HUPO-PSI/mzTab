@@ -112,9 +112,10 @@ public class MsRun extends IndexedElement {
         if (format != null) {
             sb.append(printProperty(MS_RUN_FORMAT, format)).append(NEW_LINE);
         }
-        if (location != null) {
-            sb.append(printProperty(MS_RUN_LOCATION, location)).append(NEW_LINE);
-        }
+
+        //This field it is mandatory in the metadata, it will be printed by default
+        sb.append(printProperty(MS_RUN_LOCATION, location)).append(NEW_LINE);
+
         if (idFormat != null) {
             sb.append(printProperty(MS_RUN_ID_FORMAT, idFormat)).append(NEW_LINE);
         }

@@ -606,9 +606,10 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
             for (SpectraRef ref : refList) {
                 MsRun run = ref.getMsRun();
                 if (run.getLocation() == null) {
+                    //As the location can be null and the field is mandatory, this is not an error, it is a warning
                     this.errorList.add(new MZTabError(LogicalErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef, "ms_run[" + run.getId() + "]-location"));
-                    refList.clear();
-                    break;
+//                    refList.clear();
+//                    break;
                 }
             }
         }

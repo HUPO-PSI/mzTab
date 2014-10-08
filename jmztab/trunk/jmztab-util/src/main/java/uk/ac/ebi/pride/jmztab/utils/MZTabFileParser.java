@@ -222,9 +222,11 @@ public class MZTabFileParser {
 
             highWaterMark = section.getLevel();
             // There exists errors during checking metadata section.
-            if (highWaterMark == 1 && ! errorList.isEmpty()) {
-                break;
-            }
+            // However it stop with warnings too, so we should try to continue parsing as much as
+            // possible to provide several errors/warnings not only the first one in metadata
+//            if (highWaterMark == 1 && ! errorList.isEmpty()) {
+//                break;
+//            }
 
             switch (highWaterMark) {
                 case 1:

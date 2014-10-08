@@ -48,7 +48,7 @@ public class MZTabUtils {
      * remove heading and tailing white space.
      */
     public static String parseString(String target) {
-        if (target == null || target.isEmpty()) {
+        if (target == null || target.isEmpty() || target.trim().equalsIgnoreCase(NULL)) {
             return null;
         } else {
             return target.trim();

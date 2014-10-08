@@ -42,7 +42,7 @@ public class LogicalErrorType extends MZTabErrorType {
     public static MZTabErrorType AbundanceColumnTogether = createError(Category.Logical, "AbundanceColumnTogether");
     public static MZTabErrorType AbundanceColumnSameId = createError(Category.Logical, "AbundanceColumnSameId");
 
-    public static MZTabErrorType SpectraRef = createError(Category.Logical, "SpectraRef");
+    public static MZTabErrorType SpectraRef = createWarn(Category.Logical, "SpectraRef");
     public static MZTabErrorType AmbiguityMod = createWarn(Category.Logical, "AmbiguityMod");
     public static MZTabErrorType MsRunLocation = createWarn(Category.Logical, "MsRunLocation");
 

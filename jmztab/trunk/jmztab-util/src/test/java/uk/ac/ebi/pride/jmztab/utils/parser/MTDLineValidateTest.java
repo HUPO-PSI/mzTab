@@ -4,11 +4,9 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.*;
-import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabException;
+import uk.ac.ebi.pride.jmztab.utils.errors.*;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -184,5 +182,17 @@ public class MTDLineValidateTest {
 
         parser.parse(1, "MTD\tstudy_variable[1]-sample_refs\tsample[1], sample[1]", errorList);
         assertTrue(errorList.getError(1).getType() == LogicalErrorType.DuplicationID);
+    }
+
+    @Test
+    public void testNullMsRun() throws Exception {
+
+        MZTabErrorList errorList = new MZTabErrorList(MZTabErrorType.Level.Warn);
+
+        parser.parse(1, "MTD\tms_run[1]-location\tnull\n", errorList);
+        assertTrue(!errorList.isEmpty());
+        assertEquals(errorList.size(),1);
+        assertEquals(errorList.getError(0).getType(),LogicalErrorType.NotNULL);
+
     }
 }

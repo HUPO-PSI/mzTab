@@ -1,11 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
 import java.util.List;
-import java.util.SortedMap;
 
-import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.MINUS;
-import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.NEW_LINE;
-import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
+import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 
 /**
  * Index-organized {@link MetadataElement}, index value is positive integer.
@@ -100,6 +97,9 @@ public class IndexedElement {
 
         if (value != null) {
             sb.append(TAB).append(value);
+        }
+        else {
+            sb.append(TAB).append(NULL);
         }
 
         return sb.toString();

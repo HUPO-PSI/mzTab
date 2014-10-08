@@ -196,9 +196,17 @@ public class MTDLineParser extends MZTabLineParser {
      * If exists parse error, add it into {@link MZTabErrorList}
      */
     private java.net.URL checkURL(String defineLabel, String valueLabel) {
+
+        if(null == parseString(valueLabel)){
+            // "null" value is supported when the ms_run[1-n]-location is unknown
+            errorList.add(new MZTabError(LogicalErrorType.NotNULL, lineNumber, Error_Header + defineLabel, valueLabel));
+            return null;
+        }
+
         java.net.URL url = parseURL(valueLabel);
-        if (url == null) {
+        if (url == null) {  //Malformed exception
             errorList.add(new MZTabError(FormatErrorType.URL, lineNumber, Error_Header + defineLabel, valueLabel));
+            return null;
         }
 
         return url;

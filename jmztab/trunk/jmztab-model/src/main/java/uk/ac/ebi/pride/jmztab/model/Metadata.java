@@ -1662,9 +1662,10 @@ public class Metadata {
         if (id <= 0) {
             throw new IllegalArgumentException("ms_run id should be great than 0!");
         }
-        if (location == null) {
-            return;
-        }
+//        The ms_run[id]-location needs to be created even if it is null because it is mandatory.
+//        if (location == null) {
+//            return;
+//        }
 
         MsRun msRun = msRunMap.get(id);
         if (msRun == null) {
