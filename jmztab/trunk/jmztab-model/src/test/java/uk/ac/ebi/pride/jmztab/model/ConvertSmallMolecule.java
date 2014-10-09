@@ -22,7 +22,7 @@ public class ConvertSmallMolecule {
         // create ms_run[1]
         msRun1 = new MsRun(1);
         msRun1.setFormat(new CVParam("MS", "MS:1000584", "mzML file", null));
-        msRun1.setLocation(new URL("file://C:\\path\\to\\my\\file"));
+        msRun1.setLocation(new URL("file:///C:\\path\\to\\my\\file"));
         msRun1.setIdFormat(new CVParam("MS", "MS:1001530", "mzML unique identifier", null));
         msRun1.setFragmentationMethod(new CVParam("MS", "MS:1000133", "CID", null));
         // SHOULD add ms_run[1] into metadata.

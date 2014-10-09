@@ -18,17 +18,80 @@ public class MZTabUtilTest {
 
     @Test
     public void testParam() throws Exception {
-        logger.debug(String.valueOf(new UserParam("Source", "Sigma-Aldrich, catalog #H4522, lot #043K0502")));
-        logger.debug(String.valueOf(new UserParam("Source", "Sigma-Aldrich [catalog #H4522, lot #043K0502]")));
-        logger.debug(String.valueOf(new UserParam("Source", "Sigma-Aldrich, \"catalog #H4522, lot #043K0502\"")));
+
+        Param param = new UserParam("Sou,rce", "Sigma-Aldrich, catalog #H4522, lot #043K0502");
+        assertEquals(parseParam("[,,\"Sou,rce\", \"Sigma-Aldrich, catalog #H4522, lot #043K0502\"]"), param);
+        logger.debug(param.toString());
+
+        param = new UserParam("Source", "Sigma-Aldrich, [catalog #H4522, lot #043K0502]");
+        assertEquals(parseParam("[,,Source, \"Sigma-Aldrich, [catalog #H4522, lot #043K0502]\"]"), param);
+        logger.debug(param.toString());
+
+        param = new UserParam("\"Sou,rce\"", "\"Sigma-Aldrich, [catalog #H4522, lot #043K0502]\"");
+        assertEquals(parseParam("[,,\"Sou,rce\", \"Sigma-Aldrich, [catalog #H4522, lot #043K0502]\"]"), param);
+        logger.debug(param.toString());
+
+        param = new UserParam("Source", "Sigma-Aldrich, ,catalog #H4522, lot #043K0502,");
+        assertEquals(parseParam("[,,Source, \"Sigma-Aldrich, ,catalog #H4522, lot #043K0502,\"]"), param);
+        logger.debug(param.toString());
 
         assertTrue(parseParam("[PRIDE,PRIDE:0000114,iTRAQ reagent 114,]") instanceof CVParam);
         assertTrue(parseParam("[, ,tolerance,0.5]") instanceof UserParam);
         assertTrue(parseParam("[, ,,0.5]") == null);
         assertTrue(parseParam("null") == null);
 
-        assertTrue(parseParam("[PRIDE,PRIDE:0000114,\"N,O-diacetylated L-serine\",]").getName().contains("N,O-diacetylated L-serine"));
+        assertEquals(parseParam("[PRIDE,PRIDE:0000114,\"N,O-diacetylated L-serine\",]").getName(),"N,O-diacetylated L-serine");
         logger.debug(String.valueOf(parseParam("[PRIDE,PRIDE:0000114,\"N[12],O-diacetylated L-serine\",]")));
+    }
+
+    @Test
+    public void testParamSquareBrackets() throws Exception {
+
+        Param param = new UserParam("Some parameter", "[..,.]");
+        logger.debug(param.getValue());
+        assertEquals(parseParam("[,,Some parameter,\"[..,.]\"]"), param);
+        logger.debug(param);
+
+        param = new UserParam("Some parameter", "\"[...]\"");
+        logger.debug(param.getValue());
+        assertEquals(parseParam("[,,Some parameter,\"[...]\"]"), param);
+        logger.debug(param);
+
+        param = new UserParam("Some parameter", "\"[...]\"");
+        logger.debug(param.getValue());
+        assertEquals(parseParam("[,,Some parameter,[...]]"), param);
+        logger.debug(param);
+
+        param = new UserParam("Some parameter", "[...]");
+        logger.debug(param.getValue());
+        assertEquals(parseParam("[,,Some parameter,[...]]"), param);
+        logger.debug(param);
+
+        param = new UserParam("Some parameter", "[...]");
+        logger.debug(param.getValue());
+        assertEquals(parseParam("[,,Some parameter,\"[...]\"]"), param);
+        logger.debug(param);
+    }
+
+
+    @Test
+    public void testOnlyNameParam() throws Exception {
+
+        Param param = new UserParam("Some parameter", null);
+        assertEquals(parseParam("[,,Some parameter,]"), param);
+        logger.debug(param);
+
+        param = new UserParam("Some parameter", "");
+        assertEquals(parseParam("[,,Some parameter,]"), param);
+        logger.debug(param);
+
+        param = new UserParam("Some parameter", " ");
+        assertEquals(parseParam("[,,Some parameter, ]"), param);
+        logger.debug(param);
+
+        param = new UserParam("Some parameter", "  ");
+        assertEquals(parseParam("[,,Some parameter,  ]"), param);
+        logger.debug(param);
     }
 
     @Test

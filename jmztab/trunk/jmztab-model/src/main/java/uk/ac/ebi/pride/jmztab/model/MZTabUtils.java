@@ -1,5 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
+import org.apache.log4j.Logger;
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,6 +21,9 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
  * @since 30/01/13
  */
 public class MZTabUtils {
+
+    private static Logger logger = Logger.getLogger(MZTabUtils.class);
+
     /**
      * Check the string is null or blank.
      */
@@ -94,6 +99,8 @@ public class MZTabUtils {
      * Parameters are always reported as [CV label, accession, name, value].
      * Any field that is not available MUST be left empty.
      *
+     * If the name or value of param contains comma, quotes MUST be added to avoid problems. Nested double quotes are not supported.
+     *
      * Notice: name cell never set null.
      */
     public static Param parseParam(String target) {
@@ -102,63 +109,44 @@ public class MZTabUtils {
             return null;
         }
 
-        if (target.contains("\"")) {
-            return parseComplexParam(target);
-        }
+        try {
+            target = target.substring(target.indexOf("[") + 1, target.lastIndexOf("]"));
+            String[] tokens = target.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-        String regexp = "\\[([^,]+)?,([^,]+)?,([^,]+),([^,]*)\\]";
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(target);
+            if (tokens.length == 4) {
+                String cvLabel = tokens[0].trim();
 
-        if (matcher.find() && matcher.end() == target.length()) {
-            String cvLabel = matcher.group(1);
-            String accession = matcher.group(2);
-            String name = matcher.group(3);
-            String value = matcher.group(4);
+                String accession = tokens[1].trim();
 
-            if (isEmpty(name)) {
-                return null;
+                String name = tokens[2].trim();
+                if(name.contains("\"")) {  //We remove the escaping because it will be written back in the writer
+                    name = removeDoubleQuotes(name);
+                }
+
+                if (isEmpty(name)) {
+                    return null;
+                }
+
+                String value = tokens[3].trim();
+                if(value.contains("\"")) {  //We remove the escaping because it will be written back in the writer
+                    value = removeDoubleQuotes(value);
+                }
+                if (isEmpty(value)) {
+                    value = null;
+                }
+
+                if (isEmpty(cvLabel) && isEmpty(accession)) {
+                    return new UserParam(name, value);
+                } else {
+                    return new CVParam(cvLabel, accession, name, value);
+                }
             }
-
-            if (isEmpty(cvLabel) && isEmpty(accession)) {
-                return new UserParam(name, value);
-            } else {
-                return new CVParam(cvLabel, accession, name, value);
-            }
-        } else {
+        } catch (IndexOutOfBoundsException e) {
             return null;
         }
-    }
 
-    /**
-     * If the name of param contains comma, bracket, quotes MUST be added to avoid problems.
-     */
-    public static Param parseComplexParam(String target) {
-        String regexp = "\\[([^,]+)?,([^,]+)?,(.+),([^,]*)\\]";
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(target);
+        return null;
 
-        if (matcher.find() && matcher.end() == target.length()) {
-            String cvLabel = matcher.group(1);
-            String accession = matcher.group(2);
-            String name = matcher.group(3);
-            String value = matcher.group(4);
-
-            int start = name.indexOf("\"") + 1;
-            int end = name.lastIndexOf("\"");
-            name = name.substring(start, end);
-            if (isEmpty(name)) {
-                return null;
-            }
-
-            if (isEmpty(cvLabel) && isEmpty(accession)) {
-                return new UserParam(name, value);
-            } else {
-                return new CVParam(cvLabel, accession, name, value);
-            }
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -339,28 +327,6 @@ public class MZTabUtils {
         }
 
         return valueList;
-    }
-
-    /**
-     * UNIT_IDs MUST only contain the following characters: 'A'-'Z', 'a'-'z', '0'-'9', and '_'.
-     * UNIT_IDs SHOULD consist of the resource identifier plus the resources internal unit id.
-     * A resource is anything that is generating mzTab files.
-     */
-    @Deprecated
-    public static String parseUnitId(String target) {
-        target = parseString(target);
-        if (target == null) {
-            return null;
-        }
-
-        Pattern pattern = Pattern.compile("[A-Za-z_][A-Za-z0-9_]*");
-        Matcher matcher = pattern.matcher(target);
-
-        if (matcher.find() && matcher.start() == 0 && matcher.end() == target.length()) {
-            return target;
-        } else {
-            return null;
-        }
     }
 
     public static URL parseURL(String target) {
@@ -591,7 +557,7 @@ public class MZTabUtils {
 
             neutralLoss = matcher.group(6) == null ? null : new CVParam(matcher.group(4), matcher.group(5), matcher.group(6), matcher.group(7));
             modification.setNeutralLoss(neutralLoss);
-        }else if(parseParam(modLabel) != null){
+        } else if(parseParam(modLabel) != null){
            // Check if is a Neutral Loss
             CVParam param = (CVParam) parseParam(modLabel);
             modification = new Modification(section, Modification.Type.NEUTRAL_LOSS, param.getAccession());
@@ -726,5 +692,32 @@ public class MZTabUtils {
         return modList;
     }
 
+    /**
+     * If there exists reserved characters in value, like comma, the string need to be escape. However the escaping char
+     * is not store because it will be write back in the writer. Nested double quotes are not supported.
+     * */
+    public static String removeDoubleQuotes(String value) {
+
+        if (value != null) {
+            int length;
+            int count;
+
+            value = value.trim();
+            length = value.length();
+
+            value = value.replace("\"", "");
+            count = length - value.length();
+
+            if(isEmpty(value)){
+                value = null;
+            }
+
+            if (count > 2) {
+                logger.warn("Nested double quotes in value, " + count + " occurrences have been replaced.");
+            }
+        }
+
+        return value;
+    }
 
 }

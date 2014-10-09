@@ -23,7 +23,6 @@
         <dependency>
             <artifactId>com.springsource.org.apache.log4j</artifactId>
             <groupId>org.apache.log4j</groupId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

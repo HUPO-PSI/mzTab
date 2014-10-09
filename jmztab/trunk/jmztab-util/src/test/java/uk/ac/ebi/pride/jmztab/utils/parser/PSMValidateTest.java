@@ -6,10 +6,7 @@ import org.junit.Test;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
 import uk.ac.ebi.pride.jmztab.model.Metadata;
 import uk.ac.ebi.pride.jmztab.model.MsRun;
-import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.*;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -71,7 +68,9 @@ public class PSMValidateTest {
 
     @After
     public void tearDown() throws Exception {
-        logger.debug(errorList);
+        for (MZTabError mzTabError : errorList.getErrorList()) {
+            logger.debug(mzTabError);
+        }
         errorList.clear();
     }
 
@@ -85,9 +84,11 @@ public class PSMValidateTest {
         assertTrue(psmParser.checkSpectraRef(psmFactory.findColumnByHeader("spectra_ref"), "ms_run[20]:index=7|ms_run[2]:index=9").size() == 0);
         assertError(FormatErrorType.SpectraRef);
 
-        // ms_run[3] defined in the metadata, but ms_run[3]-location not provide.
+        // ms_run[3] defined in the metadata, but ms_run[3]-location not provide, so we assume null (unknown).
+        //after we allow null, the location is assumed is null and the parser continue parsing, before this change it was an error, now is a warning
+        errorList.setLevel(MZTabErrorType.Level.Warn);
         psmParser.metadata.addMsRun(new MsRun(3));
-        assertTrue(psmParser.checkSpectraRef(psmFactory.findColumnByHeader("spectra_ref"), "ms_run[3]:index=7|ms_run[2]:index=9").size() == 0);
+        assertTrue(psmParser.checkSpectraRef(psmFactory.findColumnByHeader("spectra_ref"), "ms_run[3]:index=7|ms_run[2]:index=9").size() == 2);
         assertError(LogicalErrorType.SpectraRef);
     }
 }

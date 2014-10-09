@@ -18,8 +18,7 @@ import java.util.List;
  * @since 30/01/13
  */
 public class Param {
-    private final static String CV_PARAM = "CV Param";
-    private final static String USER_PARAM = "User Param";
+    private final static String PARAM = "Param";
 
     protected String cvLabel;
     protected String accession;
@@ -27,54 +26,25 @@ public class Param {
     protected String value;
 
     /**
-     * If there exists reserved characters in value, remove them all.
-     */
-    private void setValue(String value) {
-        if (value == null) {
-            this.value = value;
-        } else {
-            value = value.trim();
-
-            // define a reserved character list.
-            List<String> reserveCharList = new ArrayList<String>();
-
-            reserveCharList.add("\"");
-            reserveCharList.add("\'");
-            reserveCharList.add(",");
-            reserveCharList.add("\\[");
-            reserveCharList.add("\\]");
-
-            for (String c : reserveCharList) {
-                value = value.replaceAll(c, "");
-            }
-            this.value = value;
-        }
-    }
-
-    /**
      * Create a {@link CVParam} object. Notice: name item never set null!
      */
     protected Param(String cvLabel, String accession, String name, String value) {
         if (name == null || name.trim().length() == 0) {
-            throw new IllegalArgumentException(CV_PARAM + "'s name can not set empty!");
+            throw new IllegalArgumentException(PARAM + "'s name can not set empty!");
         }
 
         this.cvLabel = cvLabel == null ? null : cvLabel.trim();
         this.accession = accession == null ? null : accession.trim();
-        this.name = name.trim();
-        setValue(value);
+        this.name = MZTabUtils.removeDoubleQuotes(name);
+        this.value = value == null ? null : MZTabUtils.removeDoubleQuotes(value);
+
     }
 
     /**
      * Create a {@link UserParam} object. Notice: name item never set null!
      */
     protected Param(String name, String value) {
-        if (name == null || name.trim().length() == 0) {
-            throw new IllegalArgumentException(USER_PARAM + "'s name can not set empty!");
-        }
-
-        this.name = name.trim();
-        setValue(value);
+        this(null, null, name, value);
     }
 
     /**
@@ -106,23 +76,31 @@ public class Param {
     }
 
     /**
-     * Judge the parameter equal with another on based on its accession number.
+     * Judge the parameter equal with another. If the name and value are not taken into account, the UserParam will be
+     * always equals because the accession is always null.
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Param)) return false;
 
         Param param = (Param) o;
 
-        if (accession != null ? !accession.equals(param.accession) : param.accession != null) return false;
+        if (accession != null ? !accession.equalsIgnoreCase(param.accession) : param.accession != null) return false;
+        if (cvLabel != null ? !cvLabel.equalsIgnoreCase(param.cvLabel) : param.cvLabel != null) return false;
+        if (name != null ? !name.equalsIgnoreCase(param.name) : param.name != null) return false;
+        if (value != null ? !value.equalsIgnoreCase(param.value) : param.value != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return accession != null ? accession.hashCode() : 0;
+        int result = accession != null ? accession.hashCode() : 0;
+        result = 31 * result + (cvLabel != null ? cvLabel.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
     }
 
     /**
@@ -134,10 +112,7 @@ public class Param {
     private void printReserveString(String name, StringBuilder sb) {
         List<String> charList = new ArrayList<String>();
 
-        charList.add("\"");
         charList.add(",");
-        charList.add("[");
-        charList.add("]");
 
         boolean containReserveChar = false;
         for (String c : charList) {
@@ -152,6 +127,26 @@ public class Param {
         } else {
             sb.append(name);
         }
+    }
+
+    /**
+     * If there exists reserved characters in value, remove them all.
+     */
+    private String removeReservedChars(String value) {
+        if (value != null) {
+            value = value.trim();
+
+            // define a reserved character list.
+            List<String> reserveCharList = new ArrayList<String>();
+
+            reserveCharList.add(",");
+
+            for (String c : reserveCharList) {
+                value = value.replaceAll(c, "");
+            }
+        }
+
+        return value;
     }
 
     /**
