@@ -1,8 +1,9 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
@@ -10,16 +11,15 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Set;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.*;
+
 
 /**
 * @author qingwei
 * @since 18/02/13
 */
 public class MZTabHeaderLineParserTest {
-    private static Logger logger = Logger.getLogger(MZTabHeaderLineParserTest.class);
+    private static Logger logger = LoggerFactory.getLogger(MZTabHeaderLineParserTest.class);
 
     private Metadata metadata;
     private MZTabErrorList errorList;
@@ -50,18 +50,20 @@ public class MZTabHeaderLineParserTest {
                 "protein_coverage";
         parser.parse(1, headerLine, errorList);
         assertEquals(headerLine.split("\t").length - 1, parser.getFactory().getColumnMapping().size());
-        assertEquals(1, parser.getFactory().getOptionalColumnMapping().size());
-        assertEquals(headerLine.split("\t").length - parser.getFactory().getOptionalColumnMapping().size() - 1, parser.getFactory().getStableColumnMapping().size());
+        //protein coverage is not stable. It is only mandatory for Identification Complete
+        assertEquals(2, parser.getFactory().getOptionalColumnMapping().size());
+//        assertEquals(headerLine.split("\t").length - parser.getFactory().getOptionalColumnMapping().size() - 1, parser.getFactory().getStableColumnMapping().size());
 
-
+        parser = new PRHLineParser(metadata);
         // check reliability, go_terms and uri, optional columns have stable order.
         headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
             "search_engine\tbest_search_engine_score[1]\treliability\tambiguity_members\tmodifications\t" +
             "uri\tgo_terms\tprotein_coverage";
         parser.parse(1, headerLine, errorList);
         assertEquals(headerLine.split("\t").length - 1, parser.getFactory().getColumnMapping().size());
-        assertEquals(4, parser.getFactory().getOptionalColumnMapping().size());
+        assertEquals(5, parser.getFactory().getOptionalColumnMapping().size());
 
+        parser = new PRHLineParser(metadata);
         // check flexible optional columns with stable order.
         headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\tsearch_engine\t" +
             "best_search_engine_score[1]\t" +
@@ -80,7 +82,7 @@ public class MZTabHeaderLineParserTest {
             "go_terms\t" +
             "protein_coverage";
         parser.parse(1, headerLine, errorList);
-        assertEquals(12, parser.getFactory().getOptionalColumnMapping().size());
+        assertEquals(13, parser.getFactory().getOptionalColumnMapping().size());
         assertEquals(headerLine.split("\t").length - 1, parser.getFactory().getColumnMapping().size());
 
         // check Abundance Columns
@@ -148,7 +150,7 @@ public class MZTabHeaderLineParserTest {
             "modifications\tretention_time\tretention_time_window\tcharge\tmass_to_charge\tspectra_ref";
         parser.parse(1, headerLine, errorList);
         assertEquals(headerLine.split("\t").length - 1 , parser.getFactory().getColumnMapping().size());
-        assertEquals(headerLine.split("\t").length - 1 , parser.getFactory().getStableColumnMapping().size());
+//        assertEquals(headerLine.split("\t").length - 1 , parser.getFactory().getStableColumnMapping().size());
 
         headerLine += "\tbest_search_engine_score[1]";
         parser.parse(1, headerLine, errorList);
@@ -244,7 +246,7 @@ public class MZTabHeaderLineParserTest {
         assertEquals(headerLine.split("\t").length - 1, parser.getFactory().getColumnMapping().size());
         count = 2;
         assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
-        assertEquals(headerLine.split("\t").length - 1 - parser.getFactory().getOptionalColumnMapping().size(), parser.getFactory().getStableColumnMapping().size());
+//        assertEquals(headerLine.split("\t").length - 1 - parser.getFactory().getOptionalColumnMapping().size(), parser.getFactory().getStableColumnMapping().size());
 
         // check optional columns with stable order.
         headerLine += "\treliability\turi";
@@ -297,7 +299,7 @@ public class MZTabHeaderLineParserTest {
         assertEquals(headerLine.split("\t").length - 1, parser.getFactory().getColumnMapping().size());
         count = 1;
         assertEquals(count, parser.getFactory().getOptionalColumnMapping().size());
-        assertEquals(headerLine.split("\t").length - 1 - count, parser.getFactory().getStableColumnMapping().size());
+//        assertEquals(headerLine.split("\t").length - 1 - count, parser.getFactory().getStableColumnMapping().size());
 
         // check optional columns with stable order.
         headerLine += "\treliability\turi";
@@ -345,7 +347,7 @@ public class MZTabHeaderLineParserTest {
     @Test
     public void testPositionMapping() throws Exception {
         MZTabColumnFactory factory;
-        PRHLineParser parser = new PRHLineParser(metadata);
+        PRHLineParser parser1 = new PRHLineParser(metadata);
 
         // check stable columns with stable order.
         String headerLine = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\tsearch_engine\t" +
@@ -353,27 +355,39 @@ public class MZTabHeaderLineParserTest {
             "search_engine_score[1]_ms_run[1]\t" +
             "reliability\tnum_psms_ms_run[1]\t" +
             "num_psms_ms_run[2]\tnum_peptides_distinct_ms_run[1]\tnum_peptides_distinct_ms_run[2]\t" +
-            "num_peptides_unique_ms_run[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
-        factory = parser.getFactory();
-        parser.parse(1, headerLine, errorList);
+            "num_peptides_unique_ms_run[1]\tnum_peptides_unique_ms_run[2]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
+        factory = parser1.getFactory();
+        parser1.parse(1, headerLine, errorList);
         PositionMapping positionMapping1 = new PositionMapping(factory, headerLine);
         assertEquals(positionMapping1.size(), factory.getColumnMapping().size());
+        assertEquals("110001",positionMapping1.get(11));
+        assertEquals("110002",positionMapping1.get(12));
+        assertEquals("120001",positionMapping1.get(13));
+        assertEquals("120002",positionMapping1.get(14));
+        assertEquals("130001",positionMapping1.get(15));
+        assertEquals("130002",positionMapping1.get(16));
 
+        PRHLineParser parser2 = new PRHLineParser(metadata);
         // change physical position of taxid
         headerLine = "PRH\taccession\tdescription\tspecies\tdatabase\tdatabase_version\tsearch_engine\ttaxid\t" +
             "best_search_engine_score[1]\t" +
             "search_engine_score[1]_ms_run[1]\t" +
             "reliability\tnum_psms_ms_run[1]\t" +
             "num_psms_ms_run[2]\tnum_peptides_distinct_ms_run[1]\tnum_peptides_distinct_ms_run[2]\t" +
-            "num_peptides_unique_ms_run[1]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
-        factory = parser.getFactory();
-        parser.parse(1, headerLine, errorList);
+            "num_peptides_unique_ms_run[1]\tnum_peptides_unique_ms_run[2]\tambiguity_members\tmodifications\turi\tgo_terms\tprotein_coverage";
+        factory = parser2.getFactory();
+        parser2.parse(1, headerLine, errorList);
         PositionMapping positionMapping2 = new PositionMapping(factory, headerLine);
         assertEquals(positionMapping2.size(), factory.getColumnMapping().size());
-        assertTrue(positionMapping2.get(7).equals(positionMapping1.get(3)));
+        assertEquals("110001",positionMapping1.get(11));
+        assertEquals("110002",positionMapping1.get(12));
+        assertEquals("120001",positionMapping1.get(13));
+        assertEquals("120002",positionMapping1.get(14));
+        assertEquals("130001",positionMapping1.get(15));
+        assertEquals("130002", positionMapping1.get(16));
 
-        Set<String> mapping1LogicalPosition = positionMapping1.exchange().keySet();
-        Set<String> mapping2LogicalPosition = positionMapping2.exchange().keySet();
+        Set<String> mapping1LogicalPosition = positionMapping1.reverse().keySet();
+        Set<String> mapping2LogicalPosition = positionMapping2.reverse().keySet();
         assertTrue(mapping1LogicalPosition.equals(mapping2LogicalPosition));
     }
 }

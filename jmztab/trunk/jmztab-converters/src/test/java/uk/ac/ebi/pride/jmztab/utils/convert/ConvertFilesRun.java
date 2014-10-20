@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.data.util.MassSpecFileFormat;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.utils.MZTabFileConverter;
@@ -14,7 +15,7 @@ import java.net.URL;
  * @since 17/09/13
  */
 public class ConvertFilesRun {
-    private static Logger logger = Logger.getLogger(ConvertPrideXMLFile.class);
+    private static Logger logger = LoggerFactory.getLogger(ConvertPrideXMLFile.class);
 
     private void convert(File inFile, File outFile) throws Exception {
         logger.warn("Input file name is: " + inFile.getAbsoluteFile());
@@ -34,7 +35,7 @@ public class ConvertFilesRun {
                 }
             } else {
                 logger.debug("There exists errors in convert files.");
-                logger.debug(errorList);
+                logger.debug(errorList.toString());
             }
             out.close();
         } else {

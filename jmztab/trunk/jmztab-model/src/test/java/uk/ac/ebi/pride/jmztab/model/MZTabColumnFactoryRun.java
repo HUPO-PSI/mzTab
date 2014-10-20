@@ -14,6 +14,8 @@ public class MZTabColumnFactoryRun {
 
         // create stable columns.
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Protein_Header);
+        factory.addDefaultStableColumns();
+
         System.out.println(factory);
         System.out.println();
 
@@ -65,6 +67,8 @@ public class MZTabColumnFactoryRun {
 
         // create stable columns.
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide_Header);
+        factory.addDefaultStableColumns();
+
         System.out.println(factory);
         System.out.println();
 
@@ -99,6 +103,8 @@ public class MZTabColumnFactoryRun {
 
         // create stable columns.
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.PSM_Header);
+        factory.addDefaultStableColumns();
+
         System.out.println(factory);
         System.out.println();
 
@@ -126,6 +132,8 @@ public class MZTabColumnFactoryRun {
 
         // create stable columns.
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Small_Molecule);
+        factory.addDefaultStableColumns();
+
         System.out.println(factory);
         System.out.println();
 

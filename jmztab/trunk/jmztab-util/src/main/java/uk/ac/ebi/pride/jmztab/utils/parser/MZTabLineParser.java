@@ -21,10 +21,9 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.TAB;
  * @since 10/02/13
  */
 public class MZTabLineParser {
+
     protected int lineNumber;
-
     protected Section section;
-
     protected String line;
 
     /**

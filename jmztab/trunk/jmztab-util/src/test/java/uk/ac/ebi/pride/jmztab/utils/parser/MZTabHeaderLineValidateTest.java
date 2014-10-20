@@ -1,8 +1,9 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.jmztab.model.MZTabDescription;
 import uk.ac.ebi.pride.jmztab.model.Metadata;
 import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertTrue;
  * @since 10/09/13
  */
 public class MZTabHeaderLineValidateTest {
-    private static Logger logger = Logger.getLogger(MZTabHeaderLineValidateTest.class);
+    private static Logger logger = LoggerFactory.getLogger(MZTabHeaderLineValidateTest.class);
 
     private Metadata metadata;
     private MZTabErrorList errorList;
@@ -41,8 +42,8 @@ public class MZTabHeaderLineValidateTest {
 
     @Test
     public void testStableColumns() throws Exception {
-        // miss protein_coverage column.
-        String prh = "PRH\taccession\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
+        // miss accession column.
+        String prh = "PRH\tdescription\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
             "search_engine\tambiguity_members\tmodifications";
 
         PRHLineParser prhParser = new PRHLineParser(metadata);
@@ -91,7 +92,6 @@ public class MZTabHeaderLineValidateTest {
 //            assertTrue(e.getError().getType() == LogicalErrorType.FixedMod);
 //            logger.debug(e.getMessage());
 //        }
-//
 //    }
 
     @Test
@@ -121,11 +121,11 @@ public class MZTabHeaderLineValidateTest {
             pehParser.parse(1, peh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.MsRunOptionalColumn);
+            assertTrue(e.getError().getType() ==  LogicalErrorType.ColumnNotValid);
             logger.debug(e.getMessage());
         }
 
-        // search_engine_score_ms_run[0] not validate number.
+        // search_engine_score_ms_run[0] not validat number.
         String smh = "SMH\tidentifier\tchemical_formula\tsmiles\tinchi_key\tdescription\texp_mass_to_charge\t" +
             "calc_mass_to_charge\tcharge\tretention_time\ttaxid\tspecies\tdatabase\tdatabase_version\t" +
             "reliability\turi\tspectra_ref\tsearch_engine\tbest_search_engine_score[1]\tsearch_engine_score[1]_ms_run[0]\t" +
@@ -180,14 +180,14 @@ public class MZTabHeaderLineValidateTest {
             "search_engine\tsearch_engine_score[1]\treliability\tmodifications\tretention_time\tcharge\t" +
             "exp_mass_to_charge\tcalc_mass_to_charge\turi\tspectra_ref\tpre\tpost\tstart\tend";
 
-        // PSM header not provide abundance optional columns.
+        // PSM header doesn't support optional columns.
         psh += "\tpsm_abundance_assay[1]";
         PSHLineParser pshParser = new PSHLineParser(metadata);
         try {
             pshParser.parse(1, psh, errorList);
             assertTrue(false);
         } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.AbundanceColumn);
+            assertTrue(e.getError().getType() == LogicalErrorType.ColumnNotValid);
             logger.debug(e.getMessage());
         }
     }

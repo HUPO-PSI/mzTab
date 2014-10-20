@@ -53,4 +53,8 @@ public class LogicalErrorType extends MZTabErrorType {
 
     public static MZTabErrorType QuantificationAbundance = createError(Category.Logical, "QuantificationAbundance");
     public static MZTabErrorType DuplicationID = createError(Category.Logical, "DuplicationID");
+
+    public static MZTabErrorType ColumnNotValid = createError(Category.Logical, "ColumnNotValid");
+    public static MZTabErrorType HeaderNotValid = createError(Category.Logical, "HeaderNotValid");
+
 }

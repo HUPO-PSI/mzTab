@@ -20,20 +20,6 @@ public class Peptide extends MZTabRecord {
     private Metadata metadata;
 
     /**
-     * Create a peptide record which only include stable columns which defined in the {@link PeptideColumn}
-     *
-     * @param metadata SHOULD NOT set null.
-     */
-    public Peptide(Metadata metadata) {
-        super(MZTabColumnFactory.getInstance(Section.Peptide));
-
-        if (metadata == null) {
-            throw new NullPointerException("Should define metadata first.");
-        }
-        this.metadata = metadata;
-    }
-
-    /**
      * Create a peptide record based on structure defined by {@link MZTabColumnFactory}
      *
      * @param factory SHOULD NOT set null.

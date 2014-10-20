@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <ion-generator.version>1.0</ion-generator.version>
+        <pride-utilities.version>2.0.1-SNAPSHOT</pride-utilities.version>
         <pride-jaxb.version>1.0.12</pride-jaxb.version>
         <px-submission-core.version>1.15</px-submission-core.version>
         <jmzidentml.version>1.1.9.pride</jmzidentml.version>
@@ -24,11 +24,20 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
         <!--used to calculate mass to charge-->
         <dependency>
-            <groupId>uk.ac.ebi.pride</groupId>
-            <artifactId>ion-generator</artifactId>
-            <version>${ion-generator.version}</version>
+            <groupId>uk.ac.ebi.pride.utilities</groupId>
+            <artifactId>pride-utilities</artifactId>
+            <version>${pride-utilities.version}</version>
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.pride.jaxb</groupId>

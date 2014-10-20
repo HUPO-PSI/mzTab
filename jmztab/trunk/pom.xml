@@ -24,6 +24,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <assembly.dir>${project.artifactId}</assembly.dir>
+        <slf4j-api.version>1.7.7</slf4j-api.version>
+        <logback.version>1.1.2</logback.version>
     </properties>
 
     <modules>
@@ -43,11 +45,16 @@
                 <scope>test</scope>
             </dependency>
 
+            <!--logging-->
             <dependency>
-                <artifactId>com.springsource.org.apache.log4j</artifactId>
-                <groupId>org.apache.log4j</groupId>
-                <type>jar</type>
-                <version>1.2.15</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -3,8 +3,6 @@ package uk.ac.ebi.pride.jmztab.utils.parser;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,15 +11,12 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
 import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
 
 /**
- * A couple of common method used to parse a data line into {@link MZTabRecord} structure. There are two step
- * in data line parser process: step 1: data validate, these methods name start with "checkXXX()" focus on this.
- * step 2: after validate, we fill the cell data into {@link MZTabRecord}, and use "loadXXX()" to generate the
- * concrete record.
+ * This class allows the validation and loading of the data into the {@link MZTabRecord}.
  *
  * NOTICE: {@link MZTabColumnFactory} maintain a couple of {@link MZTabColumn} which have internal logical
  * position and order. In physical mzTab file, we allow user not obey this logical position organized way,
  * and provide their date with own order. In order to distinguish them, we use physical position (a positive
- * integer) to record the column location in mzTab file. And use {@link PositionMapping} structure the maintain
+ * integer) to record the column location in mzTab file. And use {@link PositionMapping} structure to maintain
  * the mapping between them.
  *
  * @see PRTLineParser
@@ -39,10 +34,10 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
 
     protected SortedMap<Integer, MZTabColumn> mapping;   // logical position --> offset
     protected Metadata metadata;
+    protected MZTabRecord record;
 
     /**
-     * Generate a mzTab data line parser. A couple of common method used to parse a data line into
-     * {@link MZTabRecord} structure.
+     * Generate a mzTab data line parser.
      *
      * NOTICE: {@link MZTabColumnFactory} maintain a couple of {@link MZTabColumn} which have internal logical
      * position and order. In physical mzTab file, we allow user not obey this logical position organized way,
@@ -62,7 +57,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         this.factory = factory;
 
         this.positionMapping = positionMapping;
-        exchangeMapping = positionMapping.exchange();
+        this.exchangeMapping = positionMapping.reverse();
         this.mapping = factory.getOffsetColumnsMap();
 
         if (metadata == null) {
@@ -73,17 +68,16 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     /**
-     * Validate the data line, if there exist errors, add them into {@link MZTabErrorList}.
-     *
-     * NOTICE: this step just do validate, not do convert operation. Convert the data line into
-     * {@link MZTabRecord} implemented by {@link #getRecord(Section, String)}
-     * method.
+     * Validate and parse the data line, if there exist errors, add them into {@link MZTabErrorList}.
      */
     public void parse(int lineNumber, String line, MZTabErrorList errorList) throws MZTabException {
         super.parse(lineNumber, line, errorList);
         checkCount();
-        checkStableData();
-        checkOptionalData();
+
+        int offset = checkData();
+        if (offset != items.length) {
+            this.errorList.add(new MZTabError(FormatErrorType.CountMatch, lineNumber, "" + offset, "" + items.length));
+        }
     }
 
     /**
@@ -103,93 +97,15 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
     }
 
     /**
-     * Translate the data line to a {@link MZTabRecord}.
-     *
-     * NOTICE: Normally, we suggest user do convert operation after validate successfully.
-     *
-     * @see #parse(int, String, MZTabErrorList)
+     * Retrieve the data line to a {@link MZTabRecord}.
      */
-    protected MZTabRecord getRecord(Section section, String line) {
-        MZTabRecord record = null;
+    public abstract MZTabRecord getRecord();
 
-        switch (section) {
-            case Protein:
-                record = new Protein(factory);
-                break;
-            case Peptide:
-                record = new Peptide(factory, metadata);
-                break;
-            case PSM:
-                record = new PSM(factory, metadata);
-                break;
-            case Small_Molecule:
-                record = new SmallMolecule(factory, metadata);
-                break;
-        }
-
-        int offset = loadStableData(record, line);
-        if (offset == items.length) {
-            return record;
-        }
-
-        loadOptionalData(record, offset);
-
-        return record;
-    }
 
     /**
-     * Check and translate the stable columns and optional columns with stable order into mzTab elements.
+     * Check and translate the columns into mzTab elements.
      */
-    abstract void checkStableData();
-
-    /**
-     * Load mzTab element and generate a {@link MZTabRecord}.
-     */
-    abstract int loadStableData(MZTabRecord record, String line);
-
-    private void checkOptionalData() {
-        MZTabColumn column;
-        Class dataType;
-        String target;
-        for (int physicalPosition = 1; physicalPosition < items.length; physicalPosition++) {
-            column = factory.getColumnMapping().get(positionMapping.get(physicalPosition));
-            if (column != null) {
-                target = items[physicalPosition];
-                dataType = column.getDataType();
-                if (column instanceof AbundanceColumn) {
-                    checkDouble(column, target);
-                } else if (column instanceof OptionColumn) {
-                    if (dataType.equals(String.class)) {
-                        checkString(column, target);
-                    } else if (dataType.equals(Double.class)) {
-                        checkDouble(column, target);
-                    } else if (dataType.equals(MZBoolean.class)) {
-                        checkMZBoolean(column, target);
-                    }
-                }
-            }
-        }
-    }
-
-    private void loadOptionalData(MZTabRecord record, int physicalOffset) {
-        String target;
-        MZTabColumn column;
-        Class dataType;
-        for (int physicalPosition = physicalOffset; physicalPosition < items.length; physicalPosition++) {
-            target = items[physicalPosition].trim();
-            column = factory.getColumnMapping().get(positionMapping.get(physicalPosition));
-            dataType = column.getDataType();
-
-            if (dataType.equals(String.class)) {
-                record.setValue(column.getLogicPosition(), checkString(column, target));
-            } else if (dataType.equals(Double.class)) {
-                record.setValue(column.getLogicPosition(), checkDouble(column, target));
-            } else if (dataType.equals(MZBoolean.class)) {
-                record.setValue(column.getLogicPosition(), checkMZBoolean(column, target));
-            }
-        }
-
-    }
+    protected abstract int checkData();
 
     /**
      * load best_search_engine_score[id], read id value.
@@ -592,14 +508,14 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
      * @param column SHOULD NOT set null
      * @param spectraRef SHOULD NOT be empty.
      */
-    protected List<SpectraRef> checkSpectraRef(MZTabColumn column, String spectraRef) {
+    protected SplitList<SpectraRef> checkSpectraRef(MZTabColumn column, String spectraRef) {
         String result_spectraRef = checkData(column, spectraRef, true);
 
         if (result_spectraRef == null || result_spectraRef.equalsIgnoreCase(NULL)) {
-            return new ArrayList<SpectraRef>();
+            return new SplitList<SpectraRef>(BAR);
         }
 
-        List<SpectraRef> refList = parseSpectraRefList(metadata, result_spectraRef);
+        SplitList<SpectraRef> refList = parseSpectraRefList(metadata, result_spectraRef);
         if (refList.size() == 0) {
             this.errorList.add(new MZTabError(FormatErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef));
         } else {
@@ -608,8 +524,6 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
                 if (run.getLocation() == null) {
                     //As the location can be null and the field is mandatory, this is not an error, it is a warning
                     this.errorList.add(new MZTabError(LogicalErrorType.SpectraRef, lineNumber, column.getHeader(), result_spectraRef, "ms_run[" + run.getId() + "]-location"));
-//                    refList.clear();
-//                    break;
                 }
             }
         }
@@ -708,7 +622,7 @@ public abstract class MZTabDataLineParser extends MZTabLineParser {
         Double result = checkDouble(column, protein_coverage);
 
         if (result == null) {
-            return result;
+            return null;
         }
 
         if (result < 0 || result > 1) {

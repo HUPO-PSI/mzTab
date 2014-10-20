@@ -26,15 +26,9 @@ public class MTDLineParser extends MZTabLineParser {
 
     private Metadata metadata = new Metadata();
 
-    private Map<String, String> colUnitMap = new HashMap<String, String>();
-
     /**
      * Most of time, we use {@link #parseNormalMetadata(String, String)} to parse defineLabel into
-     * Metadata Element. Except facing colunit definition line, for example:
-     * MTD  colunit-protein retention_time=[UO, UO:000031, minute, ]
-     * which depends on the header line definitions. For this situation, we provide
-     * {@link #refineColUnit(uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory)} method, and call it in
-     * the {@link uk.ac.ebi.pride.jmztab.utils.parser.MZTabHeaderLineParser#refine()} by manual.
+     * Metadata Element.
      */
     public void parse(int lineNumber, String mtdLine, MZTabErrorList errorList) throws MZTabException {
         super.parse(lineNumber, mtdLine, errorList);
@@ -47,21 +41,7 @@ public class MTDLineParser extends MZTabLineParser {
         String defineLabel = items[1].trim().toLowerCase();
         String valueLabel = items[2].trim();
 
-        if (defineLabel.contains("colunit")) {
-            // ignore colunit parse. In the stage, just store them into colUnitMap<defineLabel, valueLabel>.
-            // after table section columns created, call checkColUnit manually.
-            colUnitMap.put(defineLabel, valueLabel);
-
-            if (! defineLabel.equals("colunit-protein") &&
-                ! defineLabel.equals("colunit-peptide") &&
-                ! defineLabel.equals("colunit-psm") &&
-                ! defineLabel.equals("colunit-small_molecule")) {
-                MZTabError error = new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, defineLabel);
-                throw new MZTabException(error);
-            }
-        } else {
-            parseNormalMetadata(defineLabel, valueLabel);
-        }
+        parseNormalMetadata(defineLabel, valueLabel);
     }
 
     /**
@@ -407,7 +387,8 @@ public class MTDLineParser extends MZTabLineParser {
                             metadata.addContactAffiliation(id, valueLabel);
                             break;
                         case CONTACT_EMAIL:
-                            metadata.addContactEmail(id, checkEmail(defineLabel, valueLabel));
+                            checkEmail(defineLabel, valueLabel);
+                            metadata.addContactEmail(id, valueLabel);
                             break;
                     }
                     break;
@@ -661,6 +642,18 @@ public class MTDLineParser extends MZTabLineParser {
                             break;
                     }
                     break;
+                case COLUNIT:
+                    // In this stage, just store them into colUnitMap<defineLabel, valueLabel>.
+                    // after the section columns is created we will add the col unit.
+                    if (! defineLabel.equals("colunit-protein") &&
+                            ! defineLabel.equals("colunit-peptide") &&
+                            ! defineLabel.equals("colunit-psm") &&
+                            ! defineLabel.equals("colunit-small_molecule")) {
+                        errorList.add(new MZTabError(FormatErrorType.MTDDefineLabel, lineNumber, defineLabel));
+                    } else {
+                        metadata.getColUnitMap().put(defineLabel, valueLabel);
+                    }
+                    break;
             }
 
         } else {
@@ -733,63 +726,6 @@ public class MTDLineParser extends MZTabLineParser {
             for (Integer id : svMap.keySet()) {
                 if (svMap.get(id).getDescription() == null) {
                     throw new MZTabException(new MZTabError(LogicalErrorType.NotDefineInMetadata, lineNumber, "study_variable[" + id + "]-description", mode.toString(), type.toString()));
-                }
-            }
-        }
-    }
-
-    /**
-     * valueLabel pattern like: column_name=param_string
-     */
-    private MZTabError checkColUnit(String valueLabel, MZTabColumnFactory factory) {
-        String[] items = valueLabel.split("=");
-        String columnName = items[0].trim();
-        String value = items[1].trim();
-
-        MZTabColumn column = factory.findColumnByHeader(columnName);
-        if (column == null) {
-            // column_name not exists in the factory.
-            return new MZTabError(FormatErrorType.ColUnit, lineNumber, valueLabel, columnName);
-        } else {
-            Param param = parseParam(value);
-            if (param == null) {
-                return new MZTabError(FormatErrorType.Param, lineNumber, valueLabel, value);
-            }
-
-            switch (factory.getSection()) {
-                case Protein_Header:
-                    metadata.addProteinColUnit(column, param);
-                    break;
-                case Peptide_Header:
-                    metadata.addPeptideColUnit(column, param);
-                    break;
-                case PSM_Header:
-                    metadata.addPSMColUnit(column, param);
-                    break;
-                case Small_Molecule_Header:
-                    metadata.addSmallMoleculeColUnit(column, param);
-                    break;
-            }
-
-            return null;
-        }
-    }
-
-    /**
-     * Facing colunit definition line, for example:
-     * MTD  colunit-protein retention_time=[UO, UO:000031, minute, ]
-     * which depends on the header line definitions. For this situation, user need call this method in
-     * the {@link uk.ac.ebi.pride.jmztab.utils.parser.MZTabHeaderLineParser#refine()} by manual.
-     */
-    public void refineColUnit(MZTabColumnFactory factory) throws MZTabException {
-        String valueLabel;
-        for (String defineLabel : colUnitMap.keySet()) {
-            if (defineLabel.equalsIgnoreCase("colunit-" + Section.toDataSection(factory.getSection()).getName())) {
-                valueLabel = colUnitMap.get(defineLabel);
-                MZTabError error = checkColUnit(valueLabel, factory);
-
-                if (error != null) {
-                    throw new MZTabException(error);
                 }
             }
         }

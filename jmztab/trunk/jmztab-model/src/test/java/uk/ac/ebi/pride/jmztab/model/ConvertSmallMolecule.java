@@ -61,6 +61,7 @@ public class ConvertSmallMolecule {
 
         // generate peptide header line
         MZTabColumnFactory peptideFactory = MZTabColumnFactory.getInstance(Section.Peptide);
+        peptideFactory.addDefaultStableColumns();
         // find retention_time column from factory.
         PeptideColumn peptideColumn = (PeptideColumn) peptideFactory.findColumnByHeader("retention_time");
 
@@ -77,6 +78,7 @@ public class ConvertSmallMolecule {
 
     private MZTabColumnFactory getSMH(Metadata metadata) {
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Small_Molecule);
+        factory.addDefaultStableColumns();
 
         // add optional columns which have stable order.
         factory.addReliabilityOptionalColumn();

@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.jmzidml.model.mzidml.*;
 import uk.ac.ebi.jmzidml.model.mzidml.UserParam;
 import uk.ac.ebi.pride.jmztab.model.*;
@@ -18,6 +19,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class that convert a mzIdentML to a mzTab file using the mzTab library. This Class extends the @ConvertProvider<File, Void>  class
@@ -28,7 +31,7 @@ import java.util.*;
  */
 public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
-    private static Logger logger = Logger.getLogger(ConvertMZidentMLFile.class);
+    private static Logger logger = LoggerFactory.getLogger(ConvertMZidentMLFile.class);
 
     private MzIdentMLUnmarshallerAdaptor reader;
 
@@ -169,7 +172,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
      */
     @Override
     protected MZTabColumnFactory convertProteinColumnFactory() {
-        this.proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
+        proteinColumnFactory = MZTabColumnFactory.getInstance(Section.Protein);
+        proteinColumnFactory.addDefaultStableColumns();
 
         // ms_run[1] optional columns
         for(MsRun msRun: metadata.getMsRunMap().values()){
@@ -208,7 +212,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
      */
     @Override
     protected MZTabColumnFactory convertPSMColumnFactory() {
-        this.psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
+        psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
+        psmColumnFactory.addDefaultStableColumns();
         psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_ID_COLUMN,String.class);
         psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_DECOY_COLUMN, Integer.class);
 
@@ -503,15 +508,17 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             name = (c.getLastName() != null)? name + " " + c.getLastName():name;
             if(!name.isEmpty()){
                 metadata.addContactName(id, name);
-                String affiliation = "";
-                if(c.getAffiliation().get(0) != null && c.getAffiliation().get(0).getOrganization() != null){
-                    if(c.getAffiliation().get(0).getOrganization().getName() != null)
-                        affiliation = c.getAffiliation().get(0).getOrganization().getName();
-                    else
-                        affiliation = c.getAffiliation().get(0).getOrganization().getId();
+                if(c.getAffiliation()!=null && !c.getAffiliation().isEmpty()) {
+                    String affiliation = "";
+                    if (c.getAffiliation().get(0) != null && c.getAffiliation().get(0).getOrganization() != null) {
+                        if (c.getAffiliation().get(0).getOrganization().getName() != null)
+                            affiliation = c.getAffiliation().get(0).getOrganization().getName();
+                        else
+                            affiliation = c.getAffiliation().get(0).getOrganization().getId();
+                    }
+                    metadata.addContactAffiliation(id, affiliation);
                 }
-                metadata.addContactAffiliation(id, affiliation);
-                String mail  = getMailFromCvParam(c);
+                String mail  = getMailFromParams(c);
                 if (!mail.isEmpty()) {
                     metadata.addContactEmail(id, mail);
                 }
@@ -520,20 +527,34 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         }
     }
 
-    private String getMailFromCvParam(Person person){
+    private String getMailFromParams(Person person){
         String mail = "";
+        String regexp = "[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-']+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})";
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher;
+
         for(CvParam cv: person.getCvParam()){
             if(cv.getAccession().equals(MZIdentMLUtils.CVTERM_MAIL) || cv.getValue().contains("@") ){
-                mail = cv.getValue();
-            }
-        }
-        if(mail.isEmpty()){
-            for(UserParam cv: person.getUserParam()){
-                if(cv.getUnitAccession().equals(MZIdentMLUtils.CVTERM_MAIL) || cv.getValue().contains("@") ){
-                    mail = cv.getValue();
+                matcher = pattern.matcher(cv.getValue());
+                if(matcher.find()) {
+                    mail = matcher.group();
+                    logger.debug("Original mail info: \"" + cv.getValue() + "\" email extracted -> \""+ mail + "\"");
                 }
             }
         }
+
+        if(mail.isEmpty()){
+            for(UserParam cv: person.getUserParam()){
+                if(cv.getUnitAccession().equals(MZIdentMLUtils.CVTERM_MAIL) || cv.getValue().contains("@") ){
+                    matcher = pattern.matcher(cv.getValue());
+                    if(matcher.find()) {
+                        mail = matcher.group();
+                        logger.debug("Original mail info: \"" + cv.getValue() + "\" email extracted -> \""+ mail + "\"");
+                    }
+                }
+            }
+        }
+
         return mail;
     }
 
@@ -848,10 +869,10 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         loadModifications(protein, spectrumItems);
 
         if(sequence.getSeq() != null && !sequence.getSeq().isEmpty()) {
-            logger.debug("Protein sequence value added");
-        }
+            protein.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, sequence.getSeq());
+        } else
+            protein.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, "null");
 
-        protein.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, sequence.getSeq());
 
         return protein;
 

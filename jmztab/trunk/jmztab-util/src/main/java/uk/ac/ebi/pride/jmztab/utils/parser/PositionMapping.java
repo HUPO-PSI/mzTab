@@ -67,15 +67,15 @@ public class PositionMapping {
      * Exchange key and value to "LogicalPosition, PhysicalPosition". This method used to simply the locate
      * operation by logical position to physical position.
      */
-    public SortedMap<String, Integer> exchange() {
-        SortedMap<String, Integer> exchangeMappings = new TreeMap<String, Integer>();
+    public SortedMap<String, Integer> reverse() {
+        SortedMap<String, Integer> reverseMappings = new TreeMap<String, Integer>();
 
         String logicalPosition;
         for (Integer physicalPosition : mappings.keySet()) {
             logicalPosition = mappings.get(physicalPosition);
-            exchangeMappings.put(logicalPosition, physicalPosition);
+            reverseMappings.put(logicalPosition, physicalPosition);
         }
 
-        return exchangeMappings;
+        return reverseMappings;
     }
 }

@@ -38,7 +38,6 @@ public class AbundanceColumn extends MZTabColumn {
     /**
      * This is a temporary method, which face small molecule abundance column:
      * translate small_molecule --> smallmolecule
-     * @see uk.ac.ebi.pride.jmztab.utils.parser.MZTabHeaderLineParser#translate(String)
      */
     public static String translate(String oldName) {
         if (oldName.equals("small_molecule")) {
@@ -90,7 +89,7 @@ public class AbundanceColumn extends MZTabColumn {
      * @param section SHOULD be {@link Section#Protein}, {@link Section#Peptide}, {@link Section#PSM},
      *                or {@link Section#Small_Molecule}.
      * @param studyVariable SHOULD not be null.
-     * @param order Normally the last column's position in header, {@link MZTabColumnFactory#getColumnMapping()},
+     * @param order position in header for the new columns {@link MZTabColumnFactory#getColumnMapping()}
      * @return an abundance optional column as measured in the given study variable.
      */
     public static SortedMap<String, MZTabColumn> createOptionalColumns(Section section, StudyVariable studyVariable, String order) {
@@ -101,7 +100,8 @@ public class AbundanceColumn extends MZTabColumn {
             throw new NullPointerException("Study Variable should not be null!");
         }
 
-        int offset = new Integer(order);
+        //In this case we know the real position in which the column need to star, so the offset is one less
+        int offset = new Integer(order)-1;
 
         SortedMap<String, MZTabColumn> columns = new TreeMap<String, MZTabColumn>();
         Section dataSection = Section.toDataSection(section);
@@ -112,6 +112,30 @@ public class AbundanceColumn extends MZTabColumn {
         column = new AbundanceColumn(dataSection, Field.ABUNDANCE_STDEV, studyVariable, offset);
         columns.put(column.getLogicPosition(), column);
         column = new AbundanceColumn(dataSection, Field.ABUNDANCE_STD_ERROR, studyVariable, offset);
+        columns.put(column.getLogicPosition(), column);
+
+        return columns;
+    }
+
+    public static SortedMap<String, MZTabColumn> createOptionalColumns(Section section, StudyVariable studyVariable, Integer lastOrder) {
+        if (section.isComment() || section.isMetadata()) {
+            throw new IllegalArgumentException("Section should be Protein, Peptide, PSM or SmallMolecule.");
+        }
+        if (studyVariable == null) {
+            throw new NullPointerException("Study Variable should not be null!");
+        }
+
+        //In this case we know the real position in which the column need to star, so the offset is one less
+
+        SortedMap<String, MZTabColumn> columns = new TreeMap<String, MZTabColumn>();
+        Section dataSection = Section.toDataSection(section);
+
+        AbundanceColumn column;
+        column = new AbundanceColumn(dataSection, Field.ABUNDANCE, studyVariable, lastOrder);
+        columns.put(column.getLogicPosition(), column);
+        column = new AbundanceColumn(dataSection, Field.ABUNDANCE_STDEV, studyVariable, lastOrder);
+        columns.put(column.getLogicPosition(), column);
+        column = new AbundanceColumn(dataSection, Field.ABUNDANCE_STD_ERROR, studyVariable, lastOrder);
         columns.put(column.getLogicPosition(), column);
 
         return columns;

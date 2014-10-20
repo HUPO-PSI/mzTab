@@ -47,13 +47,8 @@ public class MZTabColumnFactory {
     private MZTabColumnFactory() {
     }
 
-    private static void addStableColumn(MZTabColumnFactory factory, MZTabColumn column) {
-        factory.stableColumnMapping.put(column.getLogicPosition(), column);
-    }
-
     /**
-     * Based on {@link #section} to generate stable columns, and store them into {@link #stableColumnMapping} and
-     * {@link #columnMapping} which maintain all columns in the factory.
+     * Retrieves the MZTabColumnFactory accordingly to the {@link #section}
      *
      * @param section SHOULD be {@link Section#Protein_Header}, {@link Section#Peptide_Header} {@link Section#PSM_Header}
      *                or {@link Section#Small_Molecule_Header}.
@@ -66,77 +61,6 @@ public class MZTabColumnFactory {
         }
 
         MZTabColumnFactory factory = new MZTabColumnFactory();
-
-        switch (section) {
-            case Protein_Header:
-                addStableColumn(factory, ProteinColumn.ACCESSION);
-                addStableColumn(factory, ProteinColumn.DESCRIPTION);
-                addStableColumn(factory, ProteinColumn.TAXID);
-                addStableColumn(factory, ProteinColumn.SPECIES);
-                addStableColumn(factory, ProteinColumn.DATABASE);
-                addStableColumn(factory, ProteinColumn.DATABASE_VERSION);
-                addStableColumn(factory, ProteinColumn.SEARCH_ENGINE);
-                addStableColumn(factory, ProteinColumn.AMBIGUITY_MEMBERS);
-                addStableColumn(factory, ProteinColumn.MODIFICATIONS);
-                addStableColumn(factory, ProteinColumn.PROTEIN_COVERAGE);
-                break;
-            case Peptide_Header:
-                addStableColumn(factory, PeptideColumn.SEQUENCE);
-                addStableColumn(factory, PeptideColumn.ACCESSION);
-                addStableColumn(factory, PeptideColumn.UNIQUE);
-                addStableColumn(factory, PeptideColumn.DATABASE);
-                addStableColumn(factory, PeptideColumn.DATABASE_VERSION);
-                addStableColumn(factory, PeptideColumn.SEARCH_ENGINE);
-                addStableColumn(factory, PeptideColumn.MODIFICATIONS);
-                addStableColumn(factory, PeptideColumn.RETENTION_TIME);
-                addStableColumn(factory, PeptideColumn.RETENTION_TIME_WINDOW);
-                addStableColumn(factory, PeptideColumn.CHARGE);
-                addStableColumn(factory, PeptideColumn.MASS_TO_CHARGE);
-                addStableColumn(factory, PeptideColumn.SPECTRA_REF);
-                break;
-            case PSM_Header:
-                addStableColumn(factory, PSMColumn.SEQUENCE);
-                addStableColumn(factory, PSMColumn.PSM_ID);
-                addStableColumn(factory, PSMColumn.ACCESSION);
-                addStableColumn(factory, PSMColumn.UNIQUE);
-                addStableColumn(factory, PSMColumn.DATABASE);
-                addStableColumn(factory, PSMColumn.DATABASE_VERSION);
-                addStableColumn(factory, PSMColumn.SEARCH_ENGINE);
-                addStableColumn(factory, PSMColumn.MODIFICATIONS);
-                addStableColumn(factory, PSMColumn.RETENTION_TIME);
-                addStableColumn(factory, PSMColumn.CHARGE);
-                addStableColumn(factory, PSMColumn.EXP_MASS_TO_CHARGE);
-                addStableColumn(factory, PSMColumn.CALC_MASS_TO_CHARGE);
-                addStableColumn(factory, PSMColumn.SPECTRA_REF);
-                addStableColumn(factory, PSMColumn.PRE);
-                addStableColumn(factory, PSMColumn.POST);
-                addStableColumn(factory, PSMColumn.START);
-                addStableColumn(factory, PSMColumn.END);
-                break;
-            case Small_Molecule_Header:
-                addStableColumn(factory, SmallMoleculeColumn.IDENTIFIER);
-                addStableColumn(factory, SmallMoleculeColumn.CHEMICAL_FORMULA);
-                addStableColumn(factory, SmallMoleculeColumn.SMILES);
-                addStableColumn(factory, SmallMoleculeColumn.INCHI_KEY);
-                addStableColumn(factory, SmallMoleculeColumn.DESCRIPTION);
-                addStableColumn(factory, SmallMoleculeColumn.EXP_MASS_TO_CHARGE);
-                addStableColumn(factory, SmallMoleculeColumn.CALC_MASS_TO_CHARGE);
-                addStableColumn(factory, SmallMoleculeColumn.CHARGE);
-                addStableColumn(factory, SmallMoleculeColumn.RETENTION_TIME);
-                addStableColumn(factory, SmallMoleculeColumn.TAXID);
-                addStableColumn(factory, SmallMoleculeColumn.SPECIES);
-                addStableColumn(factory, SmallMoleculeColumn.DATABASE);
-                addStableColumn(factory, SmallMoleculeColumn.DATABASE_VERSION);
-                addStableColumn(factory, SmallMoleculeColumn.SPECTRA_REF);
-                addStableColumn(factory, SmallMoleculeColumn.SEARCH_ENGINE);
-                addStableColumn(factory, SmallMoleculeColumn.MODIFICATIONS);
-                break;
-            default:
-                throw new IllegalArgumentException("Can not use Comment, Metadata section.");
-
-        }
-
-        factory.columnMapping.putAll(factory.stableColumnMapping);
         factory.section = section;
 
         return factory;
@@ -160,6 +84,10 @@ public class MZTabColumnFactory {
         return stableColumnMapping;
     }
 
+    public void setStableColumnMapping(SortedMap<String, MZTabColumn> stableColumnMapping) {
+        this.stableColumnMapping = stableColumnMapping;
+    }
+
     /**
      * Get all abundance columns. Key is logical position, and value is MZTabColumn object.
      * Abundance Columns always stay in the end of the table-based section.
@@ -168,6 +96,10 @@ public class MZTabColumnFactory {
      */
     public SortedMap<String, MZTabColumn> getAbundanceColumnMapping() {
         return abundanceColumnMapping;
+    }
+
+    public void setAbundanceColumnMapping(SortedMap<String, MZTabColumn> abundanceColumnMapping) {
+        this.abundanceColumnMapping = abundanceColumnMapping;
     }
 
     /**
@@ -182,12 +114,100 @@ public class MZTabColumnFactory {
         return optionalColumnMapping;
     }
 
+    public void setOptionalColumnMapping(SortedMap<String, MZTabColumn> optionalColumnMapping) {
+        this.optionalColumnMapping = optionalColumnMapping;
+    }
+
     /**
      * Get all columns in the factory. In this class, we maintain the following constraint at any time:
-     * columnMapping.size == optionalColumnMapping.size + stableColumnMapping.size
      */
     public SortedMap<String, MZTabColumn> getColumnMapping() {
         return columnMapping;
+    }
+
+    public void setColumnMapping(SortedMap<String, MZTabColumn> columnMapping) {
+        this.columnMapping = columnMapping;
+    }
+
+    /**
+     * Generates the mandatory columns per section. This methods helps to create this columns by default.
+     */
+    public void addDefaultStableColumns() {
+
+        //TODO: Should ProteinCoverage be a Stable Column?
+        switch (section) {
+            case Protein_Header:
+                addStableColumn(this, ProteinColumn.ACCESSION);
+                addStableColumn(this, ProteinColumn.DESCRIPTION);
+                addStableColumn(this, ProteinColumn.TAXID);
+                addStableColumn(this, ProteinColumn.SPECIES);
+                addStableColumn(this, ProteinColumn.DATABASE);
+                addStableColumn(this, ProteinColumn.DATABASE_VERSION);
+                addStableColumn(this, ProteinColumn.SEARCH_ENGINE);
+                addStableColumn(this, ProteinColumn.AMBIGUITY_MEMBERS);
+                addStableColumn(this, ProteinColumn.MODIFICATIONS);
+                addStableColumn(this, ProteinColumn.PROTEIN_COVERAGE);
+                break;
+            case Peptide_Header:
+                addStableColumn(this, PeptideColumn.SEQUENCE);
+                addStableColumn(this, PeptideColumn.ACCESSION);
+                addStableColumn(this, PeptideColumn.UNIQUE);
+                addStableColumn(this, PeptideColumn.DATABASE);
+                addStableColumn(this, PeptideColumn.DATABASE_VERSION);
+                addStableColumn(this, PeptideColumn.SEARCH_ENGINE);
+                addStableColumn(this, PeptideColumn.MODIFICATIONS);
+                addStableColumn(this, PeptideColumn.RETENTION_TIME);
+                addStableColumn(this, PeptideColumn.RETENTION_TIME_WINDOW);
+                addStableColumn(this, PeptideColumn.CHARGE);
+                addStableColumn(this, PeptideColumn.MASS_TO_CHARGE);
+                addStableColumn(this, PeptideColumn.SPECTRA_REF);
+                break;
+            case PSM_Header:
+                addStableColumn(this, PSMColumn.SEQUENCE);
+                addStableColumn(this, PSMColumn.PSM_ID);
+                addStableColumn(this, PSMColumn.ACCESSION);
+                addStableColumn(this, PSMColumn.UNIQUE);
+                addStableColumn(this, PSMColumn.DATABASE);
+                addStableColumn(this, PSMColumn.DATABASE_VERSION);
+                addStableColumn(this, PSMColumn.SEARCH_ENGINE);
+                addStableColumn(this, PSMColumn.MODIFICATIONS);
+                addStableColumn(this, PSMColumn.RETENTION_TIME);
+                addStableColumn(this, PSMColumn.CHARGE);
+                addStableColumn(this, PSMColumn.EXP_MASS_TO_CHARGE);
+                addStableColumn(this, PSMColumn.CALC_MASS_TO_CHARGE);
+                addStableColumn(this, PSMColumn.SPECTRA_REF);
+                addStableColumn(this, PSMColumn.PRE);
+                addStableColumn(this, PSMColumn.POST);
+                addStableColumn(this, PSMColumn.START);
+                addStableColumn(this, PSMColumn.END);
+                break;
+            case Small_Molecule_Header:
+                addStableColumn(this, SmallMoleculeColumn.IDENTIFIER);
+                addStableColumn(this, SmallMoleculeColumn.CHEMICAL_FORMULA);
+                addStableColumn(this, SmallMoleculeColumn.SMILES);
+                addStableColumn(this, SmallMoleculeColumn.INCHI_KEY);
+                addStableColumn(this, SmallMoleculeColumn.DESCRIPTION);
+                addStableColumn(this, SmallMoleculeColumn.EXP_MASS_TO_CHARGE);
+                addStableColumn(this, SmallMoleculeColumn.CALC_MASS_TO_CHARGE);
+                addStableColumn(this, SmallMoleculeColumn.CHARGE);
+                addStableColumn(this, SmallMoleculeColumn.RETENTION_TIME);
+                addStableColumn(this, SmallMoleculeColumn.TAXID);
+                addStableColumn(this, SmallMoleculeColumn.SPECIES);
+                addStableColumn(this, SmallMoleculeColumn.DATABASE);
+                addStableColumn(this, SmallMoleculeColumn.DATABASE_VERSION);
+                addStableColumn(this, SmallMoleculeColumn.SPECTRA_REF);
+                addStableColumn(this, SmallMoleculeColumn.SEARCH_ENGINE);
+                addStableColumn(this, SmallMoleculeColumn.MODIFICATIONS);
+                break;
+            default:
+                throw new IllegalArgumentException("Can not use Comment, Metadata section.");
+
+        }
+    }
+
+    private static void addStableColumn(MZTabColumnFactory factory, MZTabColumn column) {
+        factory.stableColumnMapping.put(column.getLogicPosition(), column);
+        factory.columnMapping.put(column.getLogicPosition(), column);
     }
 
     /**
@@ -200,37 +220,11 @@ public class MZTabColumnFactory {
      */
     public void addOptionalColumn(MZTabColumn column, MsRun msRun) {
         String position = column.getLogicPosition();
-        if (optionalColumnMapping.containsKey(position)) {
-            throw new IllegalArgumentException("There exists column " + optionalColumnMapping.get(position) + " in position " + position);
+        if (columnMapping.containsKey(position)) {
+            throw new IllegalArgumentException("There exists column " + columnMapping.get(position) + " in position " + position);
         }
 
         MZTabColumn newColumn = null;
-//        switch (section) {
-//            case Protein_Header:
-//                if (column.getName().equals(ProteinColumn.NUM_PSMS.getName()) ||
-//                        column.getName().equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getName()) ||
-//                        column.getName().equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getName())) {
-//                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
-//                }
-//
-//                if (position.equals(ProteinColumn.SEARCH_ENGINE_SCORE.getOrder()) ||
-//                    position.equals(ProteinColumn.NUM_PSMS.getOrder()) ||
-//                    position.equals(ProteinColumn.NUM_PEPTIDES_DISTINCT.getOrder()) ||
-//                    position.equals(ProteinColumn.NUM_PEPTIDES_UNIQUE.getOrder())) {
-//                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
-//                }
-//                break;
-//            case Peptide_Header:
-//                if (position.equals(PeptideColumn.SEARCH_ENGINE_SCORE.getOrder())) {
-//                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
-//                }
-//                break;
-//            case Small_Molecule_Header:
-//                if (position.equals(SmallMoleculeColumn.SEARCH_ENGINE_SCORE.getOrder())) {
-//                    newColumn = MZTabColumn.createOptionalColumn(section, column, msRun);
-//                }
-//                break;
-//        }
 
         if (section == Section.Protein_Header) {
             if (column.getName().equals(ProteinColumn.NUM_PSMS.getName()) ||
@@ -257,8 +251,8 @@ public class MZTabColumnFactory {
      */
     public void addBestSearchEngineScoreOptionalColumn(MZTabColumn column, Integer id) {
         String position = column.getLogicPosition();
-        if (optionalColumnMapping.containsKey(position)) {
-            throw new IllegalArgumentException("There exists column " + optionalColumnMapping.get(position) + " in position " + position);
+        if (columnMapping.containsKey(position)) {
+            throw new IllegalArgumentException("There exists column " + columnMapping.get(position) + " in position " + position);
         }
 
         MZTabColumn newColumn = null;
@@ -279,8 +273,7 @@ public class MZTabColumnFactory {
                     newColumn = MZTabColumn.createOptionalColumn(section, column, id, null);
                 }
                 break;
-            //
-            //
+
             // TODO add a warning for PSMs, combination not possible
         }
 
@@ -301,8 +294,8 @@ public class MZTabColumnFactory {
      */
     public void addSearchEngineScoreOptionalColumn(MZTabColumn column, Integer id, MsRun msRun) {
         String position = column.getLogicPosition();
-        if (optionalColumnMapping.containsKey(position)) {
-            throw new IllegalArgumentException("There exists column " + optionalColumnMapping.get(position) + " in position " + position);
+        if (columnMapping.containsKey(position)) {
+            throw new IllegalArgumentException("There exists column " + columnMapping.get(position) + " in position " + position);
         }
 
         MZTabColumn newColumn = null;
@@ -386,6 +379,30 @@ public class MZTabColumnFactory {
         }
     }
 
+    public void addReliabilityOptionalColumn(String order) {
+        MZTabColumn column = null;
+        switch (section) {
+            case Protein_Header:
+                column = ProteinColumn.RELIABILITY;
+                break;
+            case Peptide_Header:
+                column = PeptideColumn.RELIABILITY;
+                break;
+            case Small_Molecule_Header:
+                column = SmallMoleculeColumn.RELIABILITY;
+                break;
+            case PSM_Header:
+                column = PSMColumn.RELIABILITY;
+                break;
+        }
+
+        if (column != null) {
+            column.setOrder(order);
+            optionalColumnMapping.put(column.getLogicPosition(), column);
+            columnMapping.put(column.getLogicPosition(), column);
+        }
+    }
+
     /**
      * Add URI optional column into {@link #optionalColumnMapping} and {@link #columnMapping}.
      */
@@ -412,13 +429,45 @@ public class MZTabColumnFactory {
         }
     }
 
-    private String addOptionColumn(MZTabColumn column) {
-        String logicalPosition = column.getLogicPosition();
+    public void addURIOptionalColumn(String order) {
+        MZTabColumn column = null;
+        switch (section) {
+            case Protein_Header:
+                column = ProteinColumn.URI;
+                break;
+            case Peptide_Header:
+                column = PeptideColumn.URI;
+                break;
+            case Small_Molecule_Header:
+                column = SmallMoleculeColumn.URI;
+                break;
+            case PSM_Header:
+                column = PSMColumn.URI;
+                break;
+        }
 
-        optionalColumnMapping.put(logicalPosition, column);
+        if (column != null) {
+            column.setOrder(order);
+            optionalColumnMapping.put(column.getLogicPosition(), column);
+            columnMapping.put(column.getLogicPosition(), column);
+        }
+    }
+
+    private String addOptionColumn(MZTabColumn column) {
+
+        optionalColumnMapping.put(column.getLogicPosition(), column);
         columnMapping.put(column.getLogicPosition(), column);
 
-        return logicalPosition;
+        return column.getLogicPosition();
+    }
+
+    private String addOptionColumn(MZTabColumn column, String order) {
+
+        column.setOrder(order);
+        optionalColumnMapping.put(column.getLogicPosition(), column);
+        columnMapping.put(column.getLogicPosition(), column);
+
+        return column.getLogicPosition();
     }
 
     /**
@@ -431,6 +480,11 @@ public class MZTabColumnFactory {
     public String addOptionalColumn(String name, Class columnType) {
         MZTabColumn column = new OptionColumn(null, name, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
         return addOptionColumn(column);
+    }
+
+    public String addOptionalColumn(String name, Class columnType, String order) {
+        MZTabColumn column = new OptionColumn(null, name, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
+        return addOptionColumn(column, order);
     }
 
     /**
@@ -446,6 +500,11 @@ public class MZTabColumnFactory {
         return addOptionColumn(column);
     }
 
+    public String addOptionalColumn(Assay assay, String name, Class columnType, String order) {
+        MZTabColumn column = new OptionColumn(assay, name, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
+        return addOptionColumn(column, order);
+    }
+
     /**
      * Add {@link OptionColumn} followed by study variable into {@link #optionalColumnMapping} and {@link #columnMapping}.
      * The header like: opt_study_variable[1]_{name}
@@ -457,6 +516,11 @@ public class MZTabColumnFactory {
     public String addOptionalColumn(StudyVariable studyVariable, String name, Class columnType) {
         MZTabColumn column = new OptionColumn(studyVariable, name, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
         return addOptionColumn(column);
+    }
+
+    public String addOptionalColumn(StudyVariable studyVariable, String name, Class columnType, String order) {
+        MZTabColumn column = new OptionColumn(studyVariable, name, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
+        return addOptionColumn(column, order);
     }
 
     /**
@@ -472,6 +536,11 @@ public class MZTabColumnFactory {
         return addOptionColumn(column);
     }
 
+    public String addOptionalColumn(MsRun msRun, String name, Class columnType, String order) {
+        MZTabColumn column = new OptionColumn(msRun, name, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
+        return addOptionColumn(column, order);
+    }
+
     /**
      * Add global {@link CVParamOptionColumn} into {@link #optionalColumnMapping} and {@link #columnMapping}.
      * The header like: opt_global_cv_{accession}_{parameter name}
@@ -482,6 +551,12 @@ public class MZTabColumnFactory {
     public String addOptionalColumn(CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(null, param, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
         return addOptionColumn(column);
+    }
+
+
+    public String addOptionalColumn(CVParam param, Class columnType, String order) {
+        MZTabColumn column = new CVParamOptionColumn(null, param, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
+        return addOptionColumn(column, order);
     }
 
     /**
@@ -497,6 +572,10 @@ public class MZTabColumnFactory {
         return addOptionColumn(column);
     }
 
+    public String addOptionalColumn(Assay assay, CVParam param, Class columnType, String order) {
+        MZTabColumn column = new CVParamOptionColumn(assay, param, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
+        return addOptionColumn(column, order);
+    }
     /**
      * Add {@link CVParamOptionColumn} followed by study variable into {@link #optionalColumnMapping} and {@link #columnMapping}.
      * The header like: opt_study_variable[1]_cv_{accession}_{parameter name}
@@ -508,6 +587,11 @@ public class MZTabColumnFactory {
     public String addOptionalColumn(StudyVariable studyVariable, CVParam param, Class columnType) {
         MZTabColumn column = new CVParamOptionColumn(studyVariable, param, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
         return addOptionColumn(column);
+    }
+
+    public String addOptionalColumn(StudyVariable studyVariable, CVParam param, Class columnType, String order) {
+        MZTabColumn column = new CVParamOptionColumn(studyVariable, param, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
+        return addOptionColumn(column, order);
     }
 
     /**
@@ -523,6 +607,12 @@ public class MZTabColumnFactory {
         return addOptionColumn(column);
     }
 
+    public String addOptionalColumn(MsRun msRun, CVParam param, Class columnType, String order) {
+        MZTabColumn column = new CVParamOptionColumn(msRun, param, columnType, new Integer(getColumnOrder(columnMapping.lastKey())));
+        return addOptionColumn(column, order);
+    }
+
+
     /**
      * Add {@link AbundanceColumn} into {@link AbundanceColumn}, {@link #optionalColumnMapping} and {@link #columnMapping}.
      * The header like: {Section}_abundance_assay[1]
@@ -536,6 +626,12 @@ public class MZTabColumnFactory {
         return addOptionColumn(column);
     }
 
+    public String addAbundanceOptionalColumn(Assay assay, String order) {
+        MZTabColumn column = AbundanceColumn.createOptionalColumn(section, assay, new Integer(order));
+        abundanceColumnMapping.put(column.getLogicPosition(), column);
+        return addOptionColumn(column, order);
+    }
+
     /**
      * Add three {@link AbundanceColumn} into {@link AbundanceColumn}, {@link #optionalColumnMapping} and {@link #columnMapping} at one time.
      * The header like: {Section}_abundance_study_variable[1], {Section}_abundance_stdev_study_variable[1],
@@ -545,7 +641,15 @@ public class MZTabColumnFactory {
      * @see AbundanceColumn#createOptionalColumns(Section, StudyVariable, String)
      */
     public String addAbundanceOptionalColumn(StudyVariable studyVariable) {
-        SortedMap<String, MZTabColumn> columns = AbundanceColumn.createOptionalColumns(section, studyVariable, getColumnOrder(columnMapping.lastKey()));
+        SortedMap<String, MZTabColumn> columns = AbundanceColumn.createOptionalColumns(section, studyVariable, new Integer(getColumnOrder(columnMapping.lastKey())));
+        abundanceColumnMapping.putAll(columns);
+        optionalColumnMapping.putAll(columns);
+        columnMapping.putAll(columns);
+        return columns.lastKey();
+    }
+
+    public String addAbundanceOptionalColumn(StudyVariable studyVariable, String order) {
+        SortedMap<String, MZTabColumn> columns = AbundanceColumn.createOptionalColumns(section, studyVariable, order);
         abundanceColumnMapping.putAll(columns);
         optionalColumnMapping.putAll(columns);
         columnMapping.putAll(columns);

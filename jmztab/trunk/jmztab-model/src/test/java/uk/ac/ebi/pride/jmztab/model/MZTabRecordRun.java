@@ -13,6 +13,7 @@ public class MZTabRecordRun {
         StudyVariable studyVariable1 = new StudyVariable(1);
 
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Protein_Header);
+        factory.addDefaultStableColumns();
         factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
         factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 2);
@@ -85,6 +86,7 @@ public class MZTabRecordRun {
         StudyVariable studyVariable1 = new StudyVariable(1);
 
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide_Header);
+        factory.addDefaultStableColumns();
         factory.addBestSearchEngineScoreOptionalColumn(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
         factory.addAbundanceOptionalColumn(assay1);
@@ -125,6 +127,7 @@ public class MZTabRecordRun {
         Assay assay1 = new Assay(1);
 
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.PSM_Header);
+        factory.addDefaultStableColumns();
         factory.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, 1, null);
         factory.addOptionalColumn(assay1, "my_value", String.class);
         CVParam param = new CVParam("MS", "MS:1002217", "decoy peptide", null);
@@ -167,6 +170,7 @@ public class MZTabRecordRun {
         StudyVariable studyVariable1 = new StudyVariable(1);
 
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Small_Molecule);
+        factory.addDefaultStableColumns();
         factory.addBestSearchEngineScoreOptionalColumn(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
         factory.addAbundanceOptionalColumn(assay1);

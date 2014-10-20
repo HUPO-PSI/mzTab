@@ -1,6 +1,7 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -22,7 +23,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabConstants.*;
  */
 public class MZTabUtils {
 
-    private static Logger logger = Logger.getLogger(MZTabUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(MZTabUtils.class);
 
     /**
      * Check the string is null or blank.
@@ -88,7 +89,8 @@ public class MZTabUtils {
             return null;
         }
 
-        String regexp = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
+//        String regexp = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
+        String regexp = "[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-']+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(target);
 

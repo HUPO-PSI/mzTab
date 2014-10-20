@@ -15,12 +15,6 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * @since 23/05/13
  */
 public class Protein extends MZTabRecord {
-    /**
-     * Create a protein record which only include stable columns which defined in the {@link ProteinColumn}
-     */
-    public Protein() {
-        super(MZTabColumnFactory.getInstance(Section.Protein));
-    }
 
     /**
      * Create a protein record based on structure defined by {@link MZTabColumnFactory}

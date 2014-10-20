@@ -1,8 +1,9 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
 
@@ -16,7 +17,7 @@ import static junit.framework.Assert.assertEquals;
  * @since 20/02/13
  */
 public class MZTabDataLineParserTest {
-    private static Logger logger = Logger.getLogger(MZTabDataLineParserTest.class);
+    private static Logger logger = LoggerFactory.getLogger(MZTabDataLineParserTest.class);
 
     private Metadata metadata;
 
@@ -102,7 +103,8 @@ public class MZTabDataLineParserTest {
             "0.03\t" +
             "My value about assay[1]\t" +
             "some other value that is across reps";
-        record = dataParser.getRecord(data);
+        dataParser.parse(1, data, errorList);
+        record = dataParser.getRecord();
         logger.debug(header);
         logger.debug(record.toString());
         items = data.split("\t");
@@ -140,7 +142,8 @@ public class MZTabDataLineParserTest {
                 "null\t" +
                 "null\t" +
                 "null";
-        record = dataParser.getRecord(data);
+        dataParser.parse(1, data, errorList);
+        record = dataParser.getRecord();
         items = data.split("\t");
 //        assertEquals(record.getSearchEngineScore(1,metadata.getMsRunMap().get(1)),(MZTabUtils.parseParamList(items[9])));
         assertEquals(record.getNumPSMs(metadata.getMsRunMap().get(1)),(new Integer(items[11])));
@@ -153,7 +156,8 @@ public class MZTabDataLineParserTest {
                 "50\t" +
                 "1\t4\t3\t2\tnull\tnull\t" +
                 "null\tnull\tnull\t0.4\t0.2\t0.4\t0.3\t0.2\tnull\tnull";
-        record = dataParser.getRecord(data);
+        dataParser.parse(1, data, errorList);
+        record = dataParser.getRecord();
         items = data.split("\t");
         // protein_abundance_assay[1]
         assertEquals(record.getAbundanceColumnValue(metadata.getAssayMap().get(1)).toString(),(items[19]));
@@ -172,7 +176,8 @@ public class MZTabDataLineParserTest {
                 "50\t" +
                 "1\t4\t3\t2\tnull\tnull\t" +
                 "null\tnull\tnull\t0.4\t0.2\t0.4\t0.3\t0.2\tMy value about assay[1]\tTOM value";
-        record = dataParser.getRecord(data);
+        dataParser.parse(1, data, errorList);
+        record = dataParser.getRecord();
         items = data.split("\t");
         // opt_assay[1]_my_value
         assertEquals(record.getOptionColumnValue(metadata.getAssayMap().get(1), "my value"),(items[24]));
@@ -227,7 +232,8 @@ public class MZTabDataLineParserTest {
             "1234.4\t" +
             "http://www.ebi.ac.uk/pride/link/to/peptide\t" +
             "ms_run[1]:index=5";
-        peptide = dataParser.getRecord(data);
+        dataParser.parse(1, data, errorList);
+        peptide = dataParser.getRecord();
 
         logger.debug(header);
         logger.debug(peptide.toString());
@@ -302,7 +308,8 @@ public class MZTabDataLineParserTest {
             "10018\t" +
             "pubmed:20432482\t" +
             "null";
-        psm = dataParser.getRecord(data);
+        dataParser.parse(1, data, errorList);
+        psm = dataParser.getRecord();
         items = data.split("\t");
         assertEquals(psm.getSequence(),(items[1]));
         assertEquals(psm.getSearchEngine().get(0).getAccession(),("MS:1001207"));
@@ -384,10 +391,10 @@ public class MZTabDataLineParserTest {
             "0.1\t" +
             "0.2\t" +
             "0.3";
-
-        SmallMolecule record = dataParser.getRecord(data);
+        dataParser.parse(1, data, errorList);
+        SmallMolecule record = dataParser.getRecord();
 
         logger.debug(header);
-        logger.debug(record);
+        logger.debug(record.toString());
     }
 }

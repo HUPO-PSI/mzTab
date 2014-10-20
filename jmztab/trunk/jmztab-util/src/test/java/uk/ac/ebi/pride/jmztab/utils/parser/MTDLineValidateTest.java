@@ -1,9 +1,12 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.ebi.pride.jmztab.model.*;
+import org.slf4j.LoggerFactory;
+import uk.ac.ebi.pride.jmztab.model.Assay;
+import uk.ac.ebi.pride.jmztab.model.Metadata;
+import uk.ac.ebi.pride.jmztab.model.Sample;
 import uk.ac.ebi.pride.jmztab.utils.errors.*;
 
 import static junit.framework.Assert.assertEquals;
@@ -16,7 +19,7 @@ import static junit.framework.Assert.assertTrue;
  * @since 09/09/13
  */
 public class MTDLineValidateTest {
-    private static Logger logger = Logger.getLogger(MTDLineValidateTest.class);
+    private static Logger logger = LoggerFactory.getLogger(MTDLineValidateTest.class);
 
     private Metadata metadata;
     private MTDLineParser parser;
@@ -113,36 +116,62 @@ public class MTDLineValidateTest {
     }
 
     @Test
-    public void testColUnit1() throws Exception {
-        try {
-            parser.parse(1, "MTD\tcolunit-unknown\tretention_time=[UO,UO:0000031, minute,]", errorList);
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.MTDDefineLabel);
-            logger.debug(e.getMessage());
-        }
-
-        try {
-            parser.parse(1, "MTD\tcolunit-protein\tretention_time=[UO,UO:0000031, minute,]", errorList);
-            parser.refineColUnit(MZTabColumnFactory.getInstance(Section.Protein_Header));
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.ColUnit);
-            logger.debug(e.getMessage());
-        }
-
+    public void testInvalidColUnitLabel() throws Exception {
+        parser.parse(1, "MTD\tcolunit-unknown\tretention_time=[UO,UO:0000031, minute,]", errorList);
+        assertTrue(errorList.getError(0).getType() == FormatErrorType.MTDDefineLabel);
+        logger.debug(errorList.getError(0).getMessage());
     }
 
     @Test
-    public void testColUnit2() throws Exception {
-        try {
-            parser.parse(1, "MTD\tcolunit-peptide\tretention_time=[UO,UO:0000031, ,]", errorList);
-            parser.refineColUnit(MZTabColumnFactory.getInstance(Section.Peptide_Header));
-            assertTrue(false);
-        } catch (MZTabException e) {
-            assertTrue(e.getError().getType() == FormatErrorType.Param);
-            logger.debug(e.getMessage());
-        }
+    public void testNoColumnForColUnit() throws Exception {
+        parser.parse(1, "MTD\tprotein_search_engine_score[1]\t[MS, MS:1001171, Mascot:score,]", errorList);
+        parser.parse(1, "MTD\tcolunit-protein\tretention_time=[UO,UO:0000031, minute,]", errorList);
+
+        PRHLineParser prtParser = new PRHLineParser(metadata);
+        String headerLine = "PRH\t" +
+                "accession\t" +
+                "description\t" +
+                "taxid\t" +
+                "species\t" +
+                "database\t" +
+                "database_version\t" +
+                "search_engine\t" +
+                "best_search_engine_score[1]\t" +
+                "ambiguity_members\t" +
+                "modifications\t" +
+                "uri\t" +
+                "go_terms\t" +
+                "protein_coverage";
+
+        prtParser.parse(1, headerLine, errorList);
+        assertTrue(errorList.getError(0).getType() == FormatErrorType.ColUnit);
+        logger.debug(errorList.getError(0).getMessage());
+    }
+
+    @Test
+    public void testColUnitParamParseError() throws Exception {
+        parser.parse(1, "MTD\tpeptide_search_engine_score[1]\t[MS, MS:1001171, Mascot:score,]", errorList);
+        parser.parse(1, "MTD\tcolunit-peptide\tretention_time=[UO,UO:0000031, ,]", errorList);
+        PEHLineParser pehParser = new PEHLineParser(metadata);
+        String headerLine = "PEH\t" +
+                "sequence\t" +
+                "accession\t" +
+                "unique\t" +
+                "database\t" +
+                "database_version\t" +
+                "search_engine\t" +
+                "best_search_engine_score[1]\t" +
+                "reliability\t" +
+                "modifications\t" +
+                "retention_time\t" +
+                "retention_time_window\t" +
+                "charge\t" +
+                "mass_to_charge\t" +
+                "uri\t" +
+                "spectra_ref";
+        pehParser.parse(1, headerLine, errorList);
+        assertTrue(errorList.getError(0).getType() == FormatErrorType.Param);
+        logger.debug(errorList.getError(0).getMessage());
     }
 
     @Test

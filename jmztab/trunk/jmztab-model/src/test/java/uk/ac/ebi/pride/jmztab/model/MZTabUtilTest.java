@@ -1,7 +1,8 @@
 package uk.ac.ebi.pride.jmztab.model;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import static uk.ac.ebi.pride.jmztab.model.MZTabUtils.*;
  * @since 09/07/13
  */
 public class MZTabUtilTest {
-    private static Logger logger = Logger.getLogger(MZTabUtilTest.class);
+    private static Logger logger = LoggerFactory.getLogger(MZTabUtilTest.class);
 
     @Test
     public void testParam() throws Exception {
@@ -50,27 +51,27 @@ public class MZTabUtilTest {
         Param param = new UserParam("Some parameter", "[..,.]");
         logger.debug(param.getValue());
         assertEquals(parseParam("[,,Some parameter,\"[..,.]\"]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
 
         param = new UserParam("Some parameter", "\"[...]\"");
         logger.debug(param.getValue());
         assertEquals(parseParam("[,,Some parameter,\"[...]\"]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
 
         param = new UserParam("Some parameter", "\"[...]\"");
         logger.debug(param.getValue());
         assertEquals(parseParam("[,,Some parameter,[...]]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
 
         param = new UserParam("Some parameter", "[...]");
         logger.debug(param.getValue());
         assertEquals(parseParam("[,,Some parameter,[...]]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
 
         param = new UserParam("Some parameter", "[...]");
         logger.debug(param.getValue());
         assertEquals(parseParam("[,,Some parameter,\"[...]\"]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
     }
 
 
@@ -79,19 +80,19 @@ public class MZTabUtilTest {
 
         Param param = new UserParam("Some parameter", null);
         assertEquals(parseParam("[,,Some parameter,]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
 
         param = new UserParam("Some parameter", "");
         assertEquals(parseParam("[,,Some parameter,]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
 
         param = new UserParam("Some parameter", " ");
         assertEquals(parseParam("[,,Some parameter, ]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
 
         param = new UserParam("Some parameter", "  ");
         assertEquals(parseParam("[,,Some parameter,  ]"), param);
-        logger.debug(param);
+        logger.debug(param.toString());
     }
 
     @Test

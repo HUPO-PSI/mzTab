@@ -29,20 +29,6 @@ public class PSM extends MZTabRecord {
     private Metadata metadata;
 
     /**
-     * Create a PSM record which only include stable columns which defined in the {@link PSMColumn}
-     *
-     * @param metadata SHOULD NOT set null.
-     */
-    public PSM(Metadata metadata) {
-        super(MZTabColumnFactory.getInstance(Section.PSM));
-
-        if (metadata == null) {
-            throw new NullPointerException("Should define metadata first.");
-        }
-        this.metadata = metadata;
-    }
-
-    /**
      * Create a PSM record based on structure defined by {@link MZTabColumnFactory}
      *
      * @param factory SHOULD NOT set null.

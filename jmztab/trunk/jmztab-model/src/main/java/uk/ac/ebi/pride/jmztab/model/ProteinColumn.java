@@ -32,5 +32,5 @@ public class ProteinColumn extends MZTabColumn {
     public static ProteinColumn MODIFICATIONS = new ProteinColumn("modifications", SplitList.class, false,  "15");
     public static ProteinColumn URI = new ProteinColumn("uri", java.net.URI.class, true, "16");
     public static ProteinColumn GO_TERMS = new ProteinColumn("go_terms", SplitList.class, true, "17");
-    public static ProteinColumn PROTEIN_COVERAGE = new ProteinColumn("protein_coverage", Double.class, false, "18");
+    public static ProteinColumn PROTEIN_COVERAGE = new ProteinColumn("protein_coverage", Double.class, true, "18");
 }

@@ -20,7 +20,7 @@ package uk.ac.ebi.pride.jmztab.model;
  */
 public class MZTabColumn {
     private final String name;
-    private final String order;
+    private String order;
     private Integer id;
     private String header;
     private String logicPosition;
@@ -136,6 +136,16 @@ public class MZTabColumn {
         return order;
     }
 
+    /*
+     * Allows to reassign the order in case the file doesn't follow the recommended order
+     */
+    public void setOrder(String order) {
+        //As the order change, the logic position need to be regenerated.
+        this.order = order;
+        this.logicPosition = generateLogicalPosition();
+
+    }
+
     /**
      * Get the column name. For stable column, name and header are same. While for optional column, name is part
      * of its header. For example, optional column which header is search_engine_score_ms_run[1-n], and its name
@@ -170,6 +180,7 @@ public class MZTabColumn {
      * @see #getOrder()
      */
     public String getLogicPosition() {
+        generateLogicalPosition();
         return logicPosition;
     }
 

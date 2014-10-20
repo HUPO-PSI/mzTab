@@ -55,6 +55,7 @@ public class Metadata {
     private List<ColUnit> peptideColUnitList = new ArrayList<ColUnit>();
     private List<ColUnit> psmColUnitList = new ArrayList<ColUnit>();
     private List<ColUnit> smallMoleculeColUnitList = new ArrayList<ColUnit>();
+    private Map<String, String> colUnitMap = new HashMap<String, String>();
 
     /**
      * Create a metadata section with default {@link MZTabDescription}:
@@ -2222,5 +2223,12 @@ public class Metadata {
      */
     public void addSmallMoleculeColUnit(MZTabColumn column, Param param) {
         this.smallMoleculeColUnitList.add(new ColUnit(column, param));
+    }
+
+    /**
+     *  Defines a method to access the colUnit to help in the transformation from columnName String -> to columnName MZTabColumn
+     */
+    public Map<String, String> getColUnitMap() {
+        return colUnitMap;
     }
 }

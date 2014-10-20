@@ -19,16 +19,6 @@ public class SmallMolecule extends MZTabRecord {
     private Metadata metadata;
 
     /**
-     * Create a small molecule record which only include stable columns which defined in the {@link SmallMoleculeColumn}
-     *
-     * @param metadata SHOULD NOT set null.
-     */
-    public SmallMolecule(Metadata metadata) {
-        super(MZTabColumnFactory.getInstance(Section.Small_Molecule));
-        this.metadata = metadata;
-    }
-
-    /**
      * Create a small molecule record based on structure defined by {@link MZTabColumnFactory}
      *
      * @param factory SHOULD NOT set null.
@@ -112,32 +102,82 @@ public class SmallMolecule extends MZTabRecord {
      * The molecules structure in the simplified molecular-input line-entry system (SMILES). If there are more than
      * one SMILES for a given small molecule, use the  "|" separator.
      */
-    public String getSmiles() {
-        return getString(SmallMoleculeColumn.SMILES.getLogicPosition());
+    public SplitList<String> getSmiles() {
+        return getSplitList(SmallMoleculeColumn.SMILES.getLogicPosition());
     }
 
     /**
      * The molecules structure in the simplified molecular-input line-entry system (SMILES). If there are more than
      * one SMILES for a given small molecule, use the  "|" separator.
      */
-    public void setSmiles(String smiles) {
-        setValue(SmallMoleculeColumn.SMILES.getLogicPosition(), parseStringList(BAR, smiles));
+    public boolean addSmile(String smile) {
+        if (smile == null) {
+            return false;
+        }
+
+        SplitList<String> smiles = getSmiles();
+        if (smiles == null) {
+            smiles = new SplitList<String>(BAR);
+            setSmiles(smiles);
+        }
+
+        return smiles.add(smile);
+    }
+
+    /**
+     * The molecules structure in the simplified molecular-input line-entry system (SMILES). If there are more than
+     * one SMILES for a given small molecule, use the  "|" separator.
+     */
+    public void setSmiles(String smilesLabel) {
+        setSmiles(parseStringList(BAR, smilesLabel));
+    }
+
+    /**
+     * The molecules structure in the simplified molecular-input line-entry system (SMILES). If there are more than
+     * one SMILES for a given small molecule, use the  "|" separator.
+     */
+    public void setSmiles(SplitList<String> smiles) {
+        setValue(SmallMoleculeColumn.SMILES.getLogicPosition(), smiles);
+    }
+    /**
+     * The standard IUPAC International Chemical Identifier (InChI) Key of the given substance. If there are more than
+     * one InChI identifier for a given small molecule, use the  "|" separator.
+     */
+    public SplitList<String> getInchiKey() {
+        return getSplitList(SmallMoleculeColumn.INCHI_KEY.getLogicPosition());
     }
 
     /**
      * The standard IUPAC International Chemical Identifier (InChI) Key of the given substance. If there are more than
      * one InChI identifier for a given small molecule, use the  "|" separator.
      */
-    public String getInchiKey() {
-        return getString(SmallMoleculeColumn.INCHI_KEY.getLogicPosition());
+    public boolean addInchiKey(String inchiKey) {
+        if (inchiKey == null) {
+            return false;
+        }
+
+        SplitList<String> inchiKeys = getInchiKey();
+        if (inchiKeys == null) {
+            inchiKeys = new SplitList<String>(BAR);
+            setInchiKey(inchiKeys);
+        }
+
+        return inchiKeys.add(inchiKey);
+    }
+    /**
+     * The standard IUPAC International Chemical Identifier (InChI) Key of the given substance. If there are more than
+     * one InChI identifier for a given small molecule, use the  "|" separator.
+     */
+    public void setInchiKey(String inchiKeyLabel) {
+        setValue(SmallMoleculeColumn.INCHI_KEY.getLogicPosition(), parseStringList(BAR, inchiKeyLabel));
     }
 
     /**
      * The standard IUPAC International Chemical Identifier (InChI) Key of the given substance. If there are more than
      * one InChI identifier for a given small molecule, use the  "|" separator.
      */
-    public void setInchiKey(String inchiKey) {
-        setValue(SmallMoleculeColumn.INCHI_KEY.getLogicPosition(), parseStringList(BAR, inchiKey));
+    public void setInchiKey(SplitList<String> inchiKey) {
+        setValue(SmallMoleculeColumn.INCHI_KEY.getLogicPosition(), inchiKey);
     }
 
     /**

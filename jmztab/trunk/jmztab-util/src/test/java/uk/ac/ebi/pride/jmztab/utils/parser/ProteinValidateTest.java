@@ -1,8 +1,9 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
 import uk.ac.ebi.pride.jmztab.model.Metadata;
 import uk.ac.ebi.pride.jmztab.model.Reliability;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  * @since 16/09/13
  */
 public class ProteinValidateTest {
-    private Logger logger = Logger.getLogger(ProteinValidateTest.class);
+    private Logger logger = LoggerFactory.getLogger(ProteinValidateTest.class);
 
     private MZTabErrorList errorList;
     private PRTLineParser prtParser;
@@ -74,7 +75,9 @@ public class ProteinValidateTest {
 
     @After
     public void tearDown() throws Exception {
-        logger.debug(errorList);
+        for (MZTabError mzTabError : errorList.getErrorList()) {
+            logger.debug(mzTabError.toString());
+        }
         errorList.clear();
     }
 
@@ -89,7 +92,7 @@ public class ProteinValidateTest {
         assertTrue(prtParser.checkAccession(prhFactory.findColumnByHeader("accession"), "P12345") == null);
         assertError(LogicalErrorType.DuplicationAccession);
         // accession not allow set "null" value.
-        assertTrue(prtParser.checkAccession(prhFactory.findColumnByHeader("accession"), "null") == "null");
+        assertTrue(prtParser.checkAccession(prhFactory.findColumnByHeader("accession"), "null").equals("null"));
         assertError(LogicalErrorType.NotNULL);
     }
 

@@ -1,6 +1,5 @@
 package uk.ac.ebi.pride.jmztab.utils.convert;
 
-import uk.ac.ebi.pride.jmztab.model.MZTabColumn;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
 import uk.ac.ebi.pride.jmztab.model.MZTabFile;
 import uk.ac.ebi.pride.jmztab.model.MetadataElement;
@@ -58,10 +57,11 @@ public class DynamicMZTabFile implements PropertyChangeListener {
 
     private void modifyMZTabColumnFactory(MZTabColumnFactory columnFactory, MetadataElement element, Integer oldId, Integer newId) {
         if (columnFactory != null) {
-            for (MZTabColumn column : columnFactory.getOptionalColumnMapping().values()) {
-                column.setLogicPosition(column.getOrder() + newId);
-                column.setHeader(modifyId(column.getHeader(), element.getName(), oldId, newId));
-            }
+            //TODO
+//            for (MZTabColumn column : columnFactory.getOptionalColumnMapping().values()) {
+//                column.setLogicPosition(column.getOrder() + newId);
+//                column.setHeader(modifyId(column.getHeader(), element.getName(), oldId, newId));
+//            }
         }
     }
 

@@ -104,7 +104,7 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
     @Override
     protected MZTabColumnFactory convertProteinColumnFactory() {
         prh = MZTabColumnFactory.getInstance(Section.Protein_Header);
-
+        prh.addDefaultStableColumns();
         prh.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
 
         // optional columns: search_engine_score_ms_run[1-6], num_psms_ms_run[1-6], num_peptides_distinct_ms_run[1-6] and num_peptides_unique_ms_run[1-6]
@@ -134,7 +134,7 @@ public class ConvertSilacExperiment extends ConvertProvider<Void, Void> {
     @Override
     protected MZTabColumnFactory convertPSMColumnFactory() {
         psh = MZTabColumnFactory.getInstance(Section.PSM_Header);
-
+        psh.addDefaultStableColumns();
         psh.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, 1, null);
 
         return psh;

@@ -27,8 +27,12 @@
         </dependency>
 
         <dependency>
-            <artifactId>com.springsource.org.apache.log4j</artifactId>
-            <groupId>org.apache.log4j</groupId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
     </dependencies>
 

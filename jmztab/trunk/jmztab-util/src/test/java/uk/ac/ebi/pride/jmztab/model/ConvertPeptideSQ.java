@@ -71,7 +71,7 @@ public class ConvertPeptideSQ extends ConvertProvider<Void, Void> {
     @Override
     protected MZTabColumnFactory convertPeptideColumnFactory() {
         peh = MZTabColumnFactory.getInstance(Section.Peptide_Header);
-
+        peh.addDefaultStableColumns();
         // add best_search_engine_score column
         peh.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
 

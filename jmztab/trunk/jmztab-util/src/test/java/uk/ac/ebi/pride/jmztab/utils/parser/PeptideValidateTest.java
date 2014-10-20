@@ -1,14 +1,12 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
 import uk.ac.ebi.pride.jmztab.model.Metadata;
-import uk.ac.ebi.pride.jmztab.utils.errors.FormatErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.LogicalErrorType;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorList;
-import uk.ac.ebi.pride.jmztab.utils.errors.MZTabErrorType;
+import uk.ac.ebi.pride.jmztab.utils.errors.*;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -20,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  * @since 16/09/13
  */
 public class PeptideValidateTest {
-    private Logger logger = Logger.getLogger(PeptideValidateTest.class);
+    private Logger logger = LoggerFactory.getLogger(PeptideValidateTest.class);
 
     private MZTabErrorList errorList;
     private PEPLineParser pepParser;
@@ -64,7 +62,9 @@ public class PeptideValidateTest {
 
     @After
     public void tearDown() throws Exception {
-        logger.debug(errorList);
+        for (MZTabError mzTabError : errorList.getErrorList()) {
+            logger.debug(mzTabError.toString());
+        }
         errorList.clear();
     }
 

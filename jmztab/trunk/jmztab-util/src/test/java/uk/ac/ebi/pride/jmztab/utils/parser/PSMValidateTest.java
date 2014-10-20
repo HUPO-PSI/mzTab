@@ -1,8 +1,9 @@
 package uk.ac.ebi.pride.jmztab.utils.parser;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.jmztab.model.MZTabColumnFactory;
 import uk.ac.ebi.pride.jmztab.model.Metadata;
 import uk.ac.ebi.pride.jmztab.model.MsRun;
@@ -18,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 * @since 16/09/13
 */
 public class PSMValidateTest {
-    private Logger logger = Logger.getLogger(PSMValidateTest.class);
+    private Logger logger = LoggerFactory.getLogger(PSMValidateTest.class);
 
     private MZTabErrorList errorList;
     private PSMLineParser psmParser;
@@ -69,7 +70,7 @@ public class PSMValidateTest {
     @After
     public void tearDown() throws Exception {
         for (MZTabError mzTabError : errorList.getErrorList()) {
-            logger.debug(mzTabError);
+            logger.debug(mzTabError.toString());
         }
         errorList.clear();
     }

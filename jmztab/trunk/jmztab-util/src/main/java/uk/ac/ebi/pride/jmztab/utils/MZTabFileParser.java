@@ -131,7 +131,7 @@ public class MZTabFileParser {
         Metadata metadata = mzTabFile.getMetadata();
         MZTabColumnFactory proteinFactory = mzTabFile.getProteinColumnFactory();
         MZTabColumnFactory peptideFactory = mzTabFile.getPeptideColumnFactory();
-        MZTabColumnFactory psmFactory = mzTabFile.getPsmColumnFactory();
+//        MZTabColumnFactory psmFactory = mzTabFile.getPsmColumnFactory();
         MZTabColumnFactory smlFactory = mzTabFile.getSmallMoleculeColumnFactory();
 
         //If ms_run[1-n]-hash is present,  ms_run[1-n]-hash_method SHOULD also be present
@@ -259,7 +259,7 @@ public class MZTabFileParser {
                         prtParser = new PRTLineParser(prhParser.getFactory(), prtPositionMapping, mtdParser.getMetadata(), errorList);
                     }
                     prtParser.parse(lineNumber, line, errorList);
-                    proteinMap.put(lineNumber, prtParser.getRecord(line));
+                    proteinMap.put(lineNumber, prtParser.getRecord());
 
                     break;
                 case 4:
@@ -292,7 +292,7 @@ public class MZTabFileParser {
                         pepParser = new PEPLineParser(pehParser.getFactory(), pepPositionMapping, mtdParser.getMetadata(), errorList);
                     }
                     pepParser.parse(lineNumber, line, errorList);
-                    peptideMap.put(lineNumber, pepParser.getRecord(line));
+                    peptideMap.put(lineNumber, pepParser.getRecord());
 
                     break;
                 case 6:
@@ -321,7 +321,7 @@ public class MZTabFileParser {
                         psmParser = new PSMLineParser(pshParser.getFactory(), psmPositionMapping, mtdParser.getMetadata(), errorList);
                     }
                     psmParser.parse(lineNumber, line, errorList);
-                    psmMap.put(lineNumber, psmParser.getRecord(line));
+                    psmMap.put(lineNumber, psmParser.getRecord());
 
                     break;
                 case 8:
@@ -350,7 +350,7 @@ public class MZTabFileParser {
                         smlParser = new SMLLineParser(smhParser.getFactory(), smlPositionMapping, mtdParser.getMetadata(), errorList);
                     }
                     smlParser.parse(lineNumber, line, errorList);
-                    smallMoleculeMap.put(lineNumber, smlParser.getRecord(line));
+                    smallMoleculeMap.put(lineNumber, smlParser.getRecord());
 
                     break;
             }
