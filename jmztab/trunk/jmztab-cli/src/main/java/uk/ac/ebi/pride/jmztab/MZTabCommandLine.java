@@ -34,6 +34,7 @@ public class MZTabCommandLine {
         }
     }
 
+    @SuppressWarnings("static-access")
     public static void main(String[] args) throws Exception {
         MZTabErrorTypeMap typeMap = new MZTabErrorTypeMap();
 
@@ -52,14 +53,6 @@ public class MZTabCommandLine {
             .withDescription("print Error/Warn detail message based on code number.")
             .create(msgOpt);
         options.addOption(msgOption);
-
-        String inDirOpt = "inDir";
-        options.addOption(inDirOpt, true, "Setting input file directory. If not set, default input " +
-            "directory is current application path.");
-
-        String outDirOpt = "outDir";
-        options.addOption(outDirOpt, true, "Setting output file directory. If not set, default output " +
-            " directory is same with input directory.");
 
         String outOpt = "outFile";
         options.addOption(outOpt, true, "Record error/warn messages into outfile. If not set, print message on the screen. ");
@@ -101,30 +94,12 @@ public class MZTabCommandLine {
                 System.out.println(type);
             }
         } else {
-            File inDir = null;
-            if (line.hasOption(inDirOpt)) {
-                inDir = new File(line.getOptionValue(inDirOpt));
-                if (! inDir.isDirectory()) {
-                    throw new IllegalArgumentException("input file directory not setting!");
-                }
-            }
-            if (inDir == null) {
-                inDir = new File(".");
-            }
-
-            // if not provide output directory, default use input directory.
-            File outDir = null;
-            if (line.hasOption(outDirOpt)) {
-                outDir = new File(line.getOptionValue(outDirOpt));
-            }
-            if (outDir == null || !outDir.isDirectory()) {
-                outDir = inDir;
-            }
 
             File outFile = null;
             if (line.hasOption(outOpt)) {
-                outFile = new File(outDir, line.getOptionValue(outOpt));
+                outFile = new File(line.getOptionValue(outOpt));
             }
+
             OutputStream out = outFile == null ? System.out : new BufferedOutputStream(new FileOutputStream(outFile));
 
             MZTabErrorType.Level level = MZTabErrorType.Level.Error;
@@ -137,7 +112,7 @@ public class MZTabCommandLine {
                 if (values.length != 2) {
                     throw new IllegalArgumentException("Not setting input file!");
                 }
-                File inFile = new File(inDir, values[1].trim());
+                File inFile = new File(values[1].trim());
                 System.out.println("Begin check mztab file: " + inFile.getAbsolutePath());
                 new MZTabFileParser(inFile, out, level);
             } else if (line.hasOption(convertOpt)) {
@@ -148,7 +123,7 @@ public class MZTabCommandLine {
                     String type = values[i++].trim();
                     String value = values[i].trim();
                     if (type.equals(inFileOpt)) {
-                        inFile = new File(inDir, value.trim());
+                        inFile = new File(value.trim());
                     } else if (type.equals(formatOpt)) {
                         format = getFormat(value.trim());
                     }
@@ -157,16 +132,16 @@ public class MZTabCommandLine {
                     throw new IllegalArgumentException("Not setting input file!");
                 }
 
-                System.out.println("Begin convert " + inFile.getAbsolutePath() + " which format is " + format.name() + " to mztab file.");
+                System.out.println("Begin converting " + inFile.getAbsolutePath() + " which format is " + format.name() + " to mztab file.");
                 MZTabFileConverter converter = new MZTabFileConverter(inFile, format);
                 MZTabFile tabFile = converter.getMZTabFile();
                 MZTabErrorList errorList = converter.getErrorList();
 
                 if (errorList.isEmpty()) {
-                    System.out.println("Begin print mztab file.");
+                    System.out.println("Begin writing mztab file.");
                     tabFile.printMZTab(out);
                 } else {
-                    System.out.println("There exists errors in mztab file.");
+                    System.out.println("There are errors in mztab file.");
                     errorList.print(out);
                 }
             }

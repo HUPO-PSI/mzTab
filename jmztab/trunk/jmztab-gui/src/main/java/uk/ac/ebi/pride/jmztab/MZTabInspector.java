@@ -155,7 +155,6 @@ public class MZTabInspector extends JFrame {
         JPanel srcFileChoosePane = getFileChoosePane(
             "Choose File to Convert: ", srcFileNameField,
             new FileNameExtensionFilter("PRIDE XML File(*.xml), mzIdentML File (*.mzid)", "xml", "mzid"), false);
-//          new FileNameExtensionFilter("PRIDE XML File(*.xml)", "xml"), false);
         srcFilePane.add(srcFileChoosePane);
 
         final ButtonGroup formatGroup = new ButtonGroup();
