@@ -3,7 +3,7 @@
 
     <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab-modular</artifactId>
-    <!-- based on mzTab specification version 1.0 RC5-->
+    <!-- based on mzTab specification version 1.0 -->
     <version>3.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -192,7 +192,7 @@
             </build>
         </profile>
         <profile>
-            <id>jmztab-distribution-build</id>  <!--mvn package -P jmztab-deployment-build -->
+            <id>jmztab-distribution-build</id>  <!--mvn package -P jmztab-distribution-build -->
             <build>
                 <plugins>
                     <plugin>
