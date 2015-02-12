@@ -1,6 +1,6 @@
 #summary Release notes of the mzTab specification.
 
-*jmzTab version 3.0.2 - (12. Febreruary 2015)
+*jmzTab version 3.0.2 - (12. Febreruary 2015)*
  *general refinements and bug fixing
  *removes from the mzTabCLI the need to separate the input and output directory from the file
  *allow parsing the file with the columns in different order to the one define in the specification
