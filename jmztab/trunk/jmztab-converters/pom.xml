@@ -4,7 +4,7 @@
     <parent>
         <groupId>uk.ac.ebi.pride</groupId>
         <artifactId>jmztab-modular</artifactId>
-        <version>3.0.2-SNAPSHOT</version>
+        <version>3.0.2</version>
     </parent>
 
     <artifactId>jmztab-modular-converters</artifactId>

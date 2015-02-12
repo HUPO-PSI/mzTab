@@ -4,7 +4,7 @@
     <groupId>uk.ac.ebi.pride</groupId>
     <artifactId>jmztab-modular</artifactId>
     <!-- based on mzTab specification version 1.0 -->
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.0.2</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -340,9 +340,9 @@
 
     <!-- scm -->
     <scm>
-        <connection>scm:svn:https://mztab.googlecode.com/svn/jmztab/trunk</connection>
-        <developerConnection>scm:svn:https://mztab.googlecode.com/svn/jmztab/trunk</developerConnection>
-        <url>https://mztab.googlecode.com/svn/jmztab/trunk</url>
+        <connection>scm:svn:https://mztab.googlecode.com/svn/jmztab/tags/jmztab-modular-3.0.2</connection>
+        <developerConnection>scm:svn:https://mztab.googlecode.com/svn/jmztab/tags/jmztab-modular-3.0.2</developerConnection>
+        <url>https://mztab.googlecode.com/svn/jmztab/tags/jmztab-modular-3.0.2</url>
     </scm>
 
 </project>
