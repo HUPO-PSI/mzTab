@@ -74,7 +74,7 @@ public class MZTabCommandLine {
         Option convertOption = OptionBuilder.withArgName(inFileOpt + ", " + formatOpt)
             .hasArgs()
             .withValueSeparator()
-            .withDescription("Converts the given format file to an mztab file.")
+            .withDescription("Converts the given format file (PRIDE or MZIDENTML) to an mztab file.")
             .create(convertOpt);
         options.addOption(convertOption);
 
