@@ -1,0 +1,373 @@
+MTD	mzTab-version	1.0
+MTD	mzTab-mode	Complete
+MTD	mzTab-type	Identification
+MTD	mzTab-ID	PRIDE_Example
+MTD	title	DLD 1_xenograft_Total_Protein_GDC0941_mouse_1of6
+MTD	description	DLD-1 cells  and mouse were treated with DMSO, GDC0941 and CAL101 for 2 hours. Proteins were digested with trypsin and phospho peptides were enriched using TiO2. Enriched phosphopeptides and peptides were analysed by LTQ Orbitrap Velos mass spectrometer.  (MS/MS data were converted to mgf files using Mascot Distiller (version 2.2) and searched against the UniProt-TrEMBL and UniProt SwissProt databases (release March 2012) and a decoy database using the Mascot search engine (version 2.2). The data was searched twice, restricting searches against human or mouse specific sequences in each separate search. For phosphoproteomics, tolerance windows were 3 p.p.m. and 600 mmu for parent and fragment ions, respectively. For proteomics, these were 5 p.p.m. and 50 mmu for parent and fragment ions, respectively. Allowed variable modifications were methionine oxidation, pyroglutamate at the N-terminus and phosphorylation of serine, threonine and tyrosine residues. Significance of peptide identification was assessed by comparing results returned by searches against random and forward databases.  The probability of correct phosphorylation site assignment was determined by the Mascot delta score approach. Ambiguous phosphorylation site assignments are reported as gene name followed by start and end of the amino acid sequence
+MTD	sample_processing[1]	[SEP, sep:00142, enzyme digestion, Trypsin]
+MTD	sample_processing[2]	[PRIDE, PRIDE:0000027, Mass spectrometry, IonTrap XCT Ultra]
+MTD	instrument[1]-name	[MS, MS:1000031, Instrument model, LTQ Orbitrap]
+MTD	instrument[1]-source	[MS, MS:1000073, electrospray ionization, ]
+MTD	instrument[1]-analyzer[1]	[MS, MS:1000083, radial ejection linear ion trap, ]
+MTD	instrument[1]-analyzer[2]	[MS, MS:1000484, orbitrap, ]
+MTD	instrument[1]-detector	[MS, MS:1000624, inductive detector, ]
+MTD	software[1]	[MS, MS:1001456, analysis software, Matrix Science Mascot v2.3.0]
+MTD	protein_search_engine_score[1]	[MS, MS:1001171, Mascot:score, ]
+MTD	psm_search_engine_score[1]	[PRIDE, PRIDE:0000069, Mascot score, ]
+MTD	contact[1]-name	Vinothini Rajeeve
+MTD	contact[1]-affiliation	Barts Cancer Institution
+MTD	contact[1]-email	v.rajeeve@qmul.ac.uk
+MTD	contact[2]-name	Pedro Cutillas
+MTD	contact[2]-affiliation	MRC Clinical Sciences Centre, Imperial College London, UK
+MTD	contact[2]-email	pedro.cutillas@imperial.ac.uk
+MTD	uri[1]	http://www.ebi.ac.uk/pride/archive/assays/29461
+MTD	fixed_mod[1]	[MS, MS:1002453, No fixed modifications searched, ]
+MTD	variable_mod[1]	[MOD, MOD:00397, iodoacetamide derivatized residue, ]
+MTD	variable_mod[2]	[MOD, MOD:01160, deaminated residue, ]
+MTD	variable_mod[3]	[MOD, MOD:00425, monohydroxylated residue, ]
+MTD	ms_run[1]-format	[MS, MS:1000564, PSI mzData file, ]
+MTD	ms_run[1]-location	file:/PRIDE_Example.xml
+MTD	ms_run[1]-id_format	[MS, MS:1000777, spectrum identifier nativeID format, ]
+MTD	sample[1]-species[1]	[NEWT, 10090, Mus musculus (Mouse), ]
+MTD	sample[1]-species[2]	[NEWT, 208964, Pseudomonas aeruginosa PAO1, ]
+MTD	sample[1]-species[3]	[NEWT, 292, Burkholderia cepacia (Pseudomonas cepacia), ]
+MTD	sample[1]-species[4]	[NEWT, 1280, Staphylococcus aureus, ]
+MTD	sample[1]-cell_type[1]	[CL, CL:0000066, epithelial cell, ]
+MTD	sample[1]-description	DLD 1xenograft Total Protein  mouse
+MTD	sample[1]-custom[1]	[PRIDE, PRIDE:0000442, Tissue not applicable to dataset, ]
+MTD	assay[1]-sample_ref	sample[1]
+MTD	assay[1]-ms_run_ref	ms_run[1]
+MTD	custom[1]	[, , Date of export, Wed Oct 15 11:44:54 BST 2014]
+MTD	custom[2]	[, , Original converted file, file:/Users/ntoro/Documents/Code/pride/jmztab/trunk/jmztab-converters/target/test-classes/testset/PRIDE_Example.xml]
+
+COM	Only variable modifications can be reported when the original source is a PRIDE XML file
+
+PRH	accession	description	taxid	species	database	database_version	search_engine	best_search_engine_score[1]	search_engine_score[1]_ms_run[1]	num_psms_ms_run[1]	num_peptides_distinct_ms_run[1]	num_peptides_unique_ms_run[1]	ambiguity_members	modifications	protein_coverage	opt_global_cv_PRIDE:0000303_Decoy_hit	opt_global_num_merge_proteins	opt_global_duplicated_proteins_search_engines	opt_global_duplicated_proteins_best_search_engines_score	opt_global_duplicated_proteins_search_engines_scores	opt_global_duplicated_proteins_had_quantification
+PRT	A1BN54_MOUSE	Alpha actinin 1a OS=Mus musculus GN=Actn1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	118.04	118.04	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	A1L0U3_MOUSE	Hist1h3e protein (Fragment) OS=Mus musculus GN=Hist1h3e PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	32.49	32.49	1	1	null	null	108-MOD:00397,88-MOD:00425	0.0	0	1	null	null	null	0
+PRT	A1L0V4_MOUSE	Hist1h3i protein (Fragment) OS=Mus musculus GN=Hist1h3i PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	78.94	78.94	1	1	null	null	110-MOD:00397,90-MOD:00425,96-MOD:00397	0.0	0	1	null	null	null	0
+PRT	A2A513_MOUSE	Keratin 10 OS=Mus musculus GN=Krt10 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	98.23	98.23	2	2	null	null	416-MOD:00397	0.0	0	1	null	null	null	0
+PRT	A2A5N2_MOUSE	Tyrosine 3-monooxygenase/tryptophan 5-monooxygenase activation protein, beta OS=Mus musculus GN=Ywhab PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	136.06	136.06	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	A2AFQ2_MOUSE	Hydroxysteroid (17-beta) dehydrogenase 10 OS=Mus musculus GN=Hsd17b10 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	35.11	35.11	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	A2AR77_MOUSE	Proteasome (Prosome, macropain) 26S subunit, non-ATPase, 14 OS=Mus musculus GN=Psmd14 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	64.23	64.23	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	A2AVY6_MOUSE	MCG5232 OS=Mus musculus GN=Myl9 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	110.31	110.31	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	A2RSB1_MOUSE	Nucleosome assembly protein 1-like 4 OS=Mus musculus GN=Nap1l4 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	86.14	86.14	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	A3KML3_MOUSE	MCG126220 OS=Mus musculus GN=Ywhaq PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	90.2	90.2	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	A6ZI47_MOUSE	Fructose-bisphosphate aldolase OS=Mus musculus GN=Aldoart2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	135.32	135.32	2	2	null	null	73-MOD:00397	0.0	0	1	null	null	null	0
+PRT	A8IP69_MOUSE	14-3-3 protein gamma subtype OS=Mus musculus GN=Ywhag PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	64.6	64.6	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	B0V2N5_MOUSE	Annexin A2 (Fragment) OS=Mus musculus GN=Anxa2 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	100.93	100.93	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	B1AQ77_MOUSE	Keratin 15 OS=Mus musculus GN=Krt15 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	92.86	92.86	2	2	null	null	373-MOD:00397	0.0	0	1	null	null	null	0
+PRT	B1ARS0_MOUSE	Adenylyl cyclase-associated protein (Fragment) OS=Mus musculus GN=Cap1 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	156.47	156.47	3	2	null	null	null	0.0	0	1	null	null	null	0
+PRT	B1ATY0_MOUSE	Actin, gamma, cytoplasmic 1 OS=Mus musculus GN=Actg1 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	464.62	464.62	7	6	null	null	137-MOD:00397,177-MOD:00397,192-MOD:00397,203-MOD:00425	0.0	0	1	null	null	null	0
+PRT	B2CY77_MOUSE	Laminin receptor (Fragment) OS=Mus musculus GN=Rpsa PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	91.77	91.77	1	1	null	null	148-MOD:00397	0.0	0	1	null	null	null	0
+PRT	B2KGE9_MOUSE	Ribulose-phosphate 3-epimerase OS=Mus musculus GN=Rpe PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	61.59	61.59	1	1	null	null	23-MOD:00397	0.0	0	1	null	null	null	0
+PRT	B2M1R7_MOUSE	Poly(RC) binding protein 2 OS=Mus musculus GN=Pcbp2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	86.97	86.97	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	B2RWW8_MOUSE	Myosin, heavy polypeptide 8, skeletal muscle, perinatal OS=Mus musculus GN=Myh8 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	60.17	60.17	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	B2RWX0_MOUSE	Myosin, heavy polypeptide 1, skeletal muscle, adult OS=Mus musculus GN=Myh1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	426.07	426.07	6	4	null	null	null	0.0	0	1	null	null	null	0
+PRT	B2RXX6_MOUSE	Spna2 protein OS=Mus musculus GN=Spna2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	88.75	88.75	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	D0U284_MUSMC	Beta-globin OS=Mus musculus castaneus GN=Hbbt2 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	108.74	108.74	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	D2KHZ9_MOUSE	Glyceraldehyde-3-phosphate dehydrogenase OS=Mus musculus GN=Gapdh PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	78.68	78.68	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	D3YTQ9_MOUSE	Uncharacterized protein OS=Mus musculus GN=Rps15 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	60.67	60.67	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	D3YVM5_MOUSE	Uncharacterized protein OS=Mus musculus GN=Rplp0 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	161.9	161.9	2	1	null	null	119-MOD:00397	0.0	0	1	null	null	null	0
+PRT	D3YVW8_MOUSE	Uncharacterized protein OS=Mus musculus GN=Lcp1 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	126.0	126.0	2	1	null	null	31-MOD:00397	0.0	0	1	null	null	null	0
+PRT	D3YW87_MOUSE	Uncharacterized protein OS=Mus musculus GN=Flnc PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	65.87	65.87	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	D3YYR8_MOUSE	Uncharacterized protein OS=Mus musculus GN=Trf PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	76.36	76.36	1	1	null	null	174-MOD:00397,177-MOD:00397	0.0	0	1	null	null	null	0
+PRT	D3Z2F2_MOUSE	Uncharacterized protein OS=Mus musculus GN=Hspd1 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	117.59	117.59	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	D3Z4Y4_MOUSE	Uncharacterized protein OS=Mus musculus GN=Krt5 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	27.82	27.82	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	D3Z6F5_MOUSE	ATP synthase subunit alpha OS=Mus musculus GN=Atp5a1 PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	199.05	199.05	3	3	null	null	55-MOD:00425	0.0	0	1	null	null	null	0
+PRT	E9PWQ3_MOUSE	Uncharacterized protein OS=Mus musculus GN=Col6a3 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	86.63	86.63	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	E9PZW0_MOUSE	Uncharacterized protein OS=Mus musculus GN=Dsp PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	169.58	169.58	3	2	null	null	null	0.0	0	1	null	null	null	0
+PRT	E9Q035_MOUSE	Uncharacterized protein OS=Mus musculus GN=Trf PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	103.34	103.34	1	1	null	null	619-MOD:00397,624-MOD:00397	0.0	0	1	null	null	null	0
+PRT	E9Q4T2_MOUSE	Uncharacterized protein OS=Mus musculus GN=Gm17511 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	151.63	151.63	1	1	null	null	61-MOD:00397	0.0	0	1	null	null	null	0
+PRT	E9Q7Z3_MOUSE	Proliferating cell nuclear antigen OS=Mus musculus GN=Pcna PE=3 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	94.29	94.29	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	E9Q9D0_MOUSE	Uncharacterized protein OS=Mus musculus GN=Vcl PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	81.28	81.28	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	F8WGL3_MOUSE	Uncharacterized protein OS=Mus musculus GN=Cfl1 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	176.89	176.89	2	2	null	null	null	0.0	0	1	null	null	null	0
+PRT	G3UW85_MOUSE	MCG7617, isoform CRA_a OS=Mus musculus GN=Erh PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	57.59	57.59	1	1	null	null	47-MOD:00397,52-MOD:00397	0.0	0	1	null	null	null	0
+PRT	G3UX57_MOUSE	Uncharacterized protein (Fragment) OS=Mus musculus GN=Calm3 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	98.49	98.49	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	G3X9J7_MOUSE	Fibronectin 1, isoform CRA_c OS=Mus musculus GN=Fn1 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	107.01	107.01	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	G3XA10_MOUSE	Heterogeneous nuclear ribonucleoprotein U, isoform CRA_b OS=Mus musculus GN=Hnrnpu PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	76.16	76.16	1	1	null	null	624-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q14AF6_MOUSE	MCG4862 OS=Mus musculus GN=Snrpd2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	75.63	75.63	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3KQJ4_MOUSE	Hspa8 protein (Fragment) OS=Mus musculus GN=Hspa8 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	57.34	57.34	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3KQQ4_MOUSE	Serpina1a protein OS=Mus musculus GN=Serpina1b PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	150.78	150.78	2	2	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TB22_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Fasn PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	62.41	62.41	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TB39_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Hadha PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	82.61	82.61	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TBM6_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Cct3 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	123.57	123.57	1	1	null	null	0-MOD:00397,19-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3TE06_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Wdr1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	147.49	147.49	2	1	null	null	170-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3TE63_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Ppia PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	321.58	321.58	3	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TF41_MOUSE	Nucleosome assembly protein 1-like 1, isoform CRA_d OS=Mus musculus GN=Nap1l1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	81.19	81.19	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TG17_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Hnrnpk PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	140.09	140.09	3	2	null	null	63-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3TGE1_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Actr3 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	58.79	58.79	2	2	null	null	189-MOD:00397,34-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3THB3_MOUSE	Heterogeneous nuclear ribonucleoprotein M OS=Mus musculus GN=Hnrnpm PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	121.07	121.07	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3THC7_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Rpl8 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	132.89	132.89	1	1	null	null	114-MOD:00397,115-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3TI06_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Ugdh PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	72.32	72.32	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TII0_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Cct4 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	136.72	136.72	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TIR0_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Ctsd PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	35.31	35.31	1	1	null	null	324-MOD:00425,327-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3TIU3_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Ahsg PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	169.58	169.58	3	2	null	null	208-MOD:00397,32-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3TIY6_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Gdi2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	125.48	125.48	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TIZ0_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Tuba1c PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	182.15	182.15	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TJ52_MOUSE	Uncharacterized protein OS=Mus musculus GN=Rad23b PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	51.2	51.2	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TJZ1_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Eef2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	149.45	149.45	3	2	null	null	369-MOD:00397,651-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3TK12_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Rps17 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	84.79	84.79	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TMN1_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Metap2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	35.86	35.86	1	1	null	null	413-MOD:00397,425-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3TP88_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Col1a2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	108.41	108.41	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TQP7_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Acat1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	26.59	26.59	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TW93_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Hspa9 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	171.5	171.5	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3TWV0_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Vim PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	440.25	440.25	6	3	null	null	328-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3U4U1_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Postn PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	26.62	26.62	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3U4W8_MOUSE	Ubiquitin carboxyl-terminal hydrolase OS=Mus musculus GN=Usp5 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	54.3	54.3	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3U536_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Npm1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	245.62	245.62	4	2	null	null	81-MOD:00425	0.0	0	1	null	null	null	0
+PRT	Q3U9X2_MOUSE	LSM2 homolog, U6 small nuclear RNA associated (S. cerevisiae), isoform CRA_b OS=Mus musculus GN=Lsm2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	79.21	79.21	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3UA58_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Ywhaz PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	104.52	104.52	2	2	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3UA81_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Eef1a1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	108.64	108.64	2	1	null	null	411-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3UFT0_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Myh9 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	493.98	493.98	6	5	null	null	536-MOD:00425	0.0	0	1	null	null	null	0
+PRT	Q3UHS6_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Tln1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	270.64	270.64	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3UJR8_MOUSE	Basic transcription factor 3, isoform CRA_b OS=Mus musculus GN=Btf3 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	93.3	93.3	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3UKR1_MOUSE	Decorin OS=Mus musculus GN=Dcn PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	56.35	56.35	1	1	null	null	62-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3UPJ3_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Cltc PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	69.94	69.94	1	1	null	null	188-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q3V1K9_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Des PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	88.94	88.94	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3V2K0_MOUSE	MCG48927 OS=Mus musculus GN=1700071K01Rik PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	213.19	213.19	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q3V453_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Ywhae PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	66.45	66.45	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q4L0E7_MOUSE	Type II cytokeratin Kb39 (Fragment) OS=Mus musculus GN=Krt77 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	45.17	45.17	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q545G1_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Mylpf PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	97.68	97.68	3	2	null	null	86-MOD:00425	0.0	0	1	null	null	null	0
+PRT	Q545G5_MOUSE	MCG121569, isoform CRA_b OS=Mus musculus GN=Myl1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	164.73	164.73	2	2	null	null	137-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q546G4_MOUSE	Albumin 1 (Precursor) OS=Mus musculus GN=Alb PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	735.76	735.76	13	6	null	null	148-MOD:00397,269-MOD:00397,270-MOD:00397,277-MOD:00397,313-MOD:00397,340-MOD:00397,384-MOD:00397,385-MOD:00397,393-MOD:00397,538-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q58E35_MOUSE	MCG10168 OS=Mus musculus GN=Rplp1 PE=4 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	119.02	119.02	1	1	null	null	61-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q5DTR4_MOUSE	MKIAA4049 protein (Fragment) OS=Mus musculus GN=Spnb2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	280.08	280.08	3	2	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q5FW97_MOUSE	Enolase OS=Mus musculus GN=Eno1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	332.68	332.68	5	3	null	null	389-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q5FWB7_MOUSE	Fructose-bisphosphate aldolase OS=Mus musculus GN=Aldoa PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	564.21	564.21	8	6	null	null	178-MOD:00397,73-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q5SX58_MOUSE	Enolase OS=Mus musculus GN=Eno3 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	175.94	175.94	3	2	null	null	389-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q61264_MOUSE	Skeletal muscle alpha-actin mRNA. (Fragment) OS=Mus musculus GN=Acta1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	653.98	653.98	8	5	null	null	178-MOD:00397,218-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q6GT24_MOUSE	Peroxiredoxin 6 OS=Mus musculus GN=Prdx6 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	215.97	215.97	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q6S385_MOUSE	Plectin 10 OS=Mus musculus GN=Plec PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	76.58	76.58	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q6WEH7_MOUSE	Calmodulin 4 OS=Mus musculus GN=Calm4 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	105.97	105.97	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q6ZWZ6_MOUSE	40S ribosomal protein S12 OS=Mus musculus GN=Rps12 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	123.62	123.62	2	1	null	null	50-MOD:00397,56-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q8BNF8_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Vcp PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	35.19	35.19	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q8VCI2_MOUSE	Hyou1 protein OS=Mus musculus GN=Hyou1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	119.15	119.15	2	2	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q9CVR0_MOUSE	Putative uncharacterized protein (Fragment) OS=Mus musculus GN=Tubb2c PE=2 SV=2	null	null	null	null	[MS, MS:1001207, Mascot, ]	216.49	216.49	2	1	null	null	85-MOD:00397,87-MOD:00397	0.0	0	1	null	null	null	0
+PRT	Q9CWC9_MOUSE	Putative uncharacterized protein OS=Mus musculus GN=Krt42 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	71.32	71.32	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q9JJ20_MOUSE	14-3-3 protein sigma OS=Mus musculus GN=Sfn PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	92.77	92.77	2	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q9JJD8_MOUSE	Brain cDNA, clone MNCb-1272, similar to Mus musculus chaperonin subunit 2 (beta) (Cct2), mRNA OS=Mus musculus GN=Cct2 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	109.38	109.38	1	1	null	null	null	0.0	0	1	null	null	null	0
+PRT	Q9QZ83_MOUSE	Gamma actin-like protein OS=Mus musculus GN=Actg1 PE=2 SV=1	null	null	null	null	[MS, MS:1001207, Mascot, ]	464.62	464.62	7	6	null	null	221-MOD:00397,261-MOD:00397,276-MOD:00397,287-MOD:00425	0.0	0	1	null	null	null	0
+
+PSH	sequence	PSM_ID	accession	unique	database	database_version	search_engine	search_engine_score[1]	modifications	retention_time	charge	exp_mass_to_charge	calc_mass_to_charge	spectra_ref	pre	post	start	end	opt_global_cv_MS:1002217_decoy_peptide
+PSM	AETFTFHSDICTLPEKEK	391	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	56.01	11-MOD:00397	null	2	1077.0145	1077.0151444999997	ms_run[1]:spectrum=391	K	Q	528	545	0
+PSM	ECCHGDLLECADDRAELAK	510	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	85.38	2-MOD:00397,3-MOD:00397,10-MOD:00397	null	2	1131.4804	1131.4833585	ms_run[1]:spectrum=510	K	Y	268	286	0
+PSM	ECCHGDLLECADDRAELAK	511	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	75.93	2-MOD:00397,3-MOD:00397,10-MOD:00397	null	2	1131.4815	1131.4833585	ms_run[1]:spectrum=511	K	Y	268	286	0
+PSM	DDNPSLPPFERPEAEAMCTSFK	630	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	34.82	18-MOD:00397	null	2	1269.5661	1269.5679444999998	ms_run[1]:spectrum=630	K	E	131	152	0
+PSM	CCAEANPPACYGTVLAEFQPLVEEPK	678	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	31.84	1-MOD:00397,2-MOD:00397,10-MOD:00397	null	2	1475.6744	1475.6751534999999	ms_run[1]:spectrum=678	K	N	384	409	0
+PSM	CCAEANPPACYGTVLAEFQPLVEEPK	679	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	36.18	1-MOD:00397,2-MOD:00397,10-MOD:00397	null	2	1475.6754	1475.6751534999999	ms_run[1]:spectrum=679	K	N	384	409	0
+PSM	CCAEANPPACYGTVLAEFQPLVEEPK	680	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	44.04	1-MOD:00397,2-MOD:00397,10-MOD:00397	null	2	1475.6755	1475.6751534999999	ms_run[1]:spectrum=680	K	N	384	409	0
+PSM	AHCLSEVEHDTMPADLPAIAADFVEDQEVCK	822	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	126.22	3-MOD:00397,30-MOD:00397	null	3	1166.5264	1166.527306	ms_run[1]:spectrum=822	K	N	311	341	0
+PSM	AHCLSEVEHDTMPADLPAIAADFVEDQEVCK	823	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	90.56	3-MOD:00397,30-MOD:00397	null	3	1166.527	1166.527306	ms_run[1]:spectrum=823	K	N	311	341	0
+PSM	AHCLSEVEHDTMPADLPAIAADFVEDQEVCK	824	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	118.47	3-MOD:00397,30-MOD:00397	null	3	1166.5272	1166.527306	ms_run[1]:spectrum=824	K	N	311	341	0
+PSM	AHCLSEVEHDTMPADLPAIAADFVEDQEVCK	825	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	116.08	3-MOD:00397,30-MOD:00397	null	3	1166.5273	1166.527306	ms_run[1]:spectrum=825	K	N	311	341	0
+PSM	KAHCLSEVEHDTMPADLPAIAADFVEDQEVCK	846	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	101.69	4-MOD:00397,31-MOD:00397	null	3	1209.224	1209.2256260000001	ms_run[1]:spectrum=846	K	N	310	341	0
+PSM	KAHCLSEVEHDTMPADLPAIAADFVEDQEVCK	847	Q546G4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	100.08	4-MOD:00397,31-MOD:00397	null	3	1209.2257	1209.2256260000001	ms_run[1]:spectrum=847	K	N	310	341	0
+PSM	DLYANNVMSGGTTMYPGIADR	492	Q61264_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	121.57	null	null	2	1123.5142	1123.5149924999998	ms_run[1]:spectrum=492	K	M	253	273	0
+PSM	KDLYANNVMSGGTTMYPGIADR	585	Q61264_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	133.01	null	null	2	1187.5615	1187.5624725	ms_run[1]:spectrum=585	R	M	252	273	0
+PSM	KDLYANNVMSGGTTMYPGIADR	586	Q61264_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	130.44	null	null	2	1187.5637	1187.5624725	ms_run[1]:spectrum=586	R	M	252	273	0
+PSM	LCYVALDFENEMATAASSSSLEK	628	Q61264_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	55.47	2-MOD:00397	null	2	1268.5822	1268.5832645	ms_run[1]:spectrum=628	K	S	177	199	0
+PSM	LCYVALDFENEMATAASSSSLEK	629	Q61264_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	60.62	2-MOD:00397	null	2	1268.5852	1268.5832645	ms_run[1]:spectrum=629	K	S	177	199	0
+PSM	CPETLFQPSFIGMESAGIHETTYNSIMK	780	Q61264_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	108.03	1-MOD:00397	null	3	1063.4955	1063.4966313333332	ms_run[1]:spectrum=780	R	C	218	245	0
+PSM	CPETLFQPSFIGMESAGIHETTYNSIMK	781	Q61264_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	99.47	1-MOD:00397	null	3	1063.4963	1063.4966313333332	ms_run[1]:spectrum=781	R	C	218	245	0
+PSM	TTGIVLDSGDGVTHNVPIYEGYALPHAIMR	783	Q61264_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	109.87	null	null	3	1066.2085	1066.208566666667	ms_run[1]:spectrum=783	R	L	109	138	0
+PSM	IGEHTPSALAIMENANVLAR	311	Q5FWB7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	77.72	null	null	2	1054.0526	1054.0523925	ms_run[1]:spectrum=311	K	Y	154	173	0
+PSM	YTPSGQSGAAASESLFISNHAY	504	Q5FWB7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	81.05	null	null	2	1129.5208	1129.5221825	ms_run[1]:spectrum=504	K	null	343	364	0
+PSM	GVVPLAGTNGETTTQGLDGLSER	520	Q5FWB7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	140.93	null	null	2	1136.5747	1136.5749374999998	ms_run[1]:spectrum=520	K	C	112	134	0
+PSM	YASICQQNGIVPIVEPEILPDGDHDLK	708	Q5FWB7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	72.96	5-MOD:00397	null	3	1007.5061	1007.5065013333336	ms_run[1]:spectrum=708	R	R	174	200	0
+PSM	YASICQQNGIVPIVEPEILPDGDHDLK	709	Q5FWB7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	75.79	5-MOD:00397	null	3	1007.5063	1007.5065013333336	ms_run[1]:spectrum=709	R	R	174	200	0
+PSM	QLLLTADDRVNPCIGGVILFHETLYQK	759	Q5FWB7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	107.05	13-MOD:00397,0-MOD:01160	null	3	1032.8784	1032.8782716666667	ms_run[1]:spectrum=759	R	A	61	87	0
+PSM	YASICQQNGIVPIVEPEILPDGDHDLKR	776	Q5FWB7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	72.18	5-MOD:00397	null	3	1059.5403	1059.540204666667	ms_run[1]:spectrum=776	R	C	174	201	0
+PSM	YASICQQNGIVPIVEPEILPDGDHDLKR	777	Q5FWB7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	76.53	5-MOD:00397	null	3	1059.5404	1059.540204666667	ms_run[1]:spectrum=777	R	C	174	201	0
+PSM	SMEAEMIQLQEELAAAER	181	Q3UFT0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	122.06	null	null	2	1024.9852	1024.9855324999999	ms_run[1]:spectrum=181	K	A	676	693	0
+PSM	SMEAEMIQLQEELAAAER	182	Q3UFT0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	113.11	null	null	2	1024.9871	1024.9855324999999	ms_run[1]:spectrum=182	K	A	676	693	0
+PSM	QAQQERDELADEIANSSGK	251	Q3UFT0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	91.0	0-MOD:01160	null	2	1036.48	1036.480513	ms_run[1]:spectrum=251	R	G	697	715	0
+PSM	IAQLEEELEEEQGNTELINDR	615	Q3UFT0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	138.49	null	null	2	1236.5915	1236.5909825	ms_run[1]:spectrum=615	R	L	730	750	0
+PSM	DFSALESQLQDTQELLQEENR	621	Q3UFT0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	120.02	null	null	2	1247.0909	1247.0911574999998	ms_run[1]:spectrum=621	K	Q	301	321	0
+PSM	ALEQQVEEMKTQLEELEDELQATEDAK	772	Q3UFT0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	47.63	9-MOD:00425	null	3	1055.1662	1055.166541666667	ms_run[1]:spectrum=772	R	L	528	554	0
+PSM	DLYANTVLSGGTTMYPGIADR	466	B1ATY0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	110.5	null	null	2	1108.0408	1108.0391524999998	ms_run[1]:spectrum=466	K	M	212	232	0
+PSM	KDLYANTVLSGGTTMYPGIADR	572	B1ATY0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	132.05	null	null	2	1172.0884	1172.0866325	ms_run[1]:spectrum=572	R	M	211	232	0
+PSM	LCYVALDFEQEMATAASSSSLEK	635	B1ATY0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	69.12	2-MOD:00397	null	2	1275.5917	1275.5910895	ms_run[1]:spectrum=635	K	S	136	158	0
+PSM	LCYVALDFEQEMATAASSSSLEK	636	B1ATY0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	71.87	2-MOD:00397	null	2	1275.5918	1275.5910895	ms_run[1]:spectrum=636	K	S	136	158	0
+PSM	TTGIVMDSGDGVTHTVPIYEGYALPHAILR	778	B1ATY0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	89.84	null	null	3	1061.8756	1061.8768166666669	ms_run[1]:spectrum=778	R	L	68	97	0
+PSM	CPEALFQPSFLGMESCGIHETTFNSIMK	786	B1ATY0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	94.4	1-MOD:00397,16-MOD:00397	null	3	1077.8256	1077.8259826666665	ms_run[1]:spectrum=786	R	C	177	204	0
+PSM	CPEALFQPSFLGMESCGIHETTFNSIMK	790	B1ATY0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	36.55	1-MOD:00397,16-MOD:00397,27-MOD:00425	null	3	1083.1571	1083.157621	ms_run[1]:spectrum=790	R	C	177	204	0
+PSM	DLYANTVLSGGTTMYPGLADR	466	Q9QZ83_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	110.5	null	null	2	1108.0408	1108.0391524999998	ms_run[1]:spectrum=466	K	M	296	316	0
+PSM	KDLYANTVLSGGTTMYPGLADR	572	Q9QZ83_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	132.05	null	null	2	1172.0884	1172.0866325	ms_run[1]:spectrum=572	R	M	295	316	0
+PSM	LCYVALDFEQEMATAASSSSLEK	635	Q9QZ83_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	69.12	2-MOD:00397	null	2	1275.5917	1275.5910895	ms_run[1]:spectrum=635	K	S	220	242	0
+PSM	LCYVALDFEQEMATAASSSSLEK	636	Q9QZ83_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	71.87	2-MOD:00397	null	2	1275.5918	1275.5910895	ms_run[1]:spectrum=636	K	S	220	242	0
+PSM	TTGIVMDSGDGVTHTVPIYEGYALPHAILR	778	Q9QZ83_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	89.84	null	null	3	1061.8756	1061.8768166666669	ms_run[1]:spectrum=778	R	L	152	181	0
+PSM	CPEALFQPSFLGMESCGIHETTFNSIMK	786	Q9QZ83_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	94.4	1-MOD:00397,16-MOD:00397	null	3	1077.8256	1077.8259826666665	ms_run[1]:spectrum=786	R	C	261	288	0
+PSM	CPEALFQPSFLGMESCGIHETTFNSIMK	790	Q9QZ83_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	36.55	1-MOD:00397,16-MOD:00397,27-MOD:00425	null	3	1083.1571	1083.157621	ms_run[1]:spectrum=790	R	C	261	288	0
+PSM	LLQDSVDFSLADAINTEFK	344	Q3TWV0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	38.72	null	null	2	1063.5364	1063.5367625	ms_run[1]:spectrum=344	R	N	79	97	0
+PSM	LLQDSVDFSLADAINTEFK	345	Q3TWV0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	143.99	null	null	2	1063.5366	1063.5367625	ms_run[1]:spectrum=345	R	N	79	97	0
+PSM	LLQDSVDFSLADAINTEFK	346	Q3TWV0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	102.54	null	null	2	1063.5375	1063.5367625	ms_run[1]:spectrum=346	R	N	79	97	0
+PSM	LLQDSVDFSLADAINTEFK	347	Q3TWV0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	38.68	null	null	2	1063.538	1063.5367625	ms_run[1]:spectrum=347	R	N	79	97	0
+PSM	EMEENFALEAANYQDTIGR	458	Q3TWV0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	139.42	null	null	2	1100.9943	1100.9949424999998	ms_run[1]:spectrum=458	R	L	346	364	0
+PSM	QVQSLTCEVDALKGTNESLER	579	Q3TWV0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	88.57	7-MOD:00397,0-MOD:01160	null	2	1180.5743	1180.5740899999996	ms_run[1]:spectrum=579	R	Q	322	342	0
+PSM	TLAYLFSGAAAAAEAESGGGGGK	204	B2RWX0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	95.26	null	null	2	1028.5021	1028.5032425	ms_run[1]:spectrum=204	K	K	619	641	0
+PSM	TLAYLFSGAAAAAEAESGGGGGK	205	B2RWX0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	111.33	null	null	2	1028.5028	1028.5032425	ms_run[1]:spectrum=205	K	K	619	641	0
+PSM	SELQAALEEAEASLEHEEGK	420	B2RWX0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	89.08	null	null	2	1085.5114	1085.5114675	ms_run[1]:spectrum=420	K	I	1545	1564	0
+PSM	LETDISQIQGEMEDIVQEAR	546	B2RWX0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	121.25	null	null	2	1152.5551	1152.5553625	ms_run[1]:spectrum=546	K	N	1737	1756	0
+PSM	LETDISQIQGEMEDIVQEAR	547	B2RWX0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	81.48	null	null	2	1152.5576	1152.5553625	ms_run[1]:spectrum=547	K	N	1737	1756	0
+PSM	MQGTLEDQIISANPLLEAFGNAK	613	B2RWX0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	60.17	null	null	2	1230.6266	1230.6261175	ms_run[1]:spectrum=613	K	T	215	237	0
+PSM	FTASAGIQVVGDDLTVTNPK	135	Q5FW97_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	79.3	null	null	2	1017.0317	1017.0316474999998	ms_run[1]:spectrum=135	K	R	307	326	0
+PSM	FTASAGIQVVGDDLTVTNPK	136	Q5FW97_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	68.37	null	null	2	1017.0318	1017.0316474999998	ms_run[1]:spectrum=136	K	R	307	326	0
+PSM	SGETEDTFIADLVVGLCTGQIK	577	Q5FW97_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	45.46	17-MOD:00397	null	2	1177.0837	1177.0837494999998	ms_run[1]:spectrum=577	R	T	373	394	0
+PSM	HIADLAGNPEVILPVPAFNVINGGSHAGNK	713	Q5FW97_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	98.82	null	null	3	1007.867	1007.8688666666668	ms_run[1]:spectrum=713	R	L	133	162	0
+PSM	HIADLAGNPEVILPVPAFNVINGGSHAGNK	714	Q5FW97_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	124.73	null	null	3	1007.8686	1007.8688666666668	ms_run[1]:spectrum=714	R	L	133	162	0
+PSM	VNPTVFFDITADDEPLGR	44	Q3TE63_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	109.98	null	null	2	1003.4969	1003.4974374999998	ms_run[1]:spectrum=44	M	V	2	19	0
+PSM	VNPTVFFDITADDEPLGR	45	Q3TE63_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	133.55	null	null	2	1003.4971	1003.4974374999998	ms_run[1]:spectrum=45	M	V	2	19	0
+PSM	VNPTVFFDITADDEPLGR	46	Q3TE63_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	127.38	null	null	2	1003.4976	1003.4974374999998	ms_run[1]:spectrum=46	M	V	2	19	0
+PSM	LVSQDNFGFDLPAVEAATK	99	Q5DTR4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	55.09	null	null	2	1011.5154	1011.5130874999999	ms_run[1]:spectrum=99	R	K	453	471	0
+PSM	VIESTQDLGNDLAGVMALQR	354	Q5DTR4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	127.81	null	null	2	1065.5457	1065.5471425	ms_run[1]:spectrum=354	K	K	986	1005	0
+PSM	VIESTQDLGNDLAGVMALQR	355	Q5DTR4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	143.85	null	null	2	1065.5474	1065.5471425	ms_run[1]:spectrum=355	K	K	986	1005	0
+PSM	LNEAAAGLNQAATELVQASR	115	Q3UHS6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	123.46	null	null	2	1014.0271	1014.0299725	ms_run[1]:spectrum=115	R	G	1242	1261	0
+PSM	LNEAAAGLNQAATELVQASR	116	Q3UHS6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	173.18	null	null	2	1014.0293	1014.0299725	ms_run[1]:spectrum=116	R	G	1242	1261	0
+PSM	MSVQPTVSLGGFEITPPVVLR	478	Q3U536_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	123.92	null	null	2	1114.1108	1114.1119175000001	ms_run[1]:spectrum=478	K	L	81	101	0
+PSM	MSVQPTVSLGGFEITPPVVLR	479	Q3U536_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	111.07	null	null	2	1114.1137	1114.1119175000001	ms_run[1]:spectrum=479	K	L	81	101	0
+PSM	MSVQPTVSLGGFEITPPVVLR	488	Q3U536_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	40.9	1-MOD:00425	null	2	1122.1092	1122.1093750000002	ms_run[1]:spectrum=488	K	L	81	101	0
+PSM	MSVQPTVSLGGFEITPPVVLR	489	Q3U536_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	28.98	1-MOD:00425	null	2	1122.1115	1122.1093750000002	ms_run[1]:spectrum=489	K	L	81	101	0
+PSM	EAESCDCLQGFQLTHSLGGGTGSGMGTLLISK	805	Q9CVR0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	122.08	5-MOD:00397,7-MOD:00397	null	3	1104.5153	1104.516749333333	ms_run[1]:spectrum=805	K	I	81	112	0
+PSM	EAESCDCLQGFQLTHSLGGGTGSGMGTLLISK	806	Q9CVR0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	123.41	5-MOD:00397,7-MOD:00397	null	3	1104.5159	1104.516749333333	ms_run[1]:spectrum=806	K	I	81	112	0
+PSM	PGGLLLGDEAPNFEANTTIGR	371	Q6GT24_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	124.83	null	null	2	1071.5459	1071.5454475	ms_run[1]:spectrum=371	M	I	2	22	0
+PSM	PGGLLLGDEAPNFEANTTIGR	372	Q6GT24_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	118.14	null	null	2	1071.547	1071.5454475	ms_run[1]:spectrum=372	M	I	2	22	0
+PSM	AAELIANSLATAGDGLIELR	8	Q3V2K0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	118.65	null	null	2	999.546	999.5474574999997	ms_run[1]:spectrum=8	K	K	220	239	0
+PSM	AAELIANSLATAGDGLIELR	9	Q3V2K0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	116.54	null	null	2	999.54607	999.5474574999997	ms_run[1]:spectrum=9	K	K	220	239	0
+PSM	GMSLNLEPDNVGVVVFGNDK	303	D3Z6F5_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	63.83	null	null	2	1052.5252	1052.5231325000002	ms_run[1]:spectrum=303	K	L	54	73	0
+PSM	GMSLNLEPDNVGVVVFGNDK	334	D3Z6F5_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	73.87	2-MOD:00425	null	2	1060.5182	1060.5205900000003	ms_run[1]:spectrum=334	K	L	54	73	0
+PSM	EVAAFAQFGSDLDAATQQLLSR	570	D3Z6F5_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	114.68	null	null	2	1169.588	1169.5878474999997	ms_run[1]:spectrum=570	R	G	392	413	0
+PSM	TIGGGDDSFNTFFSETGAGK	54	Q3TIZ0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	115.92	null	null	2	1004.4508	1004.4506874999998	ms_run[1]:spectrum=54	K	H	41	60	0
+PSM	TIGGGDDSFNTFFSETGAGK	55	Q3TIZ0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	93.23	null	null	2	1004.4508	1004.4506874999998	ms_run[1]:spectrum=55	K	H	41	60	0
+PSM	EILVGDVGQTVDDPYTTFVK	457	F8WGL3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	81.57	null	null	2	1098.5584	1098.5576924999998	ms_run[1]:spectrum=457	K	M	54	73	0
+PSM	NIILEEGKEILVGDVGQTVDDPYTTFVK	758	F8WGL3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	118.32	null	null	3	1031.5396	1031.5399733333334	ms_run[1]:spectrum=758	K	M	46	73	0
+PSM	SGETEDTFIADLVVGLCTGQIK	577	Q5SX58_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	45.46	17-MOD:00397	null	2	1177.0837	1177.0837494999998	ms_run[1]:spectrum=577	R	T	373	394	0
+PSM	HIADLAGNPDLVLPVPAFNVINGGSHAGNK	692	Q5SX58_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	97.37	null	null	3	1003.1966	1003.1969833333336	ms_run[1]:spectrum=692	R	L	133	162	0
+PSM	HIADLAGNPDLVLPVPAFNVINGGSHAGNK	693	Q5SX58_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	70.44	null	null	3	1003.1973	1003.1969833333336	ms_run[1]:spectrum=693	R	L	133	162	0
+PSM	STNGDTFLGGEDFDQALLR	202	Q3TW93_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	84.6	null	null	2	1028.4851	1028.4850625	ms_run[1]:spectrum=202	K	H	266	284	0
+PSM	STNGDTFLGGEDFDQALLR	203	Q3TW93_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	112.4	null	null	2	1028.4853	1028.4850625	ms_run[1]:spectrum=203	K	H	266	284	0
+PSM	AQNVPLPVSTLVEFVIAATDCTAK	633	Q3TIU3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	49.18	21-MOD:00397	null	2	1272.671	1272.6730645000002	ms_run[1]:spectrum=633	R	E	188	211	0
+PSM	AQNVPLPVSTLVEFVIAATDCTAK	634	Q3TIU3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	55.2	21-MOD:00397	null	2	1272.6716	1272.6730645000002	ms_run[1]:spectrum=634	R	E	188	211	0
+PSM	ELACDDPEAEQVALLAVDYLNNHLLQGFK	795	Q3TIU3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	107.2	4-MOD:00397	null	3	1095.8751	1095.8752513333334	ms_run[1]:spectrum=795	R	Q	29	57	0
+PSM	GFFDPNTEENLTYLQLK	123	E9PZW0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	74.03	null	null	2	1014.9987	1014.9998224999998	ms_run[1]:spectrum=123	K	E	1827	1843	0
+PSM	IGLVRPGTALELLEAQAATGFIVDPVSNLR	762	E9PZW0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	65.13	null	null	3	1040.9194	1040.9192266666666	ms_run[1]:spectrum=762	K	L	1693	1722	0
+PSM	IGLVRPGTALELLEAQAATGFIVDPVSNLR	763	E9PZW0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	68.42	null	null	3	1040.92	1040.9192266666666	ms_run[1]:spectrum=763	K	L	1693	1722	0
+PSM	KIEFEQFLPMMQAISNNK	418	Q545G5_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	56.98	null	null	2	1084.546	1084.5481075000002	ms_run[1]:spectrum=418	K	D	63	80	0
+PSM	MKEEEVEALLAGQEDSNGCINYEAFVK	750	Q545G5_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	132.25	19-MOD:00397	null	3	1025.1424	1025.1430146666667	ms_run[1]:spectrum=750	K	H	119	145	0
+PSM	AGAIAPCEVTVPAQNTGLGPEK	436	D3YVM5_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	86.72	7-MOD:00397	null	2	1090.553	1090.5549594999998	ms_run[1]:spectrum=436	R	T	113	134	0
+PSM	AGAIAPCEVTVPAQNTGLGPEK	437	D3YVM5_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	101.18	7-MOD:00397	null	2	1090.5551	1090.5549594999998	ms_run[1]:spectrum=437	R	T	113	134	0
+PSM	LSDLLAPISEQIQEVITFR	424	B1ARS0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	112.98	null	null	2	1086.6009	1086.5996975	ms_run[1]:spectrum=424	K	E	100	118	0
+PSM	GAVPYVQAFDSLLANPVAEYLK	581	B1ARS0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	25.62	null	null	2	1183.1249	1183.1260725	ms_run[1]:spectrum=581	K	M	38	59	0
+PSM	GAVPYVQAFDSLLANPVAEYLK	582	B1ARS0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	53.2	null	null	2	1183.1269	1183.1260725	ms_run[1]:spectrum=582	K	M	38	59	0
+PSM	ALANVNIGSLICNVGAGGPAPAAGAAPAGGPAPSTAAAPAEEK	853	E9Q4T2_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	151.63	12-MOD:00397	null	3	1270.3153	1270.3149146666672	ms_run[1]:spectrum=853	K	K	50	92	0
+PSM	ELDQDTVFALANYILFK	18	Q3KQQ4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	46.68	null	null	2	1000.5238	1000.5229274999998	ms_run[1]:spectrum=18	K	G	193	209	0
+PSM	IFNNGADLSGITEENAPLK	30	Q3KQQ4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	126.6	null	null	2	1002.0072	1002.0081724999999	ms_run[1]:spectrum=30	R	L	329	347	0
+PSM	CELLYEGPPDDEAAMGIK	56	Q3TJZ1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	70.65	1-MOD:00397	null	2	1004.4548	1004.4560694999999	ms_run[1]:spectrum=56	R	S	369	386	0
+PSM	IWCFGPDGTGPNILTDITK	307	Q3TJZ1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	81.57	3-MOD:00397	null	2	1053.0232	1053.0227694999996	ms_run[1]:spectrum=307	K	G	649	667	0
+PSM	IWCFGPDGTGPNILTDITK	308	Q3TJZ1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	47.9	3-MOD:00397	null	2	1053.0239	1053.0227694999996	ms_run[1]:spectrum=308	K	G	649	667	0
+PSM	LATGSDDNCAAFFEGPPFK	162	Q3TE06_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	103.99	9-MOD:00397	null	2	1022.4577	1022.4599995	ms_run[1]:spectrum=162	R	F	162	180	0
+PSM	LATGSDDNCAAFFEGPPFK	163	Q3TE06_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	71.0	9-MOD:00397	null	2	1022.4595	1022.4599995	ms_run[1]:spectrum=163	R	F	162	180	0
+PSM	IITITGTQDQIQNAQYLLQNSVK	644	Q3TG17_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	63.37	null	null	2	1295.1961	1295.1983074999998	ms_run[1]:spectrum=644	R	Q	365	387	0
+PSM	IITITGTQDQIQNAQYLLQNSVK	645	Q3TG17_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	63.6	null	null	2	1295.1964	1295.1983074999998	ms_run[1]:spectrum=645	R	Q	365	387	0
+PSM	IIPTLEEGLQLPSPTATSQLPLESDAVECLNYQHYK	864	Q3TG17_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	49.79	29-MOD:00397	null	4	1014.5141	1014.5139397500002	ms_run[1]:spectrum=864	K	G	35	70	0
+PSM	AFADAMEVIPSTLAENAGLNPISTVTELR	720	Q3TII0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	70.21	null	null	3	1010.8525	1010.8537900000001	ms_run[1]:spectrum=720	R	N	453	481	0
+PSM	AFADAMEVIPSTLAENAGLNPISTVTELR	721	Q3TII0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	89.01	null	null	3	1010.8546	1010.8537900000001	ms_run[1]:spectrum=721	R	N	453	481	0
+PSM	TAFDEAIAELDTLNEESYK	394	A2A5N2_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	81.43	null	null	2	1080.0047	1080.0054925	ms_run[1]:spectrum=394	K	D	196	214	0
+PSM	TAFDEAIAELDTLNEESYK	395	A2A5N2_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	82.63	null	null	2	1080.0056	1080.0054925	ms_run[1]:spectrum=395	K	D	196	214	0
+PSM	YTPSNESGAAASESLFISNHAY	556	A6ZI47_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	52.77	null	null	2	1158.5232	1158.5249225000002	ms_run[1]:spectrum=556	K	null	343	364	0
+PSM	QLLLTADDRVNPCIGGVILFHETLYQK	759	A6ZI47_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	107.05	13-MOD:00397,0-MOD:01160	null	3	1032.8784	1032.8782716666667	ms_run[1]:spectrum=759	R	A	61	87	0
+PSM	AQLNIGNVLPVGTMPEGTIVCCLEEKPGDR	792	Q3THC7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	132.89	21-MOD:00397,22-MOD:00397	null	3	1089.8781	1089.8777260000002	ms_run[1]:spectrum=792	K	G	94	123	0
+PSM	VDTDGNGYISCNELNDLFK	427	D3YVW8_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	75.9	11-MOD:00397	null	2	1087.4864	1087.4894945	ms_run[1]:spectrum=427	K	A	21	39	0
+PSM	VDTDGNGYISCNELNDLFK	428	D3YVW8_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	71.1	11-MOD:00397	null	2	1087.4893	1087.4894945	ms_run[1]:spectrum=428	K	A	21	39	0
+PSM	SPYLYPLYGLGELPQGFAR	369	Q3TIY6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	54.86	null	null	2	1071.0551	1071.0574675	ms_run[1]:spectrum=369	K	L	222	240	0
+PSM	SPYLYPLYGLGELPQGFAR	370	Q3TIY6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	94.62	null	null	2	1071.0587	1071.0574675	ms_run[1]:spectrum=370	K	L	222	240	0
+PSM	QAHLCVLASNCDEPMYVK	332	Q6ZWZ6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	70.0	5-MOD:00397,11-MOD:00397,0-MOD:01160	null	2	1059.4757	1059.476827	ms_run[1]:spectrum=332	R	L	46	63	0
+PSM	QAHLCVLASNCDEPMYVK	333	Q6ZWZ6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	81.62	5-MOD:00397,11-MOD:00397,0-MOD:01160	null	2	1059.4783	1059.476827	ms_run[1]:spectrum=333	R	L	46	63	0
+PSM	MLLDPMGGIVMTNDGNAILR	357	Q3TBM6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	123.57	0-MOD:00397,19-MOD:00397,21-MOD:00397	null	2	1066.0408	1151.5717834999998	ms_run[1]:spectrum=357	null	E	1	20	0
+PSM	GIGMGNLGPAGMGMEGIGFGINK	432	Q3THB3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	80.56	null	null	2	1089.5299	1089.5293775	ms_run[1]:spectrum=432	K	I	283	305	0
+PSM	GIGMGNLGPAGMGMEGIGFGINK	433	Q3THB3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	68.01	null	null	2	1089.5315	1089.5293775	ms_run[1]:spectrum=433	K	I	283	305	0
+PSM	NINADEAAAMGAVYQAAALSK	262	Q8VCI2_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	60.59	null	null	2	1040.0095	1040.0129325	ms_run[1]:spectrum=262	K	A	408	428	0
+PSM	VLQLINDNTATALSYGVFR	289	Q8VCI2_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	82.56	null	null	2	1048.0648	1048.0632875	ms_run[1]:spectrum=289	K	R	199	217	0
+PSM	ALANVNIGSLICNVGAGGPAPAAGAAPAGGAAPSTAAAPAEEK	851	Q58E35_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	119.02	12-MOD:00397	null	3	1261.6442	1261.643031333334	ms_run[1]:spectrum=851	K	K	50	92	0
+PSM	VLAVNQENEQLMEDYEK	188	A1BN54_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	68.23	null	null	2	1026.4784	1026.4836825	ms_run[1]:spectrum=188	K	L	265	281	0
+PSM	VLAVNQENEQLMEDYEK	189	A1BN54_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	67.81	null	null	2	1026.485	1026.4836825	ms_run[1]:spectrum=189	K	L	265	281	0
+PSM	ALMLQGVDLLADAVAVTMGPK	322	D3Z2F2_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	117.59	null	null	2	1057.0737	1057.0739425	ms_run[1]:spectrum=322	R	G	38	58	0
+PSM	ATSNVFAMFDQSQIQEFK	279	A2AVY6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	110.31	null	null	2	1045.996	1045.9967625000002	ms_run[1]:spectrum=279	R	E	18	35	0
+PSM	VQDDEVGDGTTSVTVLAAELLR	540	Q9JJD8_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	109.38	null	null	2	1144.5839	1144.5849675	ms_run[1]:spectrum=540	R	E	90	111	0
+PSM	YFDSFGDLSSASAIMGNPK	48	D0U284_MUSMC	null	null	null	[MS, MS:1001207, Mascot, ]	66.33	null	null	2	1003.9634	1003.9623825	ms_run[1]:spectrum=48	R	V	42	60	0
+PSM	YFDSFGDLSSASAIMGNPK	49	D0U284_MUSMC	null	null	null	[MS, MS:1001207, Mascot, ]	67.41	null	null	2	1003.9634	1003.9623825	ms_run[1]:spectrum=49	R	V	42	60	0
+PSM	SGDAAIVDMVPGKPMCVESFSDYPPLGR	684	Q3UA81_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	60.63	16-MOD:00397	null	3	999.13913	999.138658	ms_run[1]:spectrum=684	K	F	396	423	0
+PSM	SGDAAIVDMVPGKPMCVESFSDYPPLGR	685	Q3UA81_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	67.51	16-MOD:00397	null	3	999.14149	999.138658	ms_run[1]:spectrum=685	K	F	396	423	0
+PSM	LPFLDIAPLDIGGADQEFR	272	Q3TP88_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	108.41	null	null	2	1044.0439	1044.0445475	ms_run[1]:spectrum=272	R	V	932	950	0
+PSM	SDNVPPPTDLQFVELTDVK	326	G3X9J7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	74.85	null	null	2	1057.5359	1057.5367625	ms_run[1]:spectrum=326	R	V	903	921	0
+PSM	SDNVPPPTDLQFVELTDVK	327	G3X9J7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	53.16	null	null	2	1057.5373	1057.5367625	ms_run[1]:spectrum=327	R	V	903	921	0
+PSM	AVFNVLDQNGDGYITVDELK	462	Q6WEH7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	105.97	null	null	2	1105.5519	1105.5529424999997	ms_run[1]:spectrum=462	R	E	87	106	0
+PSM	GIVDQSQQAYQEAFEISK	159	Q3UA58_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	73.3	null	null	2	1020.9971	1020.9978125	ms_run[1]:spectrum=159	K	K	7	24	0
+PSM	TAFDEAIAELDTLSEESYK	359	Q3UA58_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	50.22	null	null	2	1066.5002	1066.5000424999998	ms_run[1]:spectrum=359	K	D	61	79	0
+PSM	AVLTSQETLFGGSDCTGNFCLFK	639	E9Q035_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	94.72	15-MOD:00397,20-MOD:00397	null	2	1276.5914	1276.5939664999999	ms_run[1]:spectrum=639	K	S	605	627	0
+PSM	RAEDGSVIDYELIDQDAR	228	B0V2N5_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	100.93	null	null	2	1032.9945	1032.9957924999999	ms_run[1]:spectrum=228	R	E	112	129	0
+PSM	EADIDGDGQVNYEEFVQMMTAK	619	G3UX57_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	50.25	null	null	2	1245.5436	1245.5441375	ms_run[1]:spectrum=619	R	null	18	39	0
+PSM	EADIDGDGQVNYEEFVQMMTAK	620	G3UX57_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	66.24	null	null	2	1245.5444	1245.5441375	ms_run[1]:spectrum=620	R	null	18	39	0
+PSM	AETECQNAEYQQLLDIK	191	A2A513_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	86.25	5-MOD:00397	null	2	1026.981	1026.9813094999997	ms_run[1]:spectrum=191	R	T	412	428	0
+PSM	SDLEMQIESLNEELAYLK	339	A2A513_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	34.05	null	null	2	1063.0239	1063.0226375	ms_run[1]:spectrum=339	K	K	256	273	0
+PSM	EASGPINFTVFLTMFGEK	35	Q545G1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	56.03	14-MOD:00425	null	2	1002.4902	1002.4933149999999	ms_run[1]:spectrum=35	K	L	73	90	0
+PSM	EASGPINFTVFLTMFGEK	37	Q545G1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	40.78	14-MOD:00425	null	2	1002.4915	1002.4933149999999	ms_run[1]:spectrum=37	K	L	73	90	0
+PSM	AGAEGSSNVFSMFDQTQIQEFK	602	Q545G1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	48.2	null	null	2	1211.0572	1211.0555324999998	ms_run[1]:spectrum=602	R	E	10	31	0
+PSM	AEDNADTLALVFEAPNQEK	255	E9Q7Z3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	46.12	null	null	2	1038.0004	1038.0005425000002	ms_run[1]:spectrum=255	R	V	92	110	0
+PSM	AEDNADTLALVFEAPNQEK	256	E9Q7Z3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	66.17	null	null	2	1038.0011	1038.0005425000002	ms_run[1]:spectrum=256	R	V	92	110	0
+PSM	LGVNNISGIEEVNMFTNQGTVIHFNNPK	753	Q3UJR8_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	93.3	null	null	3	1029.5189	1029.51752	ms_run[1]:spectrum=753	K	V	51	78	0
+PSM	CEMEAQNQEYNMLLDIK	350	B1AQ77_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	57.99	1-MOD:00397	null	2	1064.974	1064.9715794999997	ms_run[1]:spectrum=350	R	T	373	389	0
+PSM	TDLEMQIEQLNEELAYLK	435	B1AQ77_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	57.87	null	null	2	1090.5446	1090.5437375	ms_run[1]:spectrum=435	R	K	217	234	0
+PSM	TTFDEAMADLHTLSEDSYK	425	Q9JJ20_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	57.92	null	null	2	1087.4819	1087.4838774999998	ms_run[1]:spectrum=425	K	D	196	214	0
+PSM	TTFDEAMADLHTLSEDSYK	426	Q9JJ20_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	57.85	null	null	2	1087.4828	1087.4838774999998	ms_run[1]:spectrum=426	K	D	196	214	0
+PSM	ADHQPLTEASYVNLPTIALCNTDSPLR	686	B2CY77_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	91.77	20-MOD:00397	null	3	999.49744	999.498124666667	ms_run[1]:spectrum=686	R	Y	129	155	0
+PSM	TAFDEAIAELDTLNEDSYK	375	A3KML3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	90.2	null	null	2	1072.9949	1072.9976674999998	ms_run[1]:spectrum=375	K	D	194	212	0
+PSM	TFGGAPGFSLGSPLSSPVFPR	260	Q3V1K9_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	88.94	null	null	2	1039.5401	1039.5394375	ms_run[1]:spectrum=260	R	A	17	37	0
+PSM	ALINADELANDVAGAEALLDR	392	B2RXX6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	88.75	null	null	2	1077.5568	1077.5560074999999	ms_run[1]:spectrum=392	K	H	382	402	0
+PSM	ESTGAQVQVAGDMLPNSTER	277	B2M1R7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	86.97	null	null	2	1045.4932	1045.4951125	ms_run[1]:spectrum=277	R	A	125	144	0
+PSM	LNLLDLDYELAEQLDNIAEK	568	E9PWQ3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	51.99	null	null	2	1166.5996	1166.6000874999997	ms_run[1]:spectrum=568	R	A	1398	1417	0
+PSM	LNLLDLDYELAEQLDNIAEK	569	E9PWQ3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	56.14	null	null	2	1166.6019	1166.6000874999997	ms_run[1]:spectrum=569	R	A	1398	1417	0
+PSM	NVDMLSELVQEYDEPILK	364	A2RSB1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	86.14	null	null	2	1068.0331	1068.0330024999998	ms_run[1]:spectrum=364	R	H	169	186	0
+PSM	LLDFGSLSNLQVTQPTVGMNFK	597	Q3TK12_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	72.0	null	null	2	1205.1284	1205.1283024999998	ms_run[1]:spectrum=597	K	T	108	129	0
+PSM	LLDFGSLSNLQVTQPTVGMNFK	598	Q3TK12_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	35.29	null	null	2	1205.1296	1205.1283024999998	ms_run[1]:spectrum=598	K	T	108	129	0
+PSM	TVLGVPEVLLGILPGAGGTQR	179	Q3TB39_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	82.61	null	null	2	1024.0995	1024.0996574999997	ms_run[1]:spectrum=179	K	L	167	187	0
+PSM	TNISDEESEQATEMLVHNAQNLMQSVK	725	E9Q9D0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	81.28	null	null	3	1016.1404	1016.1417966666667	ms_run[1]:spectrum=725	R	E	77	103	0
+PSM	QLTVQMMQNPQILAALQER	456	Q3TF41_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	81.19	0-MOD:01160	null	2	1098.0688	1098.0697429999998	ms_run[1]:spectrum=456	R	L	37	55	0
+PSM	YVQLPADEVDTQLLQDAAR	377	Q3U9X2_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	79.21	null	null	2	1073.0476	1073.0452874999996	ms_run[1]:spectrum=377	R	K	69	87	0
+PSM	FQSSAVMALQEACEAYLVGLFEDTNLCAIHAK	843	A1L0V4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	78.94	13-MOD:00397,27-MOD:00397,7-MOD:00425	null	3	1201.5702	1201.5708510000004	ms_run[1]:spectrum=843	R	R	84	115	0
+PSM	VIISAPSADAPMFVMGVNHEK	465	D2KHZ9_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	78.68	null	null	2	1107.0605	1107.0588275	ms_run[1]:spectrum=465	R	Y	117	137	0
+PSM	AGTLSITEFADMLSGNAGGFR	329	Q6S385_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	76.58	null	null	2	1058.0139	1058.0129325	ms_run[1]:spectrum=329	R	S	4227	4247	0
+PSM	AVSSFFSGSCVPCADPVAFPK	481	D3YYR8_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	69.74	10-MOD:00397,13-MOD:00397	null	2	1115.5197	1115.5195365	ms_run[1]:spectrum=481	K	L	165	185	0
+PSM	GNFTLPEVAECFDEITYVELQKEEAQK	779	G3XA10_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	76.16	11-MOD:00397	null	3	1063.1761	1063.1767113333333	ms_run[1]:spectrum=779	K	L	614	640	0
+PSM	EEEEFNTGPLSVLTQSVK	50	Q14AF6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	50.81	null	null	2	1003.9967	1004.0000175	ms_run[1]:spectrum=50	R	N	20	37	0
+PSM	EEEEFNTGPLSVLTQSVK	51	Q14AF6_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	47.32	null	null	2	1003.9993	1004.0000175	ms_run[1]:spectrum=51	R	N	20	37	0
+PSM	IFDANTKPNLNLQVLSNPEFLAEGTAIK	734	Q3TI06_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	72.32	null	null	3	1019.8805	1019.8805566666668	ms_run[1]:spectrum=734	R	D	84	111	0
+PSM	GQVGGDVNVEMDAAPGVDLSR	271	Q9CWC9_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	71.32	null	null	2	1043.498	1043.4976425	ms_run[1]:spectrum=271	R	I	21	41	0
+PSM	LPVVIGGLLDVDCSEDVIK	160	Q3UPJ3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	69.94	13-MOD:00397	null	2	1021.0481	1021.0484445	ms_run[1]:spectrum=160	R	N	176	194	0
+PSM	AAFDDAIAELDTLSEESYK	273	Q3V453_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	66.45	null	null	2	1044.4876	1044.4869325	ms_run[1]:spectrum=273	K	D	33	51	0
+PSM	APLQVAVLGPTGVAEPVEVR	29	D3YW87_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	65.87	null	null	2	1001.5712	1001.5707325000002	ms_run[1]:spectrum=29	R	D	1476	1495	0
+PSM	TAFDDAIAELDTLNEDSYK	356	A8IP69_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	64.6	null	null	2	1065.9894	1065.9898425	ms_run[1]:spectrum=356	K	D	199	217	0
+PSM	LGGGMPGLGQGPPTDAPAVDTAEQVYISSLALLK	807	A2AR77_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	56.38	null	null	3	1108.5789	1108.57843	ms_run[1]:spectrum=807	R	M	7	40	0
+PSM	LGGGMPGLGQGPPTDAPAVDTAEQVYISSLALLK	808	A2AR77_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	30.85	null	null	3	1108.5795	1108.57843	ms_run[1]:spectrum=808	R	M	7	40	0
+PSM	LLLPEDPLISGLLNSQALK	138	Q3TB22_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	57.08	null	null	2	1017.5958	1017.5964224999998	ms_run[1]:spectrum=138	R	A	1202	1220	0
+PSM	LLLPEDPLISGLLNSQALK	139	Q3TB22_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	20.33	null	null	2	1017.5972	1017.5964224999998	ms_run[1]:spectrum=139	R	A	1202	1220	0
+PSM	IGPSILNSDLANLGAECLR	70	B2KGE9_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	61.59	17-MOD:00397	null	2	1007.0249	1007.0258444999998	ms_run[1]:spectrum=70	K	M	7	25	0
+PSM	DMIILPEMVGSMVGVYNGK	192	D3YTQ9_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	60.67	null	null	2	1027.0122	1027.0125075	ms_run[1]:spectrum=192	R	T	55	73	0
+PSM	MQGTLEDQIISANPLLEAFGNAK	613	B2RWW8_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	60.17	null	null	2	1230.6266	1230.6261175	ms_run[1]:spectrum=613	K	T	215	237	0
+PSM	LGYAGNTEPQFIIPSCIAIK	453	Q3TGE1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	36.25	16-MOD:00397	null	2	1096.5766	1096.5751695	ms_run[1]:spectrum=453	K	E	19	38	0
+PSM	TLTGTVIDSGDGVTHVIPVAEGYVIGSCIK	735	Q3TGE1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	40.04	28-MOD:00397	null	3	1020.197	1020.1975546666666	ms_run[1]:spectrum=735	R	H	162	191	0
+PSM	TYADYESVNECMEGVCK	195	G3UW85_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	57.59	11-MOD:00397,16-MOD:00397	null	2	1027.9123	1027.9111864999998	ms_run[1]:spectrum=195	R	M	37	53	0
+PSM	SINPDEAVAYGAAVQAAILSGDK	506	Q3KQJ4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	57.34	null	null	2	1130.576	1130.5769424999999	ms_run[1]:spectrum=506	K	S	281	303	0
+PSM	VVQCSDLGLDKVPWDFPPDTTLLDLQNNK	810	Q3UKR1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	56.35	4-MOD:00397	null	3	1109.8918	1109.890904666667	ms_run[1]:spectrum=810	R	I	59	87	0
+PSM	VDYIMQLPVPMDAALNKEELLEYEEK	752	Q3U4W8_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	54.3	null	null	3	1027.5099	1027.5122666666668	ms_run[1]:spectrum=752	R	K	483	508	0
+PSM	QIIQQNPSLLPALLQQIGR	323	Q3TJ52_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	51.2	0-MOD:01160	null	2	1057.1111	1057.1105729999995	ms_run[1]:spectrum=323	R	E	290	308	0
+PSM	TSSLEPVFEEFISQLQR	59	Q4L0E7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	45.17	null	null	2	1005.5109	1005.5130975	ms_run[1]:spectrum=59	R	Q	24	40	0
+PSM	NLCDLGIVDPYPPLCDIK	301	Q3TMN1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	35.86	3-MOD:00397,15-MOD:00397	null	2	1051.5185	1051.5190064999997	ms_run[1]:spectrum=301	K	G	411	428	0
+PSM	AIGAVPLIQGEYMIPCEK	42	Q3TIR0_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	35.31	16-MOD:00397,13-MOD:00425	null	2	1003.0118	1003.010817	ms_run[1]:spectrum=42	K	V	312	329	0
+PSM	AVANETGAFFFLINGPEIMSK	501	Q8BNF8_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	35.19	null	null	2	1128.5731	1128.5726224999999	ms_run[1]:spectrum=501	R	L	174	194	0
+PSM	VVTIAPGLFATPLLTTLPEK	265	A2AFQ2_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	35.11	null	null	2	1041.1161	1041.1169874999998	ms_run[1]:spectrum=265	R	V	203	222	0
+PSM	FQSSAVMALQEASEAYLVGLFEDTNLCAIHAK	827	A1L0U3_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	32.49	27-MOD:00397,7-MOD:00425	null	3	1177.2369	1177.2379763333338	ms_run[1]:spectrum=827	R	R	82	113	0
+PSM	QNLDPLFEQYINNLRR	85	D3Z4Y4_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	27.82	0-MOD:01160	null	2	1008.5211	1008.5190530000001	ms_run[1]:spectrum=85	K	Q	207	222	0
+PSM	LLYPADIPVGNDQLLELLNK	487	Q3U4U1_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	24.12	null	null	2	1119.6239	1119.6231675	ms_run[1]:spectrum=487	K	L	629	648	0
+PSM	IAAFADAAVDPIDFPLAPAYAVPK	611	Q3TQP7_MOUSE	null	null	null	[MS, MS:1001207, Mascot, ]	25.15	null	null	2	1222.1514	1222.1495324999999	ms_run[1]:spectrum=611	R	V	309	332	0
+
