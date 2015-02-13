@@ -3,7 +3,29 @@
 *jmzTab version 3.0.2 - (12. Febreruary 2015)*
  * general refinements and bug fixing
  * removes from the mzTabCLI the need to separate the input and output directory from the file
- * allow parsing the file with the columns in different order to the one define in the specification
+ * allow parsing the file with the columns in different order to the one define in the specification. Due to this new feature the defaults columns need to be added manually to the factory. Examples:
+
+<code>
+MZTabColumnFactory prh = MZTabColumnFactory.getInstance(Section.Protein_Header);
+prh.addDefaultStableColumns();
+// add other optional columns
+prh.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
+
+MZTabColumnFactor peh = MZTabColumnFactory.getInstance(Section.Peptide_Header);
+peh.addDefaultStableColumns();
+// add other optional columns
+peh.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
+
+MZTabColumnFactory psh = MZTabColumnFactory.getInstance(Section.PSM_Header);
+psh.addDefaultStableColumns();
+// add other optional columns
+psh.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, 1, null);
+
+MZTabColumnFactory smh = MZTabColumnFactory.getInstance(Section.PSM_Header);
+smh.addDefaultStableColumns();
+// add other optional columns
+smh.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, 1, null);
+</code>
 
 ----
 * mzTab Specification Document 1.0.0 - final version (20. June 2014)*
@@ -12,7 +34,7 @@
 ----
 *jmzTab version 3.0.0 - (1. August 2014)*
   * update version of the library to the Specification Document 1.0 RC 5 - (30. June 2014)
-  * new modular version of the mzTab library. This version allows a easier integration in other projects because minimizes the number dependencies per module.
+  * new modular version of the jmzTab library. This version allows a easier integration in other projects because minimizes the number dependencies per module.
   * first version of mzIdentML converter
   * general refinements and bug fixing
   * update mzTab examples
