@@ -23,14 +23,8 @@ usage: jmztab
  -convert <inFile, format>   Converts the given format file (PRIDE or MZIDENTML) to an mztab
                              file.
  -h,--help                   print help message
- -inDir <arg>                Setting input file directory. If not set,
-                             default input directory is current
-                             application path.
  -message <code>             print Error/Warn detail message based on code
                              number.
- -outDir <arg>               Setting output file directory. If not set,
-                             default output  directory is same with input
-                             directory.
  -outFile <arg>              Record error/warn messages into outfile. If
                              not set, print message on the screen.
 }}}
@@ -56,7 +50,7 @@ Original:       Column "{0}" is an empty cell, or the current column cannot use 
 
   * Exists warn/error messages during validate, print messages on screen:
 {{{
-java -Xms2048m -jar mzTabCLI.jar -inDir temp -check inFile=SILAC_CQI.mzTab
+java -Xms2048m -jar mzTabCLI.jar -check inFile=temp/SILAC_CQI.mzTab
 }}}
 
 The output would be like:
@@ -70,18 +64,18 @@ Finish!
 
   * Exists warn/error messages during validate, print messages into SILAC_CQI.err file:
 {{{
-java -Xms2048m -jar mzTabCLI.jar -inDir temp -check inFile=SILAC_CQI.mzTab -outFile SILAC_CQI.err
+java -Xms2048m -jar mzTabCLI.jar -check inFile=temp/SILAC_CQI.mzTab -outFile SILAC_CQI.err
 }}}
 
 
   * Convert PRIDE_Exp_Complete_Ac_16649.xml, and print mzTab file to screen:
 {{{
-java -Xms2048m -jar mzTabCLI.jar -inDir temp -convert inFile=PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE
+java -Xms2048m -jar mzTabCLI.jar -convert inFile=temp/PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE
 }}}
 
   * Convert PRIDE_Exp_Complete_Ac_16649.xml, and print mzTab file to PRIDE_Exp_Complete_Ac_16649.mztab:
 {{{
-java -Xms2048m -jar mzTabCLI.jar -inDir temp -convert inFile=PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE -outFile PRIDE_Exp_Complete_Ac_16649.mztab
+java -Xms2048m -jar mzTabCLI.jar -convert inFile=temp/PRIDE_Exp_Complete_Ac_16649.xml format=PRIDE -outFile PRIDE_Exp_Complete_Ac_16649.mztab
 }}}
 
 
