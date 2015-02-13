@@ -18,6 +18,7 @@ In jmzTab API, we use MZTabColumnFactory to generate column header line. Current
 
         // create stable columns.
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Protein_Header);
+        factory.addDefaultStableColumns();
 
         // add optional columns which have stable order.
         factory.addGoTermsOptionalColumn();
@@ -33,12 +34,10 @@ In jmzTab API, we use MZTabColumnFactory to generate column header line. Current
         factory.addOptionalColumn(ProteinColumn.NUM_PEPTIDES_DISTINCT, msRun2);
 
         factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
+        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 2);
         factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
-        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 2);
         factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 2, msRun1);
-        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 1, msRun2);
-        factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 2);
         factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 2, msRun2);
 
         // add abundance columns which locate the end of table.
@@ -62,12 +61,13 @@ In jmzTab API, we use MZTabColumnFactory to generate column header line. Current
 
         // create stable columns.
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide_Header);
+        factory.addDefaultStableColumns();
 
         // add optional columns which have stable order.
         factory.addReliabilityOptionalColumn();
         factory.addURIOptionalColumn();
 
-        factory.addSearchEngineScoreOptionalColumn(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, 1, msRun1);
+        factory.addBestSearchEngineScoreOptionalColumn(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
 
         // add abundance columns which locate the end of table.
@@ -88,6 +88,7 @@ In jmzTab API, we use MZTabColumnFactory to generate column header line. Current
 
         // create stable columns.
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.PSM_Header);
+        factory.addDefaultStableColumns();
 
         // add optional columns which have stable order.
         factory.addReliabilityOptionalColumn();
@@ -110,13 +111,14 @@ In jmzTab API, we use MZTabColumnFactory to generate column header line. Current
 
         // create stable columns.
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Small_Molecule);
+        factory.addDefaultStableColumns();
 
         // add optional columns which have stable order.
         factory.addReliabilityOptionalColumn();
         factory.addURIOptionalColumn();
 
         // add optional columns which have stable order.
-        factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE, 1, msRun1);
+        factory.addBestSearchEngineScoreOptionalColumn(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
 
         // add abundance columns which locate the end of table.
@@ -155,6 +157,7 @@ There are two ways to get MZTabColumn.
         StudyVariable studyVariable1 = new StudyVariable(1);
 
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Protein_Header);
+        factory.addDefaultStableColumns();
         factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
         factory.addBestSearchEngineScoreOptionalColumn(ProteinColumn.BEST_SEARCH_ENGINE_SCORE, 2);
@@ -228,6 +231,7 @@ There are two ways to get MZTabColumn.
         StudyVariable studyVariable1 = new StudyVariable(1);
 
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Peptide_Header);
+        factory.addDefaultStableColumns();
         factory.addBestSearchEngineScoreOptionalColumn(PeptideColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(PeptideColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
         factory.addAbundanceOptionalColumn(assay1);
@@ -269,6 +273,7 @@ There are two ways to get MZTabColumn.
         Assay assay1 = new Assay(1);
 
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.PSM_Header);
+        factory.addDefaultStableColumns();
         factory.addSearchEngineScoreOptionalColumn(PSMColumn.SEARCH_ENGINE_SCORE, 1, null);
         factory.addOptionalColumn(assay1, "my_value", String.class);
         CVParam param = new CVParam("MS", "MS:1002217", "decoy peptide", null);
@@ -310,6 +315,7 @@ There are two ways to get MZTabColumn.
         StudyVariable studyVariable1 = new StudyVariable(1);
 
         MZTabColumnFactory factory = MZTabColumnFactory.getInstance(Section.Small_Molecule);
+        factory.addDefaultStableColumns();
         factory.addBestSearchEngineScoreOptionalColumn(SmallMoleculeColumn.BEST_SEARCH_ENGINE_SCORE, 1);
         factory.addSearchEngineScoreOptionalColumn(SmallMoleculeColumn.SEARCH_ENGINE_SCORE, 1, msRun1);
         factory.addAbundanceOptionalColumn(assay1);

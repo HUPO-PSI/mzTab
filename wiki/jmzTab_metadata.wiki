@@ -41,6 +41,9 @@ The metadata section can provide additional information about the dataset(s) rep
         mtd.addSoftwareSetting(1, "Parent tolerance = 0.5Da");
 
         mtd.addProteinSearchEngineScoreParam(1, new CVParam("MS", "MS:1001171", "Mascot:score", null));
+        mtd.addPeptideSearchEngineScoreParam(1, new CVParam("MS", "MS:1001153", "search engine specific score", null));
+        mtd.addSmallMoleculeSearchEngineScoreParam(1, new CVParam("MS", "MS:1001420", "SpectraST:delta", null));
+
         mtd.addPsmSearchEngineScoreParam(1, new CVParam("MS", "MS:1001330", "X!Tandem:expect", null));
         mtd.addPsmSearchEngineScoreParam(2, new CVParam("MS", "MS:1001331", "X!Tandem:hyperscore", null));
 
@@ -83,7 +86,7 @@ The metadata section can provide additional information about the dataset(s) rep
 
         mtd.addMsRunFormat(1, new CVParam("MS", "MS:1000584", "mzML file", null));
         mtd.addMsRunFormat(2, new CVParam("MS", "MS:1001062", "Mascot MGF file", null));
-//        mtd.addMsRunLocation(1, new URL("file://C:\\path\\to\\my\\file"));
+        mtd.addMsRunLocation(1, new URL("file://ftp.ebi.ac.uk/path/to/file"));
         mtd.addMsRunLocation(2, new URL("ftp://ftp.ebi.ac.uk/path/to/file"));
         mtd.addMsRunIdFormat(1, new CVParam("MS", "MS:1001530", "mzML unique identifier", null));
         mtd.addMsRunFragmentationMethod(1, new CVParam("MS", "MS:1000133", "CID", null));
@@ -126,11 +129,16 @@ The metadata section can provide additional information about the dataset(s) rep
 
         Assay assay1 = mtd.getAssayMap().get(1);
         Assay assay2 = mtd.getAssayMap().get(2);
+
         mtd.addStudyVariableAssay(1, assay1);
         mtd.addStudyVariableAssay(1, assay2);
-
         mtd.addStudyVariableSample(1, sample1);
         mtd.addStudyVariableDescription(1, "description Group B (spike-in 0.74 fmol/uL)");
+
+        mtd.addStudyVariableAssay(2, assay1);
+        mtd.addStudyVariableAssay(2, assay2);
+        mtd.addStudyVariableSample(2, sample1);
+        mtd.addStudyVariableDescription(2, "description Group B (spike-in 0.74 fmol/uL)");
 
         mtd.addCVLabel(1, "MS");
         mtd.addCVFullName(1, "MS");
@@ -140,6 +148,8 @@ The metadata section can provide additional information about the dataset(s) rep
         mtd.addProteinColUnit(ProteinColumn.RELIABILITY, new CVParam("MS", "MS:00001231", "PeptideProphet:Score", null));
 
         MZTabColumnFactory peptideFactory = MZTabColumnFactory.getInstance(Section.Peptide);
+        peptideFactory.addDefaultStableColumns();
+
         PeptideColumn peptideColumn = (PeptideColumn) peptideFactory.findColumnByHeader("retention_time");
         mtd.addPeptideColUnit(peptideColumn, new CVParam("UO", "UO:0000031", "minute", null));
 
@@ -170,8 +180,10 @@ MTD	software[1]-setting[1]	Fragment tolerance = 0.1Da
 MTD	software[1]-setting[2]	Parent tolerance = 0.5Da
 MTD	software[2]	[MS, MS:1001561, Scaffold, 1.0]
 MTD	protein_search_engine_score[1]	[MS, MS:1001171, Mascot:score, ]
+MTD	peptide_search_engine_score[1]	[MS, MS:1001153, search engine specific score, ]
 MTD	psm_search_engine_score[1]	[MS, MS:1001330, X!Tandem:expect, ]
 MTD	psm_search_engine_score[2]	[MS, MS:1001331, X!Tandem:hyperscore, ]
+MTD	smallmolecule_search_engine_score[1]	[MS, MS:1001420, SpectraST:delta, ]
 MTD	false_discovery_rate	[MS, MS:1001364, pep:global FDR, 0.01]|[MS, MS:1001214, pep:global FDR, 0.08]
 MTD	publication[1]	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
 MTD	publication[2]	pubmed:20615486|doi:10.1016/j.jprot.2010.06.008
@@ -200,6 +212,7 @@ MTD	protein-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	peptide-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000395, Ratio, ]
 MTD	ms_run[1]-format	[MS, MS:1000584, mzML file, ]
+MTD	ms_run[1]-location	file://ftp.ebi.ac.uk/path/to/file
 MTD	ms_run[1]-id_format	[MS, MS:1001530, mzML unique identifier, ]
 MTD	ms_run[1]-fragmentation_method	[MS, MS:1000133, CID, ]
 MTD	ms_run[2]-format	[MS, MS:1001062, Mascot MGF file, ]
@@ -232,6 +245,9 @@ MTD	assay[2]-quantification_mod[2]-position	Anywhere
 MTD	study_variable[1]-description	description Group B (spike-in 0.74 fmol/uL)
 MTD	study_variable[1]-assay_refs	assay[1], assay[2]
 MTD	study_variable[1]-sample_refs	sample[1]
+MTD	study_variable[2]-description	description Group B (spike-in 0.74 fmol/uL)
+MTD	study_variable[2]-assay_refs	assay[1], assay[2]
+MTD	study_variable[2]-sample_refs	sample[1]
 MTD	cv[1]-label	MS
 MTD	cv[1]-full_name	MS
 MTD	cv[1]-version	3.54.0
