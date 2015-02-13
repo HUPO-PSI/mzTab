@@ -31,14 +31,14 @@ The validation messages have a unique identifier are classified in three levels:
 || || ||
 || *    Code*: || 1003 ||
 || *   Level*: || Error ||
-|| *Original*: || Optional Column "{1}" is not a valid abundance column format. ||
+|| *Original*: || Optional Column "{0}" is not a valid abundance column format. ||
 || *   Cause*: || Only protein, peptide and small molecule sections can allow to have abundance columns. The column name psm_abundance_XXX is not correct.. ||
 || || ||
 || || ||
 || *    Code*: || 1004 ||
 || *   Level*: || Error ||
-|| *Original*: || Stable column "{0}" are required on the header line. ||
-|| *   Cause*: || Check the stable columns, including position and header name. All column labels and field names are case-sensitive. The column delimiter is the Unicode Horizontal Tab character. ||
+|| *Original*: || Mandatory column "{0}" are required on the header line. ||
+|| *   Cause*: || Check the mandatory columns (e.g. header name). All column labels and field names are case-sensitive. The column delimiter is the Unicode Horizontal Tab character. ||
 || || ||
 || || ||
 || *    Code*: || 1005 ||
@@ -163,8 +163,8 @@ The validation messages have a unique identifier are classified in three levels:
 || || ||
 || *    Code*: || 1026 ||
 || *   Level*: || Error ||
-|| *Original*: || Column "{0}" value "{1}" is not a valid spectra reference, or the ms_file[1-n] is not defined in the metadata section. ||
-|| *   Cause*: || The reference must be specified in the format ms_file[1-n] :{SPECTRA_REF}. Multiple spectra MUST be referenced using a '|' delimited list. ||
+|| *Original*: || Column "{0}" value "{1}" is not a valid spectra reference, or the ms_run[1-n]-location is not defined in the metadata section. ||
+|| *   Cause*: || The reference must be specified in the format ms_run[1-n]:{SPECTRA_REF}. Multiple spectra MUST be referenced using a '|' delimited list. ||
 || || ||
 || || ||
 || *    Code*: || 1027 ||
@@ -312,8 +312,8 @@ The validation messages have a unique identifier are classified in three levels:
 || || ||
 || || ||
 || *    Code*: || 2021 ||
-|| *   Level*: || Error ||
-|| *Original*: || Column "{0}" value "{1}", "{2}" MUST be reported in the metadata section. ||
+|| *   Level*: || Warn ||
+|| *Original*: || Column "{0}" value "{1}", "{2}" is "null". The use of "null" is allowed here however its use is discouraged. ||
 || *   Cause*: || If "spectra_ref" is present, the element "ms_run[1-n]-location" MUST be reported in the metadata section. Please check table 1 in the specification document. ||
 || || ||
 || || ||
