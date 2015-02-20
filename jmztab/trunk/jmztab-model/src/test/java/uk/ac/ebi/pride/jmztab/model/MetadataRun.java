@@ -22,7 +22,7 @@ public class MetadataRun {
         mtd.addSampleProcessingParam(2, new CVParam("MS", "MS:1001251", "Trypsin", null));
 
         mtd.addInstrumentName(1, new CVParam("MS", "MS:100049", "LTQ Orbitrap", null));
-        mtd.addInstrumentName(2, new CVParam("MS", "MS:1000031", "Instrument model", "name of the instrument not included in the CV"));
+        mtd.addInstrumentName(2, new CVParam("MS", "MS:1000031", "instrument model", "name of the instrument not included in the CV"));
         mtd.addInstrumentSource(1, new CVParam("MS", "MS:1000073", "ESI", null));
         mtd.addInstrumentSource(2, new CVParam("MS", "MS:1000598", "ETD", null));
         mtd.addInstrumentAnalyzer(1, new CVParam("MS", "MS:1000291", "linear ion trap", null));

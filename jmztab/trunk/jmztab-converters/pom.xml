@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <pride-utilities.version>2.0.1</pride-utilities.version>
+        <pride-utilities.version>2.0.3-SNAPSHOT</pride-utilities.version>
         <pride-jaxb.version>1.0.12</pride-jaxb.version>
         <px-submission-core.version>1.15</px-submission-core.version>
         <jmzidentml.version>1.1.9.pride</jmzidentml.version>

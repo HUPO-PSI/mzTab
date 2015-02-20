@@ -30,6 +30,9 @@ public enum ConverterCVParam {
     MS_CHARGE_STATE("MS", "MS:1000041", "charge state", null),
     MS_PRECURSOR_MZ("MS", "MS:1000744", "selected ion m/z", null),
 
+    PSI_CHARGE_STATE("PSI", "PSI:1000041", "ChargeState", null),
+    PSI_MZ_RATIO("PSI", "PSI:1000040", "MassToChargeRatio", null),
+
     MS_DECOY_PEPTIDE("MS", "MS:1002217", "decoy peptide", null),
 
     MS_PSI_MZDATA_FILE("MS", "MS:1000564", "PSI mzData file", null),

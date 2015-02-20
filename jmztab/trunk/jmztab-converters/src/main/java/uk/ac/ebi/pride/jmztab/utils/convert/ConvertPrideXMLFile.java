@@ -10,6 +10,7 @@ import uk.ac.ebi.pride.jmztab.model.UserParam;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabConversionException;
 import uk.ac.ebi.pride.utilities.iongen.impl.DefaultPeptideIon;
 import uk.ac.ebi.pride.utilities.mol.PTModification;
+import uk.ac.ebi.pride.utilities.term.CvTermReference;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -168,6 +169,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
             proteinColumnFactory.addOptionalColumn("gel_identifier", String.class);
             logger.debug("Optional column gel_identifier added;");
+
+            proteinColumnFactory.addOptionalColumn("gel_coordinates", String.class);
+            logger.debug("Optional column gel_coordinates added;");
         }
 
         return proteinColumnFactory;
@@ -513,28 +517,29 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             peptideItems = identification.getPeptideItem();
 
             for (PeptideItem peptideItem : peptideItems) {
-                for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
-                    psm_searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
-                    psm_id = -1;
+                if( peptideItem.getAdditional()!= null) {
+                    for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
+                        psm_searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
+                        psm_id = -1;
 
-                    if (psm_searchEngineScoreParam != null) {
-                        psm_scoreParam = psm_searchEngineScoreParam.getParam(null);
+                        if (psm_searchEngineScoreParam != null) {
+                            psm_scoreParam = psm_searchEngineScoreParam.getParam(null);
 
-                        for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
-                            if (entry.getValue().getParam().equals(psm_scoreParam)) {
-                                psm_id = entry.getKey();
-                                break;
+                            for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
+                                if (entry.getValue().getParam().equals(psm_scoreParam)) {
+                                    psm_id = entry.getKey();
+                                    break;
+                                }
                             }
-                        }
 
-                        //Add the search engine score in the metadata section and extend the column factories with the new columns.
-                        if (psm_id <= 0) {
-                            psm_id = metadata.getPsmSearchEngineScoreMap().size() + 1;
-                            metadata.addPsmSearchEngineScoreParam(psm_id, psm_scoreParam);
+                            //Add the search engine score in the metadata section and extend the column factories with the new columns.
+                            if (psm_id <= 0) {
+                                psm_id = metadata.getPsmSearchEngineScoreMap().size() + 1;
+                                metadata.addPsmSearchEngineScoreParam(psm_id, psm_scoreParam);
+                            }
+                        } else {
+                            logger.debug("Psm search engine score param was not found for name \"" + cvParam.getName() + "\". It can not be added to the metadata section");
                         }
-                    }
-                    else {
-                        logger.debug("Psm search engine score param was not found for name \"" + cvParam.getName() + "\". It can not be added to the metadata section");
                     }
                 }
             }
@@ -589,13 +594,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             List<PublicationItem> items = new ArrayList<PublicationItem>();
 
             // check if there's a DOI
-            String doi = getPublicationAccession(param, ConverterCVParam.PRIDE_REFERENCE_DOI.getName());
+            String doi = getPublicationAccession(param, CvTermReference.PRIDE_REFERENCE_DOI.getName());
             if (!isEmpty(doi)) {
                 items.add(new PublicationItem(PublicationItem.Type.DOI, removeNewLineAndTab(doi)));
             }
 
             // check if there's a pubmed id
-            String pubmed = getPublicationAccession(param, ConverterCVParam.PRIDE_REFERENCE_PUBMED.getName());
+            String pubmed = getPublicationAccession(param, CvTermReference.PRIDE_REFERENCE_PUBMED.getName());
             if (!isEmpty(pubmed)) {
                 items.add(new PublicationItem(PublicationItem.Type.PUBMED, removeNewLineAndTab(pubmed)));
             }
@@ -615,8 +620,8 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         // this only makes sense if we have a list of params and an accession!
         for (uk.ac.ebi.pride.jaxb.model.CvParam p : param.getCvParam()) {
-            if (name.equalsIgnoreCase(p.getName())) {
-                return p.getValue();
+            if (name.equalsIgnoreCase(p.getCvLabel())) {   //At least in PRIDE XML the PubMed in the reference is in the CvLabel
+                return p.getAccession();
             }
         }
 
@@ -693,6 +698,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
     /**
      * Processes the sample processing information contained in protocol
      */
+    //TODO Check if we can process more that the first cv
     private void loadSampleProcessing(Protocol protocol) {
         if (protocol == null) {
             return;
@@ -711,8 +717,20 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 }
             }
             //If the protocol was reported as a UserParam, it can not be converted for now
-
         }
+          //Alternative to test
+//        if (protocol.getProtocolSteps() != null) {
+//            for (uk.ac.ebi.pride.jaxb.model.Param param : protocol.getProtocolSteps().getStepDescription()) {
+//                if (param != null && param.getCvParam() != null)
+//                    for (CvParam cvParam : param.getCvParam())
+//                        metadata.addSampleProcessingParam(i, convertParam(cvParam));
+//                if (param != null && param.getUserParam() != null)
+//                    for (uk.ac.ebi.pride.jaxb.model.UserParam userParam : param.getUserParam())
+//                        metadata.addSampleProcessingParam(i, convertUserParam(userParam));
+//
+//                i++;
+//            }
+//        }
     }
 
     private void loadInstrument(uk.ac.ebi.pride.jaxb.model.Instrument instrument) {
@@ -721,7 +739,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         if (!isEmpty(instrument.getInstrumentName())) {
-            metadata.addInstrumentName(1, new CVParam("MS", "MS:1000031", "Instrument model", removeNewLineAndTab(instrument.getInstrumentName())));
+            metadata.addInstrumentName(1, new CVParam("MS", "MS:1000031", "instrument model", removeNewLineAndTab(instrument.getInstrumentName())));
         }
 
         // handle the source information
@@ -930,7 +948,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         // create the protein object
         Protein protein = new Protein(proteinColumnFactory);
 
-        protein.setAccession(identification.getAccession());
+        protein.setAccession(generateAccession(identification));
         protein.setDatabase(identification.getDatabase());
         String version = (identification.getDatabaseVersion() != null && ! identification.getDatabaseVersion().isEmpty())?identification.getDatabaseVersion():null;
         protein.setDatabaseVersion(version);
@@ -989,10 +1007,12 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 sb.append(mod.getModAccession()).append(mod.getModLocation());
             }
             sb.append(item.getSequence());
-            for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : item.getAdditional().getCvParam()) {
-                if (ConverterCVParam.MS_CHARGE_STATE.getAccession().equalsIgnoreCase(cvParam.getAccession())) {
-                    sb.append(cvParam.getValue());
-                    break;
+            if(item.getAdditional() != null) {
+                for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : item.getAdditional().getCvParam()) {
+                    if (ConverterCVParam.MS_CHARGE_STATE.getAccession().equalsIgnoreCase(cvParam.getAccession())) {
+                        sb.append(cvParam.getValue());
+                        break;
+                    }
                 }
             }
 
@@ -1012,6 +1032,17 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
 
         // protein coverage
         protein.setProteinConverage(identification.getSequenceCoverage());
+
+        //gel location
+        if(identification instanceof TwoDimensionalIdentification){
+            TwoDimensionalIdentification twoDimIdentification =  ((TwoDimensionalIdentification) identification);
+            if(twoDimIdentification.getGelLocation()!= null){
+                String coordinates = "[" + twoDimIdentification.getGelLocation().getXCoordinate() +
+                        ", " + twoDimIdentification.getGelLocation().getYCoordinate() + "]";
+                addOptionalColumnValue(protein, proteinColumnFactory, "gel_coordinates", coordinates);
+
+            }
+        }
 
         // process the additional params
         if (identification.getAdditional() != null) {
@@ -1048,16 +1079,20 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     } else if (ConverterCVParam.PRIDE_GEL_SPOT_IDENTIFIER.getAccession().equals(p.getAccession())) {
                         // check if there's gel spot identifier
                         addOptionalColumnValue(protein, proteinColumnFactory, "gel_spotidentifier", p.getValue());
+                        logger.debug("Optional value gel_spotidentifier added;");
+
                     } else if (ConverterCVParam.PRIDE_GEL_IDENTIFIER.getAccession().equals(p.getAccession())) {
                         // check if there's gel identifier
                         addOptionalColumnValue(protein, proteinColumnFactory, "gel_identifier", p.getValue());
+                        logger.debug("Optional value gel_identifier added;");
+
                     }
                 }
             }
 
             // set the description if available
             String description = getCvParamValue(identification.getAdditional(), ConverterCVParam.PRIDE_PROTEIN_NAME.getAccession());
-            if(description!= null && !description.isEmpty()) {
+            if (description != null && !description.isEmpty()) {
                 protein.setDescription(description.trim());
             }
 
@@ -1079,7 +1114,6 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         //Search Engine score value to store
         //PRIDEXML only contain one score in this level, this implies only one search engine and search score
         SearchEngineScoreParam searchEngineScoreParam;
-        SearchEngineScoreParam psm_searchEngineScoreParam;
         Double score = identification.getScore();
         String searchEngineName = identification.getSearchEngine();
         Integer id;
@@ -1226,7 +1260,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                 logger.debug("There is no spectrum available, using an alternative id as PSM id.");
             }
 
-            psm.setAccession(identification.getAccession());
+            psm.setAccession(generateAccession(identification));
             psm.setDatabase(identification.getDatabase());
             String version = (identification.getDatabaseVersion() != null && ! identification.getDatabaseVersion().isEmpty())?identification.getDatabaseVersion():null;
             psm.setDatabaseVersion(version);
@@ -1272,7 +1306,16 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     for (uk.ac.ebi.pride.jaxb.model.CvParam c : precursor.getIonSelection().getCvParam()) {
                         if (ConverterCVParam.MS_PRECURSOR_MZ.getAccession().equalsIgnoreCase(c.getAccession())) {
                             psm.setExpMassToCharge(c.getValue());
-                            break;
+                        }
+                        else if(ConverterCVParam.PSI_MZ_RATIO.getAccession().equalsIgnoreCase(c.getAccession())){
+                            psm.setExpMassToCharge(c.getValue());
+                        }
+
+                        if (ConverterCVParam.MS_CHARGE_STATE.getAccession().equalsIgnoreCase(c.getAccession())) {
+                            psm.setCharge(c.getValue());
+                        }
+                        else if(ConverterCVParam.PSI_CHARGE_STATE.getAccession().equalsIgnoreCase(c.getAccession())){
+                            psm.setCharge(c.getValue());
                         }
                     }
                 }
@@ -1293,6 +1336,9 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     if (ConverterCVParam.MS_CHARGE_STATE.getAccession().equalsIgnoreCase(p.getAccession())) {
                         psm.setCharge(p.getValue());
                     }
+                    else if(ConverterCVParam.PSI_CHARGE_STATE.getAccession().equalsIgnoreCase(p.getAccession())){
+                        psm.setCharge(p.getValue());
+                    }
                     if (ConverterCVParam.PRIDE_UPSTREAM_FLANKING_SEQUENCE.getAccession().equalsIgnoreCase(p.getAccession())) {
                         psm.setPre(p.getValue());
                     }
@@ -1306,12 +1352,14 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             if (psm.getCharge() != null) {
                 boolean success = false;
                 // Step 1: additional cv param list contains theoretical mass
-                for (uk.ac.ebi.pride.jaxb.model.CvParam c : peptideItem.getAdditional().getCvParam()) {
-                    if (c.getName().trim().equalsIgnoreCase("Theoretical Mass")) {
-                        Double mass = Double.parseDouble(c.getValue());
-                        psm.setCalcMassToCharge(mass / psm.getCharge());
-                        success = true;
-                        break;
+                if(peptideItem.getAdditional() != null) {
+                    for (uk.ac.ebi.pride.jaxb.model.CvParam c : peptideItem.getAdditional().getCvParam()) {
+                        if (c.getName().trim().equalsIgnoreCase("Theoretical Mass")) {
+                            Double mass = Double.parseDouble(c.getValue());
+                            psm.setCalcMassToCharge(mass / psm.getCharge());
+                            success = true;
+                            break;
+                        }
                     }
                 }
                 // Step 2: calculate based on sequence + modification + charge.
@@ -1320,11 +1368,13 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                         uk.ac.ebi.pride.utilities.mol.Peptide peptide = new uk.ac.ebi.pride.utilities.mol.Peptide(peptideItem.getSequence());
                         for (ModificationItem modificationItem : peptideItem.getModificationItem()) {
                             int location = modificationItem.getModLocation().intValue();
-                            double mass = Double.parseDouble(modificationItem.getModMonoDelta().get(0));
+                            Double mass = Double.parseDouble(modificationItem.getModMonoDelta().get(0));
                             List<Double> monoMassList = new ArrayList<Double>();
                             monoMassList.add(mass);
                             peptide.addModification(location, new PTModification("", "", "", monoMassList, null));
+
                         }
+
                         DefaultPeptideIon peptideIon = new DefaultPeptideIon(peptide, psm.getCharge());
                         psm.setCalcMassToCharge(peptideIon.getMassOverCharge());
                     } catch (IllegalArgumentException e) {
@@ -1348,30 +1398,32 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         String score;
         Integer id;
 
-        for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
-            searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
-            id = -1;
+        if(peptideItem.getAdditional() != null) {
+            for (uk.ac.ebi.pride.jaxb.model.CvParam cvParam : peptideItem.getAdditional().getCvParam()) {
+                searchEngineScoreParam = SearchEngineScoreParam.getSearchEngineScoreParamByAccession(cvParam.getAccession());
+                id = -1;
 
-            if (searchEngineScoreParam != null) {
-                scoreParam = searchEngineScoreParam.getParam(null);
-                score = cvParam.getValue();
+                if (searchEngineScoreParam != null) {
+                    scoreParam = searchEngineScoreParam.getParam(null);
+                    score = cvParam.getValue();
 
-                //Add the search engine score in the metadata section if it has been stored.
-                for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
-                    if (entry.getValue().getParam().equals(scoreParam)) {
-                        id = entry.getKey();
-                        break;
+                    //Add the search engine score in the metadata section if it has been stored.
+                    for (Map.Entry<Integer, PSMSearchEngineScore> entry : metadata.getPsmSearchEngineScoreMap().entrySet()) {
+                        if (entry.getValue().getParam().equals(scoreParam)) {
+                            id = entry.getKey();
+                            break;
+                        }
                     }
+
+                    if (id <= 0) { //if the search engine score is not in the metadata we have a problem
+                        logger.warn("The search engine score value can not be converted because the search engine score is not defined in the metadata section.");
+                        return;
+                    }
+
+                    psm.setSearchEngineScore(id, score);
+                    psm.addSearchEngineParam(searchEngineScoreParam.getSearchEngineParam().getParam());
+
                 }
-
-                if (id <= 0) { //if the search engine score is not in the metadata we have a problem
-                    logger.warn("The search engine score value can not be converted because the search engine score is not defined in the metadata section.");
-                    return;
-                }
-
-                psm.setSearchEngineScore(id, score);
-                psm.addSearchEngineParam(searchEngineScoreParam.getSearchEngineParam().getParam());
-
             }
         }
     }
@@ -1514,6 +1566,15 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
         }
 
         return value;
+    }
+
+    private static String generateAccession(Identification identification) {
+        String accession = identification.getAccession();
+        if(identification.getAccessionVersion() != null){
+            //TODO: Standardise the way that we add the version
+            accession = accession + '.' + identification.getAccessionVersion();
+        }
+        return accession;
     }
 
 }
