@@ -4,7 +4,6 @@ import uk.ac.ebi.jmzidml.model.mzidml.CvParam;
 import uk.ac.ebi.pride.jmztab.utils.convert.SearchEngineParam;
 import uk.ac.ebi.pride.jmztab.utils.convert.SearchEngineScoreParam;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +15,21 @@ import java.util.List;
  */
 public final class MZIdentMLUtils {
 
-    public static String CVTERM_MAIL = "MS:1000589";
-    public static String CVTERM_PROTEIN_DESCRIPTION = "MS:1001088";
-    public static String CVTERM_NEUTRAL_LOST = "MS:1001524";
-    public static String OPTIONAL_ID_COLUMN  = "mzidentml_original_ID";
-    public static String OPTIONAL_SEQUENCE_COLUMN = "protein_sequence";
-    public static String[] CVTERMS_FDR_PSM = {"MS:1002260", "MS:1002350", "MS:1002351"};
-    public static String[] CVTERMS_FDR_PROTEIN = {"MS:1001447", "MS:1002364", "MS:1001214"};
-    public static String OPTIONAL_DECOY_COLUMN = "cv_MS:1002217_decoy_peptide";
+    public static final String CVTERM_MAIL = "MS:1000589";
+    public static final String CVTERM_PROTEIN_DESCRIPTION = "MS:1001088";
+    public static final String CVTERM_NEUTRAL_LOST = "MS:1001524";
+    public static final String OPTIONAL_ID_COLUMN  = "mzidentml_original_ID";
+    public static final String OPTIONAL_SEQUENCE_COLUMN = "protein_sequence";
+    public static final String[] CVTERMS_FDR_PSM = {"MS:1002260", "MS:1002350", "MS:1002351"};
+    public static final String[] CVTERMS_FDR_PROTEIN = {"MS:1001447", "MS:1002364", "MS:1001214"};
+    public static final String OPTIONAL_DECOY_COLUMN = "cv_MS:1002217_decoy_peptide";
+    public static final String PEPTIDE_N_TERM = "MS:1001189";
+    public static final String PROTEIN_N_TERM = "MS:1002057";
+    public static final String PEPTIDE_C_TERM = "MS:1001190";
+    public static final String PROTEIN_C_TERM = "MS:1002058";
+    public static final String UNKNOWN_MOD = "MS:1001460";
+    public static final String CHEMMOD = "CHEMMOD";
+    public static final String UNKNOWN_MODIFICATION = "unknown modification";
 
 
 
@@ -87,8 +93,8 @@ public final class MZIdentMLUtils {
         List<SearchEngineScoreParam> scores = new ArrayList<SearchEngineScoreParam>();
         if (params != null)
             for (CvParam term : params)
-              if(SearchEngineScoreParam.getSearchEngineScoreParamByAccession(term.getAccession()) != null)
-                  scores.add(SearchEngineScoreParam.getSearchEngineScoreParamByAccession(term.getAccession()));
+                if (SearchEngineScoreParam.getSearchEngineScoreParamByAccession(term.getAccession()) != null)
+                    scores.add(SearchEngineScoreParam.getSearchEngineScoreParamByAccession(term.getAccession()));
         return scores;
     }
 

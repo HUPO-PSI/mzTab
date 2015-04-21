@@ -447,7 +447,7 @@ public class MZTabUtils {
         return refList;
     }
 
-    private static void parseModificationPosition(String target, Modification modification) {
+    public static void parseModificationPosition(String target, Modification modification) {
         target = translateTabToComma(target);
         SplitList<String> list = parseStringList(BAR, target);
 
@@ -469,7 +469,7 @@ public class MZTabUtils {
      *  Solve the conflict about minus char between modification position and CHEMMOD charge.
      *  For example: 13-CHEMMOD:-159
      */
-    private static String translateMinusToUnicode(String target) {
+    public static String translateMinusToUnicode(String target) {
         Pattern pattern = Pattern.compile("(CHEMMOD:.*)(-)(.*)");
         Matcher matcher = pattern.matcher(target);
         if (matcher.find()) {
@@ -489,7 +489,7 @@ public class MZTabUtils {
      *  Solve the conflict about minus char between modification position and CHEMMOD charge.
      *  For example: 13-CHEMMOD:-159
      */
-    private static String translateUnicodeToMinus(String target) {
+    public static String translateUnicodeToMinus(String target) {
         Pattern pattern = Pattern.compile("(.*CHEMMOD:.*)(&minus;)(.*)");
         Matcher matcher = pattern.matcher(target);
         if (matcher.find()) {
@@ -576,7 +576,7 @@ public class MZTabUtils {
     /**
      * locate param label [label, accession, name, value], translate ',' to '\t'
      */
-    private static String translateCommaToTab(String target) {
+    public static String translateCommaToTab(String target) {
         Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
         Matcher matcher = pattern.matcher(target);
 
@@ -598,7 +598,7 @@ public class MZTabUtils {
     /**
      * solve the conflict about comma char which used in split modification and split cv param components.
      */
-    private static String translateTabToComma(String target) {
+    public static String translateTabToComma(String target) {
         Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
         Matcher matcher = pattern.matcher(target);
 
@@ -619,7 +619,7 @@ public class MZTabUtils {
 
     //Solve the problem for Neutral losses in CvTerm format
 
-    private static String translateMinusToTab(String target){
+    public static String translateMinusToTab(String target){
         Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
         Matcher matcher = pattern.matcher(target);
 
@@ -642,7 +642,7 @@ public class MZTabUtils {
     /**
      * solve the conflict about comma char which used in split modification and split cv param components.
      */
-    private static String translateTabToMinus(String target) {
+    public static String translateTabToMinus(String target) {
         Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
         Matcher matcher = pattern.matcher(target);
 

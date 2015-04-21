@@ -7,7 +7,6 @@ import uk.ac.ebi.jmzidml.model.mzidml.UserParam;
 import uk.ac.ebi.pride.jmztab.model.*;
 import uk.ac.ebi.pride.jmztab.model.Modification;
 import uk.ac.ebi.pride.jmztab.model.Param;
-import uk.ac.ebi.pride.jmztab.utils.convert.utils.MZIdentMLUtils;
 import uk.ac.ebi.pride.jmztab.utils.convert.utils.MzIdentMLUnmarshallerAdaptor;
 import uk.ac.ebi.pride.jmztab.utils.errors.MZTabConversionException;
 
@@ -21,6 +20,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static uk.ac.ebi.pride.jmztab.utils.convert.utils.MZIdentMLUtils.*;
 
 /**
  * Class that convert a mzIdentML to a mzTab file using the mzTab library. This Class extends the @ConvertProvider<File, Void>  class
@@ -201,7 +202,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                proteinColumnFactory.addSearchEngineScoreOptionalColumn(ProteinColumn.SEARCH_ENGINE_SCORE, idScore, msRun);
 
         //Protein sequence columns added by default
-        proteinColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, String.class);
+        proteinColumnFactory.addOptionalColumn(OPTIONAL_SEQUENCE_COLUMN, String.class);
 
 
         return proteinColumnFactory;
@@ -214,8 +215,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
     protected MZTabColumnFactory convertPSMColumnFactory() {
         psmColumnFactory = MZTabColumnFactory.getInstance(Section.PSM);
         psmColumnFactory.addDefaultStableColumns();
-        psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_ID_COLUMN,String.class);
-        psmColumnFactory.addOptionalColumn(MZIdentMLUtils.OPTIONAL_DECOY_COLUMN, Integer.class);
+        psmColumnFactory.addOptionalColumn(OPTIONAL_ID_COLUMN,String.class);
+        psmColumnFactory.addOptionalColumn(OPTIONAL_DECOY_COLUMN, Integer.class);
 
         //Search engine score information (mandatory for all)
         for (Integer id : metadata.getPsmSearchEngineScoreMap().keySet()) {
@@ -259,14 +260,8 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         }
 
 
-        if(metadata.getFixedModMap().isEmpty()){
-            Comment comment = new Comment("Only variable modifications can be reported when the original source is a MZIdentML XML file");
-            getMZTabFile().addComment(1, comment);
-            metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
-        }
-        if(metadata.getVariableModMap().isEmpty()){
-            metadata.addVariableModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
-        }
+        loadMetadataModifications();
+
     }
 
     private Protein getProteinGroupById(Comparable proteinGroupId) throws JAXBException {
@@ -312,6 +307,112 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         return protein;
     }
 
+    protected void loadMetadataModifications() {
+
+
+        int i = 1;
+        int j = 1;
+
+        final List<SpectrumIdentificationProtocol> spectrumIdDetectionProtocols = reader.getSpectrumIdentificationProtocol();
+        if (spectrumIdDetectionProtocols != null) {
+            for (SpectrumIdentificationProtocol spectrumIdDetectionProtocol : spectrumIdDetectionProtocols) {
+                final ModificationParams searchModifications = spectrumIdDetectionProtocol.getModificationParams();
+                if (searchModifications != null) {
+                    for (SearchModification searchModification : searchModifications.getSearchModification()) {
+                        CvParam mzIdParam = searchModification.getCvParam().get(0);
+                        if (mzIdParam != null) {
+
+                            Param param = new CVParam(mzIdParam.getCvRef(), mzIdParam.getAccession(), mzIdParam.getName(), String.valueOf(searchModification.getMassDelta()));
+
+                            String site = null;
+                            String position = null;
+
+                            if (param.getAccession().equalsIgnoreCase(UNKNOWN_MOD)) {
+                                //Transform in a CHEMMOD Type modification
+                                param = createUnknownModification(param.getValue());
+                            }
+
+                            if (searchModification.getResidues() != null && !searchModification.getResidues().isEmpty()) {
+                                site = searchModification.getResidues().get(0);
+
+                                if (searchModification.getResidues().size() > 1) {
+                                    //We annotate only one site in mzTab
+                                    logger.warn("More than one residue specify");
+                                    for (int k = 1; k <searchModification.getResidues().size(); k++) {
+                                        site = site + " " + searchModification.getResidues().get(k);
+                                    }
+                                }
+
+
+                                if (site.equalsIgnoreCase(".")) {  //We try to find a more specific site in the rules
+
+                                    if (searchModification.getSpecificityRules() != null && !searchModification.getSpecificityRules().isEmpty()) {
+
+                                        for (SpecificityRules specificityRules : searchModification.getSpecificityRules())
+                                            for (CvParam rule : specificityRules.getCvParam()) {
+                                                if (rule.getAccession().equalsIgnoreCase(PEPTIDE_N_TERM)) {
+                                                    site = "N-term";
+                                                    position = "Peptide N-term";
+                                                } else if (rule.getAccession().equalsIgnoreCase(PROTEIN_N_TERM)) {
+                                                    site = "N-term";
+                                                    position = "Protein N-term";
+                                                } else if (rule.getAccession().equalsIgnoreCase(PEPTIDE_C_TERM)) {
+                                                    site = "C-term";
+                                                    position = "Peptide C-term";
+                                                } else if (rule.getAccession().equalsIgnoreCase(PROTEIN_C_TERM)) {
+                                                    site = "C-term";
+                                                    position = "Protein C-term";
+                                                } else {
+                                                    logger.warn("Cv Term for Rule: " + rule.toString() + "is not recognized");
+                                                    site = "C-term or N-term";
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+
+                            if (searchModification.isFixedMod()) {
+                                FixedMod mod = new FixedMod(i++);
+                                mod.setParam(param);
+                                if (site != null) {
+                                    mod.setSite(site);
+                                }
+                                if (position != null) {
+                                    mod.setPosition(position);
+                                }
+                                metadata.addFixedMod(mod);
+                            } else {
+                                VariableMod mod = new VariableMod(j++);
+                                mod.setParam(param);
+                                if (site != null) {
+                                    mod.setSite(site);
+                                }
+                                if (position != null) {
+                                    mod.setPosition(position);
+                                }
+                                metadata.addVariableMod(mod);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if (metadata.getFixedModMap().isEmpty()) {
+            Comment comment = new Comment("Only variable modifications can be reported when the original source is a MZIdentML XML file");
+            getMZTabFile().addComment(1, comment);
+            metadata.addFixedModParam(1, new CVParam("MS", "MS:1002453", "No fixed modifications searched", null));
+        }
+        if (metadata.getVariableModMap().isEmpty()) {
+            metadata.addVariableModParam(1, new CVParam("MS", "MS:1002454", "No variable modifications searched", null));
+        }
+    }
+
+    private Param createUnknownModification(String value) {
+        return new CVParam(CHEMMOD, CHEMMOD + ":" + value, UNKNOWN_MODIFICATION, null);
+    }
+
 
     /* Metadata */
     private void loadSearchEngineScores(){
@@ -336,7 +437,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             while(id.hasNext() && i < THRESHOLD_LOOP_FOR_SCORE) {
                 String psmId = id.next();
                 SpectrumIdentificationItem psm = reader.getSpectrumIdentificationItem(psmId);
-                List<SearchEngineScoreParam> psmParams = MZIdentMLUtils.getSearchEngineScoreTerm(psm.getCvParam());
+                List<SearchEngineScoreParam> psmParams = getSearchEngineScoreTerm(psm.getCvParam());
                 for(SearchEngineScoreParam scoreCv: psmParams){
                     psmScores.put(scoreCv,i);
                 }
@@ -351,7 +452,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
             while(id.hasNext() && i < THRESHOLD_LOOP_FOR_SCORE) {
                 String proteinId = id.next();
                 ProteinDetectionHypothesis protein = reader.getIdentificationById(proteinId);
-                List<SearchEngineScoreParam> proteinParams = MZIdentMLUtils.getSearchEngineScoreTerm(protein.getCvParam());
+                List<SearchEngineScoreParam> proteinParams = getSearchEngineScoreTerm(protein.getCvParam());
                 for(SearchEngineScoreParam scoreCv: proteinParams){
                     proteinScores.put(scoreCv,i);
                 }
@@ -412,7 +513,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
                             //Add FDR at Protein level if is annotated
                             for(CvParam cvParam: proteinDetectionProtocol.getThreshold().getCvParam())
-                              if(Arrays.asList(MZIdentMLUtils.CVTERMS_FDR_PROTEIN).contains(cvParam.getAccession()))
+                              if(Arrays.asList(CVTERMS_FDR_PROTEIN).contains(cvParam.getAccession()))
                                   metadata.addFalseDiscoveryRateParam(convertParam(cvParam));
                          }
                          if(proteinDetectionProtocol.getAnalysisParams() != null){
@@ -426,7 +527,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                                 loadCvParamSettings(i+1, spectrumIdentificationProtocol.getThreshold());
                                 //Add FDR at PSM level if is annotated
                                 for(CvParam cvParam: spectrumIdentificationProtocol.getThreshold().getCvParam())
-                                    if(Arrays.asList(MZIdentMLUtils.CVTERMS_FDR_PSM).contains(cvParam.getAccession()))
+                                    if(Arrays.asList(CVTERMS_FDR_PSM).contains(cvParam.getAccession()))
                                         metadata.addFalseDiscoveryRateParam(convertParam(cvParam));
                             }
                             if(spectrumIdentificationProtocol.getAdditionalSearchParams() != null){
@@ -534,7 +635,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         Matcher matcher;
 
         for(CvParam cv: person.getCvParam()){
-            if(cv.getAccession().equals(MZIdentMLUtils.CVTERM_MAIL) || cv.getValue().contains("@") ){
+            if(cv.getAccession().equals(CVTERM_MAIL) || cv.getValue().contains("@") ){
                 matcher = pattern.matcher(cv.getValue());
                 if(matcher.find()) {
                     mail = matcher.group();
@@ -545,7 +646,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
         if(mail.isEmpty()){
             for(UserParam cv: person.getUserParam()){
-                if(cv.getUnitAccession().equals(MZIdentMLUtils.CVTERM_MAIL) || cv.getValue().contains("@") ){
+                if(cv.getUnitAccession().equals(CVTERM_MAIL) || cv.getValue().contains("@") ){
                     matcher = pattern.matcher(cv.getValue());
                     if(matcher.find()) {
                         mail = matcher.group();
@@ -588,7 +689,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                     String name = (filter.getFilterType().getCvParam() != null)?filter.getFilterType().getCvParam().getName():"";
                     description = (!name.isEmpty())?description + name + " ":description;
                 }
-                description = description.substring(0,description.length()-1);
+                description = description.substring(0, description.length() - 1);
             }
         }
         metadata.setDescription(description);
@@ -708,41 +809,68 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
 
                 List<Modification> mods = new ArrayList<Modification>();
-                for(uk.ac.ebi.jmzidml.model.mzidml.Modification oldMod: oldPSM.getPeptide().getModification()){
-                    Modification mod = MZTabUtils.parseModification(Section.PSM, oldMod.getCvParam().get(0).getAccession());
-                    if(mod != null){
-                        mod.addPosition(oldMod.getLocation(), null);
-                        mods.add(mod);
-                        String site = null;
-                        if(oldMod.getLocation()-1 < 0)
-                            site = "N-Term";
-                        else if(peptideEvidenceRef.getPeptideEvidence().getPeptide().getPeptideSequence().length() <= oldMod.getLocation() -1)
-                            site = "C-Term";
-                        else
-                          site = String.valueOf(peptideEvidenceRef.getPeptideEvidence().getPeptide().getPeptideSequence().charAt(oldMod.getLocation()-1));
-                        Param param = convertParam(oldMod.getCvParam().get(0));
-                        if(!variableModifications.containsKey(param) || !variableModifications.get(param).contains(site)){
-                            Set<String> sites = new HashSet<String>();
-                            sites = (variableModifications.containsKey(param.getAccession()))?variableModifications.get(param.getAccession()):sites;
-                            sites.add(site);
-                            variableModifications.put(param, sites);
-                        }
-                    }else{
-                        logger.warn("Your mzidentml contains an UNKNOWN modification which is not supported by mzTab format");
-                    }
-                    for(CvParam param: oldMod.getCvParam()) {
-                        if(param.getAccession().equalsIgnoreCase(MZIdentMLUtils.CVTERM_NEUTRAL_LOST)){
-                            CVParam lost = convertParam(param);
-                            Modification modNeutral = new Modification(Section.PSM,Modification.Type.NEUTRAL_LOSS, lost.getAccession());
-                            modNeutral.setNeutralLoss(lost);
-                            modNeutral.addPosition(oldMod.getLocation(), null);
-                            mods.add(modNeutral);
-                            //mod.setNeutralLoss(lost);
+                for (uk.ac.ebi.jmzidml.model.mzidml.Modification oldMod : oldPSM.getPeptide().getModification()) {
+                    if(oldMod.getCvParam()!=null){
+
+                        Double mass = (oldMod.getMonoisotopicMassDelta() != null) ? oldMod.getMonoisotopicMassDelta() : null;
+
+                        for (CvParam param : oldMod.getCvParam()) {
+                            //Try to map it directly (if it fails we know that is an unknown mod)
+                            Modification mod = MZTabUtils.parseModification(Section.PSM, oldMod.getCvParam().get(0).getAccession());
+
+                            if (mod != null) {
+                                mod.addPosition(oldMod.getLocation(), null);
+                                mods.add(mod);
+                            } else if (param.getAccession().equalsIgnoreCase(UNKNOWN_MOD) && mass != null) {  //Unknown mod
+                                //Transform in a CHEMMOD Type modification
+                                mod = new Modification(Section.PSM, Modification.Type.CHEMMOD, mass.toString());
+                                mod.addPosition(oldMod.getLocation(), null);
+                                mods.add(mod);
+                            } else if (param.getAccession().equalsIgnoreCase(CVTERM_NEUTRAL_LOST)) {
+                                CVParam lost = convertParam(param);
+                                Modification modNeutral = new Modification(Section.PSM, Modification.Type.NEUTRAL_LOSS, lost.getAccession());
+                                modNeutral.setNeutralLoss(lost);
+                                modNeutral.addPosition(oldMod.getLocation(), null);
+                                mods.add(modNeutral);
+                            } else {
+                                //We have a problem parsing the CvTerm (e.g.: accession "UNIMOD:")
+                                //TODO: Infer the CvTerm using the mass for conversion purposes
+                                logger.warn("Modification with accession: " + param.getAccession() + " cannot be converted.");
+
+                            }
                         }
                     }
                 }
 
-                for(Modification mod: mods) psm.addModification(mod);
+//                    if(mod != null){
+//                        mod.addPosition(oldMod.getLocation(), null);
+//                        mods.add(mod);
+//                        String site = null;
+//                        if(oldMod.getLocation()-1 < 0)
+//                            site = "N-Term";
+//                        else if(peptideEvidenceRef.getPeptideEvidence().getPeptide().getPeptideSequence().length() <= oldMod.getLocation() -1)
+//                            site = "C-Term";
+//                        else
+//                          site = String.valueOf(peptideEvidenceRef.getPeptideEvidence().getPeptide().getPeptideSequence().charAt(oldMod.getLocation()-1));
+//                        Param param = convertParam(oldMod.getCvParam().get(0));
+//                        if(!variableModifications.containsKey(param) || !variableModifications.get(param).contains(site)){
+//                            Set<String> sites = new HashSet<String>();
+//                            sites = (variableModifications.containsKey(param.getAccession()))?variableModifications.get(param.getAccession()):sites;
+//                            sites.add(site);
+//                            variableModifications.put(param, sites);
+//                        }
+//                    }else if (param.getAccession().equalsIgnoreCase(UNKNOWN_MOD) && mass != null) {  //Unknown mod
+//                        //Transform in a CHEMMOD Type modification
+//                        mzTabMod = new Modification(Section.PSM, Modification.Type.CHEMMOD, mass.toString());
+//                        mzTabMod.addPosition(oldMod.getLocation(), null);
+//                        mods.add(mzTabMod);
+//                        //TODO: Change implement with chemod
+//                        logger.warn("Your mzidentml contains an UNKNOWN modification which is not supported by mzTab format");
+
+//                }
+
+                for(Modification mod: mods)
+                    psm.addModification(mod);
 
                 psm.setExpMassToCharge(oldPSM.getExperimentalMassToCharge());
                 psm.setCharge(oldPSM.getChargeState());
@@ -753,8 +881,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
                 String spectrumReference = spectumMap[0];
                 if(spectumMap[1] != null && spectrumReference != null)
                     psm.addSpectraRef(new SpectraRef(metadata.getMsRunMap().get(spectraToRun.get(spectumMap[1])), spectrumReference));
-                psm.setStart(peptideEvidenceRef.getPeptideEvidence().getStart());
-                psm.setEnd(peptideEvidenceRef.getPeptideEvidence().getEnd());
+
 
                 // See which psm scores are supported
                 for(CvParam cvPAram: oldPSM.getCvParam()){
@@ -772,34 +899,35 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
                 //Set Search Engine
                 Set<SearchEngineParam> searchEngines = new HashSet<SearchEngineParam>();
-                List<SearchEngineParam> searchEngineParams = MZIdentMLUtils.getSearchEngineTypes(oldPSM.getCvParam());
+                List<SearchEngineParam> searchEngineParams = getSearchEngineTypes(oldPSM.getCvParam());
                 searchEngines.addAll(searchEngineParams);
 
                 for(SearchEngineParam searchEngineParam: searchEngines)
                     psm.addSearchEngineParam(searchEngineParam.getParam());
 
                 //Set optional parameter
-
+                //Updates PSMId
                 psm.setPSM_ID(indexSpectrumID.get(oldPSM.getId()));
-                psm.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_ID_COLUMN, oldPSM.getId());
+                psm.setOptionColumnValue(OPTIONAL_ID_COLUMN, oldPSM.getId());
                 Boolean decoy = peptideEvidenceRef.getPeptideEvidence().isIsDecoy();
-                psm.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_DECOY_COLUMN, (!decoy)?0:1);
+                psm.setOptionColumnValue(OPTIONAL_DECOY_COLUMN, (!decoy)?0:1);
                 psmList.add(psm);
             }
         }
 
         //Load the modifications in case some of modifications are not reported in the SpectrumIdentificationProtocol
-        int varId = 1;
-        for(Param param: variableModifications.keySet()){
-            String siteString = "";
-            for(String site: variableModifications.get(param)){
-                siteString=siteString+" "+ site;
-            }
-            siteString = siteString.trim();
-            metadata.addVariableModParam(varId, param);
-            metadata.addVariableModSite(varId, siteString);
-            varId++;
-        }
+        // MOVE TO THE LOAD METADATA MODS
+//        int varId = 1;
+//        for(Param param: variableModifications.keySet()){
+//            String siteString = "";
+//            for(String site: variableModifications.get(param)){
+//                siteString=siteString+" "+ site;
+//            }
+//            siteString = siteString.trim();
+//            metadata.addVariableModParam(varId, param);
+//            metadata.addVariableModSite(varId, siteString);
+//            varId++;
+//        }
         return psmList;
     }
 
@@ -857,7 +985,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         //Set Search Engine
         Set<SearchEngineParam> searchEngines = new HashSet<SearchEngineParam>();
         for(int i=0; i < THRESHOLD_LOOP_FOR_SCORE && i < spectrumItems.size(); i++){
-            List<SearchEngineParam> searchEngineParams = MZIdentMLUtils.getSearchEngineTypes(spectrumItems.get(i).getCvParam());
+            List<SearchEngineParam> searchEngineParams = getSearchEngineTypes(spectrumItems.get(i).getCvParam());
             searchEngines.addAll(searchEngineParams);
         }
         for(SearchEngineParam searchEngineParam: searchEngines)
@@ -869,9 +997,9 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
         loadModifications(protein, spectrumItems);
 
         if(sequence.getSeq() != null && !sequence.getSeq().isEmpty()) {
-            protein.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, sequence.getSeq());
+            protein.setOptionColumnValue(OPTIONAL_SEQUENCE_COLUMN, sequence.getSeq());
         } else
-            protein.setOptionColumnValue(MZIdentMLUtils.OPTIONAL_SEQUENCE_COLUMN, "null");
+            protein.setOptionColumnValue(OPTIONAL_SEQUENCE_COLUMN, "null");
 
 
         return protein;
@@ -986,7 +1114,7 @@ public class ConvertMZidentMLFile extends ConvertProvider<File, Void> {
 
     private String getDescriptionFromCVParams(List<CvParam> cvParams) {
         for(CvParam cvparam: cvParams){
-            if(cvparam.getAccession().equalsIgnoreCase(MZIdentMLUtils.CVTERM_PROTEIN_DESCRIPTION)){
+            if(cvparam.getAccession().equalsIgnoreCase(CVTERM_PROTEIN_DESCRIPTION)){
                 return cvparam.getValue();
             }
         }

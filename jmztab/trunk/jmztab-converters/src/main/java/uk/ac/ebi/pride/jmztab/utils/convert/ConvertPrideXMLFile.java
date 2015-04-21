@@ -1349,6 +1349,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
             }
 
             // calculate m/z based on sequence.
+            //TODO: Improve charge detection (as in ms-data-core-api)
             if (psm.getCharge() != null) {
                 boolean success = false;
                 // Step 1: additional cv param list contains theoretical mass
@@ -1380,6 +1381,7 @@ public class ConvertPrideXMLFile extends ConvertProvider<File, Void> {
                     } catch (IllegalArgumentException e) {
                         // ignore unrecognized amino acid Peptide sequence.
                         // need solved in the future.
+                        logger.warn("Monoisotopic Mass Delta not available calculated m/z can be inacurate");
                     }
 
                 }
