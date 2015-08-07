@@ -22,7 +22,7 @@ When you use mzTab format, please cite the following publication:
 ## Example Files
 Several example of the format can be download from the next link [examples.zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip)
 
-Detailed explanation of all examples can be found [here](../../wiki/mzTab-Examples)
+Detailed explanation of all examples can be found [here](../../wiki/Examples)
 
 ## jmzTab API
 
