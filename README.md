@@ -15,9 +15,9 @@ When you use mzTab format, please cite the following publication:
 
 **Version 1.0.0 (June 2014):**
 
-  > Specification document ([docx](specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](specification_document-releases/version-1.0.0/mzTab_format_specification.pdf))
+  > Specification document ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.pdf))
 
-  > The 20 minute guide to mzTab ([docx](specification_document-releases/version-1.0.0/20minute_guide_mzTab.docx), [PDF](specification_document-releases/version-1.0.0/20minute_guide_mzTab.pdf))
+  > The 20 minute guide to mzTab ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.pdf))
 
 ## Example Files
 Several example of the format can be download from the next link [examples.zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip)
@@ -35,4 +35,4 @@ When you use jmzTab library, please cite the following publication:
   * **[Qing-Wei Xu et al., Proteomics 2014; Jun;14(11):1328-32](http://onlinelibrary.wiley.com/doi/10.1002/pmic.201300560/abstract). [PDF File](http://onlinelibrary.wiley.com/doi/10.1002/pmic.201300560/pdf).  [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/24659499).**
 
 ## Wiki
-For more information you can visit the [mzTab](https://github.com/PSI-MS/mzTab/wiki) and [jmzTab](https://github.com/PRIDE-Utilities/jmztab/wiki) wikis.
+For more information you can visit the [mzTab](https://github.com/HUPO-PSI/mzTab/wiki) and [jmzTab](https://github.com/PRIDE-Utilities/jmztab/wiki) wikis.
