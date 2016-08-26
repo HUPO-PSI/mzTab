@@ -9,6 +9,7 @@ Da Qi
 Marc Rurik
 Joel Rein
 Mathias Walzer
+Juan Antonio Vizcaíno
 Did I miss anyone? Apologies if so.
 
 Discussion items
@@ -29,30 +30,30 @@ Downward references between layers.
 
 - Changes and discussion can be inferred from diff on gitHub and comments in margin.
 
--specification allows both proteomics and metabolomics to be present in a file, decided to change so that only one can be present in a single file
+-specification allows both proteomics and metabolomics to be present in a file, decided to change so that only one can be present in a single file.
 
-- should SML_ID be NULLABLE (v.s., refers to Steffens question) 
+- should SML_ID be NULLABLE (v.s., refers to Steffens question). 
 
--referencing entries: mix and match in column but not in cell (--> '|'  is ambiguity indication) 
+-referencing entries: mix and match in column but not in cell (--> '|'  is ambiguity indication). 
 
--phrasing for all subsections => if in case of ambiguity report all the same number of items identified (and referenced), in one cell e.g. in 6.6.4 (see Spec doc for further explanation)
+-phrasing for all subsections => if in case of ambiguity report all the same number of items identified (and referenced), in one cell e.g. in 6.6.4 (see Spec doc for further explanation).
 
--smiles sometimes not possible, so allowed to be nullable 
+-SMILES sometimes not possible, so allowed to be nullable.
 
 -discussion around calc_neutral_mass and exp_m/z or exp_neutral_mass in SML table; further discussion needed.
 
-- highlighted in spec.doc. (e.g. which metadata section if retention time unit changes) 
+- highlighted in spec.doc. (e.g. which metadata section if retention time unit changes). 
 
 -adduct_ions might be too complex to list all adduct ions, but need adduct ions involved to get to neutral mass - leave out? 
 http://goldbook.iupac.org/A00139.html
 
--reliability - metabolomics society has different approaches in store, one strong point for representation like now is the ability to order rows accordingly; no code for "don't want to say" yet
+-reliability - metabolomics society has different approaches in store, one strong point for representation like now is the ability to order rows accordingly; no code for "don't want to say" yet.
 
- -URI bar separated 
+ -URI bar separated if ambiguity is reported. 
  
  -best_search_engine ought to be deleted already? needs more discussion..
 
-*action point Steffen: submit reliability cv terms to google group (and PSI CV)
+*action point Steffen: submit reliability cv terms to google group (and PSI CV).
 
 *timeslot - toggle to include different time zones
 
