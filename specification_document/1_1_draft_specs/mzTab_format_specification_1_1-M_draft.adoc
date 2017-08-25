@@ -8,9 +8,6 @@ _Version of This Document_
 
 The current version of this document is: version 1.1.0-draft, Aug 2017.
 
-[[section]]
-=
-
 [[abstract]]
 = Abstract
 
@@ -108,9 +105,10 @@ link:#trademark-section[TradeMark Section 35]
 
 link:#_Toc491263080[Copyright Notice 35]
 
-1.  [[introduction]]
+[[introduction]]
 = Introduction
-1.  [[background]]
+
+[[background]]
 == Background
 
 This document addresses the systematic description of small molecule identification and quantification data retrieved from mass spectrometry (MS)-based experiments. A large number of software tools are available that analyze MS data and produce a variety of different output data formats.
@@ -136,29 +134,21 @@ The remainder of this document is structured as follows. Section 2 lists use cas
 
 The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 1.0.
 
-1.
-mzTab-M files should be simple enough to make metabolomics results accessible to people outside the respective fields. This should facilitate the sharing of data beyond the borders of the fields and make it accessible to non-experts.
+1. mzTab-M files should be simple enough to make metabolomics results accessible to people outside the respective fields. This should facilitate the sharing of data beyond the borders of the fields and make it accessible to non-experts.
 
-2.
-mzTab-M files should contain sufficient information to provide an electronic summary of all findings in a metabolomics study to permit its use as a standard documentation format for ‘supplementary material’ sections of publications in metabolomics. It should thus be able to replace PDF tables as a way of reporting small molecules make published identification and quantification information more accessible.
+2. mzTab-M files should contain sufficient information to provide an electronic summary of all findings in a metabolomics study to permit its use as a standard documentation format for ‘supplementary material’ sections of publications in metabolomics. It should thus be able to replace PDF tables as a way of reporting small molecules make published identification and quantification information more accessible.
 
-3.
-mzTab-M files should enable reporting at different levels of detail: ranging from a simple summary of the final results to a detailed reporting including the experimental design.
+3. mzTab-M files should enable reporting at different levels of detail: ranging from a simple summary of the final results to a detailed reporting including the experimental design.
 
-4.
-It should be possible to open mzTab-M files with “standard” software such as Microsoft Excel^®^ or Open Office Spreadsheet. This should furthermore improve the usability of the format to people outside the fields of metabolomics.
+4. It should be possible to open mzTab-M files with “standard” software such as Microsoft Excel^®^ or Open Office Spreadsheet. This should furthermore improve the usability of the format to people outside the fields of metabolomics.
 
-5.
-mzTab files should make MS derived results easily accessible to scripting languages allowing bioinformaticians to develop software without the overhead of developing sophisticated parsing code. Since mzTab files will be comparatively small, the data from multiple experiments can be processed at once without requiring special resource management techniques.
+5. mzTab files should make MS derived results easily accessible to scripting languages allowing bioinformaticians to develop software without the overhead of developing sophisticated parsing code. Since mzTab files will be comparatively small, the data from multiple experiments can be processed at once without requiring special resource management techniques.
 
-6.
-It should be possible to contain the complete final results of an MS-based metabolomics experiment in a single file. This should furthermore reduce the complexity of sharing and processing an experiment’s final results. mzTab-M files should be able to store quantitative values for small molecule identifications.
+6. It should be possible to contain the complete final results of an MS-based metabolomics experiment in a single file. This should furthermore reduce the complexity of sharing and processing an experiment’s final results. mzTab-M files should be able to store quantitative values for small molecule identifications.
 
-7.
-It should be useful as an output format by web-services that can then be readily accessed by tools supporting mzTab-M.
+7. It should be useful as an output format by web-services that can then be readily accessed by tools supporting mzTab-M.
 
-8.
-It should be possible to directly link a given peptide / small molecule identification to its source spectrum in an external MS data file.
+8. It should be possible to directly link a given peptide / small molecule identification to its source spectrum in an external MS data file.
 
 
 [[notational-conventions]]
@@ -173,7 +163,8 @@ The specification described in this document has not been developed in isolation
 
 1.  _mzML_ (http://www.psidev.info/mzml). mzML is the PSI standard for capturing mass spectra / peak lists resulting from mass spectrometry in proteomics (Martens, L., _et al._ 2011). mzTab files MAY be used in conjunction with mzML, although it will be possible to use mzTab with other formats of mass spectra. This document does not assume familiarity with mzML.
 2.  __ISA-TAB (__http://isa-tools.org/_)._ The ISA framework allows for reporting experimental metadata and study designs in considerable detail, and is already used for describing metabolomics experiments. It is expected that mzTab files may be linked to ISA-TAB formatted files, for cases where a rich experimental design is to be captured.
-1.  [[relationship-to-mztab-1.0]]
+
+[[relationship-to-mztab-1.0]]
 == Relationship to mzTab 1.0
 
 [Insert text in here describing how this relates to mzTab 1.0]
@@ -228,6 +219,7 @@ Table 1. Controlled vocabulary terms and rules implemented in the PSI-MS CV for 
 
 In mzTab, the spectra_ref attribute should be constructed following the data type specification in Table 1. As an example, to reference the third spectrum (index = 2) in an MGF (Mascot Generic Format) file:
 
+----
 MTD ms_run[1]-format [MS, MS:1001062, Mascot MGF file, ]
 
 MTD ms_run[1]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
@@ -237,9 +229,11 @@ MTD ms_run[1]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
 SEH ... spectra_ref ...
 
 SME ... ms_run[1]:index=2 ...
+----
 
 Example: Reference the spectrum with identifier “scan=11665” in an mzML file.
 
+----
 MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
 
 MTD ms_run[1]-id_format [MS, MS:1001530, mzML unique identifier, ]
@@ -249,6 +243,7 @@ MTD ms_run[1]-id_format [MS, MS:1001530, mzML unique identifier, ]
 PSH ... spectra_ref ...
 
 SME ... ms_run[1]:scan=11665 ...
+----
 
 [[recommendations-for-reporting-replicates-within-experimental-designs]]
 == Recommendations for reporting replicates within experimental designs
@@ -332,6 +327,7 @@ These column headers MUST start with the prefix “opt_” followed by the ident
 
 The information stored within an optional column is completely up to the resource that generates the file. It MUST not be assumed that optional columns having the same name in different mzTab files contain the same type of information. CV parameter accessions MAY be used as optional column names according to the following convention: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
 
+----
 COM Example showing how emPAI values are reported in an additional column from MS run 1 using
 
 COM MS CV parameter “emPAI value” (MS:1001905)
@@ -341,6 +337,7 @@ COM MS CV parameter “emPAI value” (MS:1001905)
 PRH accession … opt_ms_run[1]_cv_MS:1001905_emPAI_value
 
 PRT P12345 … 0.658
+----
 
 [[referencing-external-resources]]
 === Referencing external resources
