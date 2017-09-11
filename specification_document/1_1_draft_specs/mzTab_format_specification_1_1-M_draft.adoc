@@ -2,9 +2,18 @@
 :sectnums:
 :toc: left
 :doctype: book
+//only works on some backends, not HTML
 :showcomments:
 //use style like Section 1 when referencing within the document.
 :xrefstyle: short
+//GitHub specific settings
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 
 //disable section numbering
 :!sectnums:
