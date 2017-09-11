@@ -49,7 +49,7 @@ This document addresses the systematic description of small molecule identificat
 
 mzTab-M is intended as a reporting standard for quantitative results from metabolomics/lipodomics approaches. This format is also intended to provide local LIMS systems as well as MS metabolomics repositories a simple way to share and combine basic information.
 
-mzTab has been developed with a view to support the following general tasks (more specific use cases are provided in Section 2):
+mzTab has been developed with a view to support the following general tasks (more specific use cases are provided in <<use-cases-for-mztab>>):
 
 1.  _Facilitate the sharing of final experimental results,_ especially with researchers outside the field of metabolomics.
 2.  _Export of results to external software,_ including programs such as Microsoft Excel^®^ and Open Office Spreadsheet and statistical software / coding languages such as R.
@@ -61,7 +61,7 @@ This document presents a specification, not a tutorial. As such, the presentatio
 [[document-structure]]
 === Document Structure
 
-The remainder of this document is structured as follows. Section 2 lists use cases mzTab-M is designed to support. Section 3 describes the terminology used. Section 4 describes how the specification presented in Section 6 relates to other specifications, both those that it extends and those that it is intended to complement. Section 5 discusses the reasoning behind several design decisions taken. Section 6 contains the documentation of the file. Section 7 lists use cases that are currently not supported. Conclusions are presented in Section 8.
+The remainder of this document is structured as follows. <<use-cases-for-mztab>> lists use cases mzTab-M is designed to support. <<notational-conventions>> describes the terminology used. <<relationships-to-other-specifications>> describes how the specification presented in <<format-specification>> relates to other specifications, both those that it extends and those that it is intended to complement. <<resolved-design-and-scope-issues>> discusses the reasoning behind several design decisions taken. <<format-specification>> contains the documentation of the file. <<non-supported-use-cases>> lists use cases that are currently not supported. Conclusions are presented in <<conclusions>>.
 
 [[use-cases-for-mztab]]
 == Use Cases for mzTab
@@ -187,7 +187,9 @@ SME ... ms_run[1]:scan=11665 ...
 [[recommendations-for-reporting-replicates-within-experimental-designs]]
 === Recommendations for reporting replicates within experimental designs
 
-Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in Figure 1. These components have various cross-references and MUST be used in different types of mzTab files, as described in Section 5.4:
+IMPORTANT: TODO Fix section reference to 5.4.
+
+Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <<figure-1>>. The following components have various cross-references and MUST be used in different types of mzTab files, as described in #Section 5.4#:
 
 * _study_variable_ – The variables about which the final results of a study are reported, which may have been derived following averaging across a group of replicate measurements (assays). The same concept has been defined by others as “experimental factor”.
 * _ms_run_ – An MS run is effectively one run on an MS instrument, and is referenced from assay in different contexts. In the case of pre-fractionation into _n_ fractions, an assay SHOULD reference _n_ ms_runs.
@@ -203,7 +205,10 @@ NOTE: There is deliberately no attempt to define the boundary of the term “sam
 
 If sample level information is provided optimally, it is expected that _n_ biological replicates can be mapped to sample[1-n]; _m_ technical replicate measurements of sample 1 SHOULD be mapped to assay[1-m] referencing sample[1] (for example). However, an open challenge remains since analysis software is often not aware of whether replicates (multiple MS runs) are originally biological or technical in nature. As such, the default behavior for mzTab exporters from quantitative software is to exclude sample level information and report quantitative data for assay[1-n] and study_variable[1-n]. Additional annotation software would typically be required to add the sample-level information, as provided (often manually) by the user.
 
-image:img/media/image2.jpg[image,width=664,height=704]
+IMPORTANT: TODO generate better image, use text caption.
+[[figure-1]]
+.Examples of simple experimental designs that can be represented in mzTab.
+image:img/media/image2.png[image,width=664,height=704]
 
 
 
