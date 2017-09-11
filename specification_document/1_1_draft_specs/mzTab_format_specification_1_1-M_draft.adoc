@@ -83,7 +83,9 @@ The key words “MUST,” “MUST NOT,” “REQUIRED,” “SHALL,” “SHALL 
 
 [[relationship-to-other-specifications]]
 == Relationship to Other Specifications
+
 IMPORTANT: TODO Relation to ISA-TAB, Andy Jones
+
 The specification described in this document has not been developed in isolation; indeed, it is designed to be complementary to, and thus used in conjunction with, several existing and emerging models. Related specifications include the following:
 
 1.  _mzML_ (http://www.psidev.info/mzml). mzML is the PSI standard for capturing mass spectra / peak lists resulting from mass spectrometry in proteomics <<martens-2011, (Martens _et al._ 2011)>>. mzTab files MAY be used in conjunction with mzML, although it will be possible to use mzTab with other formats of mass spectra. This document does not assume familiarity with mzML.
@@ -91,6 +93,7 @@ The specification described in this document has not been developed in isolation
 
 [[relationship-to-mztab-1.0]]
 === Relationship to mzTab 1.0
+
 IMPORTANT: TODO
 #Insert text in here describing how this relates to mzTab 1.0#
 
