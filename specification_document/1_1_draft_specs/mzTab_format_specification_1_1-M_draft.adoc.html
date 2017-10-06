@@ -445,20 +445,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p><em>Status of This Document</em></p>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO To confirm whether we want document flagged in this way. Andy Jones
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
-<p>This document presents the final specification of the mzTab data format developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, <mark>in collaboration with the Metabolomics Standards initiative (MSI) and COSMOS (COordination of Standards in MetabOlomicS) organizations.</mark> Distribution is unlimited.</p>
+<p>This document presents the final specification of the mzTab data format developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.</p>
 </div>
 <div class="paragraph">
 <p><em>Version of This Document</em></p>
@@ -797,20 +785,8 @@ SME ... ms_run[1]:scan=11665 ...</pre>
 </div>
 <div class="sect2">
 <h3 id="recommendations-for-reporting-replicates-within-experimental-designs">5.2. Recommendations for reporting replicates within experimental designs</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO Fix section reference to 5.4.
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
-<p>Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <a href="#figure-1">Examples of simple experimental designs that can be represented in mzTab.</a>. The following components have various cross-references and MUST be used in different types of mzTab files, as described in <mark>Section 5.4</mark>:</p>
+<p>Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <a href="#figure-1">Examples of simple experimental designs that can be represented in mzTab.</a>. The following components have various cross-references and MUST be used in different types of mzTab files as follows:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -874,26 +850,7 @@ TODO generate better image, use text caption.
 </div>
 </div>
 <div class="sect2">
-<h3 id="recommendations-for-reporting-quantification-results">5.3. Recommendations for reporting quantification results</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO This section needs an update to mention about possibility for multiplexing in metabolomics.
-Multiplexing not really done now, so either remove this section or change it to be a section about how to report positive vs negative mode for example. Andy Jones
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p><mark>At present, multiplexing techniques are not commonly employed in metabolomics e.g. where different molecules are labelled or tagged in some way before being multiplexed on an MS instrument. For future techniques that do perform multiplexing, this can be supported by having multiple assays referencing the same ms_run (as done in mzTab 1.0 for proteomics).</mark></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="reporting-derivatization-approaches">5.4. Reporting derivatization approaches</h3>
+<h3 id="reporting-derivatization-approaches">5.3. Reporting derivatization approaches</h3>
 <div id="some-text-needed-in-here-about-how-to-encode-derivatization-results" class="admonitionblock important">
 <table>
 <tr>
@@ -902,20 +859,20 @@ Multiplexing not really done now, so either remove this section or change it to 
 </td>
 <td class="content">
 TODO
-<mark>Some text needed in here about how to encode derivatization results</mark>
+<mark>Some text needed in here about how to encode derivatization results - Nils is working on this</mark>
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors">5.5. Encoding missing values, zeroes, nulls, infinity and calculation errors</h3>
+<h3 id="encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors">5.4. Encoding missing values, zeroes, nulls, infinity and calculation errors</h3>
 <div class="paragraph">
 <p>In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for cells in which isNullable= “true”. If ratios are included and the denominator is zero, the “INF” value MUST be used. If the result leads to calculation errors (for example 0/0), this MUST be reported as “NaN” (for Not a Number). In some cases, there is ambiguity with respect to these cases: e.g. if there are alignment issues and it is unclear whether a molecule has been quantified with zero abundance or the feature was potentially present in the data but was not found.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="encoding-numerical-data-with-a-standard-encoding">5.6. Encoding numerical data with a standard encoding</h3>
+<h3 id="encoding-numerical-data-with-a-standard-encoding">5.5. Encoding numerical data with a standard encoding</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -924,20 +881,20 @@ TODO
 </td>
 <td class="content">
 TODO
-<mark>Insert some text in here about standard numerical encoding, e.g. US default style “x.x”, i.e. using a period for decimal separation and no commas to separate thousands.</mark>
+<mark>Insert some text in here about standard numerical encoding, e.g. US default style “x.x”, i.e. using a period for decimal separation and no commas to separate thousands. Joel is investigating</mark>
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="reliability-score">5.7. Reliability score</h3>
+<h3 id="reliability-score">5.6. Reliability score</h3>
 <div class="paragraph">
 <p>All small molecule identifications reported in an mzTab file MAY be assigned a reliability score (column “reliability” in all tables). This reliability only applies to the identification reliability but not to modification position and or quantification reliabilities. The idea is to provide a way for researchers and/or repositories to score the reported identifications based on their own criteria. The criteria used to generate this score SHOULD be documented by the data providers. If this information is not provided by the producers of mzTab files, “null“ MUST be provided as the value for each of the protein, peptide or small molecule identification.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="support-for-positive-and-negative-modes-or-pre-fractionation">5.8. Support for positive and negative modes or pre-fractionation</h3>
+<h3 id="support-for-positive-and-negative-modes">5.7. Support for positive and negative modes</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -946,14 +903,14 @@ TODO
 </td>
 <td class="content">
 TODO
-<mark>Ideal encoding is to put these into separate mzTab files</mark>
+<mark>Ideal encoding is to put these into separate mzTab files - Andy to add this section</mark>
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="referencing-evidence-for-small-molecule-identifications">5.9. Referencing evidence for small molecule identifications</h3>
+<h3 id="referencing-evidence-for-small-molecule-identifications">5.8. Referencing evidence for small molecule identifications</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -962,46 +919,34 @@ TODO
 </td>
 <td class="content">
 TODO
-<mark>Insert text in here to explain about how to encode evidence where multiple features are used to determine molecule identification; this should be optional column on SML row</mark>
+<mark>Insert text in here to explain about how to encode evidence where multiple features are used to determine molecule identification; this should be optional column on SML or SMF row? Reza to draft some text for this section for in-file referencing, and use of latest MSI guideline</mark>
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="guidelines-for-reporting-results-prior-to-or-with-no-alignment-step-across-features">5.10. Guidelines for reporting results prior to or with no alignment step across features</h3>
+<h3 id="guidelines-for-reporting-results-prior-to-or-with-no-alignment-step-across-features">5.9. Guidelines for reporting results prior to or with no alignment step across features</h3>
 <div class="paragraph">
 <p>The most common intended use for mzTab-M is to encode MS results that have been aligned across multiple analyses (assays), for example by retention time alignment in LC-MS or GC-MS approaches. However, it is possible to use mzTab-M as part of internal pipelines to represent small molecules quantified by MS (features) before alignment. The RECOMMENDED encoding for doing this would be to represent the features from <em>n</em> MS analyes in <em>n</em> mzTab files, rather than attempting to create an SMF table including a sparse matrix filled with nulls for in all but one of the assay columns.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Guidelines-for-pre-fractionation">5.11. Guidelines for workflows involving pre-fractionation</h3>
+<h3 id="Guidelines-for-pre-fractionation">5.10. Guidelines for workflows involving pre-fractionation</h3>
 <div class="paragraph">
 <p>It is possible that a single analysis of a sample is split offline via some fractionation technology prior to LC/GC-MS into <em>n</em> MS analyses to limit the complexity of the molecules arriving at the detector. Such workflows, while relatively rare in metabolomics, can be encoded in mzTab-M via an assay referencing to <em>n</em> ms_runs. It may be desirable to maintain the link from a feature (SMF row) to the ms_run from which it was obtained. This SHOULD be achieved through the use of an optional column called "opt_global_ms_run_refs", in which the identifiers of ms_runs are placed where the feature has been quantified from.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="comments-on-specific-use-cases">5.12. Comments on Specific Use Cases</h3>
+<h3 id="comments-on-specific-use-cases">5.11. Comments on Specific Use Cases</h3>
 <div class="paragraph">
 <p>Many special use cases for mzTab were considered during its development. Each of these use cases has a corresponding example file that exercises the relevant part of the format and provides a reference implementation example (see supporting documentation). Authors of software that create mzTab are encouraged to examine the examples that accompany this format release before implementing the writer.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-optional-columns">5.13. Adding optional columns</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO remove summary / complete references? Nils Hoffmann
-</td>
-</tr>
-</table>
-</div>
+<h3 id="adding-optional-columns">5.12. Adding optional columns</h3>
 <div class="paragraph">
-<p>Additional columns MAY be added to the end of rows in all the table-based sections (protein, peptide, PSM and small molecule). These columns represent information not included by default in the currently defined fields and differ from the specification of optionality with regards to columns that MUST be present in Summary or Complete files <mark>(Tables 2 and 3)</mark>.</p>
+<p>Additional columns MAY be added to the end of rows in all the table-based sections.</p>
 </div>
 <div class="paragraph">
 <p>These column headers MUST start with the prefix “opt_” followed by the identifier of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<em>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</em>{OBJECT_ID}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</p>
@@ -1024,7 +969,7 @@ PRT P12345 … 0.658</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="referencing-external-resources">5.14. Referencing external resources</h3>
+<h3 id="referencing-external-resources">5.13. Referencing external resources</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -1033,14 +978,14 @@ PRT P12345 … 0.658</pre>
 </td>
 <td class="content">
 TODO
-<mark>Text in here?</mark>
+<mark>Text in here? e.g. ISA-TAB, to consider if we need to have discussion about referencing anything else?</mark>
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="other-supporting-materials">5.15. Other supporting materials</h3>
+<h3 id="other-supporting-materials">5.14. Other supporting materials</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -4541,7 +4486,7 @@ SME 1 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="evidence_grouping_id">6.5.2. evidence_grouping_ID</h4>
+<h4 id="evidence_unique_id">6.5.2. evidence_unique_id</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
@@ -4550,7 +4495,7 @@ SME 1 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A within file identifier for the data e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of data from the same data share the same ID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A within file unique identifier for the input data used to support this identification e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of results from the same input data share the same ID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -4564,7 +4509,7 @@ SME 1 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div><div class="literalblock">
 <div class="content">
-<pre>SEH SME_ID evidence_grouping_ID …
+<pre>SEH SME_ID evidence_unique_ID …
 SME 1 1
 SME 2 1
 SME 3 1</pre>
@@ -5221,6 +5166,9 @@ TODO
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p>COSMOS</p>
+</li>
 <li>
 <p>Nuno Bandeira, Center for Computational Mass Spectrometry, University of California, San Diego, CA, USA.</p>
 </li>
