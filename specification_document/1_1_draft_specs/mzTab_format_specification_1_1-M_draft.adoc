@@ -21,9 +21,7 @@ endif::[]
 == Preface
 _Status of This Document_
 
-IMPORTANT: TODO To confirm whether we want document flagged in this way. Andy Jones
-
-This document presents the final specification of the mzTab data format developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, #in collaboration with the Metabolomics Standards initiative (MSI) and COSMOS (COordination of Standards in MetabOlomicS) organizations.# Distribution is unlimited.
+This document presents the final specification of the mzTab data format developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.
 
 _Version of This Document_
 
@@ -187,9 +185,7 @@ SME ... ms_run[1]:scan=11665 ...
 [[recommendations-for-reporting-replicates-within-experimental-designs]]
 === Recommendations for reporting replicates within experimental designs
 
-IMPORTANT: TODO Fix section reference to 5.4.
-
-Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <<figure-1>>. The following components have various cross-references and MUST be used in different types of mzTab files, as described in #Section 5.4#:
+Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <<figure-1>>. The following components have various cross-references and MUST be used in different types of mzTab files as follows:
 
 * _study_variable_ – The variables about which the final results of a study are reported, which may have been derived following averaging across a group of replicate measurements (assays). The same concept has been defined by others as “experimental factor”.
 * _ms_run_ – An MS run is effectively one run on an MS instrument, and is referenced from assay in different contexts. In the case of pre-fractionation into _n_ fractions, an assay SHOULD reference _n_ ms_runs.
@@ -211,21 +207,12 @@ IMPORTANT: TODO generate better image, use text caption.
 image:img/media/image2.png[image,width=664,height=704]
 
 
-
-[[recommendations-for-reporting-quantification-results]]
-=== Recommendations for reporting quantification results
-
-IMPORTANT: TODO This section needs an update to mention about possibility for multiplexing in metabolomics.
-Multiplexing not really done now, so either remove this section or change it to be a section about how to report positive vs negative mode for example. Andy Jones
-
-#At present, multiplexing techniques are not commonly employed in metabolomics e.g. where different molecules are labelled or tagged in some way before being multiplexed on an MS instrument. For future techniques that do perform multiplexing, this can be supported by having multiple assays referencing the same ms_run (as done in mzTab 1.0 for proteomics).#
-
 [[reporting-derivatization-approaches]]
 === Reporting derivatization approaches
 
 [[some-text-needed-in-here-about-how-to-encode-derivatization-results]]
 IMPORTANT: TODO
-#Some text needed in here about how to encode derivatization results#
+#Some text needed in here about how to encode derivatization results - Nils is working on this#
 
 [[encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors]]
 === Encoding missing values, zeroes, nulls, infinity and calculation errors
@@ -236,24 +223,24 @@ In the table-based sections there MUST NOT be any empty cells. In case a given p
 === Encoding numerical data with a standard encoding
 
 IMPORTANT: TODO
-#Insert some text in here about standard numerical encoding, e.g. US default style “x.x”, i.e. using a period for decimal separation and no commas to separate thousands.#
+#Insert some text in here about standard numerical encoding, e.g. US default style “x.x”, i.e. using a period for decimal separation and no commas to separate thousands. Joel is investigating#
 
 [[reliability-score]]
 === Reliability score
 
 All small molecule identifications reported in an mzTab file MAY be assigned a reliability score (column “reliability” in all tables). This reliability only applies to the identification reliability but not to modification position and or quantification reliabilities. The idea is to provide a way for researchers and/or repositories to score the reported identifications based on their own criteria. The criteria used to generate this score SHOULD be documented by the data providers. If this information is not provided by the producers of mzTab files, “null“ MUST be provided as the value for each of the protein, peptide or small molecule identification.
 
-[[support-for-positive-and-negative-modes-or-pre-fractionation]]
-=== Support for positive and negative modes or pre-fractionation
+[[support-for-positive-and-negative-modes]]
+=== Support for positive and negative modes
 
 IMPORTANT: TODO
-#Ideal encoding is to put these into separate mzTab files#
+#Ideal encoding is to put these into separate mzTab files - Andy to add this section#
 
 [[referencing-evidence-for-small-molecule-identifications]]
 === Referencing evidence for small molecule identifications
 
 IMPORTANT: TODO
-#Insert text in here to explain about how to encode evidence where multiple features are used to determine molecule identification; this should be optional column on SML row#
+#Insert text in here to explain about how to encode evidence where multiple features are used to determine molecule identification; this should be optional column on SML or SMF row? Reza to draft some text for this section for in-file referencing, and use of latest MSI guideline#
 
 [[guidelines-for-reporting-results-prior-to-or-with-no-alignment-step-across-features]]
 === Guidelines for reporting results prior to or with no alignment step across features
@@ -272,9 +259,7 @@ Many special use cases for mzTab were considered during its development. Each of
 [[adding-optional-columns]]
 === Adding optional columns
 
-IMPORTANT: TODO remove summary / complete references? Nils Hoffmann
-
-Additional columns MAY be added to the end of rows in all the table-based sections (protein, peptide, PSM and small molecule). These columns represent information not included by default in the currently defined fields and differ from the specification of optionality with regards to columns that MUST be present in Summary or Complete files #(Tables 2 and 3)#.
+Additional columns MAY be added to the end of rows in all the table-based sections.
 
 These column headers MUST start with the prefix “opt_” followed by the identifier of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘_’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
 
@@ -1847,17 +1832,17 @@ SME 1 …
 ....
 |=======================================================================================
 
-[[evidence_grouping_id]]
-==== evidence_grouping_ID
+[[evidence_unique_id]]
+==== evidence_unique_id
 
 [cols=",",]
 |==================================================================================================================================================================================================================================================================
-|*Description:* |A within file identifier for the data e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of data from the same data share the same ID.
+|*Description:* |A within file unique identifier for the input data used to support this identification e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of results from the same input data share the same ID.
 |*Type:* |Integer
 |*Is Nullable:* |*FALSE*
 |*Example:* a|
 ....
-SEH SME_ID evidence_grouping_ID …
+SEH SME_ID evidence_unique_ID …
 SME 1 1
 SME 2 1
 SME 3 1
@@ -2169,6 +2154,7 @@ IMPORTANT: TODO
 
 In addition to the authors, the following people contributed to the model development, gave feedback or tested mzTab:
 
+* COSMOS
 * Nuno Bandeira, Center for Computational Mass Spectrometry, University of California, San Diego, CA, USA.
 * Robert J. Chalkley, Department of Pharmaceutical Chemistry, University of California San Francisco, CA, USA.
 * Jürgen Cox, Max Planck Institute of Biochemistry, Martinsried, Germany.
