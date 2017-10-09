@@ -22,17 +22,17 @@ after_failure:
   - docker logs asciidoc-to-pdf
 
 after_success:      
-  - cp -R $TRAVIS_BUILD_DIR/specification_document/1_1_draft_specs/output output
+  - cp -R $TRAVIS_BUILD_DIR/specification_document/1_1_draft_specs/output/* output
   - mkdir output/img
-  - cp -R $TRAVIS_BUILD_DIR/specification_document/1_1_draft_specs/img output/img
-  - cp -R $TRAVIS_BUILD_DIR/docs output/
+  - cp -R $TRAVIS_BUILD_DIR/specification_document/1_1_draft_specs/img/* output/img
+  - cp -R $TRAVIS_BUILD_DIR/docs/* output/
 
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   file_glob: true
-  file: output/*
+  file: $TRAVIS_BUILD_DIR/output/*
   on:
     all_branches: true
 
