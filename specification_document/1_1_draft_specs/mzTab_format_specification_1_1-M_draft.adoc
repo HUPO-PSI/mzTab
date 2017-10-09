@@ -1,4 +1,4 @@
-= *mzTab-M: exchange format for metabolomics results*
+= mzTab-M: exchange format for metabolomics results
 :sectnums:
 :toc: left
 :doctype: book
@@ -6,6 +6,9 @@
 :showcomments:
 //use style like Section 1 when referencing within the document.
 :xrefstyle: short
+:figure-caption: Figure
+:pdf-page-size: A4
+
 //GitHub specific settings
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -203,7 +206,7 @@ If sample level information is provided optimally, it is expected that _n_ biolo
 
 [[figure-1]]
 .Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (peptide or small molecule) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.
-image::img/media/figure1.png[image,width=100%]
+image::img/media/figure1.png[image,width=100%,pdfwidth=100%]
 
 
 [[reporting-derivatization-approaches]]
