@@ -556,18 +556,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="relationship-to-other-specifications">4. Relationship to Other Specifications</h2>
 <div class="sectionbody">
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO Relation to ISA-TAB, Andy Jones
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>The specification described in this document has not been developed in isolation; indeed, it is designed to be complementary to, and thus used in conjunction with, several existing and emerging models. Related specifications include the following:</p>
 </div>
@@ -577,24 +565,14 @@ TODO Relation to ISA-TAB, Andy Jones
 <p><em>mzML</em> (<a href="http://www.psidev.info/mzml" class="bare">http://www.psidev.info/mzml</a>). mzML is the PSI standard for capturing mass spectra / peak lists resulting from mass spectrometry in proteomics <a href="#martens-2011">(Martens <em>et al.</em> 2011)</a>. mzTab files MAY be used in conjunction with mzML, although it will be possible to use mzTab with other formats of mass spectra. This document does not assume familiarity with mzML.</p>
 </li>
 <li>
-<p><em>ISA-TAB (</em><a href="http://isa-tools.org/" class="bare">http://isa-tools.org/</a><em>).</em> The ISA framework allows for reporting experimental metadata and study designs in considerable detail, and is already used for describing metabolomics experiments. It is expected that mzTab files may be linked to ISA-TAB formatted files, for cases where a rich experimental design is to be captured.</p>
+<p><em>ISA-TAB (</em><a href="http://isa-tools.org/" class="bare">http://isa-tools.org/</a><em>).</em> The ISA framework allows for reporting experimental metadata and study designs in considerable detail, and is already used for describing metabolomics experiments. It is expected that mzTab files may be linked to ISA-TAB formatted files, for cases where a rich experimental design is to be captured. The linkage between mzTab-M and ISA-TAB is further exemplified in section <a href="#referencing-external-resources">Referencing external resources</a>.</p>
 </li>
 </ol>
 </div>
 <div class="sect2">
 <h3 id="relationship-to-mztab-1.0">4.1. Relationship to mzTab 1.0</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO
-<mark>Insert text in here describing how this relates to mzTab 1.0</mark>
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>The first stable version of mzTab (version 1.0) was developed primarily by the PSI as a format for the final results (identification or quantification) of a proteomics experiment, using MS. In mzTab version 1.0 limited support was included for metabolomics, through a small molecule table, in which end results could be encoded at the level of quantified metabolites. The intention of mzTab-M is to extend these concepts, so that more detail can be captured about the evidence trail for quantification, including MS features (different charge states or adducts) and the evidence trail for identifications - both of which could not be easily supported in mzTab v 1.0. mzTab-M is not formally backwards compatible, but follows a similar design pattern. Design decisions made in mzTab-M may in the future be adopted for a version of mzTab specifically intended for proteomics only, but at the time of writing mzTab version 1.0 remains in active use for proteomics, but is deprecated for use in metabolomics.</p>
 </div>
 </div>
 <div class="sect2">
@@ -895,18 +873,8 @@ TODO
 </div>
 <div class="sect2">
 <h3 id="support-for-positive-and-negative-modes">5.7. Support for positive and negative modes</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO
-<mark>Ideal encoding is to put these into separate mzTab files - Andy to add this section</mark>
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>It is common in metabolomics workflows to use both positive and negative ionisation modes to increase coverage of molecules quantified. In general, an mzTab-M file is intended to capture a data set generated from assays have been aligned (e.g. in the retention time dimension) to produce a coherent data matrix with few missing values. To our knowledge, it is not common to compare directly the results from positive and negative modes in the same data matrix. As such, we anticipate that such results (i.e. positive mode and negative mode) should be encoded in two different mzTab-M files.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1135,39 +1103,15 @@ To be able to supply metadata specific to each study variable (grouping of assay
 </div>
 <div class="sect2">
 <h3 id="sections">6.1. Sections</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO Adapt for mzTab-M
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) Section. In practice, we expect that most files SHOULD also include one Small Molecule Feature (SMF) section, and one Small Molecule Evidence (SME) Section. Files lacking SMF and SME sections can only present summary data about quantified molecules, without any evidence trail for how those values were derived. It will be left to reading software to determine whether additional validation will be requested such that SMF and SME tables MUST be present.</p>
 </div>
 <div class="paragraph">
-<p><mark>mzTab files can contain five different sections. The MANDATORY metadata section is made up of key-value pairs. The other four sections are OPTIONAL: protein, peptide, PSM and small molecule section are table-based.</mark></p>
-</div>
-<div class="paragraph">
-<p><mark>Every section in an mzTab file MUST only occur once if present. If the PSM, Peptide and Protein Sections are present, the information MUST be consistent between these sections. Field names with indices in square brackets MUST be numbered sequentially and non-decreasing (starting at the first value indicated in the bracket; single integer steps).</mark></p>
+<p><mark>TO DO - (Andy): I have added the text above, please check if that agrees with your recollection of what we agreed.</mark></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="metadata-section">6.2. Metadata Section</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO Split this section into “Core”, then “Proteomics”, then “Metabolomics” – depending on decision of how to proceed with joint development, Andy Jones
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>The metadata section provides additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from those noted as mandatory. The fields in the metadata section should be reported in order of the various fields listed here. The field’s name and value MUST be separated by a tab character:</p>
 </div>
@@ -3429,19 +3373,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="inchi">6.3.6. <mark>inchi</mark></h4>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO Inchi throughout not inchi_key to check. Andy Jones
-</td>
-</tr>
-</table>
-</div>
+<h4 id="inchi">6.3.6. inchi</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
@@ -3450,7 +3382,7 @@ TODO Inchi throughout not inchi_key to check. Andy Jones
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A list of “|” separated potential standard IUPAC International Chemical Identifier (InChI) Keys of the given substance.
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of “|” separated potential standard IUPAC International Chemical Identifier (InChI) of the given substance.
 </p><p class="tableblock">The number of values provided MUST match the number of entities reported under “database_identifier”, even if this leads to redundant information being reported (i.e. if ambiguity can be resolved in the InChi), and the validation software will throw an error if the number of “|” symbols does not match. “null” values between bars are allowed.</p></td>
 </tr>
 <tr>

@@ -91,18 +91,16 @@ The key words “MUST,” “MUST NOT,” “REQUIRED,” “SHALL,” “SHALL 
 [[relationship-to-other-specifications]]
 == Relationship to Other Specifications
 
-IMPORTANT: TODO Relation to ISA-TAB, Andy Jones
-
 The specification described in this document has not been developed in isolation; indeed, it is designed to be complementary to, and thus used in conjunction with, several existing and emerging models. Related specifications include the following:
 
 1.  _mzML_ (http://www.psidev.info/mzml). mzML is the PSI standard for capturing mass spectra / peak lists resulting from mass spectrometry in proteomics <<martens-2011, (Martens _et al._ 2011)>>. mzTab files MAY be used in conjunction with mzML, although it will be possible to use mzTab with other formats of mass spectra. This document does not assume familiarity with mzML.
-2.  __ISA-TAB (__http://isa-tools.org/_)._ The ISA framework allows for reporting experimental metadata and study designs in considerable detail, and is already used for describing metabolomics experiments. It is expected that mzTab files may be linked to ISA-TAB formatted files, for cases where a rich experimental design is to be captured.
+2.  __ISA-TAB (__http://isa-tools.org/_)._ The ISA framework allows for reporting experimental metadata and study designs in considerable detail, and is already used for describing metabolomics experiments. It is expected that mzTab files may be linked to ISA-TAB formatted files, for cases where a rich experimental design is to be captured. The linkage between mzTab-M and ISA-TAB is further exemplified in section <<referencing-external-resources>>.
 
 [[relationship-to-mztab-1.0]]
 === Relationship to mzTab 1.0
 
-IMPORTANT: TODO
-#Insert text in here describing how this relates to mzTab 1.0#
+The first stable version of mzTab (version 1.0) was developed primarily by the PSI as a format for the final results (identification or quantification) of a proteomics experiment, using MS. In mzTab version 1.0 limited support was included for metabolomics, through a small molecule table, in which end results could be encoded at the level of quantified metabolites. The intention of mzTab-M is to extend these concepts, so that more detail can be captured about the evidence trail for quantification, including MS features (different charge states or adducts) and the evidence trail for identifications - both of which could not be easily supported in mzTab v 1.0. mzTab-M is not formally backwards compatible, but follows a similar design pattern. Design decisions made in mzTab-M may in the future be adopted for a version of mzTab specifically intended for proteomics only, but at the time of writing mzTab version 1.0 remains in active use for proteomics, but is deprecated for use in metabolomics.
+
 
 [[the-psi-mass-spectrometry-controlled-vocabulary-cv]]
 === The PSI Mass Spectrometry Controlled Vocabulary (CV)
@@ -233,8 +231,7 @@ All small molecule identifications reported in an mzTab file MAY be assigned a r
 [[support-for-positive-and-negative-modes]]
 === Support for positive and negative modes
 
-IMPORTANT: TODO
-#Ideal encoding is to put these into separate mzTab files - Andy to add this section#
+It is common in metabolomics workflows to use both positive and negative ionisation modes to increase coverage of molecules quantified. In general, an mzTab-M file is intended to capture a data set generated from assays have been aligned (e.g. in the retention time dimension) to produce a coherent data matrix with few missing values. To our knowledge, it is not common to compare directly the results from positive and negative modes in the same data matrix. As such, we anticipate that such results (i.e. positive mode and negative mode) should be encoded in two different mzTab-M files.
 
 [[referencing-evidence-for-small-molecule-identifications]]
 === Referencing evidence for small molecule identifications
@@ -281,7 +278,7 @@ PRT P12345 … 0.658
 === Referencing external resources
 
 IMPORTANT: TODO
-#Text in here?#
+#Text in here? e.g. ISA-TAB, to consider if we need to have discussion about referencing anything else?#
 
 [[other-supporting-materials]]
 === Other supporting materials
@@ -353,15 +350,12 @@ MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)
 [[sections]]
 === Sections
 
-IMPORTANT: TODO Adapt for mzTab-M
+mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) Section. In practice, we expect that most files SHOULD also include one Small Molecule Feature (SMF) section, and one Small Molecule Evidence (SME) Section. Files lacking SMF and SME sections can only present summary data about quantified molecules, without any evidence trail for how those values were derived. It will be left to reading software to determine whether additional validation will be requested such that SMF and SME tables MUST be present.
 
-#mzTab files can contain five different sections. The MANDATORY metadata section is made up of key-value pairs. The other four sections are OPTIONAL: protein, peptide, PSM and small molecule section are table-based.#
-
-#Every section in an mzTab file MUST only occur once if present. If the PSM, Peptide and Protein Sections are present, the information MUST be consistent between these sections. Field names with indices in square brackets MUST be numbered sequentially and non-decreasing (starting at the first value indicated in the bracket; single integer steps).#
+#TO DO - (Andy): I have added the text above, please check if that agrees with your recollection of what we agreed.#
 
 [[metadata-section]]
 === Metadata Section
-IMPORTANT: TODO Split this section into “Core”, then “Proteomics”, then “Metabolomics” – depending on decision of how to proceed with joint development, Andy Jones
 
 The metadata section provides additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from those noted as mandatory. The fields in the metadata section should be reported in order of the various fields listed here. The field’s name and value MUST be separated by a tab character:
 
@@ -1359,13 +1353,12 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …
 |=====================================================================================================================================================================================================================================================================================================================================================================================================
 
 [[inchi]]
-==== #inchi#
-IMPORTANT: TODO Inchi throughout not inchi_key to check. Andy Jones
+==== inchi
 
 [cols=",",]
 |======================================================================================================================================================================================================================================================================================================================================================
 |*Description:* |
-A list of “\|” separated potential standard IUPAC International Chemical Identifier (InChI) Keys of the given substance.
+A list of “\|” separated potential standard IUPAC International Chemical Identifier (InChI) of the given substance.
 
 The number of values provided MUST match the number of entities reported under “database_identifier”, even if this leads to redundant information being reported (i.e. if ambiguity can be resolved in the InChi), and the validation software will throw an error if the number of “\|” symbols does not match. “null” values between bars are allowed.
 
