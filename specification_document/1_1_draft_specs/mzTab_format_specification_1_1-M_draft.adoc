@@ -215,13 +215,14 @@ IMPORTANT: TODO
 [[encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors]]
 === Encoding missing values, zeroes, nulls, infinity and calculation errors
 
-In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for cells in which isNullable= “true”. If ratios are included and the denominator is zero, the “INF” value MUST be used. If the result leads to calculation errors (for example 0/0), this MUST be reported as “NaN” (for Not a Number). In some cases, there is ambiguity with respect to these cases: e.g. if there are alignment issues and it is unclear whether a molecule has been quantified with zero abundance or the feature was potentially present in the data but was not found.
+In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for cells in which isNullable= “true”.
 
-[[encoding-numerical-data-with-a-standard-encoding]]
-=== Encoding numerical data with a standard encoding
+For numerical values, they MUST be encoded following the specifications of https://www.w3.org/TR/xmlschema-2/#decimal[xs:decimal]. This does not natively support NaN, INF, scientific notation or null. As such, it is allowed in mzTab to include "NaN" for incalculable numbers and "null" for no data. In some cases, there is ambiguity with respect to the use of "0" versus "null": e.g. if there are alignment issues and it is unclear whether a molecule has been quantified with zero abundance or the feature was potentially present in the data but was not found. Export software would be expected to make a decision on this cases, based on best understanding of the case in hand.
 
-IMPORTANT: TODO
-#Insert some text in here about standard numerical encoding, e.g. US default style “x.x”, i.e. using a period for decimal separation and no commas to separate thousands. Joel is investigating#
+Scientific notation and infinity is explicitly not supported.
+
+
+
 
 [[reliability-score]]
 === Reliability score
