@@ -33,7 +33,7 @@ The latest draft version of this document may be found at https://github.com/HUP
 [[abstract]]
 == Abstract
 
-The Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) and Metabolomics Standards initiative (MSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in proteomics contexts.
+The Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) and Metabolomics Standards initiative (MSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in proteomics contexts.
 
 //reenable section numbering
 :sectnums:
@@ -80,7 +80,7 @@ The following cases of usage have driven the development of the mzTab data model
 
 7. It should be useful as an output format by web-services that can then be readily accessed by tools supporting mzTab-M.
 
-8. It should be possible to directly link a given peptide / small molecule identification to its source spectrum in an external MS data file.
+8. It should be possible to directly link a small molecule record to its source spectrum in an external MS data file.
 
 
 [[notational-conventions]]
@@ -352,8 +352,6 @@ MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)
 === Sections
 
 mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) Section. In practice, we expect that most files SHOULD also include one Small Molecule Feature (SMF) section, and one Small Molecule Evidence (SME) Section. Files lacking SMF and SME sections can only present summary data about quantified molecules, without any evidence trail for how those values were derived. It will be left to reading software to determine whether additional validation will be requested such that SMF and SME tables MUST be present.
-
-#TO DO - (Andy): I have added the text above, please check if that agrees with your recollection of what we agreed.#
 
 [[metadata-section]]
 === Metadata Section
