@@ -111,14 +111,13 @@ As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically mainta
 
 The following ontologies or controlled vocabularies specified below may also be suitable or required in certain instances:
 
-* Unit Ontology (http://www.obofoundry.org/cgi-bin/detail.cgi?id=unit)
-* ChEBI (http://www.ebi.ac.uk/chebi/)
-* OBI (Ontology of Biological Investigations - http://obi.sourceforge.net/)
-* Unimod modifications database - http://www.unimod.org/obo/unimod.obo
-* PRIDE Controlled Vocabulary (http://ebi-pride.googlecode.com/svn/trunk/pride-core/schema/pride_cv.obo)
+* Unit Ontology (http://www.obofoundry.org/ontology/uo.html)
+* ChEBI (ftp://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi.obo)
+* OBI Ontology of Biological Investigations (http://obi-ontology.org/)
+* PRIDE Controlled Vocabulary (https://www.ebi.ac.uk/ols/ontologies/pride)
 * NEWT UniProt Taxonomy Database (http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT)
 * BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
-* Cell Type ontology (http://obo.cvs.sourceforge.net/obo/obo/ontology/anatomy/cell_type/cell.obo).
+* Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
 
 [[resolved-design-and-scope-issues]]
 == Resolved Design and scope issues
