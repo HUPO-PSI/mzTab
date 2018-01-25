@@ -721,8 +721,8 @@ MTD study_variable[1]-assay_refs assay[1], assay[2], assay[3]
 ....
 |==============================================================================================
 
-[[study_variable_function1-n]]
-==== study_variable_function[1-n]
+[[study_variable_quantification_value_function1-n]]
+==== study_variable_quantification_value_function[1-n]
 IMPORTANT: TODO Proposed new attribute in 1.1. Andy Jones
 IMPORTANT: TODO Imputation at assay level? Do we wish to capture this method somehow? Andy Jones
 [cols=",",]
@@ -733,7 +733,7 @@ IMPORTANT: TODO Imputation at assay level? Do we wish to capture this method som
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD small_molecule-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]#
+MTD	study_variable[1]-quantification_value_function	[MS, MS:XXXXX, Arithmetic Mean]
 ....
 |==========================================================================================================================================================================================================================================================================================
 
