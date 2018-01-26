@@ -1070,7 +1070,7 @@ MTD cv[1]-url http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/co
 |*Example:* a|
 ....
 MTD database[1] [MIRIAM,MIR:00100079 , “HMDB”, ]
-MTD database[2] [, , “No database”, ]
+MTD database[2] [, , “no database”, "null"]
 MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
 ....
 |===========================================================================================================================================================================================================================
@@ -1080,13 +1080,13 @@ MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
 IMPORTANT: TODO Make sure to explain that the colon must followed these prefixes in the SMF section below. Andy Jones
 [cols=",",]
 |====================================================================================================================================================
-|*Description:* |The prefix used in the “identifier” column of data tables. This MUST be used even for the “no database” case e.g. using prefix “nd”.
+|*Description:* |The prefix used in the “identifier” column of data tables. For the “no database” case "null" must be used.
 |*Type:* |String
 |*Mandatory* |True
 |*Example:* a|
 ....
 MTD database[1]-prefix hmdb
-MTD database[2]-prefix nd
+MTD database[2]-prefix null
 ....
 |====================================================================================================================================================
 
