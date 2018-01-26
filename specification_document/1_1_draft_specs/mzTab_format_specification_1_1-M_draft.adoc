@@ -886,22 +886,6 @@ MTD custom[1] [,,MS operator, Florian]
 ....
 |===========================================================================
 
-[[sample1-n]]
-==== sample[1-n]
-
-[cols=",",]
-|=========================================================================================================================================================================================================================================================================
-|*Description:* |A name for each biological sample, to serve as a list of the samples to be referenced elsewhere in the file. Samples are not mandatory in mzTab files, since the biological origin of analysed samples may often not be known to quantification software.
-|*Type:* |String
-|*Mandatory* |False
-|*Example:* a|
-[subs="verbatim,quotes"]
-....
-#MTD sample[1]-custom[1] [,,Extraction date, 2011-12-21]#
-#MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]#
-....
-|=========================================================================================================================================================================================================================================================================
-
 [[sample1-n-species1-n]]
 ==== sample[1-n]-species[1-n]
 
