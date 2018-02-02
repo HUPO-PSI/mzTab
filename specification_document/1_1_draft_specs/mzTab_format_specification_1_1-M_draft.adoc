@@ -885,8 +885,6 @@ MTD custom[1] [,,MS operator, Florian]
 ....
 |===========================================================================
 
-[[sample1-n]]
-
 [[sample1-n-species1-n]]
 ==== sample[1-n]-species[1-n]
 
