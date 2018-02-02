@@ -783,9 +783,9 @@ Provisionally decided to support pre-fractionation by allowing. Andy Jones
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD ms_run_location[1] file://C:\path\to\my\file
+MTD ms_run[1]-location file://C:\path\to\my\file
 …
-MTD ms_run_location[2] ftp://ftp.ebi.ac.uk/path/to/file
+MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
 ....
 |=====================================================================================================================================================================================================================================================================================================================================================
 
