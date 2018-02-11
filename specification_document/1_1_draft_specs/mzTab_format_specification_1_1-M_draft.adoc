@@ -600,10 +600,15 @@ MTD uri[2] http://proteomecentral.proteomexchange.org/cgi/GetDataset
 [[quantification_method]]
 ==== quantification_method
 
-[cols=",",]
+[cols=",a",]
 |======================================================================================
 |*Description:* |The quantification method used in the experiment reported in the file.
 |*Type:* |Parameter
+[cols=",,,,,",]
+!===
+!*termAccession*!*useTerm*!*termName*!*isRepeatable*!*allowChildren*!*cvIdentifierRef*
+!MS:1000499!false!spectrum attribute!true!true!MS
+!MS:1000465!false!scan polarity!false!true!MS
 |*Mandatory* |True
 |*Example:* a|
 ....
