@@ -767,27 +767,34 @@ MTD study_variable[1]-factors #EXAMPLE HERE e.g. param1 = geneKO; param2 = drug 
 
 [[ms_run1-n-location]]
 ==== ms_run[1-n]-location
-[IMPORTANT]
-====
-TODO We need to come up with a way of talking about fractions, e.g. by having a fraction ID
-
-ms_run[1-n]-[1-n]-location
-
-Provisionally decided to support pre-fractionation by allowing. Andy Jones
-====
-
 [cols=",",]
 |=====================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |Location of the external data file e.g. raw files on which analysis has been performed. If the actual location of the MS run is unknown, a “null” MUST be used as a place holder value, since the [1-n] cardinality is referenced elsewhere. If pre-fractionation has been performed, then [1-n] ms_runs SHOULD be created per assay.
+|*Description:* |Location of the external data file e.g. raw files on which analysis has been performed. If the actual location of the MS run is unknown, a “null” MUST be used as a place holder value, since the [1-n] cardinality is referenced elsewhere. If pre-fractionation has been performed, every fraction is reported as individual ms_run.
 |*Type:* |URL
 |*Mandatory* |True
 |*Example:* a|
 ....
 MTD ms_run[1]-location file://C:\path\to\my\file
 …
-MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
+MTD ms_run[2]-location ftp://ftp.ebi.ac.uk/path/to/file
 ....
 |=====================================================================================================================================================================================================================================================================================================================================================
+
+[[ms_run1-n-fraction]]
+==== ms_run[1-n]-fraction
+[cols=",",]
+|=====================================================================================================================================================================================================================================================================================================================================================
+|*Description:* |If pre-fractionation has been performed a fraction identifier SHOULD be provided (1 corresponds to the 1st fraction, 2 to the 2nd, etc.). 
+|*Type:* |Integer
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD ms_run[1]-fraction 1
+…
+MTD ms_run[2]-fraction 2
+....
+|=====================================================================================================================================================================================================================================================================================================================================================
+
 
 [[ms_run1-n-format]]
 ==== ms_run[1-n]-format
