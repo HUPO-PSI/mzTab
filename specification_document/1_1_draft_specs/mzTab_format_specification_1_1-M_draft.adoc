@@ -381,7 +381,7 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 
 [cols=",",]
 |=========================================
-|*Description:* |The ID of the mzTab file, this could be supplied by the repository from which it is downloaded or a local identifier from the lab producing the file.
+|*Description:* |The ID of the mzTab file, this could be supplied by the repository from which it is downloaded or a local identifier from the lab producing the file. It is not intended to be a globally unique ID but carry some locally useful meaning.
 |*Type:* |String
 |*Mandatory* |True
 |*Example:* a|`MTD mzTab-ID MTBL1234`
