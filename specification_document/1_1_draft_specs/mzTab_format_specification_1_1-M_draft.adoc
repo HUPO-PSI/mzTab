@@ -381,10 +381,10 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 
 [cols=",",]
 |=========================================
-|*Description:* |The ID of the mzTab file.
+|*Description:* |The ID of the mzTab file, this could be supplied by the repository from which it is downloaded or a local identifier from the lab producing the file. It is not intended to be a globally unique ID but carry some locally useful meaning.
 |*Type:* |String
 |*Mandatory* |True
-|*Example:* a|`MTD mzTab-ID PRIDE_1234`
+|*Example:* a|`MTD mzTab-ID MTBL1234`
 |=========================================
 
 [[title]]
@@ -1053,7 +1053,7 @@ MTD cv[1]-url http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/co
 |*Example:* a|
 ....
 MTD database[1] [MIRIAM,MIR:00100079 , “HMDB”, ]
-MTD database[2] [, , “No database”, ]
+MTD database[2] [, , “no database”, "null"]
 MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
 ....
 |===========================================================================================================================================================================================================================
@@ -1063,13 +1063,13 @@ MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
 IMPORTANT: TODO Make sure to explain that the colon must followed these prefixes in the SMF section below. Andy Jones
 [cols=",",]
 |====================================================================================================================================================
-|*Description:* |The prefix used in the “identifier” column of data tables. This MUST be used even for the “no database” case e.g. using prefix “nd”.
+|*Description:* |The prefix used in the “identifier” column of data tables. For the “no database” case "null" must be used.
 |*Type:* |String
 |*Mandatory* |True
 |*Example:* a|
 ....
 MTD database[1]-prefix hmdb
-MTD database[2]-prefix nd
+MTD database[2]-prefix null
 ....
 |====================================================================================================================================================
 
@@ -1228,7 +1228,7 @@ This field MUST NOT be used to define a unit for quantification columns. The uni
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD colunit-small_molecule retention_time=[UO,UO:0000031, minute,]#
+#Example needed#
 ....
 |===========================================================================================================================================================================
 
@@ -1408,7 +1408,7 @@ SML 1 … 1234.5 …
 
 [cols=",",]
 |========================================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |The __exp__erimental mass to charge of the small molecule’s primary adduct form (e.g. mean m/z across assays), assumed by default to be the protonated (positive mode) or de-protonated (negative mode), otherwise the first reported adduct under the adduct ions column. For GC-MS approaches, this MAY be the m/z of the ion used for quantification.
+|*Description:* |The __exp__erimental mass to charge of the small molecule’s primary adduct form (e.g. mean m/z across assays), assumed by default to be the protonated (positive mode) or de-protonated (negative mode), otherwise the first reported adduct under the adduct_ions column. For GC-MS approaches, this MAY be the m/z of the ion used for quantification.
 |*Type:* |Double
 |*Is Nullable:* |*FALSE*
 |*Example:* a|
@@ -1428,7 +1428,7 @@ IMPORTANT: TODO Possible addition to Metadata section to describe how RT values 
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SMH SML_ID … retention_time …
+SMH SML_ID … retention_time_in_seconds …
 SML 1 … 638 …
 ....
 |==================================================================================================================================================================================================================================================================================================================================================================================================================================
@@ -1443,7 +1443,7 @@ IMPORTANT: TODO Joel to insert a regex here. Andy Jones
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SMH SML_ID … adduct ions …
+SMH SML_ID … adduct_ions …
 SML 1 … [M+H]1+ | [M+Na]1+ …
 ....
 |============================================================================================================================================================================================================================================================================================================================================================
@@ -1697,8 +1697,8 @@ SMF 1 … 1 …
 ....
 |===========================================
 
-[[retention_time-1]]
-==== retention_time
+[[retention_time_in_seconds-1]]
+==== retention_time_in_seconds
 
 [cols=",",]
 |====================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
@@ -1707,13 +1707,13 @@ SMF 1 … 1 …
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SFH SMF_ID … retention_time …
+SFH SMF_ID … retention_time_in_seconds …
 SMF 1 … 1345.7 …
 ....
 |====================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 
-[[retention_time_start]]
-==== retention_time_start
+[[retention_time_in_seconds_start]]
+==== retention_time_in_seconds_start
 
 [cols=",",]
 |========================================================================================================================================================================================================================================================================================================================================================
@@ -1722,13 +1722,13 @@ SMF 1 … 1345.7 …
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SFH SMF_ID … retention_time_start …
-SMF 1 … 1327 …
+SFH SMF_ID … retention_time_in_seconds_start …
+SMF 1 … 1327.0 …
 ....
 |========================================================================================================================================================================================================================================================================================================================================================
 
-[[retention_time_end]]
-==== retention_time_end
+[[retention_time_in_seconds_end]]
+==== retention_time_in_seconds_end
 
 [cols=",",]
 |=======================================================================================================================================================================================================================================================================================================================================================
@@ -1737,8 +1737,8 @@ SMF 1 … 1327 …
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SFH SMF_ID … retention_time_start …
-SMF 1 … 1327 …
+SFH SMF_ID … retention_time_in_seconds_end …
+SMF 1 … 1327.8 …
 ....
 |=======================================================================================================================================================================================================================================================================================================================================================
 
@@ -1779,7 +1779,7 @@ SMF 1 … My value some other value
 * Raw quantification values, assuming normalised values are provided in the standard assay quantification columns.
 * Predicted retention time
 * CCS values
-* Two-dimensional retention times e.g. `opt_retention_time1` `opt_retention_time2`
+* Two-dimensional retention times e.g. `opt_retention_time_in_seconds1` `opt_retention_time_in_seconds2`
 
 [[small-molecule-evidence-sme-section]]
 === Small Molecule Evidence (SME) Section
