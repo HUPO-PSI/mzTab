@@ -1,0 +1,38 @@
+sudo: required
+
+install: false
+
+services:
+  - docker                  
+
+before_install:            
+  - mkdir -p output
+  - docker pull asciidoctor/docker-asciidoctor
+
+script:
+  - docker run -v $TRAVIS_BUILD_DIR/specification_document/1_1_draft_specs:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -d book -D /documents/output mzTab_format_specification_1_1-M_draft.adoc      
+  - docker run -v $TRAVIS_BUILD_DIR/specification_document/1_1_draft_specs:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -d book -D /documents/output mzTab_format_specification_1_1-M_draft.adoc    
+
+after_error: 
+  - docker logs asciidoc-to-html
+  - docker logs asciidoc-to-pdf
+
+after_failure:
+  - docker logs asciidoc-to-html
+  - docker logs asciidoc-to-pdf
+
+after_success:      
+  - mkdir output/1_1_draft_specs
+  - cp -R $TRAVIS_BUILD_DIR/specification_document/1_1_draft_specs/output/* output/1_1_draft_specs
+  - mkdir output/1_1_draft_specs/img
+  - cp -R $TRAVIS_BUILD_DIR/specification_document/1_1_draft_specs/img/* output/1_1_draft_specs/img
+  - cp -R $TRAVIS_BUILD_DIR/docs/* output/
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: output
+  on:
+    branch: master
+
