@@ -1509,7 +1509,7 @@ SML 1 … 0.7 …
 
 [[abundance_assay1-n]]
 ==== abundance_assay[1-n]
-
+IMPORTANT: TODO ACTION: Give examples where reporting of null (absence) would make sense over reporting zero (present, but not quantifiable)?
 [cols=",",]
 |=====================================================================================================================================================================
 |*Description:* |The small molecule’s abundance in every assay described in the metadata section MUST be reported. Null or zero values may be reported as appropriate.
