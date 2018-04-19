@@ -664,7 +664,7 @@ MTD assay[1]-external_uri #Example URI to insert#
 
 [cols=",",]
 |================================================================================================================================================================================================================================================================================================
-|*Description:* |A name for each study variable (experimental condition or factor), to serve as a list of the study variables that MUST be reported in the following tables. For software that does not capture study variables, a single study variable MUST be reported, linking to all assays.
+|*Description:* |A name for each study variable (experimental condition or factor), to serve as a list of the study variables that MUST be reported in the following tables. For software that does not capture study variables, a single study variable MUST be reported, linking to all assays. This single study variable MUST have the identifier “undefined“.
 |*Type:* |String
 |*Mandatory* |True
 |*Example:* a|
