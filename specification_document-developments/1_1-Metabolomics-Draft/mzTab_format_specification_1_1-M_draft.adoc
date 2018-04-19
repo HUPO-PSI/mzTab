@@ -422,8 +422,8 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Mandatory* |False
 |*Example:* a|
 ....
-MTD sample_processing[1] [SEP, SEP:00173, SDS PAGE,]
-MTD sample_processing[2] [SEP, SEP:00142, enzyme digestion,]\|[MS, … MS:1001251, Trypsin, ]
+MTD sample_processing[1] [SEP, sep:00210, liquid chromatograhy,]
+
 ....
 |=================================================================================================================================================================================================================================================================
 
@@ -1023,7 +1023,7 @@ MTD custom[1] [,,MS operator, Florian]
 
 [cols=",",]
 |===============================================================================================================
-|*Description:* |A string describing the labels of the controlled vocabularies/ontologies used in the mzTab file
+|*Description:* |A string describing the labels of the controlled vocabularies/ontologies used in the mzTab file as a short-hand e.g. "MS" for PSI-MS.
 |*Type:* |String
 |*Mandatory* |True
 |*Example:* a|
@@ -1193,11 +1193,11 @@ IMPORTANT: TODO To revisit. Andy Jones
 |================================================================================================================================================
 |*Description:* |The system used for giving reliability codes to small molecule identifications MUST be specified if not using the default codes.
 |*Type:* |Param
-|*Mandatory* |#False#
+|*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD small_molecule-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]#
+#MTD small_molecule-identification_reliability [, , Numerical system defined in publication, PMID:XXX]#
 ....
 |================================================================================================================================================
 
@@ -1814,20 +1814,20 @@ SME 1 …
 ....
 |=======================================================================================
 
-[[evidence_unique_ID]]
-==== evidence_unique_ID
+[[evidence_input_ID]]
+==== evidence_input_ID
 
 [cols=",",]
 |==================================================================================================================================================================================================================================================================
-|*Description:* |A within file unique identifier for the input data used to support this identification e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of results from the same input data share the same ID.
-|*Type:* |Integer
+|*Description:* |A within file unique identifier for the input data used to support this identification e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of results from the same input data share the same ID. The identifiers may be human readable but should not be assumed to be interpretable. For example, if fragmentation spectra have been searched then the ID may be the spectrum reference, or for accurate mass search, the ms_run[2]:458.75.
+|*Type:* |String
 |*Is Nullable:* |*FALSE*
 |*Example:* a|
 ....
-SEH SME_ID evidence_unique_ID …
-SME 1 1
-SME 2 1
-SME 3 1
+SEH SME_ID evidence_input_ID …
+SME 1 ms_run[1]:index=274
+SME 2 ms_run[2]:index=287
+SME 3 ms_run[3]:index=365
 ....
 (in this example three identifications were made from the same accurate mass search)
 
@@ -2015,7 +2015,7 @@ SME 1 … 1234.71 …
 [cols=",",]
 |==========================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 |*Description:* |
-Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the meta-data section as additional ms_runs. The reference must be in the format ms_run[1-n]:\{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “\|” delimited list for the (rare) cases in which search engines have combined multiple spectra to make identifications.
+Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the meta-data section as additional ms_runs. The reference must be in the format ms_run[1-n]:\{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “\|” delimited list for the (rare) cases in which search engines have combined or aggregated multiple spectra  in advance of the search to make identifications.
 
 If a fragmentation spectrum has not been used, the value should indicate the ms_run to which is identification is mapped e.g. “ms_run[1]”.
 
