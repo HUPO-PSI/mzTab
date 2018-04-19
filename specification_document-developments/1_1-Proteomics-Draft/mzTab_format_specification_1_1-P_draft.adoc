@@ -129,55 +129,78 @@ external MS data file.
 
 == Notational Conventions
 
-The key words “MUST,” “MUST NOT,” “REQUIRED,” “SHALL,” “SHALL NOT,” “SHOULD,” “SHOULD NOT,” “RECOMMENDED,” “MAY,” and “OPTIONAL” are to be interpreted as described in RFC-2119 <<bradner-1997, (Bradner 1997)>>.
+The key words “MUST,” “MUST NOT,” “REQUIRED,” “SHALL,” “SHALL NOT,” “SHOULD,” “SHOULD NOT,” “RECOMMENDED,”
+“MAY,” and “OPTIONAL” are to be interpreted as described in RFC-2119 <<bradner-1997, (Bradner 1997)>>.
 
 [[relationship-to-other-specifications]]
 == Relationship to Other Specifications
 
-The specification described in this document has not been developed in isolation; indeed, it is designed to be complementary to, and thus used in conjunction with, several existing and emerging models. Related specifications include the following:
+The specification described in this document has not been developed in isolation;
+indeed, it is designed to be complementary to, and thus used in conjunction with, several
+existing and emerging models. Related specifications include the following:
 
-1.  _mzML_ (http://www.psidev.info/mzml). mzML is the PSI standard for capturing mass spectra / peak lists resulting from mass spectrometry in proteomics <<martens-2011, (Martens _et al._ 2011)>>. mzTab files MAY be used in conjunction with mzML, although it will be possible to use mzTab with other formats of mass spectra. This document does not assume familiarity with mzML.
-2.  __ISA-TAB (__http://isa-tools.org/_)._ The ISA framework allows for reporting experimental metadata and study designs in considerable detail, and is already used for describing metabolomics experiments. It is expected that mzTab files may be linked to ISA-TAB formatted files, for cases where a rich experimental design is to be captured. The linkage between mzTab-M and ISA-TAB is further exemplified in section <<referencing-external-resources>>.
+1.  _mzML_ (http://www.psidev.info/mzml). mzML is the PSI standard for capturing mass spectra / peak
+lists resulting from mass spectrometry in proteomics <<martens-2011, (Martens _et al._ 2011)>>.
+mzTab files ARE RECOMMENDED to used in conjunction with mzML, although it will be possible to use
+mzTab with other formats of mass spectra like vendor RAW files, Peaks Lists (e.g mgf).
 
 [[relationship-to-mztab-1.0]]
 === Relationship to mzTab 1.0
 
-The first stable version of mzTab (version 1.0) was developed primarily by the PSI as a format for the final results (identification or quantification) of a proteomics experiment, using MS. In mzTab version 1.0 limited support was included for metabolomics, through a small molecule table, in which end results could be encoded at the level of quantified metabolites. The intention of mzTab-M is to extend these concepts, so that more detail can be captured about the evidence trail for quantification, including MS features (different charge states or adducts) and the evidence trail for identifications - both of which could not be easily supported in mzTab v 1.0. mzTab-M is not formally backwards compatible, but follows a similar design pattern. Design decisions made in mzTab-M may in the future be adopted for a version of mzTab specifically intended for proteomics only, but at the time of writing mzTab version 1.0 remains in active use for proteomics, but is deprecated for use in metabolomics.
-
+The first stable version of mzTab (version 1.0) was developed primarily by the PSI as a format for
+the final results (identification or quantification) of a proteomics experiment, using MS.
 
 [[the-psi-mass-spectrometry-controlled-vocabulary-cv]]
-=== The PSI Mass Spectrometry Controlled Vocabulary (CV)
+=== Recommend Controlled Vocabularies (CVs)
 
-The PSI-MS controlled vocabulary is intended to provide terms for annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms from software vendors and academic groups working in the area of mass spectrometry and MS informatics. Some terms describe attributes that must be coupled with a numerical value attribute in the CvParam element (e.g. MS:1001191 “p-value”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”). The terms that require a value are denoted by having a “datatype” key-value pair in the CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself (relationship: has_units: UO:0000221 ! dalton).
+The PSI-MS controlled vocabulary (https://www.ebi.ac.uk/ols/ontologies/ms): is intended to provide terms for
+annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms
+from software vendors and academic groups working in the area of mass spectrometry and MS informatics.
+Some terms describe attributes that must be coupled with a numerical value attribute in the CvParam
+element (e.g. MS:1001191 “p-value”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”).
+The terms that require a value are denoted by having a “datatype” key-value pair in the
+CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself
+(relationship: has_units: UO:0000221 ! dalton).
 
-As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically maintained via the psidev-ms-vocab@lists.sourceforge.net mailing list that allows any user to request new terms in agreement with the community involved. Once a consensus is reached among the community the new terms are added within a few business days. If there is no obvious consensus, the CV coordinators committee should vote and make a decision. A new psi-ms.obo should then be released by updating the file on the GitHub server without changing the name of the file.
+As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically maintained via the psidev-ms-vocab@lists.sourceforge.net mailing list that
+allows any user to request new terms in agreement with the community involved. Once a consensus is reached
+among the community the new terms are added within a few business days. If there is no obvious consensus,
+the CV coordinators committee should vote and make a decision. A new psi-ms.obo should then be released by
+updating the file on the GitHub server without changing the name of the file.
 
-The following ontologies or controlled vocabularies specified below may also be suitable or required in certain instances:
+We recommended the use of PSI-MS for all the terms that are not related with the sample and experimental design. The following ontologies or controlled vocabularies specified
+below may also be suitable or required other parts of the experimental design and post-translational
+modification:
 
-* Unit Ontology (http://www.obofoundry.org/ontology/uo.html)
-* ChEBI (ftp://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi.obo)
-* OBI Ontology of Biological Investigations (http://obi-ontology.org/)
-* PRIDE Controlled Vocabulary (https://www.ebi.ac.uk/ols/ontologies/pride)
-* NEWT UniProt Taxonomy Database (http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT)
-* BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
-* Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
+* PRIDE Controlled Vocabulary (https://www.ebi.ac.uk/ols/ontologies/pride): PostTranslation Modifications
+* Experimental Factor Ontology (EFO) (https://www.ebi.ac.uk/ols/ontologies/efo): Experiental Factors including tissues, celltypes, etc.
+* PSI-MOD and UNIMOD: Post-translational Modifications.
 
 [[resolved-design-and-scope-issues]]
 == Resolved Design and scope issues
 
-There were several issues regarding the design of the format that were not clear cut, and a design choice was made that was not completely agreeable to everyone. So that these issues do not keep coming up, we document the issues here and why the decision that is implemented was made.
+There were several issues regarding the design of the format that were not clear cut, and a design choice
+was made that was not completely agreeable to everyone. So that these issues do not keep coming up,
+we document the issues here and why the decision that is implemented was made.
 
 [[use-of-identifiers-for-input-spectra-to-a-search]]
 === Use of identifiers for input spectra to a search
 
-Small molecules MUST be linked to an identifier of the source spectrum (in an external file) from which the identifications are made by way of a reference in the `spectra_ref` attribute and via the `ms_run` element which stores the URL of the file in the `location` attribute.
+PSMs molecules MUST be linked to an identifier of the source spectrum (in an external file)
+from which the identifications are made by way of a reference in the `spectra_ref` attribute and via
+the `ms_run` element which stores the URL of the file in the `location` attribute.
 
-It is advantageous if there is a consistent system for identifying spectra in different file formats. The following table is implemented in the PSI-MS CV for providing consistent identifiers for different spectrum file formats.
+It is advantageous if there is a consistent system for identifying spectra in different file formats.
+The following table is implemented in the PSI-MS CV for providing consistent identifiers for different
+spectrum file formats.
 
-NOTE: This table shows examples from the CV but will be extended. The CV holds the definite specification for legal encodings of spectrumID values.
+NOTE: This table shows examples from the CV but will be extended. The CV holds the definite specification
+for legal encodings of spectrumID values.
 
 [[table-1, CV Terms and Rules]]
-.Controlled vocabulary terms and rules implemented in the PSI-MS CV for formulating the “nativeID” to identify spectra in different file formats.
+.Controlled vocabulary terms and rules implemented in the PSI-MS CV for formulating the “nativeID” to identify spectra in different
+file formats.
+
 [cols=",,,",options="header",]
 |===============================================================================================================================================================================================================================================================
 |*ID* |*Term* |*Data type* |*Comment*
@@ -193,6 +216,7 @@ NOTE: This table shows examples from the CV but will be extended. The CV holds t
 |MS:1000777 |spectrum identifier nativeID format |spectrum=xsd:nonNegativeInteger |Used for conversion from mzData. The spectrum id attribute is referenced.
 |MS:1001530 |mzML unique identifier |xsd:string |Used for referencing mzML. The value of the spectrum id attribute is referenced directly.
 |===============================================================================================================================================================================================================================================================
+
 
 
 
