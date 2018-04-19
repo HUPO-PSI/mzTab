@@ -775,7 +775,7 @@ SME ... ms_run[1]:scan=11665 ...</pre>
 <p><em>assay</em> – The application of a measurement about the sample (in this case through MS) – producing values about small molecules or lipids. One assay is typically mapped to one MS run in the case of label-free MS analysis (with no pre-fractionation) or multiple assays are mapped to one MS run for multiplexed techniques, along with a description of the label or tag applied.</p>
 </li>
 <li>
-<p><em>sample</em> – a biological material that has been analyzed, to which descriptors of species, cell/tissue type etc. can be attached. In all of types of mzTab file, these MAY be reported in the metadata section as sample[1-n]-description. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample was analyzed (e.g. whether biological or technical replication was performed), although some consumers of mzTab files MAY wish to enforce that samples MUST be provided e.g. to perform statistical analysis.</p>
+<p><em>sample</em> – a biological material that has been analyzed, to which descriptors of species, cell/tissue type etc. can be attached. In all of types of mzTab file, these MAY be reported in the metadata section as sample[1-n]-description. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample was analyzed (e.g. whether biological or technical replication was performed). If the file producer wishes to describe whether biological or technical replication has been performed, then sample elements SHOULD be provided.</p>
 </li>
 </ul>
 </div>
@@ -3390,7 +3390,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 <td class="tableblock halign-left valign-top"><div><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … chemical_formula … inchi …
-SML 1 … C17H20N4O2 … QXBMEGUKVLFJAM-UHFFFAOYSA-N …</pre>
+SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13-20-21-17(23)15-7-10-18-11-8-15/h1-5,7-8,10-11,20H,6,9,12-13H2,(H,19,22)(H,21,23) …</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4495,7 +4495,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 <td class="tableblock halign-left valign-top"><div><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … chemical_formula … inchi …
-SML 1 … C17H20N4O2 … QXBMEGUKVLFJAM-UHFFFAOYSA-N …</pre>
+SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13-20-21-17(23)15-7-10-18-11-8-15/h1-5,7-8,10-11,20H,6,9,12-13H2,(H,19,22)(H,21,23) …</pre>
 </div>
 </div></div></td>
 </tr>
