@@ -1,6 +1,200 @@
-mzTab 1.1 Proteomics specific parts
+= mzTab-P: exchange format for proteomics experiments
+:sectnums:
+:toc: left
+:doctype: book
+//only works on some backends, not HTML
+:showcomments:
+//use style like Section 1 when referencing within the document.
+:xrefstyle: short
+:figure-caption: Figure
+:pdf-page-size: A4
 
-There are no immediate plans to begin work on a proteomics version 1.1, but this document serves as a placeholder for notes and sections removed from the 1.1-M draft.
+//GitHub specific settings
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+//disable section numbering
+:!sectnums:
+
+[preface]
+== Preface
+_Status of This Document_
+
+This document presents the final specification of the mzTab data format developed by
+members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative
+(PSI) Proteomics Informatics (PI) Working Group. Distribution is unlimited.
+
+_Version of This Document_
+
+The current version of this document is: version 1.1.0-P Draft, April 2018.
+
+The latest draft version of this document may be found at https://github.com/HUPO-PSI/mzTab.
+
+[abstract]
+[[abstract]]
+== Abstract
+
+The Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI)
+and Metabolomics Standards initiative (MSI) define community standards for data representation
+in proteomics/metabolomics to facilitate data comparison, exchange and verification.
+
+In this context, the two organizations are working together on a shared standard for
+downstream results, following mass spectrometry (MS) analysis. This document defines a
+tab-delimited text file format to report proteomics experiments results. You can see the
+document specification for the metabolomics experiments here https://github.com/HUPO-PSI/mzTab.
+
+//reenable section numbering
+:sectnums:
+[[introduction]]
+== Introduction
+
+[[background]]
+=== Background
+
+This document addresses the systematic description of protein/peptide identification and quantification
+data retrieved from mass spectrometry (MS)-based experiments. A large number of software tools are available
+that analyze MS data and produce a variety of different output data formats.
+
+mzTab-P is intended as a reporting standard for quantitative results from proteomics approaches.
+This format is also intended to provide local LIMS systems as well as MS proteomics repositories a
+simple way to share and combine basic information.
+
+mzTab has been developed with a view to support the following general tasks (more specific use cases
+are provided in <<use-cases-for-mztab>>):
+
+1.  _Facilitate the sharing of final experimental results,_ especially with researchers outside the field of proteomics.
+2.  _Export of results to external software,_ including programs such as Microsoft Excel^®^ and Open Office Spreadsheet and statistical software / coding languages such as R.
+3.  _Act as an output format of (web-) services_ that report MS-based results and thus can produce standardized result pages.
+4.  _Be able to link to the external experimental evidence_ e.g. by referencing back to Peak List files.
+
+This document presents a specification, not a tutorial. As such, the presentation of technical details is deliberately direct. The role of the text is to describe the model and justify design decisions made.
+The document does not discuss how the models should be used in practice, consider tool support for data capture or storage, or provide comprehensive examples
+of the models in use. It is anticipated that tutorial material will be developed independently of this specification.
+
+[[document-structure]]
+=== Document Structure
+
+The remainder of this document is structured as follows. <<use-cases-for-mztab>> lists use cases
+mzTab-P is designed to support. <<notational-conventions>> describes the terminology used.
+<<relationships-to-other-specifications>> describes how the specification presented
+in <<format-specification>> relates to other specifications, both those that it extends
+and those that it is intended to complement. <<resolved-design-and-scope-issues>> discusses
+the reasoning behind several design decisions taken. <<format-specification>> contains the
+documentation of the file. <<non-supported-use-cases>> lists use cases that are currently not supported.
+Conclusions are presented in <<conclusions>>.
+
+[[use-cases-for-mztab]]
+== Use Cases for mzTab
+
+The following cases of usage have driven the development of the mzTab data model, and are used to define
+the scope of the format in version 1.0.
+
+1. mzTab-P files should be simple enough to make proteomics results accessible to people outside the
+respective fields. This should facilitate the sharing of data beyond the borders of the fields and
+make it accessible to non-experts.
+
+2. mzTab-P files should contain sufficient information to provide an electronic summary of all findings
+in a proteomics study to permit its use as a standard documentation format for ‘supplementary material’
+sections of publications in proteomics. It should thus be able to replace PDF tables as a way of
+reporting protein/peptide make published identification and quantification information more accessible.
+
+3. mzTab-P files should enable reporting at different levels of detail: ranging from a simple summary
+of the final results to a detailed reporting including the experimental design.
+
+4. It should be possible to open mzTab-M files with “standard” software such as Microsoft Excel^®^ or
+Open Office Spreadsheet. This should furthermore improve the usability of the format to people outside
+the fields of metabolomics.
+
+5. mzTab-P files should make MS derived results easily accessible to scripting languages allowing
+bioinformaticians to develop software without the overhead of developing sophisticated parsing code.
+Since mzTab files will be comparatively small, the data from multiple experiments can be processed at
+once without requiring special resource management techniques.
+
+6. It should be possible to contain the complete final results of an MS-based proteomics experiment
+in a single file. This should furthermore reduce the complexity of sharing and processing an experiment’s
+final results. mzTab-P files should be able to store quantitative values for protein/peptide identifications.
+
+7. It should be useful as an output format by web-services that can then be readily accessed by tools
+supporting mzTab-P.
+
+8. It should be possible to directly link a Peptide/Protein record to its source spectrum in an
+external MS data file.
+
+[[notational-conventions]]
+
+== Notational Conventions
+
+The key words “MUST,” “MUST NOT,” “REQUIRED,” “SHALL,” “SHALL NOT,” “SHOULD,” “SHOULD NOT,” “RECOMMENDED,” “MAY,” and “OPTIONAL” are to be interpreted as described in RFC-2119 <<bradner-1997, (Bradner 1997)>>.
+
+[[relationship-to-other-specifications]]
+== Relationship to Other Specifications
+
+The specification described in this document has not been developed in isolation; indeed, it is designed to be complementary to, and thus used in conjunction with, several existing and emerging models. Related specifications include the following:
+
+1.  _mzML_ (http://www.psidev.info/mzml). mzML is the PSI standard for capturing mass spectra / peak lists resulting from mass spectrometry in proteomics <<martens-2011, (Martens _et al._ 2011)>>. mzTab files MAY be used in conjunction with mzML, although it will be possible to use mzTab with other formats of mass spectra. This document does not assume familiarity with mzML.
+2.  __ISA-TAB (__http://isa-tools.org/_)._ The ISA framework allows for reporting experimental metadata and study designs in considerable detail, and is already used for describing metabolomics experiments. It is expected that mzTab files may be linked to ISA-TAB formatted files, for cases where a rich experimental design is to be captured. The linkage between mzTab-M and ISA-TAB is further exemplified in section <<referencing-external-resources>>.
+
+[[relationship-to-mztab-1.0]]
+=== Relationship to mzTab 1.0
+
+The first stable version of mzTab (version 1.0) was developed primarily by the PSI as a format for the final results (identification or quantification) of a proteomics experiment, using MS. In mzTab version 1.0 limited support was included for metabolomics, through a small molecule table, in which end results could be encoded at the level of quantified metabolites. The intention of mzTab-M is to extend these concepts, so that more detail can be captured about the evidence trail for quantification, including MS features (different charge states or adducts) and the evidence trail for identifications - both of which could not be easily supported in mzTab v 1.0. mzTab-M is not formally backwards compatible, but follows a similar design pattern. Design decisions made in mzTab-M may in the future be adopted for a version of mzTab specifically intended for proteomics only, but at the time of writing mzTab version 1.0 remains in active use for proteomics, but is deprecated for use in metabolomics.
+
+
+[[the-psi-mass-spectrometry-controlled-vocabulary-cv]]
+=== The PSI Mass Spectrometry Controlled Vocabulary (CV)
+
+The PSI-MS controlled vocabulary is intended to provide terms for annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms from software vendors and academic groups working in the area of mass spectrometry and MS informatics. Some terms describe attributes that must be coupled with a numerical value attribute in the CvParam element (e.g. MS:1001191 “p-value”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”). The terms that require a value are denoted by having a “datatype” key-value pair in the CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself (relationship: has_units: UO:0000221 ! dalton).
+
+As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically maintained via the psidev-ms-vocab@lists.sourceforge.net mailing list that allows any user to request new terms in agreement with the community involved. Once a consensus is reached among the community the new terms are added within a few business days. If there is no obvious consensus, the CV coordinators committee should vote and make a decision. A new psi-ms.obo should then be released by updating the file on the GitHub server without changing the name of the file.
+
+The following ontologies or controlled vocabularies specified below may also be suitable or required in certain instances:
+
+* Unit Ontology (http://www.obofoundry.org/ontology/uo.html)
+* ChEBI (ftp://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi.obo)
+* OBI Ontology of Biological Investigations (http://obi-ontology.org/)
+* PRIDE Controlled Vocabulary (https://www.ebi.ac.uk/ols/ontologies/pride)
+* NEWT UniProt Taxonomy Database (http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT)
+* BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
+* Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
+
+[[resolved-design-and-scope-issues]]
+== Resolved Design and scope issues
+
+There were several issues regarding the design of the format that were not clear cut, and a design choice was made that was not completely agreeable to everyone. So that these issues do not keep coming up, we document the issues here and why the decision that is implemented was made.
+
+[[use-of-identifiers-for-input-spectra-to-a-search]]
+=== Use of identifiers for input spectra to a search
+
+Small molecules MUST be linked to an identifier of the source spectrum (in an external file) from which the identifications are made by way of a reference in the `spectra_ref` attribute and via the `ms_run` element which stores the URL of the file in the `location` attribute.
+
+It is advantageous if there is a consistent system for identifying spectra in different file formats. The following table is implemented in the PSI-MS CV for providing consistent identifiers for different spectrum file formats.
+
+NOTE: This table shows examples from the CV but will be extended. The CV holds the definite specification for legal encodings of spectrumID values.
+
+[[table-1, CV Terms and Rules]]
+.Controlled vocabulary terms and rules implemented in the PSI-MS CV for formulating the “nativeID” to identify spectra in different file formats.
+[cols=",,,",options="header",]
+|===============================================================================================================================================================================================================================================================
+|*ID* |*Term* |*Data type* |*Comment*
+|MS:1000768 |Thermo nativeID format |controllerType=xsd:nonNegativeInteger controllerNumber=xsd:positiveInteger scan=xsd:positiveInteger. |controller=0 is usually the mass spectrometer
+|MS:1000769 |Waters nativeID format |function=xsd:positiveInteger process=xsd:nonNegativeInteger scan=xsd:nonNegativeInteger |
+|MS:1000770 |WIFF nativeID format |sample=xsd:nonNegativeInteger period=xsd:nonNegativeInteger cycle=xsd:nonNegativeInteger experiment=xsd:nonNegativeInteger |
+|MS:1000771 |Bruker/Agilent YEP nativeID format |scan=xsd:nonNegativeInteger |
+|MS:1000772 |Bruker BAF nativeID format |scan=xsd:nonNegativeInteger |
+|MS:1000773 |Bruker FID nativeID format |file=xsd:IDREF |The nativeID must be the same as the source file ID
+|MS:1000774 |multiple peak list nativeID format |index=xsd:nonNegativeInteger |Used for referencing peak list files with multiple spectra, i.e. MGF, PKL, merged DTA files. Index is the spectrum number in the file, starting from 0.
+|MS:1000775 |single peak list nativeID format |file=xsd:IDREF |The nativeID must be the same as the source file ID. Used for referencing peak list files with one spectrum per file, typically in a folder of PKL or DTAs, where each sourceFileRef is different
+|MS:1000776 |scan number only nativeID format |scan=xsd:nonNegativeInteger |Used for conversion from mzXML, or a DTA folder where native scan numbers can be derived.
+|MS:1000777 |spectrum identifier nativeID format |spectrum=xsd:nonNegativeInteger |Used for conversion from mzData. The spectrum id attribute is referenced.
+|MS:1001530 |mzML unique identifier |xsd:string |Used for referencing mzML. The value of the spectrum id attribute is referenced directly.
+|===============================================================================================================================================================================================================================================================
+
+
 
 [[proteomics-metadata]]
 == Proteomics Metadata
