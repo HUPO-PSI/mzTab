@@ -590,13 +590,28 @@ MTD contact[2]-email crick@cam.ac.uk
 
 [cols=",",]
 |================================================================================================================================
-|*Description:* |A URI pointing to the file's source data (e.g., a PRIDE experiment, PeptideAtlas build or MetaboLights records).
+|*Description:* |A URI pointing to the file's source data (e.g., a  MetaboLights records).
 |*Type:* |URI
 |*Mandatory* |False
 |*Example:* a|
 ....
-MTD uri[1] http://www.ebi.ac.uk/pride/url/to/experiment
-MTD uri[2] http://proteomecentral.proteomexchange.org/cgi/GetDataset
+MTD uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517
+
+....
+|================================================================================================================================
+
+[[external_study_uri1-n]]
+==== external_study_uri[1-n]
+
+[cols=",",]
+|================================================================================================================================
+|*Description:* |A URI pointing to an external file with more details about the study design (e.g., an ISA-TAB file).
+|*Type:* |URI
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt
+
 ....
 |================================================================================================================================
 
