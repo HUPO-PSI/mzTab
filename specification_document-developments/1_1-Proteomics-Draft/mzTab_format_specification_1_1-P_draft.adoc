@@ -293,13 +293,232 @@ The metadata fields in this section MAY be reported in a proteomics type file, b
 [[protein_search_engine_score1-n]]
 === protein_search_engine_score[1-n]
 
-[cols=",",options="header",]
-|===============================================================================================================================================
-|*Description:* a|
-The type of protein search engine score MUST be reported as a CV parameter [1-n].
+[[encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors]]
+=== Encoding missing values, zeroes, nulls, infinity and calculation errors
 
-The order of the search engine scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.
+In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for cells in which isNullable= “true”.
 
+For numerical values, they MUST be encoded following the specifications of https://www.w3.org/TR/xmlschema-2/#decimal[xs:decimal]. This does not natively support NaN, INF, scientific notation or null. As such, it is allowed in mzTab to include "NaN" for incalculable numbers and "null" for no data. In some cases, there is ambiguity with respect to the use of "0" versus "null": e.g. if there are alignment issues and it is unclear whether a molecule has been quantified with zero abundance or the feature was potentially present in the data but was not found. Export software would be expected to make a decision on this cases, based on best understanding of the case in hand.
+
+Scientific notation and infinity is explicitly not supported.
+
+
+[[reliability-score]]
+=== Reliability score
+
+All peptide and protein identifications reported in an mzTab file
+MAY be assigned a reliability score (column “reliability” in all tables).
+This reliability only applies to the identification reliability but not
+to modification position and or quantification reliabilities.
+
+The idea is to provide a way for researchers and/or repositories to score
+the reported identifications based on their own criteria. The criteria used
+to generate this score SHOULD be documented by the data providers. If this
+information is not provided by the producers of mzTab files, “null“ MUST be provided as the value for each of the protein, peptide identification.
+
+[[Guidelines-for-pre-fractionation]]
+=== Guidelines for workflows involving pre-fractionation
+
+It is possible that a single analysis of a sample is split offline via
+some fractionation technology prior to LC/MS-MS into _n_ MS analyses
+to limit the complexity of the molecules arriving at the detector.
+
+Such workflows, can be encoded in mzTab-P via an assay referencing to
+_n_ ms_runs. It may be desirable to maintain the link from a feature (Peptide row) to the
+ms_run from which it was obtained. This SHOULD be achieved through
+the use of an optional column called "opt_global_ms_run_refs",
+in which the identifiers of ms_runs are placed where the feature has
+been quantified from.
+
+[[comments-on-specific-use-cases]]
+=== Comments on Specific Use Cases
+
+Many special use cases for mzTab were considered during its development. Each of these use cases has a corresponding example file that exercises the relevant part of the format and provides a reference implementation example (see supporting documentation). Authors of software that create mzTab are encouraged to examine the examples that accompany this format release before implementing the writer.
+
+[[adding-optional-columns]]
+=== Adding optional columns
+
+Additional columns MAY be added to the end of rows in all the table-based sections.
+
+These column headers MUST start with the prefix “opt_” followed by the identifier of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘_’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
+
+The information stored within an optional column is completely up to the resource that generates the file. It MUST not be assumed that optional columns having the same name in different mzTab files contain the same type of information. CV parameter accessions MAY be used as optional column names according to the following convention: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
+
+----
+COM Example showing how emPAI values are reported in an additional column from MS run 1 using
+
+COM MS CV parameter “emPAI value” (MS:1001905)
+
+…
+
+PRH accession … opt_ms_run[1]_cv_MS:1001905_emPAI_value
+
+PRT P12345 … 0.658
+----
+
+[[format-specification]]
+== Format specification
+
+This section describes the structure of an mzTab file.
+
+* *Field separator* +
+The column delimiter is the Unicode Horizontal Tab character (Unicode codepoint 0009).
+* *File encoding* +
+The UTF-8 encoding of the Unicode character set is the preferred encoding for mzTab files. However, parsers should be able to recognize commonly used encodings.
+* *Case sensitivity* +
+All column labels and field names are case-sensitive.
+* *Line prefix* +
+Every line in an mzTab file MUST start with a three letter code identifying the type of line delimited by a Tab character. The three letter codes are as follows:
+** `MTD` for metadata
+** `PRH` for protein information header line (the column labels)
+** `PRT` for rows of the protein table
+** `PEH` for peptide feature header line
+** `PEP` for rows of the peptide feature table
+** `PSH` for peptide spectrum match header line
+** `PSM` for rows of the peptide spectrum match table
+** `COM` for comment lines
+
+* *Header lines* +
+Each table based section (protein, peptide or PSM) MUST start with the corresponding
+header line. These header lines MUST only occur once in the document
+since each section also MUST only occur once.
+
+* *Dates* +
+Dates and times MUST be supplied in the ISO 8601 format
+(“YYYY-MM-DD”, “YYYY-MM-DDTHH:MMZ” respectively).
+
+* *Decimal separator* +
+In mzTab files the dot (“.”) MUST be used as decimal separator.
+Thousand separators MUST NOT be used in mzTab files.
+
+* *Comment lines and empty lines* +
+Comment lines can be placed anywhere in an mzTab file. These lines must
+start with the three-letter code COM and are ignored by most parsers.
+Empty lines can also occur anywhere in an mzTab file and are ignored.
+
+* *Params* +
+mzTab makes use of CV parameters. As mzTab is expected to be used in several experimental environments where parameters might not yet be available for the generated scores etc. all parameters can either report CV parameters or user parameters that only contain a name and a value. +
+Parameters are always reported as `[CV label, accession, name, value]`. Any field that is not available MUST be left empty. +
+ +
+....
+[MS, MS:1001477, SpectraST,]
+[,,A user parameter, The value]
+....
+
+In case, the name of the param contains commas, quotes MUST be added to avoid problems with the parsing: `[label, accession, “first part of the param name, second part of the name”, value]`.
+....
+[MOD, MOD:00648, “N,O-diacetylated L-serine”,]
+....
+
+* *Sample IDs* +
+To be able to supply metadata specific to each sample, ids in the format `sample[1-n]` are used. +
+ +
+....
+MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
+....
+* *Assay IDs* +
+To be able to supply metadata specific to each assay, ids in the format `assay[1-n]` are used. +
+ +
+....
+MTD assay[1] first assay description
+....
+* *Study variable IDs* +
+To be able to supply metadata specific to each study variable (grouping of assays), ids in the format `study_variable[1-n]` are used.
+....
+MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)
+....
+[[sections]]
+=== Sections
+
+mzTab-P files MUST have one Metadata (MTD) section and one protein (PTR), peptide (PEP) or
+peptide spectrum match (PSM) Section.
+
+In practice, we expect that most files SHOULD for Identification experiments
+the Protein and peptide spectrum match sections and for quantitation
+experiments the peptide feature table.
+
+[[metadata-section]]
+=== Metadata Section
+
+The metadata section provides additional information about the dataset(s) reported in the mzTab file.
+All fields in the metadata section are optional apart from those noted as
+mandatory. The fields in the metadata section MUST be reported in order
+of the various fields listed here. The field’s name and value MUST be
+separated by a tab character:
+
+....
+MTD publication [PRIDE, PRIDE:00000029, PubMed, 12345]
+....
+
+In the following list of fields any term encapsulated by `\{}` is meant as a variable which MUST be replaced accordingly.
+
+*Core Metadata*
+
+[[mztab-version]]
+==== mzTab-version
+
+[cols=",",]
+|==============================================
+|*Description:* |The version of the mzTab file.
+|*Type:* |Regex{"1\.1\.\d-P"}
+|*Mandatory* |True
+|*Example:* a|`MTD mzTab-version  1.1.0-P`
+|==============================================
+
+[[mztab-id]]
+==== mzTab-ID
+
+[cols=",",]
+|=========================================
+|*Description:* |The ID of the mzTab file, this could be supplied by the repository from which it is downloaded or a local identifier from the lab producing the file. It is not intended to be a globally unique ID but carry some locally useful meaning.
+|*Type:* |String
+|*Mandatory* |True
+|*Example:* a|`MTD mzTab-ID PXD0001-LabelFree`
+|=========================================
+
+[[title]]
+==== title
+
+[cols=",",]
+|================================================
+|*Description:* |The file’s human readable title.
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|`MTD title My first test experiment`
+|================================================
+
+[[description]]
+==== description
+
+[cols=",",]
+|============================================================================
+|*Description:* |The file’s human readable description.
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|`MTD description An experiment investigating the effects of Il-6.`
+|============================================================================
+
+[[sample_processing1-n]]
+==== sample_processing[1-n]
+
+[cols=",",]
+|=================================================================================================================================================================================================================================================================
+|*Description:* |A list of parameters describing a sample processing step. The order of the data_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “\|”.
+|*Type:* |Parameter List
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD sample_processing[1] [SEP, sep:00210, liquid chromatograhy,]
+
+....
+|=================================================================================================================================================================================================================================================================
+
+[[instrument1-n-name]]
+==== instrument[1-n]-name
+IMPORTANT: TODO Instrument[1-n] makes no sense, since instrument cannot be referenced from ms_run, so even if multiple instruments are reported, they cannot be interpreted. Andy Jones
+[cols=",",]
+|==========================================================================================================
+|*Description:* |The name of the instrument used in the experiment. Multiple instruments are numbered 1..n.
 |*Type:* |Parameter
 |*Mandatory* a|
 [cols=",,",options="header",]
