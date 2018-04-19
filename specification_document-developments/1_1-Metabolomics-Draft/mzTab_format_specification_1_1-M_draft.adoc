@@ -1083,14 +1083,22 @@ MTD cv[1]-url http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/co
 
 [cols=",",]
 |===========================================================================================================================================================================================================================
-|*Description:* |The description of databases used. For cases, where a known database has not been used for identification, a userParam SHOULD be inserted to describe any identification performed or simply “no database”.
+|*Description:* |The description of databases used. For cases, where a known database has not been used for identification, a userParam SHOULD be inserted to describe any identification performed e.g. de novo.
+
+If no identification has been performed at all then "no database" should be inserted followed by null.
+
 |*Type:* |Param
 |*Mandatory* |True
 |*Example:* a|
 ....
+
+
 MTD database[1] [MIRIAM,MIR:00100079 , “HMDB”, ]
-MTD database[2] [, , “no database”, "null"]
+MTD database[3] [,de novo , “dn”, ]
 MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
+MTD database[4] [, ,"mydatabase", "mydb" ]
+OR
+MTD database[1] [, , “no database”, "null"]
 ....
 |===========================================================================================================================================================================================================================
 
@@ -1105,7 +1113,10 @@ IMPORTANT: TODO Make sure to explain that the colon must followed these prefixes
 |*Example:* a|
 ....
 MTD database[1]-prefix hmdb
-MTD database[2]-prefix null
+MTD database[1]-prefix dn
+
+or
+MTD database[1]-prefix null
 ....
 |====================================================================================================================================================
 
@@ -1323,6 +1334,10 @@ The database identifier must be preceded by the resource description (prefix) fo
 
 A null value MAY be provided if the identification is sufficiently ambiguous as to be meaningless for reporting or the small molecule has not been identified.
 
+
+
+
+
 |*Type:* |String List
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1330,7 +1345,8 @@ A null value MAY be provided if the identification is sufficiently ambiguous as 
 ....
 SMH SML_ID database_identifier …
 SML 1 #CID:00027395# …
-SML 2 HMDB:HMDB12345 …
+SML 2 HMDB:HMDB12345
+SML 3 null
 ....
 |=================================================================================================================================================================================================================================================================================================================================
 
@@ -1694,13 +1710,14 @@ SML 1 … 1234.5 …
 
 [cols=",",]
 |===========================================
-|*Description:* |The feature’s charge value.
+|*Description:* |The feature’s charge value using "-1" or "1" for negative or positive mode.
 |*Type:* |Integer
 |*Is Nullable:* |*FALSE*
 |*Example:* a|
 ....
 SFH SMF_ID … charge …
 SMF 1 … 1 …
+SMF 1 … -1 …
 ....
 |===========================================
 
@@ -1960,7 +1977,9 @@ IMPORTANT: TODO Regex in here. Andy Jones
 |*Example:* a|
 ....
 SEH SME_ID … adduct_ion …
-SME 1 … [M+H]1+ …
+SME 1 … [M+H]+ …
+OR (for negative mode):
+SME 1 … [M-H]- …
 ....
 |============================================================================================================================================================================================================================================================================================================
 

@@ -2745,11 +2745,15 @@ TODO We need examples. Andy Jones
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The description of databases used. For cases, where a known database has not been used for identification, a userParam SHOULD be inserted to describe any identification performed or simply “no database”.</p></td>
+<th class="tableblock halign-left valign-top"><strong>Description:</strong></th>
+<th class="tableblock halign-left valign-top">The description of databases used. For cases, where a known database has not been used for identification, a userParam SHOULD be inserted to describe any identification performed e.g. de novo.
+
+If no identification has been performed at all then "no database" should be inserted followed by null.</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Param</p></td>
@@ -2763,8 +2767,11 @@ TODO We need examples. Andy Jones
 <td class="tableblock halign-left valign-top"><div><div class="literalblock">
 <div class="content">
 <pre>MTD database[1] [MIRIAM,MIR:00100079 , “HMDB”, ]
-MTD database[2] [, , “no database”, "null"]
-MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]</pre>
+MTD database[3] [,de novo , “dn”, ]
+MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
+MTD database[4] [, ,"mydatabase", "mydb" ]
+OR
+MTD database[1] [, , “no database”, "null"]</pre>
 </div>
 </div></div></td>
 </tr>
@@ -2808,7 +2815,10 @@ TODO Make sure to explain that the colon must followed these prefixes in the SMF
 <td class="tableblock halign-left valign-top"><div><div class="literalblock">
 <div class="content">
 <pre>MTD database[1]-prefix hmdb
-MTD database[2]-prefix null</pre>
+MTD database[1]-prefix dn
+
+or
+MTD database[1]-prefix null</pre>
 </div>
 </div></div></td>
 </tr>
@@ -3290,7 +3300,8 @@ IMPORTANT: TODO Add example showing ambiguity.
 <div class="content">
 <pre>SMH SML_ID database_identifier …
 SML 1 <mark>CID:00027395</mark> …
-SML 2 HMDB:HMDB12345 …</pre>
+SML 2 HMDB:HMDB12345
+SML 3 null</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4078,7 +4089,7 @@ SML 1 … 1234.5 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The feature’s charge value.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The feature’s charge value using "-1" or "1" for negative or positive mode.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -4093,7 +4104,8 @@ SML 1 … 1234.5 …</pre>
 <td class="tableblock halign-left valign-top"><div><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … charge …
-SMF 1 … 1 …</pre>
+SMF 1 … 1 …
+SMF 1 … -1 …</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4634,7 +4646,9 @@ TODO Regex in here. Andy Jones
 <td class="tableblock halign-left valign-top"><div><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … adduct_ion …
-SME 1 … [M+H]1+ …</pre>
+SME 1 … [M+H]+ …
+OR (for negative mode):
+SME 1 … [M-H]- …</pre>
 </div>
 </div></div></td>
 </tr>
