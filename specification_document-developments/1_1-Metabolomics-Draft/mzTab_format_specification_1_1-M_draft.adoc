@@ -590,13 +590,28 @@ MTD contact[2]-email crick@cam.ac.uk
 
 [cols=",",]
 |================================================================================================================================
-|*Description:* |A URI pointing to the file's source data (e.g., a PRIDE experiment, PeptideAtlas build or MetaboLights records).
+|*Description:* |A URI pointing to the file's source data (e.g., a  MetaboLights records).
 |*Type:* |URI
 |*Mandatory* |False
 |*Example:* a|
 ....
-MTD uri[1] http://www.ebi.ac.uk/pride/url/to/experiment
-MTD uri[2] http://proteomecentral.proteomexchange.org/cgi/GetDataset
+MTD uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517
+
+....
+|================================================================================================================================
+
+[[external_study_uri1-n]]
+==== external_study_uri[1-n]
+
+[cols=",",]
+|================================================================================================================================
+|*Description:* |A URI pointing to an external file with more details about the study design (e.g., an ISA-TAB file).
+|*Type:* |URI
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt
+
 ....
 |================================================================================================================================
 
@@ -635,7 +650,7 @@ MTD sample[2] individual number 2
 
 [cols=",",]
 |=================================================================================
-|*Description:* |The respective species of the samples analysed.
+|*Description:* |The respective species of the samples analysed. For more complex cases, such as metagenomics, optional columns and userParams should be used.
 |*Type:* |Parameter
 |*Mandatory* |False
 |*Example:* a|
@@ -758,7 +773,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
 IMPORTANT: TODO Revisit for pre-fractionation. Andy Jones
 [cols=",",]
 |====================================================================================================================================================================
-|*Description:* |A parameter specifying the data format of the external MS data file. If ms_run[1-n]-format is present, ms_run[1-n]-id_format SHOULD also be present.
+|*Description:* |A parameter specifying the data format of the external MS data file. If ms_run[1-n]-format is present, ms_run[1-n]-id_format SHOULD also be present, following the parameters specified in Table 1.
 |*Type:* |Parameter
 |*Mandatory* |False
 |*Example:* a|
@@ -804,6 +819,26 @@ MTD ms_run[1]-fragmentation_method[1] [MS, MS:1000133, CID, ]
 MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD …, ]
 ....
 |===========================================================================
+
+
+[[ms_run1-n-scan_polarity1-n]]
+==== ms_run[1-n]-scan_polarity[1-n]
+
+[cols=",",]
+|===========================================================================
+|*Description:* |The polarity mode of a given run.
+|*Type:* |Parameter
+|*Mandatory* |True
+|*Example:* a|
+....
+MTD ms_run[1]-scan_polarity[1] [MS, MS:1000130, positive scan, ]
+OR
+MTD ms_run[1]-scan_polarity[1] [MS, MS:1000129, negative scan, ]
+OR (For mixed polarity in one run)
+MTD ms_run[1]-scan_polarity[1] [MS, MS:1000130, positive scan, ]
+MTD ms_run[1]-scan_polarity[12] [MS, MS:1000129, negative scan, ]
+|===========================================================================
+
 
 [[ms_run1-n-hash]]
 ==== ms_run[1-n]-hash
@@ -1217,12 +1252,15 @@ IMPORTANT: TODO To revisit. Andy Jones
 
 [cols=",",]
 |=====================================================================================================================================================================================================================================================
-|*Description:* |The type of small molecule confidence measures or scores MUST be reported as a CV parameter [1-n]. The order of the scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.
+|*Description:* |The type of small molecule confidence measures or scores MUST be reported as a CV parameter [1-n]. The CV parameter definition should formally state whether the ordering is high to low or vice versa. The order of the scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.
 |*Type:* |Parameter
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD id_confidence_measure[1] [MS, MS:1001419, SpectraST:discriminant score F,]
+id_confidence_measure[1]	[MS,MS:1000XXX,Progenesis MetaScope Score,]
+id_confidence_measure[2]	[MS,MS:1000XXX,Fragmentation Score,]
+id_confidence_measure[3]	[MS,MS:1000XXX,Isotopic fit Score,]
+
 ....
 |=====================================================================================================================================================================================================================================================
 
@@ -1808,7 +1846,7 @@ SMF 1 … My value some other value
 [[small-molecule-evidence-sme-section]]
 === Small Molecule Evidence (SME) Section
 
-The small molecule evidence section is table-based, representing evidence for identifications of small molecules/features, from database search or any other process used to give putative identifications to molecules.
+The small molecule evidence section is table-based, representing evidence for identifications of small molecules/features, from database search or any other process used to give putative identifications to molecules. In a typical case, each row represents one result from a single search or intepretation of a piece of evidence e.g. a database search with a fragmentation spectrum. Multiple results from a given input data item (e.g. one fragment spectrum) SHOULD share the same value under evidence_input_id.
 
 The small molecule evidence section MUST always come after the Small Molecule Feature Table. All table columns MUST be Tab separated. There MUST NOT be any empty cells. Missing values MUST be reported using “null”.
 
@@ -1831,8 +1869,8 @@ SME 1 …
 ....
 |=======================================================================================
 
-[[evidence_input_ID]]
-==== evidence_input_ID
+[[evidence_input_id]]
+==== evidence_input_id
 
 [cols=",",]
 |==================================================================================================================================================================================================================================================================
@@ -1841,7 +1879,7 @@ SME 1 …
 |*Is Nullable:* |*FALSE*
 |*Example:* a|
 ....
-SEH SME_ID evidence_input_ID …
+SEH SME_ID evidence_input_id …
 SME 1 ms_run[1]:index=274
 SME 2 ms_run[2]:index=287
 SME 3 ms_run[3]:index=365
