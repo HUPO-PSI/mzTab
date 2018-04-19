@@ -357,7 +357,7 @@ mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) 
 [[metadata-section]]
 === Metadata Section
 
-The metadata section provides additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from those noted as mandatory. The fields in the metadata section should be reported in order of the various fields listed here. The field’s name and value MUST be separated by a tab character:
+The metadata section provides additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from those noted as mandatory. The fields in the metadata section MUST be reported in order of the various fields listed here. The field’s name and value MUST be separated by a tab character:
 
 ....
 MTD publication [PRIDE, PRIDE:00000029, PubMed, 12345]
@@ -1237,11 +1237,11 @@ This field MUST NOT be used to define a unit for quantification columns. The uni
 [[small-molecule-section]]
 === Small Molecule Section
 
-The small molecule section is table-based. The small molecule section MUST always come after the metadata section in a metabolomics type file. All table columns MUST be Tab separated. There MUST NOT be any empty cells; missing values MUST be reported using “null” for columns where Is Nullable = “True”.
+The small molecule section is table-based. The small molecule section MUST always come after the metadata section in a metabolomics type file. All table columns MUST be Tab separated. There MUST NOT be any empty cells; missing values MUST be reported using “null” for columns where Is Nullable = “True”. The order of columns MUS
 
 Each row of the small molecule section is intended to report one final result to be communicated in terms of a molecule that has been quantified. In many cases, this may be the molecule of biological interest, although in some cases, the final result could be a derivatized form as appropriate – although it is desirable for the database identifier(s) to reference to the biological (non-derivatized) form. In general, different adduct forms would generally be reported in the Small Molecule Feature section.
 
-The order of columns is not specified although for ease of human interpretation, it is RECOMMENDED to follow the order specified below.
+The order of columns MUST follow the order specified below.
 
 All columns are MANDATORY except for “opt_” columns.
 
@@ -1542,7 +1542,7 @@ SML 1 … 0.3 …
 
 [cols=",",]
 |=========================================================================================================================
-|*Description:* |The co-efficient of variation of the small molecule’s abundance in the given study variable.
+|*Description:* |A measure of the variability of the study variable abundance measurement, calculated using the method as described in the Metadata section (default = arithmethic co-efficient of variation) of the small molecule’s abundance in the given study variable.
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1588,7 +1588,7 @@ Different adducts or derivatives and different charge states of individual molec
 
 The small molecule feature section MUST always come after the Small Molecule Table. All table columns MUST be Tab separated. There MUST NOT be any empty cells. Missing values MUST be reported using “null”.
 
-The order of columns is not specified although for ease of human interpretation, it is RECOMMENDED to follow the order specified below.
+The order of columns MUST follow the order specified below.
 
 All columns are MANDATORY except for “opt_” columns.
 
@@ -1790,7 +1790,7 @@ The small molecule evidence section is table-based, representing evidence for id
 
 The small molecule evidence section MUST always come after the Small Molecule Feature Table. All table columns MUST be Tab separated. There MUST NOT be any empty cells. Missing values MUST be reported using “null”.
 
-The order of columns is not specified although for ease of human interpretation, it is RECOMMENDED to follow the order specified below.
+The order of columns MUST follow the order specified below.
 
 All columns are MANDATORY except for “opt_” columns.
 
