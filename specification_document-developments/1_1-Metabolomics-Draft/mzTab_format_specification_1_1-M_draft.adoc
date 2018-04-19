@@ -373,9 +373,9 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 [cols=",",]
 |==============================================
 |*Description:* |The version of the mzTab file.
-|*Type:* |String
+|*Type:* |Regex{"1\.1\.\d-M"}
 |*Mandatory* |True
-|*Example:* a|`MTD mzTab-version 1.1.0`
+|*Example:* a|`MTD mzTab-version  1.1.0-M`
 |==============================================
 
 [[mztab-id]]
@@ -943,21 +943,36 @@ MTD study_variable[1]-assay_refs assay[1], assay[2], assay[3]
 ....
 |==============================================================================================
 
-[[study_variable_function1-n]]
-==== study_variable_function[1-n]
-IMPORTANT: TODO Proposed new attribute in 1.1. Andy Jones
-IMPORTANT: TODO Imputation at assay level? Do we wish to capture this method somehow? Andy Jones
+[[study_variable1-n_average_function1-n]]
+==== study_variable[1-n]_average_function
 [cols=",",]
 |==========================================================================================================================================================================================================================================================================================
-|*Description:* |The function used to calculate the study variable quantification value if it is reported and the operation used is not arithmetic mean (default) e.g. “geometric mean”, “median”. #Multiple terms can be provided if for example, imputation approaches are to be reported.#
+|*Description:* |The function used to calculate the study variable quantification value if it is reported and the operation used is not arithmetic mean (default) e.g. “geometric mean”, “median”. The 1-n refers to different study variables.
 |*Type:* |Parameter
 |*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD small_molecule-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]#
+#MTD study_variable_average_function [MS, MS:0000XXX, Median, ]#
 ....
 |==========================================================================================================================================================================================================================================================================================
+
+[[study_variable1-n_variation_function]]
+==== study_variable[1-n]_variation_function
+[cols=",",]
+|==========================================================================================================================================================================================================================================================================================
+|*Description:* |The function used to calculate the study variable quantification variation value if it is reported and the operation used is not coefficient of variation (default) e.g. “standard error”.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+[subs="verbatim,quotes"]
+....
+#MTD study_variable_variation_function [MS, MS:0000XXX, Standard error, ]#
+....
+|==========================================================================================================================================================================================================================================================================================
+
+
+
 
 [[study_variable1-n-description]]
 ==== study_variable[1-n]-description
@@ -1369,7 +1384,7 @@ The number of values provided MUST match the number of entities reported under �
 |*Example:* a|
 ....
 SMH SML_ID … chemical_formula … inchi …
-SML 1 … C17H20N4O2 … QXBMEGUKVLFJAM-UHFFFAOYSA-N …
+SML 1 … C17H20N4O2 … 1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13-20-21-17(23)15-7-10-18-11-8-15/h1-5,7-8,10-11,20H,6,9,12-13H2,(H,19,22)(H,21,23) …
 ....
 |======================================================================================================================================================================================================================================================================================================================================================
 
@@ -1412,46 +1427,17 @@ SML 1 … #example_URL# …
 |*Description:* |
 The small molecule’s precursor’s theoretical neutral mass.
 
-The number of values provided MUST match the number of entities reported under “database_identifier”, and the validation software will throw an error if the number of “\|” symbols does not match. “null” values between bars are allowed for molecules that have not been identified only.
+The number of values provided MUST match the number of entities reported under “database_identifier”, and the validation software will throw an error if the number of “\|” symbols does not match. “null” values (in general and between bars) are allowed for molecules that have not been identified only, or for molecules where the neutral mass cannot be calculated. In these cases, the SML entry SHOULD reference features in which exp_mass_to_charge values are captured.
 
 |*Type:* |Double List
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SMH SML_ID … calc_neutral_mass …
+SMH SML_ID … theoretical_neutral_mass …
 SML 1 … 1234.5 …
 ....
 |==========================================================================================================================================================================================================================================================================================
 
-[[exp_mass_to_charge]]
-==== exp_mass_to_charge
-
-[cols=",",]
-|========================================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |The __exp__erimental mass to charge of the small molecule’s primary adduct form (e.g., mean m/z across assays), assumed by default to be the protonated (positive mode) or de-protonated (negative mode), otherwise the first reported adduct under the adduct_ions column. For GC-MS approaches, this MAY be the m/z of the ion used for quantification.
-|*Type:* |Double
-|*Is Nullable:* |*FALSE*
-|*Example:* a|
-....
-SMH SML_ID … exp_mass_to_charge …
-SML 1 … 348.65 …
-....
-|========================================================================================================================================================================================================================================================================================================================================================================
-
-[[retention_time_in_seconds]]
-==== retention_time_in_seconds
-IMPORTANT: TODO Possible addition to Metadata section to describe how RT values are reported in this section. Andy Jones
-[cols=",",]
-|==================================================================================================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |The apex of the small molecule’s primary adduct form on the retention time axis in a #Master or aggregate MS run#. Retention time MUST be reported in seconds. Retention time values for individual MS runs (i.e. before alignment) MAY be reported as optional columns. Retention time SHOULD only be null in the case of direct infusion MS or other techniques where a retention time value is absent or unknown.
-|*Type:* |Double
-|*Is Nullable:* |*TRUE*
-|*Example:* a|
-....
-SMH SML_ID … retention_time_in_seconds …
-SML 1 … 638 …
-....
-|==================================================================================================================================================================================================================================================================================================================================================================================================================================
 
 [[adduct_ions]]
 ==== adduct_ions
@@ -1545,7 +1531,7 @@ SML 1 … 0.3 …
 
 [cols=",",]
 |============================================================================================================================================================================================================================================================================
-|*Description:* |The small molecule’s abundance in all the study variables described in the Metadata section, calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate.
+|*Description:* |The small molecule’s abundance in all the study variables described in the Metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate.
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1555,17 +1541,17 @@ SML 1 … 0.3 …
 ....
 |============================================================================================================================================================================================================================================================================
 
-[[abundance_coeffvar_study_variable-1-n]]
-==== abundance_coeffvar_study_variable [1-n]
+[[abundance_variation_study_variable-1-n]]
+==== abundance_variation_study_variable [1-n]
 
 [cols=",",]
 |=========================================================================================================================
-|*Description:* |A measure of the variability of the study variable abundance measurement, calculated using the method as described in the Metadata section (default = arithmethic co-efficient of variation) of the small molecule’s abundance in the given study variable.
+|*Description:* |A measure of the variability of the study variable abundance measurement, calculated using the method as described in the Metadata section (study_variable[1-n]_average_function), with a  default = arithmethic co-efficient of variation of the small molecule’s abundance in the given study variable.
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SMH SML_ID … abundance_study_variable[1] abundance_coeffvar_study_variable[1]…
+SMH SML_ID … abundance_study_variable[1] abundance_variation_study_variable[1]…
 SML 1 … 0.3 0.04 …
 ....
 |=========================================================================================================================
@@ -1913,7 +1899,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …
 |*Example:* a|
 ....
 SEH SME_ID … chemical_formula … inchi …
-SML 1 … C17H20N4O2 … QXBMEGUKVLFJAM-UHFFFAOYSA-N …
+SML 1 … C17H20N4O2 … 1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13-20-21-17(23)15-7-10-18-11-8-15/h1-5,7-8,10-11,20H,6,9,12-13H2,(H,19,22)(H,21,23) …
 ....
 |===================================================================================================
 
