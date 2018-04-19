@@ -247,6 +247,7 @@ SEH ... spectra_ref ...
 SME ... ms_run[1]:scan=11665 ...
 ----
 
+[[recommendations-for-reporting-replicates-within-experimental-designs]]
 === Recommendations for reporting replicates within experimental designs
 
 Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <<figure-1>>.

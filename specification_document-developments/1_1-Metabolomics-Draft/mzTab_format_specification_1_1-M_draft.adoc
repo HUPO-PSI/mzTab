@@ -190,7 +190,8 @@ Modeling the correct reporting of technical/biological replicates within experim
 * _study_variable_ – The variables about which the final results of a study are reported, which may have been derived following averaging across a group of replicate measurements (assays). The same concept has been defined by others as “experimental factor”.
 * _ms_run_ – An MS run is effectively one run on an MS instrument, and is referenced from assay in different contexts. In the case of pre-fractionation into _n_ fractions, an assay SHOULD reference _n_ ms_runs.
 * _assay_ – The application of a measurement about the sample (in this case through MS) – producing values about small molecules or lipids. One assay is typically mapped to one MS run in the case of label-free MS analysis (with no pre-fractionation) or multiple assays are mapped to one MS run for multiplexed techniques, along with a description of the label or tag applied.
-* _sample_ – a biological material that has been analyzed, to which descriptors of species, cell/tissue type etc. can be attached. In all of types of mzTab file, these MAY be reported in the metadata section as sample[1-n]-description. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample was analyzed (e.g. whether biological or technical replication was performed), although some consumers of mzTab files MAY wish to enforce that samples MUST be provided e.g. to perform statistical analysis.
+* _sample_ – a biological material that has been analyzed, to which descriptors of species, cell/tissue type etc. can be attached. In all of types of mzTab file, these MAY be reported in the metadata section as sample[1-n]-description. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample was analyzed (e.g. whether biological or technical replication was performed). If the file producer wishes to describe whether biological or technical replication has been performed, then sample elements SHOULD be provided.
+
 
 Clear definitions of biological and technical replicates are difficult to provide as these are somewhat dependent upon the biological domain. However, we use the following general definitions in mzTab.
 
@@ -373,9 +374,9 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 [cols=",",]
 |==============================================
 |*Description:* |The version of the mzTab file.
-|*Type:* |String
+|*Type:* |Regex{"1\.1\.\d-M"}
 |*Mandatory* |True
-|*Example:* a|`MTD mzTab-version 1.1.0`
+|*Example:* a|`MTD mzTab-version  1.1.0-M`
 |==============================================
 
 [[mztab-id]]
@@ -421,8 +422,8 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Mandatory* |False
 |*Example:* a|
 ....
-MTD sample_processing[1] [SEP, SEP:00173, SDS PAGE,]
-MTD sample_processing[2] [SEP, SEP:00142, enzyme digestion,]\|[MS, … MS:1001251, Trypsin, ]
+MTD sample_processing[1] [SEP, sep:00210, liquid chromatograhy,]
+
 ....
 |=================================================================================================================================================================================================================================================================
 
@@ -943,21 +944,36 @@ MTD study_variable[1]-assay_refs assay[1], assay[2], assay[3]
 ....
 |==============================================================================================
 
-[[study_variable_function1-n]]
-==== study_variable_function[1-n]
-IMPORTANT: TODO Proposed new attribute in 1.1. Andy Jones
-IMPORTANT: TODO Imputation at assay level? Do we wish to capture this method somehow? Andy Jones
+[[study_variable1-n_average_function1-n]]
+==== study_variable[1-n]_average_function
 [cols=",",]
 |==========================================================================================================================================================================================================================================================================================
-|*Description:* |The function used to calculate the study variable quantification value if it is reported and the operation used is not arithmetic mean (default) e.g. “geometric mean”, “median”. #Multiple terms can be provided if for example, imputation approaches are to be reported.#
+|*Description:* |The function used to calculate the study variable quantification value if it is reported and the operation used is not arithmetic mean (default) e.g. “geometric mean”, “median”. The 1-n refers to different study variables.
 |*Type:* |Parameter
 |*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD small_molecule-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]#
+#MTD study_variable_average_function [MS, MS:0000XXX, Median, ]#
 ....
 |==========================================================================================================================================================================================================================================================================================
+
+[[study_variable1-n_variation_function]]
+==== study_variable[1-n]_variation_function
+[cols=",",]
+|==========================================================================================================================================================================================================================================================================================
+|*Description:* |The function used to calculate the study variable quantification variation value if it is reported and the operation used is not coefficient of variation (default) e.g. “standard error”.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+[subs="verbatim,quotes"]
+....
+#MTD study_variable_variation_function [MS, MS:0000XXX, Standard error, ]#
+....
+|==========================================================================================================================================================================================================================================================================================
+
+
+
 
 [[study_variable1-n-description]]
 ==== study_variable[1-n]-description
@@ -1007,7 +1023,7 @@ MTD custom[1] [,,MS operator, Florian]
 
 [cols=",",]
 |===============================================================================================================
-|*Description:* |A string describing the labels of the controlled vocabularies/ontologies used in the mzTab file
+|*Description:* |A string describing the labels of the controlled vocabularies/ontologies used in the mzTab file as a short-hand e.g. "MS" for PSI-MS.
 |*Type:* |String
 |*Mandatory* |True
 |*Example:* a|
@@ -1067,14 +1083,22 @@ MTD cv[1]-url http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/co
 
 [cols=",",]
 |===========================================================================================================================================================================================================================
-|*Description:* |The description of databases used. For cases, where a known database has not been used for identification, a userParam SHOULD be inserted to describe any identification performed or simply “no database”.
+|*Description:* |The description of databases used. For cases, where a known database has not been used for identification, a userParam SHOULD be inserted to describe any identification performed e.g. de novo.
+
+If no identification has been performed at all then "no database" should be inserted followed by null.
+
 |*Type:* |Param
 |*Mandatory* |True
 |*Example:* a|
 ....
+
+
 MTD database[1] [MIRIAM,MIR:00100079 , “HMDB”, ]
-MTD database[2] [, , “no database”, "null"]
+MTD database[3] [,de novo , “dn”, ]
 MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
+MTD database[4] [, ,"mydatabase", "mydb" ]
+OR
+MTD database[1] [, , “no database”, "null"]
 ....
 |===========================================================================================================================================================================================================================
 
@@ -1089,7 +1113,10 @@ IMPORTANT: TODO Make sure to explain that the colon must followed these prefixes
 |*Example:* a|
 ....
 MTD database[1]-prefix hmdb
-MTD database[2]-prefix null
+MTD database[1]-prefix dn
+
+or
+MTD database[1]-prefix null
 ....
 |====================================================================================================================================================
 
@@ -1177,11 +1204,11 @@ IMPORTANT: TODO To revisit. Andy Jones
 |================================================================================================================================================
 |*Description:* |The system used for giving reliability codes to small molecule identifications MUST be specified if not using the default codes.
 |*Type:* |Param
-|*Mandatory* |#False#
+|*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD small_molecule-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]#
+#MTD small_molecule-identification_reliability [, , Numerical system defined in publication, PMID:XXX]#
 ....
 |================================================================================================================================================
 
@@ -1307,6 +1334,10 @@ The database identifier must be preceded by the resource description (prefix) fo
 
 A null value MAY be provided if the identification is sufficiently ambiguous as to be meaningless for reporting or the small molecule has not been identified.
 
+
+
+
+
 |*Type:* |String List
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1314,7 +1345,8 @@ A null value MAY be provided if the identification is sufficiently ambiguous as 
 ....
 SMH SML_ID database_identifier …
 SML 1 #CID:00027395# …
-SML 2 HMDB:HMDB12345 …
+SML 2 HMDB:HMDB12345
+SML 3 null
 ....
 |=================================================================================================================================================================================================================================================================================================================================
 
@@ -1369,7 +1401,7 @@ The number of values provided MUST match the number of entities reported under �
 |*Example:* a|
 ....
 SMH SML_ID … chemical_formula … inchi …
-SML 1 … C17H20N4O2 … QXBMEGUKVLFJAM-UHFFFAOYSA-N …
+SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13-20-21-17(23)15-7-10-18-11-8-15/h1-5,7-8,10-11,20H,6,9,12-13H2,(H,19,22)(H,21,23) …
 ....
 |======================================================================================================================================================================================================================================================================================================================================================
 
@@ -1412,46 +1444,17 @@ SML 1 … #example_URL# …
 |*Description:* |
 The small molecule’s precursor’s theoretical neutral mass.
 
-The number of values provided MUST match the number of entities reported under “database_identifier”, and the validation software will throw an error if the number of “\|” symbols does not match. “null” values between bars are allowed for molecules that have not been identified only.
+The number of values provided MUST match the number of entities reported under “database_identifier”, and the validation software will throw an error if the number of “\|” symbols does not match. “null” values (in general and between bars) are allowed for molecules that have not been identified only, or for molecules where the neutral mass cannot be calculated. In these cases, the SML entry SHOULD reference features in which exp_mass_to_charge values are captured.
 
 |*Type:* |Double List
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SMH SML_ID … calc_neutral_mass …
+SMH SML_ID … theoretical_neutral_mass …
 SML 1 … 1234.5 …
 ....
 |==========================================================================================================================================================================================================================================================================================
 
-[[exp_mass_to_charge]]
-==== exp_mass_to_charge
-
-[cols=",",]
-|========================================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |The __exp__erimental mass to charge of the small molecule’s primary adduct form (e.g., mean m/z across assays), assumed by default to be the protonated (positive mode) or de-protonated (negative mode), otherwise the first reported adduct under the adduct_ions column. For GC-MS approaches, this MAY be the m/z of the ion used for quantification.
-|*Type:* |Double
-|*Is Nullable:* |*FALSE*
-|*Example:* a|
-....
-SMH SML_ID … exp_mass_to_charge …
-SML 1 … 348.65 …
-....
-|========================================================================================================================================================================================================================================================================================================================================================================
-
-[[retention_time_in_seconds]]
-==== retention_time_in_seconds
-IMPORTANT: TODO Possible addition to Metadata section to describe how RT values are reported in this section. Andy Jones
-[cols=",",]
-|==================================================================================================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |The apex of the small molecule’s primary adduct form on the retention time axis in a #Master or aggregate MS run#. Retention time MUST be reported in seconds. Retention time values for individual MS runs (i.e. before alignment) MAY be reported as optional columns. Retention time SHOULD only be null in the case of direct infusion MS or other techniques where a retention time value is absent or unknown.
-|*Type:* |Double
-|*Is Nullable:* |*TRUE*
-|*Example:* a|
-....
-SMH SML_ID … retention_time_in_seconds …
-SML 1 … 638 …
-....
-|==================================================================================================================================================================================================================================================================================================================================================================================================================================
 
 [[adduct_ions]]
 ==== adduct_ions
@@ -1545,7 +1548,7 @@ SML 1 … 0.3 …
 
 [cols=",",]
 |============================================================================================================================================================================================================================================================================
-|*Description:* |The small molecule’s abundance in all the study variables described in the Metadata section, calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate.
+|*Description:* |The small molecule’s abundance in all the study variables described in the Metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate.
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1555,17 +1558,17 @@ SML 1 … 0.3 …
 ....
 |============================================================================================================================================================================================================================================================================
 
-[[abundance_coeffvar_study_variable-1-n]]
-==== abundance_coeffvar_study_variable [1-n]
+[[abundance_variation_study_variable-1-n]]
+==== abundance_variation_study_variable [1-n]
 
 [cols=",",]
 |=========================================================================================================================
-|*Description:* |A measure of the variability of the study variable abundance measurement, calculated using the method as described in the Metadata section (default = arithmethic co-efficient of variation) of the small molecule’s abundance in the given study variable.
+|*Description:* |A measure of the variability of the study variable abundance measurement, calculated using the method as described in the Metadata section (study_variable[1-n]_average_function), with a  default = arithmethic co-efficient of variation of the small molecule’s abundance in the given study variable.
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SMH SML_ID … abundance_study_variable[1] abundance_coeffvar_study_variable[1]…
+SMH SML_ID … abundance_study_variable[1] abundance_variation_study_variable[1]…
 SML 1 … 0.3 0.04 …
 ....
 |=========================================================================================================================
@@ -1707,13 +1710,14 @@ SML 1 … 1234.5 …
 
 [cols=",",]
 |===========================================
-|*Description:* |The feature’s charge value.
+|*Description:* |The feature’s charge value using "-1" or "1" for negative or positive mode.
 |*Type:* |Integer
 |*Is Nullable:* |*FALSE*
 |*Example:* a|
 ....
 SFH SMF_ID … charge …
 SMF 1 … 1 …
+SMF 1 … -1 …
 ....
 |===========================================
 
@@ -1827,20 +1831,20 @@ SME 1 …
 ....
 |=======================================================================================
 
-[[evidence_unique_ID]]
-==== evidence_unique_ID
+[[evidence_input_ID]]
+==== evidence_input_ID
 
 [cols=",",]
 |==================================================================================================================================================================================================================================================================
-|*Description:* |A within file unique identifier for the input data used to support this identification e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of results from the same input data share the same ID.
-|*Type:* |Integer
+|*Description:* |A within file unique identifier for the input data used to support this identification e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of results from the same input data share the same ID. The identifiers may be human readable but should not be assumed to be interpretable. For example, if fragmentation spectra have been searched then the ID may be the spectrum reference, or for accurate mass search, the ms_run[2]:458.75.
+|*Type:* |String
 |*Is Nullable:* |*FALSE*
 |*Example:* a|
 ....
-SEH SME_ID evidence_unique_ID …
-SME 1 1
-SME 2 1
-SME 3 1
+SEH SME_ID evidence_input_ID …
+SME 1 ms_run[1]:index=274
+SME 2 ms_run[2]:index=287
+SME 3 ms_run[3]:index=365
 ....
 (in this example three identifications were made from the same accurate mass search)
 
@@ -1913,7 +1917,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …
 |*Example:* a|
 ....
 SEH SME_ID … chemical_formula … inchi …
-SML 1 … C17H20N4O2 … QXBMEGUKVLFJAM-UHFFFAOYSA-N …
+SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13-20-21-17(23)15-7-10-18-11-8-15/h1-5,7-8,10-11,20H,6,9,12-13H2,(H,19,22)(H,21,23) …
 ....
 |===================================================================================================
 
@@ -1973,7 +1977,9 @@ IMPORTANT: TODO Regex in here. Andy Jones
 |*Example:* a|
 ....
 SEH SME_ID … adduct_ion …
-SME 1 … [M+H]1+ …
+SME 1 … [M+H]+ …
+OR (for negative mode):
+SME 1 … [M-H]- …
 ....
 |============================================================================================================================================================================================================================================================================================================
 
@@ -2028,7 +2034,7 @@ SME 1 … 1234.71 …
 [cols=",",]
 |==========================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 |*Description:* |
-Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the meta-data section as additional ms_runs. The reference must be in the format ms_run[1-n]:\{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “\|” delimited list for the (rare) cases in which search engines have combined multiple spectra to make identifications.
+Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the meta-data section as additional ms_runs. The reference must be in the format ms_run[1-n]:\{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “\|” delimited list for the (rare) cases in which search engines have combined or aggregated multiple spectra  in advance of the search to make identifications.
 
 If a fragmentation spectrum has not been used, the value should indicate the ms_run to which is identification is mapped e.g. “ms_run[1]”.
 
