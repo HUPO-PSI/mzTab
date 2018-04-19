@@ -1,0 +1,508 @@
+mzTab 1.1 Proteomics specific parts
+
+There are no immediate plans to begin work on a proteomics version 1.1, but this document serves as a placeholder for notes and sections removed from the 1.1-M draft.
+
+[[proteomics-metadata]]
+== Proteomics Metadata
+
+The metadata fields in this section MAY be reported in a proteomics type file, but MUST NOT be reported in a metabolomics file.
+
+[[protein_search_engine_score1-n]]
+=== protein_search_engine_score[1-n]
+
+[cols=",",options="header",]
+|===============================================================================================================================================
+|*Description:* a|
+The type of protein search engine score MUST be reported as a CV parameter [1-n].
+
+The order of the search engine scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.
+
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* |MTD protein_search_engine_score[1] [MS, MS:1001171, Mascot:score,]
+|===============================================================================================================================================
+
+[[peptide_search_engine_score1-n]]
+=== peptide_search_engine_score[1-n]
+
+[cols=",",options="header",]
+|===============================================================================================================================================
+|*Description:* a|
+The type of peptide search engine score MUST be reported as a CV parameter [1-n].
+
+The order of the search engine scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.
+
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* |MTD peptide_search_engine_score[1] [MS, MS:1001171, Mascot:score,]
+|===============================================================================================================================================
+
+[[psm_search_engine_score1-n]]
+=== psm_search_engine_score[1-n]
+
+[cols=",",options="header",]
+|===============================================================================================================================================
+|*Description:* a|
+The type of psm search engine score MUST be reported as a CV parameter [1-n].
+
+The order of the search engine scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.
+
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* |MTD psm_search_engine_score[2] [MS, MS:1001330, X!Tandem:expect,]
+|===============================================================================================================================================
+
+[[fixed_mod1-n]]
+=== fixed_mod[1-n]
+
+[cols=",",options="header",]
+|====================================================================================================================================================================================================================================
+|*Description:* |A parameter describing a fixed modifications searched for. Multiple fixed modifications are numbered 1..n. If no fixed modifications are searched, include the CV param MS:1002453: No fixed modifications searched.
+|*Type:* |Param
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD fixed_mod[1] [UNIMOD, UNIMOD:4, Carbamidomethyl, ]
+
+MTD fixed_mod[2] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD fixed_mod[3] [CHEMMOD, CHEMMOD:-18.0913, , ]
+
+|====================================================================================================================================================================================================================================
+
+[[fixed_mod1-n-site]]
+=== fixed_mod[1-n]-site
+
+[cols=",",options="header",]
+|====================================================================================================================================================================================================================
+|*Description:* |A string describing a fixed modifications site. Following the unimod convention, modification site is a residue (e.g. “M”), terminus (“N-term” or “C-term”) or both (e.g. “N-term Q” or “C-term K”).
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD fixed_mod[1] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD fixed_mod[1]-site M
+
+…
+
+MTD fixed_mod[2] [UNIMOD, UNIMOD:1, Acetyl, ]
+
+MTD fixed_mod[2]-site N-term
+
+…
+
+MTD fixed_mod[3] [UNIMOD, UNIMOD:2, Amidated, ]
+
+MTD fixed_mod[3]-site C-term
+
+|====================================================================================================================================================================================================================
+
+[[fixed_mod1-n-position]]
+=== fixed_mod[1-n]-position
+
+[cols=",",options="header",]
+|=====================================================================================================================================================================================================================================
+|*Description:* |A string describing the term specifity of a fixed modification. Following the unimod convention, term specifity is denoted by the strings “Anywhere”, “Any N-term”, “Any C-term”, “Protein N-term”, “Protein C-term”.
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD fixed_mod[1] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD fixed_mod[1]-site M
+
+…
+
+MTD fixed_mod[2] [UNIMOD, UNIMOD:1, Acetyl, ]
+
+MTD fixed_mod[2]-site N-term
+
+MTD fixed_mod[2]-position Protein N-term
+
+…
+
+MTD fixed_mod[3] [UNIMOD, UNIMOD:2, Amidated, ]
+
+MTD fixed_mod[3]-site C-term
+
+MTD fixed_mod[3]-position Protein C-term
+
+|=====================================================================================================================================================================================================================================
+
+[[variable_mod1-n]]
+=== variable_mod[1-n]
+
+[cols=",",options="header",]
+|=================================================================================================================================================================================================================================================
+|*Description:* |A parameter describing a variable modification searched for. Multiple variable modifications are numbered 1.. n. If no variable modifications were searched, include the CV param MS:1002454: No variable modifications searched.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD variable_mod[1] [UNIMOD, UNIMOD:21, Phospho, ]
+
+MTD variable_mod[2] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD variable_mod[3] [CHEMMOD, CHEMMOD:-18.0913, , ]
+
+|=================================================================================================================================================================================================================================================
+
+[[variable_mod1-n-site]]
+=== variable_mod[1-n]-site
+
+[cols=",",options="header",]
+|=======================================================================================================================================================================================================================
+|*Description:* |A string describing a variable modifications site. Following the unimod convention, modification site is a residue (e.g. “M”), terminus (“N-term” or “C-term”) or both (e.g. “N-term Q” or “C-term K”).
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD variable_mod[1] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD variable_mod[1]-site M
+
+…
+
+MTD variable_mod[2] [UNIMOD, UNIMOD:1, Acetyl, ]
+
+MTD variable_mod[2]-site N-term
+
+…
+
+MTD variable_mod[3] [UNIMOD, UNIMOD:2, Amidated, ]
+
+MTD variable_mod[3]-site C-term
+
+|=======================================================================================================================================================================================================================
+
+[[variable_mod1-n-position]]
+=== variable_mod[1-n]-position
+
+[cols=",",options="header",]
+|========================================================================================================================================================================================================================================
+|*Description:* |A string describing the term specifity of a variable modification. Following the unimod convention, term specifity is denoted by the strings “Anywhere”, “Any N-term”, “Any C-term”, “Protein N-term”, “Protein C-term”.
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD variable_mod[1] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD variable_mod[1]-site M
+
+…
+
+MTD variable_mod[2] [UNIMOD, UNIMOD:1, Acetyl, ]
+
+MTD variable_mod[2]-site N-term
+
+MTD variable_mod[2]-position Protein N-term
+
+…
+
+MTD variable_mod[3] [UNIMOD, UNIMOD:2, Amidated, ]
+
+MTD variable_mod[3]-site C-term
+
+MTD variable_mod[3]-position Protein C-term
+
+|========================================================================================================================================================================================================================================
+
+[[protein-quantification_unit]]
+=== protein-quantification_unit
+
+[cols=",",options="header",]
+|============================================================================================
+|*Description:* |Defines what type of units is reported in the protein quantification fields.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|============================
+| |Summary |Complete
+|Quantification |()^1^ |()^1^
+|Identification | |
+|============================
+
+^1^mandatory if protein section is present
+
+|*Example:* |MTD protein-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]
+|============================================================================================
+
+[[peptide-quantification_unit]]
+=== peptide-quantification_unit
+
+[cols=",",options="header",]
+|============================================================================================
+|*Description:* |Defines what type of units is reported in the peptide quantification fields.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|============================
+| |Summary |Complete
+|Quantification |()^1^ |()^1^
+|Identification | |
+|============================
+
+^1^mandatory if peptide section is present
+
+|*Example:* |MTD peptide-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]
+|============================================================================================
+
+[[colunit-protein]]
+=== colunit-protein
+
+[cols=",",options="header",]
+|=======================================================================================================================================================================
+|*Description:* a|
+Defines the unit for the data reported in a column of the protein section. The format of the value has to be \{column name}=\{Parameter defining the unit}
+
+This field MUST NOT be used to define a unit for quantification columns. The unit used for protein quantification values MUST be set in __protein-quantification_unit__.
+
+|*Type:* |String
+|**Mandatory** a|
+[cols=",,",options="header",]
+|====================================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|====================================
+
+|**Example:** |MTD colunit-protein molecular_mass=[UO, UO:0000222, kilodalton,]
+|=======================================================================================================================================================================
+
+[[colunit-peptide]]
+=== colunit-peptide
+
+[cols=",",options="header",]
+|===================================================================================================================================================================
+|*Description:* a|
+Defines the used unit for a column in the peptide section. The format of the value has to be \{column name}=\{Parameter defining the unit}
+
+This field MUST NOT be used to define a unit for quantification columns. The unit used for peptide quantification values MUST be set in peptide-quantification_unit.
+
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|**Example:** |MTD colunit-peptide retention_time=[UO,UO:0000031, minute,]
+|===================================================================================================================================================================
+
+[[colunit-psm]]
+=== colunit-psm
+
+[cols=",",options="header",]
+|===================================================================================================================================================================
+|*Description:* a|
+Defines the used unit for a column in the PSM section. The format of the value has to be \{column name}=\{Parameter defining the unit}
+
+This field MUST NOT be used to define a unit for quantification columns. The unit used for peptide quantification values MUST be set in peptide-quantification_unit.
+
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|**Example:** |MTD colunit-psm retention_time=[UO,UO:0000031, minute,]
+|===================================================================================================================================================================
+
+[[assay1-n-quantification_reagent]]
+=== assay[1-n]-quantification_reagent
+
+[cols=",",options="header",]
+|=====================================================================================================================================================================================================================================================================================================================
+|*Description:* |The reagent used to label the sample in the assay. For label-free analyses the “unlabeled sample” CV term SHOULD be used for proteomics cases, optional for metabolomics. For the “light” channel in label-based experiments the appropriate CV term specifying the labelling channel should be used.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|========================
+| |Summary |Complete
+|Quantification |()^1^ |
+|Identification |^2^ |^2^
+|Metabolomics | |
+|========================
+
+^1^mandatory if quantification is reported on assays
+
+^2^not recommended for identification only files
+
+|*Example:* a|
+MTD assay[1]-quantification_reagent [PRIDE,PRIDE:0000114,iTRAQ reagent,114] +
+MTD assay[2]-quantification_reagent [PRIDE,PRIDE:0000115,iTRAQ reagent,115]
+
+OR
+
+MTD assay[1]-quantification_reagent [MS,MS:1002038,unlabeled sample,]
+
+OR
+
+MTD assay[1]-quantification_reagent [PRIDE, PRIDE:0000326, SILAC light]
+
+MTD assay[2]-quantification_reagent [PRIDE, PRIDE:0000325, SILAC heavy]
+
+|=====================================================================================================================================================================================================================================================================================================================
+
+[[assay1-n-quantification_mod1-n]]
+=== assay[1-n]-quantification_mod[1-n]
+
+[cols=",",options="header",]
+|=========================================================================================================================================
+|*Description:* |A parameter describing a modification associated with a quantification_reagent. Multiple modifications are numbered 1..n.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|========================
+| |Summary |Complete
+|Quantification | |
+|Identification |^1^ |^1^
+|========================
+
+^1^ not recommended for identification only files
+
+|*Example:* |MTD assay[2]-quantification_mod[1] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+|=========================================================================================================================================
+
+[[assay1-n-quantification_mod1-n-site]]
+=== assay[1-n]-quantification_mod[1-n]-site
+
+[cols=",",options="header",]
+|================================================================================================================================================================================================================
+|*Description:* |A string describing the modifications site. Following the unimod convention, modification site is a residue (e.g. “M”), terminus (“N-term” or “C-term”) or both (e.g. “N-term Q” or “C-term K”).
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|========================
+| |Summary |Complete
+|Quantification | |
+|Identification |^1^ |^1^
+|========================
+
+^1^ not recommended for identification only files
+
+|*Example:* a|
+MTD assay[2]-quantification_mod[1] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+
+MTD assay[2]-quantification_mod[2] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+
+MTD assay[2]-quantification_mod[1]-site R
+
+MTD assay[2]-quantification_mod[2]-site K
+
+|================================================================================================================================================================================================================
+
+[[assay1-n-quantification_mod1-n-position]]
+=== assay[1-n]-quantification_mod[1-n]-position
+
+[cols=",",options="header",]
+|=================================================================================================================================================================================================================================
+|*Description:* |A string describing the term specifity of the modification. Following the unimod convention, term specifity is denoted by the strings “Anywhere”, “Any N-term”, “Any C-term”, “Protein N-term”, “Protein C-term”.
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|========================
+| |Summary |Complete
+|Quantification | |
+|Identification |^1^ |^1^
+|========================
+
+^1^ not recommended for identification only files
+
+|*Example:* a|
+MTD assay[2]-quantification_mod[1] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+
+MTD assay[2]-quantification_mod[2] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+
+MTD assay[2]-quantification_mod[1]-site R
+
+MTD assay[2]-quantification_mod[2]-site K
+
+MTD assay[2]-quantification_mod[1]-position Anywhere
+
+MTD assay[2]-quantification_mod[2]-position Anywhere
+
+|=================================================================================================================================================================================================================================
+
+[[false_discovery_rate]]
+=== false_discovery_rate
+
+[cols=",",options="header",]
+|=======================================================================================================================================================================================================================================================================================================
+|*Description:* |The file’s false discovery rate(s) reported at the PSM, peptide, and/or protein level for proteomics, or for small molecules in Metabolomics. False Localization Rate (FLD) for the reporting of modifications can also be reported here. Multiple parameters MUST be separated by “|”.
+|*Type:* |Parameter List
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|Metabolomics | |
+|===================
+
+|*Example:* |MTD false_discovery_rate [MS, MS:1001364, pep:global FDR, 0.01]|… +
+[MS, MS:1001214, prot:global FDR, 0.08]
+|=======================================================================================================================================================================================================================================================================================================
