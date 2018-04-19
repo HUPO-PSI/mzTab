@@ -614,6 +614,227 @@ MTD quantification_method [MS, MS:1001838, SRM quantitation analysis, ]
 ....
 |======================================================================================
 
+
+==== sample[1-n]
+[cols=",",]
+|======================================================================================================================
+|*Description:* |A name for each sample to serve as a list of the samples that MUST be reported in the following tables. Samples MUST be reported if a statistical design is being captured (i.e. bio or tech replicates). If the type of replicates are not known, samples SHOULD NOT be reported.
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD sample[1] individual number 1
+MTD sample[2] individual number 2
+....
+|======================================================================================================================
+
+
+[[sample1-n-species1-n]]
+==== sample[1-n]-species[1-n]
+
+[cols=",",]
+|=================================================================================
+|*Description:* |The respective species of the samples analysed.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+COM Experiment where all samples consisted of the same two species
+MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
+MTD sample[2]-species[1] [NEWT, 12059, Rhinovirus, ]
+
+COM Experiment where different two samples from different species (combinations)
+COM were analysed as biological replicates.
+
+MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
+MTD sample[1]-species[2] [NEWT, 573824, Human rhinovirus 1, ]
+MTD sample[2]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
+MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]
+....
+|=================================================================================
+
+[[sample1-n-tissue1-n]]
+==== sample[1-n]-tissue[1-n]
+
+[cols=",",]
+|===============================================================
+|*Description:* |The respective tissue(s) of the sample.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD sample[1]-tissue[1] [BTO, BTO:0000759, liver, ]
+....
+|===============================================================
+
+[[sample1-n-cell_type1-n]]
+==== sample[1-n]-cell_type[1-n]
+
+[cols=",",]
+|=====================================================================
+|*Description:* |The respective cell type(s) of the sample.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD sample[1]-cell_type[1] [CL, CL:0000182, hepatocyte, ]
+....
+|=====================================================================
+
+[[sample1-n-disease1-n]]
+==== sample[1-n]-disease[1-n]
+
+[cols=",",]
+|===================================================================================
+|*Description:* |The respective disease(s) of the sample.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD sample[1]-disease[1] [DOID, DOID:684, hepatocellular carcinoma, ]
+MTD sample[1]-disease[2] [DOID, DOID:9451, alcoholic fatty liver, ]
+....
+|===================================================================================
+
+[[sample1-n-description]]
+==== sample[1-n]-description
+
+[cols=",",]
+|=========================================================================
+|*Description:* |A human readable description of the sample.
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD sample[1]-description Hepatocellular carcinoma samples.
+MTD sample[2]-description Healthy control samples.
+....
+|=========================================================================
+
+[[sample1-n-custom1-n]]
+==== sample[1-n]-custom[1-n]
+
+[cols=",",]
+|=========================================================================
+|*Description:* |Parameters describing the sample’s additional properties.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD sample[1]-custom[1] [,,Extraction date, 2011-12-21]
+MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]
+....
+|=========================================================================
+
+
+
+[[ms_run1-n-location]]
+==== ms_run[1-n]-location
+[IMPORTANT]
+====
+TODO We need to come up with a way of talking about fractions, e.g. by having a fraction ID
+
+ms_run[1-n]-[1-n]-location
+
+Provisionally decided to support pre-fractionation by allowing. Andy Jones
+====
+
+[cols=",",]
+|=====================================================================================================================================================================================================================================================================================================================================================
+|*Description:* |Location of the external data file e.g. raw files on which analysis has been performed. If the actual location of the MS run is unknown, a “null” MUST be used as a place holder value, since the [1-n] cardinality is referenced elsewhere. If pre-fractionation has been performed, then [1-n] ms_runs SHOULD be created per assay.
+|*Type:* |URL
+|*Mandatory* |True
+|*Example:* a|
+....
+MTD ms_run[1]-location file://C:\path\to\my\file
+…
+MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
+....
+|=====================================================================================================================================================================================================================================================================================================================================================
+
+[[ms_run1-n-format]]
+==== ms_run[1-n]-format
+IMPORTANT: TODO Revisit for pre-fractionation. Andy Jones
+[cols=",",]
+|====================================================================================================================================================================
+|*Description:* |A parameter specifying the data format of the external MS data file. If ms_run[1-n]-format is present, ms_run[1-n]-id_format SHOULD also be present.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
+MTD ms_run[1]-id_format [MS, MS:1000530, mzML unique identifier, ]
+…
+MTD ms_run[2]-format [MS, MS:1001062, Mascot MGF file, ]
+MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
+....
+|====================================================================================================================================================================
+
+[[ms_run1-n-id_format]]
+==== ms_run[1-n]-id_format
+IMPORTANT: TODO No need to support pre-fractionation – can reasonably assume all consistent. Andy Jones
+[cols=",",]
+|==================================================================================================================================================================
+|*Description:* |Parameter specifying the id format used in the external data file. If ms_run[1-n]-id_format is present, ms_run[1-n]-format SHOULD also be present.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
+MTD ms_run[1]-id_format [MS, MS:1000530, mzML unique identifier, ]
+…
+MTD ms_run[2]-format [MS, MS:1001062, Mascot MGF file, ]
+MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
+....
+|==================================================================================================================================================================
+
+[[ms_run1-n-fragmentation_method1-n]]
+==== ms_run[1-n]-fragmentation_method[1-n]
+
+[cols=",",]
+|===========================================================================
+|*Description:* |The type(s) of fragmentation used in a given ms run.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD ms_run[1]-fragmentation_method[1] [MS, MS:1000133, CID, ]
+…
+MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD …, ]
+....
+|===========================================================================
+
+[[ms_run1-n-hash]]
+==== ms_run[1-n]-hash
+IMPORTANT: TODO Needs to allow for pre-fractionation. Andy Jones
+[cols=",",]
+|======================================================================================================================================================================================
+|*Description:* |Hash value of the corresponding external MS data file defined in ms_run[1-n]-location. If ms_run[1-n]-hash is present, ms_run[1-n]-hash_method SHOULD also be present.
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD ms_run[1]-hash_method [MS, MS: MS:1000569, SHA-1, ]
+MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
+....
+|======================================================================================================================================================================================
+
+[[ms_run1-n-hash_method]]
+==== ms_run[1-n]-hash_method
+IMPORTANT: TODO No need to support pre-fractionation. Andy Jones
+[cols=",",]
+|=========================================================================================================================================================================================================================================================================
+|*Description:* |A parameter specifying the hash methods used to generate the String in ms_run[1-n]-hash. Specifics of the hash method used MAY follow the definitions of the mzML format. If ms_run[1-n]-hash is present, ms_run[1-n]-hash_method SHOULD also be present.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD ms_run[1]-hash_method [MS, MS: MS:1000569, SHA-1, ]
+MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
+....
+|=========================================================================================================================================================================================================================================================================
+
+
 [[assay1-n]]
 ==== assay[1-n]
 IMPORTANT: TODO We need a section above describing clearly what is an assay. Andy Jones
@@ -767,112 +988,6 @@ MTD study_variable[1]-factors #EXAMPLE HERE e.g. param1 = geneKO; param2 = drug 
 ....
 |=======================================================================================================================================================================
 
-[[ms_run1-n-location]]
-==== ms_run[1-n]-location
-[IMPORTANT]
-====
-TODO We need to come up with a way of talking about fractions, e.g. by having a fraction ID
-
-ms_run[1-n]-[1-n]-location
-
-Provisionally decided to support pre-fractionation by allowing. Andy Jones
-====
-
-[cols=",",]
-|=====================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |Location of the external data file e.g. raw files on which analysis has been performed. If the actual location of the MS run is unknown, a “null” MUST be used as a place holder value, since the [1-n] cardinality is referenced elsewhere. If pre-fractionation has been performed, then [1-n] ms_runs SHOULD be created per assay.
-|*Type:* |URL
-|*Mandatory* |True
-|*Example:* a|
-....
-MTD ms_run[1]-location file://C:\path\to\my\file
-…
-MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
-....
-|=====================================================================================================================================================================================================================================================================================================================================================
-
-[[ms_run1-n-format]]
-==== ms_run[1-n]-format
-IMPORTANT: TODO Revisit for pre-fractionation. Andy Jones
-[cols=",",]
-|====================================================================================================================================================================
-|*Description:* |A parameter specifying the data format of the external MS data file. If ms_run[1-n]-format is present, ms_run[1-n]-id_format SHOULD also be present.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
-MTD ms_run[1]-id_format [MS, MS:1000530, mzML unique identifier, ]
-…
-MTD ms_run[2]-format [MS, MS:1001062, Mascot MGF file, ]
-MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
-....
-|====================================================================================================================================================================
-
-[[ms_run1-n-id_format]]
-==== ms_run[1-n]-id_format
-IMPORTANT: TODO No need to support pre-fractionation – can reasonably assume all consistent. Andy Jones
-[cols=",",]
-|==================================================================================================================================================================
-|*Description:* |Parameter specifying the id format used in the external data file. If ms_run[1-n]-id_format is present, ms_run[1-n]-format SHOULD also be present.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
-MTD ms_run[1]-id_format [MS, MS:1000530, mzML unique identifier, ]
-…
-MTD ms_run[2]-format [MS, MS:1001062, Mascot MGF file, ]
-MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
-....
-|==================================================================================================================================================================
-
-[[ms_run1-n-fragmentation_method1-n]]
-==== ms_run[1-n]-fragmentation_method[1-n]
-
-[cols=",",]
-|===========================================================================
-|*Description:* |The type(s) of fragmentation used in a given ms run.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD ms_run[1]-fragmentation_method[1] [MS, MS:1000133, CID, ]
-…
-MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD …, ]
-....
-|===========================================================================
-
-[[ms_run1-n-hash]]
-==== ms_run[1-n]-hash
-IMPORTANT: TODO Needs to allow for pre-fractionation. Andy Jones
-[cols=",",]
-|======================================================================================================================================================================================
-|*Description:* |Hash value of the corresponding external MS data file defined in ms_run[1-n]-location. If ms_run[1-n]-hash is present, ms_run[1-n]-hash_method SHOULD also be present.
-|*Type:* |String
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD ms_run[1]-hash_method [MS, MS: MS:1000569, SHA-1, ]
-MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
-....
-|======================================================================================================================================================================================
-
-[[ms_run1-n-hash_method]]
-==== ms_run[1-n]-hash_method
-IMPORTANT: TODO No need to support pre-fractionation. Andy Jones
-[cols=",",]
-|=========================================================================================================================================================================================================================================================================
-|*Description:* |A parameter specifying the hash methods used to generate the String in ms_run[1-n]-hash. Specifics of the hash method used MAY follow the definitions of the mzML format. If ms_run[1-n]-hash is present, ms_run[1-n]-hash_method SHOULD also be present.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD ms_run[1]-hash_method [MS, MS: MS:1000569, SHA-1, ]
-MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
-....
-|=========================================================================================================================================================================================================================================================================
-
 [[custom1-n]]
 ==== custom[1-n]
 
@@ -886,103 +1001,6 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
 MTD custom[1] [,,MS operator, Florian]
 ....
 |===========================================================================
-
-[[sample1-n-species1-n]]
-==== sample[1-n]-species[1-n]
-
-[cols=",",]
-|=================================================================================
-|*Description:* |The respective species of the samples analysed.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-COM Experiment where all samples consisted of the same two species
-MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[2]-species[1] [NEWT, 12059, Rhinovirus, ]
-
-COM Experiment where different two samples from different species (combinations)
-COM were analysed as biological replicates.
-
-MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[1]-species[2] [NEWT, 573824, Human rhinovirus 1, ]
-MTD sample[2]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]
-....
-|=================================================================================
-
-[[sample1-n-tissue1-n]]
-==== sample[1-n]-tissue[1-n]
-
-[cols=",",]
-|===============================================================
-|*Description:* |The respective tissue(s) of the sample.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD sample[1]-tissue[1] [BTO, BTO:0000759, liver, ]
-....
-|===============================================================
-
-[[sample1-n-cell_type1-n]]
-==== sample[1-n]-cell_type[1-n]
-
-[cols=",",]
-|=====================================================================
-|*Description:* |The respective cell type(s) of the sample.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD sample[1]-cell_type[1] [CL, CL:0000182, hepatocyte, ]
-....
-|=====================================================================
-
-[[sample1-n-disease1-n]]
-==== sample[1-n]-disease[1-n]
-
-[cols=",",]
-|===================================================================================
-|*Description:* |The respective disease(s) of the sample.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD sample[1]-disease[1] [DOID, DOID:684, hepatocellular carcinoma, ]
-MTD sample[1]-disease[2] [DOID, DOID:9451, alcoholic fatty liver, ]
-....
-|===================================================================================
-
-[[sample1-n-description]]
-==== sample[1-n]-description
-
-[cols=",",]
-|=========================================================================
-|*Description:* |A human readable description of the sample.
-|*Type:* |String
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD sample[1]-description Hepatocellular carcinoma samples.
-MTD sample[2]-description Healthy control samples.
-....
-|=========================================================================
-
-[[sample1-n-custom1-n]]
-==== sample[1-n]-custom[1-n]
-
-[cols=",",]
-|=========================================================================
-|*Description:* |Parameters describing the sample’s additional properties.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD sample[1]-custom[1] [,,Extraction date, 2011-12-21]
-MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]
-....
-|=========================================================================
 
 [[cv1-n-label]]
 ==== cv[1-n]-label
