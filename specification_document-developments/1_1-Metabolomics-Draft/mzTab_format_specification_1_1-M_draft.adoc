@@ -1512,16 +1512,15 @@ SML 1 … 1234.5 …
 
 [[adduct_ions]]
 ==== adduct_ions
-IMPORTANT: TODO Joel to insert a regex here. Andy Jones
 [cols=",",]
 |============================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |#A “\|” separated list of adducts# for this this molecule, following the general style in the 2013 IUPAC recommendations on http://dx.doi.org/10.1351/PAC-REC-06-04-06[terms relating to MS] e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
+|*Description:* |#A “\|” separated list of adducts# for this this molecule, following the general style in the 2013 IUPAC recommendations on http://dx.doi.org/10.1351/PAC-REC-06-04-06[terms relating to MS] e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null. 
 |*Type:* |#String List#
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
 SMH SML_ID … adduct_ions …
-SML 1 … [M+H]1+ | [M+Na]1+ …
+SML 1 … [M+H]1+ \| [M+Na]1+ …
 ....
 |============================================================================================================================================================================================================================================================================================================================================================
 
@@ -1694,7 +1693,7 @@ SMF 2 …
 |*Example:* a|
 ....
 SFH SMF_ID SME_ID_REFS
-SMF 1 5|6|12…
+SMF 1 5\|6\|12…
 ....
 |==============================================================================================================================================================================================================================================================================================================================================================================
 
@@ -1709,18 +1708,17 @@ SMF 1 5|6|12…
 |*Example:* a|
 ....
 SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code
-SMF 1 5|6|12… 1
+SMF 1 5\|6\|12… 1
 ....
 |=================================================================================================================================================================================================================================================================================================================================================================
 
 [[adduct_ion]]
 ==== adduct_ion
 IMPORTANT: TODO Add URL to these recommendations? Andy Jones
-IMPORTANT: TODO Joel to write a regex for this. Andy Jones
 [cols=",",]
 |==========================================================================================================================================================================================================
 |*Description:* |#The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-.#
-|*Type:* |#String#
+|*Type:* |Regex{"\[\d*M([+-][\w]*)+\]\d*[+-]"}
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
@@ -2026,7 +2024,7 @@ IMPORTANT: TODO Regex in here. Andy Jones
 [cols=",",]
 |============================================================================================================================================================================================================================================================================================================
 |*Description:* |The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
-|*Type:* |#String#
+|*Type:* |Regex{"\[\d*M([+-][\w]*)+\]\d*[+-]"}
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
