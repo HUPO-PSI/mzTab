@@ -33,6 +33,7 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   local_dir: output
+  keep-history: true
   on:
     branch: master
 
