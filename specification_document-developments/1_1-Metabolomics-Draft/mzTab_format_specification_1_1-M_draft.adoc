@@ -36,7 +36,7 @@ The latest draft version of this document may be found at https://github.com/HUP
 [[abstract]]
 == Abstract
 
-The  Metabolomics Standards initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in proteomics contexts.
+The  Metabolomics Standards initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in the proteomics context.
 
 //reenable section numbering
 :sectnums:
