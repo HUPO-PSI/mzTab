@@ -364,7 +364,7 @@ MTD assay[1] first assay description
 * *Study variable IDs* +
 To be able to supply metadata specific to each study variable (grouping of assays), ids in the format `study_variable[1-n]` are used.
 ....
-MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)
+MTD study_variable[1] Group B (spike-in 0.74 fmol/uL)
 ....
 [[sections]]
 === Sections
@@ -377,7 +377,7 @@ mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) 
 The metadata section provides additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from those noted as mandatory. The fields in the metadata section MUST be reported in order of the various fields listed here. The field’s name and value MUST be separated by a tab character:
 
 ....
-MTD publication [PRIDE, PRIDE:00000029, PubMed, 12345]
+MTD publication [MS, MS:1000879, PubMed identifier, 12345]
 ....
 
 In the following list of fields any term encapsulated by `\{}` is meant as a variable which MUST be replaced accordingly.
@@ -443,9 +443,23 @@ MTD sample_processing[1] [SEP, sep:00210, liquid chromatograhy,]
 ....
 |=================================================================================================================================================================================================================================================================
 
+[[instrument1-n-id]]
+==== instrument[1-n]-id
+
+[cols=",",]
+|==========================================================================================================
+|*Description:* |Within file unique identifier for a given instrument.
+|*Type:* |Parameter
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD instrument[1]-id 1
+....
+|==========================================================================================================
+
 [[instrument1-n-name]]
 ==== instrument[1-n]-name
-IMPORTANT: TODO Instrument[1-n] makes no sense, since instrument cannot be referenced from ms_run, so even if multiple instruments are reported, they cannot be interpreted. Andy Jones
+
 [cols=",",]
 |==========================================================================================================
 |*Description:* |The name of the instrument used in the experiment. Multiple instruments are numbered 1..n.
@@ -454,8 +468,6 @@ IMPORTANT: TODO Instrument[1-n] makes no sense, since instrument cannot be refer
 |*Example:* a|
 ....
 MTD instrument[1]-name [MS, MS:1000449, LTQ Orbitrap,]
-…
-MTD instrument[2]-name [MS, MS:1000031, Instrument model, name of the instrument not included in the CV]
 ....
 |==========================================================================================================
 
@@ -509,7 +521,6 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]
 
 [[software1-n]]
 ==== software[1-n]
-IMPORTANT: TODO Update with metabolomics software. Andy Jones
 [cols=",",]
 |============================================================================================================================================================================================================================
 |*Description:* |Software used to analyze the data and obtain the reported results. The parameter’s value SHOULD contain the software’s version. The order (numbering) should reflect the order in which the tools were used.
@@ -517,8 +528,7 @@ IMPORTANT: TODO Update with metabolomics software. Andy Jones
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD software[1] [MS, MS:1001207, Mascot, 2.3]
-MTD software[2] [MS, MS:1001561, Scaffold, 1.0]
+MTD software[1] [MS, MS:100XXXX, Progenesis QI, 3.0]
 ....
 |============================================================================================================================================================================================================================
 
@@ -762,14 +772,6 @@ MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]
 
 [[ms_run1-n-location]]
 ==== ms_run[1-n]-location
-[IMPORTANT]
-====
-TODO We need to come up with a way of talking about fractions, e.g. by having a fraction ID
-
-ms_run[1-n]-[1-n]-location
-
-Provisionally decided to support pre-fractionation by allowing. Andy Jones
-====
 
 [cols=",",]
 |=====================================================================================================================================================================================================================================================================================================================================================
@@ -784,9 +786,24 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
 ....
 |=====================================================================================================================================================================================================================================================================================================================================================
 
+[[ms_run1-n-location]]
+==== ms_run[1-n]-instrument_ref
+
+[cols=",",]
+|=====================================================================================================================================================================================================================================================================================================================================================
+|*Description:* |If different instruments are used in different runs, this attribute can be used to link a specific instrument to a specific run.
+|*Type:* |instrument_id
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD ms_run[1]-instrument_ref 1
+…
+
+|=====================================================================================================================================================================================================================================================================================================================================================
+
+
 [[ms_run1-n-format]]
 ==== ms_run[1-n]-format
-IMPORTANT: TODO Revisit for pre-fractionation. Andy Jones
 [cols=",",]
 |====================================================================================================================================================================
 |*Description:* |A parameter specifying the data format of the external MS data file. If ms_run[1-n]-format is present, ms_run[1-n]-id_format SHOULD also be present, following the parameters specified in Table 1.
@@ -804,7 +821,6 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
 
 [[ms_run1-n-id_format]]
 ==== ms_run[1-n]-id_format
-IMPORTANT: TODO No need to support pre-fractionation – can reasonably assume all consistent. Andy Jones
 [cols=",",]
 |==================================================================================================================================================================
 |*Description:* |Parameter specifying the id format used in the external data file. If ms_run[1-n]-id_format is present, ms_run[1-n]-format SHOULD also be present.
@@ -842,7 +858,7 @@ MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD …, ]
 
 [cols=",",]
 |===========================================================================
-|*Description:* |The polarity mode of a given run.
+|*Description:* |The polarity mode of a given run. Usually only one value SHOULD be given here except for the case of mixed polarity runs.
 |*Type:* |Parameter
 |*Mandatory* |True
 |*Example:* a|
@@ -858,7 +874,6 @@ MTD ms_run[1]-scan_polarity[12] [MS, MS:1000129, negative scan, ]
 
 [[ms_run1-n-hash]]
 ==== ms_run[1-n]-hash
-IMPORTANT: TODO Needs to allow for pre-fractionation. Andy Jones
 [cols=",",]
 |======================================================================================================================================================================================
 |*Description:* |Hash value of the corresponding external MS data file defined in ms_run[1-n]-location. If ms_run[1-n]-hash is present, ms_run[1-n]-hash_method SHOULD also be present.
@@ -873,7 +888,6 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
 
 [[ms_run1-n-hash_method]]
 ==== ms_run[1-n]-hash_method
-IMPORTANT: TODO No need to support pre-fractionation. Andy Jones
 [cols=",",]
 |=========================================================================================================================================================================================================================================================================
 |*Description:* |A parameter specifying the hash methods used to generate the String in ms_run[1-n]-hash. Specifics of the hash method used MAY follow the definitions of the mzML format. If ms_run[1-n]-hash is present, ms_run[1-n]-hash_method SHOULD also be present.
@@ -889,7 +903,6 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3
 
 [[assay1-n]]
 ==== assay[1-n]
-IMPORTANT: TODO We need a section above describing clearly what is an assay. Andy Jones
 [cols=",",]
 |======================================================================================================================
 |*Description:* |A name for each assay, to serve as a list of the assays that MUST be reported in the following tables.
@@ -904,7 +917,6 @@ MTD assay[2] second assay
 
 [[assay1-n-custom1-n]]
 ==== assay[1-n]-custom[1-n]
-IMPORTANT: TODO add additional assay CV params
 [cols=",",]
 |==================================================================
 |*Description:* |Additional parameters or values for a given assay.
@@ -965,7 +977,6 @@ MTD assay[2]-sample_ref sample[2]
 
 [[assay1-n-ms_run_ref]]
 ==== assay[1-n]-ms_run_ref
-IMPORTANT: TODO Need section higher up that explains clearly the cardinalities and real world concepts these represent. Andy Jones
 [cols=",",]
 |===========================================================================================================================================================================================================================================================
 |*Description:* |
@@ -986,12 +997,12 @@ MTD assay[1]-ms_run_ref ms_run[1]
 IMPORTANT: TODO We are using different separator types across the document, these should be made consistent. Andy Jones
 [cols=",",]
 |==============================================================================================
-|*Description:* |Comma-separated references to the IDs of assays grouped in the study variable.
+|*Description:* |Bar-separated references to the IDs of assays grouped in the study variable.
 |*Type:* |\{ASSAY_ID}, ...
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD study_variable[1]-assay_refs assay[1], assay[2], assay[3]
+MTD study_variable[1]-assay_refs assay[1]| assay[2]| assay[3]
 ....
 |==============================================================================================
 
@@ -1377,12 +1388,10 @@ SML 1 2\|3\|11…
 
 [[database_identifier]]
 ==== database_identifier
-IMPORTANT: TODO May want to return to this for the case of alternative IDs and ambiguity – should this be formally checkable for structure? Andy Jones
-IMPORTANT: TODO Add example showing ambiguity.
 [cols=",",]
 |=================================================================================================================================================================================================================================================================================================================================
 |*Description:* |
-A list of “\|” separated possible identifiers for the small molecule; multiple values MUST only be provided to indicate ambiguity in the identification of the molecule and not to demonstrate different identifier types for the same molecule. #Alternative identifiers for the same molecule MAY be provided as optional columns.#
+A list of “\|” separated possible identifiers for the small molecule; multiple values MUST only be provided to indicate ambiguity in the identification of the molecule and not to demonstrate different identifier types for the same molecule. Alternative identifiers for the same molecule MAY be provided as optional columns.
 
 The database identifier must be preceded by the resource description (prefix) followed by a colon, as specified in the Metadata section.
 
@@ -1527,7 +1536,6 @@ SML 1 … [M+H]1+ | [M+Na]1+ …
 
 [[reliability]]
 ==== reliability
-IMPORTANT: TODO ACTION: Steffen to circulate MSI list to us for discussion about it going into PSI-MS Cv. Andy Jones
 //options="header" removed in following table to allow normal adoc macros
 [cols=","]
 |============================================================================================================
@@ -1629,11 +1637,7 @@ SML 1 … 0.3 0.04 …
 
 [[opt_identifier_]]
 ==== opt_\{identifier}_*
-[IMPORTANT]
-====
-TODO Review docs for how to insert userParams with an example.
-Do we want to state that only PSI-MS can be used here, or any CV / ontology? Andy Jones
-====
+
 [cols=",",]
 |===============================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 |*Description:* |Additional columns can be added to the end of the small molecule table. These column headers MUST start with the prefix “opt_” followed by the \{identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘_’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_\{identifier}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
@@ -2187,22 +2191,37 @@ SML 1 … My value some other value
 
 There are a number of use cases that were discussed during the development process and it was decided that they are not explicitly supported in mzTab version 1.1-M. They may be implemented in future versions of the standard.
 
-IMPORTANT: TODO
-#Examples?#
+Examples include:
+
+* Multiplexing technologies
+* Merging results from negative and positive polarities (for quantitation purposes) into a single aligned files
+* Including the results from different technologies in one mzTab file e.g. DIMS and LC/MS
+
 
 [[conclusions]]
 == Conclusions
 
 IMPORTANT: TODO
-This document contains the specifications for using the mzTab format to represent results from small molecule pipelines, in the context of a metabolomics or lipidomics investigation. This specification constitutes a proposal for a standard from the Proteomics Standards Initiative and #XXX#. These artefacts are currently undergoing the PSI document process, which will result in a standard officially sanctioned by PSI.
+This document contains the specifications for using the mzTab format to represent results from small molecule pipelines, in the context of a metabolomics or lipidomics investigation. This specification constitutes a proposal for a standard from the Proteomics Standards Initiative and Metabolomics Standards Initiative. These artefacts are currently undergoing the PSI document process, which will result in a standard officially sanctioned by PSI.
 
 [[authors]]
 == Authors
 
-IMPORTANT: TODO
-#Put author details in here#
+IMPORTANT: Please add affiliations#
 
-#Correspondence – Put corresponding authors in here#
+* Nils Hoffmann
+* Joel Rein
+* Kenneth Haug
+* Saravanan Dayalan
+* Philippe Rocca-Serra
+* Da Qi
+* Timo Sachsenburg
+* Juan Antonio Vizcaíno
+* Reza M Salek
+* Steffen Neumann
+* Andrew R Jones
+
+Apologies if I missed anyone!
 
 [[contributors]]
 == Contributors
@@ -2248,9 +2267,9 @@ Citing: <<KEY,LABEL>>, e.g. <<bradner-1997,(Bradner 1997)>> will render a link t
 [[intellectual-property-statement]]
 == Intellectual Property Statement
 
-The PSI takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this document or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any effort to identify any such rights. Copies of claims of rights made available for publication and any assurances of licenses to be made available, or the result of an attempt made to obtain a general license or permission for the use of such proprietary rights by implementers or users of this specification can be obtained from the PSI Chair.
+The PSI/MSI takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this document or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any effort to identify any such rights. Copies of claims of rights made available for publication and any assurances of licenses to be made available, or the result of an attempt made to obtain a general license or permission for the use of such proprietary rights by implementers or users of this specification can be obtained from the PSI Chair.
 
-The PSI invites any interested party to bring to its attention any copyrights, patents or patent applications, or other proprietary rights that may cover technology that may be required to practice this recommendation. Please address the information to the PSI Chair (see contacts information at PSI website).
+The PSI/MSI invites any interested party to bring to its attention any copyrights, patents or patent applications, or other proprietary rights that may cover technology that may be required to practice this recommendation. Please address the information to the PSI Chair (see contacts information at PSI website).
 
 :sectnums!:
 [[trademark-section]]
@@ -2261,7 +2280,7 @@ Microsoft Excel^®^
 [[copyright-notice]]
 == Copyright Notice
 
-Copyright (C) Proteomics Standards Initiative (2017). All Rights Reserved.
+Copyright (C) Proteomics Standards Initiative (2018). All Rights Reserved.
 
 This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and this paragraph are included on all such copies and derivative works. However, this document itself may not be modified in any way, such as by removing the copyright notice or references to the PSI or other organizations, except as needed for the purpose of developing Proteomics Recommendations in which case the procedures for copyrights defined in the PSI Document process must be followed, or as required to translate it into languages other than English.
 
