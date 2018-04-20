@@ -28,7 +28,7 @@ This document presents the final specification of the mzTab data format develope
 
 _Version of This Document_
 
-The current version of this document is: version 1.1.0-draft, Aug 2017.
+The current version of this document is: version 1.1.0-draft, April 2018.
 
 The latest draft version of this document may be found at https://github.com/HUPO-PSI/mzTab.
 
@@ -36,7 +36,7 @@ The latest draft version of this document may be found at https://github.com/HUP
 [[abstract]]
 == Abstract
 
-The Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) and Metabolomics Standards initiative (MSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in proteomics contexts.
+The  Metabolomics Standards initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in proteomics contexts.
 
 //reenable section numbering
 :sectnums:
@@ -62,12 +62,20 @@ This document presents a specification, not a tutorial. As such, the presentatio
 [[document-structure]]
 === Document Structure
 
-The remainder of this document is structured as follows. <<use-cases-for-mztab>> lists use cases mzTab-M is designed to support. <<notational-conventions>> describes the terminology used. <<relationships-to-other-specifications>> describes how the specification presented in <<format-specification>> relates to other specifications, both those that it extends and those that it is intended to complement. <<resolved-design-and-scope-issues>> discusses the reasoning behind several design decisions taken. <<format-specification>> contains the documentation of the file. <<non-supported-use-cases>> lists use cases that are currently not supported. Conclusions are presented in <<conclusions>>.
+The remainder of this document is structured as follows.
+
+[start=2]
+. <<use-cases-for-mztab>> lists use cases mzTab-M is designed to support. . <<notational-conventions>> describes the terminology used.
+. <<relationships-to-other-specifications>> describes how the specification presented in <<format-specification>> relates to other specifications, both those that it extends and those that it is intended to complement.
+.  <<resolved-design-and-scope-issues>> discusses the reasoning behind several design decisions taken.
+. <<format-specification>> contains the documentation of the file.
+. <<non-supported-use-cases>> lists use cases that are currently not supported.
+. <<conclusions>> Conclusions are presented last.
 
 [[use-cases-for-mztab]]
 == Use Cases for mzTab
 
-The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 1.0.
+The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 1.1.
 
 1. mzTab-M files should be simple enough to make metabolomics results accessible to people outside the respective fields. This should facilitate the sharing of data beyond the borders of the fields and make it accessible to non-experts.
 
@@ -117,7 +125,6 @@ The following ontologies or controlled vocabularies specified below may also be 
 * Unit Ontology (http://www.obofoundry.org/ontology/uo.html)
 * ChEBI (ftp://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi.obo)
 * OBI Ontology of Biological Investigations (http://obi-ontology.org/)
-* PRIDE Controlled Vocabulary (https://www.ebi.ac.uk/ols/ontologies/pride)
 * NEWT UniProt Taxonomy Database (http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT)
 * BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
 * Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
@@ -125,7 +132,7 @@ The following ontologies or controlled vocabularies specified below may also be 
 [[resolved-design-and-scope-issues]]
 == Resolved Design and scope issues
 
-There were several issues regarding the design of the format that were not clear cut, and a design choice was made that was not completely agreeable to everyone. So that these issues do not keep coming up, we document the issues here and why the decision that is implemented was made.
+There were several issues regarding the design of the format that were not clear cut, and a design choice was made that was not completely agreeable to everyone. So that these issues are not continously revisited, we document the issues here and why the decision that is implemented was made.
 
 [[use-of-identifiers-for-input-spectra-to-a-search]]
 === Use of identifiers for input spectra to a search
@@ -134,7 +141,7 @@ Small molecules MUST be linked to an identifier of the source spectrum (in an ex
 
 It is advantageous if there is a consistent system for identifying spectra in different file formats. The following table is implemented in the PSI-MS CV for providing consistent identifiers for different spectrum file formats.
 
-NOTE: This table shows examples from the CV but will be extended. The CV holds the definite specification for legal encodings of spectrumID values.
+NOTE: This table shows examples from the CV but will be extended. The CV holds the definite specification for legal encodings of spectrum identifier values.
 
 [[table-1, CV Terms and Rules]]
 .Controlled vocabulary terms and rules implemented in the PSI-MS CV for formulating the “nativeID” to identify spectra in different file formats.
@@ -185,11 +192,11 @@ SME ... ms_run[1]:scan=11665 ...
 [[recommendations-for-reporting-replicates-within-experimental-designs]]
 === Recommendations for reporting replicates within experimental designs
 
-Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <<figure-1>>. The following components have various cross-references and MUST be used in different types of mzTab files as follows:
+Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in Figure 1. The following components have various cross-references and MUST be used in different types of mzTab files as follows:
 
 * _study_variable_ – The variables about which the final results of a study are reported, which may have been derived following averaging across a group of replicate measurements (assays). The same concept has been defined by others as “experimental factor”.
 * _ms_run_ – An MS run is effectively one run on an MS instrument, and is referenced from assay in different contexts. In the case of pre-fractionation into _n_ fractions, an assay SHOULD reference _n_ ms_runs.
-* _assay_ – The application of a measurement about the sample (in this case through MS) – producing values about small molecules or lipids. One assay is typically mapped to one MS run in the case of label-free MS analysis (with no pre-fractionation) or multiple assays are mapped to one MS run for multiplexed techniques, along with a description of the label or tag applied.
+* _assay_ – The application of a measurement about the sample (in this case through MS) – producing values about small molecules or lipids. One assay is typically mapped to one MS run in the case of label-free MS analysis (with no pre-fractionation). At the present time, multiplexing within an ms_run is not supported in mzTab-M, thus there would typically be a one:one relationship between assay and ms_run.
 * _sample_ – a biological material that has been analyzed, to which descriptors of species, cell/tissue type etc. can be attached. In all of types of mzTab file, these MAY be reported in the metadata section as sample[1-n]-description. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample was analyzed (e.g. whether biological or technical replication was performed). If the file producer wishes to describe whether biological or technical replication has been performed, then sample elements SHOULD be provided.
 
 
@@ -200,10 +207,16 @@ Clear definitions of biological and technical replicates are difficult to provid
 
 NOTE: There is deliberately no attempt to define the boundary of the term “sample”.
 
-If sample level information is provided optimally, it is expected that _n_ biological replicates can be mapped to sample[1-n]; _m_ technical replicate measurements of sample 1 SHOULD be mapped to assay[1-m] referencing sample[1] (for example). However, an open challenge remains since analysis software is often not aware of whether replicates (multiple MS runs) are originally biological or technical in nature. As such, the default behavior for mzTab exporters from quantitative software is to exclude sample level information and report quantitative data for assay[1-n] and study_variable[1-n]. Additional annotation software would typically be required to add the sample-level information, as provided (often manually) by the user.
+If sample level information is provided optimally, it is expected that:
+* _n_ biological replicates can be mapped to sample[1-n]
+* _m_ technical replicate measurements of sample 1 SHOULD be mapped to assay[1-m] referencing sample[1] (for example).
+
+However, an open challenge remains since some analysis software is often not aware of whether replicates (multiple MS runs) are originally biological or technical in nature. As such, the default behavior for mzTab exporters from quantitative software is to exclude sample level information and report quantitative data for assay[1-n] and study_variable[1-n].
+
+Additional annotation software would typically be required to add the sample-level information, as provided (often manually) by the user.
 
 [[figure-1]]
-.Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (peptide or small molecule) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.
+.Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.
 image::img/media/figure1.png[image,width=100%,pdfwidth=100%]
 
 
@@ -217,7 +230,7 @@ IMPORTANT: TODO
 [[encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors]]
 === Encoding missing values, zeroes, nulls, infinity and calculation errors
 
-In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for cells in which isNullable= “true”.
+In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for parameters with "is nullable=True".
 
 For numerical values, they MUST be encoded following the specifications of https://www.w3.org/TR/xmlschema-2/#decimal[xs:decimal]. This does not natively support NaN, INF, scientific notation or null. As such, it is allowed in mzTab to include "NaN" for incalculable numbers and "null" for no data. In some cases, there is ambiguity with respect to the use of "0" versus "null": e.g. if there are alignment issues and it is unclear whether a molecule has been quantified with zero abundance or the feature was potentially present in the data but was not found. Export software would be expected to make a decision on this cases, based on best understanding of the case in hand.
 
@@ -229,7 +242,7 @@ Scientific notation and infinity is explicitly not supported.
 [[reliability-score]]
 === Reliability score
 
-All small molecule identifications reported in an mzTab file MAY be assigned a reliability score (column “reliability” in all tables). This reliability only applies to the identification reliability but not to modification position and or quantification reliabilities. The idea is to provide a way for researchers and/or repositories to score the reported identifications based on their own criteria. The criteria used to generate this score SHOULD be documented by the data providers. If this information is not provided by the producers of mzTab files, “null“ MUST be provided as the value for each of the protein, peptide or small molecule identification.
+All small molecule identifications reported in an mzTab file MAY be assigned a reliability score (column “reliability” in all tables). This reliability only applies to the identification reliability.
 
 [[support-for-positive-and-negative-modes]]
 === Support for positive and negative modes
@@ -239,8 +252,13 @@ It is common in metabolomics workflows to use both positive and negative ionisat
 [[referencing-evidence-for-small-molecule-identifications]]
 === Referencing evidence for small molecule identifications
 
-IMPORTANT: TODO
-#Insert text in here to explain about how to encode evidence where multiple features are used to determine molecule identification; this should be optional column on SML or SMF row? Reza to draft some text for this section for in-file referencing, and use of latest MSI guideline#
+Evidence for small molecule identification is captured by reference from the SML table via features (SMFs) down to the final table - Small Molecule Evidence elements. It is possible to have a legal mzTab-M file that does not contain any features (SML summary level only). In this case, detailed information about small molecule evidence cannot be provided. It is generally RECOMMENDED to include data at the SML, SMF and SME levels.
+
+SMF elements should reference down to all evidence elements (SME rows) that support the identification of that particular feature.
+
+[[figure-2]]
+image::img/media/figure2.png[image,width=100%,pdfwidth=100%]
+Figure 2. A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns; B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results; C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data.
 
 [[guidelines-for-reporting-results-prior-to-or-with-no-alignment-step-across-features]]
 === Guidelines for reporting results prior to or with no alignment step across features
@@ -280,14 +298,12 @@ PRT P12345 … 0.658
 [[referencing-external-resources]]
 === Referencing external resources
 
-IMPORTANT: TODO
-#Text in here? e.g. ISA-TAB, to consider if we need to have discussion about referencing anything else?#
+The current specifications of mzTab-M only support relatively simple details about sample preparation and experimental design. Users may wish to use ISA-TAB to record more details about these aspects. The ISA-TAB file can be referenced by the external_study_uri attribute.
 
 [[other-supporting-materials]]
 === Other supporting materials
 
-IMPORTANT: TODO
-#Insert references to example files#
+Example files are located at https://github.com/HUPO-PSI/mzTab/tree/master/examples/1_1-Metabolomics_Draft[GitHub]
 
 [[format-specification]]
 == Format specification

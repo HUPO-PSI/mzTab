@@ -1,7 +1,7 @@
   <html>
     <head>
       <meta charset="utf-8">
-      <title>Install PackagesAsciiDoc Preview packagemzTab-M: exchange format for metabolomics results</title>
+      <title>mzTab-M: exchange format for metabolomics results</title>
       <style>
         #wrapper {width: 960px; margin: 0 auto;}
         /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -452,7 +452,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><em>Version of This Document</em></p>
 </div>
 <div id="__asciidoctor-preview-530__" class="paragraph">
-<p>The current version of this document is: version 1.1.0-draft, Aug 2017.</p>
+<p>The current version of this document is: version 1.1.0-draft, April 2018.</p>
 </div>
 <div id="__asciidoctor-preview-534__" class="paragraph">
 <p>The latest draft version of this document may be found at <a href="https://github.com/HUPO-PSI/mzTab" class="bare">https://github.com/HUPO-PSI/mzTab</a>.</p>
@@ -463,7 +463,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="abstract">Abstract</h2>
 <div class="sectionbody">
 <div id="__asciidoctor-preview-556__" class="paragraph">
-<p>The Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) and Metabolomics Standards initiative (MSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in proteomics contexts.</p>
+<p>The  Metabolomics Standards initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in proteomics contexts.</p>
 </div>
 </div>
 </div>
@@ -504,7 +504,29 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="document-structure">1.2. Document Structure</h3>
 <div id="__asciidoctor-preview-684__" class="paragraph">
-<p>The remainder of this document is structured as follows. <a href="#use-cases-for-mztab">Use Cases for mzTab</a> lists use cases mzTab-M is designed to support. <a href="#notational-conventions">Notational Conventions</a> describes the terminology used. <a href="#relationships-to-other-specifications">[relationships-to-other-specifications]</a> describes how the specification presented in <a href="#format-specification">Format specification</a> relates to other specifications, both those that it extends and those that it is intended to complement. <a href="#resolved-design-and-scope-issues">Resolved Design and scope issues</a> discusses the reasoning behind several design decisions taken. <a href="#format-specification">Format specification</a> contains the documentation of the file. <a href="#non-supported-use-cases">Non-supported use cases</a> lists use cases that are currently not supported. Conclusions are presented in <a href="#conclusions">Conclusions</a>.</p>
+<p>The remainder of this document is structured as follows.</p>
+</div>
+<div id="__asciidoctor-preview-696__" class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p><a href="#use-cases-for-mztab">Use Cases for mzTab</a> lists use cases mzTab-M is designed to support. . <a href="#notational-conventions">Notational Conventions</a> describes the terminology used.</p>
+</li>
+<li>
+<p><a href="#relationships-to-other-specifications">[relationships-to-other-specifications]</a> describes how the specification presented in <a href="#format-specification">Format specification</a> relates to other specifications, both those that it extends and those that it is intended to complement.</p>
+</li>
+<li>
+<p><a href="#resolved-design-and-scope-issues">Resolved Design and scope issues</a> discusses the reasoning behind several design decisions taken.</p>
+</li>
+<li>
+<p><a href="#format-specification">Format specification</a> contains the documentation of the file.</p>
+</li>
+<li>
+<p><a href="#non-supported-use-cases">Non-supported use cases</a> lists use cases that are currently not supported.</p>
+</li>
+<li>
+<p><a href="#conclusions">Conclusions</a> Conclusions are presented last.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -512,10 +534,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="use-cases-for-mztab">2. Use Cases for mzTab</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-702__" class="paragraph">
-<p>The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 1.0.</p>
+<div id="__asciidoctor-preview-772__" class="paragraph">
+<p>The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 1.1.</p>
 </div>
-<div id="__asciidoctor-preview-708__" class="olist arabic">
+<div id="__asciidoctor-preview-778__" class="olist arabic">
 <ol class="arabic">
 <li>
 <p>mzTab-M files should be simple enough to make metabolomics results accessible to people outside the respective fields. This should facilitate the sharing of data beyond the borders of the fields and make it accessible to non-experts.</p>
@@ -548,7 +570,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="notational-conventions">3. Notational Conventions</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-850__" class="paragraph">
+<div id="__asciidoctor-preview-920__" class="paragraph">
 <p>The key words “MUST,” “MUST NOT,” “REQUIRED,” “SHALL,” “SHALL NOT,” “SHOULD,” “SHOULD NOT,” “RECOMMENDED,” “MAY,” and “OPTIONAL” are to be interpreted as described in RFC-2119 <a href="#bradner-1997">(Bradner 1997)</a>.</p>
 </div>
 </div>
@@ -556,10 +578,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="relationship-to-other-specifications">4. Relationship to Other Specifications</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-866__" class="paragraph">
+<div id="__asciidoctor-preview-936__" class="paragraph">
 <p>The specification described in this document has not been developed in isolation; indeed, it is designed to be complementary to, and thus used in conjunction with, several existing and emerging models. Related specifications include the following:</p>
 </div>
-<div id="__asciidoctor-preview-872__" class="olist arabic">
+<div id="__asciidoctor-preview-942__" class="olist arabic">
 <ol class="arabic">
 <li>
 <p><em>mzML</em> (<a href="http://www.psidev.info/mzml" class="bare">http://www.psidev.info/mzml</a>). mzML is the PSI standard for capturing mass spectra / peak lists resulting from mass spectrometry in proteomics <a href="#martens-2011">(Martens <em>et al.</em> 2011)</a>. mzTab files MAY be used in conjunction with mzML, although it will be possible to use mzTab with other formats of mass spectra. This document does not assume familiarity with mzML.</p>
@@ -571,22 +593,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="sect2">
 <h3 id="relationship-to-mztab-1.0">4.1. Relationship to mzTab 1.0</h3>
-<div id="__asciidoctor-preview-916__" class="paragraph">
+<div id="__asciidoctor-preview-986__" class="paragraph">
 <p>The first stable version of mzTab (version 1.0) was developed primarily by the PSI as a format for the final results (identification or quantification) of a proteomics experiment, using MS. In mzTab version 1.0 limited support was included for metabolomics, through a small molecule table, in which end results could be encoded at the level of quantified metabolites. The intention of mzTab-M is to extend these concepts, so that more detail can be captured about the evidence trail for quantification, including MS features (different charge states or adducts) and the evidence trail for identifications - both of which could not be easily supported in mzTab v 1.0. mzTab-M is not formally backwards compatible, but follows a similar design pattern. Design decisions made in mzTab-M may in the future be adopted for a version of mzTab specifically intended for proteomics only, but at the time of writing mzTab version 1.0 remains in active use for proteomics, but is deprecated for use in metabolomics.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="the-psi-mass-spectrometry-controlled-vocabulary-cv">4.2. The PSI Mass Spectrometry Controlled Vocabulary (CV)</h3>
-<div id="__asciidoctor-preview-932__" class="paragraph">
+<div id="__asciidoctor-preview-1002__" class="paragraph">
 <p>The PSI-MS controlled vocabulary is intended to provide terms for annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms from software vendors and academic groups working in the area of mass spectrometry and MS informatics. Some terms describe attributes that must be coupled with a numerical value attribute in the CvParam element (e.g. MS:1001191 “p-value”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”). The terms that require a value are denoted by having a “datatype” key-value pair in the CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself (relationship: has_units: UO:0000221 ! dalton).</p>
 </div>
-<div id="__asciidoctor-preview-936__" class="paragraph">
+<div id="__asciidoctor-preview-1006__" class="paragraph">
 <p>As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically maintained via the <a href="mailto:psidev-ms-vocab@lists.sourceforge.net">psidev-ms-vocab@lists.sourceforge.net</a> mailing list that allows any user to request new terms in agreement with the community involved. Once a consensus is reached among the community the new terms are added within a few business days. If there is no obvious consensus, the CV coordinators committee should vote and make a decision. A new psi-ms.obo should then be released by updating the file on the GitHub server without changing the name of the file.</p>
 </div>
-<div id="__asciidoctor-preview-940__" class="paragraph">
+<div id="__asciidoctor-preview-1010__" class="paragraph">
 <p>The following ontologies or controlled vocabularies specified below may also be suitable or required in certain instances:</p>
 </div>
-<div id="__asciidoctor-preview-946__" class="ulist">
+<div id="__asciidoctor-preview-1016__" class="ulist">
 <ul>
 <li>
 <p>Unit Ontology (<a href="http://www.obofoundry.org/ontology/uo.html" class="bare">http://www.obofoundry.org/ontology/uo.html</a>)</p>
@@ -596,9 +618,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>OBI Ontology of Biological Investigations (<a href="http://obi-ontology.org/" class="bare">http://obi-ontology.org/</a>)</p>
-</li>
-<li>
-<p>PRIDE Controlled Vocabulary (<a href="https://www.ebi.ac.uk/ols/ontologies/pride" class="bare">https://www.ebi.ac.uk/ols/ontologies/pride</a>)</p>
 </li>
 <li>
 <p>NEWT UniProt Taxonomy Database (<a href="http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT" class="bare">http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT</a>)</p>
@@ -617,25 +636,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="resolved-design-and-scope-issues">5. Resolved Design and scope issues</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-1032__" class="paragraph">
-<p>There were several issues regarding the design of the format that were not clear cut, and a design choice was made that was not completely agreeable to everyone. So that these issues do not keep coming up, we document the issues here and why the decision that is implemented was made.</p>
+<div id="__asciidoctor-preview-1092__" class="paragraph">
+<p>There were several issues regarding the design of the format that were not clear cut, and a design choice was made that was not completely agreeable to everyone. So that these issues are not continously revisited, we document the issues here and why the decision that is implemented was made.</p>
 </div>
 <div class="sect2">
 <h3 id="use-of-identifiers-for-input-spectra-to-a-search">5.1. Use of identifiers for input spectra to a search</h3>
-<div id="__asciidoctor-preview-1046__" class="paragraph">
+<div id="__asciidoctor-preview-1106__" class="paragraph">
 <p>Small molecules MUST be linked to an identifier of the source spectrum (in an external file) from which the identifications are made by way of a reference in the <code>spectra_ref</code> attribute and via the <code>ms_run</code> element which stores the URL of the file in the <code>location</code> attribute.</p>
 </div>
-<div id="__asciidoctor-preview-1050__" class="paragraph">
+<div id="__asciidoctor-preview-1110__" class="paragraph">
 <p>It is advantageous if there is a consistent system for identifying spectra in different file formats. The following table is implemented in the PSI-MS CV for providing consistent identifiers for different spectrum file formats.</p>
 </div>
-<div id="__asciidoctor-preview-1056__" class="admonitionblock note">
+<div id="__asciidoctor-preview-1116__" class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-This table shows examples from the CV but will be extended. The CV holds the definite specification for legal encodings of spectrumID values.
+This table shows examples from the CV but will be extended. The CV holds the definite specification for legal encodings of spectrum identifier values.
 </td>
 </tr>
 </table>
@@ -725,10 +744,10 @@ This table shows examples from the CV but will be extended. The CV holds the def
 </tr>
 </tbody>
 </table>
-<div id="__asciidoctor-preview-1432__" class="paragraph">
+<div id="__asciidoctor-preview-1492__" class="paragraph">
 <p>In mzTab, the spectra_ref attribute should be constructed following the data type specification in <a href="#table-1">CV Terms and Rules</a>. As an example, to reference the third spectrum (index = 2) in an MGF (Mascot Generic Format) file:</p>
 </div>
-<div id="__asciidoctor-preview-1438__" class="listingblock">
+<div id="__asciidoctor-preview-1498__" class="listingblock">
 <div class="content">
 <pre>MTD ms_run[1]-format [MS, MS:1001062, Mascot MGF file, ]
 
@@ -741,10 +760,10 @@ SEH ... spectra_ref ...
 SME ... ms_run[1]:index=2 ...</pre>
 </div>
 </div>
-<div id="__asciidoctor-preview-1442__" class="paragraph">
+<div id="__asciidoctor-preview-1502__" class="paragraph">
 <p>Example: Reference the spectrum with identifier “scan=11665” in an mzML file.</p>
 </div>
-<div id="__asciidoctor-preview-1448__" class="listingblock">
+<div id="__asciidoctor-preview-1508__" class="listingblock">
 <div class="content">
 <pre>MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
 
@@ -760,10 +779,10 @@ SME ... ms_run[1]:scan=11665 ...</pre>
 </div>
 <div class="sect2">
 <h3 id="recommendations-for-reporting-replicates-within-experimental-designs">5.2. Recommendations for reporting replicates within experimental designs</h3>
-<div id="__asciidoctor-preview-1464__" class="paragraph">
-<p>Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <a href="#figure-1">Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (peptide or small molecule) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.</a>. The following components have various cross-references and MUST be used in different types of mzTab files as follows:</p>
+<div id="__asciidoctor-preview-1524__" class="paragraph">
+<p>Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in Figure 1. The following components have various cross-references and MUST be used in different types of mzTab files as follows:</p>
 </div>
-<div id="__asciidoctor-preview-1470__" class="ulist">
+<div id="__asciidoctor-preview-1530__" class="ulist">
 <ul>
 <li>
 <p><em>study_variable</em> – The variables about which the final results of a study are reported, which may have been derived following averaging across a group of replicate measurements (assays). The same concept has been defined by others as “experimental factor”.</p>
@@ -772,17 +791,17 @@ SME ... ms_run[1]:scan=11665 ...</pre>
 <p><em>ms_run</em> – An MS run is effectively one run on an MS instrument, and is referenced from assay in different contexts. In the case of pre-fractionation into <em>n</em> fractions, an assay SHOULD reference <em>n</em> ms_runs.</p>
 </li>
 <li>
-<p><em>assay</em> – The application of a measurement about the sample (in this case through MS) – producing values about small molecules or lipids. One assay is typically mapped to one MS run in the case of label-free MS analysis (with no pre-fractionation) or multiple assays are mapped to one MS run for multiplexed techniques, along with a description of the label or tag applied.</p>
+<p><em>assay</em> – The application of a measurement about the sample (in this case through MS) – producing values about small molecules or lipids. One assay is typically mapped to one MS run in the case of label-free MS analysis (with no pre-fractionation). At the present time, multiplexing within an ms_run is not supported in mzTab-M, thus there would typically be a one:one relationship between assay and ms_run.</p>
 </li>
 <li>
 <p><em>sample</em> – a biological material that has been analyzed, to which descriptors of species, cell/tissue type etc. can be attached. In all of types of mzTab file, these MAY be reported in the metadata section as sample[1-n]-description. Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample was analyzed (e.g. whether biological or technical replication was performed). If the file producer wishes to describe whether biological or technical replication has been performed, then sample elements SHOULD be provided.</p>
 </li>
 </ul>
 </div>
-<div id="__asciidoctor-preview-1512__" class="paragraph">
+<div id="__asciidoctor-preview-1572__" class="paragraph">
 <p>Clear definitions of biological and technical replicates are difficult to provide as these are somewhat dependent upon the biological domain. However, we use the following general definitions in mzTab.</p>
 </div>
-<div id="__asciidoctor-preview-1518__" class="ulist">
+<div id="__asciidoctor-preview-1578__" class="ulist">
 <ul>
 <li>
 <p>Biological replicates are where different samples have been analyzed by MS.</p>
@@ -792,7 +811,7 @@ SME ... ms_run[1]:scan=11665 ...</pre>
 </li>
 </ul>
 </div>
-<div id="__asciidoctor-preview-1542__" class="admonitionblock note">
+<div id="__asciidoctor-preview-1602__" class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
@@ -804,14 +823,22 @@ There is deliberately no attempt to define the boundary of the term “sample”
 </tr>
 </table>
 </div>
-<div id="__asciidoctor-preview-1546__" class="paragraph">
-<p>If sample level information is provided optimally, it is expected that <em>n</em> biological replicates can be mapped to sample[1-n]; <em>m</em> technical replicate measurements of sample 1 SHOULD be mapped to assay[1-m] referencing sample[1] (for example). However, an open challenge remains since analysis software is often not aware of whether replicates (multiple MS runs) are originally biological or technical in nature. As such, the default behavior for mzTab exporters from quantitative software is to exclude sample level information and report quantitative data for assay[1-n] and study_variable[1-n]. Additional annotation software would typically be required to add the sample-level information, as provided (often manually) by the user.</p>
+<div id="__asciidoctor-preview-1606__" class="paragraph">
+<p>If sample level information is provided optimally, it is expected that:
+* <em>n</em> biological replicates can be mapped to sample[1-n]
+* <em>m</em> technical replicate measurements of sample 1 SHOULD be mapped to assay[1-m] referencing sample[1] (for example).</p>
+</div>
+<div id="__asciidoctor-preview-1610__" class="paragraph">
+<p>However, an open challenge remains since some analysis software is often not aware of whether replicates (multiple MS runs) are originally biological or technical in nature. As such, the default behavior for mzTab exporters from quantitative software is to exclude sample level information and report quantitative data for assay[1-n] and study_variable[1-n].</p>
+</div>
+<div id="__asciidoctor-preview-1614__" class="paragraph">
+<p>Additional annotation software would typically be required to add the sample-level information, as provided (often manually) by the user.</p>
 </div>
 <div id="figure-1" class="imageblock">
 <div class="content">
 <img src="img/media/figure1.png" alt="image" width="100%">
 </div>
-<div class="title">Figure 1. Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (peptide or small molecule) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.</div>
+<div class="title">Figure 1. Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.</div>
 </div>
 </div>
 <div class="sect2">
@@ -832,74 +859,75 @@ TODO
 </div>
 <div class="sect2">
 <h3 id="encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors">5.4. Encoding missing values, zeroes, nulls, infinity and calculation errors</h3>
-<div id="__asciidoctor-preview-1598__" class="paragraph">
-<p>In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for cells in which isNullable= “true”.</p>
+<div id="__asciidoctor-preview-1666__" class="paragraph">
+<p>In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for parameters with "is nullable=True".</p>
 </div>
-<div id="__asciidoctor-preview-1602__" class="paragraph">
+<div id="__asciidoctor-preview-1670__" class="paragraph">
 <p>For numerical values, they MUST be encoded following the specifications of <a href="https://www.w3.org/TR/xmlschema-2/#decimal">xs:decimal</a>. This does not natively support NaN, INF, scientific notation or null. As such, it is allowed in mzTab to include "NaN" for incalculable numbers and "null" for no data. In some cases, there is ambiguity with respect to the use of "0" versus "null": e.g. if there are alignment issues and it is unclear whether a molecule has been quantified with zero abundance or the feature was potentially present in the data but was not found. Export software would be expected to make a decision on this cases, based on best understanding of the case in hand.</p>
 </div>
-<div id="__asciidoctor-preview-1606__" class="paragraph">
+<div id="__asciidoctor-preview-1674__" class="paragraph">
 <p>Scientific notation and infinity is explicitly not supported.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="reliability-score">5.5. Reliability score</h3>
-<div id="__asciidoctor-preview-1622__" class="paragraph">
-<p>All small molecule identifications reported in an mzTab file MAY be assigned a reliability score (column “reliability” in all tables). This reliability only applies to the identification reliability but not to modification position and or quantification reliabilities. The idea is to provide a way for researchers and/or repositories to score the reported identifications based on their own criteria. The criteria used to generate this score SHOULD be documented by the data providers. If this information is not provided by the producers of mzTab files, “null“ MUST be provided as the value for each of the protein, peptide or small molecule identification.</p>
+<div id="__asciidoctor-preview-1690__" class="paragraph">
+<p>All small molecule identifications reported in an mzTab file MAY be assigned a reliability score (column “reliability” in all tables). This reliability only applies to the identification reliability.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="support-for-positive-and-negative-modes">5.6. Support for positive and negative modes</h3>
-<div id="__asciidoctor-preview-1638__" class="paragraph">
+<div id="__asciidoctor-preview-1706__" class="paragraph">
 <p>It is common in metabolomics workflows to use both positive and negative ionisation modes to increase coverage of molecules quantified. In general, an mzTab-M file is intended to capture a data set generated from assays have been aligned (e.g. in the retention time dimension) to produce a coherent data matrix with few missing values. To our knowledge, it is not common to compare directly the results from positive and negative modes in the same data matrix. As such, we anticipate that such results (i.e. positive mode and negative mode) should be encoded in two different mzTab-M files.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="referencing-evidence-for-small-molecule-identifications">5.7. Referencing evidence for small molecule identifications</h3>
-<div id="__asciidoctor-preview-1656__" class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO
-<mark>Insert text in here to explain about how to encode evidence where multiple features are used to determine molecule identification; this should be optional column on SML or SMF row? Reza to draft some text for this section for in-file referencing, and use of latest MSI guideline</mark>
-</td>
-</tr>
-</table>
+<div id="__asciidoctor-preview-1722__" class="paragraph">
+<p>Evidence for small molecule identification is captured by reference from the SML table via features (SMFs) down to the final table - Small Molecule Evidence elements. It is possible to have a legal mzTab-M file that does not contain any features (SML summary level only). In this case, detailed information about small molecule evidence cannot be provided. It is generally RECOMMENDED to include data at the SML, SMF and SME levels.</p>
+</div>
+<div id="__asciidoctor-preview-1726__" class="paragraph">
+<p>SMF elements should reference down to all evidence elements (SME rows) that support the identification of that particular feature.</p>
+</div>
+<div id="figure-2" class="imageblock">
+<div class="content">
+<img src="img/media/figure2.png" alt="image" width="100%">
+</div>
+</div>
+<div id="__asciidoctor-preview-1742__" class="paragraph">
+<p>Figure 2. A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns; B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results; C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="guidelines-for-reporting-results-prior-to-or-with-no-alignment-step-across-features">5.8. Guidelines for reporting results prior to or with no alignment step across features</h3>
-<div id="__asciidoctor-preview-1672__" class="paragraph">
+<div id="__asciidoctor-preview-1758__" class="paragraph">
 <p>The most common intended use for mzTab-M is to encode MS results that have been aligned across multiple analyses (assays), for example by retention time alignment in LC-MS or GC-MS approaches. However, it is possible to use mzTab-M as part of internal pipelines to represent small molecules quantified by MS (features) before alignment. The RECOMMENDED encoding for doing this would be to represent the features from <em>n</em> MS analyes in <em>n</em> mzTab files, rather than attempting to create an SMF table including a sparse matrix filled with nulls for in all but one of the assay columns.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="Guidelines-for-pre-fractionation">5.9. Guidelines for workflows involving pre-fractionation</h3>
-<div id="__asciidoctor-preview-1688__" class="paragraph">
+<div id="__asciidoctor-preview-1774__" class="paragraph">
 <p>It is possible that a single analysis of a sample is split offline via some fractionation technology prior to LC/GC-MS into <em>n</em> MS analyses to limit the complexity of the molecules arriving at the detector. Such workflows, while relatively rare in metabolomics, can be encoded in mzTab-M via an assay referencing to <em>n</em> ms_runs. It may be desirable to maintain the link from a feature (SMF row) to the ms_run from which it was obtained. This SHOULD be achieved through the use of an optional column called "opt_global_ms_run_refs", in which the identifiers of ms_runs are placed where the feature has been quantified from.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="comments-on-specific-use-cases">5.10. Comments on Specific Use Cases</h3>
-<div id="__asciidoctor-preview-1704__" class="paragraph">
+<div id="__asciidoctor-preview-1790__" class="paragraph">
 <p>Many special use cases for mzTab were considered during its development. Each of these use cases has a corresponding example file that exercises the relevant part of the format and provides a reference implementation example (see supporting documentation). Authors of software that create mzTab are encouraged to examine the examples that accompany this format release before implementing the writer.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="adding-optional-columns">5.11. Adding optional columns</h3>
-<div id="__asciidoctor-preview-1720__" class="paragraph">
+<div id="__asciidoctor-preview-1806__" class="paragraph">
 <p>Additional columns MAY be added to the end of rows in all the table-based sections.</p>
 </div>
-<div id="__asciidoctor-preview-1724__" class="paragraph">
+<div id="__asciidoctor-preview-1810__" class="paragraph">
 <p>These column headers MUST start with the prefix “opt_” followed by the identifier of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<em>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</em>{OBJECT_ID}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</p>
 </div>
-<div id="__asciidoctor-preview-1728__" class="paragraph">
+<div id="__asciidoctor-preview-1814__" class="paragraph">
 <p>The information stored within an optional column is completely up to the resource that generates the file. It MUST not be assumed that optional columns having the same name in different mzTab files contain the same type of information. CV parameter accessions MAY be used as optional column names according to the following convention: opt_{OBJECT_ID}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</p>
 </div>
-<div id="__asciidoctor-preview-1734__" class="listingblock">
+<div id="__asciidoctor-preview-1820__" class="listingblock">
 <div class="content">
 <pre>COM Example showing how emPAI values are reported in an additional column from MS run 1 using
 
@@ -915,34 +943,14 @@ PRT P12345 … 0.658</pre>
 </div>
 <div class="sect2">
 <h3 id="referencing-external-resources">5.12. Referencing external resources</h3>
-<div id="__asciidoctor-preview-1752__" class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO
-<mark>Text in here? e.g. ISA-TAB, to consider if we need to have discussion about referencing anything else?</mark>
-</td>
-</tr>
-</table>
+<div id="__asciidoctor-preview-1836__" class="paragraph">
+<p>The current specifications of mzTab-M only support relatively simple details about sample preparation and experimental design. Users may wish to use ISA-TAB to record more details about these aspects. The ISA-TAB file can be referenced by the external_study_uri attribute.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="other-supporting-materials">5.13. Other supporting materials</h3>
-<div id="__asciidoctor-preview-1770__" class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-TODO
-<mark>Insert references to example files</mark>
-</td>
-</tr>
-</table>
+<div id="__asciidoctor-preview-1852__" class="paragraph">
+<p>Example files are located at <a href="https://github.com/HUPO-PSI/mzTab/tree/master/examples/1_1-Metabolomics_Draft">GitHub</a></p>
 </div>
 </div>
 </div>
@@ -950,10 +958,10 @@ TODO
 <div class="sect1">
 <h2 id="format-specification">6. Format specification</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-1788__" class="paragraph">
+<div id="__asciidoctor-preview-1870__" class="paragraph">
 <p>This section describes the structure of an mzTab file.</p>
 </div>
-<div id="__asciidoctor-preview-1794__" class="ulist">
+<div id="__asciidoctor-preview-1876__" class="ulist">
 <ul>
 <li>
 <p><strong>Field separator</strong><br>
@@ -970,7 +978,7 @@ All column labels and field names are case-sensitive.</p>
 <li>
 <p><strong>Line prefix</strong><br>
 Every line in an mzTab file MUST start with a three letter code identifying the type of line delimited by a Tab character. The three letter codes are as follows:</p>
-<div id="__asciidoctor-preview-1876__" class="ulist">
+<div id="__asciidoctor-preview-1958__" class="ulist">
 <ul>
 <li>
 <p><code>MTD</code> for metadata</p>
@@ -1023,21 +1031,21 @@ Parameters are always reported as <code>[CV label, accession, name, value]</code
 </li>
 </ul>
 </div>
-<div id="__asciidoctor-preview-2030__" class="literalblock">
+<div id="__asciidoctor-preview-2112__" class="literalblock">
 <div class="content">
 <pre>[MS, MS:1001477, SpectraST,]
 [,,A user parameter, The value]</pre>
 </div>
 </div>
-<div id="__asciidoctor-preview-2034__" class="paragraph">
+<div id="__asciidoctor-preview-2116__" class="paragraph">
 <p>In case, the name of the param contains commas, quotes MUST be added to avoid problems with the parsing: <code>[label, accession, “first part of the param name, second part of the name”, value]</code>.</p>
 </div>
-<div id="__asciidoctor-preview-2040__" class="literalblock">
+<div id="__asciidoctor-preview-2122__" class="literalblock">
 <div class="content">
 <pre>[MOD, MOD:00648, “N,O-diacetylated L-serine”,]</pre>
 </div>
 </div>
-<div id="__asciidoctor-preview-2046__" class="ulist">
+<div id="__asciidoctor-preview-2128__" class="ulist">
 <ul>
 <li>
 <p><strong>Sample IDs</strong><br>
@@ -1046,12 +1054,12 @@ To be able to supply metadata specific to each sample, ids in the format <code>s
 </li>
 </ul>
 </div>
-<div id="__asciidoctor-preview-2066__" class="literalblock">
+<div id="__asciidoctor-preview-2148__" class="literalblock">
 <div class="content">
 <pre>MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]</pre>
 </div>
 </div>
-<div id="__asciidoctor-preview-2072__" class="ulist">
+<div id="__asciidoctor-preview-2154__" class="ulist">
 <ul>
 <li>
 <p><strong>Assay IDs</strong><br>
@@ -1060,12 +1068,12 @@ To be able to supply metadata specific to each assay, ids in the format <code>as
 </li>
 </ul>
 </div>
-<div id="__asciidoctor-preview-2092__" class="literalblock">
+<div id="__asciidoctor-preview-2174__" class="literalblock">
 <div class="content">
 <pre>MTD assay[1] first assay description</pre>
 </div>
 </div>
-<div id="__asciidoctor-preview-2098__" class="ulist">
+<div id="__asciidoctor-preview-2180__" class="ulist">
 <ul>
 <li>
 <p><strong>Study variable IDs</strong><br>
@@ -1073,36 +1081,36 @@ To be able to supply metadata specific to each study variable (grouping of assay
 </li>
 </ul>
 </div>
-<div id="__asciidoctor-preview-2118__" class="literalblock">
+<div id="__asciidoctor-preview-2200__" class="literalblock">
 <div class="content">
 <pre>MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)</pre>
 </div>
 </div>
 <div class="sect2">
 <h3 id="sections">6.1. Sections</h3>
-<div id="__asciidoctor-preview-2132__" class="paragraph">
+<div id="__asciidoctor-preview-2214__" class="paragraph">
 <p>mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) Section. In practice, we expect that most files SHOULD also include one Small Molecule Feature (SMF) section, and one Small Molecule Evidence (SME) Section. Files lacking SMF and SME sections can only present summary data about quantified molecules, without any evidence trail for how those values were derived. It will be left to reading software to determine whether additional validation will be requested such that SMF and SME tables MUST be present.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="metadata-section">6.2. Metadata Section</h3>
-<div id="__asciidoctor-preview-2148__" class="paragraph">
+<div id="__asciidoctor-preview-2230__" class="paragraph">
 <p>The metadata section provides additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from those noted as mandatory. The fields in the metadata section MUST be reported in order of the various fields listed here. The field’s name and value MUST be separated by a tab character:</p>
 </div>
-<div id="__asciidoctor-preview-2154__" class="literalblock">
+<div id="__asciidoctor-preview-2236__" class="literalblock">
 <div class="content">
 <pre>MTD publication [PRIDE, PRIDE:00000029, PubMed, 12345]</pre>
 </div>
 </div>
-<div id="__asciidoctor-preview-2158__" class="paragraph">
+<div id="__asciidoctor-preview-2240__" class="paragraph">
 <p>In the following list of fields any term encapsulated by <code>\{}</code> is meant as a variable which MUST be replaced accordingly.</p>
 </div>
-<div id="__asciidoctor-preview-2162__" class="paragraph">
+<div id="__asciidoctor-preview-2244__" class="paragraph">
 <p><strong>Core Metadata</strong></p>
 </div>
 <div class="sect3">
 <h4 id="mztab-version">6.2.1. mzTab-version</h4>
-<table id="__asciidoctor-preview-2188__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-2270__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1131,7 +1139,7 @@ To be able to supply metadata specific to each study variable (grouping of assay
 </div>
 <div class="sect3">
 <h4 id="mztab-id">6.2.2. mzTab-ID</h4>
-<table id="__asciidoctor-preview-2284__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-2366__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1160,7 +1168,7 @@ To be able to supply metadata specific to each study variable (grouping of assay
 </div>
 <div class="sect3">
 <h4 id="title">6.2.3. title</h4>
-<table id="__asciidoctor-preview-2380__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-2462__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1189,7 +1197,7 @@ To be able to supply metadata specific to each study variable (grouping of assay
 </div>
 <div class="sect3">
 <h4 id="description">6.2.4. description</h4>
-<table id="__asciidoctor-preview-2476__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-2558__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1218,7 +1226,7 @@ To be able to supply metadata specific to each study variable (grouping of assay
 </div>
 <div class="sect3">
 <h4 id="sample_processing1-n">6.2.5. sample_processing[1-n]</h4>
-<table id="__asciidoctor-preview-2572__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-2654__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1249,7 +1257,7 @@ To be able to supply metadata specific to each study variable (grouping of assay
 </div>
 <div class="sect3">
 <h4 id="instrument1-n-name">6.2.6. instrument[1-n]-name</h4>
-<div id="__asciidoctor-preview-2664__" class="admonitionblock important">
+<div id="__asciidoctor-preview-2746__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -1261,7 +1269,7 @@ TODO Instrument[1-n] makes no sense, since instrument cannot be referenced from 
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-2680__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-2762__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1294,7 +1302,7 @@ MTD instrument[2]-name [MS, MS:1000031, Instrument model, name of the instrument
 </div>
 <div class="sect3">
 <h4 id="instrument1-n-source">6.2.7. instrument[1-n]-source</h4>
-<table id="__asciidoctor-preview-2778__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-2860__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1327,7 +1335,7 @@ MTD instrument[2]-source [MS, MS:1000598, ETD,]</pre>
 </div>
 <div class="sect3">
 <h4 id="instrument1-n-analyzer1-n">6.2.8. instrument[1-n]-analyzer[1-n]</h4>
-<table id="__asciidoctor-preview-2876__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-2958__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1360,7 +1368,7 @@ MTD instrument[2]-analyzer[1] [MS, MS:1000484, orbitrap,]</pre>
 </div>
 <div class="sect3">
 <h4 id="instrument1-n-detector">6.2.9. instrument[1-n]-detector</h4>
-<table id="__asciidoctor-preview-2974__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3056__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1393,7 +1401,7 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 </div>
 <div class="sect3">
 <h4 id="software1-n">6.2.10. software[1-n]</h4>
-<div id="__asciidoctor-preview-3064__" class="admonitionblock important">
+<div id="__asciidoctor-preview-3146__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -1405,7 +1413,7 @@ TODO Update with metabolomics software. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-3080__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3162__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1437,7 +1445,7 @@ MTD software[2] [MS, MS:1001561, Scaffold, 1.0]</pre>
 </div>
 <div class="sect3">
 <h4 id="software1-n-setting1-n">6.2.11. software[1-n]-setting[1-n]</h4>
-<table id="__asciidoctor-preview-3178__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3260__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1470,7 +1478,7 @@ MTD software[2]-setting Parent tolerance = 0.5 Da</pre>
 </div>
 <div class="sect3">
 <h4 id="publication1-n">6.2.12. publication[1-n]</h4>
-<table id="__asciidoctor-preview-3276__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3358__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1502,7 +1510,7 @@ MTD publication[2] pubmed:20615486|doi:10.1016/j.jprot.2010.06.008</pre>
 </div>
 <div class="sect3">
 <h4 id="contact1-n-name">6.2.13. contact[1-n]-name</h4>
-<table id="__asciidoctor-preview-3380__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3462__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1535,7 +1543,7 @@ MTD contact[2]-name Francis Crick</pre>
 </div>
 <div class="sect3">
 <h4 id="contact1-n-affiliation">6.2.14. contact[1-n]-affiliation</h4>
-<table id="__asciidoctor-preview-3478__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3560__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1567,7 +1575,7 @@ MTD contact[2]-affiliation Cambridge University, UK</pre>
 </div>
 <div class="sect3">
 <h4 id="contact1-n-email">6.2.15. contact[1-n]-email</h4>
-<table id="__asciidoctor-preview-3576__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3658__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1600,7 +1608,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </div>
 <div class="sect3">
 <h4 id="uri1-n">6.2.16. uri[1-n]</h4>
-<table id="__asciidoctor-preview-3674__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3756__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1631,7 +1639,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </div>
 <div class="sect3">
 <h4 id="external_study_uri1-n">6.2.17. external_study_uri[1-n]</h4>
-<table id="__asciidoctor-preview-3772__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3854__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1662,7 +1670,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </div>
 <div class="sect3">
 <h4 id="quantification_method">6.2.18. quantification_method</h4>
-<table id="__asciidoctor-preview-3870__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-3952__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1694,7 +1702,7 @@ MTD quantification_method [MS, MS:1001838, SRM quantitation analysis, ]</pre>
 </div>
 <div class="sect3">
 <h4 id="_sample_1_n">6.2.19. sample[1-n]</h4>
-<table id="__asciidoctor-preview-3972__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4054__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1726,7 +1734,7 @@ MTD sample[2] individual number 2</pre>
 </div>
 <div class="sect3">
 <h4 id="sample1-n-species1-n">6.2.20. sample[1-n]-species[1-n]</h4>
-<table id="__asciidoctor-preview-4070__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4152__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1767,7 +1775,7 @@ MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]</pre>
 </div>
 <div class="sect3">
 <h4 id="sample1-n-tissue1-n">6.2.21. sample[1-n]-tissue[1-n]</h4>
-<table id="__asciidoctor-preview-4168__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4250__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1798,7 +1806,7 @@ MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]</pre>
 </div>
 <div class="sect3">
 <h4 id="sample1-n-cell_type1-n">6.2.22. sample[1-n]-cell_type[1-n]</h4>
-<table id="__asciidoctor-preview-4266__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4348__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1829,7 +1837,7 @@ MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]</pre>
 </div>
 <div class="sect3">
 <h4 id="sample1-n-disease1-n">6.2.23. sample[1-n]-disease[1-n]</h4>
-<table id="__asciidoctor-preview-4364__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4446__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1861,7 +1869,7 @@ MTD sample[1]-disease[2] [DOID, DOID:9451, alcoholic fatty liver, ]</pre>
 </div>
 <div class="sect3">
 <h4 id="sample1-n-description">6.2.24. sample[1-n]-description</h4>
-<table id="__asciidoctor-preview-4462__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4544__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1893,7 +1901,7 @@ MTD sample[2]-description Healthy control samples.</pre>
 </div>
 <div class="sect3">
 <h4 id="sample1-n-custom1-n">6.2.25. sample[1-n]-custom[1-n]</h4>
-<table id="__asciidoctor-preview-4560__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4642__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1925,27 +1933,27 @@ MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]</pre>
 </div>
 <div class="sect3">
 <h4 id="ms_run1-n-location">6.2.26. ms_run[1-n]-location</h4>
-<div id="__asciidoctor-preview-4658__" class="admonitionblock important">
+<div id="__asciidoctor-preview-4740__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div id="__asciidoctor-preview-4662__" class="paragraph">
+<div id="__asciidoctor-preview-4744__" class="paragraph">
 <p>TODO We need to come up with a way of talking about fractions, e.g. by having a fraction ID</p>
 </div>
-<div id="__asciidoctor-preview-4666__" class="paragraph">
+<div id="__asciidoctor-preview-4748__" class="paragraph">
 <p>ms_run[1-n]-[1-n]-location</p>
 </div>
-<div id="__asciidoctor-preview-4670__" class="paragraph">
+<div id="__asciidoctor-preview-4752__" class="paragraph">
 <p>Provisionally decided to support pre-fractionation by allowing. Andy Jones</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-4686__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4768__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1978,7 +1986,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 </div>
 <div class="sect3">
 <h4 id="ms_run1-n-format">6.2.27. ms_run[1-n]-format</h4>
-<div id="__asciidoctor-preview-4776__" class="admonitionblock important">
+<div id="__asciidoctor-preview-4858__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -1990,7 +1998,7 @@ TODO Revisit for pre-fractionation. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-4792__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4874__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2025,7 +2033,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 </div>
 <div class="sect3">
 <h4 id="ms_run1-n-id_format">6.2.28. ms_run[1-n]-id_format</h4>
-<div id="__asciidoctor-preview-4882__" class="admonitionblock important">
+<div id="__asciidoctor-preview-4964__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2037,7 +2045,7 @@ TODO No need to support pre-fractionation – can reasonably assume all consiste
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-4898__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-4980__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2072,7 +2080,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 </div>
 <div class="sect3">
 <h4 id="ms_run1-n-fragmentation_method1-n">6.2.29. ms_run[1-n]-fragmentation_method[1-n]</h4>
-<table id="__asciidoctor-preview-4996__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5078__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2105,7 +2113,7 @@ MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD …, ]</pre>
 </div>
 <div class="sect3">
 <h4 id="ms_run1-n-scan_polarity1-n">6.2.30. ms_run[1-n]-scan_polarity[1-n]</h4>
-<table id="__asciidoctor-preview-5094__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5176__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2141,7 +2149,7 @@ MTD ms_run[1]-scan_polarity[12] [MS, MS:1000129, negative scan, ]</pre>
 </div>
 <div class="sect3">
 <h4 id="ms_run1-n-hash">6.2.31. ms_run[1-n]-hash</h4>
-<div id="__asciidoctor-preview-5184__" class="admonitionblock important">
+<div id="__asciidoctor-preview-5266__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2153,7 +2161,7 @@ TODO Needs to allow for pre-fractionation. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-5200__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5282__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2185,7 +2193,7 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 </div>
 <div class="sect3">
 <h4 id="ms_run1-n-hash_method">6.2.32. ms_run[1-n]-hash_method</h4>
-<div id="__asciidoctor-preview-5290__" class="admonitionblock important">
+<div id="__asciidoctor-preview-5372__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2197,7 +2205,7 @@ TODO No need to support pre-fractionation. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-5306__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5388__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2229,7 +2237,7 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 </div>
 <div class="sect3">
 <h4 id="assay1-n">6.2.33. assay[1-n]</h4>
-<div id="__asciidoctor-preview-5396__" class="admonitionblock important">
+<div id="__asciidoctor-preview-5478__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2241,7 +2249,7 @@ TODO We need a section above describing clearly what is an assay. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-5412__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5494__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2273,7 +2281,7 @@ MTD assay[2] second assay</pre>
 </div>
 <div class="sect3">
 <h4 id="assay1-n-custom1-n">6.2.34. assay[1-n]-custom[1-n]</h4>
-<div id="__asciidoctor-preview-5502__" class="admonitionblock important">
+<div id="__asciidoctor-preview-5584__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2285,7 +2293,7 @@ TODO add additional assay CV params
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-5518__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5600__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2316,7 +2324,7 @@ TODO add additional assay CV params
 </div>
 <div class="sect3">
 <h4 id="assay1-n-external_uri">6.2.35. assay[1-n]-external_uri</h4>
-<div id="__asciidoctor-preview-5614__" class="admonitionblock important">
+<div id="__asciidoctor-preview-5696__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2328,7 +2336,7 @@ TODO insert example URI, Need an example to show this working. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-5630__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5712__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2359,7 +2367,7 @@ TODO insert example URI, Need an example to show this working. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="study_variable1-n">6.2.36. study_variable[1-n]</h4>
-<table id="__asciidoctor-preview-5734__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5816__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2392,7 +2400,7 @@ MTD study_variable[2] “1 minute”</pre>
 </div>
 <div class="sect3">
 <h4 id="assay1-n-sample_ref">6.2.37. assay[1-n]-sample_ref</h4>
-<table id="__asciidoctor-preview-5832__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-5914__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2424,7 +2432,7 @@ MTD assay[2]-sample_ref sample[2]</pre>
 </div>
 <div class="sect3">
 <h4 id="assay1-n-ms_run_ref">6.2.38. assay[1-n]-ms_run_ref</h4>
-<div id="__asciidoctor-preview-5922__" class="admonitionblock important">
+<div id="__asciidoctor-preview-6004__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2436,7 +2444,7 @@ TODO Need section higher up that explains clearly the cardinalities and real wor
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-5938__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6020__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2468,7 +2476,7 @@ TODO Need section higher up that explains clearly the cardinalities and real wor
 </div>
 <div class="sect3">
 <h4 id="study_variable1-n-assay_refs">6.2.39. study_variable[1-n]-assay_refs</h4>
-<div id="__asciidoctor-preview-6028__" class="admonitionblock important">
+<div id="__asciidoctor-preview-6110__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2480,7 +2488,7 @@ TODO We are using different separator types across the document, these should be
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-6044__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6126__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2511,7 +2519,7 @@ TODO We are using different separator types across the document, these should be
 </div>
 <div class="sect3">
 <h4 id="study_variable1-n_average_function1-n">6.2.40. study_variable[1-n]_average_function</h4>
-<table id="__asciidoctor-preview-6142__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6224__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2542,7 +2550,7 @@ TODO We are using different separator types across the document, these should be
 </div>
 <div class="sect3">
 <h4 id="study_variable1-n_variation_function">6.2.41. study_variable[1-n]_variation_function</h4>
-<table id="__asciidoctor-preview-6246__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6328__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2573,7 +2581,7 @@ TODO We are using different separator types across the document, these should be
 </div>
 <div class="sect3">
 <h4 id="study_variable1-n-description">6.2.42. study_variable[1-n]-description</h4>
-<table id="__asciidoctor-preview-6350__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6432__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2604,7 +2612,7 @@ TODO We are using different separator types across the document, these should be
 </div>
 <div class="sect3">
 <h4 id="study_variable1-n-factors">6.2.43. study_variable[1-n]-factors</h4>
-<div id="__asciidoctor-preview-6440__" class="admonitionblock important">
+<div id="__asciidoctor-preview-6522__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2616,7 +2624,7 @@ TODO We need examples. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-6456__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6538__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2647,7 +2655,7 @@ TODO We need examples. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="custom1-n">6.2.44. custom[1-n]</h4>
-<table id="__asciidoctor-preview-6560__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6642__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2678,7 +2686,7 @@ TODO We need examples. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="cv1-n-label">6.2.45. cv[1-n]-label</h4>
-<table id="__asciidoctor-preview-6658__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6740__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2710,7 +2718,7 @@ TODO We need examples. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="cv1-n-full_name">6.2.46. cv[1-n]-full_name</h4>
-<table id="__asciidoctor-preview-6756__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6838__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2742,7 +2750,7 @@ TODO We need examples. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="cv1-n-version">6.2.47. cv[1-n]-version</h4>
-<table id="__asciidoctor-preview-6854__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-6936__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2774,7 +2782,7 @@ TODO We need examples. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="cv1-n-url">6.2.48. cv[1-n]-url</h4>
-<table id="__asciidoctor-preview-6952__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7034__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2806,7 +2814,7 @@ TODO We need examples. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="database1-n">6.2.49. database[1-n]</h4>
-<table id="__asciidoctor-preview-7050__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7132__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2846,7 +2854,7 @@ MTD database[1] [, , “no database”, "null"]</pre>
 </div>
 <div class="sect3">
 <h4 id="database1-n-prefix">6.2.50. database[1-n]-prefix</h4>
-<div id="__asciidoctor-preview-7140__" class="admonitionblock important">
+<div id="__asciidoctor-preview-7222__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -2858,7 +2866,7 @@ TODO Make sure to explain that the colon must followed these prefixes in the SMF
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-7156__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7238__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2893,7 +2901,7 @@ MTD database[1]-prefix null</pre>
 </div>
 <div class="sect3">
 <h4 id="database1-n-version">6.2.51. database[1-n]-version</h4>
-<table id="__asciidoctor-preview-7254__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7336__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2924,7 +2932,7 @@ MTD database[1]-prefix null</pre>
 </div>
 <div class="sect3">
 <h4 id="database1-n-url">6.2.52. database[1-n]-url</h4>
-<table id="__asciidoctor-preview-7352__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7434__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2955,13 +2963,13 @@ MTD database[1]-prefix null</pre>
 <div id="metabolomics-metadata" class="paragraph">
 <p><strong>Metabolomics Metadata</strong></p>
 </div>
-<div id="__asciidoctor-preview-7432__" class="paragraph">
+<div id="__asciidoctor-preview-7514__" class="paragraph">
 <p>The metadata fields in this section MAY be reported in a metabolomics type file, but MUST NOT be reported in a proteomics file.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="derivatization_agent1-n">6.2.53. derivatization_agent[1-n]</h4>
-<table id="__asciidoctor-preview-7460__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7542__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2992,7 +3000,7 @@ MTD database[1]-prefix null</pre>
 </div>
 <div class="sect3">
 <h4 id="small_molecule-quantification_unit">6.2.54. small_molecule-quantification_unit</h4>
-<div id="__asciidoctor-preview-7550__" class="admonitionblock important">
+<div id="__asciidoctor-preview-7632__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -3004,7 +3012,7 @@ TODO Examples to be added from a range of software packages. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-7566__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7648__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3035,7 +3043,7 @@ TODO Examples to be added from a range of software packages. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="small_molecule_feature-quantification_unit">6.2.55. small_molecule_feature-quantification_unit</h4>
-<div id="__asciidoctor-preview-7662__" class="admonitionblock important">
+<div id="__asciidoctor-preview-7744__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -3047,7 +3055,7 @@ TODO Examples to be added from a range of software packages. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-7678__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7760__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3078,7 +3086,7 @@ TODO Examples to be added from a range of software packages. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="small_molecule-identification_reliability">6.2.56. small_molecule-identification_reliability</h4>
-<div id="__asciidoctor-preview-7774__" class="admonitionblock important">
+<div id="__asciidoctor-preview-7856__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -3090,7 +3098,7 @@ TODO To revisit. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-7790__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7872__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3121,7 +3129,7 @@ TODO To revisit. Andy Jones
 </div>
 <div class="sect3">
 <h4 id="id_confidence_measure1-n">6.2.57. id_confidence_measure[1-n]</h4>
-<table id="__asciidoctor-preview-7894__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-7976__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3154,7 +3162,7 @@ id_confidence_measure[3]	[MS,MS:1000XXX,Isotopic fit Score,]</pre>
 </div>
 <div class="sect3">
 <h4 id="colunit-small_molecule">6.2.58. colunit-small_molecule</h4>
-<table id="__asciidoctor-preview-7992__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8074__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3186,7 +3194,7 @@ id_confidence_measure[3]	[MS,MS:1000XXX,Isotopic fit Score,]</pre>
 </div>
 <div class="sect3">
 <h4 id="colunit-small_molecule_feature">6.2.59. colunit-small_molecule_feature</h4>
-<table id="__asciidoctor-preview-8096__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8178__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3218,7 +3226,7 @@ id_confidence_measure[3]	[MS,MS:1000XXX,Isotopic fit Score,]</pre>
 </div>
 <div class="sect3">
 <h4 id="colunit-small_molecule_evidence">6.2.60. colunit-small_molecule_evidence</h4>
-<table id="__asciidoctor-preview-8200__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8282__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3250,21 +3258,21 @@ id_confidence_measure[3]	[MS,MS:1000XXX,Isotopic fit Score,]</pre>
 </div>
 <div class="sect2">
 <h3 id="small-molecule-section">6.3. Small Molecule Section</h3>
-<div id="__asciidoctor-preview-8294__" class="paragraph">
+<div id="__asciidoctor-preview-8376__" class="paragraph">
 <p>The small molecule section is table-based. The small molecule section MUST always come after the metadata section in a metabolomics type file. All table columns MUST be Tab separated. There MUST NOT be any empty cells; missing values MUST be reported using “null” for columns where Is Nullable = “True”. The order of columns MUS</p>
 </div>
-<div id="__asciidoctor-preview-8298__" class="paragraph">
+<div id="__asciidoctor-preview-8380__" class="paragraph">
 <p>Each row of the small molecule section is intended to report one final result to be communicated in terms of a molecule that has been quantified. In many cases, this may be the molecule of biological interest, although in some cases, the final result could be a derivatized form as appropriate – although it is desirable for the database identifier(s) to reference to the biological (non-derivatized) form. In general, different adduct forms would generally be reported in the Small Molecule Feature section.</p>
 </div>
-<div id="__asciidoctor-preview-8302__" class="paragraph">
+<div id="__asciidoctor-preview-8384__" class="paragraph">
 <p>The order of columns MUST follow the order specified below.</p>
 </div>
-<div id="__asciidoctor-preview-8306__" class="paragraph">
+<div id="__asciidoctor-preview-8388__" class="paragraph">
 <p>All columns are MANDATORY except for “opt_” columns.</p>
 </div>
 <div class="sect3">
 <h4 id="sml_id">6.3.1. SML_ID</h4>
-<table id="__asciidoctor-preview-8332__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8414__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3297,7 +3305,7 @@ SML 2 …</pre>
 </div>
 <div class="sect3">
 <h4 id="smf_id_refs">6.3.2. SMF_ID_REFS</h4>
-<table id="__asciidoctor-preview-8430__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8512__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3329,7 +3337,7 @@ SML 1 2|3|11…</pre>
 </div>
 <div class="sect3">
 <h4 id="database_identifier">6.3.3. database_identifier</h4>
-<div id="__asciidoctor-preview-8526__" class="admonitionblock important">
+<div id="__asciidoctor-preview-8608__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -3342,7 +3350,7 @@ IMPORTANT: TODO Add example showing ambiguity.
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-8542__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8624__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3378,7 +3386,7 @@ SML 3 null</pre>
 </div>
 <div class="sect3">
 <h4 id="chemical_formula">6.3.4. chemical_formula</h4>
-<table id="__asciidoctor-preview-8648__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8730__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3412,7 +3420,7 @@ SML 1 … C17H20N4O2 …</pre>
 </div>
 <div class="sect3">
 <h4 id="smiles">6.3.5. smiles</h4>
-<table id="__asciidoctor-preview-8750__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8832__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3444,7 +3452,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 </div>
 <div class="sect3">
 <h4 id="inchi">6.3.6. inchi</h4>
-<table id="__asciidoctor-preview-8852__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-8934__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3477,7 +3485,7 @@ SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13
 </div>
 <div class="sect3">
 <h4 id="chemical_name">6.3.7. chemical_name</h4>
-<table id="__asciidoctor-preview-8954__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9036__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3509,7 +3517,7 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…<
 </div>
 <div class="sect3">
 <h4 id="uri">6.3.8. uri</h4>
-<table id="__asciidoctor-preview-9056__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9138__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3541,7 +3549,7 @@ SML 1 … <mark>example_URL</mark> …</pre>
 </div>
 <div class="sect3">
 <h4 id="theoretical_neutral_mass">6.3.9. theoretical_neutral_mass</h4>
-<table id="__asciidoctor-preview-9162__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9244__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3574,7 +3582,7 @@ SML 1 … 1234.5 …</pre>
 </div>
 <div class="sect3">
 <h4 id="adduct_ions">6.3.10. adduct_ions</h4>
-<div id="__asciidoctor-preview-9254__" class="admonitionblock important">
+<div id="__asciidoctor-preview-9336__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -3586,7 +3594,7 @@ TODO Joel to insert a regex here. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-9270__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9352__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3618,7 +3626,7 @@ SML 1 … [M+H]1+</pre>
 </div>
 <div class="sect3">
 <h4 id="reliability">6.3.11. reliability</h4>
-<div id="__asciidoctor-preview-9372__" class="admonitionblock important">
+<div id="__asciidoctor-preview-9454__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -3630,7 +3638,7 @@ TODO ACTION: Steffen to circulate MSI list to us for discussion about it going i
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-9388__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9470__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3685,7 +3693,7 @@ SML 1 … 3 …</p></td>
 </div>
 <div class="sect3">
 <h4 id="best_id_confidence_measure">6.3.12. best_id_confidence_measure</h4>
-<table id="__asciidoctor-preview-9540__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9622__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3717,7 +3725,7 @@ SML 1 … [MS, MS:1001477, SpectraST,] …</pre>
 </div>
 <div class="sect3">
 <h4 id="best_id_confidence_value">6.3.13. best_id_confidence_value</h4>
-<table id="__asciidoctor-preview-9638__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9720__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3750,7 +3758,7 @@ SML 1 … 0.7 …</pre>
 </div>
 <div class="sect3">
 <h4 id="abundance_assay1-n">6.3.14. abundance_assay[1-n]</h4>
-<table id="__asciidoctor-preview-9736__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9818__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3782,7 +3790,7 @@ SML 1 … 0.3 …</pre>
 </div>
 <div class="sect3">
 <h4 id="abundance_study_variable1-n">6.3.15. abundance_study_variable[1-n]</h4>
-<table id="__asciidoctor-preview-9834__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-9916__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3814,7 +3822,7 @@ SML 1 … 0.3 …</pre>
 </div>
 <div class="sect3">
 <h4 id="abundance_variation_study_variable-1-n">6.3.16. abundance_variation_study_variable [1-n]</h4>
-<table id="__asciidoctor-preview-9932__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10014__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3846,14 +3854,14 @@ SML 1 … 0.3 0.04 …</pre>
 </div>
 <div class="sect3">
 <h4 id="opt_identifier_">6.3.17. opt_{identifier}_*</h4>
-<div id="__asciidoctor-preview-10032__" class="admonitionblock important">
+<div id="__asciidoctor-preview-10114__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div id="__asciidoctor-preview-10036__" class="paragraph">
+<div id="__asciidoctor-preview-10118__" class="paragraph">
 <p>TODO Review docs for how to insert userParams with an example.
 Do we want to state that only PSI-MS can be used here, or any CV / ontology? Andy Jones</p>
 </div>
@@ -3861,7 +3869,7 @@ Do we want to state that only PSI-MS can be used here, or any CV / ontology? And
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-10052__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10134__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3890,10 +3898,10 @@ SML 1 … My value some other value</pre>
 </tr>
 </tbody>
 </table>
-<div id="__asciidoctor-preview-10126__" class="paragraph">
+<div id="__asciidoctor-preview-10208__" class="paragraph">
 <p><strong>Example optional columns:</strong></p>
 </div>
-<div id="__asciidoctor-preview-10132__" class="ulist">
+<div id="__asciidoctor-preview-10214__" class="ulist">
 <ul>
 <li>
 <p>Species</p>
@@ -3916,24 +3924,24 @@ SML 1 … My value some other value</pre>
 </div>
 <div class="sect2">
 <h3 id="small-molecule-feature-smf-section">6.4. Small Molecule Feature (SMF) Section</h3>
-<div id="__asciidoctor-preview-10198__" class="paragraph">
+<div id="__asciidoctor-preview-10280__" class="paragraph">
 <p>The small molecule feature section is table-based, representing individual MS regions (generally considered to be the elution profile for all isotopomers formed from a single charge state of a molecule), that have been measured/quantified. However, for approaches that quantify individual isotopomers e.g. stable isotope labelling/flux studies, then each SMF row SHOULD represent a single isotopomers.</p>
 </div>
-<div id="__asciidoctor-preview-10202__" class="paragraph">
+<div id="__asciidoctor-preview-10284__" class="paragraph">
 <p>Different adducts or derivatives and different charge states of individual molecules should be reported as separate SMF rows.</p>
 </div>
-<div id="__asciidoctor-preview-10206__" class="paragraph">
+<div id="__asciidoctor-preview-10288__" class="paragraph">
 <p>The small molecule feature section MUST always come after the Small Molecule Table. All table columns MUST be Tab separated. There MUST NOT be any empty cells. Missing values MUST be reported using “null”.</p>
 </div>
-<div id="__asciidoctor-preview-10210__" class="paragraph">
+<div id="__asciidoctor-preview-10292__" class="paragraph">
 <p>The order of columns MUST follow the order specified below.</p>
 </div>
-<div id="__asciidoctor-preview-10214__" class="paragraph">
+<div id="__asciidoctor-preview-10296__" class="paragraph">
 <p>All columns are MANDATORY except for “opt_” columns.</p>
 </div>
 <div class="sect3">
 <h4 id="smf_id">6.4.1. SMF_ID</h4>
-<table id="__asciidoctor-preview-10240__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10322__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3966,7 +3974,7 @@ SMF 2 …</pre>
 </div>
 <div class="sect3">
 <h4 id="sme_id_refs">6.4.2. SME_ID_REFS</h4>
-<table id="__asciidoctor-preview-10338__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10420__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4003,7 +4011,7 @@ SMF 1 5</pre>
 </div>
 <div class="sect3">
 <h4 id="sme_id_ref_ambiguity_code">6.4.3. SME_ID_REF_ambiguity_code</h4>
-<table id="__asciidoctor-preview-10450__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10532__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4040,7 +4048,7 @@ SMF 1 5</pre>
 </div>
 <div class="sect3">
 <h4 id="adduct_ion">6.4.4. adduct_ion</h4>
-<div id="__asciidoctor-preview-10552__" class="admonitionblock important">
+<div id="__asciidoctor-preview-10634__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -4053,7 +4061,7 @@ IMPORTANT: TODO Joel to write a regex for this. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-10568__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10650__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4085,7 +4093,7 @@ SMF 1 … [M+H]1+ …</pre>
 </div>
 <div class="sect3">
 <h4 id="isotopomer">6.4.5. isotopomer</h4>
-<table id="__asciidoctor-preview-10666__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10748__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4117,7 +4125,7 @@ SMF 1 … [MS,MS:1000XX,”13C peak”, ]…</pre>
 </div>
 <div class="sect3">
 <h4 id="exp_mass_to_charge-1">6.4.6. exp_mass_to_charge</h4>
-<table id="__asciidoctor-preview-10764__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10846__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4149,7 +4157,7 @@ SML 1 … 1234.5 …</pre>
 </div>
 <div class="sect3">
 <h4 id="charge">6.4.7. charge</h4>
-<table id="__asciidoctor-preview-10862__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-10944__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4182,7 +4190,7 @@ SMF 1 … -1 …</pre>
 </div>
 <div class="sect3">
 <h4 id="retention_time_in_seconds-1">6.4.8. retention_time_in_seconds</h4>
-<table id="__asciidoctor-preview-10960__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11042__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4214,7 +4222,7 @@ SMF 1 … 1345.7 …</pre>
 </div>
 <div class="sect3">
 <h4 id="retention_time_in_seconds_start">6.4.9. retention_time_in_seconds_start</h4>
-<table id="__asciidoctor-preview-11058__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11140__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4246,7 +4254,7 @@ SMF 1 … 1327.0 …</pre>
 </div>
 <div class="sect3">
 <h4 id="retention_time_in_seconds_end">6.4.10. retention_time_in_seconds_end</h4>
-<table id="__asciidoctor-preview-11156__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11238__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4278,7 +4286,7 @@ SMF 1 … 1327.8 …</pre>
 </div>
 <div class="sect3">
 <h4 id="abundance_assay1-n-1">6.4.11. abundance_assay[1-n]</h4>
-<table id="__asciidoctor-preview-11254__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11336__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4310,7 +4318,7 @@ SMF 1 … 38648 …</pre>
 </div>
 <div class="sect3">
 <h4 id="opt_identifier_-1">6.4.12. opt_{identifier}_*</h4>
-<table id="__asciidoctor-preview-11354__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11436__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4339,10 +4347,10 @@ SMF 1 … My value some other value</pre>
 </tr>
 </tbody>
 </table>
-<div id="__asciidoctor-preview-11428__" class="paragraph">
+<div id="__asciidoctor-preview-11510__" class="paragraph">
 <p><strong>Example optional columns:</strong></p>
 </div>
-<div id="__asciidoctor-preview-11434__" class="ulist">
+<div id="__asciidoctor-preview-11516__" class="ulist">
 <ul>
 <li>
 <p>(Apex) retention time values for each MS run pre-alignment</p>
@@ -4368,21 +4376,21 @@ SMF 1 … My value some other value</pre>
 </div>
 <div class="sect2">
 <h3 id="small-molecule-evidence-sme-section">6.5. Small Molecule Evidence (SME) Section</h3>
-<div id="__asciidoctor-preview-11510__" class="paragraph">
+<div id="__asciidoctor-preview-11592__" class="paragraph">
 <p>The small molecule evidence section is table-based, representing evidence for identifications of small molecules/features, from database search or any other process used to give putative identifications to molecules. In a typical case, each row represents one result from a single search or intepretation of a piece of evidence e.g. a database search with a fragmentation spectrum. Multiple results from a given input data item (e.g. one fragment spectrum) SHOULD share the same value under evidence_input_id.</p>
 </div>
-<div id="__asciidoctor-preview-11514__" class="paragraph">
+<div id="__asciidoctor-preview-11596__" class="paragraph">
 <p>The small molecule evidence section MUST always come after the Small Molecule Feature Table. All table columns MUST be Tab separated. There MUST NOT be any empty cells. Missing values MUST be reported using “null”.</p>
 </div>
-<div id="__asciidoctor-preview-11518__" class="paragraph">
+<div id="__asciidoctor-preview-11600__" class="paragraph">
 <p>The order of columns MUST follow the order specified below.</p>
 </div>
-<div id="__asciidoctor-preview-11522__" class="paragraph">
+<div id="__asciidoctor-preview-11604__" class="paragraph">
 <p>All columns are MANDATORY except for “opt_” columns.</p>
 </div>
 <div class="sect3">
 <h4 id="sme_id">6.5.1. SME_ID</h4>
-<table id="__asciidoctor-preview-11548__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11630__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4414,7 +4422,7 @@ SME 1 …</pre>
 </div>
 <div class="sect3">
 <h4 id="evidence_input_id">6.5.2. evidence_input_id</h4>
-<table id="__asciidoctor-preview-11646__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11728__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4451,7 +4459,7 @@ SME 3 ms_run[3]:index=365</pre>
 </div>
 <div class="sect3">
 <h4 id="database_identifier-1">6.5.3. database_identifier</h4>
-<table id="__asciidoctor-preview-11748__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11830__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4485,7 +4493,7 @@ SML 2 HMDB:HMDB12345 …</pre>
 </div>
 <div class="sect3">
 <h4 id="chemical_formula-1">6.5.4. chemical_formula</h4>
-<table id="__asciidoctor-preview-11846__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-11928__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4519,7 +4527,7 @@ SME 1 … C17H20N4O2 …</pre>
 </div>
 <div class="sect3">
 <h4 id="smiles-1">6.5.5. smiles</h4>
-<table id="__asciidoctor-preview-11944__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12026__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4551,7 +4559,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 </div>
 <div class="sect3">
 <h4 id="inchi-1">6.5.6. inchi</h4>
-<table id="__asciidoctor-preview-12042__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12124__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4583,7 +4591,7 @@ SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13
 </div>
 <div class="sect3">
 <h4 id="chemical_name-1">6.5.7. chemical_name</h4>
-<table id="__asciidoctor-preview-12140__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12222__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4615,7 +4623,7 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…<
 </div>
 <div class="sect3">
 <h4 id="uri-1">6.5.8. uri</h4>
-<table id="__asciidoctor-preview-12238__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12320__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4647,7 +4655,7 @@ SME 1 … http://www.hmdb.ca/metabolites/HMDB00054</pre>
 </div>
 <div class="sect3">
 <h4 id="derivatized_form">6.5.9. derivatized_form</h4>
-<table id="__asciidoctor-preview-12336__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12418__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4679,7 +4687,7 @@ SML CID:00027395 … [,, “TMS”,] …</pre>
 </div>
 <div class="sect3">
 <h4 id="adduct_ion-1">6.5.10. adduct_ion</h4>
-<div id="__asciidoctor-preview-12426__" class="admonitionblock important">
+<div id="__asciidoctor-preview-12508__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -4691,7 +4699,7 @@ TODO Regex in here. Andy Jones
 </tr>
 </table>
 </div>
-<table id="__asciidoctor-preview-12442__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12524__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4725,7 +4733,7 @@ SME 1 … [M-H]- …</pre>
 </div>
 <div class="sect3">
 <h4 id="exp_mass_to_charge-2">6.5.11. exp_mass_to_charge</h4>
-<table id="__asciidoctor-preview-12540__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12622__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4757,7 +4765,7 @@ SME 1 … 1234.5 …</pre>
 </div>
 <div class="sect3">
 <h4 id="charge-1">6.5.12. charge</h4>
-<table id="__asciidoctor-preview-12638__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12720__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4789,7 +4797,7 @@ SME 1 … 1 …</pre>
 </div>
 <div class="sect3">
 <h4 id="theoretical_mass_to_charge">6.5.13. theoretical_mass_to_charge</h4>
-<table id="__asciidoctor-preview-12736__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12818__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4821,7 +4829,7 @@ SME 1 … 1234.71 …</pre>
 </div>
 <div class="sect3">
 <h4 id="spectra_ref">6.5.14. spectra_ref</h4>
-<table id="__asciidoctor-preview-12834__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-12916__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4854,7 +4862,7 @@ SME 1 … ms_run[1]:index=5 …</pre>
 </div>
 <div class="sect3">
 <h4 id="identification_method">6.5.15. identification_method</h4>
-<table id="__asciidoctor-preview-12934__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-13016__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4886,7 +4894,7 @@ SME 1 … [MS, MS:1001477, SpectraST,] …</pre>
 </div>
 <div class="sect3">
 <h4 id="ms_level">6.5.16. ms_level</h4>
-<table id="__asciidoctor-preview-13032__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-13114__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4918,7 +4926,7 @@ SME 1 … [MS,MS:1000511,”ms level”,2] …</pre>
 </div>
 <div class="sect3">
 <h4 id="id_confidence_measure1-n-1">6.5.17. id_confidence_measure[1-n]</h4>
-<table id="__asciidoctor-preview-13130__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-13212__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4952,7 +4960,7 @@ SME 1 … 0.7 …</pre>
 </div>
 <div class="sect3">
 <h4 id="rank">6.5.18. rank</h4>
-<table id="__asciidoctor-preview-13228__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-13310__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4984,7 +4992,7 @@ SME 1 … 1 …</pre>
 </div>
 <div class="sect3">
 <h4 id="opt_identifier_-2">6.5.19. opt_{identifier}_*</h4>
-<table id="__asciidoctor-preview-13328__" class="tableblock frame-all grid-all spread">
+<table id="__asciidoctor-preview-13410__" class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -5013,10 +5021,10 @@ SML 1 … My value some other value</pre>
 </tr>
 </tbody>
 </table>
-<div id="__asciidoctor-preview-13402__" class="paragraph">
+<div id="__asciidoctor-preview-13484__" class="paragraph">
 <p><strong>Example optional columns:</strong></p>
 </div>
-<div id="__asciidoctor-preview-13408__" class="ulist">
+<div id="__asciidoctor-preview-13490__" class="ulist">
 <ul>
 <li>
 <p>Additional statistical measures or annotations about evidence, such as decoy identifications.</p>
@@ -5030,10 +5038,10 @@ SML 1 … My value some other value</pre>
 <div class="sect1">
 <h2 id="non-supported-use-cases">7. Non-supported use cases</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-13436__" class="paragraph">
+<div id="__asciidoctor-preview-13518__" class="paragraph">
 <p>There are a number of use cases that were discussed during the development process and it was decided that they are not explicitly supported in mzTab version 1.1-M. They may be implemented in future versions of the standard.</p>
 </div>
-<div id="__asciidoctor-preview-13442__" class="admonitionblock important">
+<div id="__asciidoctor-preview-13524__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -5051,7 +5059,7 @@ TODO
 <div class="sect1">
 <h2 id="conclusions">8. Conclusions</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-13460__" class="admonitionblock important">
+<div id="__asciidoctor-preview-13542__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -5069,7 +5077,7 @@ This document contains the specifications for using the mzTab format to represen
 <div class="sect1">
 <h2 id="authors">9. Authors</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-13478__" class="admonitionblock important">
+<div id="__asciidoctor-preview-13560__" class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
@@ -5082,7 +5090,7 @@ TODO
 </tr>
 </table>
 </div>
-<div id="__asciidoctor-preview-13482__" class="paragraph">
+<div id="__asciidoctor-preview-13564__" class="paragraph">
 <p><mark>Correspondence – Put corresponding authors in here</mark></p>
 </div>
 </div>
@@ -5090,10 +5098,10 @@ TODO
 <div class="sect1">
 <h2 id="contributors">10. Contributors</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-13498__" class="paragraph">
+<div id="__asciidoctor-preview-13580__" class="paragraph">
 <p>In addition to the authors, the following people contributed to the model development, gave feedback or tested mzTab:</p>
 </div>
-<div id="__asciidoctor-preview-13504__" class="ulist">
+<div id="__asciidoctor-preview-13586__" class="ulist">
 <ul>
 <li>
 <p>COSMOS</p>
@@ -5162,7 +5170,7 @@ TODO
 <div class="sect1">
 <h2 id="references">11. References</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-13734__" class="ulist bibliography">
+<div id="__asciidoctor-preview-13816__" class="ulist bibliography">
 <ul class="bibliography">
 <li>
 <p><a id="bradner-1997"></a>[bradner-1997] Bradner, S. (1997). Key words for use in RFCs to Indicate Requirement Levels, Internet Engineering Task Force. RFC 2119.</p>
@@ -5189,10 +5197,10 @@ TODO
 <div class="sect1">
 <h2 id="intellectual-property-statement">12. Intellectual Property Statement</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-13808__" class="paragraph">
+<div id="__asciidoctor-preview-13890__" class="paragraph">
 <p>The PSI takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this document or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any effort to identify any such rights. Copies of claims of rights made available for publication and any assurances of licenses to be made available, or the result of an attempt made to obtain a general license or permission for the use of such proprietary rights by implementers or users of this specification can be obtained from the PSI Chair.</p>
 </div>
-<div id="__asciidoctor-preview-13812__" class="paragraph">
+<div id="__asciidoctor-preview-13894__" class="paragraph">
 <p>The PSI invites any interested party to bring to its attention any copyrights, patents or patent applications, or other proprietary rights that may cover technology that may be required to practice this recommendation. Please address the information to the PSI Chair (see contacts information at PSI website).</p>
 </div>
 </div>
@@ -5200,7 +5208,7 @@ TODO
 <div class="sect1">
 <h2 id="trademark-section">TradeMark Section</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-13832__" class="paragraph">
+<div id="__asciidoctor-preview-13914__" class="paragraph">
 <p>Microsoft Excel<sup>®</sup></p>
 </div>
 </div>
@@ -5208,16 +5216,16 @@ TODO
 <div class="sect1">
 <h2 id="copyright-notice">Copyright Notice</h2>
 <div class="sectionbody">
-<div id="__asciidoctor-preview-13848__" class="paragraph">
+<div id="__asciidoctor-preview-13930__" class="paragraph">
 <p>Copyright &#169; Proteomics Standards Initiative (2017). All Rights Reserved.</p>
 </div>
-<div id="__asciidoctor-preview-13852__" class="paragraph">
+<div id="__asciidoctor-preview-13934__" class="paragraph">
 <p>This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and this paragraph are included on all such copies and derivative works. However, this document itself may not be modified in any way, such as by removing the copyright notice or references to the PSI or other organizations, except as needed for the purpose of developing Proteomics Recommendations in which case the procedures for copyrights defined in the PSI Document process must be followed, or as required to translate it into languages other than English.</p>
 </div>
-<div id="__asciidoctor-preview-13856__" class="paragraph">
+<div id="__asciidoctor-preview-13938__" class="paragraph">
 <p>The limited permissions granted above are perpetual and will not be revoked by the PSI or its successors or assigns.</p>
 </div>
-<div id="__asciidoctor-preview-13860__" class="paragraph">
+<div id="__asciidoctor-preview-13942__" class="paragraph">
 <p>This document and the information contained herein is provided on an "AS IS" basis and THE PROTEOMICS STANDARDS INITIATIVE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE."</p>
 </div>
 </div>
