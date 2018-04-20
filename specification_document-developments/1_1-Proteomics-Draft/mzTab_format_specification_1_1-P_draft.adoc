@@ -1,0 +1,1010 @@
+= mzTab-P: exchange format for proteomics experiments
+:sectnums:
+:toc: left
+:doctype: book
+//only works on some backends, not HTML
+:showcomments:
+//use style like Section 1 when referencing within the document.
+:xrefstyle: short
+:figure-caption: Figure
+:pdf-page-size: A4
+
+//GitHub specific settings
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+//disable section numbering
+:!sectnums:
+
+[preface]
+== Preface
+_Status of This Document_
+
+This document presents the final specification of the mzTab data format developed by
+members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative
+(PSI) Proteomics Informatics (PI) Working Group. Distribution is unlimited.
+
+_Version of This Document_
+
+The current version of this document is: version 1.1.0-P Draft, April 2018.
+
+The latest draft version of this document may be found at https://github.com/HUPO-PSI/mzTab.
+
+[abstract]
+[[abstract]]
+== Abstract
+
+The Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI)
+and Metabolomics Standards initiative (MSI) define community standards for data representation
+in proteomics/metabolomics to facilitate data comparison, exchange and verification.
+
+In this context, the two organizations are working together on a shared standard for
+downstream results, following mass spectrometry (MS) analysis. This document defines a
+tab-delimited text file format to report proteomics experiments results. You can see the
+document specification for the metabolomics experiments here https://github.com/HUPO-PSI/mzTab.
+
+//reenable section numbering
+:sectnums:
+[[introduction]]
+== Introduction
+
+[[background]]
+=== Background
+
+This document addresses the systematic description of protein/peptide identification and quantification
+data retrieved from mass spectrometry (MS)-based experiments. A large number of software tools are available
+that analyze MS data and produce a variety of different output data formats.
+
+mzTab-P is intended as a reporting standard for quantitative results from proteomics approaches.
+This format is also intended to provide local LIMS systems as well as MS proteomics repositories a
+simple way to share and combine basic information.
+
+mzTab has been developed with a view to support the following general tasks (more specific use cases
+are provided in <<use-cases-for-mztab>>):
+
+1.  _Facilitate the sharing of final experimental results,_ especially with researchers outside the field of proteomics.
+2.  _Export of results to external software,_ including programs such as Microsoft Excel^®^ and Open Office Spreadsheet and statistical software / coding languages such as R.
+3.  _Act as an output format of (web-) services_ that report MS-based results and thus can produce standardized result pages.
+4.  _Be able to link to the external experimental evidence_ e.g. by referencing back to Peak List files.
+
+This document presents a specification, not a tutorial. As such, the presentation of technical details is deliberately direct. The role of the text is to describe the model and justify design decisions made.
+The document does not discuss how the models should be used in practice, consider tool support for data capture or storage, or provide comprehensive examples
+of the models in use. It is anticipated that tutorial material will be developed independently of this specification.
+
+[[document-structure]]
+=== Document Structure
+
+The remainder of this document is structured as follows. <<use-cases-for-mztab>> lists use cases
+mzTab-P is designed to support. <<notational-conventions>> describes the terminology used.
+<<relationships-to-other-specifications>> describes how the specification presented
+in <<format-specification>> relates to other specifications, both those that it extends
+and those that it is intended to complement. <<resolved-design-and-scope-issues>> discusses
+the reasoning behind several design decisions taken. <<format-specification>> contains the
+documentation of the file. <<non-supported-use-cases>> lists use cases that are currently not supported.
+Conclusions are presented in <<conclusions>>.
+
+[[use-cases-for-mztab]]
+== Use Cases for mzTab
+
+The following cases of usage have driven the development of the mzTab data model, and are used to define
+the scope of the format in version 1.0.
+
+1. mzTab-P files should be simple enough to make proteomics results accessible to people outside the
+respective fields. This should facilitate the sharing of data beyond the borders of the fields and
+make it accessible to non-experts.
+
+2. mzTab-P files should contain sufficient information to provide an electronic summary of all findings
+in a proteomics study to permit its use as a standard documentation format for ‘supplementary material’
+sections of publications in proteomics. It should thus be able to replace PDF tables as a way of
+reporting protein/peptide make published identification and quantification information more accessible.
+
+3. mzTab-P files should enable reporting at different levels of detail: ranging from a simple summary
+of the final results to a detailed reporting including the experimental design.
+
+4. It should be possible to open mzTab-M files with “standard” software such as Microsoft Excel^®^ or
+Open Office Spreadsheet. This should furthermore improve the usability of the format to people outside
+the fields of metabolomics.
+
+5. mzTab-P files should make MS derived results easily accessible to scripting languages allowing
+bioinformaticians to develop software without the overhead of developing sophisticated parsing code.
+Since mzTab files will be comparatively small, the data from multiple experiments can be processed at
+once without requiring special resource management techniques.
+
+6. It should be possible to contain the complete final results of an MS-based proteomics experiment
+in a single file. This should furthermore reduce the complexity of sharing and processing an experiment’s
+final results. mzTab-P files should be able to store quantitative values for protein/peptide identifications.
+
+7. It should be useful as an output format by web-services that can then be readily accessed by tools
+supporting mzTab-P.
+
+8. It should be possible to directly link a Peptide/Protein record to its source spectrum in an
+external MS data file.
+
+[[notational-conventions]]
+
+== Notational Conventions
+
+The key words “MUST,” “MUST NOT,” “REQUIRED,” “SHALL,” “SHALL NOT,” “SHOULD,” “SHOULD NOT,” “RECOMMENDED,”
+“MAY,” and “OPTIONAL” are to be interpreted as described in RFC-2119 <<bradner-1997, (Bradner 1997)>>.
+
+[[relationship-to-other-specifications]]
+== Relationship to Other Specifications
+
+The specification described in this document has not been developed in isolation;
+indeed, it is designed to be complementary to, and thus used in conjunction with, several
+existing and emerging models. Related specifications include the following:
+
+1.  _mzML_ (http://www.psidev.info/mzml). mzML is the PSI standard for capturing mass spectra / peak
+lists resulting from mass spectrometry in proteomics <<martens-2011, (Martens _et al._ 2011)>>.
+mzTab files ARE RECOMMENDED to used in conjunction with mzML, although it will be possible to use
+mzTab with other formats of mass spectra like vendor RAW files, Peaks Lists (e.g mgf).
+
+[[relationship-to-mztab-1.0]]
+=== Relationship to mzTab 1.0
+
+The first stable version of mzTab (version 1.0) was developed primarily by the PSI as a format for
+the final results (identification or quantification) of a proteomics experiment, using MS.
+
+[[the-psi-mass-spectrometry-controlled-vocabulary-cv]]
+=== Recommend Controlled Vocabularies (CVs)
+
+The PSI-MS controlled vocabulary (https://www.ebi.ac.uk/ols/ontologies/ms): is intended to provide terms for
+annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms
+from software vendors and academic groups working in the area of mass spectrometry and MS informatics.
+Some terms describe attributes that must be coupled with a numerical value attribute in the CvParam
+element (e.g. MS:1001191 “p-value”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”).
+The terms that require a value are denoted by having a “datatype” key-value pair in the
+CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself
+(relationship: has_units: UO:0000221 ! dalton).
+
+As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically maintained via the psidev-ms-vocab@lists.sourceforge.net mailing list that
+allows any user to request new terms in agreement with the community involved. Once a consensus is reached
+among the community the new terms are added within a few business days. If there is no obvious consensus,
+the CV coordinators committee should vote and make a decision. A new psi-ms.obo should then be released by
+updating the file on the GitHub server without changing the name of the file.
+
+We recommended the use of PSI-MS for all the terms that are not related with the sample and experimental design. The following ontologies or controlled vocabularies specified
+below may also be suitable or required other parts of the experimental design and post-translational
+modification:
+
+* PRIDE Controlled Vocabulary (https://www.ebi.ac.uk/ols/ontologies/pride): PostTranslation Modifications
+* Experimental Factor Ontology (EFO) (https://www.ebi.ac.uk/ols/ontologies/efo): Experiental Factors including tissues, celltypes, etc.
+* PSI-MOD and UNIMOD: Post-translational Modifications.
+
+[[resolved-design-and-scope-issues]]
+== Resolved Design and scope issues
+
+There were several issues regarding the design of the format that were not clear cut, and a design choice
+was made that was not completely agreeable to everyone. So that these issues do not keep coming up,
+we document the issues here and why the decision that is implemented was made.
+
+[[use-of-identifiers-for-input-spectra-to-a-search]]
+=== Use of identifiers for input spectra to a search
+
+PSMs molecules MUST be linked to an identifier of the source spectrum (in an external file)
+from which the identifications are made by way of a reference in the `spectra_ref` attribute and via
+the `ms_run` element which stores the URL of the file in the `location` attribute.
+
+It is advantageous if there is a consistent system for identifying spectra in different file formats.
+The following table is implemented in the PSI-MS CV for providing consistent identifiers for different
+spectrum file formats.
+
+NOTE: This table shows examples from the CV but will be extended. The CV holds the definite specification
+for legal encodings of spectrumID values.
+
+[[table-1, CV Terms and Rules]]
+.Controlled vocabulary terms and rules implemented in the PSI-MS CV for formulating the “nativeID” to identify spectra in different
+file formats.
+
+[cols=",,,",options="header",]
+|===============================================================================================================================================================================================================================================================
+|*ID* |*Term* |*Data type* |*Comment*
+|MS:1000768 |Thermo nativeID format |controllerType=xsd:nonNegativeInteger controllerNumber=xsd:positiveInteger scan=xsd:positiveInteger. |controller=0 is usually the mass spectrometer
+|MS:1000769 |Waters nativeID format |function=xsd:positiveInteger process=xsd:nonNegativeInteger scan=xsd:nonNegativeInteger |
+|MS:1000770 |WIFF nativeID format |sample=xsd:nonNegativeInteger period=xsd:nonNegativeInteger cycle=xsd:nonNegativeInteger experiment=xsd:nonNegativeInteger |
+|MS:1000771 |Bruker/Agilent YEP nativeID format |scan=xsd:nonNegativeInteger |
+|MS:1000772 |Bruker BAF nativeID format |scan=xsd:nonNegativeInteger |
+|MS:1000773 |Bruker FID nativeID format |file=xsd:IDREF |The nativeID must be the same as the source file ID
+|MS:1000774 |multiple peak list nativeID format |index=xsd:nonNegativeInteger |Used for referencing peak list files with multiple spectra, i.e. MGF, PKL, merged DTA files. Index is the spectrum number in the file, starting from 0.
+|MS:1000775 |single peak list nativeID format |file=xsd:IDREF |The nativeID must be the same as the source file ID. Used for referencing peak list files with one spectrum per file, typically in a folder of PKL or DTAs, where each sourceFileRef is different
+|MS:1000776 |scan number only nativeID format |scan=xsd:nonNegativeInteger |Used for conversion from mzXML, or a DTA folder where native scan numbers can be derived.
+|MS:1000777 |spectrum identifier nativeID format |spectrum=xsd:nonNegativeInteger |Used for conversion from mzData. The spectrum id attribute is referenced.
+|MS:1001530 |mzML unique identifier |xsd:string |Used for referencing mzML. The value of the spectrum id attribute is referenced directly.
+|===============================================================================================================================================================================================================================================================
+
+
+In mzTab, the spectra_ref attribute should be constructed following the data type specification in <<table-1>>.
+As an example, to reference the third spectrum (index = 2) in an MGF (Mascot Generic Format) file:
+
+----
+MTD ms_run[1]-format [MS, MS:1001062, Mascot MGF file, ]
+
+MTD ms_run[1]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
+
+...
+
+SEH ... spectra_ref ...
+
+SME ... ms_run[1]:index=2 ...
+----
+
+Example: Reference the spectrum with identifier “scan=11665” in an mzML file.
+
+----
+MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
+
+MTD ms_run[1]-id_format [MS, MS:1001530, mzML unique identifier, ]
+
+...
+
+SEH ... spectra_ref ...
+
+SME ... ms_run[1]:scan=11665 ...
+----
+
+[[recommendations-for-reporting-replicates-within-experimental-designs]]
+=== Recommendations for reporting replicates within experimental designs
+
+Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <<figure-1>>.
+The following components have various cross-references and MUST be used in different types of mzTab files
+as follows:
+
+* _study_variable_ – The variables about which the final results of a study are reported, which may have been derived following grouping a set of different samples (biological/technical replicates).
+The same concept has been defined by others as “experimental factor”.
+* _sample_ – a biological material that has been analyzed, to which descriptors of species, cell/tissue type etc. SHOULD be provided.
+In all of types of mzTab file, these MAY be reported in the metadata section as sample[1-n]-description.
+Samples are NOT MANDATORY in mzTab, since many software packages cannot determine what type of sample was analyzed
+(e.g. whether biological or technical replication was performed). However, we RECOMMENDED to specified the sample information
+if an statistical analysis has been performed during the quantification experiment.
+* _assay_  – The application of a measurement about the sample (in this case through MS) – producing values about peptides and proteins.
+One assay is typically mapped to one MS run in the case of label-free MS analysis (with no pre-fractionation) or multiple
+assays are mapped to one MS run for multiplexed techniques, along with a description of the label or tag applied.
+* _ms_run_ – An MS run is effectively one run on an MS instrument, and is referenced from assay in different contexts.
+In the case of pre-fractionation into _n_ fractions, an assay SHOULD reference _n_ ms_runs.
+
+Clear definitions of biological and technical replicates are difficult to provide as these are somewhat dependent upon the biological domain. However, we use the following general definitions in mzTab.
+
+* Biological replicates are where different samples have been analyzed by MS.
+* Technical replicates are where same samples are analyzed multiple times by MS.
+
+NOTE: There is deliberately no attempt to define the boundary of the term “sample”.
+
+If sample level information is provided optimally, it is expected that _n_ biological replicates can be mapped to sample[1-n]; _m_ technical replicate measurements of sample 1 SHOULD be mapped to assay[1-m] referencing sample[1] (for example).
+However, an open challenge remains since analysis software is often not aware of whether replicates (multiple MS runs) are originally biological or technical in nature. As such, the default behavior for mzTab exporters from quantitative
+software is to exclude sample level information and report quantitative data for assay[1-n] and study_variable[1-n].
+
+Additional annotation software would typically be required to add the sample-level information, as provided (often manually) by the
+user.
+
+[[figure-1]]
+.Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (peptide or small molecule) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.
+image::img/media/figure1.png[image,width=100%,pdfwidth=100%]
+
+[[proteomics-metadata]]
+== Proteomics Metadata
+
+The metadata fields in this section MAY be reported in a proteomics type file, but MUST NOT be reported in a metabolomics file.
+
+[[protein_search_engine_score1-n]]
+=== protein_search_engine_score[1-n]
+
+[[encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors]]
+=== Encoding missing values, zeroes, nulls, infinity and calculation errors
+
+In the table-based sections there MUST NOT be any empty cells. In case a given property is not available “null” MUST be used, but this is only allowed for cells in which isNullable= “true”.
+
+For numerical values, they MUST be encoded following the specifications of https://www.w3.org/TR/xmlschema-2/#decimal[xs:decimal]. This does not natively support NaN, INF, scientific notation or null. As such, it is allowed in mzTab to include "NaN" for incalculable numbers and "null" for no data. In some cases, there is ambiguity with respect to the use of "0" versus "null": e.g. if there are alignment issues and it is unclear whether a molecule has been quantified with zero abundance or the feature was potentially present in the data but was not found. Export software would be expected to make a decision on this cases, based on best understanding of the case in hand.
+
+Scientific notation and infinity is explicitly not supported.
+
+
+[[reliability-score]]
+=== Reliability score
+
+All peptide and protein identifications reported in an mzTab file
+MAY be assigned a reliability score (column “reliability” in all tables).
+This reliability only applies to the identification reliability but not
+to modification position and or quantification reliabilities.
+
+The idea is to provide a way for researchers and/or repositories to score
+the reported identifications based on their own criteria. The criteria used
+to generate this score SHOULD be documented by the data providers. If this
+information is not provided by the producers of mzTab files, “null“ MUST be provided as the value for each of the protein, peptide identification.
+
+[[Guidelines-for-pre-fractionation]]
+=== Guidelines for workflows involving pre-fractionation
+
+It is possible that a single analysis of a sample is split offline via
+some fractionation technology prior to LC/MS-MS into _n_ MS analyses
+to limit the complexity of the molecules arriving at the detector.
+
+Such workflows, can be encoded in mzTab-P via an assay referencing to
+_n_ ms_runs. It may be desirable to maintain the link from a feature (Peptide row) to the
+ms_run from which it was obtained. This SHOULD be achieved through
+the use of an optional column called "opt_global_ms_run_refs",
+in which the identifiers of ms_runs are placed where the feature has
+been quantified from.
+
+[[comments-on-specific-use-cases]]
+=== Comments on Specific Use Cases
+
+Many special use cases for mzTab were considered during its development. Each of these use cases has a corresponding example file that exercises the relevant part of the format and provides a reference implementation example (see supporting documentation). Authors of software that create mzTab are encouraged to examine the examples that accompany this format release before implementing the writer.
+
+[[adding-optional-columns]]
+=== Adding optional columns
+
+Additional columns MAY be added to the end of rows in all the table-based sections.
+
+These column headers MUST start with the prefix “opt_” followed by the identifier of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘_’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
+
+The information stored within an optional column is completely up to the resource that generates the file. It MUST not be assumed that optional columns having the same name in different mzTab files contain the same type of information. CV parameter accessions MAY be used as optional column names according to the following convention: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
+
+----
+COM Example showing how emPAI values are reported in an additional column from MS run 1 using
+
+COM MS CV parameter “emPAI value” (MS:1001905)
+
+…
+
+PRH accession … opt_ms_run[1]_cv_MS:1001905_emPAI_value
+
+PRT P12345 … 0.658
+----
+
+[[format-specification]]
+== Format specification
+
+This section describes the structure of an mzTab file.
+
+* *Field separator* +
+The column delimiter is the Unicode Horizontal Tab character (Unicode codepoint 0009).
+* *File encoding* +
+The UTF-8 encoding of the Unicode character set is the preferred encoding for mzTab files. However, parsers should be able to recognize commonly used encodings.
+* *Case sensitivity* +
+All column labels and field names are case-sensitive.
+* *Line prefix* +
+Every line in an mzTab file MUST start with a three letter code identifying the type of line delimited by a Tab character. The three letter codes are as follows:
+** `MTD` for metadata
+** `PRH` for protein information header line (the column labels)
+** `PRT` for rows of the protein table
+** `PEH` for peptide feature header line
+** `PEP` for rows of the peptide feature table
+** `PSH` for peptide spectrum match header line
+** `PSM` for rows of the peptide spectrum match table
+** `COM` for comment lines
+
+* *Header lines* +
+Each table based section (protein, peptide or PSM) MUST start with the corresponding
+header line. These header lines MUST only occur once in the document
+since each section also MUST only occur once.
+
+* *Dates* +
+Dates and times MUST be supplied in the ISO 8601 format
+(“YYYY-MM-DD”, “YYYY-MM-DDTHH:MMZ” respectively).
+
+* *Decimal separator* +
+In mzTab files the dot (“.”) MUST be used as decimal separator.
+Thousand separators MUST NOT be used in mzTab files.
+
+* *Comment lines and empty lines* +
+Comment lines can be placed anywhere in an mzTab file. These lines must
+start with the three-letter code COM and are ignored by most parsers.
+Empty lines can also occur anywhere in an mzTab file and are ignored.
+
+* *Params* +
+mzTab makes use of CV parameters. As mzTab is expected to be used in several experimental environments where parameters might not yet be available for the generated scores etc. all parameters can either report CV parameters or user parameters that only contain a name and a value. +
+Parameters are always reported as `[CV label, accession, name, value]`. Any field that is not available MUST be left empty. +
+ +
+....
+[MS, MS:1001477, SpectraST,]
+[,,A user parameter, The value]
+....
+
+In case, the name of the param contains commas, quotes MUST be added to avoid problems with the parsing: `[label, accession, “first part of the param name, second part of the name”, value]`.
+....
+[MOD, MOD:00648, “N,O-diacetylated L-serine”,]
+....
+
+* *Sample IDs* +
+To be able to supply metadata specific to each sample, ids in the format `sample[1-n]` are used. +
+ +
+....
+MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
+....
+* *Assay IDs* +
+To be able to supply metadata specific to each assay, ids in the format `assay[1-n]` are used. +
+ +
+....
+MTD assay[1] first assay description
+....
+* *Study variable IDs* +
+To be able to supply metadata specific to each study variable (grouping of assays), ids in the format `study_variable[1-n]` are used.
+....
+MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)
+....
+[[sections]]
+=== Sections
+
+mzTab-P files MUST have one Metadata (MTD) section and one protein (PTR), peptide (PEP) or
+peptide spectrum match (PSM) Section.
+
+In practice, we expect that most files SHOULD for Identification experiments
+the Protein and peptide spectrum match sections and for quantitation
+experiments the peptide feature table.
+
+[[metadata-section]]
+=== Metadata Section
+
+The metadata section provides additional information about the dataset(s) reported in the mzTab file.
+All fields in the metadata section are optional apart from those noted as
+mandatory. The fields in the metadata section MUST be reported in order
+of the various fields listed here. The field’s name and value MUST be
+separated by a tab character:
+
+....
+MTD publication [PRIDE, PRIDE:00000029, PubMed, 12345]
+....
+
+In the following list of fields any term encapsulated by `\{}` is meant as a variable which MUST be replaced accordingly.
+
+*Core Metadata*
+
+[[mztab-version]]
+==== mzTab-version
+
+[cols=",",]
+|==============================================
+|*Description:* |The version of the mzTab file.
+|*Type:* |Regex{"1\.1\.\d-P"}
+|*Mandatory* |True
+|*Example:* a|`MTD mzTab-version  1.1.0-P`
+|==============================================
+
+[[mztab-id]]
+==== mzTab-ID
+
+[cols=",",]
+|=========================================
+|*Description:* |The ID of the mzTab file, this could be supplied by the repository from which it is downloaded or a local identifier from the lab producing the file. It is not intended to be a globally unique ID but carry some locally useful meaning.
+|*Type:* |String
+|*Mandatory* |True
+|*Example:* a|`MTD mzTab-ID PXD0001-LabelFree`
+|=========================================
+
+[[title]]
+==== title
+
+[cols=",",]
+|================================================
+|*Description:* |The file’s human readable title.
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|`MTD title My first test experiment`
+|================================================
+
+[[description]]
+==== description
+
+[cols=",",]
+|============================================================================
+|*Description:* |The file’s human readable description.
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|`MTD description An experiment investigating the effects of Il-6.`
+|============================================================================
+
+[[sample_processing1-n]]
+==== sample_processing[1-n]
+
+[cols=",",]
+|=================================================================================================================================================================================================================================================================
+|*Description:* |A list of parameters describing a sample processing step. The order of the data_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “\|”.
+|*Type:* |Parameter List
+|*Mandatory* |False
+|*Example:* a|
+....
+MTD sample_processing[1] [SEP, sep:00210, liquid chromatograhy,]
+
+....
+|=================================================================================================================================================================================================================================================================
+
+[[instrument1-n-name]]
+==== instrument[1-n]-name
+IMPORTANT: TODO Instrument[1-n] makes no sense, since instrument cannot be referenced from ms_run, so even if multiple instruments are reported, they cannot be interpreted. Andy Jones
+[cols=",",]
+|==========================================================================================================
+|*Description:* |The name of the instrument used in the experiment. Multiple instruments are numbered 1..n.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* |MTD protein_search_engine_score[1] [MS, MS:1001171, Mascot:score,]
+|===============================================================================================================================================
+
+[[peptide_search_engine_score1-n]]
+=== peptide_search_engine_score[1-n]
+
+[cols=",",options="header",]
+|===============================================================================================================================================
+|*Description:* a|
+The type of peptide search engine score MUST be reported as a CV parameter [1-n].
+
+The order of the search engine scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.
+
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* |MTD peptide_search_engine_score[1] [MS, MS:1001171, Mascot:score,]
+|===============================================================================================================================================
+
+[[psm_search_engine_score1-n]]
+=== psm_search_engine_score[1-n]
+
+[cols=",",options="header",]
+|===============================================================================================================================================
+|*Description:* a|
+The type of psm search engine score MUST be reported as a CV parameter [1-n].
+
+The order of the search engine scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.
+
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* |MTD psm_search_engine_score[2] [MS, MS:1001330, X!Tandem:expect,]
+|===============================================================================================================================================
+
+[[fixed_mod1-n]]
+=== fixed_mod[1-n]
+
+[cols=",",options="header",]
+|====================================================================================================================================================================================================================================
+|*Description:* |A parameter describing a fixed modifications searched for. Multiple fixed modifications are numbered 1..n. If no fixed modifications are searched, include the CV param MS:1002453: No fixed modifications searched.
+|*Type:* |Param
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD fixed_mod[1] [UNIMOD, UNIMOD:4, Carbamidomethyl, ]
+
+MTD fixed_mod[2] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD fixed_mod[3] [CHEMMOD, CHEMMOD:-18.0913, , ]
+
+|====================================================================================================================================================================================================================================
+
+[[fixed_mod1-n-site]]
+=== fixed_mod[1-n]-site
+
+[cols=",",options="header",]
+|====================================================================================================================================================================================================================
+|*Description:* |A string describing a fixed modifications site. Following the unimod convention, modification site is a residue (e.g. “M”), terminus (“N-term” or “C-term”) or both (e.g. “N-term Q” or “C-term K”).
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD fixed_mod[1] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD fixed_mod[1]-site M
+
+…
+
+MTD fixed_mod[2] [UNIMOD, UNIMOD:1, Acetyl, ]
+
+MTD fixed_mod[2]-site N-term
+
+…
+
+MTD fixed_mod[3] [UNIMOD, UNIMOD:2, Amidated, ]
+
+MTD fixed_mod[3]-site C-term
+
+|====================================================================================================================================================================================================================
+
+[[fixed_mod1-n-position]]
+=== fixed_mod[1-n]-position
+
+[cols=",",options="header",]
+|=====================================================================================================================================================================================================================================
+|*Description:* |A string describing the term specifity of a fixed modification. Following the unimod convention, term specifity is denoted by the strings “Anywhere”, “Any N-term”, “Any C-term”, “Protein N-term”, “Protein C-term”.
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD fixed_mod[1] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD fixed_mod[1]-site M
+
+…
+
+MTD fixed_mod[2] [UNIMOD, UNIMOD:1, Acetyl, ]
+
+MTD fixed_mod[2]-site N-term
+
+MTD fixed_mod[2]-position Protein N-term
+
+…
+
+MTD fixed_mod[3] [UNIMOD, UNIMOD:2, Amidated, ]
+
+MTD fixed_mod[3]-site C-term
+
+MTD fixed_mod[3]-position Protein C-term
+
+|=====================================================================================================================================================================================================================================
+
+[[variable_mod1-n]]
+=== variable_mod[1-n]
+
+[cols=",",options="header",]
+|=================================================================================================================================================================================================================================================
+|*Description:* |A parameter describing a variable modification searched for. Multiple variable modifications are numbered 1.. n. If no variable modifications were searched, include the CV param MS:1002454: No variable modifications searched.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD variable_mod[1] [UNIMOD, UNIMOD:21, Phospho, ]
+
+MTD variable_mod[2] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD variable_mod[3] [CHEMMOD, CHEMMOD:-18.0913, , ]
+
+|=================================================================================================================================================================================================================================================
+
+[[variable_mod1-n-site]]
+=== variable_mod[1-n]-site
+
+[cols=",",options="header",]
+|=======================================================================================================================================================================================================================
+|*Description:* |A string describing a variable modifications site. Following the unimod convention, modification site is a residue (e.g. “M”), terminus (“N-term” or “C-term”) or both (e.g. “N-term Q” or “C-term K”).
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD variable_mod[1] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD variable_mod[1]-site M
+
+…
+
+MTD variable_mod[2] [UNIMOD, UNIMOD:1, Acetyl, ]
+
+MTD variable_mod[2]-site N-term
+
+…
+
+MTD variable_mod[3] [UNIMOD, UNIMOD:2, Amidated, ]
+
+MTD variable_mod[3]-site C-term
+
+|=======================================================================================================================================================================================================================
+
+[[variable_mod1-n-position]]
+=== variable_mod[1-n]-position
+
+[cols=",",options="header",]
+|========================================================================================================================================================================================================================================
+|*Description:* |A string describing the term specifity of a variable modification. Following the unimod convention, term specifity is denoted by the strings “Anywhere”, “Any N-term”, “Any C-term”, “Protein N-term”, “Protein C-term”.
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|*Example:* a|
+MTD variable_mod[1] [UNIMOD, UNIMOD:35, Oxidation, ]
+
+MTD variable_mod[1]-site M
+
+…
+
+MTD variable_mod[2] [UNIMOD, UNIMOD:1, Acetyl, ]
+
+MTD variable_mod[2]-site N-term
+
+MTD variable_mod[2]-position Protein N-term
+
+…
+
+MTD variable_mod[3] [UNIMOD, UNIMOD:2, Amidated, ]
+
+MTD variable_mod[3]-site C-term
+
+MTD variable_mod[3]-position Protein C-term
+
+|========================================================================================================================================================================================================================================
+
+[[protein-quantification_unit]]
+=== protein-quantification_unit
+
+[cols=",",options="header",]
+|============================================================================================
+|*Description:* |Defines what type of units is reported in the protein quantification fields.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|============================
+| |Summary |Complete
+|Quantification |()^1^ |()^1^
+|Identification | |
+|============================
+
+^1^mandatory if protein section is present
+
+|*Example:* |MTD protein-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]
+|============================================================================================
+
+[[peptide-quantification_unit]]
+=== peptide-quantification_unit
+
+[cols=",",options="header",]
+|============================================================================================
+|*Description:* |Defines what type of units is reported in the peptide quantification fields.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|============================
+| |Summary |Complete
+|Quantification |()^1^ |()^1^
+|Identification | |
+|============================
+
+^1^mandatory if peptide section is present
+
+|*Example:* |MTD peptide-quantification_unit [PRIDE, PRIDE:0000395, Ratio, ]
+|============================================================================================
+
+[[colunit-protein]]
+=== colunit-protein
+
+[cols=",",options="header",]
+|=======================================================================================================================================================================
+|*Description:* a|
+Defines the unit for the data reported in a column of the protein section. The format of the value has to be \{column name}=\{Parameter defining the unit}
+
+This field MUST NOT be used to define a unit for quantification columns. The unit used for protein quantification values MUST be set in __protein-quantification_unit__.
+
+|*Type:* |String
+|**Mandatory** a|
+[cols=",,",options="header",]
+|====================================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|====================================
+
+|**Example:** |MTD colunit-protein molecular_mass=[UO, UO:0000222, kilodalton,]
+|=======================================================================================================================================================================
+
+[[colunit-peptide]]
+=== colunit-peptide
+
+[cols=",",options="header",]
+|===================================================================================================================================================================
+|*Description:* a|
+Defines the used unit for a column in the peptide section. The format of the value has to be \{column name}=\{Parameter defining the unit}
+
+This field MUST NOT be used to define a unit for quantification columns. The unit used for peptide quantification values MUST be set in peptide-quantification_unit.
+
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|**Example:** |MTD colunit-peptide retention_time=[UO,UO:0000031, minute,]
+|===================================================================================================================================================================
+
+[[colunit-psm]]
+=== colunit-psm
+
+[cols=",",options="header",]
+|===================================================================================================================================================================
+|*Description:* a|
+Defines the used unit for a column in the PSM section. The format of the value has to be \{column name}=\{Parameter defining the unit}
+
+This field MUST NOT be used to define a unit for quantification columns. The unit used for peptide quantification values MUST be set in peptide-quantification_unit.
+
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|===================
+
+|**Example:** |MTD colunit-psm retention_time=[UO,UO:0000031, minute,]
+|===================================================================================================================================================================
+
+[[assay1-n-quantification_reagent]]
+=== assay[1-n]-quantification_reagent
+
+[cols=",",options="header",]
+|=====================================================================================================================================================================================================================================================================================================================
+|*Description:* |The reagent used to label the sample in the assay. For label-free analyses the “unlabeled sample” CV term SHOULD be used for proteomics cases, optional for metabolomics. For the “light” channel in label-based experiments the appropriate CV term specifying the labelling channel should be used.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|========================
+| |Summary |Complete
+|Quantification |()^1^ |
+|Identification |^2^ |^2^
+|Metabolomics | |
+|========================
+
+^1^mandatory if quantification is reported on assays
+
+^2^not recommended for identification only files
+
+|*Example:* a|
+MTD assay[1]-quantification_reagent [PRIDE,PRIDE:0000114,iTRAQ reagent,114] +
+MTD assay[2]-quantification_reagent [PRIDE,PRIDE:0000115,iTRAQ reagent,115]
+
+OR
+
+MTD assay[1]-quantification_reagent [MS,MS:1002038,unlabeled sample,]
+
+OR
+
+MTD assay[1]-quantification_reagent [PRIDE, PRIDE:0000326, SILAC light]
+
+MTD assay[2]-quantification_reagent [PRIDE, PRIDE:0000325, SILAC heavy]
+
+|=====================================================================================================================================================================================================================================================================================================================
+
+[[assay1-n-quantification_mod1-n]]
+=== assay[1-n]-quantification_mod[1-n]
+
+[cols=",",options="header",]
+|=========================================================================================================================================
+|*Description:* |A parameter describing a modification associated with a quantification_reagent. Multiple modifications are numbered 1..n.
+|*Type:* |Parameter
+|*Mandatory* a|
+[cols=",,",options="header",]
+|========================
+| |Summary |Complete
+|Quantification | |
+|Identification |^1^ |^1^
+|========================
+
+^1^ not recommended for identification only files
+
+|*Example:* |MTD assay[2]-quantification_mod[1] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+|=========================================================================================================================================
+
+[[assay1-n-quantification_mod1-n-site]]
+=== assay[1-n]-quantification_mod[1-n]-site
+
+[cols=",",options="header",]
+|================================================================================================================================================================================================================
+|*Description:* |A string describing the modifications site. Following the unimod convention, modification site is a residue (e.g. “M”), terminus (“N-term” or “C-term”) or both (e.g. “N-term Q” or “C-term K”).
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|========================
+| |Summary |Complete
+|Quantification | |
+|Identification |^1^ |^1^
+|========================
+
+^1^ not recommended for identification only files
+
+|*Example:* a|
+MTD assay[2]-quantification_mod[1] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+
+MTD assay[2]-quantification_mod[2] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+
+MTD assay[2]-quantification_mod[1]-site R
+
+MTD assay[2]-quantification_mod[2]-site K
+
+|================================================================================================================================================================================================================
+
+[[assay1-n-quantification_mod1-n-position]]
+=== assay[1-n]-quantification_mod[1-n]-position
+
+[cols=",",options="header",]
+|=================================================================================================================================================================================================================================
+|*Description:* |A string describing the term specifity of the modification. Following the unimod convention, term specifity is denoted by the strings “Anywhere”, “Any N-term”, “Any C-term”, “Protein N-term”, “Protein C-term”.
+|*Type:* |String
+|*Mandatory* a|
+[cols=",,",options="header",]
+|========================
+| |Summary |Complete
+|Quantification | |
+|Identification |^1^ |^1^
+|========================
+
+^1^ not recommended for identification only files
+
+|*Example:* a|
+MTD assay[2]-quantification_mod[1] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+
+MTD assay[2]-quantification_mod[2] [UNIMOD, UNIMOD:188, Label:13C(6), ]
+
+MTD assay[2]-quantification_mod[1]-site R
+
+MTD assay[2]-quantification_mod[2]-site K
+
+MTD assay[2]-quantification_mod[1]-position Anywhere
+
+MTD assay[2]-quantification_mod[2]-position Anywhere
+
+|=================================================================================================================================================================================================================================
+
+[[false_discovery_rate]]
+=== false_discovery_rate
+
+[cols=",",options="header",]
+|=======================================================================================================================================================================================================================================================================================================
+|*Description:* |The file’s false discovery rate(s) reported at the PSM, peptide, and/or protein level for proteomics, or for small molecules in Metabolomics. False Localization Rate (FLD) for the reporting of modifications can also be reported here. Multiple parameters MUST be separated by “|”.
+|*Type:* |Parameter List
+|*Mandatory* a|
+[cols=",,",options="header",]
+|===================
+| |Summary |Complete
+|Quantification | |
+|Identification | |
+|Metabolomics | |
+|===================
+
+|*Example:* |MTD false_discovery_rate [MS, MS:1001364, pep:global FDR, 0.01]|… +
+[MS, MS:1001214, prot:global FDR, 0.08]
+|=======================================================================================================================================================================================================================================================================================================
