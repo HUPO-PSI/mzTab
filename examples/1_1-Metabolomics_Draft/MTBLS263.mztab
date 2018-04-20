@@ -24,11 +24,17 @@ MTD	assay[6]	3samples_sampl3_POS
 MTD	assay[6]-sample_ref	sample[4]
 MTD	assay[6]-ms_run_ref	ms_run[6]
 MTD	ms_run[1]-location	D:\Data Sets\Metabolomics\MTBLS263\3injections_inj1_POS.mzML
+MTD	ms_run[1]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
 MTD	ms_run[2]-location	D:\Data Sets\Metabolomics\MTBLS263\3injections_inj2_POS.mzML
+MTD	ms_run[2]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
 MTD	ms_run[3]-location	D:\Data Sets\Metabolomics\MTBLS263\3injections_inj3_POS.mzML
+MTD	ms_run[3]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
 MTD	ms_run[4]-location	D:\Data Sets\Metabolomics\MTBLS263\3samples_sampl1_POS.mzML
+MTD	ms_run[4]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
 MTD	ms_run[5]-location	D:\Data Sets\Metabolomics\MTBLS263\3samples_sampl2_POS.mzML
+MTD	ms_run[5]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
 MTD	ms_run[6]-location	D:\Data Sets\Metabolomics\MTBLS263\3samples_sampl3_POS.mzML
+MTD	ms_run[6]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
 MTD	study_variable[1]	Replicates
 MTD	study_variable[1]-description	Replicates
 MTD	study_variable[1]-assay_refs	assay[1] | assay[2] | assay[3]
