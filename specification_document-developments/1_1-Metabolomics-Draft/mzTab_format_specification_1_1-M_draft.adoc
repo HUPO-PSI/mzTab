@@ -1241,6 +1241,7 @@ IMPORTANT: TODO Examples to be added from a range of software packages. Andy Jon
 [subs="verbatim,quotes"]
 ....
 #MTD small_molecule-quantification_unit [PSI-MS, MS:000XXXX, Progenesis QI Normalised Abundance, ]#
+MTD small_molecule-quantification_unit [UO, UO:0000041, nanomole, ]
 ....
 |=============================================================================================================
 
@@ -1256,6 +1257,7 @@ IMPORTANT: TODO Examples to be added from a range of software packages. Andy Jon
 [subs="verbatim,quotes"]
 ....
 #MTD small_molecule_feature-quantification_unit [PSI-MS, MS:000XXXX, Progenesis QI Normalised Abundance, ]#
+MTD small_molecule_feature-quantification_unit [PSI-MS, MS:1002830, XCMS:intf, ]
 ....
 |=====================================================================================================================
 
