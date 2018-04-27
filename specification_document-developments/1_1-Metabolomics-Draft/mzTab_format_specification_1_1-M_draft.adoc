@@ -1016,7 +1016,7 @@ MTD study_variable[1]-assay_refs assay[1]| assay[2]| assay[3]
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD study_variable_average_function [MS, MS:0000XXX, Median, ]#
+#MTD study_variable_average_function [STATO, OBI:0200119, median calculation, ]#
 ....
 |==========================================================================================================================================================================================================================================================================================
 
@@ -1030,7 +1030,7 @@ MTD study_variable[1]-assay_refs assay[1]| assay[2]| assay[3]
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD study_variable_variation_function [MS, MS:0000XXX, Standard error, ]#
+#MTD study_variable_variation_function [STATO, STATO:0000236, coefficient of variation, ]#
 ....
 |==========================================================================================================================================================================================================================================================================================
 
