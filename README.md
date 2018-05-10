@@ -16,18 +16,29 @@ When you use mzTab format, please cite the following publication:
 
 ## Specification documents
 
+**Version 1.1.0 for Metabolomics (DRAFT):**
+
+  > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/1_1-Metabolomics-Draft/mzTab_format_specification_1_1-M_draft.adoc),[html](http://hupo-psi.github.io/mzTab/1_1-metabolomics-draft/mzTab_format_specification_1_1-M_draft.html),[pdf](http://hupo-psi.github.io/mzTab/1_1-metabolomics-draft/mzTab_format_specification_1_1-M_draft.pdf))
+
 **Version 1.0.0 (June 2014):**
 
-  > Specification document ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.pdf))
+  > Specification document ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/mzTab_format_specification.pdf))
 
-  > The 20 minute guide to mzTab ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.pdf))
+  > The 20 minute guide to mzTab ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.pdf))
 
 ## Example Files
 Several example of the format can be download from the next link [examples.zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip)
 
 Detailed explanation of all examples can be found [here](../../wiki/Examples)
 
-## jmzTab API
+
+## jmzTab-m API (for mzTab-M 1.1.x, under development)
+
+  > [jmzTab-m](https://github.com/nilshoffmann/jmzTab-m)
+
+  > [jmzTab-m web validator](https://github.com/nilshoffmann/jmzTab-m-webapp)
+
+## jmzTab API (for mzTab 1.0)
 
 The main principle behind the design of the [**jmzTab**](https://github.com/PRIDE-Utilities/jmztab) core model is to provide an independent light-weight architecture for simplifying the integration of the library in different proteomics/metabolomics software applications. Users can integrate the model into their applications, without the need any other third-party packages. Especially, when users want to recode the model by using other programming languages, and migrates [**jmzTab**](https://github.com/PRIDE-Utilities/jmztab) API into other heterogeneous system.
 
