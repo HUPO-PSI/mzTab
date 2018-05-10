@@ -16,7 +16,7 @@ When you use mzTab format, please cite the following publication:
 
 ## Specification documents
 
-**Version 1.1.0 for Metabolomics (DRAFT): **
+**Version 1.1.0 for Metabolomics (DRAFT):**
 
   > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/1_1-Metabolomics-Draft/mzTab_format_specification_1_1-M_draft.adoc),[html](http://hupo-psi.github.io/mzTab/1_1-metabolomics-draft/mzTab_format_specification_1_1-M_draft.html),[pdf](http://hupo-psi.github.io/mzTab/1_1-metabolomics-draft/mzTab_format_specification_1_1-M_draft.pdf))
 
@@ -35,6 +35,7 @@ Detailed explanation of all examples can be found [here](../../wiki/Examples)
 ## jmzTab-m API (for mzTab-M 1.1.x, under development)
 
   > [jmzTab-m](https://github.com/nilshoffmann/jmzTab-m)
+
   > [jmzTab-m web validator](https://github.com/nilshoffmann/jmzTab-m-webapp)
 
 ## jmzTab API (for mzTab 1.0)
