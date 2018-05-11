@@ -193,7 +193,7 @@ SME ... ms_run[1]:scan=11665 ...
 [[recommendations-for-reporting-replicates-within-experimental-designs]]
 === Recommendations for reporting replicates within experimental designs
 
-Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in <<figure-1>>. The following components have various cross-references and MUST be used in different types of mzTab files as follows:
+Modeling the correct reporting of technical/biological replicates within experimental designs is supported in mzTab as shown in Figure 1. The following components have various cross-references and MUST be used in different types of mzTab files as follows:
 
 * _study_variable_ – The variables about which the final results of a study are reported, which may have been derived following averaging across a group of replicate measurements (assays). The same concept has been defined by others as “experimental factor”.
 * _ms_run_ – An MS run is effectively one run on an MS instrument, and is referenced from assay in different contexts. In the case of pre-fractionation into _n_ fractions, an assay SHOULD reference _n_ ms_runs.
@@ -218,8 +218,8 @@ However, an open challenge remains since some analysis software is often not awa
 Additional annotation software would typically be required to add the sample-level information, as provided (often manually) by the user.
 
 
-[#figure-1]
-image::img/media/figure1.png[image,title=" Figure 1", caption="Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.",  width=100%,pdfwidth=100%,]
+[#figurerrr-1]
+image::img/media/figure1.png[image, title="Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.",width=100%,pdfwidth=100%]
 
 
 
@@ -269,11 +269,13 @@ SMF elements should reference down to all evidence elements (SME rows) that supp
 If features (SMF elements) have been grouped prior to evidence collation, then different groups SMF elements SHOULD reference the same SME elements redundantly.
 
 [[figure-2]]
-image::img/media/figure2.png[image,width=100%,pdfwidth=100%, title = " Figure 2", caption="Figure 2. A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns; B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results; C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data."]
+image::img/media/figure2.png[image,width=100%,pdfwidth=100%, title=" A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns; B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results; C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data."]
 
 [[ambiguity_in_identification]]
 === Ambiguity in identification
 It is common in metabolomics and lipidomics for significant ambiguity to remain after data processing in the identification of molecules. In the top level (SML) table, multiple identifiers MAY be provided in several columns: database_identifier, chemical_formula, smiles, inchi, chemical_name and uri. If there is ambiguity in the actual identity of the molecule, multiple identifiers SHOULD be reported separated by the "|" character. The number of elements separated by | characters MUST be identical in all columns where data is reported to make it clear the corrspondence across columns.
+
+The SML element <<reliability>> MUST be assigned a value to indicate the confidence or ambiguity of the overall assignment.
 
 When referencing from the features (SMF) elements to evidence (SME) elements, it is possible for a SMF element to reference multiple SME elements. However, there are potentially several reasons for a 1 to many relationship. A different code MUST be provided in the SME_ID_REF_ambiguity_code element to clarify the case:
 
@@ -282,19 +284,16 @@ When referencing from the features (SMF) elements to evidence (SME) elements, it
 * Different input data has been used to support identification and ambiguity still remains (code=3).
 
 
+
 [[guidelines-for-reporting-results-prior-to-or-with-no-alignment-step-across-features]]
 === Guidelines for reporting results prior to or with no alignment step across features
 
-The most common intended use for mzTab-M is to encode MS results that have been aligned across multiple analyses (assays), for example by retention time alignment in LC-MS or GC-MS approaches. However, it is possible to use mzTab-M as part of internal pipelines to represent small molecules quantified by MS (features) before alignment. The RECOMMENDED encoding for doing this would be to represent the features from _n_ MS analyes in _n_ mzTab files, rather than attempting to create an SMF table including a sparse matrix filled with nulls for in all but one of the assay columns.
+The most common intended use for mzTab-M is to encode MS results that have been aligned across multiple analyses (assays), for example by retention time alignment in LC-MS or GC-MS approaches. However, it is possible to use mzTab-M as part of internal pipelines to represent small molecules quantified by MS (features) before alignment. The RECOMMENDED encoding for doing this would be to represent the features from _n_ MS analyes in _n_ mzTab files, rather than attempting to create an SMF table including a sparse matrix filled with nulls for all but one of the assay columns.
 
 [[Guidelines-for-pre-fractionation]]
 === Guidelines for workflows involving pre-fractionation
 It is possible that a single analysis of a sample is split offline via some fractionation technology prior to LC/GC-MS into _n_ MS analyses to limit the complexity of the molecules arriving at the detector. Such workflows, while relatively rare in metabolomics, can be encoded in mzTab-M via an assay referencing to _n_ ms_runs. It may be desirable to maintain the link from a feature (SMF row) to the ms_run from which it was obtained. This SHOULD be achieved through the use of an optional column called "opt_global_ms_run_refs", in which the identifiers of ms_runs are placed where the feature has been quantified from.
 
-[[comments-on-specific-use-cases]]
-=== Comments on Specific Use Cases
-
-Many special use cases for mzTab were considered during its development. Each of these use cases has a corresponding example file that exercises the relevant part of the format and provides a reference implementation example (see supporting documentation). Authors of software that create mzTab are encouraged to examine the examples that accompany this format release before implementing the writer.
 
 [[adding-optional-columns]]
 === Adding optional columns
@@ -306,15 +305,12 @@ These column headers MUST start with the prefix “opt_” followed by the ident
 The information stored within an optional column is completely up to the resource that generates the file. It MUST not be assumed that optional columns having the same name in different mzTab files contain the same type of information. CV parameter accessions MAY be used as optional column names according to the following convention: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
 
 ----
-COM Example showing how emPAI values are reported in an additional column from MS run 1 using
-
-COM MS CV parameter “emPAI value” (MS:1001905)
+COM Example showing how drift time values are reported in an additional column from MS run 1 using
+COM MS CV parameter “ion mobility drift time” (MS:1002476)
 
 …
-
-PRH accession … opt_ms_run[1]_cv_MS:1001905_emPAI_value
-
-PRT P12345 … 0.658
+SFH SMF_ID … opt_ms_run[1]_cv_MS:MS:1002476_ion_mobility_drift_time
+SMF 1 … 24.55
 ----
 
 [[referencing-external-resources]]
@@ -326,6 +322,7 @@ The current specifications of mzTab-M only support relatively simple details abo
 === Other supporting materials
 
 Example files are located at https://github.com/HUPO-PSI/mzTab/tree/master/examples/1_1-Metabolomics_Draft[GitHub].
+TODO: Need to tidy up GitHub example file repo.
 
 [[format-specification]]
 == Format specification
@@ -372,14 +369,12 @@ In case, the name of the param contains commas, quotes MUST be added to avoid pr
 ....
 
 * *Sample IDs* +
-To be able to supply metadata specific to each sample, ids in the format `sample[1-n]` are used. +
- +
+To be able to supply metadata specific to each sample, ids in the format `sample[1-n]` are used.
 ....
 MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
 ....
 * *Assay IDs* +
-To be able to supply metadata specific to each assay, ids in the format `assay[1-n]` are used. +
- +
+To be able to supply metadata specific to each assay, ids in the format `assay[1-n]` are used.
 ....
 MTD assay[1] first assay description
 ....
@@ -436,7 +431,7 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Description:* |The file’s human readable title.
 |*Type:* |String
 |*Mandatory* |False
-|*Example:* a|`MTD title My first test experiment`
+|*Example:* a|`MTD title Effects of Rapamycin on metabolite profile `
 |================================================
 
 [[description]]
@@ -447,7 +442,7 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Description:* |The file’s human readable description.
 |*Type:* |String
 |*Mandatory* |False
-|*Example:* a|`MTD description An experiment investigating the effects of Il-6.`
+|*Example:* a|`MTD description An experiment investigating the effects of Il-6...`
 |============================================================================
 
 [[sample_processing1-n]]
@@ -464,20 +459,6 @@ MTD sample_processing[1] [SEP, sep:00210, liquid chromatograhy,]
 
 ....
 |=================================================================================================================================================================================================================================================================
-
-[[instrument1-n-id]]
-==== instrument[1-n]-id
-
-[cols=",",]
-|==========================================================================================================
-|*Description:* |Within file unique identifier for a given instrument.
-|*Type:* |Parameter
-|*Mandatory* |False
-|*Example:* a|
-....
-MTD instrument[1]-id 1
-....
-|==========================================================================================================
 
 [[instrument1-n-name]]
 ==== instrument[1-n]-name
@@ -814,7 +795,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
 [cols=",",]
 |=====================================================================================================================================================================================================================================================================================================================================================
 |*Description:* |If different instruments are used in different runs, this attribute can be used to link a specific instrument to a specific run.
-|*Type:* |instrument_id
+|*Type:* |Integer
 |*Mandatory* |False
 |*Example:* a|
 ....
@@ -890,7 +871,7 @@ OR
 MTD ms_run[1]-scan_polarity[1] [MS, MS:1000129, negative scan, ]
 OR (For mixed polarity in one run)
 MTD ms_run[1]-scan_polarity[1] [MS, MS:1000130, positive scan, ]
-MTD ms_run[1]-scan_polarity[12] [MS, MS:1000129, negative scan, ]
+MTD ms_run[1]-scan_polarity[2] [MS, MS:1000129, negative scan, ]
 |===========================================================================
 
 
@@ -947,13 +928,12 @@ MTD assay[2] second assay
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-MTD assay[1]-custom[1] [MS, MS:100XXXX, #TO_COMPLETE#, ]
+MTD assay[1]-custom[1] [MS, , Assay operator, Fred Blogs]
 ....
 |==================================================================
 
 [[assay1-n-external_uri]]
 ==== assay[1-n]-external_uri
-IMPORTANT: TODO insert example URI, Need an example to show this working. Andy Jones
 [cols=",",]
 |====================================================================================================================================
 |*Description:* |A reference to further information about the assay, for example via a reference to an object within an ISA-TAB file.
@@ -962,25 +942,10 @@ IMPORTANT: TODO insert example URI, Need an example to show this working. Andy J
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-MTD assay[1]-external_uri #Example URI to insert#
+MTD assay[1]-external_uri https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt?STUDYASSAY=a_e04_c18pos.txt
 ....
 |====================================================================================================================================
 
-[[study_variable1-n]]
-==== study_variable[1-n]
-
-[cols=",",]
-|================================================================================================================================================================================================================================================================================================
-|*Description:* |A name for each study variable (experimental condition or factor), to serve as a list of the study variables that MUST be reported in the following tables. For software that does not capture study variables, a single study variable MUST be reported, linking to all assays.
-|*Type:* |String
-|*Mandatory* |True
-|*Example:* a|
-....
-MTD study_variable[1] “control”
-
-MTD study_variable[2] “1 minute”
-....
-|================================================================================================================================================================================================================================================================================================
 
 [[assay1-n-sample_ref]]
 ==== assay[1-n]-sample_ref
@@ -1014,9 +979,24 @@ MTD assay[1]-ms_run_ref ms_run[1]
 ....
 |===========================================================================================================================================================================================================================================================
 
+[[study_variable1-n]]
+==== study_variable[1-n]
+
+[cols=",",]
+|================================================================================================================================================================================================================================================================================================
+|*Description:* |A name for each study variable (experimental condition or factor), to serve as a list of the study variables that MUST be reported in the following tables. For software that does not capture study variables, a single study variable MUST be reported, linking to all assays.
+|*Type:* |String
+|*Mandatory* |True
+|*Example:* a|
+....
+MTD study_variable[1] “control”
+
+MTD study_variable[2] “1 minute”
+....
+|================================================================================================================================================================================================================================================================================================
+
 [[study_variable1-n-assay_refs]]
 ==== study_variable[1-n]-assay_refs
-IMPORTANT: TODO We are using different separator types across the document, these should be made consistent. Andy Jones
 [cols=",",]
 |==============================================================================================
 |*Description:* |Bar-separated references to the IDs of assays grouped in the study variable.
@@ -1032,13 +1012,13 @@ MTD study_variable[1]-assay_refs assay[1]| assay[2]| assay[3]
 ==== study_variable[1-n]_average_function
 [cols=",",]
 |==========================================================================================================================================================================================================================================================================================
-|*Description:* |The function used to calculate the study variable quantification value if it is reported and the operation used is not arithmetic mean (default) e.g. “geometric mean”, “median”. The 1-n refers to different study variables.
+|*Description:* |The function used to calculate the study variable quantification value and the operation used is not arithmetic mean (default) e.g. “geometric mean”, “median”. The 1-n refers to different study variables.
 |*Type:* |Parameter
 |*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD study_variable_average_function [MS, MS:0000XXX, Median, ]#
+MTD study_variable_average_function [MS, MS:1002883, median, ]
 ....
 |==========================================================================================================================================================================================================================================================================================
 
@@ -1052,11 +1032,9 @@ MTD study_variable[1]-assay_refs assay[1]| assay[2]| assay[3]
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD study_variable_variation_function [MS, MS:0000XXX, Standard error, ]#
+MTD study_variable_variation_function [MS, MS:1002885, standard error, ]
 ....
 |==========================================================================================================================================================================================================================================================================================
-
-
 
 
 [[study_variable1-n-description]]
@@ -1075,7 +1053,6 @@ MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)
 
 [[study_variable1-n-factors]]
 ==== study_variable[1-n]-factors
-IMPORTANT: TODO We need examples. Andy Jones
 [cols=","]
 |=======================================================================================================================================================================
 |*Description:* |Additional parameters or factors, separated by bars, that are known about study variables allowing the capture of more complex, such as nested designs.
@@ -1084,7 +1061,7 @@ IMPORTANT: TODO We need examples. Andy Jones
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-MTD study_variable[1]-factors #EXAMPLE HERE e.g. param1 = geneKO; param2 = drug treatment#
+MTD study_variable[1]-factors [,,rapamycin dose,0.5mg]
 ....
 |=======================================================================================================================================================================
 
@@ -1188,7 +1165,6 @@ MTD database[1] [, , “no database”, "null"]
 
 [[database1-n-prefix]]
 ==== database[1-n]-prefix
-IMPORTANT: TODO Make sure to explain that the colon must followed these prefixes in the SMF section below. Andy Jones
 [cols=",",]
 |====================================================================================================================================================
 |*Description:* |The prefix used in the “identifier” column of data tables. For the “no database” case "null" must be used.
@@ -1253,7 +1229,6 @@ MTD derivatization_agent[1] [, PUBCHEM:00XXX, idomethylation, ]
 
 [[small_molecule-quantification_unit]]
 ==== small_molecule-quantification_unit
-IMPORTANT: TODO Examples to be added from a range of software packages. Andy Jones
 [cols=",",]
 |=============================================================================================================
 |*Description:* |Defines what type of units is reported in the small molecule quantification fields.
@@ -1262,13 +1237,12 @@ IMPORTANT: TODO Examples to be added from a range of software packages. Andy Jon
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD small_molecule-quantification_unit [PSI-MS, MS:000XXXX, Progenesis QI Normalised Abundance, ]#
+MTD small_molecule-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normalised abundance, ]
 ....
 |=============================================================================================================
 
 [[small_molecule_feature-quantification_unit]]
 ==== small_molecule_feature-quantification_unit
-IMPORTANT: TODO Examples to be added from a range of software packages. Andy Jones
 [cols=",",]
 |=====================================================================================================================
 |*Description:* |Defines what type of units is reported in the small molecule feature quantification fields.
@@ -1277,13 +1251,12 @@ IMPORTANT: TODO Examples to be added from a range of software packages. Andy Jon
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD small_molecule_feature-quantification_unit [PSI-MS, MS:000XXXX, Progenesis QI Normalised Abundance, ]#
+MTD small_molecule_feature-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normalised abundance, ]
 ....
 |=====================================================================================================================
 
 [[small_molecule-identification_reliability]]
 ==== small_molecule-identification_reliability
-IMPORTANT: TODO To revisit. Andy Jones
 [cols=",",]
 |================================================================================================================================================
 |*Description:* |The system used for giving reliability codes to small molecule identifications MUST be specified if not using the default codes.
@@ -1292,7 +1265,7 @@ IMPORTANT: TODO To revisit. Andy Jones
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-#MTD small_molecule-identification_reliability [, , Numerical system defined in publication, PMID:XXX]#
+MTD small_molecule-identification_reliability [, , Numerical system defined in publication, PMID:AS_ONE_BECOMES_AVAILABLE]
 ....
 |================================================================================================================================================
 
@@ -1306,65 +1279,12 @@ IMPORTANT: TODO To revisit. Andy Jones
 |*Mandatory* |True
 |*Example:* a|
 ....
-id_confidence_measure[1]	[MS,MS:1000XXX,Progenesis MetaScope Score,]
-id_confidence_measure[2]	[MS,MS:1000XXX,Fragmentation Score,]
-id_confidence_measure[3]	[MS,MS:1000XXX,Isotopic fit Score,]
+id_confidence_measure[1]	[MS,MS:1002889,Progenesis MetaScope Score,]
+id_confidence_measure[2]	[MS,MS:1002890,fragmentation score,]
+id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]
 
 ....
 |=====================================================================================================================================================================================================================================================
-
-[[colunit-small_molecule]]
-==== colunit-small_molecule
-
-[cols=",",]
-|=================================================================================================================================================================================
-|*Description:* |
-Defines the used unit for a column in the small molecule section. The format of the value has to be \{column name}=\{Parameter defining the unit}
-
-This field MUST NOT be used to define a unit for quantification columns. The unit used for small molecule quantification values MUST be set in small_molecule-quantification_unit.
-
-|*Type:* |String
-|*Mandatory* |False
-|*Example:* a|
-[subs="verbatim,quotes"]
-....
-#MTD colunit-small_molecule GIVE EXAMPLE NOT RT#
-....
-|=================================================================================================================================================================================
-
-[[colunit-small_molecule_feature]]
-==== colunit-small_molecule_feature
-
-[cols=",",]
-|=================================================================================================================================================================================
-|*Description:* |
-Defines the used unit for a column in the small molecule feature section. The format of the value has to be \{column name}=\{Parameter defining the unit}
-
-This field MUST NOT be used to define a unit for quantification columns. The unit used for small molecule quantification values MUST be set in small_molecule-quantification_unit.
-
-|*Type:* |String
-|*Mandatory* |False
-|*Example:* a|
-[subs="verbatim,quotes"]
-....
-#MTD colunit-small_molecule GIVE EXAMPLE NOT RT#
-....
-|=================================================================================================================================================================================
-
-[[colunit-small_molecule_evidence]]
-==== colunit-small_molecule_evidence
-
-[cols=",",]
-|===========================================================================================================================================================================
-|*Description:* |Defines the used unit for a column in the small molecule evidence section. The format of the value has to be \{column name}=\{Parameter defining the unit}.
-|*Type:* |String
-|*Mandatory* |False
-|*Example:* a|
-[subs="verbatim,quotes"]
-....
-#Example needed#
-....
-|===========================================================================================================================================================================
 
 [[small-molecule-section]]
 === Small Molecule Section
@@ -1429,7 +1349,7 @@ A null value MAY be provided if the identification is sufficiently ambiguous as 
 [subs="verbatim,quotes"]
 ....
 SMH SML_ID database_identifier …
-SML 1 #CID:00027395# …
+SML 1 CID:00027395 …
 SML 2 HMDB:HMDB12345
 SML 3 null
 ....
@@ -1517,7 +1437,7 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…
 [subs="verbatim,quotes"]
 ....
 SMH SML_ID … uri …
-SML 1 … #example_URL# …
+SML 1 … http://www.genome.jp/dbget-bin/www_bget?cpd:C00031 …
 ....
 |================================================================================================================================================================================================================================================================================================================================================================================
 
@@ -1543,11 +1463,10 @@ SML 1 … 1234.5 …
 
 [[adduct_ions]]
 ==== adduct_ions
-IMPORTANT: TODO Joel to insert a regex here. Andy Jones
 [cols=",",]
 |============================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |#A “\|” separated list of adducts# for this this molecule, following the general style in the 2013 IUPAC recommendations on http://dx.doi.org/10.1351/PAC-REC-06-04-06[terms relating to MS] e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
-|*Type:* |#String List#
+|*Description:* |A “\|” separated list of adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on http://dx.doi.org/10.1351/PAC-REC-06-04-06[terms relating to MS] e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
+|*Type:* |Regex \[\d*M([+-][\w]*)+\]\d*[+-] List
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
@@ -1564,14 +1483,14 @@ SML 1 … [M+H]1+ | [M+Na]1+ …
 |*Description:* a|
 The reliability of the given small molecule identification. By default, the following system is used.
 
-#This must be supplied by the resource and MUST be reported as an integer between 1-4:#
+This must be supplied by the resource and MUST be reported as an integer between 1-4:#
 
-. #identified metabolite#
-. #putatively annotated compound#
-. #putatively characterized compound class#
-. #unknown compound#
+. identified metabolite
+. putatively annotated compound
+. putatively characterized compound class
+. unknown compound
 
-#These MAY be replaced using a suitable CV term in the Metadata section e.g. to use MSI recommendation levels.#
+#These MAY be replaced using a suitable CV term in the Metadata section e.g. to use MSI recommendation levels.
 
 A String data type is set to allow for different systems to be specified in the metadata section.
 
@@ -1741,12 +1660,10 @@ SMF 1 5\|6\|12… 1
 
 [[adduct_ion]]
 ==== adduct_ion
-IMPORTANT: TODO Add URL to these recommendations? Andy Jones
-IMPORTANT: TODO Joel to write a regex for this. Andy Jones
 [cols=",",]
 |==========================================================================================================================================================================================================
-|*Description:* |#The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-.#
-|*Type:* |#String#
+|*Description:* |The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-.
+|*Type:* |\[\d*M([+-][\w]*)+\]\d*[+-]
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
@@ -2048,11 +1965,10 @@ SML CID:00027395 … [,, “TMS”,] …
 
 [[adduct_ion-1]]
 ==== adduct_ion
-IMPORTANT: TODO Regex in here. Andy Jones
 [cols=",",]
 |============================================================================================================================================================================================================================================================================================================
 |*Description:* |The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
-|*Type:* |#String#
+|*Type:* |\[\d*M([+-][\w]*)+\]\d*[+-]
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
@@ -2119,7 +2035,7 @@ Reference to a spectrum in a spectrum file, for example a fragmentation spectrum
 If a fragmentation spectrum has not been used, the value should indicate the ms_run to which is identification is mapped e.g. “ms_run[1]”.
 
 |*Type:* |String List
-|*Is Nullable:* |*FALSE* IMPORTANT: TODO To add to documentation how to do this for manual curation etc. Andy Jones
+|*Is Nullable:* |*FALSE*
 |*Example:* a|
 ....
 SEH SME_ID … spectra_ref …
@@ -2132,9 +2048,9 @@ SME 1 … ms_run[1]:index=5 …
 
 [cols=",",]
 |=======================================================================================================================================================================
-|*Description:* |The database search, search engine or process that was used to identify this small molecule e.g. the name of software, database or manual curation etc.
+|*Description:* |The database search, search engine or process that was used to identify this small molecule e.g. the name of software, database or manual curation etc. If manual validation has been performed quality, the following CV term SHOULD be used: "estimation by manual validation" MS:1001058.
 |*Type:* |Parameter
-|*Is Nullable:* |*FALSE* IMPORTANT: TODO To add to documentation how to do this for manual curation etc. Andy Jones
+|*Is Nullable:* |*FALSE*
 |*Example:* a|
 ....
 SEH SME_ID … identification_method…
@@ -2223,53 +2139,30 @@ Examples include:
 [[conclusions]]
 == Conclusions
 
-IMPORTANT: TODO
-This document contains the specifications for using the mzTab format to represent results from small molecule pipelines, in the context of a metabolomics or lipidomics investigation. This specification constitutes a proposal for a standard from the Proteomics Standards Initiative and Metabolomics Standards Initiative. These artefacts are currently undergoing the PSI document process, which will result in a standard officially sanctioned by PSI.
+This document contains the specifications for using the mzTab format to represent results from small molecule pipelines, in the context of a metabolomics or lipidomics investigation. This specification constitutes a proposal for a standard from the Proteomics Standards Initiative and Metabolomics Standards Initiative. These artefacts are currently undergoing the PSI document process, which will result in a standard officially sanctioned by PSI/MSI.
 
 [[authors]]
 == Authors
 
-IMPORTANT: Please add affiliations#
+TODO: Please add affiliations#
 
 * Nils Hoffmann
 * Joel Rein
-* Kenneth Haug
+* Kenneth Haug, European Bioinformatics Institute, Cambridge, United Kingdom.
 * Saravanan Dayalan
 * Philippe Rocca-Serra
-* Da Qi
+* Da Qi, University of Liverpool and BGI
+* Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
 * Timo Sachsenburg
-* Juan Antonio Vizcaíno
-* Reza M Salek
-* Steffen Neumann
-* Andrew R Jones
+* Juan Antonio Vizcaíno, European Bioinformatics Institute, Cambridge, United Kingdom.
+* Reza M Salek,
+* Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle, Germany.
+* Andrew R Jones, University of Liverpool
 
 Apologies if I missed anyone!
 
-[[contributors]]
-== Contributors
 
-In addition to the authors, the following people contributed to the model development, gave feedback or tested mzTab:
 
-* COSMOS
-* Nuno Bandeira, Center for Computational Mass Spectrometry, University of California, San Diego, CA, USA.
-* Robert J. Chalkley, Department of Pharmaceutical Chemistry, University of California San Francisco, CA, USA.
-* Jürgen Cox, Max Planck Institute of Biochemistry, Martinsried, Germany.
-* Martin Eisenacher, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
-* Jun Fan, Queen Mary University of London, United Kingdom.
-* Fawaz Ghali, University of Liverpool, United Kingdom.
-* Laurent Gatto, University of Cambridge, Cambridge, United Kingdom.
-* Jürgen Hartler, Graz University of Technology, Graz, Austria.
-* Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
-* Nadin Neuhauser, Max Planck Institute of Biochemistry, Martinsried, Germany.
-* Yasset Pérez-Riverol, European Bioinformatics Institute, Cambridge, United Kingdom.
-* Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle, Germany.
-* Florian Reisinger, European Bioinformatics Institute, Cambridge, United Kingdom.
-* Reza M. Salek, European Bioinformatics Institute, Cambridge, United Kingdom.
-* Christoph Steinbeck, European Bioinformatics Institute, Cambridge, United Kingdom.
-* Noemi del Toro, European Bioinformatics Institute, Cambridge, United Kingdom.
-* Gerhard Thallinger, Graz University of Technology, Graz, Austria.
-* Ioannis Xenarios, Swiss Institute of Bioinformatics, Geneva, Switzerland.
-* Qing-Wei Xu, European Bioinformatics Institute, United Kingdom.
 
 [bibliography]
 [[references]]
@@ -2281,9 +2174,7 @@ Citing: <<KEY,LABEL>>, e.g. <<bradner-1997,(Bradner 1997)>> will render a link t
 [bibliography]
 - [[[bradner-1997]]] Bradner, S. (1997). Key words for use in RFCs to Indicate Requirement Levels, Internet Engineering Task Force. RFC 2119.
 - [[[martens-2011]]] Martens, L., et al. (2011). "mzML--a community standard for mass spectrometry data." _Mol Cell Proteomics_ 10(1): R110 000133.
-- [[[jones-2012]]] Jones, A. R., et al. (2012). "The mzIdentML data standard for mass spectrometry-based proteomics results." _Mol Cell Proteomics_ doi:10.1074/mcp.M111.014381.
 - [[[hill-1900]]] EA Hill (1900). “ON A SYSTEM OF INDEXING CHEMICAL LITERATURE; ADOPTED BY THE CLASSIFICATION DIVISION OF THE U. S. PATENT OFFICE.” _J. Am. Chem. Soc._ 22 (8): 478–494. doi:10.1021/ja02046a005.
-- [[[walzer-2013]]] Walzer et al. (2013) "The mzQuantML data standard for mass spectrometry-based quantitative studies in proteomics" _Mol Cell Proteomics_ doi: 10.1074/mcp.O113.028506.
 - [[[griss-2014]]] Griss et al. (2014) "The mzTab data exchange format: communicating mass-spectrometry-based proteomics and metabolomics experimental results to a wider audience." _Mol Cell Proteomics_ doi: 10.1074/mcp.O113.036681.
 
 [[intellectual-property-statement]]
