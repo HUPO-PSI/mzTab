@@ -66,7 +66,7 @@ The remainder of this document is structured as follows.
 
 [start=2]
 . <<use-cases-for-mztab>> lists use cases mzTab-M is designed to support. . <<notational-conventions>> describes the terminology used.
-. <<relationships-to-other-specifications>> describes how the specification presented in <<format-specification>> relates to other specifications, both those that it extends and those that it is intended to complement.
+. <<relationship-to-other-specifications>> describes how the specification presented in <<format-specification>> relates to other specifications, both those that it extends and those that it is intended to complement.
 .  <<resolved-design-and-scope-issues>> discusses the reasoning behind several design decisions taken.
 . <<format-specification>> contains the documentation of the file.
 . <<non-supported-use-cases>> lists use cases that are currently not supported.
