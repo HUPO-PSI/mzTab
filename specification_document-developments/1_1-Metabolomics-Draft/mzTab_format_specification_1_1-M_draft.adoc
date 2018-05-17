@@ -1680,7 +1680,7 @@ SMF 1 … [M+H]1+ …
 [cols=",",]
 |===================================================================================================================================================================================================================================================
 |*Description:* |If de-isotoping has not been performed, then the isotopomer quantified MUST be reported here e.g. “+1”, “+2”, “13C peak” using cvParams, otherwise (i.e. for approaches where SMF rows are de-isotoped features) this MUST be null.
-|*Type:* |String
+|*Type:* |Parameter
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
@@ -1956,7 +1956,7 @@ SME 1 … http://www.hmdb.ca/metabolites/HMDB00054
 [cols=",",]
 |==============================================================================================================================================================================================
 |*Description:* |If a derivatized form has been analysed by MS, then the functional group attached to the molecule should be reported here using suitable userParam or cvParams as appropriate.
-|*Type:* |String
+|*Type:* |Parameter
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
@@ -2050,7 +2050,7 @@ SME 1 … ms_run[1]:index=5 …
 
 [cols=",",]
 |=======================================================================================================================================================================
-|*Description:* |The database search, search engine or process that was used to identify this small molecule e.g. the name of software, database or manual curation etc. If manual validation has been performed quality, the following CV term SHOULD be used: "estimation by manual validation" MS:1001058.
+|*Description:* |The database search, search engine or process that was used to identify this small molecule e.g. the name of software, database or manual curation etc. If manual validation has been performed quality, the following CV term SHOULD be used: "quality estimation by manual validation" MS:1001058.
 |*Type:* |Parameter
 |*Is Nullable:* |*FALSE*
 |*Example:* a|
