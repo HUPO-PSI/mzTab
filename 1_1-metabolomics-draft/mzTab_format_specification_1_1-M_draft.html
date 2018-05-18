@@ -1201,11 +1201,11 @@ To be able to supply metadata specific to each study variable (grouping of assay
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The version of the mzTab file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The version of the mzTab file. The suffix MUST be "-M" for mzTab for metabolomics (mzTab-M).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"1\.1\.\d-M"}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\d{1}\.\d{1}\.\d{1}-M"}</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mandatory</strong></p></td>
@@ -3390,7 +3390,7 @@ SML 1 … 1234.5 …</pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex \[\d*M([-][\w]*)\]\d*[+-] List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\[\d*M([-][\w]*)\]\d*[+-]"} List</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Is Nullable:</strong></p></td>
@@ -3807,7 +3807,7 @@ SMF 1 5|6|12… 1</pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex \[\d*M([-][\w]*)\]\d*[+-]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\[\d*M([-][\w]*)\]\d*[+-]"}</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Is Nullable:</strong></p></td>
@@ -4433,7 +4433,7 @@ SML CID:00027395 … [,, “TMS”,] …</pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex \[\d*M([-][\w]*)\]\d*[+-]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\[\d*M([-][\w]*)\]\d*[+-]"}</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Is Nullable:</strong></p></td>
@@ -4900,7 +4900,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-17 14:55:35 UTC
+Last updated 2018-05-18 13:23:10 UTC
 </div>
 </div>
 </body>
