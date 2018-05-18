@@ -406,8 +406,8 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 
 [cols=",",]
 |==============================================
-|*Description:* |The version of the mzTab file.
-|*Type:* |Regex{"\d{1}\.\d{1}\.\d{1}-[MPL]{1}"}
+|*Description:* |The version of the mzTab file. The suffix MUST be "-M" for mzTab for metabolomics (mzTab-M).
+|*Type:* |Regex{"\d{1}\.\d{1}\.\d{1}-M"}
 |*Mandatory* |True
 |*Example:* a|`MTD mzTab-version  1.1.0-M`
 |==============================================
