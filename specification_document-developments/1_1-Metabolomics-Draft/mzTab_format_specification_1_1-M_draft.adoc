@@ -385,6 +385,7 @@ MTD study_variable[1] Group B (spike-in 0.74 fmol/uL)
 ....
 * *URIs* +
 URIs MUST follow the format defined in https://tools.ietf.org/html/rfc3986[RFC 3986] and https://tools.ietf.org/html/rfc8089[RFC 8089] ('file' URIs). 
+
 [[sections]]
 === Sections
 
