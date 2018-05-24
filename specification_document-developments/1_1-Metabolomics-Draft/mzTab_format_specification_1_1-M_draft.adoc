@@ -383,6 +383,8 @@ To be able to supply metadata specific to each study variable (grouping of assay
 ....
 MTD study_variable[1] Group B (spike-in 0.74 fmol/uL)
 ....
+* *URIs* +
+URIs MUST follow the format defined in https://tools.ietf.org/html/rfc3986[RFC 3986] and https://tools.ietf.org/html/rfc8089[RFC 8089] ('file' URIs). 
 [[sections]]
 === Sections
 
@@ -779,11 +781,11 @@ MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]
 [cols=",",]
 |=====================================================================================================================================================================================================================================================================================================================================================
 |*Description:* |Location of the external data file e.g. raw files on which analysis has been performed. If the actual location of the MS run is unknown, a “null” MUST be used as a place holder value, since the [1-n] cardinality is referenced elsewhere. If pre-fractionation has been performed, then [1-n] ms_runs SHOULD be created per assay.
-|*Type:* |URL
+|*Type:* |URI
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD ms_run[1]-location file://C:\path\to\my\file
+MTD ms_run[1]-location file:///C:/path/to/my/file
 …
 MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
 ....
@@ -2148,14 +2150,14 @@ This document contains the specifications for using the mzTab format to represen
 
 TODO: Please add affiliations#
 
-* Nils Hoffmann
+* Nils Hoffmann, Leibniz Institute for Analytical Sciences – ISAS – e.V., Dortmund, Germany.
 * Joel Rein
 * Kenneth Haug, European Bioinformatics Institute, Cambridge, United Kingdom.
 * Saravanan Dayalan
 * Philippe Rocca-Serra
 * Da Qi, University of Liverpool and BGI
 * Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
-* Timo Sachsenburg
+* Timo Sachsenberg
 * Juan Antonio Vizcaíno, European Bioinformatics Institute, Cambridge, United Kingdom.
 * Reza M Salek,
 * Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle, Germany.
