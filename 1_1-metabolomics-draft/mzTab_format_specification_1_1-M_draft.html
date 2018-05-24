@@ -471,10 +471,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#format-specification">6. Format specification</a>
 <ul class="sectlevel2">
-<li><a href="#metadata-section">6.1. Metadata Section</a></li>
-<li><a href="#small-molecule-section">6.2. Small Molecule Section</a></li>
-<li><a href="#small-molecule-feature-smf-section">6.3. Small Molecule Feature (SMF) Section</a></li>
-<li><a href="#small-molecule-evidence-sme-section">6.4. Small Molecule Evidence (SME) Section</a></li>
+<li><a href="#sections">6.1. Sections</a></li>
+<li><a href="#metadata-section">6.2. Metadata Section</a></li>
+<li><a href="#small-molecule-section">6.3. Small Molecule Section</a></li>
+<li><a href="#small-molecule-feature-smf-section">6.4. Small Molecule Feature (SMF) Section</a></li>
+<li><a href="#small-molecule-evidence-sme-section">6.5. Small Molecule Evidence (SME) Section</a></li>
 </ul>
 </li>
 <li><a href="#non-supported-use-cases">7. Non-supported use cases</a></li>
@@ -971,7 +972,7 @@ There is deliberately no attempt to define the boundary of the term “sample”
 <p>It is common in metabolomics and lipidomics for significant ambiguity to remain after data processing in the identification of molecules. In the top level (SML) table, multiple identifiers MAY be provided in several columns: database_identifier, chemical_formula, smiles, inchi, chemical_name and uri. If there is ambiguity in the actual identity of the molecule, multiple identifiers SHOULD be reported separated by the "|" character. The number of elements separated by | characters MUST be identical in all columns where data is reported to make it clear the corrspondence across columns.</p>
 </div>
 <div class="paragraph">
-<p>The SML element <a href="#reliability">Section 6.2.11</a> MUST be assigned a value to indicate the confidence or ambiguity of the overall assignment.</p>
+<p>The SML element <a href="#reliability">Section 6.3.11</a> MUST be assigned a value to indicate the confidence or ambiguity of the overall assignment.</p>
 </div>
 <div class="paragraph">
 <p>When referencing from the features (SMF) elements to evidence (SME) elements, it is possible for a SMF element to reference multiple SME elements. However, there are potentially several reasons for a 1 to many relationship. A different code MUST be provided in the SME_ID_REF_ambiguity_code element to clarify the case:</p>
@@ -1173,17 +1174,17 @@ To be able to supply metadata specific to each study variable (grouping of assay
 <li>
 <p><strong>URIs</strong><br>
 URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a> and <a href="https://tools.ietf.org/html/rfc8089">RFC 8089</a> ('file' URIs).</p>
-<div id="sections" class="paragraph">
-<p>=== Sections</p>
-</div>
 </li>
 </ul>
 </div>
+<div class="sect2">
+<h3 id="sections">6.1. Sections</h3>
 <div class="paragraph">
 <p>mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) Section. In practice, we expect that most files SHOULD also include one Small Molecule Feature (SMF) section, and one Small Molecule Evidence (SME) Section. Files lacking SMF and SME sections can only present summary data about quantified molecules, without any evidence trail for how those values were derived. It will be left to reading software to determine whether additional validation will be requested such that SMF and SME tables MUST be present.</p>
 </div>
+</div>
 <div class="sect2">
-<h3 id="metadata-section">6.1. Metadata Section</h3>
+<h3 id="metadata-section">6.2. Metadata Section</h3>
 <div class="paragraph">
 <p>The metadata section provides additional information about the dataset(s) reported in the mzTab file. All fields in the metadata section are optional apart from those noted as mandatory. The fields in the metadata section MUST be reported in order of the various fields listed here. The field’s name and value MUST be separated by a tab character:</p>
 </div>
@@ -1199,7 +1200,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 <p><strong>Core Metadata</strong></p>
 </div>
 <div class="sect3">
-<h4 id="mztab-version">6.1.1. mzTab-version</h4>
+<h4 id="mztab-version">6.2.1. mzTab-version</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1228,7 +1229,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 </table>
 </div>
 <div class="sect3">
-<h4 id="mztab-id">6.1.2. mzTab-ID</h4>
+<h4 id="mztab-id">6.2.2. mzTab-ID</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1257,7 +1258,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 </table>
 </div>
 <div class="sect3">
-<h4 id="title">6.1.3. title</h4>
+<h4 id="title">6.2.3. title</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1286,7 +1287,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 </table>
 </div>
 <div class="sect3">
-<h4 id="description">6.1.4. description</h4>
+<h4 id="description">6.2.4. description</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1315,7 +1316,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample_processing1-n">6.1.5. sample_processing[1-n]</h4>
+<h4 id="sample_processing1-n">6.2.5. sample_processing[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1346,7 +1347,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 </table>
 </div>
 <div class="sect3">
-<h4 id="instrument1-n-name">6.1.6. instrument[1-n]-name</h4>
+<h4 id="instrument1-n-name">6.2.6. instrument[1-n]-name</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1377,7 +1378,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 </table>
 </div>
 <div class="sect3">
-<h4 id="instrument1-n-source">6.1.7. instrument[1-n]-source</h4>
+<h4 id="instrument1-n-source">6.2.7. instrument[1-n]-source</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1410,7 +1411,7 @@ MTD instrument[2]-source [MS, MS:1000598, ETD,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="instrument1-n-analyzer1-n">6.1.8. instrument[1-n]-analyzer[1-n]</h4>
+<h4 id="instrument1-n-analyzer1-n">6.2.8. instrument[1-n]-analyzer[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1443,7 +1444,7 @@ MTD instrument[2]-analyzer[1] [MS, MS:1000484, orbitrap,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="instrument1-n-detector">6.1.9. instrument[1-n]-detector</h4>
+<h4 id="instrument1-n-detector">6.2.9. instrument[1-n]-detector</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1476,7 +1477,7 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="software1-n">6.1.10. software[1-n]</h4>
+<h4 id="software1-n">6.2.10. software[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1507,7 +1508,7 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="software1-n-setting1-n">6.1.11. software[1-n]-setting[1-n]</h4>
+<h4 id="software1-n-setting1-n">6.2.11. software[1-n]-setting[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1540,7 +1541,7 @@ MTD software[2]-setting Parent tolerance = 0.5 Da</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="publication1-n">6.1.12. publication[1-n]</h4>
+<h4 id="publication1-n">6.2.12. publication[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1572,7 +1573,7 @@ MTD publication[2] pubmed:20615486|doi:10.1016/j.jprot.2010.06.008</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="contact1-n-name">6.1.13. contact[1-n]-name</h4>
+<h4 id="contact1-n-name">6.2.13. contact[1-n]-name</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1605,7 +1606,7 @@ MTD contact[2]-name Francis Crick</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="contact1-n-affiliation">6.1.14. contact[1-n]-affiliation</h4>
+<h4 id="contact1-n-affiliation">6.2.14. contact[1-n]-affiliation</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1637,7 +1638,7 @@ MTD contact[2]-affiliation Cambridge University, UK</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="contact1-n-email">6.1.15. contact[1-n]-email</h4>
+<h4 id="contact1-n-email">6.2.15. contact[1-n]-email</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1670,7 +1671,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="uri1-n">6.1.16. uri[1-n]</h4>
+<h4 id="uri1-n">6.2.16. uri[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1701,7 +1702,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="external_study_uri1-n">6.1.17. external_study_uri[1-n]</h4>
+<h4 id="external_study_uri1-n">6.2.17. external_study_uri[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1732,7 +1733,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="quantification_method">6.1.18. quantification_method</h4>
+<h4 id="quantification_method">6.2.18. quantification_method</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1764,7 +1765,7 @@ MTD quantification_method [MS, MS:1001838, SRM quantitation analysis, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_sample1_n">6.1.19. sample[1-n]</h4>
+<h4 id="_sample1_n">6.2.19. sample[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1796,7 +1797,7 @@ MTD sample[2] individual number 2</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-species1-n">6.1.20. sample[1-n]-species[1-n]</h4>
+<h4 id="sample1-n-species1-n">6.2.20. sample[1-n]-species[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1837,7 +1838,7 @@ MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-tissue1-n">6.1.21. sample[1-n]-tissue[1-n]</h4>
+<h4 id="sample1-n-tissue1-n">6.2.21. sample[1-n]-tissue[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1868,7 +1869,7 @@ MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-cell_type1-n">6.1.22. sample[1-n]-cell_type[1-n]</h4>
+<h4 id="sample1-n-cell_type1-n">6.2.22. sample[1-n]-cell_type[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1899,7 +1900,7 @@ MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-disease1-n">6.1.23. sample[1-n]-disease[1-n]</h4>
+<h4 id="sample1-n-disease1-n">6.2.23. sample[1-n]-disease[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1931,7 +1932,7 @@ MTD sample[1]-disease[2] [DOID, DOID:9451, alcoholic fatty liver, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-description">6.1.24. sample[1-n]-description</h4>
+<h4 id="sample1-n-description">6.2.24. sample[1-n]-description</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1963,7 +1964,7 @@ MTD sample[2]-description Healthy control samples.</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-custom1-n">6.1.25. sample[1-n]-custom[1-n]</h4>
+<h4 id="sample1-n-custom1-n">6.2.25. sample[1-n]-custom[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1995,7 +1996,7 @@ MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-location">6.1.26. ms_run[1-n]-location</h4>
+<h4 id="ms_run1-n-location">6.2.26. ms_run[1-n]-location</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2028,7 +2029,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-location">6.1.27. ms_run[1-n]-instrument_ref</h4>
+<h4 id="ms_run1-n-location">6.2.27. ms_run[1-n]-instrument_ref</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2060,7 +2061,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-format">6.1.28. ms_run[1-n]-format</h4>
+<h4 id="ms_run1-n-format">6.2.28. ms_run[1-n]-format</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2095,7 +2096,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-id_format">6.1.29. ms_run[1-n]-id_format</h4>
+<h4 id="ms_run1-n-id_format">6.2.29. ms_run[1-n]-id_format</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2130,7 +2131,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-fragmentation_method1-n">6.1.30. ms_run[1-n]-fragmentation_method[1-n]</h4>
+<h4 id="ms_run1-n-fragmentation_method1-n">6.2.30. ms_run[1-n]-fragmentation_method[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2163,7 +2164,7 @@ MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD …, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-scan_polarity1-n">6.1.31. ms_run[1-n]-scan_polarity[1-n]</h4>
+<h4 id="ms_run1-n-scan_polarity1-n">6.2.31. ms_run[1-n]-scan_polarity[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2199,7 +2200,7 @@ MTD ms_run[1]-scan_polarity[2] [MS, MS:1000129, negative scan, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-hash">6.1.32. ms_run[1-n]-hash</h4>
+<h4 id="ms_run1-n-hash">6.2.32. ms_run[1-n]-hash</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2231,7 +2232,7 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-hash_method">6.1.33. ms_run[1-n]-hash_method</h4>
+<h4 id="ms_run1-n-hash_method">6.2.33. ms_run[1-n]-hash_method</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2263,7 +2264,7 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n">6.1.34. assay[1-n]</h4>
+<h4 id="assay1-n">6.2.34. assay[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2295,7 +2296,7 @@ MTD assay[2] second assay</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n-custom1-n">6.1.35. assay[1-n]-custom[1-n]</h4>
+<h4 id="assay1-n-custom1-n">6.2.35. assay[1-n]-custom[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2326,7 +2327,7 @@ MTD assay[2] second assay</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n-external_uri">6.1.36. assay[1-n]-external_uri</h4>
+<h4 id="assay1-n-external_uri">6.2.36. assay[1-n]-external_uri</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2357,7 +2358,7 @@ MTD assay[2] second assay</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n-sample_ref">6.1.37. assay[1-n]-sample_ref</h4>
+<h4 id="assay1-n-sample_ref">6.2.37. assay[1-n]-sample_ref</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2389,7 +2390,7 @@ MTD assay[2]-sample_ref sample[2]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n-ms_run_ref">6.1.38. assay[1-n]-ms_run_ref</h4>
+<h4 id="assay1-n-ms_run_ref">6.2.38. assay[1-n]-ms_run_ref</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2421,7 +2422,7 @@ MTD assay[2]-sample_ref sample[2]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n">6.1.39. study_variable[1-n]</h4>
+<h4 id="study_variable1-n">6.2.39. study_variable[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2454,7 +2455,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n-assay_refs">6.1.40. study_variable[1-n]-assay_refs</h4>
+<h4 id="study_variable1-n-assay_refs">6.2.40. study_variable[1-n]-assay_refs</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2490,7 +2491,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n_average_function1-n">6.1.41. study_variable[1-n]_average_function</h4>
+<h4 id="study_variable1-n_average_function1-n">6.2.41. study_variable[1-n]_average_function</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2521,7 +2522,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n_variation_function">6.1.42. study_variable[1-n]_variation_function</h4>
+<h4 id="study_variable1-n_variation_function">6.2.42. study_variable[1-n]_variation_function</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2552,7 +2553,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n-description">6.1.43. study_variable[1-n]-description</h4>
+<h4 id="study_variable1-n-description">6.2.43. study_variable[1-n]-description</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2583,7 +2584,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n-factors">6.1.44. study_variable[1-n]-factors</h4>
+<h4 id="study_variable1-n-factors">6.2.44. study_variable[1-n]-factors</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2614,7 +2615,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="custom1-n">6.1.45. custom[1-n]</h4>
+<h4 id="custom1-n">6.2.45. custom[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2645,7 +2646,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-label">6.1.46. cv[1-n]-label</h4>
+<h4 id="cv1-n-label">6.2.46. cv[1-n]-label</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2677,7 +2678,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-full_name">6.1.47. cv[1-n]-full_name</h4>
+<h4 id="cv1-n-full_name">6.2.47. cv[1-n]-full_name</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2709,7 +2710,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-version">6.1.48. cv[1-n]-version</h4>
+<h4 id="cv1-n-version">6.2.48. cv[1-n]-version</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2741,7 +2742,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-url">6.1.49. cv[1-n]-url</h4>
+<h4 id="cv1-n-url">6.2.49. cv[1-n]-url</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2773,7 +2774,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n">6.1.50. database[1-n]</h4>
+<h4 id="database1-n">6.2.50. database[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2810,7 +2811,7 @@ MTD database[1] [, , “no database”, "null"]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n-prefix">6.1.51. database[1-n]-prefix</h4>
+<h4 id="database1-n-prefix">6.2.51. database[1-n]-prefix</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2845,7 +2846,7 @@ MTD database[1]-prefix null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n-version">6.1.52. database[1-n]-version</h4>
+<h4 id="database1-n-version">6.2.52. database[1-n]-version</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2876,7 +2877,7 @@ MTD database[1]-prefix null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n-url">6.1.53. database[1-n]-url</h4>
+<h4 id="database1-n-url">6.2.53. database[1-n]-url</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2913,7 +2914,7 @@ MTD database[1]-prefix null</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="derivatization_agent1-n">6.1.54. derivatization_agent[1-n]</h4>
+<h4 id="derivatization_agent1-n">6.2.54. derivatization_agent[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2944,7 +2945,7 @@ MTD database[1]-prefix null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="small_molecule-quantification_unit">6.1.55. small_molecule-quantification_unit</h4>
+<h4 id="small_molecule-quantification_unit">6.2.55. small_molecule-quantification_unit</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2975,7 +2976,7 @@ MTD database[1]-prefix null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="small_molecule_feature-quantification_unit">6.1.56. small_molecule_feature-quantification_unit</h4>
+<h4 id="small_molecule_feature-quantification_unit">6.2.56. small_molecule_feature-quantification_unit</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3006,7 +3007,7 @@ MTD database[1]-prefix null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="small_molecule-identification_reliability">6.1.57. small_molecule-identification_reliability</h4>
+<h4 id="small_molecule-identification_reliability">6.2.57. small_molecule-identification_reliability</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3037,7 +3038,7 @@ MTD database[1]-prefix null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="id_confidence_measure1-n">6.1.58. id_confidence_measure[1-n]</h4>
+<h4 id="id_confidence_measure1-n">6.2.58. id_confidence_measure[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3071,7 +3072,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="small-molecule-section">6.2. Small Molecule Section</h3>
+<h3 id="small-molecule-section">6.3. Small Molecule Section</h3>
 <div class="paragraph">
 <p>The small molecule section is table-based. The small molecule section MUST always come after the metadata section in a metabolomics type file. All table columns MUST be Tab separated. There MUST NOT be any empty cells; missing values MUST be reported using “null” for columns where Is Nullable = “True”. The order of columns MUS</p>
 </div>
@@ -3085,7 +3086,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 <p>All columns are MANDATORY except for “opt_” columns.</p>
 </div>
 <div class="sect3">
-<h4 id="sml_id">6.2.1. SML_ID</h4>
+<h4 id="sml_id">6.3.1. SML_ID</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3118,7 +3119,7 @@ SML 2 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="smf_id_refs">6.2.2. SMF_ID_REFS</h4>
+<h4 id="smf_id_refs">6.3.2. SMF_ID_REFS</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3150,7 +3151,7 @@ SML 1 2|3|11…</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database_identifier">6.2.3. database_identifier</h4>
+<h4 id="database_identifier">6.3.3. database_identifier</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3186,7 +3187,7 @@ SML 3 null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="chemical_formula">6.2.4. chemical_formula</h4>
+<h4 id="chemical_formula">6.3.4. chemical_formula</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3220,7 +3221,7 @@ SML 1 … C17H20N4O2 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="smiles">6.2.5. smiles</h4>
+<h4 id="smiles">6.3.5. smiles</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3252,7 +3253,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="inchi">6.2.6. inchi</h4>
+<h4 id="inchi">6.3.6. inchi</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3285,7 +3286,7 @@ SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13
 </table>
 </div>
 <div class="sect3">
-<h4 id="chemical_name">6.2.7. chemical_name</h4>
+<h4 id="chemical_name">6.3.7. chemical_name</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3317,7 +3318,7 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…<
 </table>
 </div>
 <div class="sect3">
-<h4 id="uri">6.2.8. uri</h4>
+<h4 id="uri">6.3.8. uri</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3351,7 +3352,7 @@ SML 3 … http://identifiers.org/hmdb/HMDB0001847 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="theoretical_neutral_mass">6.2.9. theoretical_neutral_mass</h4>
+<h4 id="theoretical_neutral_mass">6.3.9. theoretical_neutral_mass</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3384,7 +3385,7 @@ SML 1 … 1234.5 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="adduct_ions">6.2.10. adduct_ions</h4>
+<h4 id="adduct_ions">6.3.10. adduct_ions</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3416,7 +3417,7 @@ SML 1 … [M+H]1+ | [M+Na]1+ …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="reliability">6.2.11. reliability</h4>
+<h4 id="reliability">6.3.11. reliability</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3471,7 +3472,7 @@ SML 1 … 3 …</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="best_id_confidence_measure">6.2.12. best_id_confidence_measure</h4>
+<h4 id="best_id_confidence_measure">6.3.12. best_id_confidence_measure</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3503,7 +3504,7 @@ SML 1 … [MS, MS:1001477, SpectraST,] …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="best_id_confidence_value">6.2.13. best_id_confidence_value</h4>
+<h4 id="best_id_confidence_value">6.3.13. best_id_confidence_value</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3536,7 +3537,7 @@ SML 1 … 0.7 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="abundance_assay1-n">6.2.14. abundance_assay[1-n]</h4>
+<h4 id="abundance_assay1-n">6.3.14. abundance_assay[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3568,7 +3569,7 @@ SML 1 … 0.3 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="abundance_study_variable1-n">6.2.15. abundance_study_variable[1-n]</h4>
+<h4 id="abundance_study_variable1-n">6.3.15. abundance_study_variable[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3600,7 +3601,7 @@ SML 1 … 0.3 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="abundance_variation_study_variable-1-n">6.2.16. abundance_variation_study_variable [1-n]</h4>
+<h4 id="abundance_variation_study_variable-1-n">6.3.16. abundance_variation_study_variable [1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3632,7 +3633,7 @@ SML 1 … 0.3 0.04 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="opt_identifier_">6.2.17. opt_{identifier}_*</h4>
+<h4 id="opt_identifier_">6.3.17. opt_{identifier}_*</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3687,7 +3688,7 @@ SML 1 … My value some other value</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="small-molecule-feature-smf-section">6.3. Small Molecule Feature (SMF) Section</h3>
+<h3 id="small-molecule-feature-smf-section">6.4. Small Molecule Feature (SMF) Section</h3>
 <div class="paragraph">
 <p>The small molecule feature section is table-based, representing individual MS regions (generally considered to be the elution profile for all isotopomers formed from a single charge state of a molecule), that have been measured/quantified. However, for approaches that quantify individual isotopomers e.g. stable isotope labelling/flux studies, then each SMF row SHOULD represent a single isotopomers.</p>
 </div>
@@ -3704,7 +3705,7 @@ SML 1 … My value some other value</pre>
 <p>All columns are MANDATORY except for “opt_” columns.</p>
 </div>
 <div class="sect3">
-<h4 id="smf_id">6.3.1. SMF_ID</h4>
+<h4 id="smf_id">6.4.1. SMF_ID</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3737,7 +3738,7 @@ SMF 2 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sme_id_refs">6.3.2. SME_ID_REFS</h4>
+<h4 id="sme_id_refs">6.4.2. SME_ID_REFS</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3769,7 +3770,7 @@ SMF 1 5|6|12…</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sme_id_ref_ambiguity_code">6.3.3. SME_ID_REF_ambiguity_code</h4>
+<h4 id="sme_id_ref_ambiguity_code">6.4.3. SME_ID_REF_ambiguity_code</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3801,7 +3802,7 @@ SMF 1 5|6|12… 1</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="adduct_ion">6.3.4. adduct_ion</h4>
+<h4 id="adduct_ion">6.4.4. adduct_ion</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3833,7 +3834,7 @@ SMF 1 … [M+H]1+ …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="isotopomer">6.3.5. isotopomer</h4>
+<h4 id="isotopomer">6.4.5. isotopomer</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3865,7 +3866,7 @@ SMF 1 … [MS,MS:1000XX,”13C peak”, ]…</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="exp_mass_to_charge-1">6.3.6. exp_mass_to_charge</h4>
+<h4 id="exp_mass_to_charge-1">6.4.6. exp_mass_to_charge</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3897,7 +3898,7 @@ SML 1 … 1234.5 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="charge">6.3.7. charge</h4>
+<h4 id="charge">6.4.7. charge</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3930,7 +3931,7 @@ SMF 1 … -1 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="retention_time_in_seconds-1">6.3.8. retention_time_in_seconds</h4>
+<h4 id="retention_time_in_seconds-1">6.4.8. retention_time_in_seconds</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3962,7 +3963,7 @@ SMF 1 … 1345.7 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="retention_time_in_seconds_start">6.3.9. retention_time_in_seconds_start</h4>
+<h4 id="retention_time_in_seconds_start">6.4.9. retention_time_in_seconds_start</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3994,7 +3995,7 @@ SMF 1 … 1327.0 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="retention_time_in_seconds_end">6.3.10. retention_time_in_seconds_end</h4>
+<h4 id="retention_time_in_seconds_end">6.4.10. retention_time_in_seconds_end</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4026,7 +4027,7 @@ SMF 1 … 1327.8 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="abundance_assay1-n-1">6.3.11. abundance_assay[1-n]</h4>
+<h4 id="abundance_assay1-n-1">6.4.11. abundance_assay[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4058,7 +4059,7 @@ SMF 1 … 38648 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="opt_identifier_-1">6.3.12. opt_{identifier}_*</h4>
+<h4 id="opt_identifier_-1">6.4.12. opt_{identifier}_*</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4116,7 +4117,7 @@ SMF 1 … My value some other value</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="small-molecule-evidence-sme-section">6.4. Small Molecule Evidence (SME) Section</h3>
+<h3 id="small-molecule-evidence-sme-section">6.5. Small Molecule Evidence (SME) Section</h3>
 <div class="paragraph">
 <p>The small molecule evidence section is table-based, representing evidence for identifications of small molecules/features, from database search or any other process used to give putative identifications to molecules. In a typical case, each row represents one result from a single search or intepretation of a piece of evidence e.g. a database search with a fragmentation spectrum. Multiple results from a given input data item (e.g. one fragment spectrum) SHOULD share the same value under evidence_input_id.</p>
 </div>
@@ -4130,7 +4131,7 @@ SMF 1 … My value some other value</pre>
 <p>All columns are MANDATORY except for “opt_” columns.</p>
 </div>
 <div class="sect3">
-<h4 id="sme_id">6.4.1. SME_ID</h4>
+<h4 id="sme_id">6.5.1. SME_ID</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4162,7 +4163,7 @@ SME 1 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="evidence_input_id">6.4.2. evidence_input_id</h4>
+<h4 id="evidence_input_id">6.5.2. evidence_input_id</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4199,7 +4200,7 @@ SME 3 ms_run[3]:index=365</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database_identifier-1">6.4.3. database_identifier</h4>
+<h4 id="database_identifier-1">6.5.3. database_identifier</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4233,7 +4234,7 @@ SML 2 HMDB:HMDB12345 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="chemical_formula-1">6.4.4. chemical_formula</h4>
+<h4 id="chemical_formula-1">6.5.4. chemical_formula</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4267,7 +4268,7 @@ SME 1 … C17H20N4O2 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="smiles-1">6.4.5. smiles</h4>
+<h4 id="smiles-1">6.5.5. smiles</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4299,7 +4300,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="inchi-1">6.4.6. inchi</h4>
+<h4 id="inchi-1">6.5.6. inchi</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4331,7 +4332,7 @@ SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13
 </table>
 </div>
 <div class="sect3">
-<h4 id="chemical_name-1">6.4.7. chemical_name</h4>
+<h4 id="chemical_name-1">6.5.7. chemical_name</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4363,7 +4364,7 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…<
 </table>
 </div>
 <div class="sect3">
-<h4 id="uri-1">6.4.8. uri</h4>
+<h4 id="uri-1">6.5.8. uri</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4395,7 +4396,7 @@ SME 1 … http://www.hmdb.ca/metabolites/HMDB00054</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="derivatized_form">6.4.9. derivatized_form</h4>
+<h4 id="derivatized_form">6.5.9. derivatized_form</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4427,7 +4428,7 @@ SML CID:00027395 … [,, “TMS”,] …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="adduct_ion-1">6.4.10. adduct_ion</h4>
+<h4 id="adduct_ion-1">6.5.10. adduct_ion</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4461,7 +4462,7 @@ SME 1 … [M-H]- …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="exp_mass_to_charge-2">6.4.11. exp_mass_to_charge</h4>
+<h4 id="exp_mass_to_charge-2">6.5.11. exp_mass_to_charge</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4493,7 +4494,7 @@ SME 1 … 1234.5 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="charge-1">6.4.12. charge</h4>
+<h4 id="charge-1">6.5.12. charge</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4525,7 +4526,7 @@ SME 1 … 1 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="theoretical_mass_to_charge">6.4.13. theoretical_mass_to_charge</h4>
+<h4 id="theoretical_mass_to_charge">6.5.13. theoretical_mass_to_charge</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4557,7 +4558,7 @@ SME 1 … 1234.71 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="spectra_ref">6.4.14. spectra_ref</h4>
+<h4 id="spectra_ref">6.5.14. spectra_ref</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4590,7 +4591,7 @@ SME 1 … ms_run[1]:index=5 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="identification_method">6.4.15. identification_method</h4>
+<h4 id="identification_method">6.5.15. identification_method</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4622,7 +4623,7 @@ SME 1 … [MS, MS:1001477, SpectraST,] …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_level">6.4.16. ms_level</h4>
+<h4 id="ms_level">6.5.16. ms_level</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4654,7 +4655,7 @@ SME 1 … [MS,MS:1000511,”ms level”,2] …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="id_confidence_measure1-n-1">6.4.17. id_confidence_measure[1-n]</h4>
+<h4 id="id_confidence_measure1-n-1">6.5.17. id_confidence_measure[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4688,7 +4689,7 @@ SME 1 … 0.7 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="rank">6.4.18. rank</h4>
+<h4 id="rank">6.5.18. rank</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4720,7 +4721,7 @@ SME 1 … 1 …</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="opt_identifier_-2">6.4.19. opt_{identifier}_*</h4>
+<h4 id="opt_identifier_-2">6.5.19. opt_{identifier}_*</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4907,7 +4908,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-24 09:26:51 UTC
+Last updated 2018-05-24 11:58:53 UTC
 </div>
 </div>
 </body>
