@@ -1289,6 +1289,56 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]
 ....
 |=====================================================================================================================================================================================================================================================
 
+
+[[colunit-small_molecule]]
+==== colunit-small_molecule
+
+[cols=",",]
+|=================================================================================================================================================================================
+|*Description:* |
+Defines the used unit for a column in the small molecule section. The format of the value has to be \{column name}=\{Parameter defining the unit}
+
+This field MUST NOT be used to define a unit for quantification columns. The unit used for small molecule quantification values MUST be set in small_molecule-quantification_unit.
+
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|
+[subs="verbatim,quotes"]
+MTD colunit-small_molecule opt_global_cv_MS:MS:100XXXX_collisional_cross_sectional_area=[UO,UO:00003241, square angstrom,]
+|=================================================================================================================================================================================
+
+[[colunit-small_molecule_feature]]
+==== colunit-small_molecule_feature
+
+[cols=",",]
+|=================================================================================================================================================================================
+|*Description:* |
+Defines the used unit for a column in the small molecule feature section. The format of the value has to be \{column name}=\{Parameter defining the unit}
+
+This field MUST NOT be used to define a unit for quantification columns. The unit used for small molecule quantification values MUST be set in small_molecule_feature-quantification_unit.
+
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|
+[subs="verbatim,quotes"]
+
+MTD colunit-small_molecule_feature opt_ms_run[1]_cv_MS:MS:1002476_ion_mobility_drift_time=[UO,UO:0000031, minute,]
+
+|=================================================================================================================================================================================
+
+[[colunit-small_molecule_evidence]]
+==== colunit-small_molecule_evidence
+
+[cols=",",]
+|===========================================================================================================================================================================
+|*Description:* |Defines the used unit for a column in the small molecule evidence section. The format of the value has to be \{column name}=\{Parameter defining the unit}.
+|*Type:* |String
+|*Mandatory* |False
+|*Example:* a|
+[subs="verbatim,quotes"]
+MTD colunit-small_molecule_evidence opt_global_mass_error=[UO, UO:0000169, parts per million, ]
+|===========================================================================================================================================================================
+
 [[small-molecule-section]]
 === Small Molecule Section
 
