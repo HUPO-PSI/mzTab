@@ -1575,7 +1575,7 @@ SML 1 … [MS, MS:1001477, SpectraST,] …
 
 [cols=",",]
 |===================================================================================================================================================================================================================================================================================================
-|*Description:* |The best confidence measure in identification (for this type of score) for the given small molecule across all assays. The type of score MUST be defined in the metadata section. If the small molecule was not identified by the specified search engine, “null” MUST be reported.
+|*Description:* |The best confidence measure in identification (for this type of score) for the given small molecule across all assays. The type of score MUST be defined in the metadata section. If the small molecule was not identified by the specified search engine, “null” MUST be reported. If the confidence measure does not report a numerical confidence value, “null” SHOULD be reported.
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1591,7 +1591,7 @@ SML 1 … 0.7 …
 
 [cols=",",]
 |=====================================================================================================================================================================
-|*Description:* |The small molecule’s abundance in every assay described in the metadata section MUST be reported. Null or zero values may be reported as appropriate.
+|*Description:* |The small molecule’s abundance in every assay described in the metadata section MUST be reported. Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1606,7 +1606,7 @@ SML 1 … 0.3 …
 
 [cols=",",]
 |============================================================================================================================================================================================================================================================================
-|*Description:* |The small molecule’s abundance in all the study variables described in the Metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate.
+|*Description:* |The small molecule’s abundance in all the study variables described in the Metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
