@@ -28,7 +28,7 @@ This document presents the final specification of the mzTab data format develope
 
 _Version of This Document_
 
-The current version of this document is: version 1.1.0-release candidate 2018.
+The current version of this document is: version 2.0.0-release candidate 2018.
 
 The latest draft version of this document may be found at https://github.com/HUPO-PSI/mzTab.
 
@@ -76,7 +76,7 @@ The remainder of this document is structured as follows.
 [[use-cases-for-mztab]]
 == Use Cases for mzTab
 
-The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 1.1.
+The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 2.0.0.
 
 1. mzTab-M files should be simple enough to make metabolomics results accessible to people outside the respective fields. This should facilitate the sharing of data beyond the borders of the fields and make it accessible to non-experts.
 
@@ -412,7 +412,7 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Description:* |The version of the mzTab file. The suffix MUST be "-M" for mzTab for metabolomics (mzTab-M).
 |*Type:* |Regex{"\d{1}\.\d{1}\.\d{1}-M"}
 |*Mandatory* |True
-|*Example:* a|`MTD mzTab-version  1.1.0-M`
+|*Example:* a|`MTD mzTab-version  2.0.0-M`
 |==============================================
 
 [[mztab-id]]
@@ -2182,7 +2182,7 @@ SML 1 … My value some other value
 [[non-supported-use-cases]]
 == Non-supported use cases
 
-There are a number of use cases that were discussed during the development process and it was decided that they are not explicitly supported in mzTab version 1.1-M. They may be implemented in future versions of the standard.
+There are a number of use cases that were discussed during the development process and it was decided that they are not explicitly supported in mzTab version 2.0.0-M. They may be implemented in future versions of the standard.
 
 Examples include:
 
