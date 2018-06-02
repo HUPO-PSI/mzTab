@@ -642,7 +642,7 @@ MTD uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517
 |*Mandatory* |False
 |*Example:* a|
 ....
-MTD uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt
+MTD external_study_uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt
 
 ....
 |================================================================================================================================
