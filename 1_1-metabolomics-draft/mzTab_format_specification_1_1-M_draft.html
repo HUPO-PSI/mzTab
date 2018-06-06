@@ -502,7 +502,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><em>Version of This Document</em></p>
 </div>
 <div class="paragraph">
-<p>The current version of this document is: version 1.1.0-release candidate 2018.</p>
+<p>The current version of this document is: version 2.0.0-release candidate 2018.</p>
 </div>
 <div class="paragraph">
 <p>The latest draft version of this document may be found at <a href="https://github.com/HUPO-PSI/mzTab" class="bare">https://github.com/HUPO-PSI/mzTab</a>.</p>
@@ -588,7 +588,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="use-cases-for-mztab">2. Use Cases for mzTab</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 1.1.</p>
+<p>The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 2.0.0.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1222,7 +1222,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>MTD mzTab-version  1.1.0-M</code></p>
+<p><code>MTD mzTab-version  2.0.0-M</code></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -3602,7 +3602,7 @@ SML 1 … [MS, MS:1001477, SpectraST,] …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The best confidence measure in identification (for this type of score) for the given small molecule across all assays. The type of score MUST be defined in the metadata section. If the small molecule was not identified by the specified search engine, “null” MUST be reported.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The best confidence measure in identification (for this type of score) for the given small molecule across all assays. The type of score MUST be defined in the metadata section. If the small molecule was not identified by the specified search engine, “null” MUST be reported. If the confidence measure does not report a numerical confidence value, “null” SHOULD be reported.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -3635,7 +3635,7 @@ SML 1 … 0.7 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s abundance in every assay described in the metadata section MUST be reported. Null or zero values may be reported as appropriate.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s abundance in every assay described in the metadata section MUST be reported. Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -3667,7 +3667,7 @@ SML 1 … 0.3 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s abundance in all the study variables described in the Metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s abundance in all the study variables described in the Metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -4858,7 +4858,7 @@ SML 1 … My value some other value</pre>
 <h2 id="non-supported-use-cases">7. Non-supported use cases</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are a number of use cases that were discussed during the development process and it was decided that they are not explicitly supported in mzTab version 1.1-M. They may be implemented in future versions of the standard.</p>
+<p>There are a number of use cases that were discussed during the development process and it was decided that they are not explicitly supported in mzTab version 2.0.0-M. They may be implemented in future versions of the standard.</p>
 </div>
 <div class="paragraph">
 <p>Examples include:</p>
@@ -4997,7 +4997,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-04 17:00:21 UTC
+Last updated 2018-06-06 13:30:15 UTC
 </div>
 </div>
 </body>
