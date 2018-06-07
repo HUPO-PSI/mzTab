@@ -458,10 +458,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#recommendations-for-reporting-replicates-within-experimental-designs">5.2. Recommendations for reporting replicates within experimental designs</a></li>
 <li><a href="#reporting-derivatization-approaches">5.3. Reporting derivatization approaches</a></li>
 <li><a href="#encoding-missing-values-zeroes-nulls-infinity-and-calculation-errors">5.4. Encoding missing values, zeroes, nulls, infinity and calculation errors</a></li>
-<li><a href="#reliability-score">5.5. Reliability score</a></li>
-<li><a href="#support-for-positive-and-negative-modes">5.6. Support for positive and negative modes</a></li>
-<li><a href="#referencing-evidence-for-small-molecule-identifications">5.7. Referencing evidence for small molecule identifications</a></li>
-<li><a href="#ambiguity_in_identification">5.8. Ambiguity in identification</a></li>
+<li><a href="#support-for-positive-and-negative-modes">5.5. Support for positive and negative modes</a></li>
+<li><a href="#referencing-evidence-for-small-molecule-identifications">5.6. Referencing evidence for small molecule identifications</a></li>
+<li><a href="#ambiguity_in_identification">5.7. Ambiguity in identification</a></li>
+<li><a href="#ambiguity_in_lipidomics">5.8. Ambiguity in lipidomics identification</a></li>
 <li><a href="#guidelines-for-reporting-results-prior-to-or-with-no-alignment-step-across-features">5.9. Guidelines for reporting results prior to or with no alignment step across features</a></li>
 <li><a href="#Guidelines-for-pre-fractionation">5.10. Guidelines for workflows involving pre-fractionation</a></li>
 <li><a href="#adding-optional-columns">5.11. Adding optional columns</a></li>
@@ -608,7 +608,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>mzTab files should make MS-derived results easily accessible to scripting languages allowing bioinformaticians to develop software without the overhead of developing sophisticated parsing code. Since mzTab files will be comparatively small, the data from multiple experiments can be processed at once without requiring special resource management techniques.</p>
 </li>
 <li>
-<p>It should be possible to contain the complete final results of an MS-based metabolomics experiment in a single file. This should furthermore reduce the complexity of sharing and processing an experiment’s final results. mzTab-M files should be able to store quantitative values for small molecule identifications.</p>
+<p>It should be possible to contain the complete final results of an MS-based metabolomics experiment in a single file, with the exception that different ionisation modes SHOULD be captured in different files (see <a href="#support-for-positive-and-negative-modes">Section 5.5</a>). This should furthermore reduce the complexity of sharing and processing an experiment’s final results.</p>
 </li>
 <li>
 <p>It should be useful as an output format by web-services that can then be readily accessed by tools supporting mzTab-M.</p>
@@ -905,7 +905,7 @@ There is deliberately no attempt to define the boundary of the term “sample”
 <div class="sect2">
 <h3 id="reporting-derivatization-approaches">5.3. Reporting derivatization approaches</h3>
 <div class="paragraph">
-<p>For GC and HPLC, derivatization is often applied in order to specifically target compounds that are otherwise hard to measure at all, being non-volatile or otherwise chemically / physically poorly suited for the separation method and to increase ionization eﬃciency and selectivity for subsequent MS analysis. For GC, the primary derivatization methods are</p>
+<p>For GC and HPLC, derivatization is often applied in order to specifically target compounds that are otherwise hard to measure at all, being non-volatile or otherwise chemically / physically poorly suited for the separation method and to increase ionization eﬃciency and selectivity for subsequent MS analysis. For GC, the primary derivatization methods are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -921,7 +921,7 @@ There is deliberately no attempt to define the boundary of the term “sample”
 </ul>
 </div>
 <div class="paragraph">
-<p>In mzTab-M, any derivatization agents used should be reported in the metadata section under derivatization_agent[1-n]. It is expected that in the small molecule evidence table where matches are made to database entries including the derivatized form, then that form SHOULD be reported. In the small molecule (summary) table, it MAY be appropriate to reference a database entry for the actual molecule inferred without the derivatization addition, although this is context dependent and in some cases it may be more appropriate to reference a database entry for the derivatized form.</p>
+<p>In mzTab-M, any derivatization agents used should be reported in the metadata section under derivatization_agent[1-n]. It is expected that in the small molecule evidence table where matches are made to database entries including the derivatized form, then that form SHOULD be reported in evidence row. In the small molecule (summary) table, it MAY be appropriate to reference a database entry for the actual molecule inferred without the derivatization addition, although this is context dependent and in some cases it may be more appropriate to reference a database entry for the derivatized form.</p>
 </div>
 </div>
 <div class="sect2">
@@ -937,19 +937,13 @@ There is deliberately no attempt to define the boundary of the term “sample”
 </div>
 </div>
 <div class="sect2">
-<h3 id="reliability-score">5.5. Reliability score</h3>
-<div class="paragraph">
-<p>All small molecule identifications reported in an mzTab file MAY be assigned a reliability score (column “reliability” in all tables). This reliability only applies to the identification reliability.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="support-for-positive-and-negative-modes">5.6. Support for positive and negative modes</h3>
+<h3 id="support-for-positive-and-negative-modes">5.5. Support for positive and negative modes</h3>
 <div class="paragraph">
 <p>It is common in metabolomics workflows to use both positive and negative ionisation modes to increase coverage of molecules quantified. In general, an mzTab-M file is intended to capture a data set generated from assays have been aligned (e.g. in the retention time dimension) to produce a coherent data matrix with few missing values. To our knowledge, it is not common to compare directly the results from positive and negative modes in the same data matrix. As such, we anticipate that such results (i.e. positive mode and negative mode) should be encoded in two different mzTab-M files.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="referencing-evidence-for-small-molecule-identifications">5.7. Referencing evidence for small molecule identifications</h3>
+<h3 id="referencing-evidence-for-small-molecule-identifications">5.6. Referencing evidence for small molecule identifications</h3>
 <div class="paragraph">
 <p>Evidence for small molecule identification is captured by reference from the SML table via features (SMFs) down to the final table - Small Molecule Evidence elements. It is possible to have a legal mzTab-M file that does not contain any features (SML summary level only). In this case, detailed information about small molecule evidence cannot be provided. It is generally RECOMMENDED to include data at the SML, SMF and SME levels.</p>
 </div>
@@ -967,7 +961,7 @@ There is deliberately no attempt to define the boundary of the term “sample”
 </div>
 </div>
 <div class="sect2">
-<h3 id="ambiguity_in_identification">5.8. Ambiguity in identification</h3>
+<h3 id="ambiguity_in_identification">5.7. Ambiguity in identification</h3>
 <div class="paragraph">
 <p>It is common in metabolomics and lipidomics for significant ambiguity to remain after data processing in the identification of molecules. In the top level (SML) table, multiple identifiers MAY be provided in several columns: database_identifier, chemical_formula, smiles, inchi, chemical_name and uri. If there is ambiguity in the actual identity of the molecule, multiple identifiers SHOULD be reported separated by the "|" character. The number of elements separated by | characters MUST be identical in all columns where data is reported to make it clear the corrspondence across columns.</p>
 </div>
@@ -989,6 +983,12 @@ There is deliberately no attempt to define the boundary of the term “sample”
 <p>Different input data has been used to support identification and ambiguity still remains (code=3).</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="ambiguity_in_lipidomics">5.8. Ambiguity in lipidomics identification</h3>
+<div class="paragraph">
+<p>The mzTab-M 2.0.0 release is intended to be used for capturing profiling studies from both metabolomics and lipidomics. However, it is acknowledged that representing ambiguity in the identification of lipid molecules, based on the available evidence from MS is potentially more complicated than for small molecules. As such, mzTab-M 2.0.0 SHOULD be used on release for representing lipid-based data, but a working group will continue to improve on the mechanism for representing lipid identification data, for example defining particular CV terms to be used in the appropriate places of the standard. These artefacts will be reported in due course and should plug-in to this version in a backwards-compatible manner.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1094,7 +1094,7 @@ Every line in an mzTab file MUST start with a three letter code identifying the 
 </li>
 <li>
 <p><strong>Header lines</strong><br>
-Each table based section (protein, peptide, PSM and small molecule) MUST start with the corresponding header line. These header lines MUST only occur once in the document since each section also MUST only occur once.</p>
+Each table based section (small molecule, small molecule feature and small molecule evidence) MUST start with the corresponding header line. These header lines MUST only occur once in the document since each section also MUST only occur once.</p>
 </li>
 <li>
 <p><strong>Dates</strong><br>
@@ -1127,7 +1127,7 @@ Parameters are always reported as <code>[CV label, accession, name, value]</code
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>[MOD, MOD:00648, “N,O-diacetylated L-serine”,]</pre>
+<pre>[MOD, MOD:00648, "N,O-diacetylated L-serine",]</pre>
 </div>
 </div>
 <div class="ulist">
@@ -1213,7 +1213,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\d{1}\.\d{1}\.\d{1}-M"}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\d{2}\.\d{0}\.\d{0}-M"}</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mandatory</strong></p></td>
@@ -1280,7 +1280,7 @@ URIs MUST follow the format defined in <a href="https://tools.ietf.org/html/rfc3
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>`MTD title Effects of Rapamycin on metabolite profile `</p>
+<p><code>MTD title Effects of Rapamycin on metabolite profile</code></p>
 </div></div></td>
 </tr>
 </tbody>
@@ -1420,7 +1420,7 @@ MTD instrument[2]-source [MS, MS:1000598, ETD,]</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The instrument’s analyzer type used in the experiment. Multiple instruments are enumerated 1..n.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The instrument’s analyzer type used in the experiment. Multiple instruments are numbered 1..n.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -1500,7 +1500,7 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD software[1] [MS, MS:100XXXX, Progenesis QI, 3.0]</pre>
+<pre>MTD software[1] [MS, MS:1002879, Progenesis QI, 3.0]</pre>
 </div>
 </div></div></td>
 </tr>
@@ -1756,7 +1756,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD quantification_method [MS, MS:1001837, iTRAQ quantitation analysis, ]
+<pre>MTD quantification_method [MS, MS:1001834, LC-MS label-free quantitation analysis, ]
 MTD quantification_method [MS, MS:1001838, SRM quantitation analysis, ]</pre>
 </div>
 </div></div></td>
@@ -2478,14 +2478,9 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD study_variable[1]-assay_refs assay[1]</pre>
+<pre>MTD study_variable[1]-assay_refs assay[1]| assay[2]| assay[3]</pre>
 </div>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">assay[2]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">assay[3]
-&#8230;&#8203;.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2765,7 +2760,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD cv[1]-url http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo[_http://psidev.cvs.sourceforge.net/viewvc/psidev/psi/psi-ms/mzML/controlledVocabulary/psi-ms.obo_]
+<pre>MTD cv[1]-url https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
 …</pre>
 </div>
 </div></div></td>
@@ -2906,12 +2901,6 @@ MTD database[1]-prefix null</pre>
 </tr>
 </tbody>
 </table>
-<div id="metabolomics-metadata" class="paragraph">
-<p><strong>Metabolomics Metadata</strong></p>
-</div>
-<div class="paragraph">
-<p>The metadata fields in this section MAY be reported in a metabolomics type file, but MUST NOT be reported in a proteomics file.</p>
-</div>
 </div>
 <div class="sect3">
 <h4 id="derivatization_agent1-n">6.2.54. derivatization_agent[1-n]</h4>
@@ -3094,7 +3083,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>MTD colunit-small_molecule opt_global_cv_MS:MS:100XXXX_collisional_cross_sectional_area=[UO,UO:00003241, square angstrom,]</p>
+<p>MTD colunit-small_molecule opt_global_cv_MS:MS:1002954_collisional_cross_sectional_area=[UO,UO:00003241, square angstrom,]</p>
 </div></div></td>
 </tr>
 </tbody>
@@ -3163,7 +3152,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 <div class="sect2">
 <h3 id="small-molecule-section">6.3. Small Molecule Section</h3>
 <div class="paragraph">
-<p>The small molecule section is table-based. The small molecule section MUST always come after the metadata section in a metabolomics type file. All table columns MUST be Tab separated. There MUST NOT be any empty cells; missing values MUST be reported using “null” for columns where Is Nullable = “True”. The order of columns MUS</p>
+<p>The small molecule section is table-based. The small molecule section MUST always come after the metadata section. All table columns MUST be Tab separated. There MUST NOT be any empty cells; missing values MUST be reported using “null” for columns where Is Nullable = “True”. The order of columns MUS</p>
 </div>
 <div class="paragraph">
 <p>Each row of the small molecule section is intended to report one final result to be communicated in terms of a molecule that has been quantified. In many cases, this may be the molecule of biological interest, although in some cases, the final result could be a derivatized form as appropriate – although it is desirable for the database identifier(s) to reference to the biological (non-derivatized) form. In general, different adduct forms would generally be reported in the Small Molecule Feature section.</p>
@@ -3538,7 +3527,7 @@ SML 1 … [M+H]1+ | [M+Na]1+ …</pre>
 </ol>
 </div>
 <div class="paragraph">
-<p>#These MAY be replaced using a suitable CV term in the Metadata section e.g. to use MSI recommendation levels.</p>
+<p>These MAY be replaced using a suitable CV term in the Metadata section e.g. to use MSI recommendation levels.</p>
 </div>
 <div class="paragraph">
 <p>A String data type is set to allow for different systems to be specified in the metadata section.</p>
@@ -3779,7 +3768,7 @@ SML 1 … My value some other value</pre>
 <div class="sect2">
 <h3 id="small-molecule-feature-smf-section">6.4. Small Molecule Feature (SMF) Section</h3>
 <div class="paragraph">
-<p>The small molecule feature section is table-based, representing individual MS regions (generally considered to be the elution profile for all isotopomers formed from a single charge state of a molecule), that have been measured/quantified. However, for approaches that quantify individual isotopomers e.g. stable isotope labelling/flux studies, then each SMF row SHOULD represent a single isotopomers.</p>
+<p>The small molecule feature section is table-based, representing individual MS regions (generally considered to be the elution profile for all isotopomers formed from a single charge state of a molecule), that have been measured/quantified. However, for approaches that quantify individual isotopomers e.g. stable isotope labelling/flux studies, then each SMF row SHOULD represent a single isotopomer.</p>
 </div>
 <div class="paragraph">
 <p>Different adducts or derivatives and different charge states of individual molecules should be reported as separate SMF rows.</p>
@@ -3836,7 +3825,7 @@ SMF 2 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">References to the identification evidence (SME elements) via referencing SME_ID values. Multiple values MAY be provided as a “|” separated list to indicate ambiguity in the identification. For the case of a consensus approach where multiple adduct forms are used to infer the SML ID, different features should just reference the same SME_ID value(s).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">References to the identification evidence (SME elements) via referencing SME_ID values. Multiple values MAY be provided as a “|” separated list to indicate ambiguity in the identification or to indicate that different types of data supported the identifiction (see SME_ID_REF_ambiguity_code). For the case of a consensus approach where multiple adduct forms are used to infer the SML ID, different features should just reference the same SME_ID value(s).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -3996,7 +3985,7 @@ SML 1 … 1234.5 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The feature’s charge value using "-1" or "1" for negative or positive mode.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The feature’s charge value using positive integers both for positive and negative polarity modes.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -4276,13 +4265,13 @@ SME 1 …</pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID evidence_input_id …
-SME 1 ms_run[1]:index=274
-SME 2 ms_run[2]:index=287
-SME 3 ms_run[3]:index=365</pre>
+SME 1 ms_run[1]:mass=278.65;rt=376.5
+SME 2 ms_run[1]:mass=278.65;rt=376.5
+SME 3 ms_run[1]:mass=278.65;rt=376.5</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>(in this example three identifications were made from the same accurate mass search)</p>
+<p>(in this example three identifications were made from the same accurate mass/RT library search)</p>
 </div></div></td>
 </tr>
 </tbody>
@@ -4997,7 +4986,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-06 13:30:15 UTC
+Last updated 2018-06-07 10:21:22 UTC
 </div>
 </div>
 </body>
