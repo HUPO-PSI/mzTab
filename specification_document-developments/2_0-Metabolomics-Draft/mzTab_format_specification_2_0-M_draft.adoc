@@ -126,7 +126,7 @@ The following ontologies or controlled vocabularies specified below may also be 
 * Unit Ontology (http://www.obofoundry.org/ontology/uo.html)
 * ChEBI (ftp://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi.obo)
 * OBI Ontology of Biological Investigations (http://obi-ontology.org/)
-* NEWT UniProt Taxonomy Database (http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT)
+* NCBITaxon UniProt Taxonomy Database (https://www.ebi.ac.uk/ols/ontologies/ncbitaxon)
 * BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
 * Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
 
@@ -366,7 +366,7 @@ In case, the name of the param contains commas, quotes MUST be added to avoid pr
 * *Sample IDs* +
 To be able to supply metadata specific to each sample, ids in the format `sample[1-n]` are used.
 ....
-MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
+MTD sample[1]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
 ....
 * *Assay IDs* +
 To be able to supply metadata specific to each assay, ids in the format `assay[1-n]` are used.
@@ -684,16 +684,16 @@ MTD sample[2] individual number 2
 |*Example:* a|
 ....
 COM Experiment where all samples consisted of the same two species
-MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[2]-species[1] [NEWT, 12059, Rhinovirus, ]
+MTD sample[1]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
+MTD sample[2]-species[1] [NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]
 
 COM Experiment where different two samples from different species (combinations)
 COM were analysed as biological replicates.
 
-MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[1]-species[2] [NEWT, 573824, Human rhinovirus 1, ]
-MTD sample[2]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]
+MTD sample[1]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
+MTD sample[1]-species[2] [NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]
+MTD sample[2]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
+MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]
 ....
 |=================================================================================
 
