@@ -1,6 +1,18 @@
-MTD	mzTab-version	1.1.0-M
+MTD	mzTab-version	2.2.0-M
 MTD	mzTab-ID	JetBike Test
 MTD	software[1]	[,,Progenesis QI,2.4.6505.48857]
+MTD	ms_run[1]-location	file:///D:/Data%20Sets/Metabolomics/MTBLS263/3injections_inj1_POS.mzML
+MTD	ms_run[1]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
+MTD	ms_run[2]-location	file:///D:/Data%20Sets/Metabolomics/MTBLS263/3injections_inj2_POS.mzML
+MTD	ms_run[2]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
+MTD	ms_run[3]-location	file:///D:/Data%20Sets/Metabolomics/MTBLS263/3injections_inj3_POS.mzML
+MTD	ms_run[3]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
+MTD	ms_run[4]-location	file:///D:/Data%20Sets/Metabolomics/MTBLS263/3samples_sampl1_POS.mzML
+MTD	ms_run[4]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
+MTD	ms_run[5]-location	file:///D:/Data%20Sets/Metabolomics/MTBLS263/3samples_sampl2_POS.mzML
+MTD	ms_run[5]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
+MTD	ms_run[6]-location	file:///D:/Data%20Sets/Metabolomics/MTBLS263/3samples_sampl3_POS.mzML
+MTD	ms_run[6]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
 MTD	sample[1]	3injections_POS
 MTD	sample[2]	3samples_sampl1_POS
 MTD	sample[3]	3samples_sampl2_POS
@@ -23,18 +35,6 @@ MTD	assay[5]-ms_run_ref	ms_run[5]
 MTD	assay[6]	3samples_sampl3_POS
 MTD	assay[6]-sample_ref	sample[4]
 MTD	assay[6]-ms_run_ref	ms_run[6]
-MTD	ms_run[1]-location	D:\Data Sets\Metabolomics\MTBLS263\3injections_inj1_POS.mzML
-MTD	ms_run[1]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
-MTD	ms_run[2]-location	D:\Data Sets\Metabolomics\MTBLS263\3injections_inj2_POS.mzML
-MTD	ms_run[2]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
-MTD	ms_run[3]-location	D:\Data Sets\Metabolomics\MTBLS263\3injections_inj3_POS.mzML
-MTD	ms_run[3]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
-MTD	ms_run[4]-location	D:\Data Sets\Metabolomics\MTBLS263\3samples_sampl1_POS.mzML
-MTD	ms_run[4]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
-MTD	ms_run[5]-location	D:\Data Sets\Metabolomics\MTBLS263\3samples_sampl2_POS.mzML
-MTD	ms_run[5]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
-MTD	ms_run[6]-location	D:\Data Sets\Metabolomics\MTBLS263\3samples_sampl3_POS.mzML
-MTD	ms_run[6]-scan_polarity[1]	[MS,MS:1000130,positive scan,]
 MTD	study_variable[1]	Replicates
 MTD	study_variable[1]-description	Replicates
 MTD	study_variable[1]-assay_refs	assay[1] | assay[2] | assay[3]
@@ -45,19 +45,23 @@ MTD	cv[1]-label	MS
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary
 MTD	cv[1]-version	4.0.9
 MTD	cv[1]-url	https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
-MTD	database[1]	[,,No database,]
-MTD	database[1]-prefix	nd
+MTD	database[1]	[, , no database, null]
+MTD	database[1]-prefix	null
 MTD	database[1]-version	Unknown
-MTD	database[2]	[,,E:\Projects\MTBLS263\MTLBS263.sdf,]
+MTD	database[1]-url	null
+MTD	database[2]	[, , Local CHEBI copy, ]
 MTD	database[2]-prefix	CHEBI
 MTD	database[2]-version	Unknown
+MTD	database[2]-url	file:///E:/Projects/MTBLS263/MTLBS263.sdf
 MTD	small_molecule-quantification_unit	[,,Progenesis QI Normalised Abundance,]
 MTD	small_molecule_feature-quantification_unit	[,,Progenesis QI Normalised Abundance,]
 MTD	id_confidence_measure[1]	[,,Progenesis MetaScope Score,]
 MTD	id_confidence_measure[2]	[,,Fragmentation Score,]
 MTD	id_confidence_measure[3]	[,,Isotopic fit Score,]
+MTD	small_molecule-identification_reliability	[MS, MS:XXXXX, MSI-2007-numeric, ]
+MTD	quantification_method	[MS, MS:1001834, LC-MS label-free quantitation analysis, ]
 
-SMH	SML_ID	SMF_ID_REFS	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	theoretical_neutral_mass	adduct_ions	reliability	best_id_confidence_measure	best_id_confidence_value	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_study_variable[1]	coeffvar_study_variable[1]	abundance_study_variable[2]	coeffvar_study_variable[2]	opt_global_Progenesis_identifier
+SMH	SML_ID	SMF_ID_REFS	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	theoretical_neutral_mass	adduct_ions	reliability	best_id_confidence_measure	best_id_confidence_value	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_study_variable[1]	abundance_variation_study_variable[1]	abundance_study_variable[2]	abundance_variation_study_variable[2]	opt_global_Progenesis_identifier
 SML	469	6 | 937	CHEBI:16737	C4H7N3O	null	null	Creatinine	null	113.0589	[M+H]+ | [M+Na]+	2	[,,Progenesis MetaScope,]	56.4424	59809754.62	63773291.22	61630638.37	59131129.43	63874747.95	66320708.84	185213684.2	3.2135	189326586.2	5.7923	6.90_113.0582n
 SML	495	782	CHEBI:17368	C5H4N4O	null	null	Hypoxanthine	null	136.0385	[M+H]+	2	[,,Progenesis MetaScope,]	44.0249	1164487.316	1376477.974	1531498.698	1398304.361	1633581.631	2129396.512	4072463.988	13.5722	5161282.504	21.6925	7.34_137.0452m/z
 SML	528	13	CHEBI:25017	C6H13NO2	null	null	Leucine	null	131.0946	[M+H]+	2	[,,Progenesis MetaScope,]	48.2759	65543883.46	65475290.35	67694647.59	59237651.35	56077561.47	54207405.41	198713821.4	1.9053	169522618.2	4.4995	8.06_132.1014m/z
@@ -76,7 +80,7 @@ SML	905	1067	CHEBI:17268	C6H12O6	null	null	myo-Inositol	null	180.0634	[M+Na]+	2	
 SML	949	566	CHEBI:17552	C10H15N5O11P2	null	null	GDP	null	443.0243	[M+H]+	2	[,,Progenesis MetaScope,]	53.0289	776953.5136	826544.0499	809552.8948	555138.3365	726945.9204	682375.6149	2413050.458	3.1331	1964459.872	13.6155	15.32_444.0304m/z
 SML	1022	79 | 523	CHEBI:25094	C6H14N2O2	null	null	Lysine	null	146.1055	[M+H]+ | [M+Na]+	2	[,,Progenesis MetaScope,]	53.8925	19440344.69	19514108.63	17696364.21	11477221.32	13726671.61	15013706.84	56650817.52	5.4483	40217599.77	13.3519	21.37_146.1049n
 
-SFH	SMF_ID	SME_ID_REFS	SME_ID_REF_Ambiguity_Code	adduct_ion	isotopomer	exp_mass_to_charge	charge	retention_time_in_seconds	retention_time_in_seconds_start	retention_time_in_seconds_end	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]
+SFH	SMF_ID	SME_ID_REFS	SME_ID_REF_ambiguity_code	adduct_ion	isotopomer	exp_mass_to_charge	charge	retention_time_in_seconds	retention_time_in_seconds_start	retention_time_in_seconds_end	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]
 SMF	6	1	null	[M+H]+	null	114.0654	1	413.81	393.55	447.87	59579140.67	63545698.19	61393680.89	59131129.43	63693769.3	66308065.78
 SMF	7	7	null	null	null	116.0699	1	607.75	587.39	648.11	59134552.3	57461952.47	60069535.6	55657781.22	56998852.39	60837200.27
 SMF	13	4	null	null	null	132.1014	1	483.77	455.72	541.07	65543883.46	65475290.35	67694647.59	59237651.35	56077561.47	54207405.41
