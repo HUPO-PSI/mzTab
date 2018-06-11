@@ -673,7 +673,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>OBI Ontology of Biological Investigations (<a href="http://obi-ontology.org/" class="bare">http://obi-ontology.org/</a>)</p>
 </li>
 <li>
-<p>NEWT UniProt Taxonomy Database (<a href="http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT" class="bare">http://www.ebi.ac.uk/ontology-lookup/browse.do?ontName=NEWT</a>)</p>
+<p>NCBITaxon UniProt Taxonomy Database (<a href="https://www.ebi.ac.uk/ols/ontologies/ncbitaxon" class="bare">https://www.ebi.ac.uk/ols/ontologies/ncbitaxon</a>)</p>
 </li>
 <li>
 <p>BRENDA tissue/ enzyme source (<a href="http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO" class="bare">http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO</a>).</p>
@@ -1140,7 +1140,7 @@ To be able to supply metadata specific to each sample, ids in the format <code>s
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]</pre>
+<pre>MTD sample[1]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</pre>
 </div>
 </div>
 <div class="ulist">
@@ -1821,16 +1821,16 @@ MTD sample[2] individual number 2</pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>COM Experiment where all samples consisted of the same two species
-MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[2]-species[1] [NEWT, 12059, Rhinovirus, ]
+MTD sample[1]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
+MTD sample[2]-species[1] [NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]
 
 COM Experiment where different two samples from different species (combinations)
 COM were analysed as biological replicates.
 
-MTD sample[1]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[1]-species[2] [NEWT, 573824, Human rhinovirus 1, ]
-MTD sample[2]-species[1] [NEWT, 9606, Homo sapiens (Human), ]
-MTD sample[2]-species[2] [NEWT, 12130, Human rhinovirus 2, ]</pre>
+MTD sample[1]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
+MTD sample[1]-species[2] [NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]
+MTD sample[2]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
+MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4986,7 +4986,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-11 12:39:53 UTC
+Last updated 2018-06-11 12:53:38 UTC
 </div>
 </div>
 </body>
