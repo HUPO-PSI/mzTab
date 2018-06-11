@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/HUPO-PSI/mzTab.svg?branch=master)](https://travis-ci.org/HUPO-PSI/mzTab)
 
 ## General
-mzTab has been designed to act as a lightweight, tab-delimited file format for mass spec-derived omics data. It was originally designed for proteomics with limited support for metabolomics (version 1.0). The metabolomics aspects are undergoing further development towards full support in a planned version 1.1 update.
+mzTab has been designed to act as a lightweight, tab-delimited file format for mass spec-derived omics data. It was originally designed for proteomics with limited support for metabolomics (version 1.0). The metabolomics aspects are undergoing further development towards full support in a planned version 2.0 release.
 
 One of the main target audiences for this format is researchers outside of proteomics/metabolomics, such as systems biologists. It should be easy to parse and only contain the minimal information required to evaluate the results of an experiment. One of the goals of this file format is that it, for example, should be possible for a biologist to open such a file in Excel and still be able to "see" the data. This format should also become a way to disseminate proteomics and metabolomics results through protocols such as DAS (http://www.biodas.org).
 
@@ -16,9 +16,9 @@ When you use mzTab format, please cite the following publication:
 
 ## Specification documents
 
-**Version 1.1.0 for Metabolomics (DRAFT):**
+**Version 2.0.0 for Metabolomics (DRAFT):**
 
-  > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/1_1-Metabolomics-Draft/mzTab_format_specification_1_1-M_draft.adoc),[html](http://hupo-psi.github.io/mzTab/1_1-metabolomics-draft/mzTab_format_specification_1_1-M_draft.html),[pdf](http://hupo-psi.github.io/mzTab/1_1-metabolomics-draft/mzTab_format_specification_1_1-M_draft.pdf))
+  > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc),[html](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html),[pdf](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf))
 
 **Version 1.0.0 (June 2014):**
 
@@ -32,7 +32,7 @@ Several example of the format can be download from the next link [examples.zip](
 Detailed explanation of all examples can be found [here](../../wiki/Examples)
 
 
-## jmzTab-m API (for mzTab-M 1.1.x, under development)
+## jmzTab-m API (for mzTab-M 2.0.x, under development)
 
   > [jmzTab-m](https://github.com/nilshoffmann/jmzTab-m)
 
