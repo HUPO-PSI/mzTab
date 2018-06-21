@@ -75,7 +75,7 @@ is_a	MS:1001456 analysis software ! analysis software
 is_a	MS:1001457 data processing software ! data processing software
 
 id	MS:XXXXXXX
-name	LipidDEX
+name	LipiDex
 def	"LipiDex: An Integrated Software Package for High-Confidence Lipid Identification." [PMID:29705063]
 is_a	MS:1001456 analysis software ! analysis software
 is_a	MS:1001457 data processing software ! data processing software
