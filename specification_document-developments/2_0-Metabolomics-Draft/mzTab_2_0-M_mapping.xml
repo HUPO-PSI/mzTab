@@ -34,7 +34,7 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
           <CvTerm termAccession="MS:1000560" useTerm="false" termName="mass spectrometer file format" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule> 
         
-        <CvMappingRule id="msrun_id_format_may" cvElementPath="/metadata/msRun/@idformat" requirementLevel="MAY"  scopePath="/metadata/msRun" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="msrun_id_format_may" cvElementPath="/metadata/msRun/@idFormat" requirementLevel="MAY"  scopePath="/metadata/msRun" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000767" useTerm="false" termName="native spectrum identifier format" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule> 
         
@@ -52,24 +52,24 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
         </CvMappingRule> 
         
         <!-- sample processing -->
-        <CvMappingRule id="sample_processing_may" cvElementPath="/metadata/sampleprocessing/@sampleProcessing" requirementLevel="MAY"  scopePath="/metadata/sampleprocessing" cvTermsCombinationLogic="OR">
-          <CvTerm termAccession="MS:1000831" useTerm="false" termName="sample preparation" isRepeatable="true" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+        <CvMappingRule id="sample_processing_may" cvElementPath="/metadata/sampleprocessing/@sampleProcessing" requirementLevel="MAY"  scopePath="/metadata/sampleprocessing" cvTermsCombinationLogic="AND">
+          <CvTerm termAccession="SEP:00101" useTerm="false" termName="protocol" isRepeatable="true" allowChildren="true" cvIdentifierRef="SEP"></CvTerm>
         </CvMappingRule> 
         
         <!-- instrument -->
-        <CvMappingRule id="instrument_name_may" cvElementPath="/metadata/instrument/@instrumentName" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="instrument_name_may" cvElementPath="/metadata/instrument/@name" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000031" useTerm="false" termName="instrument model" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
-        <CvMappingRule id="instrument_source_may" cvElementPath="/metadata/instrument/@instrumentSource" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="instrument_source_may" cvElementPath="/metadata/instrument/@source" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000458" useTerm="false" termName="source" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
-        <CvMappingRule id="instrument_analyzer_may" cvElementPath="/metadata/instrument/@instrumentAnalyzer" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="instrument_analyzer_may" cvElementPath="/metadata/instrument/@analyzer" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000451" useTerm="false" termName="mass analyzer" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
-        <CvMappingRule id="instrument_detector_may" cvElementPath="/metadata/instrument/@instrumentDetector" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="instrument_detector_may" cvElementPath="/metadata/instrument/@detector" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000026" useTerm="false" termName="detector type" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
