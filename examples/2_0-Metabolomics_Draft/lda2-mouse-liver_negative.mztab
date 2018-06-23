@@ -15,6 +15,7 @@ MTD	quantification_method	[MS, MS:1002019, label free raw feature quantitation, 
 MTD	sample[1]-species[1]	[NCBITaxon, NCBITaxon:10090, Mus musculus, ]
 MTD	sample[1]-cell_type[1]	[CL, CL:0000182, hepatocyte, ]
 MTD	sample[1]-tissue[1]	[BTO, BTO:0000759, liver, ]
+MTD	sample[1]-disease[1]	[PRIDE, PRIDE:0000018, Disease free, ]
 MTD	sample_processing[1]	[SEP, SEP:00210, High Perfomance Liquid Chromatography, ]
 MTD	software[1]	[, , LipidDataAnalyzer, 2.6.3_1]
 MTD	software[1]-setting[1]	isotope_pattern_checked

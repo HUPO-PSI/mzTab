@@ -102,7 +102,7 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
         
         <CvMappingRule id="sample_disease_may" cvElementPath="/metadata/sample/@disease" requirementLevel="MAY"  scopePath="/metadata/sample" cvTermsCombinationLogic="OR">
           <CvTerm termAccession="DOID:4" useTerm="false" termName="disease" isRepeatable="false" allowChildren="true" cvIdentifierRef="DOID"></CvTerm>
-          <CvTerm termAccession="PRIDE:0000018" useTerm="false" termName="Disease free" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+          <CvTerm termAccession="PRIDE:0000018" useTerm="true" termName="Disease free" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
         </CvMappingRule>
         
         <!-- database -->
