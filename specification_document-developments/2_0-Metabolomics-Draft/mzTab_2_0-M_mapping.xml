@@ -20,9 +20,9 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
       <CvReference cvName="NCBITaxon" cvIdentifier="NCBITaxon"/>
 <!--      <CvReference cvName="NEWT" cvIdentifier="NEWT"/>
       <CvReference cvName="GO" cvIdentifier="GO"/>
-      <CvReference cvName="PATO" cvIdentifier="PATO"/>
-      <CvReference cvName="UO" cvIdentifier="UO"/>
-      <CvReference cvName="SEP" cvIdentifier="SEP"/>-->
+      <CvReference cvName="PATO" cvIdentifier="PATO"/>-->
+    <CvReference cvName="UO" cvIdentifier="UO"/>
+    <CvReference cvName="SEP" cvIdentifier="SEP"/>
       <CvReference cvName="XLMOD" cvIdentifier="XLMOD"/>
       <CvReference cvName="PRIDE" cvIdentifier="PRIDE"/>
     </CvReferenceList>
@@ -34,7 +34,7 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
           <CvTerm termAccession="MS:1000560" useTerm="false" termName="mass spectrometer file format" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule> 
         
-        <CvMappingRule id="msrun_id_format_may" cvElementPath="/metadata/msRun/@idformat" requirementLevel="MAY"  scopePath="/metadata/msRun" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="msrun_id_format_may" cvElementPath="/metadata/msRun/@idFormat" requirementLevel="MAY"  scopePath="/metadata/msRun" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000767" useTerm="false" termName="native spectrum identifier format" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule> 
         
@@ -52,35 +52,37 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
         </CvMappingRule> 
         
         <!-- sample processing -->
-        <CvMappingRule id="sample_processing_may" cvElementPath="/metadata/sampleprocessing/@sampleProcessing" requirementLevel="MAY"  scopePath="/metadata/sampleprocessing" cvTermsCombinationLogic="OR">
-          <CvTerm termAccession="MS:1000831" useTerm="false" termName="sample preparation" isRepeatable="true" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+        <CvMappingRule id="sample_processing_may" cvElementPath="/metadata/sampleprocessing/@sampleProcessing" requirementLevel="MAY"  scopePath="/metadata/sampleprocessing" cvTermsCombinationLogic="AND">
+          <CvTerm termAccession="SEP:00101" useTerm="false" termName="protocol" isRepeatable="true" allowChildren="true" cvIdentifierRef="SEP"></CvTerm>
         </CvMappingRule> 
         
         <!-- instrument -->
-        <CvMappingRule id="instrument_name_may" cvElementPath="/metadata/instrument/@instrumentName" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="instrument_name_may" cvElementPath="/metadata/instrument/@name" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000031" useTerm="false" termName="instrument model" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
-        <CvMappingRule id="instrument_source_may" cvElementPath="/metadata/instrument/@instrumentSource" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="instrument_source_may" cvElementPath="/metadata/instrument/@source" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000458" useTerm="false" termName="source" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
-        <CvMappingRule id="instrument_analyzer_may" cvElementPath="/metadata/instrument/@instrumentAnalyzer" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="instrument_analyzer_may" cvElementPath="/metadata/instrument/@analyzer" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000451" useTerm="false" termName="mass analyzer" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
-        <CvMappingRule id="instrument_detector_may" cvElementPath="/metadata/instrument/@instrumentDetector" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="instrument_detector_may" cvElementPath="/metadata/instrument/@detector" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
           <CvTerm termAccession="MS:1000026" useTerm="false" termName="detector type" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
         <!-- software -->
         <CvMappingRule id="software_must" cvElementPath="/metadata/software/@parameter" requirementLevel="MUST"  scopePath="/metadata/software" cvTermsCombinationLogic="AND">
-          <CvTerm termAccession="MS:1002878" useTerm="false" termName="small molecule analysis software" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+      <!--<CvTerm termAccession="MS:1002878" useTerm="false" termName="small molecule analysis software" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>-->
+      <CvTerm termAccession="MS:1000531" useTerm="false" termName="software" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
         <!-- quantification method -->
-        <CvMappingRule id="quantification_method_must" cvElementPath="/metadata/@quantificationMethod" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="AND">
+        <CvMappingRule id="quantification_method_must" cvElementPath="/metadata/@quantificationMethod" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="OR">
           <CvTerm termAccession="PRIDE:0000307" useTerm="false" termName="Quantification method" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+          <CvTerm termAccession="MS:1001833" useTerm="false" termName="quantitation analysis summary" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>
         
         <!-- sample -->
@@ -100,11 +102,11 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
         
         <CvMappingRule id="sample_disease_may" cvElementPath="/metadata/sample/@disease" requirementLevel="MAY"  scopePath="/metadata/sample" cvTermsCombinationLogic="OR">
           <CvTerm termAccession="DOID:4" useTerm="false" termName="disease" isRepeatable="false" allowChildren="true" cvIdentifierRef="DOID"></CvTerm>
-          <CvTerm termAccession="PRIDE:0000018" useTerm="false" termName="Disease free" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+          <CvTerm termAccession="PRIDE:0000018" useTerm="true" termName="Disease free" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
         </CvMappingRule>
         
         <!-- database -->
-        <CvMappingRule id="database_must" cvElementPath="/metadata/database/@param" requirementLevel="MUST"  scopePath="/metadata/database" cvTermsCombinationLogic="OR">
+    <CvMappingRule id="database_must" cvElementPath="/metadata/database/@param" requirementLevel="MUST"  scopePath="/metadata/database" cvTermsCombinationLogic="XOR">
           <CvTerm termAccession="MS:1001013" useTerm="false" termName="database name" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
           <CvTerm termAccession="MS:1001347" useTerm="false" termName="database file formats" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
           <CvTerm termAccession="MS:1001011" useTerm="false" termName="search database details" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
@@ -125,13 +127,19 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
         </CvMappingRule>-->
         
         <!-- small molecule quantification unit -->
-        <CvMappingRule id="small_molecule_quantification_unit_must" cvElementPath="/metadata/@smallMoleculeQuantificationUnit" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="AND">
+    <CvMappingRule id="small_molecule_quantification_unit_must" cvElementPath="/metadata/@smallMoleculeQuantificationUnit" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="XOR">
           <CvTerm termAccession="PRIDE:0000392" useTerm="false" termName="Quantification unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+      <CvTerm termAccession="UO:0000051" useTerm="false" termName="concentration unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="UO"></CvTerm>
+      <CvTerm termAccession="MS:1000043" useTerm="false" termName="intensity unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+      <CvTerm termAccession="UO:0000006" useTerm="false" termName="substance unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="UO"></CvTerm>
         </CvMappingRule>
         
         <!-- small molecule feature quantification unit -->
-        <CvMappingRule id="small_molecule_feature_quantification_unit_must" cvElementPath="/metadata/@smallMoleculeFeatureQuantificationUnit" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="AND">
+    <CvMappingRule id="small_molecule_feature_quantification_unit_must" cvElementPath="/metadata/@smallMoleculeFeatureQuantificationUnit" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="XOR">
           <CvTerm termAccession="PRIDE:0000392" useTerm="false" termName="Quantification unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+      <CvTerm termAccession="UO:0000051" useTerm="false" termName="concentration unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="UO"></CvTerm>
+      <CvTerm termAccession="MS:1000043" useTerm="false" termName="intensity unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+      <CvTerm termAccession="UO:0000006" useTerm="false" termName="substance unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="UO"></CvTerm>
         </CvMappingRule>
         
         <!--TODO: small_molecule-identification_reliability -->
@@ -160,7 +168,7 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
         </CvMappingRule>
         
         <!-- identification method -->
-        <CvMappingRule id="identification_method_must" cvElementPath="/smallMoleculeEvidence/@identificationMethod" requirementLevel="MUST"  scopePath="/smallMoleculeEvidence" cvTermsCombinationLogic="OR">
+    <CvMappingRule id="identification_method_must" cvElementPath="/smallMoleculeEvidence/@identificationMethod" requirementLevel="MUST"  scopePath="/smallMoleculeEvidence" cvTermsCombinationLogic="XOR">
           <CvTerm termAccession="MS:1001058" useTerm="true" termName="quality estimation by manual validation" isRepeatable="false" allowChildren="false" cvIdentifierRef="MS"></CvTerm>
           <CvTerm termAccession="MS:1001060" useTerm="false" termName="search type" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
         </CvMappingRule>

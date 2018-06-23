@@ -1,6 +1,93 @@
-# Proposed metabolite identification level system terms.
-
 # MSI levels
+
+# Already incorporated as compound identification confidence level (MS:1002896)
 
 # Schymanski levels (for the lack of a better term)
 
+# Already incorporated as hr-ms compound identification confidence level (MS:1002955)
+
+# Study statistics
+
+id	MS:XXXXXXX
+name    mean
+def     "The arithmetic mean" 
+is_a	MS:1002882 study variable average function ! study variable average function
+
+id	MS:XXXXXXX
+name    coefficient of variation
+def     "The coefficient of variation" 
+is_a	MS:1002884 study variable variation function ! study variable variation function
+
+# Tools
+
+id	MS:XXXXXXX
+name	Lipid Data Analyzer
+def	"Lipid Data Analyzer software for lipid quantification." [PMID:29058722]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	chrom format
+def	"The Lipid Data Analyzer native chrom format."
+is_a	MS:1000560 mass spectrometer file format ! mass spectrometer file format
+
+
+id	MS:XXXXXXX
+name	LipidHunter
+def	"LipidHunter Identifies Phospholipids by High-Throughput Processing of LC-MS and Shotgun Lipidomics Datasets." [PMID:28753264]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	LipidXplorer
+def	"LipidXplorer: a software for consensual cross-platform lipidomics." [PMID:22272252]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	LipidMatch
+def	"LipidMatch: an automated workflow for rule-based lipid identification using untargeted high-resolution tandem mass spectrometry data." [PMID:28693421]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	Greazy
+def	"Greazy: Open-Source Software for Automated Phospholipid Tandem Mass Spectrometry Identification" [PMID:27186799]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	LipidBlast
+def	"LC-MS-Based Lipidomics and Automated Identification of Lipids Using the LipidBlast In-Silico MS/MS Library." [PMID:28660581]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	Lipid-Pro
+def	"Lipid-Pro: a computational lipid identification solution for untargeted lipidomics on data-independent acquisition tandem mass spectrometry platforms." [PMID:25433698]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	LipidFinder
+def	"LipidFinder: A computational workflow for discovery of lipids identifies eicosanoid-phosphoinositides in platelets." [PMID:28405621]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	LipiDex
+def	"LipiDex: An Integrated Software Package for High-Confidence Lipid Identification." [PMID:29705063]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	LIQUID
+def	"LIQUID: an-open source software for identifying lipids in LC-MS/MS-based lipidomics data." [PMID:28158427]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
+
+id	MS:XXXXXXX
+name	ALEX
+def	"Analysis of lipid experiments (ALEX): a software framework for analysis of high-resolution shotgun lipidomics data." [PMID:24244551]
+is_a	MS:1001456 analysis software ! analysis software
+is_a	MS:1001457 data processing software ! data processing software
