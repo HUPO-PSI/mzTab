@@ -4292,7 +4292,9 @@ SME 3 ms_run[1]:mass=278.65;rt=376.5</pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The putative identification for the small molecule sourced from an external database, using the same prefix specified in database[1-n]-prefix.</p>
-<p class="tableblock">This could include additionally a chemical class or an identifier to a spectral library entity, even if its actual identity is unknown.</p></td>
+<p class="tableblock">This could include additionally a chemical class or an identifier to a spectral library entity, even if its actual identity is unknown.</p>
+<p class="tableblock">For the “no database” case, "null" must be used. The unprefixed use of "null" is prohibited for any other case.
+If no putative identification can be reported for a particular database, it MUST be reported as the database prefix followed by null.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -4300,7 +4302,7 @@ SME 3 ms_run[1]:mass=278.65;rt=376.5</pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Is Nullable:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
@@ -4308,7 +4310,8 @@ SME 3 ms_run[1]:mass=278.65;rt=376.5</pre>
 <div class="content">
 <pre>SEH SME_ID identifier …
 SME 1 CID:00027395 …
-SME 2 HMDB:HMDB12345 …</pre>
+SME 2 HMDB:HMDB12345 …
+SME 3 CID:null …</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4990,7 +4993,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-18 12:40:06 UTC
+Last updated 2018-06-23 08:44:40 UTC
 </div>
 </div>
 </body>
