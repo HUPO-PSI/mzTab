@@ -37,7 +37,7 @@ MTD	sample[1]	QEx-1273-prm-sp1
 MTD	sample[1]-description	Sphingolipids with concentration reported as picomolar per mg of protein, abundances are reported after calibration correction.																			
 MTD	ms_run[1]-location	file:///C:/data/QEx-1273-prm-sp1.mzML																			
 MTD	ms_run[1]-format	[MS, MS:1000584, mzML file, ]																			
-MTD	ms_run[1]-id_format	[MS, MS:1000530, mzML unique identifier, ]																			
+MTD	ms_run[1]-id_format	[MS, MS:1001530, mzML unique identifier, ]																			
 MTD	ms_run[1]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]																			
 MTD	assay[1]	Description of assay 1																			
 MTD	assay[1]-sample_ref	sample[1]																			
