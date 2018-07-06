@@ -1,0 +1,16 @@
+
+# oximation reagent
+id      xlmod:XXXXXX1
+name    oximation reagent
+def     "Oximation reagent replacing an aldehyde keto group with an O-methyloxime group." [PSI:XL]
+is_a: xlmod:06000 ! derivatization reagent
+
+# methoxylamine
+id	xlmod:XXXXXX2
+name    Methoxylamine hydrochloride
+def     "Methoxylamine hydrochloride derivatization reagent." [CAS:593-56-6, PubChem_Compound:24853598, MDL:MFCD00012951, Beilstein:3589723]
+synonym "O-Methylhydroxylamine hydrochloride" EXACT []
+is_a	xlmod:XXXXXX1 ! oximation reagent
+relationship: is_reactive_with xlmod:00031 ! aldehyde reactive
+relationship: is_reactive_with xlmod:06506 ! carbohydrate and sugar reactive
+
