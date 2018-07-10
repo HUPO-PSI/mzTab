@@ -1234,7 +1234,7 @@ MTD derivatization_agent[1] [, PUBCHEM:00XXX, idomethylation, ]
 ==== small_molecule-quantification_unit
 [cols=",",]
 |=============================================================================================================
-|*Description:* |Defines what type of units is reported in the small molecule quantification fields.
+|*Description:* |Defines what type of units are reported in the small molecule summary quantification / abundance fields.
 |*Type:* |Parameter
 |*Mandatory* |True
 |*Example:* a|
@@ -1248,7 +1248,7 @@ MTD small_molecule-quantification_unit [MS, MS:1002887, Progenesis QI normalised
 ==== small_molecule_feature-quantification_unit
 [cols=",",]
 |=====================================================================================================================
-|*Description:* |Defines what type of units is reported in the small molecule feature quantification fields.
+|*Description:* |Defines what type of units are reported in the small molecule feature quantification / abundance fields.
 |*Type:* |Parameter
 |*Mandatory* |True (if SMF section is being reported)
 |*Example:* a|
