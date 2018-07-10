@@ -695,7 +695,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="use-of-identifiers-for-input-spectra-to-a-search">5.1. Use of identifiers for input spectra to a search</h3>
 <div class="paragraph">
-<p>Small molecules MUST be linked to an identifier of the source spectrum (in an external file) from which the identifications are made by way of a reference in the <code>spectra_ref</code> attribute and via the <code>ms_run</code> element which stores the URL of the file in the <code>location</code> attribute.</p>
+<p>Small molecules MUST be linked to an identifier of the source spectrum (in an external file) from which the identifications are made by way of a reference in the <code>spectra_ref</code> attribute and via the <code>ms_run</code> element which stores the URI of the file in the <code>location</code> attribute.</p>
 </div>
 <div class="paragraph">
 <p>It is advantageous if there is a consistent system for identifying spectra in different file formats. The following table is implemented in the PSI-MS CV for providing consistent identifiers for different spectrum file formats.</p>
@@ -1030,12 +1030,14 @@ SMF 1 … 24.55</pre>
 <div class="paragraph">
 <p>The current specifications of mzTab-M only support relatively simple details about sample preparation and experimental design. Users may wish to use ISA-TAB to record more details about these aspects. The ISA-TAB file can be referenced by the external_study_uri attribute.</p>
 </div>
+<div class="paragraph">
+<p>Generally, any external resource reference (suffixed <code>-uri</code>, or <code>-location</code>) must be provided as a valid URI string. This allows to report local, as well as remote resource links (URLs) and unique unified resource names (URNs).</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="other-supporting-materials">5.13. Other supporting materials</h3>
 <div class="paragraph">
-<p>Example files are located at <a href="https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Draft">GitHub</a>.
-TODO: Need to tidy up GitHub example file repo.</p>
+<p>Example files are located at <a href="https://github.com/HUPO-PSI/mzTab/wiki/Examples">GitHub</a>.</p>
 </div>
 </div>
 </div>
@@ -2732,7 +2734,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD cv[1]-version 3.54.0
+<pre>MTD cv[1]-version 4.1.11
 …</pre>
 </div>
 </div></div></td>
@@ -2741,7 +2743,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-url">6.2.49. cv[1-n]-url</h4>
+<h4 id="cv1-n-uri">6.2.49. cv[1-n]-uri</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2750,7 +2752,7 @@ MTD study_variable[2] “1 minute”</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A string containing the URLs of the controlled vocabularies/ontologies used in the mzTab file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -2764,7 +2766,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD cv[1]-url https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
+<pre>MTD cv[1]-uri https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
 …</pre>
 </div>
 </div></div></td>
@@ -2797,12 +2799,12 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD database[1] [MIRIAM,MIR:00100079 , “HMDB”, ]
-MTD database[3] [,de novo , “dn”, ]
-MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
-MTD database[4] [, ,"mydatabase", "mydb" ]
+<pre>MTD database[1] [MIRIAM,MIR:00100079 , HMDB, ]
+MTD database[3] [, de novo , dn, ]
+MTD database[3] [MIRIAM, MIR:00000002 , CHEBI, ]
+MTD database[4] [, mydatabase, mydb, ]
 OR
-MTD database[1] [, , “no database”, "null"]</pre>
+MTD database[1] [, , "no database", null]</pre>
 </div>
 </div></div></td>
 </tr>
@@ -2868,7 +2870,10 @@ MTD database[1]-prefix null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD database[1]-version 3.6</pre>
+<pre>MTD database[1]-version 3.6
+
+or
+MTD database[2]-version Unknown</pre>
 </div>
 </div></div></td>
 </tr>
@@ -2876,7 +2881,7 @@ MTD database[1]-prefix null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n-url">6.2.53. database[1-n]-url</h4>
+<h4 id="database1-n-uri">6.2.53. database[1-n]-uri</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2885,11 +2890,11 @@ MTD database[1]-prefix null</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The URL to the database.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The URI to the database. For the “no database” case, "null" must be reported.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URI</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mandatory</strong></p></td>
@@ -2899,7 +2904,10 @@ MTD database[1]-prefix null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>database[1]-url http://www.hmdb.ca/</pre>
+<pre>database[1]-uri http://www.hmdb.ca/
+
+or
+database[2]-uri null</pre>
 </div>
 </div></div></td>
 </tr>
@@ -2961,7 +2969,7 @@ MTD database[1]-prefix null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD small_molecule-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normalised abundance, ]</pre>
+<pre>MTD small_molecule-quantification_unit [MS, MS:1002887, Progenesis QI normalised abundance, ]</pre>
 </div>
 </div></div></td>
 </tr>
@@ -2986,13 +2994,13 @@ MTD database[1]-prefix null</pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mandatory</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">True (if SMF section is being reported)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD small_molecule_feature-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normalised abundance, ]</pre>
+<pre>MTD small_molecule_feature-quantification_unit [MS, MS:1002887, Progenesis QI normalised abundance, ]</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4993,7 +5001,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-09 15:16:03 UTC
+Last updated 2018-07-10 12:12:11 UTC
 </div>
 </div>
 </body>
