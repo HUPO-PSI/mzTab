@@ -1121,7 +1121,7 @@ MTD cv[1]-full_name PSI-MS controlled vocabulary
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD cv[1]-version 3.54.0
+MTD cv[1]-version 4.1.11
 …
 ....
 |================================================================================================================
@@ -1240,7 +1240,7 @@ MTD derivatization_agent[1] [, PUBCHEM:00XXX, idomethylation, ]
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-MTD small_molecule-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normalised abundance, ]
+MTD small_molecule-quantification_unit [MS, MS:1002887, Progenesis QI normalised abundance, ]
 ....
 |=============================================================================================================
 
@@ -1250,11 +1250,11 @@ MTD small_molecule-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normal
 |=====================================================================================================================
 |*Description:* |Defines what type of units is reported in the small molecule feature quantification fields.
 |*Type:* |Parameter
-|*Mandatory* |True
+|*Mandatory* |True (if SMF section is being reported)
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-MTD small_molecule_feature-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normalised abundance, ]
+MTD small_molecule_feature-quantification_unit [MS, MS:1002887, Progenesis QI normalised abundance, ]
 ....
 |=====================================================================================================================
 
