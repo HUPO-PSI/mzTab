@@ -1156,12 +1156,12 @@ If no identification has been performed at all then "no database" should be inse
 ....
 
 
-MTD database[1] [MIRIAM,MIR:00100079 , “HMDB”, ]
-MTD database[3] [,de novo , “dn”, ]
-MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
-MTD database[4] [, ,"mydatabase", "mydb" ]
+MTD database[1] [MIRIAM,MIR:00100079 , HMDB, ]
+MTD database[3] [, de novo , dn, ]
+MTD database[3] [MIRIAM, MIR:00000002 , CHEBI, ]
+MTD database[4] [, mydatabase, mydb, ]
 OR
-MTD database[1] [, , “no database”, "null"]
+MTD database[1] [, , "no database", null]
 ....
 |===========================================================================================================================================================================================================================
 
@@ -1193,6 +1193,9 @@ MTD database[1]-prefix null
 |*Example:* a|
 ....
 MTD database[1]-version 3.6
+
+or
+MTD database[2]-version Unknown
 ....
 |==============================================================================================================================================================================================================================================
 
@@ -1201,12 +1204,15 @@ MTD database[1]-version 3.6
 
 [cols=",",]
 |===============================================
-|*Description:* |The URI to the database.
+|*Description:* |The URI to the database. For the “no database” case, "null" must be reported.
 |*Type:* |URI
 |*Mandatory* |True
 |*Example:* a|
 ....
 database[1]-uri http://www.hmdb.ca/
+
+or
+database[2]-uri null
 ....
 |===============================================
 
