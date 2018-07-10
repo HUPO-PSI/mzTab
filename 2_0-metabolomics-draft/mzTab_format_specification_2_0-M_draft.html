@@ -3525,21 +3525,21 @@ SML 1 … [M+H]1+ | [M+Na]1+ …</pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>The reliability of the given small molecule identification. This must be supplied by the resource and MUST be reported as an integer between 1-4:#</p>
+<p>The reliability of the given small molecule identification. This must be supplied by the resource and MUST be reported as an integer between 1-4:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>identified metabolite</p>
+<p>identified metabolite (1)</p>
 </li>
 <li>
-<p>putatively annotated compound</p>
+<p>putatively annotated compound (2)</p>
 </li>
 <li>
-<p>putatively characterized compound class</p>
+<p>putatively characterized compound class (3)</p>
 </li>
 <li>
-<p>unknown compound</p>
+<p>unknown compound (4)</p>
 </li>
 </ol>
 </div>
@@ -3549,24 +3549,56 @@ SML 1 … [M+H]1+ | [M+Na]1+ …</pre>
 <div class="paragraph">
 <p>The MSI has ntly discussed an extension of the original four level scheme into a five level scheme <a href="https://www.ncbi.nlm.nih.gov/pubmed/29748461">MS:1002896</a> (compound identification confidence level) with levels</p>
 </div>
-<div class="paragraph">
-<p>0 isolated, pure compound, full stereochemistry
-1 reference standard match or full 2D structure
-2 unambiguous diagnostic evidence (literature, database)
-3 most likely structure, including isomers, substance class or substructure match
-4 unknown compound</p>
+<div class="olist arabic">
+<ol class="arabic" start="0">
+<li>
+<p>isolated, pure compound, full stereochemistry (0)</p>
+</li>
+<li>
+<p>reference standard match or full 2D structure (1)</p>
+</li>
+<li>
+<p>unambiguous diagnostic evidence (literature, database) (2)</p>
+</li>
+<li>
+<p>most likely structure, including isomers, substance class or substructure match (3)</p>
+</li>
+<li>
+<p>unknown compound (4)</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>For high-resolution MS, the following term and its levels may be used: <a href="https://www.ncbi.nlm.nih.gov/pubmed/24476540">MS:1002955</a> (hr-ms compound identification confidence level) with levels</p>
 </div>
-<div class="paragraph">
-<p>1 confirmed structure
-2 probable structure
-2a unambiguous ms library match
-2b diagnostic evidence
-3 tentative candidates
-4 unequivocal molecular formula
-5 exact mass</p>
+<div class="olist arabic">
+<ol class="arabic" start="1">
+<li>
+<p>confirmed structure (1)</p>
+</li>
+<li>
+<p>probable structure (2)</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>unambiguous ms library match (2a)</p>
+</li>
+<li>
+<p>diagnostic evidence (2b)</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>tentative candidates (3)</p>
+</li>
+<li>
+<p>unequivocal molecular formula (4)</p>
+</li>
+<li>
+<p>exact mass (5)</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>A String data type is set to allow for different systems to be specified in the metadata section.</p>
@@ -5048,7 +5080,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-10 14:09:08 UTC
+Last updated 2018-07-10 14:40:53 UTC
 </div>
 </div>
 </body>
