@@ -1552,21 +1552,22 @@ These MAY be replaced using a suitable CV term in the Metadata section e.g. to u
 
 The MSI has ntly discussed an extension of the original four level scheme into a five level scheme https://www.ncbi.nlm.nih.gov/pubmed/29748461[MS:1002896] (compound identification confidence level) with levels
 
-0 isolated, pure compound, full stereochemistry
-1 reference standard match or full 2D structure
-2 unambiguous diagnostic evidence (literature, database)
-3 most likely structure, including isomers, substance class or substructure match
-4 unknown compound
+["arabic", start=0]
+. isolated, pure compound, full stereochemistry
+. reference standard match or full 2D structure
+. unambiguous diagnostic evidence (literature, database)
+. most likely structure, including isomers, substance class or substructure match
+. unknown compound
 
 For high-resolution MS, the following term and its levels may be used: https://www.ncbi.nlm.nih.gov/pubmed/24476540[MS:1002955] (hr-ms compound identification confidence level) with levels
 
-1 confirmed structure
-2 probable structure
-2a unambiguous ms library match
-2b diagnostic evidence
-3 tentative candidates
-4 unequivocal molecular formula
-5 exact mass
+. confirmed structure
+. probable structure
+.. unambiguous ms library match
+.. diagnostic evidence
+. tentative candidates
+. unequivocal molecular formula
+. exact mass
 
 A String data type is set to allow for different systems to be specified in the metadata section.
 
