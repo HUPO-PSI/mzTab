@@ -313,7 +313,7 @@ SMF 1 … 24.55
 
 The current specifications of mzTab-M only support relatively simple details about sample preparation and experimental design. Users may wish to use ISA-TAB to record more details about these aspects. The ISA-TAB file can be referenced by the external_study_uri attribute.
 
-Generally, any external resource reference (suffixed `-uri`, or `-location`) must be provided as a valid URI string. This allows to report local, as well as remote resource links (URLs) and unique unified resource names (URNs). 
+Generally, any external resource reference (suffixed `-uri`, or `-location`) must be provided as a valid URI string. This allows to report local, as well as remote resource links (URLs) and unique unified resource names (URNs).
 
 [[other-supporting-materials]]
 === Other supporting materials
@@ -410,7 +410,10 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Description:* |The version of the mzTab file. The suffix MUST be "-M" for mzTab for metabolomics (mzTab-M).
 |*Type:* |Regex{"\d{2}\.\d{0}\.\d{0}-M"}
 |*Mandatory* |True
-|*Example:* a|`MTD mzTab-version  2.0.0-M`
+|*Example:* a|
+....
+MTD mzTab-version  2.0.0-M
+....
 |==============================================
 
 [[mztab-id]]
@@ -421,7 +424,10 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Description:* |The ID of the mzTab file, this could be supplied by the repository from which it is downloaded or a local identifier from the lab producing the file. It is not intended to be a globally unique ID but carry some locally useful meaning.
 |*Type:* |String
 |*Mandatory* |True
-|*Example:* a|`MTD mzTab-ID MTBL1234`
+|*Example:* a|
+....
+MTD mzTab-ID MTBL1234
+....
 |=========================================
 
 [[title]]
@@ -432,7 +438,10 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Description:* |The file’s human readable title.
 |*Type:* |String
 |*Mandatory* |False
-|*Example:* a|`MTD title Effects of Rapamycin on metabolite profile`
+|*Example:* a|
+....
+MTD title Effects of Rapamycin on metabolite profile
+....
 |================================================
 
 [[description]]
@@ -443,7 +452,10 @@ In the following list of fields any term encapsulated by `\{}` is meant as a var
 |*Description:* |The file’s human readable description.
 |*Type:* |String
 |*Mandatory* |False
-|*Example:* a|`MTD description An experiment investigating the effects of Il-6...`
+|*Example:* a|
+....
+MTD description An experiment investigating the effects of Il-6...
+....
 |============================================================================
 
 [[sample_processing1-n]]
@@ -690,7 +702,7 @@ COM Experiment where all samples consisted of the same two species
 MTD sample[1]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
 MTD sample[2]-species[1] [NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]
 
-COM Experiment where different two samples from different species (combinations)
+COM Experiment where two samples from different species (combinations)
 COM were analysed as biological replicates.
 
 MTD sample[1]-species[1] [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]
@@ -802,8 +814,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file
 |*Example:* a|
 ....
 MTD ms_run[1]-instrument_ref instrument[1]
-…
-
+....
 |=====================================================================================================================================================================================================================================================================================================================================================
 
 
@@ -853,7 +864,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]
 ....
 MTD ms_run[1]-fragmentation_method[1] [MS, MS:1000133, CID, ]
 …
-MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD …, ]
+MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD, ]
 ....
 |===========================================================================
 
@@ -874,6 +885,7 @@ MTD ms_run[1]-scan_polarity[1] [MS, MS:1000129, negative scan, ]
 OR (For mixed polarity in one run)
 MTD ms_run[1]-scan_polarity[1] [MS, MS:1000130, positive scan, ]
 MTD ms_run[1]-scan_polarity[2] [MS, MS:1000129, negative scan, ]
+....
 |===========================================================================
 
 
@@ -1092,7 +1104,6 @@ MTD custom[1] [,,MS operator, Florian]
 |*Example:* a|
 ....
 MTD cv[1]-label MS
-…
 ....
 |===============================================================================================================
 
@@ -1107,7 +1118,6 @@ MTD cv[1]-label MS
 |*Example:* a|
 ....
 MTD cv[1]-full_name PSI-MS controlled vocabulary
-…
 ....
 |===================================================================================================================
 
@@ -1122,7 +1132,6 @@ MTD cv[1]-full_name PSI-MS controlled vocabulary
 |*Example:* a|
 ....
 MTD cv[1]-version 4.1.11
-…
 ....
 |================================================================================================================
 
@@ -1137,7 +1146,6 @@ MTD cv[1]-version 4.1.11
 |*Example:* a|
 ....
 MTD cv[1]-uri https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
-…
 ....
 |===============================================================================================================================================================================================================
 
@@ -1154,8 +1162,6 @@ If no identification has been performed at all then "no database" should be inse
 |*Mandatory* |True
 |*Example:* a|
 ....
-
-
 MTD database[1] [MIRIAM,MIR:00100079 , HMDB, ]
 MTD database[3] [, de novo , dn, ]
 MTD database[3] [MIRIAM, MIR:00000002 , CHEBI, ]
@@ -1176,8 +1182,7 @@ MTD database[1] [, , "no database", null]
 ....
 MTD database[1]-prefix hmdb
 MTD database[1]-prefix dn
-
-or
+OR
 MTD database[1]-prefix null
 ....
 |====================================================================================================================================================
@@ -1193,8 +1198,7 @@ MTD database[1]-prefix null
 |*Example:* a|
 ....
 MTD database[1]-version 3.6
-
-or
+OR
 MTD database[2]-version Unknown
 ....
 |==============================================================================================================================================================================================================================================
@@ -1210,8 +1214,7 @@ MTD database[2]-version Unknown
 |*Example:* a|
 ....
 database[1]-uri http://www.hmdb.ca/
-
-or
+OR
 database[2]-uri null
 ....
 |===============================================
@@ -1226,7 +1229,7 @@ database[2]-uri null
 |*Mandatory* |False
 |*Example:* a|
 ....
-MTD derivatization_agent[1] [, PUBCHEM:00XXX, idomethylation, ]
+MTD derivatization_agent[1] [XLMOD, XLMOD:07014, N-methyl-N-t-butyldimethylsilyltrifluoroacetamide, ]
 ....
 |===============================================================================================================================
 
@@ -1262,13 +1265,15 @@ MTD small_molecule_feature-quantification_unit [MS, MS:1002887, Progenesis QI no
 ==== small_molecule-identification_reliability
 [cols=",",]
 |================================================================================================================================================
-|*Description:* |The system used for giving reliability codes to small molecule identifications MUST be specified if not using the default codes.
+|*Description:* |The system used for giving reliability / confidence codes to small molecule identifications MUST be specified if not using the default codes (see <<reliability>> for details).
 |*Type:* |Param
 |*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-MTD small_molecule-identification_reliability [, , Numerical system defined in publication, PMID:AS_ONE_BECOMES_AVAILABLE]
+MTD small_molecule-identification_reliability [MS, MS:1002896, compound identification confidence level, ]
+or
+MTD small_molecule-identification_reliability [MS, MS:1002955, hr-ms compound identification confidence level, ]
 ....
 |================================================================================================================================================
 
@@ -1304,7 +1309,9 @@ This field MUST NOT be used to define a unit for quantification columns. The uni
 |*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
+....
 MTD colunit-small_molecule opt_global_cv_MS:MS:1002954_collisional_cross_sectional_area=[UO,UO:00003241, square angstrom,]
+....
 |=================================================================================================================================================================================
 
 [[colunit-small_molecule_feature]]
@@ -1321,9 +1328,9 @@ This field MUST NOT be used to define a unit for quantification columns. The uni
 |*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
-
+....
 MTD colunit-small_molecule_feature opt_ms_run[1]_cv_MS:MS:1002476_ion_mobility_drift_time=[UO,UO:0000031, minute,]
-
+....
 |=================================================================================================================================================================================
 
 [[colunit-small_molecule_evidence]]
@@ -1336,13 +1343,15 @@ MTD colunit-small_molecule_feature opt_ms_run[1]_cv_MS:MS:1002476_ion_mobility_d
 |*Mandatory* |False
 |*Example:* a|
 [subs="verbatim,quotes"]
+....
 MTD colunit-small_molecule_evidence opt_global_mass_error=[UO, UO:0000169, parts per million, ]
+....
 |===========================================================================================================================================================================
 
 [[small-molecule-section]]
 === Small Molecule Section
 
-The small molecule section is table-based. The small molecule section MUST always come after the metadata section. All table columns MUST be Tab separated. There MUST NOT be any empty cells; missing values MUST be reported using “null” for columns where Is Nullable = “True”. 
+The small molecule section is table-based. The small molecule section MUST always come after the metadata section. All table columns MUST be Tab separated. There MUST NOT be any empty cells; missing values MUST be reported using “null” for columns where Is Nullable = “True”.
 
 Each row of the small molecule section is intended to report one final result to be communicated in terms of a molecule that has been quantified. In many cases, this may be the molecule of biological interest, although in some cases, the final result could be a derivatized form as appropriate – although it is desirable for the database identifier(s) to reference to the biological (non-derivatized) form. In general, different adduct forms would generally be reported in the Small Molecule Feature section.
 
@@ -1391,10 +1400,6 @@ A list of “\|” separated possible identifiers for the small molecule; multip
 The database identifier must be preceded by the resource description (prefix) followed by a colon, as specified in the Metadata section.
 
 A null value MAY be provided if the identification is sufficiently ambiguous as to be meaningless for reporting or the small molecule has not been identified.
-
-
-
-
 
 |*Type:* |String List
 |*Is Nullable:* |*TRUE*
@@ -1536,9 +1541,7 @@ SML 1 … [M+H]1+ \| [M+Na]1+ …
 [cols=","]
 |============================================================================================================
 |*Description:* a|
-The reliability of the given small molecule identification. By default, the following system is used.
-
-This must be supplied by the resource and MUST be reported as an integer between 1-4:#
+The reliability of the given small molecule identification. This must be supplied by the resource and MUST be reported as an integer between 1-4:#
 
 . identified metabolite
 . putatively annotated compound
@@ -1547,12 +1550,45 @@ This must be supplied by the resource and MUST be reported as an integer between
 
 These MAY be replaced using a suitable CV term in the Metadata section e.g. to use MSI recommendation levels.
 
+The MSI has ntly discussed an extension of the original four level scheme into a five level scheme https://www.ncbi.nlm.nih.gov/pubmed/29748461[MS:1002896] (compound identification confidence level) with levels
+
+0 isolated, pure compound, full stereochemistry
+1 reference standard match or full 2D structure
+2 unambiguous diagnostic evidence (literature, database)
+3 most likely structure, including isomers, substance class or substructure match
+4 unknown compound
+
+For high-resolution MS, the following term and its levels may be used: https://www.ncbi.nlm.nih.gov/pubmed/24476540[MS:1002955] (hr-ms compound identification confidence level) with levels
+
+1 confirmed structure
+2 probable structure
+2a unambiguous ms library match
+2b diagnostic evidence
+3 tentative candidates
+4 unequivocal molecular formula
+5 exact mass
+
 A String data type is set to allow for different systems to be specified in the metadata section.
 
 |*Type:* |String
 |*Is Nullable:* |*TRUE*
-|*Example:* |SMH identifier … reliability … +
+|*Example:* a|
+....
+SMH identifier … reliability …
 SML 1 … 3 …
+
+or
+MTD small_molecule-identification_reliability [MS, MS:1002896, compound identification confidence level,]
+…
+SMH identifier … reliability …
+SML 1 … 0 …
+
+or
+MTD small_molecule-identification_reliability [MS, MS:1002955, hr-ms compound identification confidence level,]
+…
+SMH identifier … reliability …
+SML 1 … 2a …
+....
 |============================================================================================================
 
 [[best_id_confidence_measure]]
@@ -1580,7 +1616,6 @@ SML 1 … [MS, MS:1001477, SpectraST,] …
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-…
 SMH SML_ID … best_id_confidence_value …
 SML 1 … 0.7 …
 ....
@@ -1650,6 +1685,7 @@ SML 1 … My value some other value
 
 * Species
 * Taxid
+* GO term IDs
 * Retention time index values normalised to a given scale
 * Identification scores specific to each assay
 * Raw quantification values, assuming normalised values are provided in the standard assay quantification columns.
@@ -1854,7 +1890,7 @@ SMF 1 … My value some other value
 * Raw quantification values, assuming normalised values are provided in the standard assay quantification columns.
 * Predicted retention time
 * CCS values
-* Two-dimensional retention times e.g. `opt_retention_time_in_seconds1` `opt_retention_time_in_seconds2`
+* Two- or n-dimensional retention times e.g. `opt_global_retention_time_nd` `opt_global_retention_time_nd_window_start` `opt_global_retention_time_nd_window_end`
 
 [[small-molecule-evidence-sme-section]]
 === Small Molecule Evidence (SME) Section
@@ -2017,8 +2053,9 @@ SME 1 … http://www.hmdb.ca/metabolites/HMDB00054
 |*Example:* a|
 ....
 SMH database_identifier … derivatized_form …
-SML CID:00027395 … [,, “TMS”,] …
+SML CID:00027395 … [CHEBI, CHEBI:51088, trimethylsilyl group, 3] …
 ....
+(this example shows a triple substitution with a TMS group (3TMS))
 |==============================================================================================================================================================================================
 
 [[adduct_ion-1]]
@@ -2127,7 +2164,7 @@ SME 1 … [MS, MS:1001477, SpectraST,] …
 |*Example:* a|
 ....
 SEH SME_ID … ms_level …
-SME 1 … [MS,MS:1000511,”ms level”,2] …
+SME 1 … [MS, MS:1000511, ms level, 2] …
 ....
 |=====================================================================================================================================================================================================================================================================================================
 
@@ -2180,7 +2217,7 @@ SML 1 … My value some other value
 
 *Example optional columns:*
 
-* Additional statistical measures or annotations about evidence, such as decoy identifications.
+* Additional statistical measures or annotations about evidence, such as decoy identifications or rules used for fragment-based identification.
 
 [[non-supported-use-cases]]
 == Non-supported use cases
@@ -2190,8 +2227,8 @@ There are a number of use cases that were discussed during the development proce
 Examples include:
 
 * Multiplexing technologies
-* Merging results from negative and positive polarities (for quantitation purposes) into a single aligned files
 * Including the results from different technologies in one mzTab file e.g. DIMS and LC/MS
+* Merging of results from different omics experiments, e.g. proteomics, metabolomics and lipidomics
 
 
 [[conclusions]]
@@ -2202,9 +2239,9 @@ This document contains the specifications for using the mzTab format to represen
 [[authors]]
 == Authors
 
-TODO: Please add affiliations#
+TODO: Please add affiliations
 
-* Nils Hoffmann, Leibniz Institute for Analytical Sciences – ISAS – e.V., Dortmund, Germany.
+* Nils Hoffmann, Leibniz-Institut für Analytische Wissenschaften – ISAS – e.V., Dortmund, Germany.
 * Joel Rein
 * Kenneth Haug, European Bioinformatics Institute, Cambridge, United Kingdom.
 * Saravanan Dayalan
@@ -2212,14 +2249,11 @@ TODO: Please add affiliations#
 * Da Qi, University of Liverpool and BGI
 * Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
 * Timo Sachsenberg
+* Oliver Alka
 * Juan Antonio Vizcaíno, European Bioinformatics Institute, Cambridge, United Kingdom.
 * Reza M Salek,
 * Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle, Germany.
 * Andrew R Jones, University of Liverpool
-
-Apologies if I missed anyone!
-
-
 
 
 [bibliography]
