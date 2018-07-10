@@ -6,15 +6,15 @@ MTD	publication[1]	pubmed:29039908 | doi:10.1021/acs.analchem.7b03576
 MTD	cv[1]-label	MS																			
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary																			
 MTD	cv[1]-version	4.0.18																			
-MTD	cv[1]-url	https://github.com/HUPO-PSI/psi-ms-CV/blob/master/psi-ms.obo																			
+MTD	cv[1]-uri	https://github.com/HUPO-PSI/psi-ms-CV/blob/master/psi-ms.obo																			
 MTD	cv[2]-label	SEP																			
 MTD	cv[2]-full_name	Sample Processing and Separation Techniques Ontology																			
 MTD	cv[2]-version	1.070708																			
-MTD	cv[2]-url	http://purl.bioontology.org/ontology/SEP																			
+MTD	cv[2]-uri	http://purl.bioontology.org/ontology/SEP																			
 MTD	cv[3]-label	UO																			
 MTD	cv[3]-full_name	Units of Measurement Ontology																			
 MTD	cv[3]-version	 2017-09-25																			
-MTD	cv[3]-url	http://purl.obolibrary.org/obo/uo.owl																			
+MTD	cv[3]-uri	http://purl.obolibrary.org/obo/uo.owl																			
 MTD	quantification_method	[MS, MS:1001838, SRM quantitation analysis, ]																			
 MTD	sample_processing[1]	[SEP, SEP:00210, High Perfomance Liquid Chromatography, ]																			
 MTD	instrument[1]-name	[MS, MS:1002581, QTRAP 6500 , ]																			
@@ -46,15 +46,15 @@ MTD	small_molecule-identification_reliability	[MS, MS:1002896, compound identifi
 MTD	database[1]	[,, Pubchem, ]																			
 MTD	database[1]-prefix	PUBCHEM-CPD																			
 MTD	database[1]-version	02.12.2017																			
-MTD	database[1]-url	https://www.ncbi.nlm.nih.gov/pccompound																			
+MTD	database[1]-uri	https://www.ncbi.nlm.nih.gov/pccompound																			
 MTD	database[2]	[,, LipidMaps, ]																			
 MTD	database[2]-prefix	LM																			
 MTD	database[2]-version	2017-12																			
-MTD	database[2]-url	http://www.lipidmaps.org/																			
+MTD	database[2]-uri	http://www.lipidmaps.org/																			
 MTD	Database[3]	[,, LipidCreator Transitions, ]																			
 MTD	Database[3]-prefix	LCTR																			
 MTD	Database[3]-version	2018-07																			
-MTD	Database[3]-url	https://lifs.isas.de/lipidcreator																			
+MTD	Database[3]-uri	https://lifs.isas.de/lipidcreator																			
 COM	MTD	colunit-small_molecule	retention_time=[UO, UO:0000010, second, ]																		
 MTD	colunit-small_molecule_evidence	opt_global_mass_error=[UO, UO:0000169, parts per million, ]																			
 MTD	id_confidence_measure[1]	[MS, MS:1002890, fragmentation score, ]																			

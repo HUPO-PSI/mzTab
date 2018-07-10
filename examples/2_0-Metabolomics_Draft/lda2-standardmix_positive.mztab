@@ -54,21 +54,21 @@ MTD	study_variable[2]-assay_refs	assay[4]|assay[5]
 MTD	cv[1]-label	MS																	
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary																	
 MTD	cv[1]-version	20-06-2018																	
-MTD	cv[1]-url	https://www.ebi.ac.uk/ols/ontologies/ms																	
+MTD	cv[1]-uri	https://www.ebi.ac.uk/ols/ontologies/ms																	
 MTD	cv[2]-label	PRIDE																	
 MTD	cv[2]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary																	
 MTD	cv[2]-version	14-06-2018																	
-MTD	cv[2]-url	https://www.ebi.ac.uk/ols/ontologies/pride																						
+MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/pride																						
 MTD	cv[3]-label	SEP																			
 MTD	cv[3]-full_name	Sample Processing and Separation Techniques Ontology																			
 MTD	cv[3]-version	1.070708																			
-MTD	cv[3]-url	http://purl.bioontology.org/ontology/SEP	
+MTD	cv[3]-uri	http://purl.bioontology.org/ontology/SEP	
 MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
 MTD	small_molecule_feature-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
 MTD	small_molecule-identification_reliability	[MS, MS:XXXXX, MSI-2007-numeric, ]
 MTD	database[1]	[, , LipidDataAnalyzer2, lda2]
 MTD	database[1]-prefix	lda2
-MTD	database[1]-url	https://github.com/ThallingerLab/LDA2
+MTD	database[1]-uri	https://github.com/ThallingerLab/LDA2
 MTD	database[1]-version	2.6.3_1
 MTD	id_confidence_measure[1]	[MS, MS:1002890, fragmentation score, ]
 

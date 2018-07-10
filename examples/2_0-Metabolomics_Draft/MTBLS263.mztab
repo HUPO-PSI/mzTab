@@ -44,15 +44,15 @@ MTD	study_variable[2]-assay_refs	assay[4] | assay[5] | assay[6]
 MTD	cv[1]-label	MS
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary
 MTD	cv[1]-version	4.0.9
-MTD	cv[1]-url	https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
+MTD	cv[1]-uri	https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
 MTD	database[1]	[, , no database, null]
 MTD	database[1]-prefix	null
 MTD	database[1]-version	Unknown
-MTD	database[1]-url	null
+MTD	database[1]-uri	null
 MTD	database[2]	[, , Local CHEBI copy, ]
 MTD	database[2]-prefix	CHEBI
 MTD	database[2]-version	Unknown
-MTD	database[2]-url	file:///E:/Projects/MTBLS263/MTLBS263.sdf
+MTD	database[2]-uri	file:///E:/Projects/MTBLS263/MTLBS263.sdf
 MTD	small_molecule-quantification_unit	[,,Progenesis QI Normalised Abundance,]
 MTD	small_molecule_feature-quantification_unit	[,,Progenesis QI Normalised Abundance,]
 MTD	id_confidence_measure[1]	[,,Progenesis MetaScope Score,]

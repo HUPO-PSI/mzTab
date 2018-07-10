@@ -106,33 +106,33 @@ MTD	study_variable[3]-assay_refs	assay[11]|assay[12]|assay[13]|assay[14]|assay[1
 MTD	cv[1]-label	MS																	
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary																	
 MTD	cv[1]-version	20-06-2018																	
-MTD	cv[1]-url	https://www.ebi.ac.uk/ols/ontologies/ms																	
+MTD	cv[1]-uri	https://www.ebi.ac.uk/ols/ontologies/ms																	
 MTD	cv[2]-label	NCBITaxon																	
 MTD	cv[2]-full_name	An ontology representation of the NCBI organismal taxonomy Ontology																	
 MTD	cv[2]-version	2018-03-02																	
-MTD	cv[2]-url	https://www.ebi.ac.uk/ols/ontologies/ncbitaxon																	
+MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/ncbitaxon																	
 MTD	cv[3]-label	CL																	
 MTD	cv[3]-full_name	The Cell Ontology is a structured controlled vocabulary for cell types in animals.																	
 MTD	cv[3]-version	2017-12-11																	
-MTD	cv[3]-url	https://www.ebi.ac.uk/ols/ontologies/cl																	
+MTD	cv[3]-uri	https://www.ebi.ac.uk/ols/ontologies/cl																	
 MTD	cv[4]-label	PRIDE																	
 MTD	cv[4]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary																	
 MTD	cv[4]-version	14-06-2018																	
-MTD	cv[4]-url	https://www.ebi.ac.uk/ols/ontologies/pride																						
+MTD	cv[4]-uri	https://www.ebi.ac.uk/ols/ontologies/pride																						
 MTD	cv[5]-label	BTO																	
 MTD	cv[5]-full_name	BRENDA tissue / enzyme source																	
 MTD	cv[5]-version	2016-05-05																	
-MTD	cv[5]-url	https://www.ebi.ac.uk/ols/ontologies/bto
+MTD	cv[5]-uri	https://www.ebi.ac.uk/ols/ontologies/bto
 MTD	cv[6]-label	SEP																			
 MTD	cv[6]-full_name	Sample Processing and Separation Techniques Ontology																			
 MTD	cv[6]-version	1.070708																			
-MTD	cv[6]-url	http://purl.bioontology.org/ontology/SEP	
+MTD	cv[6]-uri	http://purl.bioontology.org/ontology/SEP	
 MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
 MTD	small_molecule_feature-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
 MTD	small_molecule-identification_reliability	[MS, MS:XXXXX, MSI-2007-numeric, ]
 MTD	database[1]	[, , LipidDataAnalyzer2, lda2]
 MTD	database[1]-prefix	lda2
-MTD	database[1]-url	https://github.com/ThallingerLab/LDA2
+MTD	database[1]-uri	https://github.com/ThallingerLab/LDA2
 MTD	database[1]-version	2.6.3_1
 MTD	id_confidence_measure[1]	[MS, MS:1002890, fragmentation score, ]
 

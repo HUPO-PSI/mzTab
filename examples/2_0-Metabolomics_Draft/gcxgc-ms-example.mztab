@@ -40,30 +40,30 @@ MTD	study_variable[2]-variation_function	[MS, MS:1002885, standard error, ]
 MTD	cv[1]-label	MS																	
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary																	
 MTD	cv[1]-version	20-06-2018																	
-MTD	cv[1]-url	https://www.ebi.ac.uk/ols/ontologies/ms																	
+MTD	cv[1]-uri	https://www.ebi.ac.uk/ols/ontologies/ms																	
 MTD	cv[2]-label	NCBITaxon																	
 MTD	cv[2]-full_name	An ontology representation of the NCBI organismal taxonomy Ontology																	
 MTD	cv[2]-version	2018-03-02																	
-MTD	cv[2]-url	https://www.ebi.ac.uk/ols/ontologies/ncbitaxon																	
+MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/ncbitaxon																	
 MTD	cv[3]-label	CL																	
 MTD	cv[3]-full_name	The Cell Ontology is a structured controlled vocabulary for cell types in animals.																	
 MTD	cv[3]-version	2017-12-11																	
-MTD	cv[3]-url	https://www.ebi.ac.uk/ols/ontologies/cl																	
+MTD	cv[3]-uri	https://www.ebi.ac.uk/ols/ontologies/cl																	
 MTD	cv[4]-label	PRIDE																	
 MTD	cv[4]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary																	
 MTD	cv[4]-version	14-06-2018																	
-MTD	cv[4]-url	https://www.ebi.ac.uk/ols/ontologies/pride																	
+MTD	cv[4]-uri	https://www.ebi.ac.uk/ols/ontologies/pride																	
 MTD	cv[5]-label	XLMOD																	
 MTD	cv[5]-full_name	cross-linking reagents and cross-linker related post-translational modifications																	
 MTD	cv[5]-version	releases/2017-07-10																	
-MTD	cv[5]-url	https://raw.githubusercontent.com/HUPO-PSI/mzIdentML/master/validator/resources/XLMOD.obo																	
+MTD	cv[5]-uri	https://raw.githubusercontent.com/HUPO-PSI/mzIdentML/master/validator/resources/XLMOD.obo																	
 MTD	database[1]	[, ,Golm Metabolite Database, ]																	
 MTD	database[1]-prefix	GMD																	
 MTD	database[1]-version	2.3																	
-MTD	database[1]-url	http://gmd.mpimp-golm.mpg.de/																	
+MTD	database[1]-uri	http://gmd.mpimp-golm.mpg.de/																	
 MTD	database[2]	[, , no database, null]																	
 MTD	database[2]-prefix	null																	
-MTD	database[2]-url	null																	
+MTD	database[2]-uri	null																	
 MTD	database[2]-version	Unknown																	
 MTD	derivatization_agent[1]	[,,Methoxylamine hydrochloride,]																	
 MTD	derivatization_agent[2]	[XLMOD, XLMOD:07009, N-methyl-trimethylsilyltrifluoroacetamide,]																	
