@@ -138,7 +138,7 @@ There were several issues regarding the design of the format that were not clear
 [[use-of-identifiers-for-input-spectra-to-a-search]]
 === Use of identifiers for input spectra to a search
 
-Small molecules MUST be linked to an identifier of the source spectrum (in an external file) from which the identifications are made by way of a reference in the `spectra_ref` attribute and via the `ms_run` element which stores the URL of the file in the `location` attribute.
+Small molecules MUST be linked to an identifier of the source spectrum (in an external file) from which the identifications are made by way of a reference in the `spectra_ref` attribute and via the `ms_run` element which stores the URI of the file in the `location` attribute.
 
 It is advantageous if there is a consistent system for identifying spectra in different file formats. The following table is implemented in the PSI-MS CV for providing consistent identifiers for different spectrum file formats.
 
@@ -313,11 +313,12 @@ SMF 1 … 24.55
 
 The current specifications of mzTab-M only support relatively simple details about sample preparation and experimental design. Users may wish to use ISA-TAB to record more details about these aspects. The ISA-TAB file can be referenced by the external_study_uri attribute.
 
+Generally, any external resource reference (suffixed `-uri`, or `-location`) must be provided as a valid URI string. This allows to report local, as well as remote resource links (URLs) and unique unified resource names (URNs). 
+
 [[other-supporting-materials]]
 === Other supporting materials
 
-Example files are located at https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Draft[GitHub].
-TODO: Need to tidy up GitHub example file repo.
+Example files are located at https://github.com/HUPO-PSI/mzTab/wiki/Examples[GitHub].
 
 [[format-specification]]
 == Format specification
@@ -1120,22 +1121,22 @@ MTD cv[1]-full_name PSI-MS controlled vocabulary
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD cv[1]-version 3.54.0
+MTD cv[1]-version 4.1.11
 …
 ....
 |================================================================================================================
 
-[[cv1-n-url]]
-==== cv[1-n]-url
+[[cv1-n-uri]]
+==== cv[1-n]-uri
 
 [cols=",",]
 |===============================================================================================================================================================================================================
-|*Description:* |A string containing the URLs of the controlled vocabularies/ontologies used in the mzTab file
+|*Description:* |A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file
 |*Type:* |String
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD cv[1]-url https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
+MTD cv[1]-uri https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
 …
 ....
 |===============================================================================================================================================================================================================
@@ -1155,12 +1156,12 @@ If no identification has been performed at all then "no database" should be inse
 ....
 
 
-MTD database[1] [MIRIAM,MIR:00100079 , “HMDB”, ]
-MTD database[3] [,de novo , “dn”, ]
-MTD database[3] [MIRIAM,MIR:00000002 , “CHEBI”, ]
-MTD database[4] [, ,"mydatabase", "mydb" ]
+MTD database[1] [MIRIAM,MIR:00100079 , HMDB, ]
+MTD database[3] [, de novo , dn, ]
+MTD database[3] [MIRIAM, MIR:00000002 , CHEBI, ]
+MTD database[4] [, mydatabase, mydb, ]
 OR
-MTD database[1] [, , “no database”, "null"]
+MTD database[1] [, , "no database", null]
 ....
 |===========================================================================================================================================================================================================================
 
@@ -1192,20 +1193,26 @@ MTD database[1]-prefix null
 |*Example:* a|
 ....
 MTD database[1]-version 3.6
+
+or
+MTD database[2]-version Unknown
 ....
 |==============================================================================================================================================================================================================================================
 
-[[database1-n-url]]
-==== database[1-n]-url
+[[database1-n-uri]]
+==== database[1-n]-uri
 
 [cols=",",]
 |===============================================
-|*Description:* |The URL to the database.
-|*Type:* |URL
+|*Description:* |The URI to the database. For the “no database” case, "null" must be reported.
+|*Type:* |URI
 |*Mandatory* |True
 |*Example:* a|
 ....
-database[1]-url http://www.hmdb.ca/
+database[1]-uri http://www.hmdb.ca/
+
+or
+database[2]-uri null
 ....
 |===============================================
 
@@ -1233,7 +1240,7 @@ MTD derivatization_agent[1] [, PUBCHEM:00XXX, idomethylation, ]
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-MTD small_molecule-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normalised abundance, ]
+MTD small_molecule-quantification_unit [MS, MS:1002887, Progenesis QI normalised abundance, ]
 ....
 |=============================================================================================================
 
@@ -1243,11 +1250,11 @@ MTD small_molecule-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normal
 |=====================================================================================================================
 |*Description:* |Defines what type of units is reported in the small molecule feature quantification fields.
 |*Type:* |Parameter
-|*Mandatory* |True
+|*Mandatory* |True (if SMF section is being reported)
 |*Example:* a|
 [subs="verbatim,quotes"]
 ....
-MTD small_molecule_feature-quantification_unit [PSI-MS, MS:1002887, Progenesis QI normalised abundance, ]
+MTD small_molecule_feature-quantification_unit [MS, MS:1002887, Progenesis QI normalised abundance, ]
 ....
 |=====================================================================================================================
 
