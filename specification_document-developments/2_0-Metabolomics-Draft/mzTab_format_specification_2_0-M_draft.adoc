@@ -1564,7 +1564,7 @@ For high-resolution MS, the following term and its levels may be used: https://w
 ["arabic", start=1]
 . confirmed structure
 . probable structure
-["loweralpha"]
+[loweralpha]
 .. unambiguous ms library match
 .. diagnostic evidence
 . tentative candidates
