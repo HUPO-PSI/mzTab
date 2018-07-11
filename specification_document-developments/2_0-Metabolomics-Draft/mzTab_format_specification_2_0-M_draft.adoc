@@ -1399,7 +1399,7 @@ SML 1 2\|3\|11…
 |*Description:* |
 A list of “\|” separated possible identifiers for the small molecule; multiple values MUST only be provided to indicate ambiguity in the identification of the molecule and not to demonstrate different identifier types for the same molecule. Alternative identifiers for the same molecule MAY be provided as optional columns.
 
-The database identifier must be preceded by the resource description (prefix) followed by a colon, as specified in the Metadata section.
+The database identifier must be preceded by the resource description (prefix) followed by a colon, as specified in the metadata section.
 
 A null value MAY be provided if the identification is sufficiently ambiguous as to be meaningless for reporting or the small molecule has not been identified.
 
@@ -1550,9 +1550,9 @@ The reliability of the given small molecule identification. This must be supplie
 . putatively characterized compound class (3)
 . unknown compound (4)
 
-These MAY be replaced using a suitable CV term in the Metadata section e.g. to use MSI recommendation levels.
+These MAY be replaced using a suitable CV term in the metadata section e.g. to use MSI recommendation levels.
 
-The MSI has ntly discussed an extension of the original four level scheme into a five level scheme https://www.ncbi.nlm.nih.gov/pubmed/29748461[MS:1002896] (compound identification confidence level) with levels
+The MSI has recently discussed an extension of the original four level scheme into a five level scheme https://www.ncbi.nlm.nih.gov/pubmed/29748461[MS:1002896] (compound identification confidence level) with levels
 
 ["arabic", start=0]
 . isolated, pure compound, full stereochemistry (0)
@@ -1646,7 +1646,7 @@ SML 1 … 0.3 …
 
 [cols=",",]
 |============================================================================================================================================================================================================================================================================
-|*Description:* |The small molecule’s abundance in all the study variables described in the Metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).
+|*Description:* |The small molecule’s abundance in all the study variables described in the metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1661,7 +1661,7 @@ SML 1 … 0.3 …
 
 [cols=",",]
 |=========================================================================================================================
-|*Description:* |A measure of the variability of the study variable abundance measurement, calculated using the method as described in the Metadata section (study_variable[1-n]_average_function), with a  default = arithmethic co-efficient of variation of the small molecule’s abundance in the given study variable.
+|*Description:* |A measure of the variability of the study variable abundance measurement, calculated using the method as described in the metadata section (study_variable[1-n]_average_function), with a  default = arithmethic co-efficient of variation of the small molecule’s abundance in the given study variable.
 |*Type:* |Double
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
@@ -1681,8 +1681,8 @@ SML 1 … 0.3 0.04 …
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SMH SML_ID … opt_assay[1]_my_value opt_global_another_value
-SML 1 … My value some other value
+SMH SML_ID … opt_assay[1]_my_value … opt_global_another_value
+SML 1 … My value … some other value
 ....
 |===============================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 
@@ -1764,7 +1764,8 @@ SMF 1 5\|6\|12… 1
 |*Example:* a|
 ....
 SFH SMF_ID … adduct_ion …
-SMF 1 … [M+H]1+ …
+SMF 1 … [M+H]+ …
+SMF 2 … [M+2Na]2+ …
 ....
 |==========================================================================================================================================================================================================
 
@@ -1883,8 +1884,8 @@ SMF 1 … 38648 …
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SFH SMF_ID … opt_assay[1]_my_value opt_global_another_value
-SMF 1 … My value some other value
+SFH SMF_ID … opt_assay[1]_my_value … opt_global_another_value
+SMF 1 … My value … some other value
 ....
 |=======================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 
@@ -2057,10 +2058,10 @@ SME 1 … http://www.hmdb.ca/metabolites/HMDB00054
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
+COM This example shows a triple substitution with a TMS group (3TMS)
 SMH database_identifier … derivatized_form …
 SML CID:00027395 … [CHEBI, CHEBI:51088, trimethylsilyl group, 3] …
 ....
-(this example shows a triple substitution with a TMS group (3TMS))
 |==============================================================================================================================================================================================
 
 [[adduct_ion-1]]
@@ -2074,8 +2075,10 @@ SML CID:00027395 … [CHEBI, CHEBI:51088, trimethylsilyl group, 3] …
 ....
 SEH SME_ID … adduct_ion …
 SME 1 … [M+H]+ …
+SME 2 … [M+2Na]2+ …
 OR (for negative mode):
 SME 1 … [M-H]- …
+SME 2 … [M+Cl]- …
 ....
 |============================================================================================================================================================================================================================================================================================================
 
@@ -2130,7 +2133,7 @@ SME 1 … 1234.71 …
 [cols=",",]
 |==========================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 |*Description:* |
-Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the meta-data section as additional ms_runs. The reference must be in the format ms_run[1-n]:\{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “\|” delimited list for the (rare) cases in which search engines have combined or aggregated multiple spectra  in advance of the search to make identifications.
+Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the metadata section as additional ms_runs. The reference must be in the format ms_run[1-n]:\{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “\|” delimited list for the (rare) cases in which search engines have combined or aggregated multiple spectra  in advance of the search to make identifications.
 
 If a fragmentation spectrum has not been used, the value should indicate the ms_run to which is identification is mapped e.g. “ms_run[1]”.
 
@@ -2215,8 +2218,8 @@ SME 1 … 1 …
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
-SEH SME_ID … opt_assay[1]_my_value opt_global_another_value
-SML 1 … My value some other value
+SEH SME_ID … opt_assay[1]_my_value … opt_global_another_value
+SML 1 … My value … some other value
 ....
 |========================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
 
@@ -2253,8 +2256,8 @@ TODO: Please add affiliations
 * Philippe Rocca-Serra
 * Da Qi, University of Liverpool and BGI
 * Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
-* Timo Sachsenberg
-* Oliver Alka
+* Timo Sachsenberg, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany
+* Oliver Alka, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany
 * Juan Antonio Vizcaíno, European Bioinformatics Institute, Cambridge, United Kingdom.
 * Reza M Salek,
 * Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle, Germany.
