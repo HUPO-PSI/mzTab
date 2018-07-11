@@ -1163,11 +1163,11 @@ If no identification has been performed at all then "no database" should be inse
 |*Example:* a|
 ....
 MTD database[1] [MIRIAM, MIR:00100079, HMDB, ]
-MTD database[3] [, de novo , dn, ]
+MTD database[2] [,, "de novo", ]
 MTD database[3] [MIRIAM, MIR:00000002, CHEBI, ]
-MTD database[4] [, mydatabase, mydb, ]
+MTD database[4] [,, "customDB", ]
 OR
-MTD database[1] [, "no database", null, ]
+MTD database[5] [,, "no database", null ]
 ....
 |===========================================================================================================================================================================================================================
 
@@ -1183,8 +1183,9 @@ MTD database[1] [, "no database", null, ]
 MTD database[1]-prefix hmdb
 MTD database[2]-prefix dn
 MTD database[3]-prefix mydb
+MTD database[4]-prefix chebi
 OR
-MTD database[4]-prefix null
+MTD database[5]-prefix null
 ....
 |====================================================================================================================================================
 
@@ -1216,7 +1217,7 @@ MTD database[2]-version Unknown
 ....
 database[1]-uri http://www.hmdb.ca/
 OR
-database[2]-uri null
+database[5]-uri null
 ....
 |===============================================
 
