@@ -36,7 +36,7 @@ The latest draft version of this document may be found at https://github.com/HUP
 [[abstract]]
 == Abstract
 
-The  Metabolomics Standards initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in the proteomics context.
+The  Metabolomics Standards Initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in the proteomics context.
 
 //reenable section numbering
 :sectnums:
@@ -48,7 +48,7 @@ The  Metabolomics Standards initiative (MSI) and the Human Proteome Organisation
 
 This document addresses the systematic description of small molecule identification and quantification data retrieved from mass spectrometry (MS)-based experiments. A large number of software tools are available that analyze MS data and produce a variety of different output data formats.
 
-mzTab-M is intended as a reporting standard for quantitative results from metabolomics/lipodomics approaches. This format is also intended to provide local LIMS systems as well as MS metabolomics repositories a simple way to share and combine basic information.
+mzTab-M is intended as a reporting standard for quantitative results from metabolomics/lipodomics approaches. This format is further intended to provide local LIMS systems as well as MS metabolomics repositories a simple way to share and combine basic information.
 
 mzTab has been developed with a view to support the following general tasks (more specific use cases are provided in <<use-cases-for-mztab>>):
 
@@ -117,7 +117,7 @@ The first stable version of mzTab (version 1.0) was developed primarily by the P
 [[the-psi-mass-spectrometry-controlled-vocabulary-cv]]
 === The PSI Mass Spectrometry Controlled Vocabulary (CV)
 
-The PSI-MS controlled vocabulary is intended to provide terms for annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms from software vendors and academic groups working in the area of mass spectrometry and MS informatics. Some terms describe attributes that must be coupled with a numerical value attribute in the CvParam element (e.g. MS:1000028 “detector resolution”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”). The terms that require a value are denoted by having a “datatype” key-value pair in the CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself (relationship: has_units: UO:0000221 ! dalton).
+The PSI-MS controlled vocabulary is intended to provide terms for annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms from software vendors and academic groups working in the area of mass spectrometry and MS informatics. Some terms describe attributes that must be coupled with a numerical value attribute in the cvParam element (e.g. MS:1000028 “detector resolution”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”). The terms that require a value are denoted by having a “datatype” key-value pair in the CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself (relationship: has_units: UO:0000221 ! dalton).
 
 As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically maintained via the psidev-ms-vocab@lists.sourceforge.net mailing list that allows any user to request new terms in agreement with the community involved. Once a consensus is reached among the community the new terms are added within a few business days. If there is no obvious consensus, the CV coordinators committee should vote and make a decision. A new psi-ms.obo should then be released by updating the file on the GitHub server without changing the name of the file.
 
@@ -219,7 +219,7 @@ Additional annotation software would typically be required to add the sample-lev
 
 
 [#figurerrr-1]
-image::img/media/figure1.png[image, title="Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.",width=100%,pdfwidth=100%]
+image::img/media/figure1.png[image, title="Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) Assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) Ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) Samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.",width=100%,pdfwidth=100%]
 
 
 
@@ -250,19 +250,19 @@ Scientific notation and infinity is explicitly not supported.
 [[support-for-positive-and-negative-modes]]
 === Support for positive and negative modes
 
-It is common in metabolomics workflows to use both positive and negative ionisation modes to increase coverage of molecules quantified. In general, an mzTab-M file is intended to capture a data set generated from assays have been aligned (e.g. in the retention time dimension) to produce a coherent data matrix with few missing values. To our knowledge, it is not common to compare directly the results from positive and negative modes in the same data matrix. As such, we anticipate that such results (i.e. positive mode and negative mode) should be encoded in two different mzTab-M files.
+It is common in metabolomics workflows to use both positive and negative ionisation modes to increase coverage of molecules quantified. In general, an mzTab-M file is intended to capture a data set generated from assays which have been aligned (e.g. in the retention time dimension) to produce a coherent data matrix with few missing values. To our knowledge, it is not common to directly compare the results from positive and negative modes in the same data matrix. As such, we anticipate that such results (i.e. positive mode and negative mode) should be encoded in two different mzTab-M files.
 
 [[referencing-evidence-for-small-molecule-identifications]]
 === Referencing evidence for small molecule identifications
 
-Evidence for small molecule identification is captured by reference from the SML table via features (SMFs) down to the final table - Small Molecule Evidence elements. It is possible to have a legal mzTab-M file that does not contain any features (SML summary level only). In this case, detailed information about small molecule evidence cannot be provided. It is generally RECOMMENDED to include data at the SML, SMF and SME levels.
+Evidence for small molecule identification is captured by reference from the SML table via features (SMFs) down to the final table - Small Molecule Evidence (SME) elements. It is possible to have a legal mzTab-M file that does not contain any features (SML summary level only). In this case, detailed information about small molecule evidence cannot be provided. It is generally RECOMMENDED to include data at the SML, SMF and SME levels.
 
 SMF elements should reference down to all evidence elements (SME rows) that support the identification of that particular feature.
 
 If features (SMF elements) have been grouped prior to evidence collation, then different groups SMF elements SHOULD reference the same SME elements redundantly.
 
 [[figure-2]]
-image::img/media/figure2.png[image,width=100%,pdfwidth=100%, title=" A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns; B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results; C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data."]
+image::img/media/figure2.png[image,width=100%,pdfwidth=100%, title=" A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns. B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results. C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data."]
 
 [[ambiguity_in_identification]]
 === Ambiguity in identification
@@ -492,7 +492,7 @@ MTD instrument[1]-name [MS, MS:1000449, LTQ Orbitrap,]
 
 [cols=",",]
 |=======================================================================================================
-|*Description:* |The instrument's source used in the experiment. Multiple instruments are numbered 1..n.
+|*Description:* |The instrument's source used in the experiment. Multiple instruments are numbered [1-n].
 |*Type:* |Parameter
 |*Mandatory* |False
 |*Example:* a|
@@ -508,7 +508,7 @@ MTD instrument[2]-source [MS, MS:1000598, ETD,]
 
 [cols=",",]
 |================================================================================================================
-|*Description:* |The instrument’s analyzer type used in the experiment. Multiple instruments are numbered 1..n.
+|*Description:* |The instrument’s analyzer type used in the experiment. Multiple instruments are numbered [1-n].
 |*Type:* |Parameter
 |*Mandatory* |False
 |*Example:* a|
@@ -524,7 +524,7 @@ MTD instrument[2]-analyzer[1] [MS, MS:1000484, orbitrap,]
 
 [cols=",",]
 |==============================================================================================================
-|*Description:* |The instrument's detector type used in the experiment. Multiple instruments are numbered 1..n.
+|*Description:* |The instrument's detector type used in the experiment. Multiple instruments are numbered [1-n].
 |*Type:* |Parameter
 |*Mandatory* |False
 |*Example:* a|
@@ -1162,12 +1162,12 @@ If no identification has been performed at all then "no database" should be inse
 |*Mandatory* |True
 |*Example:* a|
 ....
-MTD database[1] [MIRIAM,MIR:00100079 , HMDB, ]
+MTD database[1] [MIRIAM, MIR:00100079, HMDB, ]
 MTD database[3] [, de novo , dn, ]
-MTD database[3] [MIRIAM, MIR:00000002 , CHEBI, ]
+MTD database[3] [MIRIAM, MIR:00000002, CHEBI, ]
 MTD database[4] [, mydatabase, mydb, ]
 OR
-MTD database[1] [, , "no database", null]
+MTD database[1] [, "no database", null, ]
 ....
 |===========================================================================================================================================================================================================================
 
@@ -1181,9 +1181,10 @@ MTD database[1] [, , "no database", null]
 |*Example:* a|
 ....
 MTD database[1]-prefix hmdb
-MTD database[1]-prefix dn
+MTD database[2]-prefix dn
+MTD database[3]-prefix mydb
 OR
-MTD database[1]-prefix null
+MTD database[4]-prefix null
 ....
 |====================================================================================================================================================
 
