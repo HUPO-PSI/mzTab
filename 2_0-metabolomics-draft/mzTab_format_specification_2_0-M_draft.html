@@ -513,7 +513,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="abstract">Abstract</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The  Metabolomics Standards initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in the proteomics context.</p>
+<p>The  Metabolomics Standards Initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in the proteomics context.</p>
 </div>
 </div>
 </div>
@@ -526,7 +526,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>This document addresses the systematic description of small molecule identification and quantification data retrieved from mass spectrometry (MS)-based experiments. A large number of software tools are available that analyze MS data and produce a variety of different output data formats.</p>
 </div>
 <div class="paragraph">
-<p>mzTab-M is intended as a reporting standard for quantitative results from metabolomics/lipodomics approaches. This format is also intended to provide local LIMS systems as well as MS metabolomics repositories a simple way to share and combine basic information.</p>
+<p>mzTab-M is intended as a reporting standard for quantitative results from metabolomics/lipodomics approaches. This format is further intended to provide local LIMS systems as well as MS metabolomics repositories a simple way to share and combine basic information.</p>
 </div>
 <div class="paragraph">
 <p>mzTab has been developed with a view to support the following general tasks (more specific use cases are provided in <a href="#use-cases-for-mztab">Chapter 2</a>):</p>
@@ -653,7 +653,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="the-psi-mass-spectrometry-controlled-vocabulary-cv">4.2. The PSI Mass Spectrometry Controlled Vocabulary (CV)</h3>
 <div class="paragraph">
-<p>The PSI-MS controlled vocabulary is intended to provide terms for annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms from software vendors and academic groups working in the area of mass spectrometry and MS informatics. Some terms describe attributes that must be coupled with a numerical value attribute in the CvParam element (e.g. MS:1000028 “detector resolution”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”). The terms that require a value are denoted by having a “datatype” key-value pair in the CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself (relationship: has_units: UO:0000221 ! dalton).</p>
+<p>The PSI-MS controlled vocabulary is intended to provide terms for annotation of mass spectrometry-related file formats. The CV has been generated with a collection of terms from software vendors and academic groups working in the area of mass spectrometry and MS informatics. Some terms describe attributes that must be coupled with a numerical value attribute in the cvParam element (e.g. MS:1000028 “detector resolution”) and optionally a unit for that value (e.g. MS:1001117, “theoretical mass”, units = “dalton”). The terms that require a value are denoted by having a “datatype” key-value pair in the CV itself: MS:1000511 "ms level" value-type:xsd:int. Terms that need to be qualified with units are denoted with a “has_units” key in the CV itself (relationship: has_units: UO:0000221 ! dalton).</p>
 </div>
 <div class="paragraph">
 <p>As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically maintained via the <a href="mailto:psidev-ms-vocab@lists.sourceforge.net">psidev-ms-vocab@lists.sourceforge.net</a> mailing list that allows any user to request new terms in agreement with the community involved. Once a consensus is reached among the community the new terms are added within a few business days. If there is no obvious consensus, the CV coordinators committee should vote and make a decision. A new psi-ms.obo should then be released by updating the file on the GitHub server without changing the name of the file.</p>
@@ -899,7 +899,7 @@ There is deliberately no attempt to define the boundary of the term “sample”
 <div class="content">
 <img src="img/media/figure1.png" alt="image" width="100%">
 </div>
-<div class="title">Figure 1. Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.</div>
+<div class="title">Figure 1. Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) Assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) Ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) Samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.</div>
 </div>
 </div>
 <div class="sect2">
@@ -939,13 +939,13 @@ There is deliberately no attempt to define the boundary of the term “sample”
 <div class="sect2">
 <h3 id="support-for-positive-and-negative-modes">5.5. Support for positive and negative modes</h3>
 <div class="paragraph">
-<p>It is common in metabolomics workflows to use both positive and negative ionisation modes to increase coverage of molecules quantified. In general, an mzTab-M file is intended to capture a data set generated from assays have been aligned (e.g. in the retention time dimension) to produce a coherent data matrix with few missing values. To our knowledge, it is not common to compare directly the results from positive and negative modes in the same data matrix. As such, we anticipate that such results (i.e. positive mode and negative mode) should be encoded in two different mzTab-M files.</p>
+<p>It is common in metabolomics workflows to use both positive and negative ionisation modes to increase coverage of molecules quantified. In general, an mzTab-M file is intended to capture a data set generated from assays which have been aligned (e.g. in the retention time dimension) to produce a coherent data matrix with few missing values. To our knowledge, it is not common to directly compare the results from positive and negative modes in the same data matrix. As such, we anticipate that such results (i.e. positive mode and negative mode) should be encoded in two different mzTab-M files.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="referencing-evidence-for-small-molecule-identifications">5.6. Referencing evidence for small molecule identifications</h3>
 <div class="paragraph">
-<p>Evidence for small molecule identification is captured by reference from the SML table via features (SMFs) down to the final table - Small Molecule Evidence elements. It is possible to have a legal mzTab-M file that does not contain any features (SML summary level only). In this case, detailed information about small molecule evidence cannot be provided. It is generally RECOMMENDED to include data at the SML, SMF and SME levels.</p>
+<p>Evidence for small molecule identification is captured by reference from the SML table via features (SMFs) down to the final table - Small Molecule Evidence (SME) elements. It is possible to have a legal mzTab-M file that does not contain any features (SML summary level only). In this case, detailed information about small molecule evidence cannot be provided. It is generally RECOMMENDED to include data at the SML, SMF and SME levels.</p>
 </div>
 <div class="paragraph">
 <p>SMF elements should reference down to all evidence elements (SME rows) that support the identification of that particular feature.</p>
@@ -957,7 +957,7 @@ There is deliberately no attempt to define the boundary of the term “sample”
 <div class="content">
 <img src="img/media/figure2.png" alt="image" width="100%">
 </div>
-<div class="title">Figure 2.  A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns; B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results; C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data.</div>
+<div class="title">Figure 2.  A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns. B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results. C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data.</div>
 </div>
 </div>
 <div class="sect2">
@@ -1401,7 +1401,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The instrument&#8217;s source used in the experiment. Multiple instruments are numbered 1..n.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The instrument&#8217;s source used in the experiment. Multiple instruments are numbered [1-n].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -1434,7 +1434,7 @@ MTD instrument[2]-source [MS, MS:1000598, ETD,]</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The instrument’s analyzer type used in the experiment. Multiple instruments are numbered 1..n.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The instrument’s analyzer type used in the experiment. Multiple instruments are numbered [1-n].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -1467,7 +1467,7 @@ MTD instrument[2]-analyzer[1] [MS, MS:1000484, orbitrap,]</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The instrument&#8217;s detector type used in the experiment. Multiple instruments are numbered 1..n.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The instrument&#8217;s detector type used in the experiment. Multiple instruments are numbered [1-n].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -2802,12 +2802,12 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>MTD database[1] [MIRIAM,MIR:00100079 , HMDB, ]
-MTD database[3] [, de novo , dn, ]
-MTD database[3] [MIRIAM, MIR:00000002 , CHEBI, ]
-MTD database[4] [, mydatabase, mydb, ]
+<pre>MTD database[1] [MIRIAM, MIR:00100079, HMDB, ]
+MTD database[2] [,, "de novo", ]
+MTD database[3] [MIRIAM, MIR:00000002, CHEBI, ]
+MTD database[4] [,, "customDB", ]
 OR
-MTD database[1] [, , "no database", null]</pre>
+MTD database[5] [,, "no database", null ]</pre>
 </div>
 </div></div></td>
 </tr>
@@ -2839,9 +2839,11 @@ MTD database[1] [, , "no database", null]</pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD database[1]-prefix hmdb
-MTD database[1]-prefix dn
+MTD database[2]-prefix dn
+MTD database[3]-prefix mydb
+MTD database[4]-prefix chebi
 OR
-MTD database[1]-prefix null</pre>
+MTD database[5]-prefix null</pre>
 </div>
 </div></div></td>
 </tr>
@@ -2907,7 +2909,7 @@ MTD database[2]-version Unknown</pre>
 <div class="content">
 <pre>database[1]-uri http://www.hmdb.ca/
 OR
-database[2]-uri null</pre>
+database[5]-uri null</pre>
 </div>
 </div></div></td>
 </tr>
@@ -3259,7 +3261,7 @@ SML 1 2|3|11…</pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of “|” separated possible identifiers for the small molecule; multiple values MUST only be provided to indicate ambiguity in the identification of the molecule and not to demonstrate different identifier types for the same molecule. Alternative identifiers for the same molecule MAY be provided as optional columns.</p>
-<p class="tableblock">The database identifier must be preceded by the resource description (prefix) followed by a colon, as specified in the Metadata section.</p>
+<p class="tableblock">The database identifier must be preceded by the resource description (prefix) followed by a colon, as specified in the metadata section.</p>
 <p class="tableblock">A null value MAY be provided if the identification is sufficiently ambiguous as to be meaningless for reporting or the small molecule has not been identified.</p></td>
 </tr>
 <tr>
@@ -3544,10 +3546,10 @@ SML 1 … [M+H]1+ | [M+Na]1+ …</pre>
 </ol>
 </div>
 <div class="paragraph">
-<p>These MAY be replaced using a suitable CV term in the Metadata section e.g. to use MSI recommendation levels.</p>
+<p>These MAY be replaced using a suitable CV term in the metadata section e.g. to use MSI recommendation levels.</p>
 </div>
 <div class="paragraph">
-<p>The MSI has ntly discussed an extension of the original four level scheme into a five level scheme <a href="https://www.ncbi.nlm.nih.gov/pubmed/29748461">MS:1002896</a> (compound identification confidence level) with levels</p>
+<p>The MSI has recently discussed an extension of the original four level scheme into a five level scheme <a href="https://www.ncbi.nlm.nih.gov/pubmed/29748461">MS:1002896</a> (compound identification confidence level) with levels</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="0">
@@ -3742,7 +3744,7 @@ SML 1 … 0.3 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s abundance in all the study variables described in the Metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s abundance in all the study variables described in the metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -3774,7 +3776,7 @@ SML 1 … 0.3 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A measure of the variability of the study variable abundance measurement, calculated using the method as described in the Metadata section (study_variable[1-n]_average_function), with a  default = arithmethic co-efficient of variation of the small molecule’s abundance in the given study variable.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A measure of the variability of the study variable abundance measurement, calculated using the method as described in the metadata section (study_variable[1-n]_average_function), with a  default = arithmethic co-efficient of variation of the small molecule’s abundance in the given study variable.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -3820,8 +3822,8 @@ SML 1 … 0.3 0.04 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>SMH SML_ID … opt_assay[1]_my_value opt_global_another_value
-SML 1 … My value some other value</pre>
+<pre>SMH SML_ID … opt_assay[1]_my_value … opt_global_another_value
+SML 1 … My value … some other value</pre>
 </div>
 </div></div></td>
 </tr>
@@ -3993,7 +3995,8 @@ SMF 1 5|6|12… 1</pre>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … adduct_ion …
-SMF 1 … [M+H]1+ …</pre>
+SMF 1 … [M+H]+ …
+SMF 2 … [M+2Na]2+ …</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4248,8 +4251,8 @@ SMF 1 … 38648 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>SFH SMF_ID … opt_assay[1]_my_value opt_global_another_value
-SMF 1 … My value some other value</pre>
+<pre>SFH SMF_ID … opt_assay[1]_my_value … opt_global_another_value
+SMF 1 … My value … some other value</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4588,12 +4591,10 @@ SME 1 … http://www.hmdb.ca/metabolites/HMDB00054</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>SMH database_identifier … derivatized_form …
+<pre>COM This example shows a triple substitution with a TMS group (3TMS)
+SMH database_identifier … derivatized_form …
 SML CID:00027395 … [CHEBI, CHEBI:51088, trimethylsilyl group, 3] …</pre>
 </div>
-</div>
-<div class="paragraph">
-<p>(this example shows a triple substitution with a TMS group (3TMS))</p>
 </div></div></td>
 </tr>
 </tbody>
@@ -4625,8 +4626,10 @@ SML CID:00027395 … [CHEBI, CHEBI:51088, trimethylsilyl group, 3] …</pre>
 <div class="content">
 <pre>SEH SME_ID … adduct_ion …
 SME 1 … [M+H]+ …
+SME 2 … [M+2Na]2+ …
 OR (for negative mode):
-SME 1 … [M-H]- …</pre>
+SME 1 … [M-H]- …
+SME 2 … [M+Cl]- …</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4739,7 +4742,7 @@ SME 1 … 1234.71 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the meta-data section as additional ms_runs. The reference must be in the format ms_run[1-n]:{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “|” delimited list for the (rare) cases in which search engines have combined or aggregated multiple spectra  in advance of the search to make identifications.</p>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the metadata section as additional ms_runs. The reference must be in the format ms_run[1-n]:{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “|” delimited list for the (rare) cases in which search engines have combined or aggregated multiple spectra  in advance of the search to make identifications.</p>
 <p class="tableblock">If a fragmentation spectrum has not been used, the value should indicate the ms_run to which is identification is mapped e.g. “ms_run[1]”.</p></td>
 </tr>
 <tr>
@@ -4916,8 +4919,8 @@ SME 1 … 1 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
-<pre>SEH SME_ID … opt_assay[1]_my_value opt_global_another_value
-SML 1 … My value some other value</pre>
+<pre>SEH SME_ID … opt_assay[1]_my_value … opt_global_another_value
+SML 1 … My value … some other value</pre>
 </div>
 </div></div></td>
 </tr>
@@ -4999,10 +5002,10 @@ SML 1 … My value some other value</pre>
 <p>Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.</p>
 </li>
 <li>
-<p>Timo Sachsenberg</p>
+<p>Timo Sachsenberg, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany</p>
 </li>
 <li>
-<p>Oliver Alka</p>
+<p>Oliver Alka, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany</p>
 </li>
 <li>
 <p>Juan Antonio Vizcaíno, European Bioinformatics Institute, Cambridge, United Kingdom.</p>
@@ -5080,7 +5083,7 @@ SML 1 … My value some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-10 14:40:53 UTC
+Last updated 2018-07-12 08:58:52 UTC
 </div>
 </div>
 </body>
