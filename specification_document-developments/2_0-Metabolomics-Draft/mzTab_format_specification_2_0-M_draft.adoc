@@ -66,14 +66,19 @@ This document presents a specification, not a tutorial. As such, the presentatio
 
 The remainder of this document is structured as follows.
 
-[start=2]
-. <<use-cases-for-mztab>> lists use cases mzTab-M is designed to support.
-. <<notational-conventions>> describes the terminology used.
-. <<relationship-to-other-specifications>> describes how the specification presented in <<format-specification>> relates to other specifications, both those that it extends and those that it is intended to complement.
-. <<resolved-design-and-scope-issues>> discusses the reasoning behind several design decisions taken.
-. <<format-specification>> contains the documentation of the file.
-. <<non-supported-use-cases>> lists use cases that are currently not supported.
-. <<conclusions>> Conclusions are presented last.
+<<use-cases-for-mztab>> lists use cases mzTab-M is designed to support.
+
+<<notational-conventions>> describes the terminology used.
+
+<<relationship-to-other-specifications>> describes how the specification presented in <<format-specification>> relates to other specifications, both those that it extends and those that it is intended to complement.
+
+<<resolved-design-and-scope-issues>> discusses the reasoning behind several design decisions taken.
+
+<<format-specification>> contains the documentation of the file.
+
+<<non-supported-use-cases>> lists use cases that are currently not supported.
+
+<<conclusions>> Conclusions are presented last.
 
 [[use-cases-for-mztab]]
 == Use Cases for mzTab
