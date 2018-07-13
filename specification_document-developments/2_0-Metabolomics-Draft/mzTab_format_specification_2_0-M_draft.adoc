@@ -8,6 +8,8 @@
 :xrefstyle: short
 :figure-caption: Figure
 :pdf-page-size: A4
+//use autofit to reduce font size in listing blocks in pdf output to avoid line-breaks.
+:autofit-option:
 
 //GitHub specific settings
 ifdef::env-github[]
