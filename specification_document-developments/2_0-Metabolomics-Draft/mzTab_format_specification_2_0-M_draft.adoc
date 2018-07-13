@@ -293,11 +293,17 @@ It is possible that a single analysis of a sample is split offline via some frac
 [[adding-optional-columns]]
 === Adding optional columns
 
-Additional columns MAY be added to the end of rows in all the table-based sections.
+Additional columns MAY be added to the end of rows in all the table-based sections. The information stored within an optional column is completely up to the resource that generates the file. It MUST not be assumed that optional columns having the same name in different mzTab files contain the same type of information.
 
 These column headers MUST start with the prefix “opt_” followed by the identifier of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘_’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
 
-The information stored within an optional column is completely up to the resource that generates the file. It MUST not be assumed that optional columns having the same name in different mzTab files contain the same type of information. CV parameter accessions MAY be used as optional column names according to the following convention: opt_\{OBJECT_ID}_cv_\{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.
+----
+COM Example showing a global aligned 2D feature retention time for GCxGC-MS
+
+…
+SFH SMF_ID … opt_global_retention_time_nd
+SMF 1 … 1562 | 2.47
+----
 
 ----
 COM Example showing how drift time values are reported in an additional column from MS run 1 using
