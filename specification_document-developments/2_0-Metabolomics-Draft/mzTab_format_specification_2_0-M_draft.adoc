@@ -2263,7 +2263,7 @@ This document contains the specifications for using the mzTab format to represen
 * Kenneth Haug, European Bioinformatics Institute, Cambridge, United Kingdom.
 * Saravanan Dayalan, EMBL-ABR and University of Melbourne, Melbourne, Australia.
 * Philippe Rocca-Serra, Oxford e-Research Centre, University of Oxford, United Kingdom.
-* Da Qi, University of Liverpool and BGI, United Kingdom.
+* Da Qi, BGI-Shenzhen, China.
 * Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
 * Timo Sachsenberg, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany.
 * Oliver Alka, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany.
