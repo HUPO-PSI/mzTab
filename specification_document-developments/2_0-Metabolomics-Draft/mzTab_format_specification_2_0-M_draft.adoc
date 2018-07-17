@@ -2261,7 +2261,7 @@ This document contains the specifications for using the mzTab format to represen
 * Nils Hoffmann, Leibniz-Institut für Analytische Wissenschaften – ISAS – e.V., Dortmund, Germany.
 * Joel Rein, Wellcome Sanger Institute, Cambridge, United Kingdom.
 * Kenneth Haug, European Bioinformatics Institute, Cambridge, United Kingdom.
-* Saravanan Dayalan, EMBL-ABR and University of Melbourne, Melbourne, Australia.
+* Saravanan Dayalan, Metabolomics Australia, The University of Melbourne, Parkville, Australia.
 * Philippe Rocca-Serra, Oxford e-Research Centre, University of Oxford, United Kingdom.
 * Da Qi, BGI-Shenzhen, China.
 * Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
