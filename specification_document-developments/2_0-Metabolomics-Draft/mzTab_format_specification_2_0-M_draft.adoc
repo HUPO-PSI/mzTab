@@ -1538,8 +1538,8 @@ SML 1 … 1234.5 …
 ==== adduct_ions
 [cols=",",]
 |============================================================================================================================================================================================================================================================================================================================================================
-|*Description:* |A “\|” separated list of adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on http://dx.doi.org/10.1351/PAC-REC-06-04-06[terms relating to MS] e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
-|*Type:* |Regex{"\[\d*M([+-][\w]*)+\]\d*[+-]"} List
+|*Description:* |A “\|” separated list of adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on http://dx.doi.org/10.1351/PAC-REC-06-04-06[terms relating to MS] e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-, [M+H]1+. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
+|*Type:* |Regex{"\[\d*M([\w\d]+)*([+-][\w\d]+)*\]\d*[+-]"} List
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
 ....
@@ -1769,7 +1769,7 @@ SMF 1 5\|6\|12… 1
 ==== adduct_ion
 [cols=",",]
 |==========================================================================================================================================================================================================
-|*Description:* |The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-.
+|*Description:* |The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. [M+H]+, [M+Na]+, [M+NH4]+, [M-H]-, [M+Cl]-, [M+H]1+.
 |*Type:* | Regex{"\[\d*M([+-][\w]*)+\]\d*[+-]"}
 |*Is Nullable:* |*TRUE*
 |*Example:* a|
