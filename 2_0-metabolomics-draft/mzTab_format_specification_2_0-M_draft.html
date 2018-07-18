@@ -3496,11 +3496,11 @@ SML 1 … 1234.5 …</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A “|” separated list of adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on <a href="http://dx.doi.org/10.1351/PAC-REC-06-04-06">terms relating to MS</a> e.g. <span class="M+H">, [M+Na]</span>, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A “|” separated list of adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on <a href="http://dx.doi.org/10.1351/PAC-REC-06-04-06">terms relating to MS</a> e.g. <span class="M+H">, [M+Na]</span>, <span class="M+NH4">, [M-H]-, [M+Cl]-, [M+H]1</span>. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\[\d*M([-][\w]*)\]\d*[+-]"} List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"[\d*M([\w\d])*([-]<span class="\w\d">)*\]\d*[</span>-]"} List</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Is Nullable:</strong></p></td>
@@ -3982,7 +3982,7 @@ SMF 1 5|6|12… 1</pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. <span class="M+H">, [M+Na]</span>, [M+NH4]+, [M-H]-, [M+Cl]-.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. <span class="M+H">, [M+Na]</span>, <span class="M+NH4">, [M-H]-, [M+Cl]-, [M+H]1</span>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
@@ -5082,7 +5082,7 @@ SML 1 … My value … some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-07-17 10:18:31 UTC
+Last updated 2018-07-18 13:24:56 UTC
 </div>
 </div>
 </body>
