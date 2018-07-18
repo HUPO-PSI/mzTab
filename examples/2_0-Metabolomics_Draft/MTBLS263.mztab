@@ -58,7 +58,7 @@ MTD	small_molecule_feature-quantification_unit	[,,Progenesis QI Normalised Abund
 MTD	id_confidence_measure[1]	[,,Progenesis MetaScope Score,]
 MTD	id_confidence_measure[2]	[,,Fragmentation Score,]
 MTD	id_confidence_measure[3]	[,,Isotopic fit Score,]
-MTD	small_molecule-identification_reliability	[MS, MS:XXXXX, MSI-2007-numeric, ]
+MTD	small_molecule-identification_reliability	[MS, MS:1002896, compound identification confidence level, ]
 MTD	quantification_method	[MS, MS:1001834, LC-MS label-free quantitation analysis, ]
 
 SMH	SML_ID	SMF_ID_REFS	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	theoretical_neutral_mass	adduct_ions	reliability	best_id_confidence_measure	best_id_confidence_value	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_study_variable[1]	abundance_variation_study_variable[1]	abundance_study_variable[2]	abundance_variation_study_variable[2]	opt_global_Progenesis_identifier

@@ -16,7 +16,7 @@ MTD	cv[3]-full_name	Units of Measurement Ontology
 MTD	cv[3]-version	 2017-09-25																			
 MTD	cv[3]-uri	http://purl.obolibrary.org/obo/uo.owl																			
 MTD	quantification_method	[MS, MS:1001838, SRM quantitation analysis, ]																			
-MTD	sample_processing[1]	[SEP, SEP:00210, High Perfomance Liquid Chromatography, ]																			
+MTD	sample_processing[1]	[SEP, sep:00210, High Perfomance Liquid Chromatography, ]																			
 MTD	instrument[1]-name	[MS, MS:1002581, QTRAP 6500 , ]																			
 MTD	instrument[1]-source	[MS, MS:1000073, Electrospray Ionization, ]																			
 MTD	instrument[1]-analyzer[1]	[MS, MS:1000082, quadrupole ion trap, ]																			
@@ -82,4 +82,3 @@ SME	1	1	LM:LMSP0501AB02	C42H83NO3	CCCCCCCCCCCCCCCCCCCCCCCC(=O)N[C@@H](CO)[C@H](O
 SME	2	2	LCTR:LCTR0809812	C17H33N	null	null	Cer d18:1/24:0 W' - CHO	null	null	null	252.2677	1	252.2686	-3.5676	ms_run[1]:index=732	[,, exact mass, ]	[MS,MS:1000511, ms level, 2]	0.9780	1	null	[MS, MS:1000130, positive scan, ]
 SME	3	2	LCTR:LCTR0871245	C18H33N	null	null	Cer d18:1/24:0 W''	null	null	null	264.2689	1	264.2686	-1.1352	ms_run[1]:index=732	[,, exact mass, ]	[MS,MS:1000511, ms level, 2]	0.7500	1	null	[MS, MS:1000130, positive scan, ]
 SME	4	2	LCTR:LCTR0809711	C18H35NO	null	null	Cer d18:1/24:0 W'	null	null	null	282.2788	1	282.2791	-1.0628	ms_run[1]:index=732	[,, exact mass, ]	[MS,MS:1000511, ms level, 2]	0.8760	1	null	[MS, MS:1000130, positive scan, ]
-

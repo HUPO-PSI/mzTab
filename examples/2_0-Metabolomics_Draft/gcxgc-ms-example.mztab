@@ -30,12 +30,12 @@ MTD	assay[2]-ms_run_ref	ms_run[2]
 MTD	study_variable[1]	Untreated																	
 MTD	study_variable[1]-assay_refs	assay[1]																	
 MTD	study_variable[1]-description	drug response control																	
-MTD	study_variable[1]-average_function	[,, Arithmetic Mean, ]																	
+MTD	study_variable[1]-average_function	[MS, MS:1002962, mean, ]																	
 MTD	study_variable[1]-variation_function	[MS, MS:1002885, standard error, ]																	
 MTD	study_variable[2]	Treated																	
 MTD	study_variable[2]-assay_refs	assay[2]																	
 MTD	study_variable[2]-description	drug response treatment																	
-MTD	study_variable[2]-average_function	[,, Arithmetic Mean, ]																	
+MTD	study_variable[2]-average_function	[MS, MS:1002962, mean, ]																	
 MTD	study_variable[2]-variation_function	[MS, MS:1002885, standard error, ]																	
 MTD	cv[1]-label	MS																	
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary																	
