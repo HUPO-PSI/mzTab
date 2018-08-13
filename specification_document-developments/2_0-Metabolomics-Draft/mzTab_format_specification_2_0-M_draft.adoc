@@ -91,7 +91,7 @@ The following cases of usage have driven the development of the mzTab data model
 
 4. It should be possible to open mzTab-M files with “standard” software such as Microsoft Excel^®^ or Open Office Spreadsheet. This should furthermore improve the usability of the format to people outside the fields of metabolomics.
 
-5. mzTab files should make MS-derived results easily accessible to scripting languages allowing bioinformaticians to develop software without the overhead of developing sophisticated parsing code. Since mzTab files will be comparatively small, the data from multiple experiments can be processed at once without requiring special resource management techniques.
+5. mzTab-M files should make MS-derived results easily accessible to scripting languages allowing bioinformaticians to develop software without the overhead of developing sophisticated parsing code. Since mzTab-M files will be comparatively small, the data from multiple experiments can be processed at once without requiring special resource management techniques.
 
 6. It should be possible to contain the complete final results of an MS-based metabolomics experiment in a single file, with the exception that different ionisation modes SHOULD be captured in different files (see <<support-for-positive-and-negative-modes>>). This should furthermore reduce the complexity of sharing and processing an experiment’s final results.
 
