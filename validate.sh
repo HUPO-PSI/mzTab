@@ -22,10 +22,14 @@ V_FAILED=()
 # run validation for all example files
 for i in $(find ../../../examples/2_0-Metabolomics_Draft/ -maxdepth 1 -iname '*.mztab'); do
   echo -e "################################################################################"
-  echo -e "# Starting validation of $i on level "
-# semantic validation may take quite some time for larger files  
-#  java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -checkSemantic mappingFile=cv-mapping/mzTab-M-mapping.xml -level $V_LEVEL
-  java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -level $V_LEVEL
+  if [[ $i == *"MouseLiver_negative"* ]]; then
+    echo -e "# Starting basic validation of $i on level $V_LEVEL"
+    java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -level $V_LEVEL
+  else
+    echo -e "# Starting full validation of $i on level $V_LEVEL"
+    # semantic validation may take quite some time for larger files  
+    java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -checkSemantic mappingFile=cv-mapping/mzTab-M-mapping.xml -level $V_LEVEL
+  fi
   if [ $? -ne 0 ];
   then
     echo -e "# Validation of file $i failed! Please check console output for errors!"
