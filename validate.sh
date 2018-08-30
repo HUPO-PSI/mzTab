@@ -24,8 +24,8 @@ for i in $(find ../../../examples/2_0-Metabolomics_Draft/ -maxdepth 1 -iname '*.
   echo -e "################################################################################"
   echo -e "# Starting validation of $i on level "
 # semantic validation may take quite some time for larger files  
-  java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -checkSemantic mappingFile=cv-mapping/mzTab-M-mapping.xml -level $V_LEVEL
-#  java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -level $V_LEVEL
+#  java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -checkSemantic mappingFile=cv-mapping/mzTab-M-mapping.xml -level $V_LEVEL
+  java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -level $V_LEVEL
   if [ $? -ne 0 ];
   then
     echo -e "# Validation of file $i failed! Please check console output for errors!"
