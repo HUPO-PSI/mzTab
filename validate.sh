@@ -1,5 +1,5 @@
 #!/bin/bash
-V_VERSION="1.0.0"
+V_VERSION="1.0.1"
 V_URL="http://central.maven.org/maven2/de/isas/mztab/jmztabm-cli/$V_VERSION/jmztabm-cli-$V_VERSION-bin.zip"
 # download and unzip validator
 mkdir -p build/validation
