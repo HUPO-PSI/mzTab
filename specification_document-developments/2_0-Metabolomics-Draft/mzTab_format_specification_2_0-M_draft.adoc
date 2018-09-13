@@ -793,7 +793,7 @@ MTD sample[2]-description Healthy control samples.
 
 [cols=",",]
 |=========================================================================
-|*Description* |Parameters describing the sample’s additional properties.
+|*Description* |Parameters describing the sample’s additional properties. Dates MUST be provided in ISO-8601 format.
 |*Type* |Parameter
 |*Mandatory* |False
 |*Example* a|
@@ -1217,8 +1217,8 @@ MTD database[5]-prefix null
 
 [cols=",",]
 |==============================================================================================================================================================================================================================================
-|*Description* |The database version is mandatory where identification has been performed. This may be a formal version number e.g. “1.4.1”, a date of access “27/10/2016” or “Unknown” if there is no suitable version that can be annotated.
-|*Type* |String
+|*Description:* |The database version is mandatory where identification has been performed. This may be a formal version number e.g. “1.4.1”, a date of access “2016-10-27” (ISO-8601 format) or “Unknown” if there is no suitable version that can be annotated.
+|*Type:* |String
 |*Mandatory* |True
 |*Example* a|
 ....
