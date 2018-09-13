@@ -29,8 +29,6 @@ When you use mzTab format, please cite the following publication:
   > The 20 minute guide to mzTab ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.pdf))
 
   > Example Files ([zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip),[Wiki](../../wiki/Examples))
-  
-### Version 1.0.0
 
 ## jmzTab-m API (for mzTab-M 2.0.x, under development)
 
