@@ -126,7 +126,7 @@ The PSI-MS controlled vocabulary is intended to provide terms for annotation of 
 
 As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically maintained via the psidev-ms-vocab@lists.sourceforge.net mailing list that allows any user to request new terms in agreement with the community involved. Once a consensus is reached among the community the new terms are added within a few business days. If there is no obvious consensus, the CV coordinators committee should vote and make a decision. A new psi-ms.obo should then be released by updating the file on the GitHub server without changing the name of the file.
 
-The following ontologies or controlled vocabularies specified below may also be suitable or required in certain instances:
+The following ontologies or controlled vocabularies specified below may also be recommended or required in certain instances, as specified within the https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_2_0-M_mapping.xml[CV mapping file]:
 
 * Unit Ontology (http://www.obofoundry.org/ontology/uo.html)
 * ChEBI (ftp://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi.obo)
@@ -134,6 +134,10 @@ The following ontologies or controlled vocabularies specified below may also be 
 * NCBITaxon UniProt Taxonomy Database (https://www.ebi.ac.uk/ols/ontologies/ncbitaxon)
 * BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
 * Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
+* Human disease ontology (http://www.disease-ontology.org/).
+* Sample processing and separation techniques (http://psidev.info/sepcv).
+* XLMOD ontology with chemical reagents used for cross-linking and derivatization (https://raw.githubusercontent.com/HUPO-PSI/mzIdentML/master/cv/XLMOD.obo).
+* PRIDE (Proteomics Identifications) ontology (https://github.com/PRIDE-Utilities/pride-ontology).    
 
 [[resolved-design-and-scope-issues]]
 == Resolved Design and scope issues
