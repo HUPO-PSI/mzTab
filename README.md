@@ -19,6 +19,8 @@ When you use mzTab format, please cite the following publication:
 **Version 2.0.0 for Metabolomics (DRAFT):**
 
   > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc),[html](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html),[pdf](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf))
+  
+  > Example Files ([Wiki](../../wiki/Examples))
 
 **Version 1.0.0 (June 2014):**
 
@@ -26,11 +28,9 @@ When you use mzTab format, please cite the following publication:
 
   > The 20 minute guide to mzTab ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.pdf))
 
-## Example Files
-Several example of the format can be download from the next link [examples.zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip)
-
-Detailed explanation of all examples can be found [here](../../wiki/Examples)
-
+  > Example Files ([zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip),[Wiki](../../wiki/Examples))
+  
+### Version 1.0.0
 
 ## jmzTab-m API (for mzTab-M 2.0.x, under development)
 
