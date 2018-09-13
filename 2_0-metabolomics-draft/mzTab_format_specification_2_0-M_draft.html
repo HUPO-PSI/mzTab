@@ -895,7 +895,7 @@ There is deliberately no attempt to define the boundary of the term “sample”
 <div class="content">
 <img src="img/media/figure1.png" alt="image" width="100%">
 </div>
-<div class="title">Figure 1. Simple experimental designs in mzTab can be represented using a combination of study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different sample types e.g. control versus treated (as 2 SVs), n time points over a treatment course (as n SVs). Nested designs can be captured by annotation of additional CV terms onto SVs. B) Assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). Additional details about the sample processing to generate an assay should not be captured in mzTab, but could be captured via a reference to an external suitable format such as ISA-TAB. C) Ms_run captures a single run on an MS instrument. If pre-fractionation has been performed then an assay can reference to multiple ms_runs. In this case, ms_run can have a nested structure enabling assay to reference to a group of MS files. D) Samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analysed.</div>
+<div class="title">Figure 1. Simple experimental designs in mzTab-M can be represented using a combination of the elements study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different levels of a given variable e.g. control versus treated (represented as 2 SVs), n time points over a treatment course (as n SVs). B) assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). C) ms_run captures a single run on an MS instrument. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analyzed. If that information is available, references from assay to the same (technical, upper half) or different (biological, bottom half) samples are used to describe the type of replication performed.</div>
 </div>
 </div>
 <div class="sect2">
@@ -1085,7 +1085,7 @@ Every line in an mzTab file MUST start with a three letter code identifying the 
 <p><code>SMF</code> for rows of the small molecule feature table</p>
 </li>
 <li>
-<p><code>SHE</code> for small molecule evidence header line</p>
+<p><code>SEH</code> for small molecule evidence header line</p>
 </li>
 <li>
 <p><code>SME</code> for rows of the small molecule evidence table</p>
@@ -1127,12 +1127,15 @@ Parameters are always reported as <code>[CV label, accession, name, value]</code
 </div>
 </div>
 <div class="paragraph">
-<p>In case, the name of the param contains commas, quotes MUST be added to avoid problems with the parsing: <code>[label, accession, “first part of the param name, second part of the name”, value]</code>.</p>
+<p>Should the name of the param contain commas, quotes MUST be added to avoid problems with the parsing: <code>[label, accession, “first part of the param name, second part of the name”, value]</code>.</p>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>[MOD, MOD:00648, "N,O-diacetylated L-serine",]</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>A CV parameter mapping file for mzTab following the mzML mapping file XML Schema is available at <a href="https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_2_0-M_mapping.xml">GitHub</a> as part of the specification for semantic validation. The mapping file defines recommended controlled vocabularies and defines restrictions for the use of CV terms on particular elements of the mzTab document. Unlike other PSI standards, the model description of mzTab-M 2.0 is not based on an XML schema, but instead on a Swagger / OpenAPI 2.0 compatible specification that is used to generate a corresponding object structure that can be represented in XML, JSON or as an object hierarchy in arbitrary programming languages.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1202,13 +1205,17 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </div>
 </div>
 <div class="paragraph">
-<p>In the following list of fields any term encapsulated by <code>\{}</code> is meant as a variable which MUST be replaced accordingly.</p>
+<p>In the following list of fields any term encapsulated by <code>{}</code> is meant as a variable which MUST be replaced accordingly.</p>
 </div>
 <div class="paragraph">
-<p><strong>Core Metadata</strong></p>
+<p>Regular expressions (<strong>Regex</strong>) follow the Perl regular expression syntax with minimal escaping.</p>
+</div>
+<div class="sect4">
+<h5 id="_core_metadata">Core Metadata</h5>
+
 </div>
 <div class="sect3">
-<h4 id="mztab-version">6.2.1. mzTab-version</h4>
+<h4 id="mztab-version">6.2.2. mzTab-version</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1216,19 +1223,26 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The version of the mzTab file. The suffix MUST be "-M" for mzTab for metabolomics (mzTab-M).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\d{2}\.\d{0}\.\d{0}-M"}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Regex</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>\d{2}\.\d{0}\.\d{0}-M</pre>
+</div>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mandatory</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD mzTab-version  2.0.0-M</pre>
@@ -1239,7 +1253,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </table>
 </div>
 <div class="sect3">
-<h4 id="mztab-id">6.2.2. mzTab-ID</h4>
+<h4 id="mztab-id">6.2.3. mzTab-ID</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1247,11 +1261,11 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The ID of the mzTab file, this could be supplied by the repository from which it is downloaded or a local identifier from the lab producing the file. It is not intended to be a globally unique ID but carry some locally useful meaning.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1259,7 +1273,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD mzTab-ID MTBL1234</pre>
@@ -1270,7 +1284,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </table>
 </div>
 <div class="sect3">
-<h4 id="title">6.2.3. title</h4>
+<h4 id="title">6.2.4. title</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1278,11 +1292,11 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The file’s human readable title.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1290,7 +1304,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD title Effects of Rapamycin on metabolite profile</pre>
@@ -1301,7 +1315,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </table>
 </div>
 <div class="sect3">
-<h4 id="description">6.2.4. description</h4>
+<h4 id="description">6.2.5. description</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1309,11 +1323,11 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The file’s human readable description.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1321,7 +1335,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD description An experiment investigating the effects of Il-6...</pre>
@@ -1332,7 +1346,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample_processing1-n">6.2.5. sample_processing[1-n]</h4>
+<h4 id="sample_processing1-n">6.2.6. sample_processing[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1340,11 +1354,11 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of parameters describing a sample processing step. The order of the data_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “|”.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter List</p></td>
 </tr>
 <tr>
@@ -1352,7 +1366,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD sample_processing[1] [SEP, sep:00210, liquid chromatography,]</pre>
@@ -1363,7 +1377,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </table>
 </div>
 <div class="sect3">
-<h4 id="instrument1-n-name">6.2.6. instrument[1-n]-name</h4>
+<h4 id="instrument1-n-name">6.2.7. instrument[1-n]-name</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1371,11 +1385,11 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The name of the instrument used in the experiment. Multiple instruments are numbered 1..n.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1383,7 +1397,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD instrument[1]-name [MS, MS:1000449, LTQ Orbitrap,]</pre>
@@ -1394,7 +1408,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </table>
 </div>
 <div class="sect3">
-<h4 id="instrument1-n-source">6.2.7. instrument[1-n]-source</h4>
+<h4 id="instrument1-n-source">6.2.8. instrument[1-n]-source</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1402,11 +1416,11 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The instrument&#8217;s source used in the experiment. Multiple instruments are numbered [1-n].</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1414,7 +1428,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD instrument[1]-source [MS, MS:1000073, ESI,]
@@ -1427,7 +1441,7 @@ MTD instrument[2]-source [MS, MS:1000598, ETD,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="instrument1-n-analyzer1-n">6.2.8. instrument[1-n]-analyzer[1-n]</h4>
+<h4 id="instrument1-n-analyzer1-n">6.2.9. instrument[1-n]-analyzer[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1435,11 +1449,11 @@ MTD instrument[2]-source [MS, MS:1000598, ETD,]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The instrument’s analyzer type used in the experiment. Multiple instruments are numbered [1-n].</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1447,7 +1461,7 @@ MTD instrument[2]-source [MS, MS:1000598, ETD,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD instrument[1]-analyzer[1] [MS, MS:1000291, linear ion trap,]
@@ -1460,7 +1474,7 @@ MTD instrument[2]-analyzer[1] [MS, MS:1000484, orbitrap,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="instrument1-n-detector">6.2.9. instrument[1-n]-detector</h4>
+<h4 id="instrument1-n-detector">6.2.10. instrument[1-n]-detector</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1468,11 +1482,11 @@ MTD instrument[2]-analyzer[1] [MS, MS:1000484, orbitrap,]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The instrument&#8217;s detector type used in the experiment. Multiple instruments are numbered [1-n].</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1480,7 +1494,7 @@ MTD instrument[2]-analyzer[1] [MS, MS:1000484, orbitrap,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD instrument[1]-detector [MS, MS:1000253, electron multiplier,]
@@ -1493,7 +1507,7 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="software1-n">6.2.10. software[1-n]</h4>
+<h4 id="software1-n">6.2.11. software[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1501,11 +1515,11 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Software used to analyze the data and obtain the reported results. The parameter’s value SHOULD contain the software’s version. The order (numbering) should reflect the order in which the tools were used.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1513,7 +1527,7 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD software[1] [MS, MS:1002879, Progenesis QI, 3.0]</pre>
@@ -1524,7 +1538,7 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="software1-n-setting1-n">6.2.11. software[1-n]-setting[1-n]</h4>
+<h4 id="software1-n-setting1-n">6.2.12. software[1-n]-setting[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1532,11 +1546,11 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A software setting used. This field MAY occur multiple times for a single software. The value of this field is deliberately set as a String, since there currently do not exist cvParams for every possible setting.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A software setting used. This field MAY occur multiple times for a single software. The value of this field is deliberately set as a String, since there currently do not exist CV terms for every possible setting.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1544,7 +1558,7 @@ MTD instrument[2]-detector [MS, MS:1000348, focal plane collector,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD software[1]-setting Fragment tolerance = 0.1 Da
@@ -1557,7 +1571,7 @@ MTD software[2]-setting Parent tolerance = 0.5 Da</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="publication1-n">6.2.12. publication[1-n]</h4>
+<h4 id="publication1-n">6.2.13. publication[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1565,11 +1579,11 @@ MTD software[2]-setting Parent tolerance = 0.5 Da</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A publication associated with this file. Several publications can be given by indicating the number in the square brackets after “publication”. PubMed ids must be prefixed by “pubmed:”, DOIs by “doi:”. Multiple identifiers MUST be separated by “|”.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1577,7 +1591,7 @@ MTD software[2]-setting Parent tolerance = 0.5 Da</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD publication[1] pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
@@ -1589,7 +1603,7 @@ MTD publication[2] pubmed:20615486|doi:10.1016/j.jprot.2010.06.008</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="contact1-n-name">6.2.13. contact[1-n]-name</h4>
+<h4 id="contact1-n-name">6.2.14. contact[1-n]-name</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1597,11 +1611,11 @@ MTD publication[2] pubmed:20615486|doi:10.1016/j.jprot.2010.06.008</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The contact&#8217;s name. Several contacts can be given by indicating the number in the square brackets after "contact". A contact has to be supplied in the format [first name] [initials] [last name] (see example).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1609,7 +1623,7 @@ MTD publication[2] pubmed:20615486|doi:10.1016/j.jprot.2010.06.008</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD contact[1]-name James D. Watson
@@ -1622,7 +1636,7 @@ MTD contact[2]-name Francis Crick</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="contact1-n-affiliation">6.2.14. contact[1-n]-affiliation</h4>
+<h4 id="contact1-n-affiliation">6.2.15. contact[1-n]-affiliation</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1630,11 +1644,11 @@ MTD contact[2]-name Francis Crick</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The contact’s affiliation.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1642,7 +1656,7 @@ MTD contact[2]-name Francis Crick</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD contact[1]-affiliation Cambridge University, UK
@@ -1654,7 +1668,7 @@ MTD contact[2]-affiliation Cambridge University, UK</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="contact1-n-email">6.2.15. contact[1-n]-email</h4>
+<h4 id="contact1-n-email">6.2.16. contact[1-n]-email</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1662,11 +1676,11 @@ MTD contact[2]-affiliation Cambridge University, UK</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The contact’s e-mail address.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1674,7 +1688,7 @@ MTD contact[2]-affiliation Cambridge University, UK</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD contact[1]-email watson@cam.ac.uk
@@ -1687,7 +1701,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="uri1-n">6.2.16. uri[1-n]</h4>
+<h4 id="uri1-n">6.2.17. uri[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1695,11 +1709,11 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A URI pointing to the file&#8217;s source data (e.g., a  MetaboLights records).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URI</p></td>
 </tr>
 <tr>
@@ -1707,7 +1721,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517</pre>
@@ -1718,7 +1732,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="external_study_uri1-n">6.2.17. external_study_uri[1-n]</h4>
+<h4 id="external_study_uri1-n">6.2.18. external_study_uri[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1726,11 +1740,11 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A URI pointing to an external file with more details about the study design (e.g., an ISA-TAB file).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URI</p></td>
 </tr>
 <tr>
@@ -1738,7 +1752,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD external_study_uri[1] https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt</pre>
@@ -1749,7 +1763,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="quantification_method">6.2.18. quantification_method</h4>
+<h4 id="quantification_method">6.2.19. quantification_method</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1757,11 +1771,11 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The quantification method used in the experiment reported in the file.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1769,7 +1783,7 @@ MTD contact[2]-email crick@cam.ac.uk</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD quantification_method [MS, MS:1001834, LC-MS label-free quantitation analysis, ]
@@ -1781,7 +1795,7 @@ MTD quantification_method [MS, MS:1001838, SRM quantitation analysis, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_sample1_n">6.2.19. sample[1-n]</h4>
+<h4 id="_sample1_n">6.2.20. sample[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1789,11 +1803,11 @@ MTD quantification_method [MS, MS:1001838, SRM quantitation analysis, ]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A name for each sample to serve as a list of the samples that MUST be reported in the following tables. Samples MUST be reported if a statistical design is being captured (i.e. bio or tech replicates). If the type of replicates are not known, samples SHOULD NOT be reported.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1801,7 +1815,7 @@ MTD quantification_method [MS, MS:1001838, SRM quantitation analysis, ]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD sample[1] individual number 1
@@ -1813,7 +1827,7 @@ MTD sample[2] individual number 2</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-species1-n">6.2.20. sample[1-n]-species[1-n]</h4>
+<h4 id="sample1-n-species1-n">6.2.21. sample[1-n]-species[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1821,11 +1835,11 @@ MTD sample[2] individual number 2</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The respective species of the samples analysed. For more complex cases, such as metagenomics, optional columns and userParams should be used.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1833,7 +1847,7 @@ MTD sample[2] individual number 2</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>COM Experiment where all samples consisted of the same two species
@@ -1854,7 +1868,7 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-tissue1-n">6.2.21. sample[1-n]-tissue[1-n]</h4>
+<h4 id="sample1-n-tissue1-n">6.2.22. sample[1-n]-tissue[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1862,11 +1876,11 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The respective tissue(s) of the sample.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1874,7 +1888,7 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD sample[1]-tissue[1] [BTO, BTO:0000759, liver, ]</pre>
@@ -1885,7 +1899,7 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-cell_type1-n">6.2.22. sample[1-n]-cell_type[1-n]</h4>
+<h4 id="sample1-n-cell_type1-n">6.2.23. sample[1-n]-cell_type[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1893,11 +1907,11 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The respective cell type(s) of the sample.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1905,7 +1919,7 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD sample[1]-cell_type[1] [CL, CL:0000182, hepatocyte, ]</pre>
@@ -1916,7 +1930,7 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-disease1-n">6.2.23. sample[1-n]-disease[1-n]</h4>
+<h4 id="sample1-n-disease1-n">6.2.24. sample[1-n]-disease[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1924,11 +1938,11 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The respective disease(s) of the sample.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -1936,7 +1950,7 @@ MTD sample[2]-species[2] [NCBITaxon, NCBITaxon:12130, Human rhinovirus 2, ]</pre
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD sample[1]-disease[1] [DOID, DOID:684, hepatocellular carcinoma, ]
@@ -1948,7 +1962,7 @@ MTD sample[1]-disease[2] [DOID, DOID:9451, alcoholic fatty liver, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-description">6.2.24. sample[1-n]-description</h4>
+<h4 id="sample1-n-description">6.2.25. sample[1-n]-description</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1956,11 +1970,11 @@ MTD sample[1]-disease[2] [DOID, DOID:9451, alcoholic fatty liver, ]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A human readable description of the sample.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -1968,7 +1982,7 @@ MTD sample[1]-disease[2] [DOID, DOID:9451, alcoholic fatty liver, ]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD sample[1]-description Hepatocellular carcinoma samples.
@@ -1980,7 +1994,7 @@ MTD sample[2]-description Healthy control samples.</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="sample1-n-custom1-n">6.2.25. sample[1-n]-custom[1-n]</h4>
+<h4 id="sample1-n-custom1-n">6.2.26. sample[1-n]-custom[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1988,11 +2002,11 @@ MTD sample[2]-description Healthy control samples.</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameters describing the sample’s additional properties. Dates MUST be provided in ISO-8601 format.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2000,7 +2014,7 @@ MTD sample[2]-description Healthy control samples.</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD sample[1]-custom[1] [,,Extraction date, 2011-12-21]
@@ -2012,7 +2026,7 @@ MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-location">6.2.26. ms_run[1-n]-location</h4>
+<h4 id="ms_run1-n-location">6.2.27. ms_run[1-n]-location</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2020,11 +2034,11 @@ MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Location of the external data file e.g. raw files on which analysis has been performed. If the actual location of the MS run is unknown, a “null” MUST be used as a place holder value, since the [1-n] cardinality is referenced elsewhere. If pre-fractionation has been performed, then [1-n] ms_runs SHOULD be created per assay.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URI</p></td>
 </tr>
 <tr>
@@ -2032,7 +2046,7 @@ MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD ms_run[1]-location file:///C:/path/to/my/file
@@ -2045,7 +2059,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-location">6.2.27. ms_run[1-n]-instrument_ref</h4>
+<h4 id="ms_run1-n-instrument_ref">6.2.28. ms_run[1-n]-instrument_ref</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2053,11 +2067,11 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If different instruments are used in different runs, this attribute can be used to link a specific instrument to a specific run.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 </tr>
 <tr>
@@ -2065,7 +2079,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD ms_run[1]-instrument_ref instrument[1]</pre>
@@ -2076,7 +2090,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-format">6.2.28. ms_run[1-n]-format</h4>
+<h4 id="ms_run1-n-format">6.2.29. ms_run[1-n]-format</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2084,11 +2098,11 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A parameter specifying the data format of the external MS data file. If ms_run[1-n]-format is present, ms_run[1-n]-id_format SHOULD also be present, following the parameters specified in Table 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2096,7 +2110,7 @@ MTD ms_run[1]-location ftp://ftp.ebi.ac.uk/path/to/file</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
@@ -2111,7 +2125,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-id_format">6.2.29. ms_run[1-n]-id_format</h4>
+<h4 id="ms_run1-n-id_format">6.2.30. ms_run[1-n]-id_format</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2119,11 +2133,11 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter specifying the id format used in the external data file. If ms_run[1-n]-id_format is present, ms_run[1-n]-format SHOULD also be present.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2131,7 +2145,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD ms_run[1]-format [MS, MS:1000584, mzML file, ]
@@ -2146,7 +2160,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-fragmentation_method1-n">6.2.30. ms_run[1-n]-fragmentation_method[1-n]</h4>
+<h4 id="ms_run1-n-fragmentation_method1-n">6.2.31. ms_run[1-n]-fragmentation_method[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2154,11 +2168,11 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The type(s) of fragmentation used in a given ms run.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2166,7 +2180,7 @@ MTD ms_run[2]-id_format [MS, MS:1000774, multiple peak list nativeID format, ]</
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD ms_run[1]-fragmentation_method[1] [MS, MS:1000133, CID, ]
@@ -2179,7 +2193,7 @@ MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-scan_polarity1-n">6.2.31. ms_run[1-n]-scan_polarity[1-n]</h4>
+<h4 id="ms_run1-n-scan_polarity1-n">6.2.32. ms_run[1-n]-scan_polarity[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2187,11 +2201,11 @@ MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD, ]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The polarity mode of a given run. Usually only one value SHOULD be given here except for the case of mixed polarity runs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2199,14 +2213,26 @@ MTD ms_run[1]-fragmentation_method[2] [MS, MS:1000422, HCD, ]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
+<pre>MTD ms_run[1]-scan_polarity[1] [MS, MS:1000130, positive scan, ]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OR</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>MTD ms_run[1]-scan_polarity[1] [MS, MS:1000129, negative scan, ]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OR (For mixed polarity in one run)</p>
+</div>
+<div class="literalblock">
+<div class="content">
 <pre>MTD ms_run[1]-scan_polarity[1] [MS, MS:1000130, positive scan, ]
-OR
-MTD ms_run[1]-scan_polarity[1] [MS, MS:1000129, negative scan, ]
-OR (For mixed polarity in one run)
-MTD ms_run[1]-scan_polarity[1] [MS, MS:1000130, positive scan, ]
 MTD ms_run[1]-scan_polarity[2] [MS, MS:1000129, negative scan, ]</pre>
 </div>
 </div></div></td>
@@ -2215,7 +2241,7 @@ MTD ms_run[1]-scan_polarity[2] [MS, MS:1000129, negative scan, ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-hash">6.2.32. ms_run[1-n]-hash</h4>
+<h4 id="ms_run1-n-hash">6.2.33. ms_run[1-n]-hash</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2223,11 +2249,11 @@ MTD ms_run[1]-scan_polarity[2] [MS, MS:1000129, negative scan, ]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Hash value of the corresponding external MS data file defined in ms_run[1-n]-location. If ms_run[1-n]-hash is present, ms_run[1-n]-hash_method SHOULD also be present.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2235,7 +2261,7 @@ MTD ms_run[1]-scan_polarity[2] [MS, MS:1000129, negative scan, ]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD ms_run[1]-hash_method [MS, MS:1000569, SHA-1, ]
@@ -2247,7 +2273,7 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="ms_run1-n-hash_method">6.2.33. ms_run[1-n]-hash_method</h4>
+<h4 id="ms_run1-n-hash_method">6.2.34. ms_run[1-n]-hash_method</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2255,11 +2281,11 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A parameter specifying the hash methods used to generate the String in ms_run[1-n]-hash. Specifics of the hash method used MAY follow the definitions of the mzML format. If ms_run[1-n]-hash is present, ms_run[1-n]-hash_method SHOULD also be present.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2267,7 +2293,7 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD ms_run[1]-hash_method [MS, MS:1000569, SHA-1, ]
@@ -2279,7 +2305,7 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n">6.2.34. assay[1-n]</h4>
+<h4 id="assay1-n">6.2.35. assay[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2287,11 +2313,11 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A name for each assay, to serve as a list of the assays that MUST be reported in the following tables.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2299,7 +2325,7 @@ MTD ms_run[1]-hash de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD assay[1] first assay
@@ -2311,7 +2337,7 @@ MTD assay[2] second assay</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n-custom1-n">6.2.35. assay[1-n]-custom[1-n]</h4>
+<h4 id="assay1-n-custom1-n">6.2.36. assay[1-n]-custom[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2319,11 +2345,11 @@ MTD assay[2] second assay</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Additional parameters or values for a given assay.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2331,7 +2357,7 @@ MTD assay[2] second assay</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD assay[1]-custom[1] [MS, , Assay operator, Fred Blogs]</pre>
@@ -2342,7 +2368,7 @@ MTD assay[2] second assay</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n-external_uri">6.2.36. assay[1-n]-external_uri</h4>
+<h4 id="assay1-n-external_uri">6.2.37. assay[1-n]-external_uri</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2350,11 +2376,11 @@ MTD assay[2] second assay</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A reference to further information about the assay, for example via a reference to an object within an ISA-TAB file.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URI</p></td>
 </tr>
 <tr>
@@ -2362,7 +2388,7 @@ MTD assay[2] second assay</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD assay[1]-external_uri https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt?STUDYASSAY=a_e04_c18pos.txt</pre>
@@ -2373,7 +2399,7 @@ MTD assay[2] second assay</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n-sample_ref">6.2.37. assay[1-n]-sample_ref</h4>
+<h4 id="assay1-n-sample_ref">6.2.38. assay[1-n]-sample_ref</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2381,11 +2407,11 @@ MTD assay[2] second assay</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">An association from a given assay to the sample analysed.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">{SAMPLE_ID}</p></td>
 </tr>
 <tr>
@@ -2393,7 +2419,7 @@ MTD assay[2] second assay</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD assay[1]-sample_ref sample[1]
@@ -2405,7 +2431,7 @@ MTD assay[2]-sample_ref sample[2]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="assay1-n-ms_run_ref">6.2.38. assay[1-n]-ms_run_ref</h4>
+<h4 id="assay1-n-ms_run_ref">6.2.39. assay[1-n]-ms_run_ref</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2413,12 +2439,12 @@ MTD assay[2]-sample_ref sample[2]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">An association from a given assay to the source MS run. All assays MUST reference exactly one ms_run unless a workflow with pre-fractionation is being encoded, in which case each assay MUST reference <em>n</em> ms_runs where <em>n</em> fractions have been collected.</p>
 <p class="tableblock">Multiple assays SHOULD reference the same ms_run to capture multiplexed experimental designs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">{MS_RUN_ID}</p></td>
 </tr>
 <tr>
@@ -2426,7 +2452,7 @@ MTD assay[2]-sample_ref sample[2]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD assay[1]-ms_run_ref ms_run[1]</pre>
@@ -2437,7 +2463,7 @@ MTD assay[2]-sample_ref sample[2]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n">6.2.39. study_variable[1-n]</h4>
+<h4 id="study_variable1-n">6.2.40. study_variable[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2445,11 +2471,11 @@ MTD assay[2]-sample_ref sample[2]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A name for each study variable (experimental condition or factor), to serve as a list of the study variables that MUST be reported in the following tables. For software that does not capture study variables, a single study variable MUST be reported, linking to all assays. This single study variable MUST have the identifier “undefined“.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2457,7 +2483,7 @@ MTD assay[2]-sample_ref sample[2]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD study_variable[1] “control”
@@ -2470,7 +2496,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n-assay_refs">6.2.40. study_variable[1-n]-assay_refs</h4>
+<h4 id="study_variable1-n-assay_refs">6.2.41. study_variable[1-n]-assay_refs</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2478,11 +2504,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Bar-separated references to the IDs of assays grouped in the study variable.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">{ASSAY_ID}, &#8230;&#8203;</p></td>
 </tr>
 <tr>
@@ -2490,7 +2516,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD study_variable[1]-assay_refs assay[1]| assay[2]| assay[3]</pre>
@@ -2501,7 +2527,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n-average_function1-n">6.2.41. study_variable[1-n]-average_function</h4>
+<h4 id="study_variable1-n-average_function1-n">6.2.42. study_variable[1-n]-average_function</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2509,11 +2535,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The function used to calculate the study variable quantification value and the operation used is not arithmetic mean (default) e.g. “geometric mean”, “median”. The 1-n refers to different study variables.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2521,7 +2547,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD study_variable-average_function [MS, MS:1002883, median, ]</pre>
@@ -2532,7 +2558,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n-variation_function">6.2.42. study_variable[1-n]-variation_function</h4>
+<h4 id="study_variable1-n-variation_function">6.2.43. study_variable[1-n]-variation_function</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2540,11 +2566,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The function used to calculate the study variable quantification variation value if it is reported and the operation used is not coefficient of variation (default) e.g. “standard error”.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2552,7 +2578,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD study_variable-variation_function [MS, MS:1002885, standard error, ]</pre>
@@ -2563,7 +2589,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n-description">6.2.43. study_variable[1-n]-description</h4>
+<h4 id="study_variable1-n-description">6.2.44. study_variable[1-n]-description</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2571,11 +2597,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A textual description of the study variable.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2583,7 +2609,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)</pre>
@@ -2594,7 +2620,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="study_variable1-n-factors">6.2.44. study_variable[1-n]-factors</h4>
+<h4 id="study_variable1-n-factors">6.2.45. study_variable[1-n]-factors</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2602,11 +2628,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Additional parameters or factors, separated by bars, that are known about study variables allowing the capture of more complex, such as nested designs.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Param List</p></td>
 </tr>
 <tr>
@@ -2614,7 +2640,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD study_variable[1]-factors [,,rapamycin dose,0.5mg]</pre>
@@ -2625,7 +2651,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="custom1-n">6.2.45. custom[1-n]</h4>
+<h4 id="custom1-n">6.2.46. custom[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2633,19 +2659,19 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Any additional parameters describing the analysis reported.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mandatory</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD custom[1] [,,MS operator, Florian]</pre>
@@ -2656,7 +2682,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-label">6.2.46. cv[1-n]-label</h4>
+<h4 id="cv1-n-label">6.2.47. cv[1-n]-label</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2664,11 +2690,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A string describing the labels of the controlled vocabularies/ontologies used in the mzTab file as a short-hand e.g. "MS" for PSI-MS.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2676,7 +2702,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD cv[1]-label MS</pre>
@@ -2687,7 +2713,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-full_name">6.2.47. cv[1-n]-full_name</h4>
+<h4 id="cv1-n-full_name">6.2.48. cv[1-n]-full_name</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2695,11 +2721,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A string describing the full names of the controlled vocabularies/ontologies used in the mzTab file</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2707,7 +2733,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD cv[1]-full_name PSI-MS controlled vocabulary</pre>
@@ -2718,7 +2744,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-version">6.2.48. cv[1-n]-version</h4>
+<h4 id="cv1-n-version">6.2.49. cv[1-n]-version</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2726,11 +2752,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A string describing the version of the controlled vocabularies/ontologies used in the mzTab file</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2738,7 +2764,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD cv[1]-version 4.1.11</pre>
@@ -2749,7 +2775,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="cv1-n-uri">6.2.49. cv[1-n]-uri</h4>
+<h4 id="cv1-n-uri">6.2.50. cv[1-n]-uri</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2757,11 +2783,11 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2769,7 +2795,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD cv[1]-uri https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo</pre>
@@ -2780,7 +2806,7 @@ MTD study_variable[2] “1 minute”</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n">6.2.50. database[1-n]</h4>
+<h4 id="database1-n">6.2.51. database[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2788,12 +2814,12 @@ MTD study_variable[2] “1 minute”</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The description of databases used. For cases, where a known database has not been used for identification, a userParam SHOULD be inserted to describe any identification performed e.g. de novo.</p>
 <p class="tableblock">If no identification has been performed at all then "no database" should be inserted followed by null.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Param</p></td>
 </tr>
 <tr>
@@ -2801,7 +2827,7 @@ MTD study_variable[2] “1 minute”</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD database[1] [MIRIAM, MIR:00100079, HMDB, ]
@@ -2817,7 +2843,7 @@ MTD database[5] [,, "no database", null ]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n-prefix">6.2.51. database[1-n]-prefix</h4>
+<h4 id="database1-n-prefix">6.2.52. database[1-n]-prefix</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2825,11 +2851,11 @@ MTD database[5] [,, "no database", null ]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The prefix used in the “identifier” column of data tables. For the “no database” case "null" must be used.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -2837,7 +2863,7 @@ MTD database[5] [,, "no database", null ]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD database[1]-prefix hmdb
@@ -2853,7 +2879,7 @@ MTD database[5]-prefix null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n-version">6.2.52. database[1-n]-version</h4>
+<h4 id="database1-n-version">6.2.53. database[1-n]-version</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2873,7 +2899,7 @@ MTD database[5]-prefix null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD database[1]-version 3.6
@@ -2886,7 +2912,7 @@ MTD database[2]-version Unknown</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="database1-n-uri">6.2.53. database[1-n]-uri</h4>
+<h4 id="database1-n-uri">6.2.54. database[1-n]-uri</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2894,11 +2920,11 @@ MTD database[2]-version Unknown</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The URI to the database. For the “no database” case, "null" must be reported.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URI</p></td>
 </tr>
 <tr>
@@ -2906,7 +2932,7 @@ MTD database[2]-version Unknown</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>database[1]-uri http://www.hmdb.ca/
@@ -2919,7 +2945,7 @@ database[5]-uri null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="derivatization_agent1-n">6.2.54. derivatization_agent[1-n]</h4>
+<h4 id="derivatization_agent1-n">6.2.55. derivatization_agent[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2927,11 +2953,11 @@ database[5]-uri null</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A description of derivatization agents applied to small molecules, using userParams or cvParams where possible.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A description of derivatization agents applied to small molecules, using userParams or CV terms where possible.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Param</p></td>
 </tr>
 <tr>
@@ -2939,7 +2965,7 @@ database[5]-uri null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD derivatization_agent[1] [XLMOD, XLMOD:07014, N-methyl-N-t-butyldimethylsilyltrifluoroacetamide, ]</pre>
@@ -2950,7 +2976,7 @@ database[5]-uri null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="small_molecule-quantification_unit">6.2.55. small_molecule-quantification_unit</h4>
+<h4 id="small_molecule-quantification_unit">6.2.56. small_molecule-quantification_unit</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2958,11 +2984,11 @@ database[5]-uri null</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Defines what type of units are reported in the small molecule summary quantification / abundance fields.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -2970,7 +2996,7 @@ database[5]-uri null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD small_molecule-quantification_unit [MS, MS:1002887, Progenesis QI normalised abundance, ]</pre>
@@ -2981,7 +3007,7 @@ database[5]-uri null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="small_molecule_feature-quantification_unit">6.2.56. small_molecule_feature-quantification_unit</h4>
+<h4 id="small_molecule_feature-quantification_unit">6.2.57. small_molecule_feature-quantification_unit</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2989,11 +3015,11 @@ database[5]-uri null</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Defines what type of units are reported in the small molecule feature quantification / abundance fields.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -3001,7 +3027,7 @@ database[5]-uri null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True (if SMF section is being reported)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD small_molecule_feature-quantification_unit [MS, MS:1002887, Progenesis QI normalised abundance, ]</pre>
@@ -3012,7 +3038,7 @@ database[5]-uri null</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="small_molecule-identification_reliability">6.2.57. small_molecule-identification_reliability</h4>
+<h4 id="small_molecule-identification_reliability">6.2.58. small_molecule-identification_reliability</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3020,11 +3046,11 @@ database[5]-uri null</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The system used for giving reliability / confidence codes to small molecule identifications MUST be specified if not using the default codes (see <a href="#reliability">Section 6.3.11</a> for details).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Param</p></td>
 </tr>
 <tr>
@@ -3032,7 +3058,7 @@ database[5]-uri null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD small_molecule-identification_reliability [MS, MS:1002896, compound identification confidence level, ]
@@ -3045,7 +3071,7 @@ MTD small_molecule-identification_reliability [MS, MS:1002955, hr-ms compound id
 </table>
 </div>
 <div class="sect3">
-<h4 id="id_confidence_measure1-n">6.2.58. id_confidence_measure[1-n]</h4>
+<h4 id="id_confidence_measure1-n">6.2.59. id_confidence_measure[1-n]</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3053,11 +3079,11 @@ MTD small_molecule-identification_reliability [MS, MS:1002955, hr-ms compound id
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The type of small molecule confidence measures or scores MUST be reported as a CV parameter [1-n]. The CV parameter definition should formally state whether the ordering is high to low or vice versa. The order of the scores SHOULD reflect their importance for the identification and be used to determine the identification’s rank.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -3065,7 +3091,7 @@ MTD small_molecule-identification_reliability [MS, MS:1002955, hr-ms compound id
 <td class="tableblock halign-left valign-top"><p class="tableblock">True</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>id_confidence_measure[1]	[MS,MS:1002889,Progenesis MetaScope Score,]
@@ -3078,7 +3104,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="colunit-small_molecule">6.2.59. colunit-small_molecule</h4>
+<h4 id="colunit-small_molecule">6.2.60. colunit-small_molecule</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3086,12 +3112,12 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Defines the used unit for a column in the small molecule section. The format of the value has to be \{column name}=\{Parameter defining the unit}</p>
 <p class="tableblock">This field MUST NOT be used to define a unit for quantification columns. The unit used for small molecule quantification values MUST be set in small_molecule-quantification_unit.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -3099,7 +3125,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD colunit-small_molecule opt_global_cv_MS:MS:1002954_collisional_cross_sectional_area=[UO,UO:00003241, square angstrom,]</pre>
@@ -3110,7 +3136,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="colunit-small_molecule_feature">6.2.60. colunit-small_molecule_feature</h4>
+<h4 id="colunit-small_molecule_feature">6.2.61. colunit-small_molecule_feature</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3118,12 +3144,12 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Defines the used unit for a column in the small molecule feature section. The format of the value has to be \{column name}=\{Parameter defining the unit}</p>
 <p class="tableblock">This field MUST NOT be used to define a unit for quantification columns. The unit used for small molecule quantification values MUST be set in small_molecule_feature-quantification_unit.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -3131,7 +3157,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD colunit-small_molecule_feature opt_ms_run[1]_cv_MS:MS:1002476_ion_mobility_drift_time=[UO,UO:0000031, minute,]</pre>
@@ -3142,7 +3168,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="colunit-small_molecule_evidence">6.2.61. colunit-small_molecule_evidence</h4>
+<h4 id="colunit-small_molecule_evidence">6.2.62. colunit-small_molecule_evidence</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3150,11 +3176,11 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Defines the used unit for a column in the small molecule evidence section. The format of the value has to be \{column name}=\{Parameter defining the unit}.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -3162,7 +3188,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">False</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD colunit-small_molecule_evidence opt_global_mass_error=[UO, UO:0000169, parts per million, ]</pre>
@@ -3196,11 +3222,11 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A within file unique identifier for the small molecule.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 </tr>
 <tr>
@@ -3208,7 +3234,7 @@ id_confidence_measure[3]	[MS,MS:1002891,isotopic fit score,]</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID …
@@ -3229,11 +3255,11 @@ SML 2 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">References to all the features on which quantitation has been based (SMF elements) via referencing SMF_ID values. Multiple values SHOULD be provided as a “|” separated list. This MAY be null only if this is a Summary file.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">{SMF_ID} list</p></td>
 </tr>
 <tr>
@@ -3241,7 +3267,7 @@ SML 2 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID SMF_ID_REFS
@@ -3261,13 +3287,13 @@ SML 1 2|3|11…</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of “|” separated possible identifiers for the small molecule; multiple values MUST only be provided to indicate ambiguity in the identification of the molecule and not to demonstrate different identifier types for the same molecule. Alternative identifiers for the same molecule MAY be provided as optional columns.</p>
 <p class="tableblock">The database identifier must be preceded by the resource description (prefix) followed by a colon, as specified in the metadata section.</p>
 <p class="tableblock">A null value MAY be provided if the identification is sufficiently ambiguous as to be meaningless for reporting or the small molecule has not been identified.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String List</p></td>
 </tr>
 <tr>
@@ -3275,7 +3301,7 @@ SML 1 2|3|11…</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID database_identifier …
@@ -3297,13 +3323,13 @@ SML 3 null</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of “|” separated potential chemical formulae of the reported compound. The number of values provided MUST match the number of entities reported under “database_identifier”, even if this leads to redundant reporting of information (i.e. if ambiguity can be resolved in the chemical formula), and the validation software will throw an error if the number of “|” symbols does not match. “null” values between bars are allowed.</p>
 <p class="tableblock">This should be specified in Hill notation <a href="#hill-1900">(EA Hill 1900)</a>, i.e. elements in the order C, H and then alphabetically all other elements. Counts of one may be omitted. Elements should be capitalized properly to avoid confusion (e.g., “CO” vs. “Co”). The chemical formula reported should refer to the neutral form.</p>
-<p class="tableblock"><strong>Example:</strong> N-acetylglucosamine would be encoded by the string “C8H15NO6”</p></td>
+<p class="tableblock"><strong>Example</strong> N-acetylglucosamine would be encoded by the string “C8H15NO6”</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String List</p></td>
 </tr>
 <tr>
@@ -3311,7 +3337,7 @@ SML 3 null</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … chemical_formula …
@@ -3331,11 +3357,11 @@ SML 1 … C17H20N4O2 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of “|” separated potential molecule structures in the simplified molecular-input line-entry system (SMILES) for the small molecule. The number of values provided MUST match the number of entities reported under “database_identifier”, and the validation software will throw an error if the number of “|” symbols does not match. “null” values between bars are allowed.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String List</p></td>
 </tr>
 <tr>
@@ -3343,7 +3369,7 @@ SML 1 … C17H20N4O2 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … chemical_formula smiles …
@@ -3363,12 +3389,12 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of “|” separated potential standard IUPAC International Chemical Identifier (InChI) of the given substance.</p>
 <p class="tableblock">The number of values provided MUST match the number of entities reported under “database_identifier”, even if this leads to redundant information being reported (i.e. if ambiguity can be resolved in the InChi), and the validation software will throw an error if the number of “|” symbols does not match. “null” values between bars are allowed.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String List</p></td>
 </tr>
 <tr>
@@ -3376,7 +3402,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … chemical_formula … inchi …
@@ -3396,11 +3422,11 @@ SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of “|” separated possible chemical/common names for the small molecule, or general description if a chemical name is unavailable. Multiple names are only to demonstrate ambiguity in the identification. The number of values provided MUST match the number of entities reported under “database_identifier”, and the validation software will throw an error if the number of “|” symbols does not match. “null” values between bars are allowed.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String List</p></td>
 </tr>
 <tr>
@@ -3408,7 +3434,7 @@ SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … description …
@@ -3428,11 +3454,11 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…<
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A URI pointing to the small molecule’s entry in a reference database (e.g., the small molecule’s HMDB or KEGG entry). The number of values provided MUST match the number of entities reported under “database_identifier”, and the validation software will throw an error if the number of “|” symbols does not match. “null” values between bars are allowed.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URI List</p></td>
 </tr>
 <tr>
@@ -3440,7 +3466,7 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…<
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … uri …
@@ -3462,12 +3488,12 @@ SML 3 … http://identifiers.org/hmdb/HMDB0001847 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s precursor’s theoretical neutral mass.</p>
 <p class="tableblock">The number of values provided MUST match the number of entities reported under “database_identifier”, and the validation software will throw an error if the number of “|” symbols does not match. “null” values (in general and between bars) are allowed for molecules that have not been identified only, or for molecules where the neutral mass cannot be calculated. In these cases, the SML entry SHOULD reference features in which exp_mass_to_charge values are captured.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double List</p></td>
 </tr>
 <tr>
@@ -3475,7 +3501,7 @@ SML 3 … http://identifiers.org/hmdb/HMDB0001847 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … theoretical_neutral_mass …
@@ -3495,19 +3521,26 @@ SML 1 … 1234.5 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A “|” separated list of adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on <a href="http://dx.doi.org/10.1351/PAC-REC-06-04-06">terms relating to MS</a> e.g. <span class="M+H">, [M+Na]</span>, <span class="M+NH4">, [M-H]-, [M+Cl]-, [M+H]1</span>. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A “|” separated list of adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on <a href="http://dx.doi.org/10.1351/PAC-REC-06-04-06">terms relating to MS</a> e.g. <code>[M+H]1+</code>, <code>[M+Na]1+</code>, <code>[M+NH4]1+</code>, <code>[M-H]1-</code>, <code>[M+Cl]1-</code>, <code>[M+H]1+</code>. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"[\d*M([\w\d])*([-]<span class="\w\d">)*\]\d*[</span>-]"} List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Regex List</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>\[\d*M([+-][\w\d]+)*\]\d*[+-]</pre>
+</div>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Is Nullable:</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … adduct_ions …
@@ -3527,7 +3560,7 @@ SML 1 … [M+H]1+ | [M+Na]1+ …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The reliability of the given small molecule identification. This must be supplied by the resource and MUST be reported as an integer between 1-4:</p>
 </div>
@@ -3609,7 +3642,7 @@ SML 1 … [M+H]1+ | [M+Na]1+ …</pre>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -3617,7 +3650,7 @@ SML 1 … [M+H]1+ | [M+Na]1+ …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH identifier … reliability …
@@ -3649,11 +3682,11 @@ SML 1 … 2a …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The approach or database search that identified this small molecule with highest confidence.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -3661,7 +3694,7 @@ SML 1 … 2a …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … best_ id_confidence_measure …
@@ -3681,11 +3714,11 @@ SML 1 … [MS, MS:1001477, SpectraST,] …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The best confidence measure in identification (for this type of score) for the given small molecule across all assays. The type of score MUST be defined in the metadata section. If the small molecule was not identified by the specified search engine, “null” MUST be reported. If the confidence measure does not report a numerical confidence value, “null” SHOULD be reported.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -3693,7 +3726,7 @@ SML 1 … [MS, MS:1001477, SpectraST,] …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … best_id_confidence_value …
@@ -3713,11 +3746,11 @@ SML 1 … 0.7 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s abundance in every assay described in the metadata section MUST be reported. Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -3725,7 +3758,7 @@ SML 1 … 0.7 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … abundance_assay[1] …
@@ -3745,11 +3778,11 @@ SML 1 … 0.3 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s abundance in all the study variables described in the metadata section (study_variable[1-n]_average_function), calculated using the method as described in the Metadata section (default = arithmetic mean across assays). Null or zero values may be reported as appropriate. "null" SHOULD be used to report missing quantities, while zero SHOULD be used to indicate a present but not reliably quantifiable value (e.g. below a minimum noise threshold).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -3757,7 +3790,7 @@ SML 1 … 0.3 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … abundance_study_variable[1] …
@@ -3777,11 +3810,11 @@ SML 1 … 0.3 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A measure of the variability of the study variable abundance measurement, calculated using the method as described in the metadata section (study_variable[1-n]_average_function), with a  default = arithmethic co-efficient of variation of the small molecule’s abundance in the given study variable.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -3789,7 +3822,7 @@ SML 1 … 0.3 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … abundance_study_variable[1] abundance_variation_study_variable[1]…
@@ -3809,11 +3842,11 @@ SML 1 … 0.3 0.04 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Additional columns can be added to the end of the small molecule table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<em>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</em>{identifier}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Column</p></td>
 </tr>
 <tr>
@@ -3821,7 +3854,7 @@ SML 1 … 0.3 0.04 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … opt_assay[1]_my_value … opt_global_another_value
@@ -3884,11 +3917,11 @@ SML 1 … My value … some other value</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A within file unique identifier for the small molecule feature.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 </tr>
 <tr>
@@ -3896,7 +3929,7 @@ SML 1 … My value … some other value</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID …
@@ -3917,11 +3950,11 @@ SMF 2 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">References to the identification evidence (SME elements) via referencing SME_ID values. Multiple values MAY be provided as a “|” separated list to indicate ambiguity in the identification or to indicate that different types of data supported the identifiction (see SME_ID_REF_ambiguity_code). For the case of a consensus approach where multiple adduct forms are used to infer the SML ID, different features should just reference the same SME_ID value(s).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">{SME_ID} list</p></td>
 </tr>
 <tr>
@@ -3929,7 +3962,7 @@ SMF 2 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID SME_ID_REFS
@@ -3949,11 +3982,11 @@ SMF 1 5|6|12…</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If multiple values are given under SME_ID_REFS, one of the following codes MUST be provided. 1=Ambiguous identification; 2=Only different evidence streams for the same molecule with no ambiguity; 3=Both ambiguous identification and multiple evidence streams. If there are no or one value under SME_ID_REFs, this MUST be reported as null.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 </tr>
 <tr>
@@ -3961,7 +3994,7 @@ SMF 1 5|6|12…</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code
@@ -3981,19 +4014,26 @@ SMF 1 5|6|12… 1</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. <span class="M+H">, [M+Na]</span>, <span class="M+NH4">, [M-H]-, [M+Cl]-, [M+H]1</span>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. <code>[M+H]1+</code>, <code>[M+Na]1+</code>, <code>[M+NH4]1+</code>, <code>[M-H]1-</code>, <code>[M+Cl]1-</code>, <code>[M+H]1+</code>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\[\d*M([-][\w]*)\]\d*[+-]"}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Regex</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>\[\d*M([+-][\w\d]+)*\]\d*[+-]</pre>
+</div>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Is Nullable:</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … adduct_ion …
@@ -4014,11 +4054,11 @@ SMF 2 … [M+2Na]2+ …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If de-isotoping has not been performed, then the isotopomer quantified MUST be reported here e.g. “+1”, “+2”, “13C peak” using cvParams, otherwise (i.e. for approaches where SMF rows are de-isotoped features) this MUST be null.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If de-isotoping has not been performed, then the isotopomer quantified MUST be reported here e.g. “+1”, “+2”, “13C peak” using CV terms, otherwise (i.e. for approaches where SMF rows are de-isotoped features) this MUST be null.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -4026,7 +4066,7 @@ SMF 2 … [M+2Na]2+ …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … isotopomer …
@@ -4046,11 +4086,11 @@ SMF 1 … [MS,MS:1002957,”isotopomer MS peak”,”13C peak”]…</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <em>exp</em>erimental mass/charge value for the feature, by default assumed to be the mean across assays or a representative value. For approaches that report isotopomers as SMF rows, then the m/z of the isotopomer MUST be reported here.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -4058,7 +4098,7 @@ SMF 1 … [MS,MS:1002957,”isotopomer MS peak”,”13C peak”]…</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … exp_mass_to_charge …
@@ -4078,11 +4118,11 @@ SMF 1 … 1234.5 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The feature’s charge value using positive integers both for positive and negative polarity modes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 </tr>
 <tr>
@@ -4090,7 +4130,7 @@ SMF 1 … 1234.5 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … charge …
@@ -4110,11 +4150,11 @@ SMF 1 … 1 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The apex of the feature on the retention time axis, in a Master or aggregate MS run. Retention time MUST be reported in seconds. Retention time values for individual MS runs (i.e. before alignment) MAY be reported as optional columns. Retention time SHOULD only be null in the case of direct infusion MS or other techniques where a retention time value is absent or unknown. Relative retention time or retention time index values MAY be reported as optional columns, and could be considered for inclusion in future versions of mzTab as appropriate.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -4122,7 +4162,7 @@ SMF 1 … 1 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … retention_time_in_seconds …
@@ -4142,11 +4182,11 @@ SMF 1 … 1345.7 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The start time of the feature on the retention time axis, in a Master or aggregate MS run. Retention time MUST be reported in seconds. Retention time start and end SHOULD only be null in the case of direct infusion MS or other techniques where a retention time value is absent or unknown and MAY be reported in optional columns.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -4154,7 +4194,7 @@ SMF 1 … 1345.7 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … retention_time_in_seconds_start …
@@ -4174,11 +4214,11 @@ SMF 1 … 1327.0 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The end time of the feature on the retention time axis, in a Master or aggregate MS run. Retention time MUST be reported in seconds. Retention time start and end SHOULD only be null in the case of direct infusion MS or other techniques where a retention time value is absent or unknown and MAY be reported in optional columns..</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -4186,7 +4226,7 @@ SMF 1 … 1327.0 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … retention_time_in_seconds_end …
@@ -4206,11 +4246,11 @@ SMF 1 … 1327.8 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The feature’s abundance in every assay described in the metadata section MUST be reported. Null or zero values may be reported as appropriate.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -4218,7 +4258,7 @@ SMF 1 … 1327.8 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SMH SML_ID … abundance_assay[1] …
@@ -4238,11 +4278,11 @@ SMF 1 … 38648 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Additional columns can be added to the end of the small molecule feature table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<em>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</em>{identifier}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Column</p></td>
 </tr>
 <tr>
@@ -4250,7 +4290,7 @@ SMF 1 … 38648 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SFH SMF_ID … opt_assay[1]_my_value … opt_global_another_value
@@ -4310,11 +4350,11 @@ SMF 1 … My value … some other value</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A within file unique identifier for the small molecule evidence result.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 </tr>
 <tr>
@@ -4322,7 +4362,7 @@ SMF 1 … My value … some other value</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID …
@@ -4342,11 +4382,11 @@ SME 1 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A within file unique identifier for the input data used to support this identification e.g. fragment spectrum, RT and m/z pair, isotope profile that was used for the identification process, to serve as a grouping mechanism, whereby multiple rows of results from the same input data share the same ID. The identifiers may be human readable but should not be assumed to be interpretable. For example, if fragmentation spectra have been searched then the ID may be the spectrum reference, or for accurate mass search, the ms_run[2]:458.75.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -4354,7 +4394,7 @@ SME 1 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID evidence_input_id …
@@ -4379,14 +4419,14 @@ SME 3 ms_run[1]:mass=278.65;rt=376.5</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The putative identification for the small molecule sourced from an external database, using the same prefix specified in database[1-n]-prefix.</p>
 <p class="tableblock">This could include additionally a chemical class or an identifier to a spectral library entity, even if its actual identity is unknown.</p>
 <p class="tableblock">For the “no database” case, "null" must be used. The unprefixed use of "null" is prohibited for any other case.
 If no putative identification can be reported for a particular database, it MUST be reported as the database prefix followed by null.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -4394,7 +4434,7 @@ If no putative identification can be reported for a particular database, it MUST
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID identifier …
@@ -4416,13 +4456,13 @@ SME 3 CID:null …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The chemical formula of the identified compound e.g. in a database, assumed to match the theoretical mass to charge (in some cases this will be the derivatized form, including adducts and protons).</p>
 <p class="tableblock">This should be specified in Hill notation <a href="#hill-1900">(EA Hill 1900)</a>, i.e. elements in the order C, H and then alphabetically all other elements. Counts of one may be omitted. Elements should be capitalized properly to avoid confusion (e.g., “CO” vs. “Co”). The chemical formula reported should refer to the neutral form. Charge state is reported by the charge field.</p>
-<p class="tableblock"><strong>Example:</strong> N-acetylglucosamine would be encoded by the string “C8H15NO6”</p></td>
+<p class="tableblock"><strong>Example</strong> N-acetylglucosamine would be encoded by the string “C8H15NO6”</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -4430,7 +4470,7 @@ SME 3 CID:null …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … chemical_formula …
@@ -4450,11 +4490,11 @@ SME 1 … C17H20N4O2 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The potential molecule’s structure in the simplified molecular-input line-entry system (SMILES) for the small molecule.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -4462,7 +4502,7 @@ SME 1 … C17H20N4O2 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … chemical_formula smiles …
@@ -4482,11 +4522,11 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A standard IUPAC International Chemical Identifier (InChI) for the given substance.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -4494,7 +4534,7 @@ SML 1 … C17H20N4O2 C1=CC=C(C=C1)CCNC(=O)CCNNC(=O)C2=CC=NC=C2 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … chemical_formula … inchi …
@@ -4514,11 +4554,11 @@ SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule’s chemical/common name, or general description if a chemical name is unavailable.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 </tr>
 <tr>
@@ -4526,7 +4566,7 @@ SML 1 … C17H20N4O2 … InChI=1S/C17H20N4O2/c22-16(19-12-6-14-4-2-1-3-5-14)9-13
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … chemical_name …
@@ -4546,11 +4586,11 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…<
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A URI pointing to the small molecule’s entry in a database (e.g., the small molecule’s HMDB, Chebi or KEGG entry).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URI</p></td>
 </tr>
 <tr>
@@ -4558,7 +4598,7 @@ SML 1 … N-(2-phenylethyl)-3-[2-(pyridine-4-carbonyl)hydrazinyl]propanamide…<
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … uri …
@@ -4578,11 +4618,11 @@ SME 1 … http://www.hmdb.ca/metabolites/HMDB00054</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If a derivatized form has been analysed by MS, then the functional group attached to the molecule should be reported here using suitable userParam or cvParams as appropriate.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If a derivatized form has been analysed by MS, then the functional group attached to the molecule should be reported here using suitable userParam or CV terms as appropriate.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -4590,7 +4630,7 @@ SME 1 … http://www.hmdb.ca/metabolites/HMDB00054</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>COM This example shows a triple substitution with a TMS group (3TMS)
@@ -4611,19 +4651,26 @@ SML CID:00027395 … [CHEBI, CHEBI:51088, trimethylsilyl group, 3] …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. <span class="M+H">, [M+Na]</span>, [M+NH4]+, [M-H]-, [M+Cl]-. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. <code>[M+H]+</code>, <code>[M+Na]1+</code>, <code>[M+NH4]1+</code>, <code>[M-H]1-</code>, <code>[M+Cl]1-</code>. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Regex{"\[\d*M([-][\w]*)\]\d*[+-]"}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Regex</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>\[\d*M([+-][\w\d]+)*\]\d*[+-]</pre>
+</div>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Is Nullable:</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … adduct_ion …
@@ -4647,11 +4694,11 @@ SME 2 … [M+Cl]- …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <em>exp</em>erimental mass/charge value for the precursor ion. If multiple adduct forms have been combined into a single identification event/search, then a single value e.g. for the protonated form SHOULD be reported here.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -4659,7 +4706,7 @@ SME 2 … [M+Cl]- …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … exp_mass_to_charge …
@@ -4679,11 +4726,11 @@ SME 1 … 1234.5 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The small molecule evidence&#8217;s charge value using positive integers both for positive and negative polarity modes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 </tr>
 <tr>
@@ -4691,7 +4738,7 @@ SME 1 … 1234.5 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … charge …
@@ -4711,11 +4758,11 @@ SME 1 … 1 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The theoretical mass/charge value for the small molecule or the database mass/charge value (for a spectral library match).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -4723,7 +4770,7 @@ SME 1 … 1 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … theoretical_mass_to_charge …
@@ -4743,12 +4790,12 @@ SME 1 … 1234.71 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Reference to a spectrum in a spectrum file, for example a fragmentation spectrum has been used to support the identification. If a separate spectrum file has been used for fragmentation spectrum, this MUST be reported in the metadata section as additional ms_runs. The reference must be in the format ms_run[1-n]:{SPECTRA_REF} where SPECTRA_REF MUST follow the format defined in 5.2 (including references to chromatograms where these are used to inform identification). Multiple spectra MUST be referenced using a “|” delimited list for the (rare) cases in which search engines have combined or aggregated multiple spectra  in advance of the search to make identifications.</p>
 <p class="tableblock">If a fragmentation spectrum has not been used, the value should indicate the ms_run to which is identification is mapped e.g. “ms_run[1]”.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String List</p></td>
 </tr>
 <tr>
@@ -4756,7 +4803,7 @@ SME 1 … 1234.71 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … spectra_ref …
@@ -4776,11 +4823,11 @@ SME 1 … ms_run[1]:index=5 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The database search, search engine or process that was used to identify this small molecule e.g. the name of software, database or manual curation etc. If manual validation has been performed quality, the following CV term SHOULD be used: "quality estimation by manual validation" MS:1001058.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -4788,7 +4835,7 @@ SME 1 … ms_run[1]:index=5 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … identification_method…
@@ -4808,11 +4855,11 @@ SME 1 … [MS, MS:1001477, SpectraST,] …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The highest MS level used to inform identification e.g. MS1 (accurate mass only) = “ms level=1” or from an MS2 fragmentation spectrum = “ms level=2”. For direct fragmentation or data independent approaches where fragmentation data is used, appropriate CV terms SHOULD be used .</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Parameter</p></td>
 </tr>
 <tr>
@@ -4820,7 +4867,7 @@ SME 1 … [MS, MS:1001477, SpectraST,] …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … ms_level …
@@ -4840,11 +4887,11 @@ SME 1 … [MS, MS:1000511, ms level, 2] …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Any statistical value or score for the identification. The metadata section reports the type of score used, as id_confidence_measure[1-n] of type Param.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Double</p></td>
 </tr>
 <tr>
@@ -4852,7 +4899,7 @@ SME 1 … [MS, MS:1000511, ms level, 2] …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>MTD id_confidence_measure[1] [MS, MS:1001419, SpectraST:discriminant score F,]
@@ -4874,11 +4921,11 @@ SME 1 … 0.7 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The rank of this identification from this approach as increasing integers from 1 (best ranked identification). Ties (equal score) are represented by using the same rank – defaults to 1 if there is no ranking system used.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 </tr>
 <tr>
@@ -4886,7 +4933,7 @@ SME 1 … 0.7 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>FALSE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … rank …
@@ -4906,11 +4953,11 @@ SME 1 … 1 …</pre>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Additional columns can be added to the end of the small molecule evidence table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<em>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</em>{identifier}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Column</p></td>
 </tr>
 <tr>
@@ -4918,7 +4965,7 @@ SME 1 … 1 …</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TRUE</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example:</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="literalblock">
 <div class="content">
 <pre>SEH SME_ID … opt_assay[1]_my_value … opt_global_another_value
@@ -4986,37 +5033,49 @@ SML 1 … My value … some other value</pre>
 <p>Joel Rein, Wellcome Sanger Institute, Cambridge, United Kingdom.</p>
 </li>
 <li>
-<p>Kenneth Haug, European Bioinformatics Institute, Cambridge, United Kingdom.</p>
+<p>Timo Sachsenberg, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany.</p>
 </li>
 <li>
-<p>Saravanan Dayalan, Metabolomics Australia, The University of Melbourne, Parkville, Australia.</p>
+<p>Jürgen Hartler, Institute of Computational Biotechnology at Graz University of Technology and Center for Explorative Lipidomics, Graz, Austria.</p>
 </li>
 <li>
-<p>Philippe Rocca-Serra, Oxford e-Research Centre, University of Oxford, United Kingdom.</p>
-</li>
-<li>
-<p>Da Qi, BGI-Shenzhen, China.</p>
+<p>Kenneth Haug, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom.</p>
 </li>
 <li>
 <p>Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.</p>
 </li>
 <li>
-<p>Timo Sachsenberg, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany.</p>
-</li>
-<li>
 <p>Oliver Alka, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany.</p>
 </li>
 <li>
-<p>Juan Antonio Vizcaíno, European Bioinformatics Institute, Cambridge, United Kingdom.</p>
+<p>Saravanan Dayalan, Metabolomics Australia, The University of Melbourne, Parkville, Australia.</p>
+</li>
+<li>
+<p>Jake TM Pearce, MRC-NIHR National Phenome Center, Imperial College London, London, United Kingdom.</p>
+</li>
+<li>
+<p>Philippe Rocca-Serra, Oxford e-Research Centre, University of Oxford, United Kingdom.</p>
+</li>
+<li>
+<p>Da Qi, Institute of Integrative Biology, University of Liverpool, United Kingdom and BGI-Shenzhen, Shenzen, China.</p>
+</li>
+<li>
+<p>Martin Eisenacher, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.</p>
+</li>
+<li>
+<p>Yasset Perez-Riverol, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom.</p>
+</li>
+<li>
+<p>Juan Antonio Vizcaíno, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom.</p>
 </li>
 <li>
 <p>Reza M Salek, International Agency for Research on Cancer, Lyon, France.</p>
 </li>
 <li>
-<p>Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle, Germany.</p>
+<p>Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle and German Centre for Integrative Biodiversity Researchm Halle-Jena-Leipzig, Germany.</p>
 </li>
 <li>
-<p>Andrew R Jones, University of Liverpool, United Kingdom.</p>
+<p>Andrew R Jones, Institute of Integrative Biology, University of Liverpool, United Kingdom.</p>
 </li>
 </ul>
 </div>
@@ -5082,7 +5141,7 @@ SML 1 … My value … some other value</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-13 05:30:52 UTC
+Last updated 2018-09-13 15:09:00 UTC
 </div>
 </div>
 </body>
