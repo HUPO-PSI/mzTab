@@ -415,7 +415,7 @@ In the following list of fields any term encapsulated by `{}` is meant as a vari
 
 Regular expressions (*Regex*) follow the Perl regular expression syntax with minimal escaping.
 
-===== Core Metadata
+*Core Metadata*
 
 [[mztab-version]]
 ==== mzTab-version
@@ -793,8 +793,8 @@ MTD sample[2]-description Healthy control samples.
 
 [cols=",",]
 |=========================================================================
-|*Description* |Parameters describing the sample’s additional properties. Dates MUST be provided in ISO-8601 format.
-|*Type* |Parameter
+|*Description:* |Parameters describing the sample’s additional properties. Dates MUST be provided in ISO-8601 format.
+|*Type:* |Parameter
 |*Mandatory* |False
 |*Example* a|
 ....
