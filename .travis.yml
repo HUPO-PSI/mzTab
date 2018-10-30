@@ -1,5 +1,7 @@
 language: java
-
+env:
+  global:
+   - BUILD_DATE=$(date -u)
 jdk:
  - openjdk8
 
@@ -16,8 +18,8 @@ before_install:
 
 script:
   - travis_wait 30 $TRAVIS_BUILD_DIR/validate.sh
-  - docker run -v $TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft/:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -d book -D /documents/output mzTab_format_specification_2_0-M_draft.adoc      
-  - docker run -v $TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft/:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -d book -D /documents/output mzTab_format_specification_2_0-M_draft.adoc    
+  - docker run -v $TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft/:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -d book -a commit-hash=$TRAVIS_COMMIT -a build-date=$BUILD_DATE -D /documents/output mzTab_format_specification_2_0-M_draft.adoc      
+  - docker run -v $TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft/:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -d book -a commit-hash=$TRAVIS_COMMIT -a build-date=$BUILD_DATE -D /documents/output mzTab_format_specification_2_0-M_draft.adoc    
 
 after_error: 
   - docker logs asciidoc-to-html
