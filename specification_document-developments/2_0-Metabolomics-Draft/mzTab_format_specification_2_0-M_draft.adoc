@@ -48,7 +48,7 @@ This document is a _recommendation_ for a common, community-driven standard data
 
 _Authors_
 
-Please see the <<authors>> section for details on the authors and editors of this document.
+Please see <<authors>> for details on the authors and editors of this document.
 
 [abstract]
 [[abstract]]
