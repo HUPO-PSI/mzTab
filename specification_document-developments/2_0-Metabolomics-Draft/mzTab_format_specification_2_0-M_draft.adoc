@@ -2304,7 +2304,7 @@ It furthermore supporte transcoding from a JSON representation of the object mod
 [[authors]]
 == Authors
 
-* Nils Hoffmann, Leibniz-Institut für Analytische Wissenschaften – ISAS – e.V., Dortmund, Germany.
+* Nils Hoffmann, Leibniz-Institut für Analytische Wissenschaften – ISAS – e.V., Dortmund, Germany. nils.hoffmann@isas.de
 * Joel Rein, Wellcome Sanger Institute, Cambridge, United Kingdom.
 * Timo Sachsenberg, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany.
 * Jürgen Hartler, Institute of Computational Biotechnology at Graz University of Technology and Center for Explorative Lipidomics, Graz, Austria.
@@ -2320,7 +2320,7 @@ It furthermore supporte transcoding from a JSON representation of the object mod
 * Juan Antonio Vizcaíno, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom.
 * Reza M Salek, International Agency for Research on Cancer, Lyon, France.
 * Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle and German Centre for Integrative Biodiversity Researchm Halle-Jena-Leipzig, Germany.
-* Andrew R Jones, Institute of Integrative Biology, University of Liverpool, United Kingdom. (Editor)
+* Andrew R Jones, Institute of Integrative Biology, University of Liverpool, United Kingdom. (Editor) Andrew.Jones@liverpool.ac.uk
 
 
 [bibliography]
