@@ -35,7 +35,7 @@ Date created: June 1st, 2012
 
 Last updated: {build-date}
 
-With commit: {commit-hash} https://github.com/HUPO-PSI/mzTab/commit/{commit-hash}
+Based on commit: https://github.com/HUPO-PSI/mzTab/commit/{commit-hash}[{commit-hash}]
 
 The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT Status)
 
