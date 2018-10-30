@@ -24,13 +24,21 @@ endif::[]
 == Preface
 _Status of This Document_
 
-This document presents the final specification of the mzTab data format developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.
+This document presents the specification of the mzTab data format for metabolomics developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.
 
 _Version of This Document_
 
-The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT Status).
+Date created: June 1st, 2012
+
+Last update: October 30th, 2018
+
+The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT Status)
 
 The latest draft version of this document may be found at https://github.com/HUPO-PSI/mzTab.
+
+_Type of This Document_
+
+This document is a _recommendation_ for a common, community-driven standard data exchange format in metabolomics.
 
 [abstract]
 [[abstract]]
@@ -2307,7 +2315,7 @@ It furthermore supporte transcoding from a JSON representation of the object mod
 * Juan Antonio Vizcaíno, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom.
 * Reza M Salek, International Agency for Research on Cancer, Lyon, France.
 * Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle and German Centre for Integrative Biodiversity Researchm Halle-Jena-Leipzig, Germany.
-* Andrew R Jones, Institute of Integrative Biology, University of Liverpool, United Kingdom.
+* Andrew R Jones, Institute of Integrative Biology, University of Liverpool, United Kingdom. (Editor)
 
 
 [bibliography]
