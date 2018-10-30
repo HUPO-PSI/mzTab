@@ -18,6 +18,9 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
+:commit-hash: UNDEFINED
+:build-date: UNDEFINED
+
 //disable section numbering
 :!sectnums:
 [preface]
@@ -30,7 +33,8 @@ _Version of This Document_
 
 Date created: June 1st, 2012
 
-Last update: October 30th, 2018
+Last updated: {build-date}
+With commit: {commit-hash} https://github.com/HUPO-PSI/mzTab/commit/{commit-hash}
 
 The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT Status)
 
