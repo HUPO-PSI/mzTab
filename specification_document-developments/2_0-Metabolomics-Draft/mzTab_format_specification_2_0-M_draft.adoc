@@ -20,6 +20,7 @@ endif::[]
 
 :commit-hash: UNDEFINED
 :build-date: UNDEFINED
+:document-version: 2.0.0-release candidate 2018 (DRAFT)
 
 //disable section numbering
 :!sectnums:
@@ -37,13 +38,17 @@ Last updated: {build-date}
 
 Based on commit: https://github.com/HUPO-PSI/mzTab/commit/{commit-hash}[{commit-hash}]
 
-The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT Status)
+The current version of this document is: version {document-version}
 
 The latest draft version of this document may be found at https://github.com/HUPO-PSI/mzTab.
 
 _Type of This Document_
 
 This document is a _recommendation_ for a common, community-driven standard data exchange format in metabolomics.
+
+_Authors_
+
+Please see the <<authors>> section for details on the authors and editors of this document.
 
 [abstract]
 [[abstract]]
