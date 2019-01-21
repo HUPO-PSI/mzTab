@@ -1312,7 +1312,7 @@ MTD small_molecule_feature-quantification_unit [MS, MS:1002887, Progenesis QI no
 ==== small_molecule-identification_reliability
 [cols=",",]
 |================================================================================================================================================
-|*Description* |The system used for giving reliability / confidence codes to small molecule identifications MUST be specified if not using the default codes (see <<reliability>> for details).
+|*Description* |The system used for giving reliability / confidence codes to small molecule identifications MUST be specified if not using the default codes (see <<reliability>> and for details).
 |*Type* |Param
 |*Mandatory* |False
 |*Example* a|
@@ -1598,7 +1598,9 @@ The reliability of the given small molecule identification. This must be supplie
 . putatively characterized compound class (3)
 . unknown compound (4)
 
-These MAY be replaced using a suitable CV term in the metadata section e.g. to use MSI recommendation levels.
+These MAY be replaced using a suitable CV term in the metadata section e.g. to use MSI recommendation levels (see <<small_molecule-identification_reliability>> for details).
+
+The following CV terms are already available within the PSI MS CV. Future schemes may be implemented by extending the PSI MS CV with new terms and associated levels.
 
 The MSI has recently discussed an extension of the original four level scheme into a five level scheme https://www.ncbi.nlm.nih.gov/pubmed/29748461[MS:1002896] (compound identification confidence level) with levels
 
