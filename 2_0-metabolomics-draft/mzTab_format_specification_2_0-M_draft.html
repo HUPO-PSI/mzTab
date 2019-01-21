@@ -506,10 +506,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Date created: June 1st, 2012</p>
 </div>
 <div class="paragraph">
-<p>Last updated: Mon Jan 21 15:57:23 UTC 2019</p>
+<p>Last updated: Mon Jan 21 16:08:29 UTC 2019</p>
 </div>
 <div class="paragraph">
-<p>Based on commit: <a href="https://github.com/HUPO-PSI/mzTab/commit/150314c11c9e5d8d70009baf09a129c403224f96">150314c11c9e5d8d70009baf09a129c403224f96</a></p>
+<p>Based on commit: <a href="https://github.com/HUPO-PSI/mzTab/commit/a2800a4a0237e37ea4274c76ca71987f748b791a">a2800a4a0237e37ea4274c76ca71987f748b791a</a></p>
 </div>
 <div class="paragraph">
 <p>The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT)</p>
@@ -535,7 +535,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="abstract">Abstract</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The  Metabolomics Standards Initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in the proteomics context.</p>
+<p>The  Metabolomics Standards Initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, which was primarily used in the proteomics context before (mzTab v 1.0).</p>
+</div>
+<div class="paragraph">
+<p>The intention of this specification, mzTab for Metabolomics (mzTab-M), is to extend the concepts established in the previous specification, so that more detail can be captured about the evidence trail for quantification, including MS features (different charge states or adducts) and the evidence trail for identifications, specifically for MS-based experiments on <em>small molecules</em> (metabolites, lipids, contaminants, etc.). mzTab-M is not formally backwards compatible, but follows a similar design pattern to simplify adaptation of existing software and to facilitate its integration into bioinformatics processing and submission workflows.</p>
 </div>
 </div>
 </div>
@@ -5187,7 +5190,7 @@ It furthermore supports transcoding from a JSON representation of the object mod
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-21 15:57:23 UTC
+Last updated 2019-01-21 16:08:29 UTC
 </div>
 </div>
 </body>
