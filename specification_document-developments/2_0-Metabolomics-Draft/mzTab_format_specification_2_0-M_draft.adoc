@@ -2312,21 +2312,21 @@ It furthermore supports transcoding from a JSON representation of the object mod
 == Authors
 
 * Nils Hoffmann, Leibniz-Institut für Analytische Wissenschaften – ISAS – e.V., Dortmund, Germany. nils.hoffmann@isas.de
-* Joel Rein, Wellcome Sanger Institute, Cambridge, United Kingdom.
-* Timo Sachsenberg, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany.
-* Jürgen Hartler, Institute of Computational Biotechnology at Graz University of Technology and Center for Explorative Lipidomics, Graz, Austria.
-* Kenneth Haug, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom.
-* Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
-* Oliver Alka, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany.
-* Saravanan Dayalan, Metabolomics Australia, The University of Melbourne, Parkville, Australia.
-* Jake TM Pearce, MRC-NIHR National Phenome Center, Imperial College London, London, United Kingdom.
-* Philippe Rocca-Serra, Oxford e-Research Centre, University of Oxford, United Kingdom.
-* Da Qi, Institute of Integrative Biology, University of Liverpool, United Kingdom and BGI-Shenzhen, Shenzen, China.
-* Martin Eisenacher, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany.
-* Yasset Perez-Riverol, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom.
-* Juan Antonio Vizcaíno, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom.
-* Reza M Salek, International Agency for Research on Cancer, Lyon, France.
-* Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle and German Centre for Integrative Biodiversity Researchm Halle-Jena-Leipzig, Germany.
+* Joel Rein, Wellcome Sanger Institute, Cambridge, United Kingdom. joel.rein@sanger.ac.uk
+* Timo Sachsenberg, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany. sachsenb@informatik.uni-tuebingen.de
+* Jürgen Hartler, Institute of Computational Biotechnology at Graz University of Technology and Center for Explorative Lipidomics, Graz, Austria. juergen.hartler@tugraz.at
+* Kenneth Haug, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom. kenneth@ebi.ac.uk
+* Gerhard Mayer, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany. gerhard.mayer@rub.de
+* Oliver Alka, Applied Bioinformatics Group, Center for Bioinformatics, University of Tübingen, Germany. alka@informatik.uni-tuebingen.de
+* Saravanan Dayalan, Metabolomics Australia, The University of Melbourne, Parkville, Australia. sdayalan@unimelb.edu.au
+* Jake TM Pearce, MRC-NIHR National Phenome Center, Imperial College London, London, United Kingdom. jake.pearce@imperial.ac.uk
+* Philippe Rocca-Serra, Oxford e-Research Centre, University of Oxford, United Kingdom. philippe.rocca-serra@oerc.ox.ac.uk
+* Da Qi, Institute of Integrative Biology, University of Liverpool, United Kingdom and BGI-Shenzhen, Shenzen, China. qida@genomics.cn
+* Martin Eisenacher, Medizinisches Proteom-Center, Ruhr-Universität Bochum, Germany. martin.eisenacher@ruhr-uni-bochum.de
+* Yasset Perez-Riverol, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom. yperez@ebi.ac.uk
+* Juan Antonio Vizcaíno, European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Cambridge, United Kingdom. juan@ebi.ac.uk
+* Reza M Salek, International Agency for Research on Cancer, Lyon, France. r7salek@gmail.com
+* Steffen Neumann, Leibniz Institute of Plant Biochemistry, Halle and German Centre for Integrative Biodiversity Researchm Halle-Jena-Leipzig, Germany. sneumann@ipb-halle.de
 * Andrew R Jones, Institute of Integrative Biology, University of Liverpool, United Kingdom. (Editor) Andrew.Jones@liverpool.ac.uk
 
 
