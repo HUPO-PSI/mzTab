@@ -2120,7 +2120,7 @@ SML CID:00027395 … [CHEBI, CHEBI:51088, trimethylsilyl group, 3] …
 ==== adduct_ion
 [cols=",",]
 |============================================================================================================================================================================================================================================================================================================
-|*Description* |The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. `[M+H]+`, `[M+Na]1+`, `[M+NH4]1+`, `[M-H]1-`, `[M+Cl]1-`. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
+|*Description* |The assumed classification of this molecule's adduct ion after detection, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. `[M+H]+`, `[M+Na]1+`, `[M+NH4]1+`, `[M-H]1-`, `[M+Cl]1-`. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
 |*Type* a|Regex
 ....
 \[\d*M([+-][\w\d]+)*\]\d*[+-]
