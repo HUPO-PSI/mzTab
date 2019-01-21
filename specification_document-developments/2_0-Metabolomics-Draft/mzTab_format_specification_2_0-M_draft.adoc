@@ -295,7 +295,7 @@ image::img/media/figure2.png[image,width=100%,pdfwidth=100%, title=" A) The summ
 === Ambiguity in identification
 It is common in metabolomics and lipidomics for significant ambiguity to remain after data processing in the identification of molecules. In the top level (SML) table, multiple identifiers MAY be provided in several columns: database_identifier, chemical_formula, smiles, inchi, chemical_name and uri. If there is ambiguity in the actual identity of the molecule, multiple identifiers SHOULD be reported separated by the "|" character. The number of elements separated by | characters MUST be identical in all columns where data is reported to emphasize the correspondence across columns.
 
-The SML element <<reliability>> MUST be assigned a value to indicate the confidence or ambiguity of the overall assignment.
+The SML element <<reliability>> MUST be assigned a value to indicate the confidence or ambiguity of the overall assignment. By default, mzTab-M assumes the MSI 4 level system (see <<reliability>>). A different system of confidence levels MAY be defined in the metadata section (see <<small_molecule-identification_reliability>> for details and examples). New systems can be supported in the future by extending the PSI MS controlled vocabulary.
 
 When referencing from the features (SMF) elements to evidence (SME) elements, it is possible for a SMF element to reference multiple SME elements. However, there are potentially several reasons for a 1 to many relationship. A different code MUST be provided in the SME_ID_REF_ambiguity_code element to clarify the case:
 
