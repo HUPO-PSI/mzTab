@@ -97,9 +97,9 @@ The remainder of this document is structured as follows.
 <<conclusions>> Conclusions are presented last.
 
 [[use-cases-for-mztab]]
-== Use Cases for mzTab
+== Requirements for mzTab
 
-The following cases of usage have driven the development of the mzTab data model, and are used to define the scope of the format in version 2.0.0.
+The following requirements have driven the development of the mzTab data model, and are used to define the scope of the format in version 2.0.0.
 
 1. mzTab-M files should be simple enough to make metabolomics results accessible to people outside the respective fields. This should facilitate the sharing of data beyond the borders of the fields and make it accessible to non-experts.
 
