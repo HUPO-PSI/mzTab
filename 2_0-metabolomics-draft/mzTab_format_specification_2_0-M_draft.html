@@ -506,10 +506,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Date created: June 1st, 2012</p>
 </div>
 <div class="paragraph">
-<p>Last updated: Mon Jan 21 14:54:09 UTC 2019</p>
+<p>Last updated: Mon Jan 21 15:08:28 UTC 2019</p>
 </div>
 <div class="paragraph">
-<p>Based on commit: <a href="https://github.com/HUPO-PSI/mzTab/commit/43220ac23965bf64e552e1caa8ef05044acba957">43220ac23965bf64e552e1caa8ef05044acba957</a></p>
+<p>Based on commit: <a href="https://github.com/HUPO-PSI/mzTab/commit/519d9ff571a530ce608e3d7b41527df39cd2a48c">519d9ff571a530ce608e3d7b41527df39cd2a48c</a></p>
 </div>
 <div class="paragraph">
 <p>The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT)</p>
@@ -996,7 +996,7 @@ There is deliberately no attempt to define the boundary of the term “sample”
 <p>It is common in metabolomics and lipidomics for significant ambiguity to remain after data processing in the identification of molecules. In the top level (SML) table, multiple identifiers MAY be provided in several columns: database_identifier, chemical_formula, smiles, inchi, chemical_name and uri. If there is ambiguity in the actual identity of the molecule, multiple identifiers SHOULD be reported separated by the "|" character. The number of elements separated by | characters MUST be identical in all columns where data is reported to emphasize the correspondence across columns.</p>
 </div>
 <div class="paragraph">
-<p>The SML element <a href="#reliability">Section 6.3.11</a> MUST be assigned a value to indicate the confidence or ambiguity of the overall assignment.</p>
+<p>The SML element <a href="#reliability">Section 6.3.11</a> MUST be assigned a value to indicate the confidence or ambiguity of the overall assignment. By default, mzTab-M assumes the MSI 4 level system (see <a href="#reliability">Section 6.3.11</a>). A different system of confidence levels MAY be defined in the metadata section (see <a href="#small_molecule-identification_reliability">Section 6.2.57</a> for details and examples). New systems can be supported in the future by extending the PSI MS controlled vocabulary.</p>
 </div>
 <div class="paragraph">
 <p>When referencing from the features (SMF) elements to evidence (SME) elements, it is possible for a SMF element to reference multiple SME elements. However, there are potentially several reasons for a 1 to many relationship. A different code MUST be provided in the SME_ID_REF_ambiguity_code element to clarify the case:</p>
@@ -5184,7 +5184,7 @@ It furthermore supports transcoding from a JSON representation of the object mod
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-21 14:54:09 UTC
+Last updated 2019-01-21 15:08:28 UTC
 </div>
 </div>
 </body>
