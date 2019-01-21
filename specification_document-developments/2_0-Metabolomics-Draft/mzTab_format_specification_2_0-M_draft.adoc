@@ -1572,7 +1572,7 @@ SML 1 … 1234.5 …
 ==== adduct_ions
 [cols=",",]
 |============================================================================================================================================================================================================================================================================================================================================================
-|*Description* |A “\|” separated list of adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on http://dx.doi.org/10.1351/PAC-REC-06-04-06[terms relating to MS] e.g. `[M+H]1+`, `[M+Na]1+`, `[M+NH4]1+`, `[M-H]1-`, `[M+Cl]1-`, `[M+H]1+`. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
+|*Description* |A “\|” separated list of detected adducts for this this molecule, following the general style in the 2013 IUPAC recommendations on http://dx.doi.org/10.1351/PAC-REC-06-04-06[terms relating to MS] e.g. `[M+H]1+`, `[M+Na]1+`, `[M+NH4]1+`, `[M-H]1-`, `[M+Cl]1-`, `[M+H]1+`. If the adduct classification is ambiguous with regards to identification evidence it MAY be null.
 |*Type* a|Regex List
 ....
 \[\d*M([+-][\w\d]+)*\]\d*[+-]
@@ -1806,7 +1806,7 @@ SMF 1 5\|6\|12… 1
 ==== adduct_ion
 [cols=",",]
 |==========================================================================================================================================================================================================
-|*Description* |The assumed adduct classification of this molecule, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. `[M+H]1+`, `[M+Na]1+`, `[M+NH4]1+`, `[M-H]1-`, `[M+Cl]1-`, `[M+H]1+`.
+|*Description* |The assumed classification of this molecule's adduct ion after detection, following the general style in the 2013 IUPAC recommendations on terms relating to MS e.g. `[M+H]1+`, `[M+Na]1+`, `[M+NH4]1+`, `[M-H]1-`, `[M+Cl]1-`, `[M+H]1+`.
 |*Type* a| 
 Regex
 ....
