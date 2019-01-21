@@ -54,7 +54,9 @@ Please see <<authors>> for details on the authors and editors of this document.
 [[abstract]]
 == Abstract
 
-The  Metabolomics Standards Initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, also used in the proteomics context.
+The  Metabolomics Standards Initiative (MSI) and the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) define community standards for data representation in proteomics/metabolomics to facilitate data comparison, exchange and verification. In this context, the two organizations are working together on a shared standard for downstream results, following mass spectrometry (MS) analysis. This document defines a tab-delimited text file format to report metabolomics results, based on a shared core mzTab format, which was primarily used in the proteomics context before (mzTab v 1.0). 
+
+The intention of this specification, mzTab for Metabolomics (mzTab-M), is to extend the concepts established in the previous specification, so that more detail can be captured about the evidence trail for quantification, including MS features (different charge states or adducts) and the evidence trail for identifications, specifically for MS-based experiments on _small molecules_ (metabolites, lipids, contaminants, etc.). mzTab-M is not formally backwards compatible, but follows a similar design pattern to simplify adaptation of existing software and to facilitate its integration into bioinformatics processing and submission workflows. 
 
 //reenable section numbering
 :sectnums:
