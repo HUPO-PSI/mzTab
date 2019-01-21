@@ -503,7 +503,7 @@ MTD description An experiment investigating the effects of Il-6...
 
 [cols=",",]
 |=================================================================================================================================================================================================================================================================
-|*Description* |A list of parameters describing a sample processing step. The order of the data_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “\|”.
+|*Description* |A list of parameters describing a sample processing, preparation or handling step similar to a biological or analytical methods report. The order of the sample_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “\|”. http://psidev.info/sepcv
 |*Type* |Parameter List
 |*Mandatory* |False
 |*Example* a|
