@@ -506,10 +506,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Date created: June 1st, 2012</p>
 </div>
 <div class="paragraph">
-<p>Last updated: Tue Jan 22 14:56:28 UTC 2019</p>
+<p>Last updated: Tue Jan 22 15:19:09 UTC 2019</p>
 </div>
 <div class="paragraph">
-<p>Based on commit: <a href="https://github.com/HUPO-PSI/mzTab/commit/e54068dd47ee8e90b152fadf81e5e0414566a175">e54068dd47ee8e90b152fadf81e5e0414566a175</a></p>
+<p>Based on commit: <a href="https://github.com/HUPO-PSI/mzTab/commit/4d6ae87a807ca68417c19c15f7bd5c368ea53bba">4d6ae87a807ca68417c19c15f7bd5c368ea53bba</a></p>
 </div>
 <div class="paragraph">
 <p>The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT)</p>
@@ -1228,16 +1228,16 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <div class="sect2">
 <h3 id="sections">6.1. Sections</h3>
 <div class="paragraph">
-<p>The mzTab-M format consists of four cross-referenced data tables (&lt;figure-mztab-sections&gt;): metadata (MTD), Small Molecule (SML), Small Molecule Feature (SMF) and the Small Molecule Evidence (SME). The MTD and SML tables are mandatory, and for a file to contain any evidence about how molecules were quantified or identified by software, then all four tables must be present. The tables must follow the order MTD, SML, SMF and SME, with a blank line separating each table. The structure of each table, in terms of the rows and columns that must be present is tightly specified, as explained in the following sections, and formally in the mzTab-M specification document.</p>
+<p>The mzTab-M format consists of four cross-referenced data tables (<a href="#figure-mztab-sections">Figure 3</a>): metadata (MTD), Small Molecule (SML), Small Molecule Feature (SMF) and the Small Molecule Evidence (SME). The MTD and SML tables are mandatory, and for a file to contain any evidence about how molecules were quantified or identified by software, then all four tables must be present. The tables must follow the order MTD, SML, SMF and SME, with a blank line separating each table. The structure of each table, in terms of the rows and columns that must be present is tightly specified, as explained in the following sections, and formally in the mzTab-M specification document.</p>
+</div>
+<div class="paragraph">
+<p>mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) Section. In practice, we expect that most files SHOULD also include one Small Molecule Feature (SMF) section, and one Small Molecule Evidence (SME) Section. Files lacking SMF and SME sections can only present summary data about quantified molecules, without any evidence trail for how those values were derived. It will be left to reading software to determine whether additional validation will be requested such that SMF and SME tables MUST be present.</p>
 </div>
 <div id="figure-mztab-sections" class="imageblock">
 <div class="content">
 <img src="img/media/figure-mztab-sections.png" alt="image" width="100%">
 </div>
 <div class="title">Figure 3. Overall structure of an mzTab-M file. A) The metadata about the experiment, describing experimental design (study variables and assays), links to other files etc.; B) The Small Molecule (SML) table, capturing “final” results table i.e. overall calculated quantification value (and identity where known) of a metabolite; C) Quantification value in each (aligned) MS run for MS1 features e.g. mapped to individual adducts or charge states of a molecule; D) Evidence supporting identification (with ambiguity if needed) for molecules, using CV terms for scores/statistics where available.</div>
-</div>
-<div class="paragraph">
-<p>mzTab-M files MUST have one Metadata (MTD) section and one Small Molecule (SML) Section. In practice, we expect that most files SHOULD also include one Small Molecule Feature (SMF) section, and one Small Molecule Evidence (SME) Section. Files lacking SMF and SME sections can only present summary data about quantified molecules, without any evidence trail for how those values were derived. It will be left to reading software to determine whether additional validation will be requested such that SMF and SME tables MUST be present.</p>
 </div>
 </div>
 <div class="sect2">
@@ -5202,7 +5202,7 @@ It furthermore supports transcoding from a JSON representation of the object mod
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-22 14:56:27 UTC
+Last updated 2019-01-22 15:19:09 UTC
 </div>
 </div>
 </body>
