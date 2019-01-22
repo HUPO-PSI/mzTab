@@ -84,7 +84,7 @@ This document presents a specification, not a tutorial. As such, the presentatio
 
 The remainder of this document is structured as follows.
 
-<<use-cases-for-mztab>> lists use cases mzTab-M is designed to support.
+<<use-cases-for-mztab>> lists requirements that mzTab-M is designed to support.
 
 <<notational-conventions>> describes the terminology used.
 
