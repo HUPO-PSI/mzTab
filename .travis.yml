@@ -2,9 +2,9 @@ language: java
 env:
   global:
    - BUILD_DATE=$(date -u)
-   - MZTAB-M_IN=$TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft
-   - MZTAB-M_OUT=$MZTAB-M_IN/output
-   - MZTAB-M_DOC=mzTab_format_specification_2_0-M_draft.adoc  
+   - MZTAB_M_IN=$TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft
+   - MZTAB_M_OUT=$MZTAB_M_IN/output
+   - MZTAB_M_DOC=mzTab_format_specification_2_0-M_draft.adoc  
 jdk:
  - openjdk8
 
@@ -15,13 +15,15 @@ install: false
 services:
   - docker                  
 
-before_install:            
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y pandoc
   - mkdir -p output
   - docker pull asciidoctor/docker-asciidoctor
 
 script:
-  - travis_wait 30 $TRAVIS_BUILD_DIR/validate.sh
-  - $TRAVIS_BUILD_DIR/build-docs.sh -i $MZTAB-M_IN -o $MZTAB-M_OUT -c $TRAVIS_COMMIT -d $BUILD_DATE -f $MZTAB-M_DOC
+#  - travis_wait 30 $TRAVIS_BUILD_DIR/validate.sh
+  - $TRAVIS_BUILD_DIR/build-docs.sh -i $MZTAB_M_IN -o $MZTAB_M_OUT -c $TRAVIS_COMMIT -d $BUILD_DATE -f $MZTAB_M_DOC
 
 after_error: 
   - docker logs asciidoc-to-html
@@ -35,9 +37,9 @@ after_failure:
 
 after_success:      
   - mkdir output/2_0-metabolomics-draft
-  - cp -R $TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft/output/* output/2_0-metabolomics-draft
+  - cp -R $MZTAB_M_OUT/* output/2_0-metabolomics-draft
   - mkdir output/2_0-metabolomics-draft/img
-  - cp -R $TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft/img/* output/2_0-metabolomics-draft/img
+  - cp -R $MZTAB_M_OUT/img/* output/2_0-metabolomics-draft/img
   - cp -R $TRAVIS_BUILD_DIR/docs/* output/
 
 deploy:
