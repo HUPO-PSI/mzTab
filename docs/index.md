@@ -1,5 +1,11 @@
 ## mzTab - _Reporting MS-based Proteomics and Metabolomics Results_
 
+## Quick Links
+
+|Format|Version|Date|Documents|Reference Implementations|
+|------|-------|----|---------|------------------------|
+|mzTab-M| 2.0.0-DRAFT | January 2019 | [HTML](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html), [DOCX](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.docx), [PDF](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf) | [jmzTab-m](https://github.com/lifs-tools/jmztab-m), [Web Validator](https://github.com/lifs-tools/jmztab-m-webapp) |
+|mzTab| 1.0.0 | June 2014 | [DOCX](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.pdf) | [jmzTab](https://github.com/PRIDE-Utilities/jmztab), [Web Validator](https://github.com/lifs-tools/jmztab-m-webapp) |
 
 ## General
 ### mzTab-M 2.0
@@ -31,7 +37,7 @@ Detailed explanation of all examples can be found [here](https://github.com/HUPO
 
 **jmzTab-m API**
 
-The jmzTab-m API has been implemented using an API first approach, based on the [SWAGGER / OpenAPI Specification version 2](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) as a basis for domain model generation. The parsing and validation code reuses parts of the previous jmztab implementation, maintaining and extending the error code system, basic parsing and validation capabilities. The library has been structured such that only a limited number of dependencies is necessary for projects wishing to include it to read / write mzTab-m. The [jmzTab-m web application](https://github.com/nilshoffmann/jmztab-m-webapp) shows how jmzTab-m can be integrated into a RESTful webservice with a separate HTML/form-based user interface. Based on the API specification, swagger-codegen can be used to generate compatible domain objects in several languages, effectively requiring code to be written only for parsing or writing of mzTab.
+The [jmzTab-m API](https://github.com/lifs-tools/jmztab-m) has been implemented using an API first approach, based on the [SWAGGER / OpenAPI Specification version 2](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) as a basis for domain model generation. The parsing and validation code reuses parts of the previous jmztab implementation, maintaining and extending the error code system, basic parsing and validation capabilities. The library has been structured such that only a limited number of dependencies is necessary for projects wishing to include it to read / write mzTab-m. The [jmzTab-m web application](https://github.com/lifs-tools/jmztab-m-webapp) shows how jmzTab-m can be integrated into a RESTful webservice with a separate HTML/form-based user interface. Based on the API specification, swagger-codegen can be used to generate compatible domain objects in several languages, effectively requiring code to be written only for parsing or writing of mzTab.
 
 When you use jmzTab-m library, please cite the following publication:
 
@@ -39,9 +45,9 @@ When you use jmzTab-m library, please cite the following publication:
 
 ### Version 1.0.0 (June 2014)
 
-  > Specification document ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.pdf))
+  > Specification document ([DOCX](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.pdf))
 
-  > The 20 minute guide to mzTab ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.pdf))
+  > The 20 minute guide to mzTab ([DOCX](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.pdf))
 
 **Example Files**
 Several example of the format can be download from the next link [examples.zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip)
