@@ -350,6 +350,8 @@ The ISA-TAB format <<sansone-2012,(Sansone 2012)>> is designed for capturing ric
 
 Generally, any external resource reference (suffixed `-uri`, or `-location`) must be provided as a valid URI string. This allows to report local, as well as remote resource links (URLs) and unique unified resource names (URNs).
 
+Reporting database identifiers SHOULD be kept compatible to http://identifiers.org/, as is demonstrated in the <<database_identifier>> examples, where the database identifier must be preceded by the resource description (prefix) followed by a colon, as specified in the <<database1-n>> metadata section. The possible use of the full identifiers.org URI is shown in the example for `uri` attribute within the SML section (<<uri>>).
+
 [[other-supporting-materials]]
 === Other supporting materials
 
