@@ -2,6 +2,9 @@ language: java
 env:
   global:
    - BUILD_DATE=$(date -u)
+   - MZTAB-M_IN=$TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft
+   - MZTAB-M_OUT=$MZTAB-M_IN/output
+   - MZTAB-M_DOC=mzTab_format_specification_2_0-M_draft.adoc  
 jdk:
  - openjdk8
 
@@ -18,16 +21,17 @@ before_install:
 
 script:
   - travis_wait 30 $TRAVIS_BUILD_DIR/validate.sh
-  - docker run -v $TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft/:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -d book --attribute="commit-hash=$TRAVIS_COMMIT" --attribute="build-date=$BUILD_DATE" -D /documents/output mzTab_format_specification_2_0-M_draft.adoc      
-  - docker run -v $TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft/:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -d book --attribute="commit-hash=$TRAVIS_COMMIT" --attribute="build-date=$BUILD_DATE" -D /documents/output mzTab_format_specification_2_0-M_draft.adoc    
+  - $TRAVIS_BUILD_DIR/build-docs.sh -i $MZTAB-M_IN -o $MZTAB-M_OUT -c $TRAVIS_COMMIT -d $BUILD_DATE -f $MZTAB-M_DOC
 
 after_error: 
   - docker logs asciidoc-to-html
   - docker logs asciidoc-to-pdf
+  - docker logs asciidoc-to-docbook
 
 after_failure:
   - docker logs asciidoc-to-html
   - docker logs asciidoc-to-pdf
+  - docker logs asciidoc-to-docbook
 
 after_success:      
   - mkdir output/2_0-metabolomics-draft
