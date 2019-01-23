@@ -22,7 +22,7 @@ When you use mzTab format version 1.0.0, please cite the following publication:
 ## Specification documents
 ### Version 2.0.0 for Metabolomics (DRAFT)
   
-  > Specification document ([HTML](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html),[DOCX](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.docx),[PDF](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf))
+  > Specification document ([HTML](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html),[DOCX](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.docx),[PDF](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf))
   
 **Example Files**
 Several example of the format can be download from the next link [here](https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Draft)
