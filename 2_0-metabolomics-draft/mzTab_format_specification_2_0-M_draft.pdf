@@ -4,8 +4,8 @@
 << /Title (mzTab-M: exchange format for metabolomics results)
 /Creator (Asciidoctor PDF 1.5.0.alpha.16, based on Prawn 2.2.2)
 /Producer (Asciidoctor PDF 1.5.0.alpha.16, based on Prawn 2.2.2)
-/ModDate (D:20190123114459+00'00')
-/CreationDate (D:20190123114459+00'00')
+/ModDate (D:20190123115105+00'00')
+/CreationDate (D:20190123115105+00'00')
 >>
 endobj
 2 0 obj
@@ -1790,7 +1790,7 @@ ET
 BT
 48.24 594.746 Td
 /F1.0 10.5 Tf
-[<4c61737420757064617465643a2057> 60.0586 <6564204a616e2032332031313a34343a3335205554> 20.0195 <432032303139>] TJ
+[<4c61737420757064617465643a2057> 60.0586 <6564204a616e2032332031313a35303a3432205554> 20.0195 <432032303139>] TJ
 ET
 
 0.0 0.0 0.0 SCN
@@ -1812,7 +1812,7 @@ ET
 BT
 139.8735 566.966 Td
 /F1.0 10.5 Tf
-<39353361356637363561613761303064626239663961383861353934633261376561646362393264> Tj
+<66336334643338303164343737373339663630386466363363316565326361353464323331313838> Tj
 ET
 
 0.0 0.0 0.0 SCN
@@ -1821,7 +1821,7 @@ ET
 0.2 0.2 0.2 SCN
 
 BT
-372.6585 566.966 Td
+368.3535 566.966 Td
 /F1.0 10.5 Tf
 <202d20> Tj
 ET
@@ -1832,7 +1832,7 @@ ET
 0.2588 0.5451 0.7922 SCN
 
 BT
-381.3525 566.966 Td
+377.0475 566.966 Td
 /F1.0 10.5 Tf
 <436f6d6d697420486973746f7279> Tj
 ET
@@ -2079,10 +2079,10 @@ endobj
 << /Border [0 0 0]
 /A << /Type /Action
 /S /URI
-/URI (https://github.com/HUPO-PSI/mzTab/commit/953a5f765aa7a00dbb9f9a88a594c2a7eadcb92d)
+/URI (https://github.com/HUPO-PSI/mzTab/commit/f3c4d3801d477739f608df63c1ee2ca54d231188)
 >>
 /Subtype /Link
-/Rect [139.8735 563.9 372.6585 578.18]
+/Rect [139.8735 563.9 368.3535 578.18]
 /Type /Annot
 >>
 endobj
@@ -2093,7 +2093,7 @@ endobj
 /URI (https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc)
 >>
 /Subtype /Link
-/Rect [381.3525 563.9 460.4595 578.18]
+/Rect [377.0475 563.9 456.1545 578.18]
 /Type /Annot
 >>
 endobj
