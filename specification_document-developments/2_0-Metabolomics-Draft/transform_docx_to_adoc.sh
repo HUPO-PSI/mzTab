@@ -1,12 +1,12 @@
 #!/bin/bash
-
+echo "### Use this only to convert manually created or edited docx files to asciidoc. ###"
 for i in *.docx;
 do
-  echo "Transforming to asciidoc:"
+  echo "Converting to asciidoc:"
   fname=${i%.*}
   echo -e "  Input file: $i"
   echo -e "  Output file: $fname"
-  pandoc --from=docx --wrap=none --atx-headers --normalize -s -S $i -t asciidoc --extract-media=img/ -o "$fname.adoc"
+  pandoc --from=docx --wrap=none --atx-headers --normalize -s -S $i -t asciidoc --extract-media=img/ -o "$fname-conv.adoc"
   echo "Transformation done!"
 done
 for i in *.adoc;
