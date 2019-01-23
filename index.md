@@ -45,9 +45,9 @@ When you use jmzTab-m library, please cite the following publication:
 
 ### Version 1.0.0 (June 2014)
 
-  > Specification document ([DOCX](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.pdf))
+  > Specification document ([DOCX](https://github.com/HUPO-PSI/mzTab/raw/master/specification_document-releases/1_0-Proteomics-Release/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/raw/master/specification_document-releases/1_0-Proteomics-Release/mzTab_format_specification.pdf))
 
-  > The 20 minute guide to mzTab ([DOCX](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/20minute_guide_mzTab.pdf))
+  > The 20 minute guide to mzTab ([DOCX](https://github.com/HUPO-PSI/mzTab/raw/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/raw/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.pdf))
 
 **Example Files**
 Several example of the format can be download from the next link [examples.zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip)
