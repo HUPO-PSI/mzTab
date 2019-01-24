@@ -13,8 +13,8 @@
 <simpara>This document presents the specification of the mzTab data format for metabolomics developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.</simpara>
 <simpara><emphasis>Version of This Document</emphasis></simpara>
 <simpara>Date created: June 1st, 2012</simpara>
-<simpara>Last updated: Thu Jan 24 09:27:06 UTC 2019</simpara>
-<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/e6ba17a598e61315578d7f9af423b4d332aeb33c">e6ba17a598e61315578d7f9af423b4d332aeb33c</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc">Commit History</link></simpara>
+<simpara>Last updated: Thu Jan 24 09:52:01 UTC 2019</simpara>
+<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/9ec51465d199ca50e8e9938ec41e93bd53e8e74f">9ec51465d199ca50e8e9938ec41e93bd53e8e74f</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc">Commit History</link></simpara>
 <simpara>The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT)</simpara>
 <simpara>The latest draft version of this document may be found at <link xl:href="https://github.com/HUPO-PSI/mzTab">https://github.com/HUPO-PSI/mzTab</link>.</simpara>
 <simpara><emphasis>Type of This Document</emphasis></simpara>
@@ -139,13 +139,16 @@
 <simpara>Human disease ontology (<link xl:href="http://www.disease-ontology.org/">http://www.disease-ontology.org/</link>).</simpara>
 </listitem>
 <listitem>
-<simpara>Sample processing and separation techniques (<link xl:href="http://psidev.info/sepcv">http://psidev.info/sepcv</link>).</simpara>
+<simpara>Sample processing and separation techniques (<link xl:href="http://psidev.info/sepcv">http://psidev.info/sepcv</link>). Please consider using MSIO as a CV specifically designed for metabolomics, including harvesting, material and sample processing, and much more.</simpara>
 </listitem>
 <listitem>
 <simpara>XLMOD ontology with chemical reagents used for cross-linking and derivatization (<link xl:href="https://raw.githubusercontent.com/HUPO-PSI/mzIdentML/master/cv/XLMOD.obo">https://raw.githubusercontent.com/HUPO-PSI/mzIdentML/master/cv/XLMOD.obo</link>).</simpara>
 </listitem>
 <listitem>
 <simpara>PRIDE (Proteomics Identifications) ontology (<link xl:href="https://github.com/PRIDE-Utilities/pride-ontology">https://github.com/PRIDE-Utilities/pride-ontology</link>).</simpara>
+</listitem>
+<listitem>
+<simpara>MSIO (Metabolomics Standards Initiative) ontology (<link xl:href="https://github.com/MSI-Metabolomics-Standards-Initiative/MSIO">https://github.com/MSI-Metabolomics-Standards-Initiative/MSIO</link>).</simpara>
 </listitem>
 </itemizedlist>
 </section>
@@ -657,7 +660,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <tbody>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Description</emphasis></simpara></entry>
-<entry align="left" valign="top"><simpara>A list of parameters describing a sample processing, preparation or handling step similar to a biological or analytical methods report. The order of the sample_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “|”. <link xl:href="http://psidev.info/sepcv">http://psidev.info/sepcv</link></simpara></entry>
+<entry align="left" valign="top"><simpara>A list of parameters describing a sample processing, preparation or handling step similar to a biological or analytical methods report. The order of the sample_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “|”. If derivatization was performed, it MUST be reported here as a general step, e.g. 'silylation' and the actual derivatization agens MUST be specified in the <xref linkend="derivatization_agent1-n"/> part.</simpara></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Type</emphasis></simpara></entry>
@@ -669,7 +672,10 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Example</emphasis></simpara></entry>
-<entry align="left" valign="top"><literallayout class="monospaced">MTD sample_processing[1] [SEP, sep:00210, liquid chromatography,]</literallayout></entry>
+<entry align="left" valign="top"><literallayout class="monospaced">MTD sample_processing[1] [MSIO, MSIO:0000107, metabolism quenching using precooled 60 percent methanol ammonium bicarbonate buffer,]
+MTD sample_processing[2] [MSIO, MSIO:0000146, centrifugation,]
+MTD sample_processing[3] [MSIO, MSIO:0000141, metabolite extraction,]
+MTD sample_processing[4] [MSIO, MSIO:0000141, silylation,]</literallayout></entry>
 </row>
 </tbody>
 </tgroup>
