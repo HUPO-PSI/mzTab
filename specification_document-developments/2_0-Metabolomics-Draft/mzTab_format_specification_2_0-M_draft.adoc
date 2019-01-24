@@ -521,7 +521,6 @@ MTD sample_processing[1] [MSIO, MSIO:0000107, metabolism quenching using precool
 MTD sample_processing[2] [MSIO, MSIO:0000146, centrifugation,]
 MTD sample_processing[3] [MSIO, MSIO:0000141, metabolite extraction,]
 MTD sample_processing[4] [MSIO, MSIO:0000141, silylation,]|[MSIO, MSIO:0000116, oximation,]
-
 ....
 |=================================================================================================================================================================================================================================================================
 
