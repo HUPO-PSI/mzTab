@@ -155,7 +155,7 @@ The following ontologies or controlled vocabularies specified below may also be 
 * BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
 * Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
 * Human disease ontology (http://www.disease-ontology.org/).
-* Sample processing and separation techniques (http://psidev.info/sepcv). Please consider using MSIO as a CV specifically designed for metabolomics, including harvesting, material and sample processing, and much more.
+* Sample processing and separation techniques (http://psidev.info/sepcv). We recommend to use the MSIO (see below) as a CV specifically designed for metabolomics, including harvesting, material and sample processing.
 * XLMOD ontology with chemical reagents used for cross-linking and derivatization (https://raw.githubusercontent.com/HUPO-PSI/mzIdentML/master/cv/XLMOD.obo).
 * PRIDE (Proteomics Identifications) ontology (https://github.com/PRIDE-Utilities/pride-ontology).
 * MSIO (Metabolomics Standards Initiative) ontology (https://github.com/MSI-Metabolomics-Standards-Initiative/MSIO).
