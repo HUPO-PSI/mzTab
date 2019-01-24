@@ -18,11 +18,7 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
     <CvReference cvName="CL" cvIdentifier="CL"/>
     <CvReference cvName="BTO" cvIdentifier="BTO"/>
     <CvReference cvName="NCBITaxon" cvIdentifier="NCBITaxon"/>
-    <!--      <CvReference cvName="NEWT" cvIdentifier="NEWT"/>
-    <CvReference cvName="GO" cvIdentifier="GO"/>
-    <CvReference cvName="PATO" cvIdentifier="PATO"/>-->
     <CvReference cvName="UO" cvIdentifier="UO"/>
-    <CvReference cvName="SEP" cvIdentifier="SEP"/>
     <CvReference cvName="XLMOD" cvIdentifier="XLMOD"/>
     <CvReference cvName="PRIDE" cvIdentifier="PRIDE"/>
     <CvReference cvName="MSIO" cvIdentifier="MSIO"/>
@@ -53,8 +49,7 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
     </CvMappingRule> 
         
     <!-- sample processing -->
-    <CvMappingRule id="sample_processing_may" cvElementPath="/metadata/sampleProcessing/@sampleProcessing" requirementLevel="MAY"  scopePath="/metadata/sampleprocessing" cvTermsCombinationLogic="OR">
-      <CvTerm termAccession="sep:00101" useTerm="false" termName="protocol" isRepeatable="true" allowChildren="true" cvIdentifierRef="SEP"></CvTerm>
+    <CvMappingRule id="sample_processing_may" cvElementPath="/metadata/sampleProcessing/@sampleProcessing" requirementLevel="MAY"  scopePath="/metadata/sampleprocessing" cvTermsCombinationLogic="AND">
       <CvTerm termAccession="OBI:0000094" useTerm="false" termName="material processing" isRepeatable="true" allowChildren="true" cvIdentifierRef="MSIO"></CvTerm>
     </CvMappingRule> 
         
