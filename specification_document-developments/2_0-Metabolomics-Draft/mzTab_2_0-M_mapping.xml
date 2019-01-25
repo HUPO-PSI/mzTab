@@ -22,6 +22,7 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
     <CvReference cvName="XLMOD" cvIdentifier="XLMOD"/>
     <CvReference cvName="PRIDE" cvIdentifier="PRIDE"/>
     <CvReference cvName="MSIO" cvIdentifier="MSIO"/>
+    <CvReference cvName="CHEBI" cvIdentifier="CHEBI"/>
   </CvReferenceList>
 
   <CvMappingRuleList>
@@ -154,10 +155,10 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
       <CvTerm termAccession="MS:1002888" useTerm="false" termName="small molecule confidence measure" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
     </CvMappingRule>
 
-    <!-- TODO: derivatized form -->
-    <!--    <CvMappingRule id="derivatized_form_may" cvElementPath="/smallMoleculeEvidence/@derivatizedForm" requirementLevel="MUST"  scopePath="/smallMoleculeEvidence" cvTermsCombinationLogic="AND">
-      <CvTerm termAccession="MS:1000511" useTerm="false" termName="ms level" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
-    </CvMappingRule>-->
+    <!-- derivatized form -->
+    <CvMappingRule id="derivatized_form_may" cvElementPath="/smallMoleculeEvidence/@derivatizedForm" requirementLevel="MAY"  scopePath="/smallMoleculeEvidence" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="CHEBI:24433" useTerm="false" termName="group" isRepeatable="false" allowChildren="true" cvIdentifierRef="CHEBI"></CvTerm>
+    </CvMappingRule>
         
     <!-- ms level -->
     <CvMappingRule id="ms_level_must" cvElementPath="/smallMoleculeEvidence/@msLevel" requirementLevel="MUST"  scopePath="/smallMoleculeSummary" cvTermsCombinationLogic="AND">
