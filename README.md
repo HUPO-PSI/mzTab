@@ -11,7 +11,7 @@ The aim of the format is to present the results of an experiment in a computatio
 
 When you use the mzTab-M format version 2.0, please cite the following publication:
 
-* ** [N. Hoffmann et al., Analytical Chemistry 2019.](https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310). [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/30688441).**
+  * **[N. Hoffmann et al., Analytical Chemistry 2019.](https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310). [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/30688441).**
 
 When you use the mzTab format version 1.0, please cite the following publication:
 
