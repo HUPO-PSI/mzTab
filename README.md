@@ -9,6 +9,10 @@ One of the main target audiences for this format is researchers outside of prote
 
 The aim of the format is to present the results of an experiment in a computationally accessible overview. The aim is not to provide the detailed evidence for these results, or allow recreating the process which led to the results. Both of these functions are established through links to more detailed representations in other formats, in particular mzIdentML and mzQuantML for proteomics ID and quantitation.
 
+When you use the mzTab-M format version 2.0, please cite the following publication:
+
+* ** [N. Hoffmann et al., Analytical Chemistry 2019.](https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310). [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/30688441).**
+
 When you use the mzTab format version 1.0, please cite the following publication:
 
   * **[J. Griss et al., Mol Cell Proteomics 2014.](http://www.mcponline.org/content/early/2014/06/30/mcp.O113.036681.abstract) [PDF File](http://www.mcponline.org/content/early/2014/06/30/mcp.O113.036681.full.pdf).  [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/24980485).**
