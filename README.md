@@ -22,7 +22,7 @@ When you use the mzTab format version 1.0, please cite the following publication
 
 **Version 2.0.0 for Metabolomics (DRAFT):**
 
-  > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc),[html](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html),[docx](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.docx),[PDF](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf))
+  > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc), [html](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html), [docx](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.docx), [PDF](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf))
   
   > Example Files ([Wiki](../../wiki/Examples), [Git](https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Draft))
 
@@ -32,13 +32,13 @@ When you use the mzTab format version 1.0, please cite the following publication
 
   > The 20 minute guide to mzTab ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.pdf))
 
-  > Example Files ([zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip),[Wiki](../../wiki/Examples))
+  > Example Files ([zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip), [Wiki](../../wiki/Examples))
 
 ## jmzTab-m API (for mzTab-M 2.0.x, under development)
 
-  > [jmzTab-m](https://github.com/nilshoffmann/jmzTab-m)
+  > [jmzTab-m](https://github.com/lifs-tools/jmzTab-m)
 
-  > [jmzTab-m web validator](https://github.com/nilshoffmann/jmzTab-m-webapp)
+  > [jmzTab-m web validator](https://github.com/lifs-tools/jmzTab-m-webapp)
 
 ## jmzTab API (for mzTab 1.0)
 
