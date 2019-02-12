@@ -1168,7 +1168,7 @@ MTD cv[1]-label MS
 
 [cols=",",]
 |===================================================================================================================
-|*Description* |A string describing the full names of the controlled vocabularies/ontologies used in the mzTab file
+|*Description* |A string describing the full names of the controlled vocabularies/ontologies used in the mzTab file.
 |*Type* |String
 |*Mandatory* |True
 |*Example* a|
@@ -1182,7 +1182,7 @@ MTD cv[1]-full_name PSI-MS controlled vocabulary
 
 [cols=",",]
 |================================================================================================================
-|*Description* |A string describing the version of the controlled vocabularies/ontologies used in the mzTab file
+|*Description* |A string describing the version of the controlled vocabularies/ontologies used in the mzTab file.
 |*Type* |String
 |*Mandatory* |True
 |*Example* a|
@@ -1196,7 +1196,7 @@ MTD cv[1]-version 4.1.11
 
 [cols=",",]
 |===============================================================================================================================================================================================================
-|*Description* |A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file
+|*Description* |A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file.
 |*Type* |String
 |*Mandatory* |True
 |*Example* a|
@@ -1238,8 +1238,8 @@ MTD database[5] [,, "no database", null ]
 ....
 MTD database[1]-prefix hmdb
 MTD database[2]-prefix dn
-MTD database[3]-prefix mydb
-MTD database[4]-prefix chebi
+MTD database[3]-prefix chebi
+MTD database[4]-prefix cust
 OR
 MTD database[5]-prefix null
 ....
@@ -1271,9 +1271,9 @@ MTD database[2]-version Unknown
 |*Mandatory* |True
 |*Example* a|
 ....
-database[1]-uri http://www.hmdb.ca/
+MTD database[1]-uri http://www.hmdb.ca/
 OR
-database[5]-uri null
+MTD database[5]-uri null
 ....
 |===============================================
 
