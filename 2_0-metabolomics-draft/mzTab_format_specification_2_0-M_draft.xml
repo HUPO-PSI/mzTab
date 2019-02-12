@@ -5,7 +5,7 @@
 <info>
 <title>mzTab-M</title>
 <subtitle>exchange format for metabolomics results</subtitle>
-<date>2019-02-08</date>
+<date>2019-02-12</date>
 </info>
 <preface xml:id="_preface">
 <title>Preface</title>
@@ -13,8 +13,8 @@
 <simpara>This document presents the specification of the mzTab data format for metabolomics developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.</simpara>
 <simpara><emphasis>Version of This Document</emphasis></simpara>
 <simpara>Date created: June 1st, 2012</simpara>
-<simpara>Last updated: Fri Feb  8 13:50:45 UTC 2019</simpara>
-<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/7a1a938dfeaab912a8d4649ee5f38604cc4726cd">7a1a938dfeaab912a8d4649ee5f38604cc4726cd</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc">Commit History</link></simpara>
+<simpara>Last updated: Tue Feb 12 14:10:33 UTC 2019</simpara>
+<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/dfb66350244624aa18c3237043e2ba5a7e991201">dfb66350244624aa18c3237043e2ba5a7e991201</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc">Commit History</link></simpara>
 <simpara>The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT)</simpara>
 <simpara>The latest draft version of this document may be found at <link xl:href="https://github.com/HUPO-PSI/mzTab">https://github.com/HUPO-PSI/mzTab</link>.</simpara>
 <simpara><emphasis>Type of This Document</emphasis></simpara>
@@ -1846,7 +1846,7 @@ MTD study_variable[2] “1 minute”</literallayout></entry>
 <tbody>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Description</emphasis></simpara></entry>
-<entry align="left" valign="top"><simpara>A string describing the full names of the controlled vocabularies/ontologies used in the mzTab file</simpara></entry>
+<entry align="left" valign="top"><simpara>A string describing the full names of the controlled vocabularies/ontologies used in the mzTab file.</simpara></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Type</emphasis></simpara></entry>
@@ -1873,7 +1873,7 @@ MTD study_variable[2] “1 minute”</literallayout></entry>
 <tbody>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Description</emphasis></simpara></entry>
-<entry align="left" valign="top"><simpara>A string describing the version of the controlled vocabularies/ontologies used in the mzTab file</simpara></entry>
+<entry align="left" valign="top"><simpara>A string describing the version of the controlled vocabularies/ontologies used in the mzTab file.</simpara></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Type</emphasis></simpara></entry>
@@ -1900,7 +1900,7 @@ MTD study_variable[2] “1 minute”</literallayout></entry>
 <tbody>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Description</emphasis></simpara></entry>
-<entry align="left" valign="top"><simpara>A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file</simpara></entry>
+<entry align="left" valign="top"><simpara>A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file.</simpara></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Type</emphasis></simpara></entry>
@@ -1973,8 +1973,8 @@ MTD database[5] [,, "no database", null ]</literallayout></entry>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Example</emphasis></simpara></entry>
 <entry align="left" valign="top"><literallayout class="monospaced">MTD database[1]-prefix hmdb
 MTD database[2]-prefix dn
-MTD database[3]-prefix mydb
-MTD database[4]-prefix chebi
+MTD database[3]-prefix chebi
+MTD database[4]-prefix cust
 OR
 MTD database[5]-prefix null</literallayout></entry>
 </row>
@@ -2032,9 +2032,9 @@ MTD database[2]-version Unknown</literallayout></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Example</emphasis></simpara></entry>
-<entry align="left" valign="top"><literallayout class="monospaced">database[1]-uri http://www.hmdb.ca/
+<entry align="left" valign="top"><literallayout class="monospaced">MTD database[1]-uri http://www.hmdb.ca/
 OR
-database[5]-uri null</literallayout></entry>
+MTD database[5]-uri null</literallayout></entry>
 </row>
 </tbody>
 </tgroup>
