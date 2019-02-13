@@ -19,7 +19,6 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
     <CvReference cvName="BTO" cvIdentifier="BTO"/>
     <CvReference cvName="NCBITaxon" cvIdentifier="NCBITaxon"/>
     <CvReference cvName="UO" cvIdentifier="UO"/>
-    <CvReference cvName="XLMOD" cvIdentifier="XLMOD"/>
     <CvReference cvName="PRIDE" cvIdentifier="PRIDE"/>
     <CvReference cvName="MSIO" cvIdentifier="MSIO"/>
     <CvReference cvName="CHEBI" cvIdentifier="CHEBI"/>
@@ -119,10 +118,10 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
       <CvTerm termAccession="MS:1002884" useTerm="false" termName="study variable variation function" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
     </CvMappingRule>
         
-    <!-- TODO: derivatization agent -->
-    <!--    <CvMappingRule id="derivatization_agent_may" cvElementPath="/metadata/@derivatizationAgent" requirementLevel="MAY"  scopePath="/metadata" cvTermsCombinationLogic="OR">
-      <CvTerm termAccession="XLMOD:XXXXX" useTerm="false" termName="derivatization agent" isRepeatable="false" allowChildren="true" cvIdentifierRef="XLMOD"></CvTerm>
-    </CvMappingRule>-->
+    <!-- derivatization agent -->
+    <CvMappingRule id="derivatization_agent_may" cvElementPath="/metadata/@derivatizationAgent" requirementLevel="MAY"  scopePath="/metadata" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="CHEBI:23367" useTerm="false" termName="molecular entity" isRepeatable="false" allowChildren="true" cvIdentifierRef="CHEBI"></CvTerm>
+    </CvMappingRule>
         
     <!-- small molecule quantification unit -->
     <CvMappingRule id="small_molecule_quantification_unit_must" cvElementPath="/metadata/@smallMoleculeQuantificationUnit" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="XOR">
@@ -175,3 +174,4 @@ Alternative term roots should either be expressed as OR (for choose any, even fr
 
   </CvMappingRuleList>
 </CvMapping>
+
