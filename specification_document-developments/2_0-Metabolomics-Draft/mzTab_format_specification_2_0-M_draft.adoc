@@ -155,9 +155,9 @@ The following ontologies or controlled vocabularies specified below may also be 
 * BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
 * Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
 * Human disease ontology (http://www.disease-ontology.org/).
-* Sample processing and separation techniques (http://psidev.info/sepcv).
 * XLMOD ontology with chemical reagents used for cross-linking and derivatization (https://raw.githubusercontent.com/HUPO-PSI/mzIdentML/master/cv/XLMOD.obo).
-* PRIDE (Proteomics Identifications) ontology (https://github.com/PRIDE-Utilities/pride-ontology).    
+* PRIDE (Proteomics Identifications) ontology (https://github.com/PRIDE-Utilities/pride-ontology).
+* MSIO (Metabolomics Standards Initiative) ontology (https://github.com/MSI-Metabolomics-Standards-Initiative/MSIO) for metabolomics, including harvesting, material and sample processing.
 
 [[resolved-design-and-scope-issues]]
 == Resolved Design and scope issues
@@ -512,13 +512,15 @@ MTD description An experiment investigating the effects of Il-6...
 
 [cols=",",]
 |=================================================================================================================================================================================================================================================================
-|*Description* |A list of parameters describing a sample processing, preparation or handling step similar to a biological or analytical methods report. The order of the sample_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “\|”. http://psidev.info/sepcv
+|*Description* |A list of parameters describing a sample processing, preparation or handling step similar to a biological or analytical methods report. The order of the sample_processing items should reflect the order these processing steps were performed in. If multiple parameters are given for a step these MUST be separated by a “\|”. If derivatization was performed, it MUST be reported here as a general step, e.g. 'silylation' and the actual derivatization agens MUST be specified in the <<derivatization_agent1-n>> part.
 |*Type* |Parameter List
 |*Mandatory* |False
 |*Example* a|
 ....
-MTD sample_processing[1] [SEP, sep:00210, liquid chromatography,]
-
+MTD sample_processing[1] [MSIO, MSIO:0000107, metabolism quenching using precooled 60 percent methanol ammonium bicarbonate buffer,]
+MTD sample_processing[2] [MSIO, MSIO:0000146, centrifugation,]
+MTD sample_processing[3] [MSIO, MSIO:0000141, metabolite extraction,]
+MTD sample_processing[4] [MSIO, MSIO:0000141, silylation,]|[MSIO, MSIO:0000116, oximation,]
 ....
 |=================================================================================================================================================================================================================================================================
 
@@ -1166,7 +1168,7 @@ MTD cv[1]-label MS
 
 [cols=",",]
 |===================================================================================================================
-|*Description* |A string describing the full names of the controlled vocabularies/ontologies used in the mzTab file
+|*Description* |A string describing the full names of the controlled vocabularies/ontologies used in the mzTab file.
 |*Type* |String
 |*Mandatory* |True
 |*Example* a|
@@ -1180,7 +1182,7 @@ MTD cv[1]-full_name PSI-MS controlled vocabulary
 
 [cols=",",]
 |================================================================================================================
-|*Description* |A string describing the version of the controlled vocabularies/ontologies used in the mzTab file
+|*Description* |A string describing the version of the controlled vocabularies/ontologies used in the mzTab file.
 |*Type* |String
 |*Mandatory* |True
 |*Example* a|
@@ -1194,7 +1196,7 @@ MTD cv[1]-version 4.1.11
 
 [cols=",",]
 |===============================================================================================================================================================================================================
-|*Description* |A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file
+|*Description* |A string containing the URIs of the controlled vocabularies/ontologies used in the mzTab file.
 |*Type* |String
 |*Mandatory* |True
 |*Example* a|
@@ -1236,8 +1238,8 @@ MTD database[5] [,, "no database", null ]
 ....
 MTD database[1]-prefix hmdb
 MTD database[2]-prefix dn
-MTD database[3]-prefix mydb
-MTD database[4]-prefix chebi
+MTD database[3]-prefix chebi
+MTD database[4]-prefix cust
 OR
 MTD database[5]-prefix null
 ....
@@ -1269,9 +1271,9 @@ MTD database[2]-version Unknown
 |*Mandatory* |True
 |*Example* a|
 ....
-database[1]-uri http://www.hmdb.ca/
+MTD database[1]-uri http://www.hmdb.ca/
 OR
-database[5]-uri null
+MTD database[5]-uri null
 ....
 |===============================================
 
