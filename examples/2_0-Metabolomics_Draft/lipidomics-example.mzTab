@@ -7,10 +7,10 @@ MTD	cv[1]-label	MS
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary																			
 MTD	cv[1]-version	4.0.18																			
 MTD	cv[1]-uri	https://github.com/HUPO-PSI/psi-ms-CV/blob/master/psi-ms.obo																			
-MTD	cv[2]-label	SEP																			
-MTD	cv[2]-full_name	Sample Processing and Separation Techniques Ontology																			
-MTD	cv[2]-version	1.070708																			
-MTD	cv[2]-uri	http://purl.bioontology.org/ontology/SEP																			
+MTD	cv[2]-label	MSIO
+MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/msio
+MTD	cv[2]-version	1.0.1
+MTD	cv[2]-full_name	Metabolomics Standards Initiative Ontology (MSIO)																			
 MTD	cv[3]-label	UO																			
 MTD	cv[3]-full_name	Units of Measurement Ontology																			
 MTD	cv[3]-version	 2017-09-25																			

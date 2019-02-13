@@ -15,7 +15,7 @@ MTD	quantification_method	[MS, MS:1002019, label free raw feature quantitation, 
 MTD	sample[1]-species[1]	[NCBITaxon, NCBITaxon:10090, Mus musculus, ]
 MTD	sample[1]-cell_type[1]	[CL, CL:0000182, hepatocyte, ]
 MTD	sample[1]-tissue[1]	[BTO, BTO:0000759, liver, ]
-MTD	sample_processing[1]	[SEP, sep:00210, High Perfomance Liquid Chromatography, ]
+MTD	sample_processing[1]	[MSIO, MSIO:0000148, high performance liquid chromatography, ]
 MTD	software[1]	[, , LipidDataAnalyzer, 2.6.3_2]
 MTD	software[1]-setting[1]	isotope_pattern_checked
 MTD	ms_run[1]-location	file://D:/BiologicalExperiment/Orbitrap_CID/negative/002_liver2-1_Orbitrap_CID_neg.chrom
@@ -146,10 +146,10 @@ MTD	cv[2]-label	PRIDE
 MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/pride
 MTD	cv[2]-version	14-06-2018
 MTD	cv[2]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary
-MTD	cv[3]-label	SEP
-MTD	cv[3]-uri	http://purl.bioontology.org/ontology/SEP
-MTD	cv[3]-version	1.070708
-MTD	cv[3]-full_name	Sample Processing and Separation Techniques Ontology
+MTD	cv[3]-label	MSIO
+MTD	cv[3]-uri	https://www.ebi.ac.uk/ols/ontologies/msio
+MTD	cv[3]-version	1.0.1
+MTD	cv[3]-full_name	Metabolomics Standards Initiative Ontology (MSIO)
 MTD	cv[4]-label	NCBITaxon
 MTD	cv[4]-uri	https://www.ebi.ac.uk/ols/ontologies/ncbitaxon
 MTD	cv[4]-version	2018-03-02
