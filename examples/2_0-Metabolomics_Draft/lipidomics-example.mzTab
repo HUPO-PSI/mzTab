@@ -16,7 +16,7 @@ MTD	cv[3]-full_name	Units of Measurement Ontology
 MTD	cv[3]-version	 2017-09-25																			
 MTD	cv[3]-uri	http://purl.obolibrary.org/obo/uo.owl																			
 MTD	quantification_method	[MS, MS:1001838, SRM quantitation analysis, ]																			
-MTD	sample_processing[1]	[SEP, sep:00210, High Perfomance Liquid Chromatography, ]																			
+MTD	sample_processing[1]	[MSIO, MSIO:0000148, high performance liquid chromatography, ]
 MTD	instrument[1]-name	[MS, MS:1002581, QTRAP 6500 , ]																			
 MTD	instrument[1]-source	[MS, MS:1000073, Electrospray Ionization, ]																			
 MTD	instrument[1]-analyzer[1]	[MS, MS:1000082, quadrupole ion trap, ]																			
