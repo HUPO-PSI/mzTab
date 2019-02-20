@@ -1,6 +1,7 @@
 #!/bin/bash
-V_VERSION="1.0.1"
+V_VERSION="1.0.2"
 V_URL="http://central.maven.org/maven2/de/isas/mztab/jmztabm-cli/$V_VERSION/jmztabm-cli-$V_VERSION-bin.zip"
+V_DIR="../../../examples/2_0-Metabolomics_Draft/"
 # download and unzip validator
 mkdir -p build/validation
 cd build/validation
@@ -20,7 +21,7 @@ fi
 V_LEVEL="Info"
 V_FAILED=()
 # run validation for all example files
-for i in $(find ../../../examples/2_0-Metabolomics_Draft/ -maxdepth 1 -iname '*.mztab'); do
+for i in $(find "$V_DIR" -maxdepth 1 -iname '*.mztab'); do
   echo -e "################################################################################"
   if [[ $i == *"MouseLiver_negative"* ]]; then
     echo -e "# Starting basic validation of $i on level $V_LEVEL"
