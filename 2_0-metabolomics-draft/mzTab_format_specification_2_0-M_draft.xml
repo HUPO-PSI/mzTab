@@ -5,7 +5,7 @@
 <info>
 <title>mzTab-M</title>
 <subtitle>exchange format for metabolomics results</subtitle>
-<date>2019-02-12</date>
+<date>2019-02-21</date>
 </info>
 <preface xml:id="_preface">
 <title>Preface</title>
@@ -13,8 +13,8 @@
 <simpara>This document presents the specification of the mzTab data format for metabolomics developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.</simpara>
 <simpara><emphasis>Version of This Document</emphasis></simpara>
 <simpara>Date created: June 1st, 2012</simpara>
-<simpara>Last updated: Tue Feb 12 14:10:33 UTC 2019</simpara>
-<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/dfb66350244624aa18c3237043e2ba5a7e991201">dfb66350244624aa18c3237043e2ba5a7e991201</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc">Commit History</link></simpara>
+<simpara>Last updated: Thu Feb 21 08:54:56 UTC 2019</simpara>
+<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/6d90dc0675194d89f90473a608fbcf37f1bfd8d8">6d90dc0675194d89f90473a608fbcf37f1bfd8d8</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc">Commit History</link></simpara>
 <simpara>The current version of this document is: version 2.0.0-release candidate 2018 (DRAFT)</simpara>
 <simpara>The latest draft version of this document may be found at <link xl:href="https://github.com/HUPO-PSI/mzTab">https://github.com/HUPO-PSI/mzTab</link>.</simpara>
 <simpara><emphasis>Type of This Document</emphasis></simpara>
@@ -389,7 +389,7 @@ SME ... ms_run[1]:scan=11665 ...</screen>
 <section xml:id="adding-optional-columns">
 <title>Adding optional columns</title>
 <simpara>Additional columns MAY be added to the end of rows in all the table-based sections. The information stored within an optional column is completely up to the resource that generates the file. It MUST not be assumed that optional columns having the same name in different mzTab files contain the same type of information.</simpara>
-<simpara>These column headers MUST start with the prefix “opt_” followed by the identifier of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<emphasis>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</emphasis>{OBJECT_ID}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</simpara>
+<simpara>These column headers MUST start with the prefix “opt_” followed by the identifier of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<emphasis>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_{OBJECT_ID}_cv_{accession}_{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘</emphasis>’.</simpara>
 <screen>COM Example showing a global aligned 2D feature retention time for GCxGC-MS
 
 …
@@ -2803,7 +2803,7 @@ SML 1 … 0.3 0.04 …</literallayout></entry>
 <tbody>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Description</emphasis></simpara></entry>
-<entry align="left" valign="top"><simpara>Additional columns can be added to the end of the small molecule table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<emphasis>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</emphasis>{identifier}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</simpara></entry>
+<entry align="left" valign="top"><simpara>Additional columns can be added to the end of the small molecule table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<emphasis>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_{identifier}_cv_{accession}_{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘</emphasis>’.</simpara></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Type</emphasis></simpara></entry>
@@ -3171,7 +3171,7 @@ SMF 1 … 38648 …</literallayout></entry>
 <tbody>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Description</emphasis></simpara></entry>
-<entry align="left" valign="top"><simpara>Additional columns can be added to the end of the small molecule feature table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<emphasis>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</emphasis>{identifier}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</simpara></entry>
+<entry align="left" valign="top"><simpara>Additional columns can be added to the end of the small molecule feature table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<emphasis>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_{identifier}_cv_{accession}_{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘</emphasis>’.</simpara></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Type</emphasis></simpara></entry>
@@ -3745,7 +3745,7 @@ SME 1 … 1 …</literallayout></entry>
 <tbody>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Description</emphasis></simpara></entry>
-<entry align="left" valign="top"><simpara>Additional columns can be added to the end of the small molecule evidence table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<emphasis>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt</emphasis>{identifier}_cv_{accession}_\{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘_’.</simpara></entry>
+<entry align="left" valign="top"><simpara>Additional columns can be added to the end of the small molecule evidence table. These column headers MUST start with the prefix “opt_” followed by the {identifier} of the object they reference: assay, study variable, MS run or “global” (if the value relates to all replicates). Column names MUST only contain the following characters: ‘A’-‘Z’, ‘a’-‘z’, ‘0’-‘9’, ‘<emphasis>’, ‘-’, ‘[’, ‘]’, and ‘:’. CV parameter accessions MAY be used for optional columns following the format: opt_{identifier}_cv_{accession}_{parameter name}. Spaces within the parameter’s name MUST be replaced by ‘</emphasis>’.</simpara></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Type</emphasis></simpara></entry>
