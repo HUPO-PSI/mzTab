@@ -13,7 +13,7 @@ mzTab 2.0 for metabolomics (mzTab-M 2.0) is a non-backwards compatible new speci
 
 When you use the mzTab-M 2.0 format, please cite the following publication:
 
-* **N.N.**
+* **[N. Hoffmann et al., Analytical Chemistry 2019.](https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310)  [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/30688441).**
 
 ### mzTab 1.0
 mzTab 1.0 is meant to be a light-weight, tab-delimited file format for proteomics data. The target audience for this format are primarily researchers outside of proteomics. It should be easy to parse and only contain the minimal information required to evaluate the results of a proteomics experiment. One of the goals of this file format is that it, for example, should be possible for a biologist to open such a file in Excel and still be able to "see" the data. This format should also become a way to disseminate proteomics results through protocols such as DAS (http://www.biodas.org).
