@@ -4,7 +4,7 @@
 
 |Format|Version|Date|Documents|Reference Implementations|
 |------|-------|----|---------|------------------------|
-|mzTab-M| 2.0.0-DRAFT | January 2019 | [HTML](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html), [DOCX](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.docx), [PDF](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf) | [jmzTab-m](https://github.com/lifs-tools/jmztab-m), [Web Validator](https://github.com/lifs-tools/jmztab-m-webapp) |
+|mzTab-M| 2.0.0 | March 2019 | [HTML](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.html), [DOCX](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.docx), [PDF](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.pdf) | [jmzTab-m](https://github.com/lifs-tools/jmztab-m), [Web Validator](https://github.com/lifs-tools/jmztab-m-webapp) |
 |mzTab| 1.0.0 | June 2014 | [DOCX](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.pdf) | [jmzTab](https://github.com/PRIDE-Utilities/jmztab), [Web Validator](https://github.com/lifs-tools/jmztab-m-webapp) |
 
 ## General
@@ -26,12 +26,12 @@ When you use mzTab format version 1.0.0, please cite the following publication:
 
 
 ## Specification documents
-### Version 2.0.0 for Metabolomics (DRAFT)
+### Version 2.0.0 for Metabolomics
   
-  > Specification document ([HTML](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html),[DOCX](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.docx),[PDF](2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf))
+  > Specification document ([HTML](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.html),[DOCX](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.docx),[PDF](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.pdf))
   
 **Example Files**
-Several example of the format can be download from the next link [here](https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Draft)
+Several example of the format can be download from the next link [here](https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Release)
 
 Detailed explanation of all examples can be found [here](https://github.com/HUPO-PSI/mzTab/wiki/Examples)
 
