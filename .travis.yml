@@ -17,12 +17,13 @@ services:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y pandoc
+  - wget https://github.com/jgm/pandoc/releases/download/2.7.1/pandoc-2.7.1-1-amd64.deb  
+  - sudo dpkg -i pandoc-2.7.1-1-amd64.deb
   - mkdir -p output
   - docker pull asciidoctor/docker-asciidoctor
 
 script:
-  - travis_wait 30 $TRAVIS_BUILD_DIR/validate.sh
+        #  - travis_wait 30 $TRAVIS_BUILD_DIR/validate.sh
   - $TRAVIS_BUILD_DIR/build-docs.sh -i "$MZTAB_M_IN" -o "$MZTAB_M_OUT" -c "$TRAVIS_COMMIT" -d "$BUILD_DATE" -f "$MZTAB_M_DOC"
 
 after_error: 
