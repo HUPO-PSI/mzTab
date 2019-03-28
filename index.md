@@ -5,7 +5,7 @@
 |Format|Version|Date|Documents|Reference Implementations|
 |------|-------|----|---------|------------------------|
 |mzTab-M| 2.0.0 | March 2019 | [HTML](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.html), [DOCX](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.docx), [PDF](2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.pdf) | [jmzTab-m](https://github.com/lifs-tools/jmztab-m), [Web Validator](https://github.com/lifs-tools/jmztab-m-webapp) |
-|mzTab| 1.0.0 | June 2014 | [DOCX](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/version-1.0.0/mzTab_format_specification.pdf) | [jmzTab](https://github.com/PRIDE-Utilities/jmztab), [Web Validator](https://github.com/lifs-tools/jmztab-m-webapp) |
+|mzTab| 1.0.0 | June 2014 | [DOCX](https://github.com/HUPO-PSI/mzTab/raw/master/specification_document-releases/1_0-Proteomics-Release/mzTab_format_specification.docx), [PDF](https://github.com/HUPO-PSI/mzTab/raw/master/specification_document-releases/1_0-Proteomics-Release/mzTab_format_specification.pdf) | [jmzTab](https://github.com/PRIDE-Utilities/jmztab), [Web Validator](https://github.com/lifs-tools/jmztab-m-webapp) |
 
 ## General
 ### mzTab-M 2.0
