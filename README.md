@@ -20,11 +20,11 @@ When you use the mzTab format version 1.0, please cite the following publication
 
 ## Specification documents
 
-**Version 2.0.0 for Metabolomics (DRAFT):**
+**Version 2.0.0 for Metabolomics (March 2019):**
 
-  > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc), [html](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.html), [docx](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.docx), [PDF](http://hupo-psi.github.io/mzTab/2_0-metabolomics-draft/mzTab_format_specification_2_0-M_draft.pdf))
+  > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc), [html](http://hupo-psi.github.io/mzTab/2_0-metabolomics-Release/mzTab_format_specification_2_0-M_release.html), [docx](http://hupo-psi.github.io/mzTab/2_0-metabolomics-Release/mzTab_format_specification_2_0-M_release.docx), [PDF](http://hupo-psi.github.io/mzTab/2_0-metabolomics-Release/mzTab_format_specification_2_0-M_release.pdf))
   
-  > Example Files ([Wiki](../../wiki/Examples), [Git](https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Draft))
+  > Example Files ([Wiki](../../wiki/Examples), [Git](https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Release))
 
 **Version 1.0.0 (June 2014):**
 

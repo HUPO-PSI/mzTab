@@ -2,9 +2,9 @@ language: java
 env:
   global:
    - BUILD_DATE=$(date -u)
-   - MZTAB_M_IN=$TRAVIS_BUILD_DIR/specification_document-developments/2_0-Metabolomics-Draft
+   - MZTAB_M_IN=$TRAVIS_BUILD_DIR/specification_document-releases/2_0-Metabolomics-Release
    - MZTAB_M_OUT=$MZTAB_M_IN/output
-   - MZTAB_M_DOC=mzTab_format_specification_2_0-M_draft.adoc  
+   - MZTAB_M_DOC=mzTab_format_specification_2_0-M_release.adoc  
 jdk:
  - openjdk8
 
@@ -36,10 +36,10 @@ after_failure:
   - docker logs asciidoc-to-docbook
 
 after_success:      
-  - mkdir output/2_0-metabolomics-draft
-  - cp -R $MZTAB_M_OUT/* output/2_0-metabolomics-draft
-  - mkdir output/2_0-metabolomics-draft/img
-  - cp -R $MZTAB_M_OUT/img/* output/2_0-metabolomics-draft/img
+  - mkdir output/2_0-metabolomics-release
+  - cp -R $MZTAB_M_OUT/* output/2_0-metabolomics-release
+  - mkdir output/2_0-metabolomics-release/img
+  - cp -R $MZTAB_M_OUT/img/* output/2_0-metabolomics-release/img
   - cp -R $TRAVIS_BUILD_DIR/docs/* output/
 
 deploy:
