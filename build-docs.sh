@@ -69,6 +69,8 @@ fi
 echo "Building PDF version of $INPUT_DIR/$ADOC_FILE in $OUTPUT_DIR"
 docker run $RM_DOCKER -u $USER_GROUP -v $INPUT_DIR:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -d book --attribute="commit-hash=$COMMIT_HASH" --attribute="build-date=$BUILD_DATE" -D /documents/output $ADOC_FILE
 
+cp -R $INPUT_DIR/output/* $OUTPUT_DIR/
+
 ECODE=$?
 if [ ! $ECODE -eq 0 ]; then
   echo "Build failed with exit code $ECODE"
