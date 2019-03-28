@@ -13,8 +13,8 @@
 <simpara>This document presents the specification of the mzTab data format for metabolomics developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.</simpara>
 <simpara><emphasis>Version of This Document</emphasis></simpara>
 <simpara>Date created: June 1st, 2012</simpara>
-<simpara>Last updated: Thu Mar 28 09:06:09 UTC 2019</simpara>
-<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/fe5417322e04dc3f836bae93063661f94449ff44">fe5417322e04dc3f836bae93063661f94449ff44</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc">Commit History</link></simpara>
+<simpara>Last updated: Thu Mar 28 12:25:18 UTC 2019</simpara>
+<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/ddc0fc4889124889083196ebce1b205844d2c9a3">ddc0fc4889124889083196ebce1b205844d2c9a3</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc">Commit History</link></simpara>
 <simpara>The current version of this document is: version 2.0.0-Final March 2019 (RELEASE)</simpara>
 <simpara>The latest (draft) version of this document may be found at <link xl:href="https://github.com/HUPO-PSI/mzTab">https://github.com/HUPO-PSI/mzTab</link>.</simpara>
 <simpara><emphasis>Type of This Document</emphasis></simpara>
@@ -310,7 +310,7 @@ SME ... ms_run[1]:scan=11665 ...</screen>
 <title>Simple experimental designs in mzTab-M can be represented using a combination of the elements study_variable (SV), assay, ms_run and sample. Quantitative values can be reported in files for SVs and assays. A) SV is intended to capture different groups of replicates, which might have resulted from different levels of a given variable e.g. control versus treated (represented as 2 SVs), n time points over a treatment course (as n SVs). B) assay captures a measurement made about a molecule (small molecule/lipid) where multiple assays within the same group are taken to be replicates of some kind (biological or technical). C) ms_run captures a single run on an MS instrument. D) samples are optional in mzTab since the quantitative software may often be unaware of the biological samples that have been analyzed. If that information is available, references from assay to the same (technical, upper half) or different (biological, bottom half) samples are used to describe the type of replication performed.</title>
 <mediaobject>
 <imageobject>
-<imagedata fileref="img/media/figure1.png" contentwidth="100%"/>
+<imagedata fileref="img/media/figure1.png" width="100%"/>
 </imageobject>
 <textobject><phrase>image</phrase></textobject>
 </mediaobject>
@@ -351,7 +351,7 @@ SME ... ms_run[1]:scan=11665 ...</screen>
 <title> A) The summary level (SML) reports the final assumed identification, allowing for ambiguity by “|” separated results in the relevant columns. B) The feature level (SMF) does not explicitly report identifications but references down to the SME level. Ambiguity is propagated via referencing multiple SME elements (rows) with different identification results. C) One SME element (one row) represents a single possible identification from some input evidence. Multiple identifications from the same input data share the same value for evidence_input_id. Ambiguity is captured by different rows for the same input data.</title>
 <mediaobject>
 <imageobject>
-<imagedata fileref="img/media/figure2.png" contentwidth="100%"/>
+<imagedata fileref="img/media/figure2.png" width="100%"/>
 </imageobject>
 <textobject><phrase>image</phrase></textobject>
 </mediaobject>
@@ -526,7 +526,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 <title>Overall structure of an mzTab-M file. A) The metadata about the experiment, describing experimental design (study variables and assays), links to other files etc.; B) The Small Molecule (SML) table, capturing “final” results table i.e. overall calculated quantification value (and identity where known) of a metabolite; C) Quantification value in each (aligned) MS run for MS1 features e.g. mapped to individual adducts or charge states of a molecule; D) Evidence supporting identification (with ambiguity if needed) for molecules, using CV terms for scores/statistics where available.</title>
 <mediaobject>
 <imageobject>
-<imagedata fileref="img/media/figure-mztab-sections.png" contentwidth="100%"/>
+<imagedata fileref="img/media/figure-mztab-sections.png" width="100%"/>
 </imageobject>
 <textobject><phrase>image</phrase></textobject>
 </mediaobject>
@@ -642,7 +642,7 @@ To support a future evolution of the format, an mzTab file MUST report its versi
 </row>
 <row>
 <entry align="left" valign="top"><simpara><emphasis role="strong">Example</emphasis></simpara></entry>
-<entry align="left" valign="top"><literallayout class="monospaced">MTD description An experiment investigating the effects of Il-6...</literallayout></entry>
+<entry align="left" valign="top"><literallayout class="monospaced">MTD description An experiment investigating the effects of Il-6.</literallayout></entry>
 </row>
 </tbody>
 </tgroup>
