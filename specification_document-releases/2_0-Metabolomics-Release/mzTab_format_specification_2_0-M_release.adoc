@@ -20,7 +20,7 @@ endif::[]
 
 :commit-hash: UNDEFINED
 :build-date: UNDEFINED
-:document-version: 2.0.0-release candidate 2018 (DRAFT)
+:document-version: 2.0.0-Final March 2019 (RELEASE)
 
 //disable section numbering
 :!sectnums:
@@ -36,11 +36,11 @@ Date created: June 1st, 2012
 
 Last updated: {build-date}
 
-Based on commit: https://github.com/HUPO-PSI/mzTab/commit/{commit-hash}[{commit-hash}] - https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_format_specification_2_0-M_draft.adoc[Commit History]
+Based on commit: https://github.com/HUPO-PSI/mzTab/commit/{commit-hash}[{commit-hash}] - https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc[Commit History]
 
 The current version of this document is: version {document-version}
 
-The latest draft version of this document may be found at https://github.com/HUPO-PSI/mzTab.
+The latest (draft) version of this document may be found at https://github.com/HUPO-PSI/mzTab.
 
 _Type of This Document_
 
