@@ -51,10 +51,10 @@ MTD	database[2]	[,, LipidMaps, ]
 MTD	database[2]-prefix	LM																			
 MTD	database[2]-version	2017-12																			
 MTD	database[2]-uri	http://www.lipidmaps.org/																			
-MTD	Database[3]	[,, LipidCreator Transitions, ]																			
-MTD	Database[3]-prefix	LCTR																			
-MTD	Database[3]-version	2018-07																			
-MTD	Database[3]-uri	https://lifs.isas.de/lipidcreator																			
+MTD	database[3]	[,, LipidCreator Transitions, ]																			
+MTD	database[3]-prefix	LCTR																			
+MTD	database[3]-version	2018-07																			
+MTD	database[3]-uri	https://lifs.isas.de/lipidcreator																			
 COM	MTD	colunit-small_molecule	retention_time=[UO, UO:0000010, second, ]																		
 MTD	colunit-small_molecule_evidence	opt_global_mass_error=[UO, UO:0000169, parts per million, ]																			
 MTD	id_confidence_measure[1]	[MS, MS:1002890, fragmentation score, ]																			
