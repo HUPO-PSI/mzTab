@@ -25,11 +25,11 @@ for i in $(find "$V_DIR" -maxdepth 1 -iname '*.mztab'); do
   echo -e "################################################################################"
   if [[ $i == *"MouseLiver_negative"* ]]; then
     echo -e "# Starting basic validation of $i on level $V_LEVEL"
-    java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -level $V_LEVEL
+    java -jar jmztabm-cli-$V_VERSION.jar -c $i -level $V_LEVEL
   else
     echo -e "# Starting full validation of $i on level $V_LEVEL"
     # semantic validation may take quite some time for larger files  
-    java -jar jmztabm-cli-$V_VERSION.jar -check inFile=$i -checkSemantic mappingFile=cv-mapping/mzTab-M-mapping.xml -level $V_LEVEL
+    java -jar jmztabm-cli-$V_VERSION.jar -c $i -s cv-mapping/mzTab-M-mapping.xml -level $V_LEVEL
   fi
   if [ $? -ne 0 ];
   then
