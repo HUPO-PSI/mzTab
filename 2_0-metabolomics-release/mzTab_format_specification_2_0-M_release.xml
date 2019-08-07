@@ -13,8 +13,8 @@
 <simpara>This document presents the specification of the mzTab data format for metabolomics developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.</simpara>
 <simpara><emphasis>Version of This Document</emphasis></simpara>
 <simpara>Date created: June 1st, 2012</simpara>
-<simpara>Last updated: Wed Aug  7 11:34:32 UTC 2019</simpara>
-<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/ff5058a76b9eab0aa2807db7f207243f90f7958b">ff5058a76b9eab0aa2807db7f207243f90f7958b</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc">Commit History</link></simpara>
+<simpara>Last updated: Wed Aug  7 11:47:57 UTC 2019</simpara>
+<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/260961296f76d020a6d5c1e57f966c1334f6ca00">260961296f76d020a6d5c1e57f966c1334f6ca00</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc">Commit History</link></simpara>
 <simpara>The current version of this document is: version 2.0.0-Final March 2019 (RELEASE)</simpara>
 <simpara>The latest (draft) version of this document may be found at <link xl:href="https://github.com/HUPO-PSI/mzTab">https://github.com/HUPO-PSI/mzTab</link>.</simpara>
 <simpara><emphasis>Type of This Document</emphasis></simpara>
