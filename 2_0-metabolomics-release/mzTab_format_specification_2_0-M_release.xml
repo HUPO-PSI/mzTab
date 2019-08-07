@@ -5,7 +5,7 @@
 <info>
 <title>mzTab-M</title>
 <subtitle>exchange format for metabolomics results</subtitle>
-<date>2019-04-02</date>
+<date>2019-08-07</date>
 </info>
 <preface xml:id="_preface">
 <title>Preface</title>
@@ -13,8 +13,8 @@
 <simpara>This document presents the specification of the mzTab data format for metabolomics developed by members of the Human Proteome Organisation (HUPO) Proteomics Standards Initiative (PSI) Proteomics Informatics (PI) Working Group, in collaboration with the Metabolomics Standards initiative (MSI). Distribution is unlimited.</simpara>
 <simpara><emphasis>Version of This Document</emphasis></simpara>
 <simpara>Date created: June 1st, 2012</simpara>
-<simpara>Last updated: Tue Apr  2 08:53:15 UTC 2019</simpara>
-<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/6dea6d423a276968b3841c65bad1aec8410134ae">6dea6d423a276968b3841c65bad1aec8410134ae</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc">Commit History</link></simpara>
+<simpara>Last updated: Wed Aug  7 11:34:32 UTC 2019</simpara>
+<simpara>Based on commit: <link xl:href="https://github.com/HUPO-PSI/mzTab/commit/ff5058a76b9eab0aa2807db7f207243f90f7958b">ff5058a76b9eab0aa2807db7f207243f90f7958b</link> - <link xl:href="https://github.com/HUPO-PSI/mzTab/commits/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc">Commit History</link></simpara>
 <simpara>The current version of this document is: version 2.0.0-Final March 2019 (RELEASE)</simpara>
 <simpara>The latest (draft) version of this document may be found at <link xl:href="https://github.com/HUPO-PSI/mzTab">https://github.com/HUPO-PSI/mzTab</link>.</simpara>
 <simpara><emphasis>Type of This Document</emphasis></simpara>
@@ -3858,19 +3858,19 @@ It furthermore supports transcoding from a JSON representation of the object mod
 <title>References</title>
 <bibliodiv>
 <bibliomixed>
-<bibliomisc><anchor xml:id="bradner-1997" xreflabel="[bradner-1997]"/>[bradner-1997] Bradner, S. (1997). Key words for use in RFCs to Indicate Requirement Levels, Internet Engineering Task Force. RFC 2119.</bibliomisc>
+<bibliomisc><anchor xml:id="bradner-1997" xreflabel="[bradner-1997]"/> Bradner, S. (1997). Key words for use in RFCs to Indicate Requirement Levels, Internet Engineering Task Force. RFC 2119.</bibliomisc>
 </bibliomixed>
 <bibliomixed>
-<bibliomisc><anchor xml:id="martens-2011" xreflabel="[martens-2011]"/>[martens-2011] Martens, L., et al. (2011). "mzML&#8212;&#8203;a community standard for mass spectrometry data." <emphasis>Mol Cell Proteomics</emphasis> 10(1): R110 000133.</bibliomisc>
+<bibliomisc><anchor xml:id="martens-2011" xreflabel="[martens-2011]"/> Martens, L., et al. (2011). "mzML&#8212;&#8203;a community standard for mass spectrometry data." <emphasis>Mol Cell Proteomics</emphasis> 10(1): R110 000133.</bibliomisc>
 </bibliomixed>
 <bibliomixed>
-<bibliomisc><anchor xml:id="hill-1900" xreflabel="[hill-1900]"/>[hill-1900] EA Hill (1900). “ON A SYSTEM OF INDEXING CHEMICAL LITERATURE; ADOPTED BY THE CLASSIFICATION DIVISION OF THE U. S. PATENT OFFICE.” <emphasis>J. Am. Chem. Soc.</emphasis> 22 (8): 478–494. doi:10.1021/ja02046a005.</bibliomisc>
+<bibliomisc><anchor xml:id="hill-1900" xreflabel="[hill-1900]"/> EA Hill (1900). “ON A SYSTEM OF INDEXING CHEMICAL LITERATURE; ADOPTED BY THE CLASSIFICATION DIVISION OF THE U. S. PATENT OFFICE.” <emphasis>J. Am. Chem. Soc.</emphasis> 22 (8): 478–494. doi:10.1021/ja02046a005.</bibliomisc>
 </bibliomixed>
 <bibliomixed>
-<bibliomisc><anchor xml:id="griss-2014" xreflabel="[griss-2014]"/>[griss-2014] Griss et al. (2014) "The mzTab data exchange format: communicating mass-spectrometry-based proteomics and metabolomics experimental results to a wider audience." <emphasis>Mol Cell Proteomics</emphasis> doi: 10.1074/mcp.O113.036681.</bibliomisc>
+<bibliomisc><anchor xml:id="griss-2014" xreflabel="[griss-2014]"/> Griss et al. (2014) "The mzTab data exchange format: communicating mass-spectrometry-based proteomics and metabolomics experimental results to a wider audience." <emphasis>Mol Cell Proteomics</emphasis> doi: 10.1074/mcp.O113.036681.</bibliomisc>
 </bibliomixed>
 <bibliomixed>
-<bibliomisc><anchor xml:id="sansone-2012" xreflabel="[sansone-2012]"/>[sansone-2012] Sansone et al. (2012) "Toward interoperable bioscience data." <emphasis>Nature Genetics</emphasis> 44: 121–126. doi:10.1038/ng.1054.</bibliomisc>
+<bibliomisc><anchor xml:id="sansone-2012" xreflabel="[sansone-2012]"/> Sansone et al. (2012) "Toward interoperable bioscience data." <emphasis>Nature Genetics</emphasis> 44: 121–126. doi:10.1038/ng.1054.</bibliomisc>
 </bibliomixed>
 </bibliodiv>
 </bibliography>
