@@ -5,7 +5,7 @@ V_DIR="../../../examples/2_0-Metabolomics_Release/"
 # download and unzip validator
 mkdir -p build/validation
 cd build/validation
-rm -r *
+rm -rf *
 wget $V_URL
 if [ $? -ne 0 ]; then
   echo -e "Failed to download validator cli distribution from $V_URL"
