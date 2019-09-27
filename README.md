@@ -34,11 +34,15 @@ When you use the mzTab format version 1.0, please cite the following publication
 
   > Example Files ([zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip), [Wiki](../../wiki/Examples))
 
-## jmzTab-m API (for mzTab-M 2.0.x, under development)
+## jmzTab-m API (for mzTab-M 2.0.+)
 
   > [jmzTab-m](https://github.com/lifs-tools/jmzTab-m)
 
   > [jmzTab-m web validator](https://github.com/lifs-tools/jmzTab-m-webapp)
+  
+When you use the jmzTab-m library, please cite the following publication:
+
+* **[Nils Hoffmann et al., Analytical Chemistry 2019; Sep;](https://pubs.acs.org/doi/10.1021/acs.analchem.9b01987). [PDF File](). [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/31525911).**
 
 ## jmzTab API (for mzTab 1.0)
 
