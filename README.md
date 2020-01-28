@@ -17,6 +17,19 @@ When you use the mzTab format version 1.0, please cite the following publication
 
   * **[J. Griss et al., Mol Cell Proteomics 2014.](http://www.mcponline.org/content/early/2014/06/30/mcp.O113.036681.abstract) [PDF File](http://www.mcponline.org/content/early/2014/06/30/mcp.O113.036681.full.pdf).  [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/24980485).**
 
+## Current Activities and Software Support
+
+**Version 2.0.0 for Metabolomics**
+
+ * [LIFS](https://lifs.isas.de) will update and finalizing the [Python mzTab-M library](https://github.com/lifs-tools/pymzTab-m)
+ * [LIFS](https://lifs.isas.de) will be working on implementing support for mzTab-M in [LipidXplorer](https://lifs.isas.de/lipidxplorer) and [LUX Score](https://lifs.isas.de/luxscore) (via that Python mzTab-M library)
+ * [LIFS](https://lifs.isas.de) plans to add export of mzTab-M from Skyline in 2020.
+ * There is also interest from [MSDK / MzMine](https://msdk.github.io/).
+ * [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) can import of mzTab-M since late last year.
+ * [MS-Dial](http://prime.psc.riken.jp/Metabolomics_Software/MS-DIAL/) is currently working on writing mzTab-M as output.
+ * [XCMS](https://github.com/sneumann/xcms) has a prototype mzTab-M export.
+ * [Lipid Data Analyzer 2 (LDA2)](http://genome.tugraz.at/lda2/lda_description.shtml) has support for mzTab-M as output.
+ * LIFS coordinates with the [Lipidomics Standards Initiative](https://lipidomics-standards-initiative.org/) [Use-cases and best practices for mzTab-M in Lipidomics](https://github.com/lipidomics-standards-initiative/).
 
 ## Specification documents
 
