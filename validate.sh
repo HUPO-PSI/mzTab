@@ -1,6 +1,6 @@
 #!/bin/bash
 V_VERSION="1.0.4"
-V_URL="https://central.maven.org/maven2/de/isas/mztab/jmztabm-cli/$V_VERSION/jmztabm-cli-$V_VERSION-bin.zip"
+V_URL="https://repo1.maven.org/maven2/de/isas/mztab/jmztabm-cli/$V_VERSION/jmztabm-cli-$V_VERSION-bin.zip"
 V_DIR="../../../examples/2_0-Metabolomics_Release/"
 # download and unzip validator
 mkdir -p build/validation
