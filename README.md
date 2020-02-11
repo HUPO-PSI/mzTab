@@ -30,9 +30,9 @@ When you use the mzTab format version 1.0, please cite the following publication
 
 **Software with support for mzTab-M 2.0**
  
- * [Lipid Data Analyzer 2 (LDA2)](http://genome.tugraz.at/lda2/lda_description.shtml) has support for mzTab-M as output.
+ * [Lipid Data Analyzer 2 (LDA2)](http://genome.tugraz.at/lda2/lda_description.shtml) has support for mzTab-M as output ([Examples](../../wiki/Examples)).
  * [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) can import of mzTab-M since late last year.
- * [MS-Dial](http://prime.psc.riken.jp/Metabolomics_Software/MS-DIAL/) has support for mzTab-M as output.
+ * [MS-Dial](http://prime.psc.riken.jp/Metabolomics_Software/MS-DIAL/) has support for mzTab-M as output ([Examples](../../wiki/Examples)).
  * [jmzTab-M](https://github.com/lifs-tools/jmzTab-m) provides the reference implementation to read, write and validate mzTab-M 2.0.
 
 If you are interested in helping with any of the planned or ongoing projects, please get in contact!
