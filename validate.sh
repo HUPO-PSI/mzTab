@@ -1,5 +1,5 @@
 #!/bin/bash
-V_VERSION="1.0.4"
+V_VERSION="1.0.5"
 V_URL="http://central.maven.org/maven2/de/isas/mztab/jmztabm-cli/$V_VERSION/jmztabm-cli-$V_VERSION-bin.zip"
 V_DIR="../../../examples/2_0-Metabolomics_Release/"
 # download and unzip validator
@@ -31,6 +31,21 @@ for i in $(find "$V_DIR" -maxdepth 1 -iname '*.mztab'); do
     # semantic validation may take quite some time for larger files  
     java -jar jmztabm-cli-$V_VERSION.jar -c $i -s cv-mapping/mzTab-M-mapping.xml -level $V_LEVEL
   fi
+  if [ $? -ne 0 ];
+  then
+    echo -e "# Validation of file $i failed! Please check console output for errors!"
+    V_FAILED+=($i)
+  else
+    echo -e "# Validation of file $i was successful. Please check console output for hints for improvment!"
+  fi
+  echo -e "################################################################################"
+done
+
+# TODO: once ols can resolved MS DIAL CV term properly, switch to semantic validation
+for i in $(find "$V_DIR/msdial" -maxdepth 1 -iname '*.txt'); do
+  echo -e "################################################################################"
+  echo -e "# Starting basic validation of $i on level $V_LEVEL"
+  java -jar jmztabm-cli-$V_VERSION.jar -c $i -level $V_LEVEL
   if [ $? -ne 0 ];
   then
     echo -e "# Validation of file $i failed! Please check console output for errors!"
