@@ -74,4 +74,4 @@ When you use jmzTab library, please cite the following publication:
   * **[Qing-Wei Xu et al., Proteomics 2014; Jun;14(11):1328-32](http://onlinelibrary.wiley.com/doi/10.1002/pmic.201300560/abstract). [PDF File](http://onlinelibrary.wiley.com/doi/10.1002/pmic.201300560/pdf).  [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/24659499).**
 
 ## Wiki
-For more information you can visit the [mzTab](https://github.com/HUPO-PSI/mzTab/wiki) and [jmzTab](https://github.com/PRIDE-Utilities/jmztab/wiki) wikis.
+For more information you can visit the [mzTab (for mzTab 1.0 and mzTab-M 2.0)](https://github.com/HUPO-PSI/mzTab/wiki) and [jmzTab 1.0](https://github.com/PRIDE-Utilities/jmztab/wiki) wikis.
