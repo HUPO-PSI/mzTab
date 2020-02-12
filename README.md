@@ -46,9 +46,10 @@ If you are interested in helping with any of the planned or ongoing projects, pl
   > Example Files ([Wiki](../../wiki/Examples), [Git](https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Release))
 
   > Reference implementation ([jmzTab-m](https://github.com/lifs-tools/jmzTab-m) to read, write and validate **mzTab-M 2.0.+**)
-Please see the [jmzTab-m project README](https://github.com/lifs-tools/jmzTab-M) and the [Maven site](https://lifs-tools.github.io/jmzTab-m/) for an introduction to the object model, creation of custom mzTab-M files and mzTab-M validation. 
   
   > Validator web application ([jmzTab-m web validator](https://github.com/lifs-tools/jmzTab-m-webapp) for **mzTab-M 2.0** and mzTab 1.0 (see below))
+  
+Please see the [jmzTab-m project README](https://github.com/lifs-tools/jmzTab-M) and the [Maven site](https://lifs-tools.github.io/jmzTab-m/) for an introduction to the object model, creation of custom mzTab-M files and mzTab-M validation. 
   
 When you use the jmzTab-m library, please cite the following publication:
 
