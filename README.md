@@ -37,13 +37,24 @@ When you use the mzTab format version 1.0, please cite the following publication
 
 If you are interested in helping with any of the planned or ongoing projects, please get in contact!
 
-## Specification documents
+## Specifications
 
 **Version 2.0.0 for Metabolomics (March 2019):**
 
   > Specification document ([adoc](https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc), [html](http://hupo-psi.github.io/mzTab/2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.html), [docx](http://hupo-psi.github.io/mzTab/2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.docx), [PDF](http://hupo-psi.github.io/mzTab/2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.pdf))
   
   > Example Files ([Wiki](../../wiki/Examples), [Git](https://github.com/HUPO-PSI/mzTab/tree/master/examples/2_0-Metabolomics_Release))
+
+  > Reference implementation ([jmzTab-m](https://github.com/lifs-tools/jmzTab-m) to read, write and validate **mzTab-M 2.0.+**)
+Please see the [jmzTab-m project README](https://github.com/lifs-tools/jmzTab-M) and the [Maven site](https://lifs-tools.github.io/jmzTab-m/) for an introduction to the object model, creation of custom mzTab-M files and mzTab-M validation. 
+  
+  > Validator web application ([jmzTab-m web validator](https://github.com/lifs-tools/jmzTab-m-webapp) for **mzTab-M 2.0** and mzTab 1.0 (see below))
+  
+When you use the jmzTab-m library, please cite the following publication:
+
+* **[Nils Hoffmann et al., Analytical Chemistry 2019; Sep;](https://pubs.acs.org/doi/10.1021/acs.analchem.9b01987). [PDF File](). [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/31525911).**
+
+---
 
 **Version 1.0.0 (June 2014):**
 
@@ -52,19 +63,9 @@ If you are interested in helping with any of the planned or ongoing projects, pl
   > The 20 minute guide to mzTab ([docx](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.docx), [PDF](https://github.com/HUPO-PSI/mzTab/tree/master/specification_document-releases/1_0-Proteomics-Release/20minute_guide_mzTab.pdf))
 
   > Example Files ([zip](http://www.ebi.ac.uk/pride/resources/tools/jmztab/latest/examples.zip), [Wiki](../../wiki/Examples))
-
-## jmzTab-m API (for mzTab-M 2.0.+)
-
-  > [jmzTab-m](https://github.com/lifs-tools/jmzTab-m)
-
-  > [jmzTab-m web validator](https://github.com/lifs-tools/jmzTab-m-webapp)
   
-When you use the jmzTab-m library, please cite the following publication:
-
-* **[Nils Hoffmann et al., Analytical Chemistry 2019; Sep;](https://pubs.acs.org/doi/10.1021/acs.analchem.9b01987). [PDF File](). [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/31525911).**
-
-## jmzTab API (for mzTab 1.0)
-
+  > Reference implementation ([**jmzTab**](https://github.com/PRIDE-Utilities/jmztab) for **mzTab-M 1.0**)
+  
 The main principle behind the design of the [**jmzTab**](https://github.com/PRIDE-Utilities/jmztab) core model is to provide an independent light-weight architecture for simplifying the integration of the library in different proteomics/metabolomics software applications. Users can integrate the model into their applications, without the need any other third-party packages. Especially, when users want to recode the model by using other programming languages, and migrates [**jmzTab**](https://github.com/PRIDE-Utilities/jmztab) API into other heterogeneous system.
 
 We provide a [tutorial](https://github.com/PRIDE-Utilities/jmztab/wiki/Home) document and a couple of demos to help you to create [metadata](https://github.com/PRIDE-Utilities/jmztab/wiki/jmzTab-Metadata) and [fill data](https://github.com/PRIDE-Utilities/jmztab/wiki/jmzTab-Columns) by calling [**jmzTab**](https://github.com/PRIDE-Utilities/jmztab) API.
@@ -72,6 +73,7 @@ We provide a [tutorial](https://github.com/PRIDE-Utilities/jmztab/wiki/Home) doc
 When you use jmzTab library, please cite the following publication:
 
   * **[Qing-Wei Xu et al., Proteomics 2014; Jun;14(11):1328-32](http://onlinelibrary.wiley.com/doi/10.1002/pmic.201300560/abstract). [PDF File](http://onlinelibrary.wiley.com/doi/10.1002/pmic.201300560/pdf).  [PubMed record](http://www.ncbi.nlm.nih.gov/pubmed/24659499).**
+
 
 ## Wiki
 For more information you can visit the [mzTab (for mzTab 1.0 and mzTab-M 2.0)](https://github.com/HUPO-PSI/mzTab/wiki) and [jmzTab 1.0](https://github.com/PRIDE-Utilities/jmztab/wiki) wikis.
