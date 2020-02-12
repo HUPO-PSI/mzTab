@@ -11,7 +11,8 @@ jdk:
 
 sudo: required
 
-install: false
+install: true
+#false
 
 services:
   - docker                  
