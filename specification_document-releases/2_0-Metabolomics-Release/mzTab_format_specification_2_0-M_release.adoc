@@ -119,7 +119,6 @@ The following requirements have driven the development of the mzTab data model, 
 
 8. It should be possible to directly link a small molecule record to its source spectrum in an external MS data file.
 
-
 [[notational-conventions]]
 == Notational Conventions
 
@@ -1046,6 +1045,7 @@ Multiple assays SHOULD reference the same ms_run to capture multiplexed experime
 |*Example* a|
 ....
 MTD assay[1]-ms_run_ref ms_run[1]
+MTD assay[1]-ms_run_ref ms_run[2]
 ....
 |===========================================================================================================================================================================================================================================================
 
