@@ -147,16 +147,19 @@ As recommended by the PSI CV guidelines, psi-ms.obo should be dynamically mainta
 
 The following ontologies or controlled vocabularies specified below may also be recommended or required in certain instances, as specified within the https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-developments/2_0-Metabolomics-Draft/mzTab_2_0-M_mapping.xml[CV mapping file]:
 
-* Unit Ontology (http://www.obofoundry.org/ontology/uo.html)
-* ChEBI (ftp://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi.obo)
-* OBI Ontology of Biological Investigations (http://obi-ontology.org/)
-* NCBITaxon UniProt Taxonomy Database (https://www.ebi.ac.uk/ols/ontologies/ncbitaxon)
-* BRENDA tissue/ enzyme source (http://www.brenda-enzymes.info/ontology/tissue/tree/update/update_files/BrendaTissueOBO).
-* Cell Type ontology (https://raw.githubusercontent.com/obophenotype/cell-ontology/master/cl-basic.obo).
-* Human disease ontology (http://www.disease-ontology.org/).
-* XLMOD ontology with chemical reagents used for cross-linking and derivatization (https://raw.githubusercontent.com/HUPO-PSI/mzIdentML/master/cv/XLMOD.obo).
+* Unit Ontology (https://obofoundry.org/ontology/uo.html).
+* ChEBI (https://obofoundry.org/ontology/chebi.html).
+* OBI Ontology of Biological Investigations (https://obofoundry.org/ontology/obi.html).
+* NCBITaxon UniProt Taxonomy Database (https://obofoundry.org/ontology/ncbitaxon.html).
+* BRENDA tissue/ enzyme source (https://obofoundry.org/ontology/bto.html).
+* Cell Type ontology (https://obofoundry.org/ontology/cl.html).
+* Human disease ontology (https://obofoundry.org/ontology/doid.html).
+* XLMOD ontology with chemical reagents used for cross-linking and derivatization (https://obofoundry.org/ontology/xlmod.html).
 * PRIDE (Proteomics Identifications) ontology (https://github.com/PRIDE-Utilities/pride-ontology).
 * MSIO (Metabolomics Standards Initiative) ontology (https://github.com/MSI-Metabolomics-Standards-Initiative/MSIO) for metabolomics, including harvesting, material and sample processing.
+* NCIT (NCI Thesaurus) (https://obofoundry.org/ontology/ncit.html) NCI Thesaurus (NCIt) is a reference terminology that includes broad coverage of the cancer domain, including cancer related diseases, findings and abnormalities. 
+
+Most of these ontologies are also indexed and searchable at EBI's Ontology Lookup Service (OLS) at https://www.ebi.ac.uk/ols/index
 
 [[resolved-design-and-scope-issues]]
 == Resolved Design and scope issues
