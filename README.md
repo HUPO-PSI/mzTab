@@ -21,12 +21,12 @@ When you use the mzTab format version 1.0, please cite the following publication
 
 **Version 2.0.0 for Metabolomics**
 
- * [LIFS](https://lifs.isas.de) will update and finalize the [Python mzTab-M library](https://github.com/lifs-tools/pymzTab-m).
- * [LIFS](https://lifs.isas.de) will be working on implementing support for mzTab-M in [LipidXplorer](https://lifs.isas.de/lipidxplorer) and [LUX Score](https://lifs.isas.de/luxscore) (via the Python mzTab-M library).
- * [LIFS](https://lifs.isas.de) plans to add export of mzTab-M from Skyline in 2020.
- * [MzMine 2/3](https://mzmine.github.io) will integrate mzTab-M support during [GSoC 2020](https://summerofcode.withgoogle.com/organizations/6193328950870016/).
- * [XCMS](https://github.com/sneumann/xcms) has a prototype mzTab-M export.
  * LIFS coordinates with the [Lipidomics Standards Initiative](https://lipidomics-standards-initiative.org/) [Use-cases and best practices for mzTab-M in Lipidomics](https://github.com/lipidomics-standards-initiative/).
+
+**Help wanted**
+
+* Add export of mzTab-M from Skyline.
+* Finalize the [Python mzTab-M library](https://github.com/lifs-tools/pymzTab-m).
 
 **Software with support for mzTab-M 2.0**
  
@@ -35,6 +35,10 @@ When you use the mzTab format version 1.0, please cite the following publication
  * [MS-Dial](http://prime.psc.riken.jp/Metabolomics_Software/MS-DIAL/) has support for mzTab-M as output ([Examples](../../wiki/Examples)).
  * [MetaboAnalyst](https://www.metaboanalyst.ca/MetaboAnalyst/docs/Format.xhtml) can import mzTab-M since April 2020.
  * [jmzTab-M](https://github.com/lifs-tools/jmzTab-m) provides the reference implementation to read, write and validate mzTab-M 2.0.
+ * [MzMine 3](https://mzmine.github.io) provides feature input and output support via mzTab-M, implemented during [GSoC 2020](https://summerofcode.withgoogle.com/organizations).
+ * [LipidXplorer 2](https://github.com/lifs-tools/lipidxplorer) provides preliminary mzTab-M output of identified and quantified lipid features.
+ * [XCMS](https://github.com/sneumann/xcms) has a prototype mzTab-M export.
+ * [rmztab-m](https://github.com/lifs-tools/rmztabm) provides support in R for reading, writing and validation of mzTab-M files.
 
 If you are interested in helping with any of the planned or ongoing projects, please get in contact!
 
