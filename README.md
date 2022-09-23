@@ -21,7 +21,8 @@ When you use the mzTab format version 1.0, please cite the following publication
 
 **Version 2.0.0 for Metabolomics**
 
- * LIFS coordinates with the [Lipidomics Standards Initiative](https://lipidomics-standards-initiative.org/) [Use-cases and best practices for mzTab-M in Lipidomics](https://github.com/lipidomics-standards-initiative/).
+ * Work with the [Lipidomics Standards Initiative](https://lipidomics-standards-initiative.org/) to map the reporting checklist to mzTab-M metadata.
+ * [Custom mapping file for semantic validation of mzTab-M for Lipidomics](https://github.com/lipidomics-standards-initiative/).
 
 **Help wanted**
 
