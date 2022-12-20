@@ -43,4 +43,6 @@ jobs:
         with:
           name: output artefacts
           path: |
-            output/2_0-metabolomics-release/*.{pdf,html,docx}
+            output/2_0-metabolomics-release/*.pdf
+            output/2_0-metabolomics-release/*.html
+            output/2_0-metabolomics-release/*.docx
