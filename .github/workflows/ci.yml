@@ -38,6 +38,12 @@ jobs:
       - run: mkdir output/2_0-metabolomics-release/img
       - run: cp -R $MZTAB_M_OUT/img/* output/2_0-metabolomics-release/img
       - run: cp -R docs/* output/
+      - name: Archive document build output
+        uses: actions/upload-artifact@v3
+        with:
+          name: output artefacts
+          path: |
+            output/*.{pdf,html,docx}
   validate-examples:
     runs-on: '${{ matrix.os }}'
     strategy:
