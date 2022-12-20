@@ -8,7 +8,7 @@ on:
       - master
 env:
   DOC_IN: 'specification_document-releases/2_0-Metabolomics-Release' 
-  DOC_OUT: '$DOC_IN/output'
+  DOC_OUT: "$DOC_IN/output"
   DOC_FILE: 'mzTab_format_specification_2_0-M_release.adoc'
 
 jobs:
