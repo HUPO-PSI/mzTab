@@ -1,0 +1,55 @@
+name: Spec Build and Example Validation Workflow
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+env:
+  DOC_IN: 'specification_document-releases/2_0-Metabolomics-Release' 
+  DOC_OUT: '$DOC_IN/output'
+  DOC_FILE: 'mzTab_format_specification_2_0-M_release.adoc'
+
+jobs:
+  build-spec:
+    runs-on: '${{ matrix.os }}'
+    strategy:
+      matrix:
+        os:
+          - ubuntu-22.04
+    steps:
+      - name: Set Build timestamp
+        run: |
+          echo "BUILD_DATE=$(date -u)" >> $GITHUB_ENV 
+      - uses: actions/checkout@v2
+      - run: sudo apt-get update -qq
+      - run: sudo apt-get install -y pandoc
+      - run: mkdir -p output
+      - run: 'docker pull asciidoctor/docker-asciidoctor:1'
+      - name: Build spec doc outputs
+        run: |
+          ./build-docs.sh -i "$DOC_IN" -o "$DOC_OUT" -c
+          "$GITHUB_SHA" -d "$BUILD_DATE" -f "$DOC_FILE"
+        shell: bash
+      - run: mkdir output/2_0-metabolomics-release
+      - run: cp -R $MZTAB_M_OUT/* output/2_0-metabolomics-release
+      - run: mkdir output/2_0-metabolomics-release/img
+      - run: cp -R $MZTAB_M_OUT/img/* output/2_0-metabolomics-release/img
+      - run: cp -R docs/* output/
+  validate-examples:
+    runs-on: '${{ matrix.os }}'
+    strategy:
+      matrix:
+        os:
+          - ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - name: Validate Examples
+        run: ./validate.sh
+        shell: bash
