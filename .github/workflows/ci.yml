@@ -7,9 +7,9 @@ on:
     branches:
       - master
 env:
-  DOC_IN: 'specification_document-releases/2_0-Metabolomics-Release'
+  DOC_IN: "${{ GITHUB_WORKSPACE }}/specification_document-releases/2_0-Metabolomics-Release"
   # referencing $DOC_IN did not want to work, maybe there is a better way
-  DOC_OUT: 'specification_document-releases/2_0-Metabolomics-Release/output'
+  DOC_OUT: "${{ GITHUB_WORKSPACE }}/specification_document-releases/2_0-Metabolomics-Release/output"
   DOC_FILE: 'mzTab_format_specification_2_0-M_release.adoc'
 
 jobs:
