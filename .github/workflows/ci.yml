@@ -30,8 +30,7 @@ jobs:
       - run: 'docker pull asciidoctor/docker-asciidoctor:1'
       - name: Build spec doc outputs
         run: |
-          ./build-docs.sh -i "$DOC_IN" -o "$DOC_OUT" -c
-          "$GITHUB_SHA" -d "$BUILD_DATE" -f "$DOC_FILE"
+          ./build-docs.sh -i "$DOC_IN" -o "$DOC_OUT" -c "$GITHUB_SHA" -d "$BUILD_DATE" -f "$DOC_FILE"
         shell: bash
       - run: mkdir output/2_0-metabolomics-release
       - run: cp -R $MZTAB_M_OUT/* output/2_0-metabolomics-release
