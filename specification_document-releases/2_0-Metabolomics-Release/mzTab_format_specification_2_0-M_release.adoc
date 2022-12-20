@@ -20,7 +20,7 @@ endif::[]
 
 :commit-hash: UNDEFINED
 :build-date: UNDEFINED
-:document-version: 2.0.0-Final March 2019 (RELEASE)
+:document-version: 2.0.1-Draft December 2022 (DRAFT)
 
 //disable section numbering
 :!sectnums:
@@ -677,6 +677,25 @@ MTD contact[2]-affiliation Cambridge University, UK
 MTD contact[1]-email watson@cam.ac.uk
 …
 MTD contact[2]-email crick@cam.ac.uk
+....
+|===================================================
+
+[[contact1-n-orcid]]
+==== contact[1-n]-orcid
+
+[cols=",",]
+|===================================================
+|*Description* |The contact's orcid id, without https prefix.
+|*Type* |Regex
+....
+[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]{1}
+....
+|*Mandatory* |False
+|*Example* a|
+....
+…
+MTD contact[2]-email crick@cam.ac.uk
+MTD contact[2]-orcid	0000-0002-1825-0097
 ....
 |===================================================
 
