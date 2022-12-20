@@ -34,7 +34,7 @@ jobs:
         shell: bash
       - run: mkdir output/2_0-metabolomics-release
       - run: cp -R $DOC_OUT/* output/2_0-metabolomics-release
-      - run: mkdir -f output/2_0-metabolomics-release/img
+      - run: mkdir -p output/2_0-metabolomics-release/img
       - run: cp -R $DOC_OUT/img/* output/2_0-metabolomics-release/img
       - run: cp -R docs/* output/
       - name: Archive document build output
