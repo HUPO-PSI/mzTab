@@ -1,4 +1,4 @@
-name: Spec Build and Example Validation Workflow
+name: Spec Build Workflow
 # This workflow triggers on direct pushes to master or PRs affecting changes in the specified subdirectory
 on:
   push:
