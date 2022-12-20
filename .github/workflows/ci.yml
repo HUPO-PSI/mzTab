@@ -1,11 +1,16 @@
 name: Spec Build and Example Validation Workflow
+# This workflow triggers on direct pushes to master or PRs affecting changes in the specified subdirectory
 on:
   push:
     branches:
       - master
+    paths:
+      - 'specification_document-releases/2_0-Metabolomics_Release/**'      
   pull_request:
     branches:
       - master
+    paths:
+      - 'specification_document-releases/2_0-Metabolomics_Release/**'      
 env:
   DOC_IN: "${{ github.workspace }}/specification_document-releases/2_0-Metabolomics-Release"
   # referencing $DOC_IN did not want to work, maybe there is a better way
