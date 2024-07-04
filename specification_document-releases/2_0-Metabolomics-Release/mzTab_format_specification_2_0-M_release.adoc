@@ -458,7 +458,7 @@ Regular expressions (*Regex*) follow the Perl regular expression syntax with min
 |*Description* |The version of the mzTab file. The suffix MUST be "-M" for mzTab for metabolomics (mzTab-M).
 |*Type* a|Regex
 ....
-\d{2}\.\d{0}\.\d{0}-M
+(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-M
 ....
 |*Mandatory* |True
 |*Example* a|
