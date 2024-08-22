@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="https://raw.githubusercontent.com/HUPO-PSI/psi-tools/master/xml-schemas/xsl/cv-mapping/CvMappingRules.xsl" type="text/xsl"?>
+<!-- 
+The mapping file for mzTab refers to attribute and object names in the Java-typical CamelCase notation. 
+The mzTab specification uses a dialect of snake_case-for_attributes to name objects and associated attributes.
+To select certain axis in xpath for example metadata/snake_case-for_attribute in mzTab, this would be written as /metadata/snakeCase/@forAttributes
+
+Note that the JXPath library does not include the MzTab object as an explicit root in selections, but rather implies it as the anonymous root '/'.
+
+Special considerations: a rule with AND as cvTermsCombinationLogic can have at most one term child with allowChildren = true to avoid nonsensical term expansion and combination.
+Alternative term roots should either be expressed as OR (for choose any, even from the expanded term roots when allowChildren = true) or XOR to require EXACTLY one of the term roots' children to be present.
+
+Changelog:
+ - September 10th, 2020 - Added CHMO ontology for chemistry related terms, e.g. chromatography, modified sample_processing_may
+ - March 28th, 2019 - Initial Version
+-->
+<CvMapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.psidev.info/files/validator/CvMapping.xsd" modelName="mzTab_m_swagger.yml" modelURI="https://raw.githubusercontent.com/nilshoffmann/jmzTab-m/master/api/src/main/resources/mzTab_m_swagger.yml" modelVersion="2.0.0">
+
+  <CvReferenceList>
+    <CvReference cvName="PSI-MS" cvIdentifier="MS"/>
+    <CvReference cvName="DOID" cvIdentifier="DOID"/>
+    <CvReference cvName="CL" cvIdentifier="CL"/>
+    <CvReference cvName="BTO" cvIdentifier="BTO"/>
+    <CvReference cvName="NCBITaxon" cvIdentifier="NCBITaxon"/>
+    <CvReference cvName="UO" cvIdentifier="UO"/>
+    <CvReference cvName="PRIDE" cvIdentifier="PRIDE"/>
+    <CvReference cvName="MSIO" cvIdentifier="MSIO"/>
+    <CvReference cvName="CHEBI" cvIdentifier="CHEBI"/>
+    <CvReference cvName="CHMO" cvIdentifier="CHMO"/>
+  </CvReferenceList>
+
+  <CvMappingRuleList>
+
+    <!-- run -->
+    <CvMappingRule id="msrun_format_may" cvElementPath="/metadata/msRun/@format" requirementLevel="MAY"  scopePath="/metadata/msRun" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1000560" useTerm="false" termName="mass spectrometer file format" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule> 
+        
+    <CvMappingRule id="msrun_id_format_may" cvElementPath="/metadata/msRun/@idFormat" requirementLevel="MAY"  scopePath="/metadata/msRun" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1000767" useTerm="false" termName="native spectrum identifier format" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule> 
+        
+    <CvMappingRule id="msrun_fragmentation_method_may" cvElementPath="/metadata/msRun/@fragmentationMethod" requirementLevel="MAY"  scopePath="/metadata/msRun" cvTermsCombinationLogic="OR">
+      <CvTerm termAccession="MS:1000044" useTerm="false" termName="dissociation method" isRepeatable="true" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule> 
+        
+    <CvMappingRule id="msrun_scan_polarity_must" cvElementPath="/metadata/msRun/@scanPolarity" requirementLevel="MUST"  scopePath="/metadata/msRun" cvTermsCombinationLogic="OR">
+      <CvTerm termAccession="MS:1000129" useTerm="true" termName="negative scan" isRepeatable="false" allowChildren="false" cvIdentifierRef="MS"></CvTerm>
+      <CvTerm termAccession="MS:1000130" useTerm="true" termName="positive scan" isRepeatable="false" allowChildren="false" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule> 
+        
+    <CvMappingRule id="msrun_hash_method_may" cvElementPath="/metadata/msRun/@hashMethod" requirementLevel="MAY"  scopePath="/metadata/msRun" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1000561" useTerm="false" termName="data file checksum type" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule> 
+        
+    <!-- sample processing -->
+    <CvMappingRule id="sample_processing_may" cvElementPath="/metadata/sampleProcessing/@sampleProcessing" requirementLevel="MAY"  scopePath="/metadata/sampleprocessing" cvTermsCombinationLogic="OR">
+      <CvTerm termAccession="OBI:0000094" useTerm="false" termName="material processing" isRepeatable="true" allowChildren="true" cvIdentifierRef="MSIO"></CvTerm>
+      <CvTerm termAccession="OBI:0000094" useTerm="false" termName="material processing" isRepeatable="true" allowChildren="true" cvIdentifierRef="CHMO"></CvTerm>
+    </CvMappingRule> 
+        
+    <!-- instrument -->
+    <CvMappingRule id="instrument_name_may" cvElementPath="/metadata/instrument/@name" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1000031" useTerm="false" termName="instrument model" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <CvMappingRule id="instrument_source_may" cvElementPath="/metadata/instrument/@source" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1000458" useTerm="false" termName="source" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <CvMappingRule id="instrument_analyzer_may" cvElementPath="/metadata/instrument/@analyzer" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1000451" useTerm="false" termName="mass analyzer" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <CvMappingRule id="instrument_detector_may" cvElementPath="/metadata/instrument/@detector" requirementLevel="MAY"  scopePath="/metadata/instrument" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1000026" useTerm="false" termName="detector type" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- software -->
+    <CvMappingRule id="software_must" cvElementPath="/metadata/software/@parameter" requirementLevel="MUST"  scopePath="/metadata/software" cvTermsCombinationLogic="AND">
+      <!--<CvTerm termAccession="MS:1002878" useTerm="false" termName="small molecule analysis software" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>-->
+      <CvTerm termAccession="MS:1000531" useTerm="false" termName="software" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- quantification method -->
+    <CvMappingRule id="quantification_method_must" cvElementPath="/metadata/@quantificationMethod" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="OR">
+      <CvTerm termAccession="PRIDE:0000307" useTerm="false" termName="Quantification method" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+      <CvTerm termAccession="MS:1001833" useTerm="false" termName="quantitation analysis summary" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- sample -->
+    <CvMappingRule id="sample_species_may" cvElementPath="/metadata/sample/@species" requirementLevel="MAY"  scopePath="/metadata/sample" cvTermsCombinationLogic="OR">
+      <CvTerm termAccession="PRIDE:0000033" useTerm="false" termName="NEWT" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+      <CvTerm termAccession="NCBITaxon:1" useTerm="false" termName="root" isRepeatable="false" allowChildren="true" cvIdentifierRef="NCBITaxon"></CvTerm>
+    </CvMappingRule>
+        
+    <CvMappingRule id="sample_tissue_may" cvElementPath="/metadata/sample/@tissue" requirementLevel="MAY"  scopePath="/metadata/sample" cvTermsCombinationLogic="OR">
+      <CvTerm termAccession="BTO:0000000" useTerm="false" termName="tissues, cell types and enzyme sources" isRepeatable="false" allowChildren="true" cvIdentifierRef="BTO"></CvTerm>
+      <CvTerm termAccession="PRIDE:0000442" useTerm="false" termName="Tissue not applicable to dataset" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+    </CvMappingRule>
+        
+    <CvMappingRule id="sample_cell_type_may" cvElementPath="/metadata/sample/@cellType" requirementLevel="MAY"  scopePath="/metadata/sample" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="CL:0000000" useTerm="false" termName="cell" isRepeatable="false" allowChildren="true" cvIdentifierRef="CL"></CvTerm>
+    </CvMappingRule>
+        
+    <CvMappingRule id="sample_disease_may" cvElementPath="/metadata/sample/@disease" requirementLevel="MAY"  scopePath="/metadata/sample" cvTermsCombinationLogic="OR">
+      <CvTerm termAccession="DOID:4" useTerm="false" termName="disease" isRepeatable="false" allowChildren="true" cvIdentifierRef="DOID"></CvTerm>
+      <CvTerm termAccession="PRIDE:0000018" useTerm="true" termName="Disease free" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- database -->
+    <CvMappingRule id="database_must" cvElementPath="/metadata/database/@param" requirementLevel="MUST"  scopePath="/metadata/database" cvTermsCombinationLogic="XOR">
+      <CvTerm termAccession="MS:1001013" useTerm="false" termName="database name" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+      <CvTerm termAccession="MS:1001347" useTerm="false" termName="database file formats" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+      <CvTerm termAccession="MS:1001011" useTerm="false" termName="search database details" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- study variable -->
+    <CvMappingRule id="study_variable_average_function_may" cvElementPath="/metadata/studyVariable/@averageFunction" requirementLevel="MAY"  scopePath="/metadata/studyvariable" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1002882" useTerm="false" termName="study variable average function" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <CvMappingRule id="study_variable_variation_function_may" cvElementPath="/metadata/studyVariable/@variationFunction" requirementLevel="MAY"  scopePath="/metadata/studyvariable" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1002884" useTerm="false" termName="study variable variation function" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- derivatization agent -->
+    <CvMappingRule id="derivatization_agent_may" cvElementPath="/metadata/@derivatizationAgent" requirementLevel="MAY"  scopePath="/metadata" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="CHEBI:23367" useTerm="false" termName="molecular entity" isRepeatable="false" allowChildren="true" cvIdentifierRef="CHEBI"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- small molecule quantification unit -->
+    <CvMappingRule id="small_molecule_quantification_unit_must" cvElementPath="/metadata/@smallMoleculeQuantificationUnit" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="XOR">
+      <CvTerm termAccession="PRIDE:0000392" useTerm="false" termName="Quantification unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+      <CvTerm termAccession="UO:0000051" useTerm="false" termName="concentration unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="UO"></CvTerm>
+      <CvTerm termAccession="MS:1000043" useTerm="false" termName="intensity unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+      <CvTerm termAccession="UO:0000006" useTerm="false" termName="substance unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="UO"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- small molecule feature quantification unit -->
+    <CvMappingRule id="small_molecule_feature_quantification_unit_must" cvElementPath="/metadata/@smallMoleculeFeatureQuantificationUnit" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="XOR">
+      <CvTerm termAccession="PRIDE:0000392" useTerm="false" termName="Quantification unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="PRIDE"></CvTerm>
+      <CvTerm termAccession="UO:0000051" useTerm="false" termName="concentration unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="UO"></CvTerm>
+      <CvTerm termAccession="MS:1000043" useTerm="false" termName="intensity unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+      <CvTerm termAccession="UO:0000006" useTerm="false" termName="substance unit" isRepeatable="false" allowChildren="true" cvIdentifierRef="UO"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- small_molecule-identification_reliability -->
+    <CvMappingRule id="small_molecule_identification_reliability_may" cvElementPath="/metadata/@smallMoleculeIdentificationReliability" requirementLevel="MAY"  scopePath="/metadata" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1002895" useTerm="false" termName="small molecule identification attribute" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- id confidence measure --> 
+    <CvMappingRule id="id_confidence_measure_must" cvElementPath="/metadata/@idConfidenceMeasure" requirementLevel="MUST"  scopePath="/metadata" cvTermsCombinationLogic="OR">
+      <CvTerm termAccession="MS:1002888" useTerm="false" termName="small molecule confidence measure" isRepeatable="true" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- best id confidence measure --> 
+    <CvMappingRule id="best_id_confidence_measure_must" cvElementPath="/smallMoleculeSummary/@bestIdConfidenceMeasure" requirementLevel="MUST"  scopePath="/smallMoleculeSummary" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1002888" useTerm="false" termName="small molecule confidence measure" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+
+    <!-- derivatized form -->
+    <CvMappingRule id="derivatized_form_may" cvElementPath="/smallMoleculeEvidence/@derivatizedForm" requirementLevel="MAY"  scopePath="/smallMoleculeEvidence" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="CHEBI:24433" useTerm="false" termName="group" isRepeatable="false" allowChildren="true" cvIdentifierRef="CHEBI"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- ms level -->
+    <CvMappingRule id="ms_level_must" cvElementPath="/smallMoleculeEvidence/@msLevel" requirementLevel="MUST"  scopePath="/smallMoleculeSummary" cvTermsCombinationLogic="AND">
+      <CvTerm termAccession="MS:1000511" useTerm="false" termName="ms level" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- identification method -->
+    <CvMappingRule id="identification_method_must" cvElementPath="/smallMoleculeEvidence/@identificationMethod" requirementLevel="MUST"  scopePath="/smallMoleculeEvidence" cvTermsCombinationLogic="XOR">
+      <CvTerm termAccession="MS:1001058" useTerm="true" termName="quality estimation by manual validation" isRepeatable="false" allowChildren="false" cvIdentifierRef="MS"></CvTerm>
+      <CvTerm termAccession="MS:1001060" useTerm="false" termName="search type" isRepeatable="false" allowChildren="true" cvIdentifierRef="MS"></CvTerm>
+    </CvMappingRule>
+        
+    <!-- TODO: isotopomer -->
+
+  </CvMappingRuleList>
+</CvMapping>
+

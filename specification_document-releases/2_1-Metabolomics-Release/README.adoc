@@ -1,0 +1,46 @@
+== MzTab-M 2.0 for Metabolomics
+This directory contains the source of the standard document for the mzTab-m 2.0 for metabolomics standard and associated documents.
+
+  * The source of the standard document: https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_format_specification_2_0-M_release.adoc[mzTab_format_specification_2_0-M_release.adoc]
+  * The compiled version of the document is available as https://hupo-psi.github.io/mzTab/2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.html[html], https://hupo-psi.github.io/mzTab/2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.docx[docx], or https://hupo-psi.github.io/mzTab/2_0-metabolomics-release/mzTab_format_specification_2_0-M_release.pdf[pdf]
+  * The proposed CV term mapping file for semantic validation: https://github.com/HUPO-PSI/mzTab/blob/master/specification_document-releases/2_0-Metabolomics-Release/mzTab_2_0-M_mapping.xml[mzTab_2_0-M_mapping.xml]
+  * Other files that reflect the standardization process and associated 
+
+When you use the mzTab-M format version 2.0, please cite the following publication:
+
+  * **https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310[N. Hoffmann et al., Analytical Chemistry 2019.] (http://www.ncbi.nlm.nih.gov/pubmed/30688441[PubMed record]).**
+
+=== Working with AsciiDoc
+
+* Homepage: http://asciidoctor.org/
+
+==== Prerequisites
+If you want to edit the AsciiDoc documents (*.adoc) in this directory,
+you can use any text editor application available on your platform.
+
+However, we recommend to use Atom as an editor (https://atom.io/) together 
+with the AsciiDoc Preview extension (https://atom.io/packages/asciidoc-preview).
+
+=== Editing / Highlighting AsciiDoc
+
+If you want to edit the document, have a look at the admonitions prefixed with
+
+  IMPORTANT: TODO
+
+They also contain the keyword TODO to make automatic finding of TODO items easier.
+Unfortunately, GitHub does not highlight text marked with #highlight me#, so that 
+TODOs should be close to the text or section that should be updated.
+
+=== Conversion from docx to AsciiDoc
+
+- Install pandoc: http://pandoc.org/
+
+- Run the conversion, images will be extracted and placed in the 'ímg/' folder.
+
+> ./transform_to_adoc.sh
+
+*NOTE* The script will transform all *.docx files in the current directory, renaming them to *.adoc in the process, so now data is being overwritten.
+
+*NOTE* Currently, tables, especially nested ones are not properly converted. 
+
+
