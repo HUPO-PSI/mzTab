@@ -1124,6 +1124,20 @@ MTD study_variable[1]-description Group B (spike-in 0.74 fmol/uL)
 ....
 |=============================================================================
 
+[[study_variable-category]]
+==== study_variable-category
+[cols=","]
+|=======================================================================================================================================================================
+|*Description* |Top-level study variable category allowing easier grouping of study variables with different values for the same group.
+|*Type* |Param
+|*Mandatory* |False
+|*Example* a|
+[subs="verbatim,quotes"]
+....
+MTD study_variable-category [,,Treatment,]
+....
+|=======================================================================================================================================================================
+
 [[study_variable1-n-factors]]
 ==== study_variable[1-n]-factors
 [cols=","]
