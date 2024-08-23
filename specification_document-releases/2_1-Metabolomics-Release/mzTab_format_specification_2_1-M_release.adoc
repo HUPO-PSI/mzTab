@@ -844,9 +844,9 @@ MTD sample[1]-custom[2] [,,Extraction reason, liver biopsy]
 
 [cols=",",]
 |=====================================================================================================================================================================================================================================================================================================================================================
-|*Description* |Name or identifier of the MS run. This may be different from the file name of the MS run.
+|*Description* |Name or identifier of the MS run. This may be different from the file name of the MS run. In cases where no specific ms_run name exists, the base name of the file referenced in ms_run-location *MUST* be used.
 |*Type* |String
-|*Mandatory* |False
+|*Mandatory* |True
 |*Example* a|
 ....
 MTD ms_run[1]-name 2024_23_10_A12
