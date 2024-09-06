@@ -99,7 +99,7 @@ The remainder of this document is structured as follows.
 <<conclusions>> Conclusions are presented last.
 
 [[use-cases-for-mztab]]
-== Requirements for mzTab
+== Requirements for mzTab-M 2.0.0
 
 The following requirements have driven the development of the mzTab data model, and are used to define the scope of the format in version 2.0.0.
 
@@ -118,6 +118,13 @@ The following requirements have driven the development of the mzTab data model, 
 7. It should be useful as an output format by web-services that can then be readily accessed by tools supporting mzTab-M.
 
 8. It should be possible to directly link a small molecule record to its source spectrum in an external MS data file.
+
+[[updates-for-mztabm-2_1]]
+== Updates and Additions for mzTab-M 2.1.0
+
+During the years since the initial release of mzTab-M 2.0.0, some additions and modifications to mzTab-M have become necessary through new or changed requirements. 
+
+TODO add changes
 
 [[notational-conventions]]
 == Notational Conventions
