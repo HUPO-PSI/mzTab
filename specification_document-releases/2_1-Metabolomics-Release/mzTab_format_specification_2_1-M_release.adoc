@@ -509,6 +509,21 @@ MTD description An experiment investigating the effects of Il-6.
 ....
 |============================================================================
 
+[[license]]
+==== license
+
+[cols=",",]
+|============================================================================
+|*Description* |The file’s license for re-use, derivative works and distribution. Typically, only one license SHOULD be reported. Multiple licenses may be reported to distinguish between academic and commercial use.
+|*Type* |Parameter
+|*Mandatory* |False
+|*Example* a|
+....
+MTD license[1] [SWO, SWO:1000049, "CC0 1.0", ]
+MTD license[2] [,, "Custom license for commercial use", ]
+....
+|============================================================================
+
 [[sample_processing1-n]]
 ==== sample_processing[1-n]
 
