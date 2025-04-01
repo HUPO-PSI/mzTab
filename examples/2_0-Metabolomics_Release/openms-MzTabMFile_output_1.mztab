@@ -4,7 +4,7 @@ MTD	software[1]	[MS, MS:1001456, analysis software, 2.7.0-pre-idf-ams-2021-12-20
 MTD	software[2]	[MS, MS:1002169, TOPP FeatureFinderMetabo, 2.4.0-nightly-2019-07-17]
 MTD	software[3]	[MS, MS:1001456, analysis software, 2.4.0-nightly-2019-07-17]
 MTD	software[4]	[MS, MS:1001456, analysis software, 2.7.0-pre-idf-ams-2021-12-20]
-MTD	quantification_method	null
+MTD	quantification_method	[MS, MS:1001834, LC-MS label-free quantitation analysis, ]
 MTD	ms_run[1]-location	file://I:/OpenSWATH_Metabolomics_data/20181121_full_data/04_PestMixes_individually_Solvent_DDA_20-50/2012_02_03_PStd_10_1-50.wiff
 MTD	ms_run[1]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	assay[1]	assay_2012_02_03_PStd_10_1-50
