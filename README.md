@@ -3,6 +3,9 @@
 [![mzTab-M 2.0 Spec Build Workflow](https://github.com/HUPO-PSI/mzTab/actions/workflows/ci.yml/badge.svg)](https://github.com/HUPO-PSI/mzTab/actions/workflows/ci.yml)
 [![mzTab-M 2.0 Example File Validation Workflow](https://github.com/HUPO-PSI/mzTab/actions/workflows/validate.yml/badge.svg)](https://github.com/HUPO-PSI/mzTab/actions/workflows/validate.yml)
 
+> [!NOTE]
+> Development of mzTab-M (for metabolomics / small molecules) is now continued in a [dedicated repository](https://github.com/HUPO-PSI/mzTab-M).
+
 ## General
 mzTab has been designed to act as a lightweight, tab-delimited file format for mass spec-derived omics data. It was originally designed for proteomics with limited support for metabolomics (version 1.0). The metabolomics aspects have been further refined and extended in the mzTab-M 2.0 release.
 
