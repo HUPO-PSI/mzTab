@@ -1,4 +1,4 @@
-## mzTab - _Reporting MS-based Proteomics and Metabolomics Results_
+## mzTab - _Reporting MS-based Proteomics Results_
 
 [![mzTab-M 2.0 Spec Build Workflow](https://github.com/HUPO-PSI/mzTab/actions/workflows/ci.yml/badge.svg)](https://github.com/HUPO-PSI/mzTab/actions/workflows/ci.yml)
 [![mzTab-M 2.0 Example File Validation Workflow](https://github.com/HUPO-PSI/mzTab/actions/workflows/validate.yml/badge.svg)](https://github.com/HUPO-PSI/mzTab/actions/workflows/validate.yml)
